@@ -15,7 +15,7 @@ internal sealed class WebApp
         HttpClient client = app.CreateClient();
         IConfiguration configuration = (IConfiguration)app.Services.GetService(typeof(IConfiguration))!;
 
-        configuration.TryBindOptions(nameof(TestAuth), out TestAuth testAuth, true);
+        configuration.TryBindOptions(nameof(TestAuth), out TestAuth testAuth);
 
         _expensoWebApplication = app;
         HttpClient = client;

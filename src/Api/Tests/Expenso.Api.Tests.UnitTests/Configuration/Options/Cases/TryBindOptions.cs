@@ -38,7 +38,7 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
         // Arrange
         // Act
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-        bool testResult = Configuration.TryBindOptions(null, out MyOptions options);
+        bool testResult = Configuration.TryBindOptions(null, out MyOptions _);
 #pragma warning restore CS8625
 
         // Assert

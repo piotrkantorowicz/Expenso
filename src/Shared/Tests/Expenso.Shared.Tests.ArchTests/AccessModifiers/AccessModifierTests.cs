@@ -13,7 +13,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
             .InAssemblies(Assemblies.ToArray().Where(x => x.FullName?.Contains("Tests") == true)).Should().BePublic();
         types = NotInternal.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
-        AssertFailingTypes(types.GetTypes());
+        AssertArchTestResult(types);
     }
 
     [Test]
@@ -23,7 +23,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
             .And().NotBeAbstract().And().NotBeSealed();
         types = NotSealed.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
-        AssertFailingTypes(types.GetTypes());
+        AssertArchTestResult(types);
     }
 
     [Test]
@@ -34,6 +34,6 @@ internal sealed class AccessModifierTests : ArchTestTestBase
         types = NotAbstract.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
 
-        AssertFailingTypes(types.GetTypes());
+        AssertArchTestResult(types);
     }
 }

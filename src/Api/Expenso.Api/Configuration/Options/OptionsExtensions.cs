@@ -3,7 +3,7 @@
 internal static class OptionsExtensions
 {
     public static bool TryBindOptions<T>(this IConfiguration configuration, string sectionName, out T options,
-        bool bindNonPublicProperties = false) where T : new()
+        bool bindNonPublicProperties = true) where T : new()
     {
         options = new T();
 

@@ -10,22 +10,18 @@ internal abstract class OptionsExtensionsTestBase : TestBase
         ["MyOptions:Option1"] = "Option1 value", ["MyOptions:Option2"] = "500"
     };
 
-    protected MyOptions TestCandidate { get; private set; } = null!;
-
     protected IConfiguration Configuration { get; private set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
         Configuration = new ConfigurationBuilder().AddInMemoryCollection(_myConfiguration).Build();
-
-        TestCandidate = new MyOptions();
     }
 }
 
-internal sealed class MyOptions
+internal sealed record MyOptions
 {
-    public string? Option1 { get; set; } = null!;
+    public string? Option1 { get; init; }
 
-    public int Option2 { get; set; }
+    public int Option2 { get; init; }
 }

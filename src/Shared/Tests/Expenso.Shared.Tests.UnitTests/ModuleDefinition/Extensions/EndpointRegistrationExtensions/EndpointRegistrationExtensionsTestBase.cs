@@ -4,13 +4,18 @@ namespace Expenso.Shared.Tests.UnitTests.ModuleDefinition.Extensions.EndpointReg
 
 internal abstract class EndpointRegistrationExtensionsTestBase : TestBase
 {
-    protected EndpointRegistration TestCandidate { get; set; } = null!;
+    private EndpointRegistration _endpointRegistration = null!;
 
-    protected EndpointRegistration EndpointRegistration { get; set; } = null!;
+    protected EndpointRegistration TestCandidate { get; private set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
-        EndpointRegistration = AutoFixtureProxy.Create<EndpointRegistration>();
+        _endpointRegistration = AutoFixtureProxy.Create<EndpointRegistration>();
+    }
+
+    protected void CustomizeEndpointRegistration(string pattern)
+    {
+        TestCandidate = _endpointRegistration with { Pattern = pattern };
     }
 }

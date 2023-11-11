@@ -27,6 +27,8 @@ internal sealed class Get : UserContextAccessorTestBase
     public void Should_ReturnEmptyContext_WhenTokenHasNoClaims()
     {
         // Arrange
+        Context.UserContext expectedUser = new(null, null);
+
         DefaultHttpContext httpContext = new()
         {
             User = new ClaimsPrincipal(new[] { new ClaimsIdentity(AutoFixtureProxy.Create<string>()) })
@@ -38,7 +40,8 @@ internal sealed class Get : UserContextAccessorTestBase
         IUserContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult.Should().BeEquivalentTo(new Context.UserContext(null, null));
+        testResult?.UserId.Should().Be(expectedUser.UserId);
+        testResult?.Username.Should().Be(expectedUser.Username);
     }
 
     [Test]
@@ -47,6 +50,7 @@ internal sealed class Get : UserContextAccessorTestBase
         // Arrange
         string userId = Guid.NewGuid().ToString();
         string? username = AutoFixtureProxy.Create<string>();
+        Context.UserContext expectedUser = new(userId, username);
 
         DefaultHttpContext httpContext = new()
         {
@@ -63,6 +67,7 @@ internal sealed class Get : UserContextAccessorTestBase
         IUserContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult.Should().BeEquivalentTo(new Context.UserContext(userId, username));
+        testResult?.UserId.Should().Be(expectedUser.UserId);
+        testResult?.Username.Should().Be(expectedUser.Username);
     }
 }

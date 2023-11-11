@@ -6,12 +6,12 @@ namespace Expenso.Api.Tests.ArchTests;
 
 internal static class Assemblies
 {
-    public static readonly Assembly Api = typeof(Program).Assembly;
-    public static readonly Assembly UnitTests = typeof(UserContextAccessorTestBase).Assembly;
-    public static readonly Assembly E2E = typeof(WebApp).Assembly;
-    public static readonly Assembly ArchTests = typeof(AccessModifierTests).Assembly;
+    private static readonly Assembly Api = typeof(Program).Assembly;
+    private static readonly Assembly UnitTests = typeof(UserContextAccessorTestBase).Assembly;
+    private static readonly Assembly E2E = typeof(WebApp).Assembly;
+    private static readonly Assembly ArchTests = typeof(AccessModifierTests).Assembly;
 
-    public static Assembly[] ToArray()
+    public static IReadOnlyCollection<Assembly> ToArray()
     {
         Assembly[] assemblies = new List<Assembly> { Api, UnitTests, E2E, ArchTests }.ToArray();
 

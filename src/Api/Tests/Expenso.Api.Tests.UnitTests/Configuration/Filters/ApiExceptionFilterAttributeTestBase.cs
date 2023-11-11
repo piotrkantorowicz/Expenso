@@ -13,8 +13,6 @@ internal abstract class ApiExceptionFilterAttributeTestBase : TestBase
 {
     protected ApiExceptionFilterAttribute TestCandidate { get; private set; } = null!;
 
-    protected DefaultHttpContext HttpClient { get; private set; } = null!;
-
     protected ActionContext ActionContext { get; private set; } = null!;
 
     protected ExceptionContext ExceptionContext { get; private set; } = null!;
@@ -29,7 +27,6 @@ internal abstract class ApiExceptionFilterAttributeTestBase : TestBase
 
         ExceptionContext actionExecutingContext = new(actionContext, new List<IFilterMetadata>());
 
-        HttpClient = httpContext;
         ActionContext = actionContext;
         ExceptionContext = actionExecutingContext;
 

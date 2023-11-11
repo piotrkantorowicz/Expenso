@@ -1,4 +1,5 @@
 ﻿using Expenso.IAM.Core.Services;
+using Expenso.IAM.Core.Services.Interfaces;
 using Expenso.IAM.Proxy.DTO;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -11,7 +12,7 @@ internal abstract class UserServiceTestBase : TestBase
 
     protected UserDto _userDto = null!;
 
-    protected UserService TestCandidate { get; private set; } = null!;
+    protected IUserService TestCandidate { get; private set; } = null!;
 
     protected Mock<IKeycloakUserClient> KeycloakUserClientMock { get; private set; } = null!;
 

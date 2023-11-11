@@ -10,9 +10,9 @@ internal sealed class AccessModifierTests : TestBase
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
-        IEnumerable<Type>? types = Types.InAssemblies(Assemblies.ToArray()).Should().BePublic().GetTypes();
+        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().BePublic();
 
-        AssertFailingTypes(types);
+        AssertArchTestResult(types);
     }
 
     [Test]
@@ -22,7 +22,7 @@ internal sealed class AccessModifierTests : TestBase
             .NotBeAbstract().And().NotBeSealed();
         types = NotSealed.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
-        AssertFailingTypes(types.GetTypes());
+        AssertArchTestResult(types);
     }
 
     [Test]
@@ -32,6 +32,6 @@ internal sealed class AccessModifierTests : TestBase
         types = NotAbstract.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
 
-        AssertFailingTypes(types.GetTypes());
+        AssertArchTestResult(types);
     }
 }

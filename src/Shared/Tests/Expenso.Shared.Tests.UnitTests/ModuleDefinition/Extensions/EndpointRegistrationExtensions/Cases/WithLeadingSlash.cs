@@ -11,7 +11,7 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
     public void Should_ReturnUnchangedValue_When_PatternIsEmpty_Or_PatternIsAlreadyValid(string pattern)
     {
         // Arrange
-        TestCandidate = EndpointRegistration with { Pattern = pattern };
+        CustomizeEndpointRegistration(pattern);
 
         // Act
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
@@ -25,7 +25,7 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
     public void Should_ReturnSanitizedValue_When_PatternDoNotHaveLeadingSlash(string pattern)
     {
         // Arrange
-        TestCandidate = EndpointRegistration with { Pattern = pattern };
+        CustomizeEndpointRegistration(pattern);
 
         // Act
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();

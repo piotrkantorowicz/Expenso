@@ -1,17 +1,14 @@
-using FluentAssertions;
-using NetArchTest.Rules;
-
 namespace Expenso.Shared.Tests.ArchTests.Utils;
 
 public abstract class TestBase
 {
-    protected void AssertArchTestResult(TestResult result)
+    protected static void AssertArchTestResult(ConditionList? result)
     {
-        AssertFailingTypes(result.FailingTypes);
+        AssertFailingTypes(result?.GetTypes());
     }
 
-    protected void AssertFailingTypes(IEnumerable<Type> types)
+    private static void AssertFailingTypes(IEnumerable<Type>? result)
     {
-        types.Should().BeNullOrEmpty();
+        result?.Should().BeNullOrEmpty();
     }
 }
