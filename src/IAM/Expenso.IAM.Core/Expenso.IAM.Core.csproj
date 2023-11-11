@@ -4,7 +4,22 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="IdentityModel" Version="6.2.0"/>
+        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="1.6.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj" PrivateAssets="All"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.IAM.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.IAM.Tests.UnitTests"/>
+    </ItemGroup>
 
 </Project>

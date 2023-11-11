@@ -4,7 +4,16 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\Expenso.IAM.Core\Expenso.IAM.Core.csproj" PrivateAssets="All"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.IAM.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.IAM.Tests.UnitTests"/>
+    </ItemGroup>
 
 </Project>
