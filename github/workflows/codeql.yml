@@ -6,42 +6,56 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 22 * * 1-7'
+    - cron: "0 22 * * 1-7"
 env:
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: "8.0.x"
 
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ "8.0.x" ]
 
+  checkout:
+    name: Checkout
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          fetch-depth: 0
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: 'csharp'
+  initialize-codeql:
+    name: Initialize CodeQL
+    runs-on: ubuntu-latest
+    uses: github/codeql-action/init@v2
+    with:
+      languages: "csharp"
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-          source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
+  setup-dotnet:
+    name: Setup .NET
+    runs-on: ubuntu-latest
+    uses: actions/setup-dotnet@v2
+    strategy:
+      matrix:
+        dotnet-version: ["8.0.x"]
+    with:
+      dotnet-version: ${{ env.DOTNET_VERSION }}
+      source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
+    env:
+      NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
 
-      - name: Restore dependencies
+    install-dependencies:
+      - name: Install Dependencies
+        runs-on: ubuntu-latest
         run: dotnet restore
 
+    build:
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        runs-on: ubuntu-latest
+        run: dotnet build
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+    perform-codeql:
+      name: Perform CodeQL Analysis
+      runs-on: ubuntu-latest
+      uses: github/codeql-action/analyze@v2
