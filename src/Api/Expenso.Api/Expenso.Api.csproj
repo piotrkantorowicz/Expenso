@@ -28,8 +28,4 @@
         <InternalsVisibleTo Include="Expenso.Api.Tests.E2E"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <_ContentIncludedByDefault Remove="REST\http-client.env.json"/>
-    </ItemGroup>
-
 </Project>
