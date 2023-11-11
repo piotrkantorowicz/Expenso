@@ -46,6 +46,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTests.Utils", "Src\Shared\Tests\Expenso.Shared.Tests.ArchTests.Utils\Expenso.Shared.Tests.ArchTests.Utils.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF64440-1E3C-4AB3-9A4F-4A458235610F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-and-test-pull-request.yml = .github\workflows\build-and-test-pull-request.yml
+		.github\workflows\codeql.yml = .github\workflows\codeql.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

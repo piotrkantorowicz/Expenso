@@ -2,13 +2,13 @@ name: Build and tests on pull request
 
 on:
   pull_request:
-    branches: [main]
+    branches: [ main ]
 env:
   DOTNET_VERSION: "8.0.x"
 
 jobs:
   checkout:
-    name: Checkout
+    name: Checkout the repository
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
@@ -19,16 +19,17 @@ jobs:
 
   setup-dotnet:
     name: Setup .NET
-    runs-on: ubuntu-latest
-    uses: actions/setup-dotnet@v2
     strategy:
       matrix:
-        dotnet-version: ["8.0.x"]
-    with:
-      dotnet-version: ${{ env.DOTNET_VERSION }}
-      source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
-    env:
-      NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
+        dotnet-version: [ "8.0.x" ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
 
   check-commit-message:
     name: Check Commit Message
@@ -70,40 +71,47 @@ jobs:
           excludeDescription: "true"
           accessToken: ${{ secrets.ACTION_GITHUB_TOKEN }}
 
-    install-dependencies:
+  install-dependencies:
+    runs-on: ubuntu-latest
+    steps:
       - name: Install Dependencies
-        runs-on: ubuntu-latest
         run: dotnet restore
 
-    build:
-      - name: Build
-        runs-on: ubuntu-latest
-        run: dotnet build
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - run: dotnet build
 
-    test:
-      - name: Test
-        run: dotnet test --settings tests.runsettings --results-directory "TestResults" --collect:"XPlat Code Coverage"
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: dotnet test --settings tests.runsettings --results-directory "TestResults" --collect:"XPlat Code Coverage"
 
-    upload-coverage-reports-to-codecov:
-      - name: Upload coverage reports to Codecov
-        runs-on: ubuntu-latest
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  upload-coverage-reports-to-codecov:
+    name: Upload coverage reports to Codecov
+    runs-on: ubuntu-latest
+    steps:
+      - uses: codecov/codecov-action@v3
+    env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-    upload-test-results:
-      - name: Upload test results
-        runs-on: ubuntu-latest
-        if: always()
-        uses: actions/upload-artifact@v3
+  upload-test-results:
+    name: Upload test results
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/upload-artifact@v3
         with:
           name: TestResults
           path: TestResults
 
-    upload-report:
-      - name: Tests report generation
-        runs-on: ubuntu-latest
-        uses: dorny/test-reporter@v1.5.0
+  upload-report:
+    name: Tests report generation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/test-reporter@v1.5.0
         if: success() || failure()
         with:
           name: test-results (${{ env.DOTNET_VERSION }})
