@@ -1,0 +1,8 @@
+### Hello
+GET {{hostAddress}}/{{greetingsRoute}}/hello
+Accept: application/json
+
+### HelloUser
+GET {{hostAddress}}/{{greetingsRoute}}/hello-user
+Accept: application/json
+Authorization: Bearer {{accessToken}}
