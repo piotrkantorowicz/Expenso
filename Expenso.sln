@@ -48,8 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF64440-1E3C-4AB3-9A4F-4A458235610F}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-and-test-pull-request.yml = .github\workflows\build-and-test-pull-request.yml
 		.github\workflows\audit.yml = .github\workflows\audit.yml
+		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
 EndProject
 Global
