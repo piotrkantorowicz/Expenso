@@ -18,6 +18,7 @@ jobs:
     name: Initialize CodeQL
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: github/codeql-action/init@v2
         with:
           languages: "csharp"
@@ -30,6 +31,7 @@ jobs:
       matrix:
         dotnet-version: [ "8.0.x" ]
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}

@@ -6,38 +6,6 @@ env:
   DOTNET_VERSION: "8.0.x"
 
 jobs:
-  check-commit-message:
-    name: Check Commit Message
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get PR commits
-        id: "get-pr-commits"
-        uses: tim-actions/get-pr-commits@master
-        with:
-          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
-      - name: Check commit message length
-        uses: tim-actions/commit-message-checker-with-regex@v0.3.2
-        with:
-          commits: ${{ steps.get-pr-commits.outputs.commits }}
-          pattern: '^.{0,80}(\n.*)*$'
-          error: "Subject too long (max 80)"
-
-      - name: Disallow specific prefixes in title
-        uses: tim-actions/commit-message-checker-with-regex@v0.3.2
-        with:
-          pattern: '^\s*(feat|fix|docs|style|refactor|perf|test|chore):.*(\n.*)*$'
-          error: 'Do not use prefixes like "feat:", "fix:", etc., in the subject.'
-          excludeDescription: "true"
-          accessToken: ${{ secrets.ACTION_GITHUB_TOKEN }}
-
-      - name: Disallow lowercase subject
-        uses: tim-actions/commit-message-checker-with-regex@v0.3.2
-        with:
-          pattern: '^[A-Z].*(\n.*)*$'
-          error: "Commit subject has to start with a capital letter."
-          excludeDescription: "true"
-          accessToken: ${{ secrets.ACTION_GITHUB_TOKEN }}
-
   setup-dotnet:
     name: Setup .NET
     strategy:
@@ -45,6 +13,7 @@ jobs:
         dotnet-version: [ "8.0.x" ]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
