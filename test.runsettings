@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>opencover</Format>
+          <Exclude>
+            [Expenso.Shared.Tests.ArchTests]*,
+            [Expenso.Shared.Tests.ArchTests.Utils]*,
+            [Expenso.Shared.Tests.UnitTests]*,
+            [Expenso.Shared.Tests.UnitTests.Utils]*,
+            [Expenso.IAM.Tests.ArchTests]*,
+            [Expenso.IAM.Tests.UnitTests]*,
+            [Expenso.Api.Tests.ArchTests]*,
+            [Expenso.Api.Tests.E2E]*,
+            [Expenso.Api.Tests.UnitTests]*
+          </Exclude>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
