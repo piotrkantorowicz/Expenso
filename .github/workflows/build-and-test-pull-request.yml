@@ -3,14 +3,14 @@ on:
   pull_request:
     branches: [ main ]
 env:
-  DOTNET_VERSION: "8.0.x"
+  DOTNET_VERSION: "8.0.0-rc.2"
 
 jobs:
   setup-dotnet:
     name: Setup .NET
     strategy:
       matrix:
-        dotnet-version: [ "8.0.x" ]
+        dotnet-version: [ "8.0.0-rc.2" ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
