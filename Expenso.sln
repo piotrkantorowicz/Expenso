@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Tests.UnitTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.UnitTests", "Src\Shared\Tests\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj", "{26F9F020-DB9F-4CD6-AFC6-D6F5D919B228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.UnitTests.Utils", "Src\Shared\Tests\Expenso.Shared.Tests.UnitTests.Utils\Expenso.Shared.Tests.UnitTests.Utils.csproj", "{F3CE72DD-AF4C-4D93-B4BC-F69FA6719E8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.UnitTests", "Src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj", "{F3CE72DD-AF4C-4D93-B4BC-F69FA6719E8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.UnitTests", "Src\Api\Tests\Expenso.Api.Tests.UnitTests\Expenso.Api.Tests.UnitTests.csproj", "{FBF70C6C-1F0E-435D-8215-9F9F21BAC694}"
 EndProject
@@ -44,13 +44,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Tests.ArchTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTests", "Src\Shared\Tests\Expenso.Shared.Tests.ArchTests\Expenso.Shared.Tests.ArchTests.csproj", "{B9A8FC83-CB2D-4031-AD81-4A01E10E93C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTests.Utils", "Src\Shared\Tests\Expenso.Shared.Tests.ArchTests.Utils\Expenso.Shared.Tests.ArchTests.Utils.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.ArchTests", "Src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF64440-1E3C-4AB3-9A4F-4A458235610F}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\audit.yml = .github\workflows\audit.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{59FB7D8C-374D-45B9-A17E-446B92720E07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -135,7 +137,6 @@ Global
 		{FF1D2BA4-BA71-4989-AA03-179772F12B92} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
 		{4B7494A6-E2F6-482D-8903-0BE1CE1C0BD9} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
 		{0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
-		{F3CE72DD-AF4C-4D93-B4BC-F69FA6719E8A} = {0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D}
 		{26F9F020-DB9F-4CD6-AFC6-D6F5D919B228} = {0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D}
 		{2F75B7B1-FF30-4B6F-82FB-27008C4053CE} = {F3AA041E-331E-4B9B-80E6-A984C496E476}
 		{9E8F93B9-874E-456E-849D-3370BDA7D2FD} = {BBB20D6E-C8C9-4169-9F46-44E307B5A545}
@@ -145,6 +146,8 @@ Global
 		{C4D321EE-FA45-49F0-B5AC-AF1433E9A471} = {2F75B7B1-FF30-4B6F-82FB-27008C4053CE}
 		{AAC1814D-9D18-40E9-802B-8D6C6187CE10} = {9E8F93B9-874E-456E-849D-3370BDA7D2FD}
 		{B9A8FC83-CB2D-4031-AD81-4A01E10E93C0} = {0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D}
-		{56445107-59DD-4309-8219-0D7E0D4CC7A1} = {0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D}
+		{59FB7D8C-374D-45B9-A17E-446B92720E07} = {0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D}
+		{56445107-59DD-4309-8219-0D7E0D4CC7A1} = {59FB7D8C-374D-45B9-A17E-446B92720E07}
+		{F3CE72DD-AF4C-4D93-B4BC-F69FA6719E8A} = {59FB7D8C-374D-45B9-A17E-446B92720E07}
 	EndGlobalSection
 EndGlobal

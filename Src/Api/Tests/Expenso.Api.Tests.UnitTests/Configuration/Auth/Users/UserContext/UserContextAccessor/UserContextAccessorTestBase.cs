@@ -1,4 +1,4 @@
-using Expenso.Shared.Tests.UnitTests.Utils;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Microsoft.AspNetCore.Http;
 using UserAccessor = Expenso.Api.Configuration.Auth.Users.UserContext;
 

@@ -1,5 +1,5 @@
 using Expenso.Api.Configuration.Filters;
-using Expenso.Shared.Tests.UnitTests.Utils;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;

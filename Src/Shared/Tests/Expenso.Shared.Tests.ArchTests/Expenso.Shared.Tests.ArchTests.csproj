@@ -15,19 +15,14 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2"/>
-        <PackageReference Include="NUnit" Version="3.14.0"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"/>
-        <PackageReference Include="NUnit.Analyzers" Version="3.9.0"/>
-        <PackageReference Include="coverlet.collector" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
-        <ProjectReference Include="..\Expenso.Shared.Tests.ArchTests.Utils\Expenso.Shared.Tests.ArchTests.Utils.csproj"/>
-        <ProjectReference Include="..\Expenso.Shared.Tests.UnitTests.Utils\Expenso.Shared.Tests.UnitTests.Utils.csproj"/>
         <ProjectReference Include="..\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj"/>
+        <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
     </ItemGroup>
 
 </Project>
