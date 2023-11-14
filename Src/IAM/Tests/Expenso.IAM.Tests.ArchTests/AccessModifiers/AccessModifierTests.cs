@@ -1,4 +1,4 @@
-using Expenso.Shared.Tests.ArchTests.Utils;
+using Expenso.Shared.Tests.Utils.ArchTests;
 
 namespace Expenso.IAM.Tests.ArchTests.AccessModifiers;
 

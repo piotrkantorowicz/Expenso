@@ -1,4 +1,4 @@
-namespace Expenso.Shared.Tests.ArchTests.Utils;
+namespace Expenso.Shared.Tests.Utils.ArchTests;
 
 public abstract class TestBase
 {

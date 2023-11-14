@@ -7,9 +7,9 @@
           <Format>opencover</Format>
           <Exclude>
             [Expenso.Shared.Tests.ArchTests]*,
-            [Expenso.Shared.Tests.ArchTests.Utils]*,
+            [Expenso.Shared.Tests.Utils.ArchTests]*,
             [Expenso.Shared.Tests.UnitTests]*,
-            [Expenso.Shared.Tests.UnitTests.Utils]*,
+            [Expenso.Shared.Tests.Utils.UnitTests]*,
             [Expenso.IAM.Tests.ArchTests]*,
             [Expenso.IAM.Tests.UnitTests]*,
             [Expenso.Api.Tests.ArchTests]*,

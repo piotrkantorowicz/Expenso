@@ -1,4 +1,4 @@
-using Expenso.Shared.Tests.UnitTests.Utils;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Microsoft.Extensions.Configuration;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Options;

@@ -1,4 +1,4 @@
-﻿namespace Expenso.Shared.Tests.UnitTests.Utils;
+﻿namespace Expenso.Shared.Tests.Utils.UnitTests;
 
 public abstract class TestBase
 {
