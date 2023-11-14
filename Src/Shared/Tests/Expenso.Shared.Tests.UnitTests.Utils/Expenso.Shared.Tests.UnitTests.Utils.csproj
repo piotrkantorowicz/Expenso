@@ -4,12 +4,21 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <VSTestLogger>trx%3bLogFileName=$(MSBuildProjectName).trx</VSTestLogger>
+        <VSTestResultsDirectory>$(MSBuildThisFileDirectory)/TestResults/$(TargetFramework)</VSTestResultsDirectory>
+    </PropertyGroup>
+
     <ItemGroup>
+        <PackageReference Include="AutoFixture" Version="4.18.0"/>
+        <PackageReference Include="AutoFixture.AutoMoq" Version="4.18.0"/>
+        <PackageReference Include="AutoFixture.NUnit3" Version="4.18.0"/>
+        <PackageReference Include="Castle.Core" Version="5.1.1"/>
+        <PackageReference Include="FluentAssertions" Version="6.12.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2"/>
         <PackageReference Include="NUnit" Version="3.14.0"/>
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"/>
@@ -21,13 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Tests\Expenso.Shared.Tests.UnitTests.Utils\Expenso.Shared.Tests.UnitTests.Utils.csproj"/>
-        <ProjectReference Include="..\..\Expenso.IAM.Core\Expenso.IAM.Core.csproj"/>
-        <ProjectReference Include="..\..\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.IAM.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
     </ItemGroup>
 
 </Project>

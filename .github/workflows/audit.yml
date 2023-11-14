@@ -1,0 +1,42 @@
+name: audit
+on:
+  schedule:
+    - cron: '0 10 * * *'
+env:
+  DOTNET_VERSION: "8.0.x"
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ "8.0.x" ]
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: 'csharp'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
