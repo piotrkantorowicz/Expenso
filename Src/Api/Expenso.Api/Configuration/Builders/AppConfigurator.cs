@@ -39,19 +39,26 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
     {
         app.MapModulesEndpoints();
 
-        app.MapGet("/greetings/hello", (HttpContext httpContext) =>
-        {
-            httpContext.Response.WriteAsJsonAsync("Hello, I'm Expenso API.");
-        }).WithName("Hello").WithOpenApi();
+        app
+            .MapGet("/greetings/hello", (HttpContext httpContext) =>
+            {
+                httpContext.Response.WriteAsJsonAsync("Hello, I'm Expenso API.");
+            })
+            .WithName("Hello")
+            .WithOpenApi();
 
-        app.MapGet("/greetings/hello-user", (HttpContext httpContext) =>
-        {
-            IUserContextAccessor userContextAccessor =
-                (IUserContextAccessor)httpContext.RequestServices.GetService(typeof(IUserContextAccessor))!;
-            IUserContext? userContext = userContextAccessor.Get();
+        app
+            .MapGet("/greetings/hello-user", (HttpContext httpContext) =>
+            {
+                IUserContextAccessor userContextAccessor =
+                    (IUserContextAccessor)httpContext.RequestServices.GetService(typeof(IUserContextAccessor))!;
 
-            httpContext.Response.WriteAsJsonAsync($"Hello {userContext?.Username}, I'm Expenso API.");
-        }).WithName("HelloUser").WithOpenApi().RequireAuthorization();
+                IUserContext? userContext = userContextAccessor.Get();
+                httpContext.Response.WriteAsJsonAsync($"Hello {userContext?.Username}, I'm Expenso API.");
+            })
+            .WithName("HelloUser")
+            .WithOpenApi()
+            .RequireAuthorization();
 
         return this;
     }

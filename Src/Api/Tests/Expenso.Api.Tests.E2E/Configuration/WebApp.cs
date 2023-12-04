@@ -1,4 +1,5 @@
 using Expenso.Api.Configuration.Options;
+
 using Microsoft.Extensions.Configuration;
 
 namespace Expenso.Api.Tests.E2E.Configuration;
@@ -6,7 +7,6 @@ namespace Expenso.Api.Tests.E2E.Configuration;
 internal sealed class WebApp
 {
     private static readonly Lazy<WebApp> Lazy = new(() => new WebApp());
-
     private readonly ExpensoWebApplication _expensoWebApplication;
 
     private WebApp()
@@ -14,9 +14,7 @@ internal sealed class WebApp
         ExpensoWebApplication app = new();
         HttpClient client = app.CreateClient();
         IConfiguration configuration = (IConfiguration)app.Services.GetService(typeof(IConfiguration))!;
-
         configuration.TryBindOptions(nameof(TestAuth), out TestAuth testAuth);
-
         _expensoWebApplication = app;
         HttpClient = client;
         TestAuth = testAuth;

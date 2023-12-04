@@ -1,4 +1,5 @@
 ﻿using Expenso.IAM.Proxy.DTO;
+
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
@@ -12,15 +13,21 @@ internal sealed class GetUserByEmail : UserServiceTestBase
         // Arrange
         string? email = AutoFixtureProxy.Create<string>();
 
-        KeycloakUserClientMock.Setup(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()))
+        KeycloakUserClientMock
+            .Setup(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()))
             .ReturnsAsync(new[] { _user });
 
         // Act
         UserDto? user = await TestCandidate.GetUserByEmail(email);
 
         // Assert
-        user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_userDto);
+        user
+            .Should()
+            .NotBeNull();
+
+        user
+            .Should()
+            .BeEquivalentTo(_userDto);
 
         KeycloakUserClientMock.Verify(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()),
             Times.Once);
@@ -32,14 +39,17 @@ internal sealed class GetUserByEmail : UserServiceTestBase
         // Arrange
         string? email = AutoFixtureProxy.Create<string>();
 
-        KeycloakUserClientMock.Setup(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()))
+        KeycloakUserClientMock
+            .Setup(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()))
             .ReturnsAsync(ArraySegment<User>.Empty);
 
         // Act
         UserDto? user = await TestCandidate.GetUserByEmail(email);
 
         // Assert
-        user.Should().BeNull();
+        user
+            .Should()
+            .BeNull();
 
         KeycloakUserClientMock.Verify(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()),
             Times.Once);

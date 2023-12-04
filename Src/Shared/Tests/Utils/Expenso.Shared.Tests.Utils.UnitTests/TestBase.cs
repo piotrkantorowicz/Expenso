@@ -10,7 +10,9 @@ public abstract class TestBase
         AutoFixtureProxy = new Fixture();
         AutoFixtureProxy.Customize(new AutoMoqCustomization { ConfigureMembers = true });
 
-        AutoFixtureProxy.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+        AutoFixtureProxy
+            .Behaviors.OfType<ThrowingRecursionBehavior>()
+            .ToList()
             .ForEach(b => AutoFixtureProxy.Behaviors.Remove(b));
 
         AutoFixtureProxy.Behaviors.Add(new OmitOnRecursionBehavior(10));

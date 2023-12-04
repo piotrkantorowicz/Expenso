@@ -1,5 +1,6 @@
 using Expenso.Api.Configuration.ErrorDetails;
 using Expenso.Shared.Types.Exceptions;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -17,7 +18,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         HandleException(context);
-
         base.OnException(context);
     }
 
@@ -29,12 +29,14 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         if (type != null && _exceptionHandlers.TryGetValue(type, out Action<ExceptionContext>? handler))
         {
             handler.Invoke(context!);
+
             return;
         }
 
         if (context!.ModelState.IsValid == false)
         {
             HandleInvalidModelStateException(context);
+
             return;
         }
 
@@ -50,7 +52,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             modelState: context.ModelState);
 
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
-
         context.Result = new UnprocessableEntityObjectResult(details);
         context.ExceptionHandled = true;
     }
@@ -58,7 +59,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private static void HandleNotFoundException(ExceptionContext context)
     {
         const int statusCode = StatusCodes.Status404NotFound;
-
         NotFoundException? exception = context.Exception as NotFoundException;
 
         StaticProblemDetailsSelector.RegisterCustom(statusCode,
@@ -66,7 +66,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             title: "The specified resource was not found.", detail: exception?.Message);
 
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
-
         context.Result = new NotFoundObjectResult(details);
         context.ExceptionHandled = true;
     }
@@ -74,7 +73,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private static void HandleUnauthorizedAccessException(ExceptionContext context)
     {
         const int statusCode = StatusCodes.Status401Unauthorized;
-
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
         context.Result = new ObjectResult(details) { StatusCode = statusCode };
         context.ExceptionHandled = true;
@@ -83,7 +81,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private static void HandleForbiddenAccessException(ExceptionContext context)
     {
         const int statusCode = StatusCodes.Status403Forbidden;
-
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
         context.Result = new ObjectResult(details) { StatusCode = statusCode };
         context.ExceptionHandled = true;
@@ -92,7 +89,6 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private static void HandleUnknownException(ExceptionContext context)
     {
         const int statusCode = StatusCodes.Status500InternalServerError;
-
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
         context.Result = new ObjectResult(details) { StatusCode = statusCode };
         context.ExceptionHandled = true;

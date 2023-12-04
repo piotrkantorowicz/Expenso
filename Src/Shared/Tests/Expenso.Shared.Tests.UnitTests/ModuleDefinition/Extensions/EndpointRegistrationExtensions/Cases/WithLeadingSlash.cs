@@ -5,9 +5,7 @@ namespace Expenso.Shared.Tests.UnitTests.ModuleDefinition.Extensions.EndpointReg
 
 internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
 {
-    [Test]
-    [TestCase("")]
-    [TestCase("/users")]
+    [Test, TestCase(""), TestCase("/users")]
     public void Should_ReturnUnchangedValue_When_PatternIsEmpty_Or_PatternIsAlreadyValid(string pattern)
     {
         // Arrange
@@ -17,11 +15,12 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
 
         // Assert
-        testResult.Should().Be(TestCandidate);
+        testResult
+            .Should()
+            .Be(TestCandidate);
     }
 
-    [Test]
-    [TestCase("users")]
+    [Test, TestCase("users")]
     public void Should_ReturnSanitizedValue_When_PatternDoNotHaveLeadingSlash(string pattern)
     {
         // Arrange
@@ -31,6 +30,8 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
 
         // Assert
-        testResult.Pattern.Should().Be($"/{TestCandidate.Pattern}");
+        testResult
+            .Pattern.Should()
+            .Be($"/{TestCandidate.Pattern}");
     }
 }

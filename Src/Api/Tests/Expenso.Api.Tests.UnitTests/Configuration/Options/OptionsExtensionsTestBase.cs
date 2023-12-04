@@ -1,4 +1,5 @@
 using Expenso.Shared.Tests.Utils.UnitTests;
+
 using Microsoft.Extensions.Configuration;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Options;
@@ -15,7 +16,9 @@ internal abstract class OptionsExtensionsTestBase : TestBase
     [SetUp]
     public void SetUp()
     {
-        Configuration = new ConfigurationBuilder().AddInMemoryCollection(_myConfiguration).Build();
+        Configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(_myConfiguration)
+            .Build();
     }
 }
 

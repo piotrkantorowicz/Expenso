@@ -10,29 +10,53 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     public void Should_Passed_When_AllExpectedTypesAreInternalInTestAssemblies()
     {
         ConditionList? types = NetArchTypes
-            .InAssemblies(Assemblies.ToArray().Where(x => x.FullName?.Contains("Tests") == true)).Should().BePublic();
-        types = NotInternal.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+            .InAssemblies(Assemblies
+                .ToArray()
+                .Where(x => x.FullName?.Contains("Tests") == true))
+            .Should()
+            .BePublic();
+
+        types = NotInternal.Aggregate(types, (current, skippedTypeName) => current
+            .And()
+            .NotHaveNameMatching(skippedTypeName));
+
         AssertArchTestResult(types);
     }
 
     [Test]
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
-        ConditionList? types = NetArchTypes.InAssemblies(Assemblies.ToArray()).Should().BeClasses().And().NotBeStatic()
-            .And().NotBeAbstract().And().NotBeSealed();
-        types = NotSealed.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        ConditionList? types = NetArchTypes
+            .InAssemblies(Assemblies.ToArray())
+            .Should()
+            .BeClasses()
+            .And()
+            .NotBeStatic()
+            .And()
+            .NotBeAbstract()
+            .And()
+            .NotBeSealed();
+
+        types = NotSealed.Aggregate(types, (current, skippedTypeName) => current
+            .And()
+            .NotHaveNameMatching(skippedTypeName));
+
         AssertArchTestResult(types);
     }
 
     [Test]
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
-        ConditionList? types = NetArchTypes.InAssemblies(Assemblies.ToArray()).Should().NotBeSealed().And()
+        ConditionList? types = NetArchTypes
+            .InAssemblies(Assemblies.ToArray())
+            .Should()
+            .NotBeSealed()
+            .And()
             .NotBeAbstract();
-        types = NotAbstract.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+
+        types = NotAbstract.Aggregate(types, (current, skippedTypeName) => current
+            .And()
+            .NotHaveNameMatching(skippedTypeName));
 
         AssertArchTestResult(types);
     }

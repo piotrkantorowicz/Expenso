@@ -1,6 +1,9 @@
 using System.Security.Claims;
+
 using Expenso.Shared.UserContext;
+
 using Microsoft.AspNetCore.Http;
+
 using Context = Expenso.Api.Configuration.Auth.Users.UserContext;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Auth.Users.UserContext.UserContextAccessor.Cases;
@@ -13,14 +16,18 @@ internal sealed class Get : UserContextAccessorTestBase
         // Arrange
         DefaultHttpContext httpContext = new() { User = new ClaimsPrincipal(new[] { new ClaimsIdentity() }) };
 
-        HttpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        HttpContextAccessorMock
+            .SetupGet(x => x.HttpContext)
+            .Returns(httpContext);
 
         // Act
         IUserContext? testResult = TestCandidate.Get();
 
         // Assert
 
-        testResult.Should().BeNull();
+        testResult
+            .Should()
+            .BeNull();
     }
 
     [Test]
@@ -34,21 +41,31 @@ internal sealed class Get : UserContextAccessorTestBase
             User = new ClaimsPrincipal(new[] { new ClaimsIdentity(AutoFixtureProxy.Create<string>()) })
         };
 
-        HttpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        HttpContextAccessorMock
+            .SetupGet(x => x.HttpContext)
+            .Returns(httpContext);
 
         // Act
         IUserContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult?.UserId.Should().Be(expectedUser.UserId);
-        testResult?.Username.Should().Be(expectedUser.Username);
+        testResult
+            ?.UserId.Should()
+            .Be(expectedUser.UserId);
+
+        testResult
+            ?.Username.Should()
+            .Be(expectedUser.Username);
     }
 
     [Test]
     public void Should_ReturnContext_WhenTokenHasClaims()
     {
         // Arrange
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid
+            .NewGuid()
+            .ToString();
+
         string? username = AutoFixtureProxy.Create<string>();
         Context.UserContext expectedUser = new(userId, username);
 
@@ -61,13 +78,20 @@ internal sealed class Get : UserContextAccessorTestBase
             })
         };
 
-        HttpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        HttpContextAccessorMock
+            .SetupGet(x => x.HttpContext)
+            .Returns(httpContext);
 
         // Act
         IUserContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult?.UserId.Should().Be(expectedUser.UserId);
-        testResult?.Username.Should().Be(expectedUser.Username);
+        testResult
+            ?.UserId.Should()
+            .Be(expectedUser.UserId);
+
+        testResult
+            ?.Username.Should()
+            .Be(expectedUser.Username);
     }
 }

@@ -10,14 +10,21 @@ internal sealed class GetUserById : IamApiTestBase
         // Arrange
         string? email = AutoFixtureProxy.Create<string>();
 
-        UserServiceMock.Setup(x => x.GetUserById(It.IsAny<string>())).ReturnsAsync(_userDto);
+        UserServiceMock
+            .Setup(x => x.GetUserById(It.IsAny<string>()))
+            .ReturnsAsync(_userDto);
 
         // Act
         UserDto? user = await TestCandidate.GetUserById(email);
 
         // Assert
-        user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_userDto);
+        user
+            .Should()
+            .NotBeNull();
+
+        user
+            .Should()
+            .BeEquivalentTo(_userDto);
 
         UserServiceMock.Verify(x => x.GetUserById(It.IsAny<string>()), Times.Once);
     }
@@ -28,13 +35,17 @@ internal sealed class GetUserById : IamApiTestBase
         // Arrange
         string? email = AutoFixtureProxy.Create<string>();
 
-        UserServiceMock.Setup(x => x.GetUserById(It.IsAny<string>())).ReturnsAsync((UserDto?)null);
+        UserServiceMock
+            .Setup(x => x.GetUserById(It.IsAny<string>()))
+            .ReturnsAsync((UserDto?)null);
 
         // Act
         UserDto? user = await TestCandidate.GetUserById(email);
 
         // Assert
-        user.Should().BeNull();
+        user
+            .Should()
+            .BeNull();
 
         UserServiceMock.Verify(x => x.GetUserById(It.IsAny<string>()), Times.Once);
     }

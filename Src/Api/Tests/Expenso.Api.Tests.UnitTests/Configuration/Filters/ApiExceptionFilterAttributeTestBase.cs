@@ -1,5 +1,6 @@
 using Expenso.Api.Configuration.Filters;
 using Expenso.Shared.Tests.Utils.UnitTests;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -26,10 +27,8 @@ internal abstract class ApiExceptionFilterAttributeTestBase : TestBase
             new ModelStateDictionary());
 
         ExceptionContext actionExecutingContext = new(actionContext, new List<IFilterMetadata>());
-
         ActionContext = actionContext;
         ExceptionContext = actionExecutingContext;
-
         TestCandidate = new ApiExceptionFilterAttribute();
     }
 }

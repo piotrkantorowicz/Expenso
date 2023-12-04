@@ -17,7 +17,6 @@ internal sealed class UserContextAccessor(IHttpContextAccessor httpContextAccess
 
         string? userId = GetClaim(ClaimNames.UserIdClaimName);
         string? username = GetClaim(ClaimNames.UsernameClaimName);
-
         UserContext userContext = new(userId, username);
 
         return userContext;
@@ -25,6 +24,7 @@ internal sealed class UserContextAccessor(IHttpContextAccessor httpContextAccess
 
     private string? GetClaim(string claimName)
     {
-        return _httpContextAccessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == claimName)?.Value;
+        return _httpContextAccessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == claimName)
+            ?.Value;
     }
 }
