@@ -13,7 +13,8 @@ public static class ModuleDefinitionExtensions
 
         if (modulePrefix[^1] == '/')
         {
-            modulePrefix = new string(modulePrefix.AsSpan()[..^1]);
+            modulePrefix = new string(modulePrefix
+                .AsSpan()[..^1]);
         }
 
         return modulePrefix;

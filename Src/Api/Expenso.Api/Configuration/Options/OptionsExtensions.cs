@@ -9,13 +9,15 @@ internal static class OptionsExtensions
 
         try
         {
-            configuration.GetSection(sectionName).Bind(options, opt =>
-            {
-                if (bindNonPublicProperties)
+            configuration
+                .GetSection(sectionName)
+                .Bind(options, opt =>
                 {
-                    opt.BindNonPublicProperties = true;
-                }
-            });
+                    if (bindNonPublicProperties)
+                    {
+                        opt.BindNonPublicProperties = true;
+                    }
+                });
         }
         catch
         {

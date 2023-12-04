@@ -1,6 +1,7 @@
 using Expenso.IAM.Core.Mappings;
 using Expenso.IAM.Core.Services.Interfaces;
 using Expenso.IAM.Proxy.DTO;
+
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -13,7 +14,6 @@ internal sealed class UserService(IKeycloakUserClient keycloakUserClient,
 {
     private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions =
         keycloakProtectionClientOptions ?? throw new ArgumentNullException(nameof(keycloakProtectionClientOptions));
-
     private readonly IKeycloakUserClient _keycloakUserClient =
         keycloakUserClient ?? throw new ArgumentNullException(nameof(keycloakUserClient));
 

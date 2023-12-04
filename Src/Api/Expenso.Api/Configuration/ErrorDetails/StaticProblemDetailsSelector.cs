@@ -60,12 +60,13 @@ internal static class StaticProblemDetailsSelector
 
         if (modelState is not null)
         {
-            problemDetails =
-                new ValidationProblemDetails(modelState)
-                {
-                    Status = statusCode, Detail = detail, Title = title, Type = type
-                };
+            problemDetails = new ValidationProblemDetails(modelState)
+            {
+                Status = statusCode, Detail = detail, Title = title, Type = type
+            };
+
             ProblemDetailsMap.Add(statusCode, problemDetails);
+
             return;
         }
 

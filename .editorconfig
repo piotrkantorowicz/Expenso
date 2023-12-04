@@ -196,6 +196,7 @@ csharp_using_directive_placement = outside_namespace:silent
 
 # Namespace preferences
 csharp_style_namespace_declarations = file_scoped:warning
+csharp_allow_alias = true
 
 # New line preferences
 csharp_new_line_before_catch = true
@@ -205,6 +206,51 @@ csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_open_brace = all
 csharp_new_line_between_query_expression_clauses = true
+
+$ Blank lines preferences
+csharp_blank_lines_before_single_line_comment = 1
+csharp_blank_lines_around_field = 0
+csharp_blank_lines_around_single_line_field = 0
+csharp_blank_lines_around_accessor = 0
+csharp_blank_lines_around_single_line_accessor = 0
+csharp_keep_blank_lines_in_declarations = 0
+csharp_blank_lines_inside_type = 0
+csharp_blank_lines_around_type = 1
+csharp_blank_lines_around_single_line_type = 1
+csharp_blank_lines_around_local_method = 1
+csharp_blank_lines_around_single_line_local_method = 0
+csharp_blank_lines_around_property = 1
+csharp_blank_lines_around_single_line_property = 1
+csharp_blank_lines_around_auto_property = 1
+csharp_blank_lines_around_single_line_auto_property = 1
+csharp_blank_lines_between_using_groups = 1
+csharp_blank_lines_after_using_list = 1
+csharp_blank_lines_around_invocable = 1
+csharp_blank_lines_around_single_line_invocable = 1
+csharp_blank_lines_before_control_transfer_statements = 1
+csharp_blank_lines_after_control_transfer_statements = 1
+csharp_blank_lines_before_block_statements = 1
+csharp_blank_lines_after_block_statements = 1
+csharp_blank_lines_before_multiline_statements = 1
+csharp_blank_lines_after_multiline_statements = 1
+csharp_blank_lines_inside_namespace = 0
+csharp_blank_lines_after_file_scoped_namespace_directive = 1
+csharp_blank_lines_around_block_case_section = 0
+csharp_blank_lines_around_multiline_case_section = 0
+csharp_blank_lines_before_case = 0
+csharp_blank_lines_after_case = 0
+csharp_keep_blank_lines_in_code = 0
+csharp_remove_blank_lines_near_braces_in_declarations = true
+csharp_remove_blank_lines_near_braces_in_code = true
+
+# Attribute location preferences
+csharp_place_type_attribute_on_same_line = false
+csharp_place_attribute_on_same_line = false
+csharp_place_accessorholder_attribute_on_same_line = false
+csharp_place_method_attribute_on_same_line = false
+csharp_place_accessor_attribute_on_same_line = false
+csharp_place_field_attribute_on_same_line = false
+csharp_place_record_field_attribute_on_same_line = false
 
 # Indentation preferences
 csharp_indent_block_contents = true
@@ -241,6 +287,28 @@ csharp_space_between_square_brackets = false
 # Wrapping preferences
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
+csharp_wrap_before_first_method_call = true
+csharp_wrap_chained_method_calls = chop_always
+
+# Brances preferences
+csharp_braces_for_ifelse = required
+csharp_braces_for_for = required
+csharp_braces_for_foreach = required
+csharp_braces_for_while = required
+csharp_braces_for_dowhile = required
+csharp_braces_for_using = required
+csharp_braces_for_lock = required
+csharp_braces_for_fixed = required
+csharp_braces_redundant = true
+
+#Code body
+csharp_use_heuristics_for_body_style = true
+csharp_force_attribute_style = join
+csharp_trailing_comma_in_multiline_lists = false
+csharp_trailing_comma_in_singleline_lists = false
+csharp_object_creation_when_type_evident = target_typed
+csharp_default_value_when_type_evident = default_literal
+csharp_default_value_when_type_not_evident = default_literal
 
 #### Naming styles ####
 [*.{cs,vb}]

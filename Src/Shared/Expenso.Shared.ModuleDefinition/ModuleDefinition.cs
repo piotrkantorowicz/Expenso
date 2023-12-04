@@ -6,7 +6,8 @@ namespace Expenso.Shared.ModuleDefinition;
 
 public abstract class ModuleDefinition
 {
-    internal string ModuleName => GetType().Name;
+    internal string ModuleName => GetType()
+        .Name;
 
     public abstract string ModulePrefix { get; }
 

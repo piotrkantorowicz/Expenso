@@ -9,6 +9,8 @@ public abstract class TestBase
 
     private static void AssertFailingTypes(IEnumerable<Type>? result)
     {
-        result?.Should().BeNullOrEmpty();
+        result
+            ?.Should()
+            .BeNullOrEmpty();
     }
 }

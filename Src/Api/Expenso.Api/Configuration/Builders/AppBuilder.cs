@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+
 using Expenso.Api.Configuration.Auth.Users.UserContext;
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Filters;
@@ -6,13 +7,16 @@ using Expenso.Api.Configuration.Options;
 using Expenso.IAM.Api;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
+
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.OpenApi.Models;
+
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
 namespace Expenso.Api.Configuration.Builders;
@@ -83,7 +87,6 @@ internal sealed class AppBuilder : IAppBuilder
                 OnChallenge = async context =>
                 {
                     context.HandleResponse();
-
                     const int statusCode = StatusCodes.Status401Unauthorized;
                     HttpContext httpContext = context.HttpContext;
                     RouteData routeData = httpContext.GetRouteData();
@@ -97,7 +100,6 @@ internal sealed class AppBuilder : IAppBuilder
                     };
 
                     ObjectResult result = new(problemDetails) { StatusCode = statusCode };
-
                     await result.ExecuteResultAsync(actionContext);
                 },
                 OnForbidden = async context =>
@@ -115,13 +117,15 @@ internal sealed class AppBuilder : IAppBuilder
                     };
 
                     ObjectResult result = new(problemDetails) { StatusCode = statusCode };
-
                     await result.ExecuteResultAsync(actionContext);
                 }
             };
         });
 
-        _services.AddAuthorization().AddKeycloakAuthorization(_configuration);
+        _services
+            .AddAuthorization()
+            .AddKeycloakAuthorization(_configuration);
+
         _services.AddKeycloakAdminHttpClient(_configuration);
 
         return this;
