@@ -50,6 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF6
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\audit.yml = .github\workflows\audit.yml
 		.github\workflows\test.yml = .github\workflows\test.yml
+		.github\workflows\sanity.yml = .github\workflows\sanity.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{59FB7D8C-374D-45B9-A17E-446B92720E07}"
