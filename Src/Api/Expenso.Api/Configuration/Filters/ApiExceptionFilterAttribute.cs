@@ -74,7 +74,12 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         const int statusCode = StatusCodes.Status401Unauthorized;
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
-        context.Result = new ObjectResult(details) { StatusCode = statusCode };
+
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = statusCode
+        };
+
         context.ExceptionHandled = true;
     }
 
@@ -82,7 +87,12 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         const int statusCode = StatusCodes.Status403Forbidden;
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
-        context.Result = new ObjectResult(details) { StatusCode = statusCode };
+
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = statusCode
+        };
+
         context.ExceptionHandled = true;
     }
 
@@ -90,7 +100,12 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         const int statusCode = StatusCodes.Status500InternalServerError;
         ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
-        context.Result = new ObjectResult(details) { StatusCode = statusCode };
+
+        context.Result = new ObjectResult(details)
+        {
+            StatusCode = statusCode
+        };
+
         context.ExceptionHandled = true;
     }
 }

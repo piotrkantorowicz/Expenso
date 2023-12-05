@@ -31,14 +31,11 @@ public static class Modules
         {
             foreach (EndpointRegistration endpoint in module.CreateEndpoints(endpointRouteBuilder))
             {
-                string endpointRoute = module.GetModulePrefixSanitized() + endpoint.WithLeadingSlash()
-                    .Pattern;
+                string endpointRoute = module.GetModulePrefixSanitized() + endpoint.WithLeadingSlash().Pattern;
 
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(endpointRoute, new[]
                 {
-                    endpoint
-                        .HttpVerb.ToString()
-                        .ToUpper()
+                    endpoint.HttpVerb.ToString().ToUpper()
                 }, endpoint.Handler);
 
                 switch (endpoint.AccessControl)

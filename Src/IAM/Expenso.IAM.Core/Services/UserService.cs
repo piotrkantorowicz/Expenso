@@ -14,6 +14,7 @@ internal sealed class UserService(IKeycloakUserClient keycloakUserClient,
 {
     private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions =
         keycloakProtectionClientOptions ?? throw new ArgumentNullException(nameof(keycloakProtectionClientOptions));
+
     private readonly IKeycloakUserClient _keycloakUserClient =
         keycloakUserClient ?? throw new ArgumentNullException(nameof(keycloakUserClient));
 
@@ -28,7 +29,10 @@ internal sealed class UserService(IKeycloakUserClient keycloakUserClient,
     public async Task<UserDto?> GetUserByEmail(string email)
     {
         List<User> keycloakUsers = (await _keycloakUserClient.GetUsers(_keycloakProtectionClientOptions.Realm,
-            new GetUsersRequestParameters { Email = email })).ToList();
+            new GetUsersRequestParameters
+            {
+                Email = email
+            })).ToList();
 
         if (keycloakUsers.Count == 0)
         {

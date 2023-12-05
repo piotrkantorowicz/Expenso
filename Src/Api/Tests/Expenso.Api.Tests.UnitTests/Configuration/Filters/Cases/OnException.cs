@@ -18,10 +18,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
 
         // Assert
         int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
-
-        statusCode
-            .Should()
-            .Be(StatusCodes.Status401Unauthorized);
+        statusCode.Should().Be(StatusCodes.Status401Unauthorized);
     }
 
     [Test]
@@ -35,10 +32,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
 
         // Assert
         int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
-
-        statusCode
-            .Should()
-            .Be(StatusCodes.Status403Forbidden);
+        statusCode.Should().Be(StatusCodes.Status403Forbidden);
     }
 
     [Test]
@@ -52,10 +46,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
 
         // Assert
         int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
-
-        statusCode
-            .Should()
-            .Be(StatusCodes.Status404NotFound);
+        statusCode.Should().Be(StatusCodes.Status404NotFound);
     }
 
     [Test]
@@ -69,10 +60,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
 
         // Assert
         int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
-
-        statusCode
-            .Should()
-            .Be(StatusCodes.Status422UnprocessableEntity);
+        statusCode.Should().Be(StatusCodes.Status422UnprocessableEntity);
     }
 
     [Test]
@@ -86,9 +74,6 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
 
         // Assert
         int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
-
-        statusCode
-            .Should()
-            .Be(StatusCodes.Status500InternalServerError);
+        statusCode.Should().Be(StatusCodes.Status500InternalServerError);
     }
 }

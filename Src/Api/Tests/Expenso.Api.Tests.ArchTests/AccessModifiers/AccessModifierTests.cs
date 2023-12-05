@@ -4,17 +4,21 @@ namespace Expenso.Api.Tests.ArchTests.AccessModifiers;
 
 internal sealed class AccessModifierTests : TestBase
 {
-    private static readonly string[] NotSealed = { "TestBase", "Program" };
-    private static readonly string[] NotAbstract = { "Program" };
+    private static readonly string[] NotSealed =
+    {
+        "TestBase",
+        "Program"
+    };
+
+    private static readonly string[] NotAbstract =
+    {
+        "Program"
+    };
 
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
-        ConditionList? types = Types
-            .InAssemblies(Assemblies.ToArray())
-            .Should()
-            .BePublic();
-
+        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().BePublic();
         AssertArchTestResult(types);
     }
 
@@ -32,9 +36,8 @@ internal sealed class AccessModifierTests : TestBase
             .And()
             .NotBeSealed();
 
-        types = NotSealed.Aggregate(types, (current, skippedTypeName) => current
-            .And()
-            .NotHaveNameMatching(skippedTypeName));
+        types = NotSealed.Aggregate(types,
+            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
 
         AssertArchTestResult(types);
     }
@@ -42,16 +45,10 @@ internal sealed class AccessModifierTests : TestBase
     [Test]
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
-        ConditionList? types = Types
-            .InAssemblies(Assemblies.ToArray())
-            .Should()
-            .NotBeSealed()
-            .And()
-            .NotBeAbstract();
+        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().NotBeSealed().And().NotBeAbstract();
 
-        types = NotAbstract.Aggregate(types, (current, skippedTypeName) => current
-            .And()
-            .NotHaveNameMatching(skippedTypeName));
+        types = NotAbstract.Aggregate(types,
+            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
 
         AssertArchTestResult(types);
     }

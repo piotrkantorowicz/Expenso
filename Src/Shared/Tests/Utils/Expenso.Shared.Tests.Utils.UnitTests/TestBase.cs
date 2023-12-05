@@ -8,7 +8,11 @@ public abstract class TestBase
     public void BaseSetUp()
     {
         AutoFixtureProxy = new Fixture();
-        AutoFixtureProxy.Customize(new AutoMoqCustomization { ConfigureMembers = true });
+
+        AutoFixtureProxy.Customize(new AutoMoqCustomization
+        {
+            ConfigureMembers = true
+        });
 
         AutoFixtureProxy
             .Behaviors.OfType<ThrowingRecursionBehavior>()

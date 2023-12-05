@@ -18,10 +18,6 @@ internal abstract class IamApiTestBase : TestBase
     {
         _userDto = AutoFixtureProxy.Create<UserDto>();
         UserServiceMock = AutoFixtureProxy.Freeze<Mock<IUserService>>();
-
-        TestCandidate = AutoFixtureProxy
-            .Build<IamApi>()
-            .WithAutoProperties()
-            .Create();
+        TestCandidate = AutoFixtureProxy.Build<IamApi>().WithAutoProperties().Create();
     }
 }

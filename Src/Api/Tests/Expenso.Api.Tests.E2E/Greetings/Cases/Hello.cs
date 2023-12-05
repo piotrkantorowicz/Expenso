@@ -11,13 +11,7 @@ internal sealed class Hello : GreetingsTestBase
 
         // Assert
         string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();
-
-        testResult
-            .StatusCode.Should()
-            .Be(HttpStatusCode.OK);
-
-        testResultContent
-            .Should()
-            .Be("Hello, I'm Expenso API.");
+        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        testResultContent.Should().Be("Hello, I'm Expenso API.");
     }
 }

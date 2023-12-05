@@ -99,7 +99,11 @@ internal sealed class AppBuilder : IAppBuilder
                         Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
                     };
 
-                    ObjectResult result = new(problemDetails) { StatusCode = statusCode };
+                    ObjectResult result = new(problemDetails)
+                    {
+                        StatusCode = statusCode
+                    };
+
                     await result.ExecuteResultAsync(actionContext);
                 },
                 OnForbidden = async context =>
@@ -116,16 +120,17 @@ internal sealed class AppBuilder : IAppBuilder
                         Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
                     };
 
-                    ObjectResult result = new(problemDetails) { StatusCode = statusCode };
+                    ObjectResult result = new(problemDetails)
+                    {
+                        StatusCode = statusCode
+                    };
+
                     await result.ExecuteResultAsync(actionContext);
                 }
             };
         });
 
-        _services
-            .AddAuthorization()
-            .AddKeycloakAuthorization(_configuration);
-
+        _services.AddAuthorization().AddKeycloakAuthorization(_configuration);
         _services.AddKeycloakAdminHttpClient(_configuration);
 
         return this;
@@ -143,14 +148,19 @@ internal sealed class AppBuilder : IAppBuilder
             BearerFormat = "JWT",
             Reference = new OpenApiReference
             {
-                Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme
+                Type = ReferenceType.SecurityScheme,
+                Id = JwtBearerDefaults.AuthenticationScheme
             }
         };
 
         _services.AddSwaggerGen(o =>
         {
             o.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-            o.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, Array.Empty<string>() } });
+
+            o.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { securityScheme, Array.Empty<string>() }
+            });
         });
 
         return this;

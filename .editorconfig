@@ -94,9 +94,6 @@ insert_final_newline = false
 # Organize usings
 dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
-file_header_template = # this. and Me. preferences
-
-
 
 dotnet_style_qualification_for_event = false:silent
 dotnet_style_qualification_for_field = false:silent
@@ -209,7 +206,7 @@ csharp_new_line_between_query_expression_clauses = true
 
 $ Blank lines preferences
 csharp_blank_lines_before_single_line_comment = 1
-csharp_blank_lines_around_field = 0
+csharp_blank_lines_around_field = 1
 csharp_blank_lines_around_single_line_field = 0
 csharp_blank_lines_around_accessor = 0
 csharp_blank_lines_around_single_line_accessor = 0
@@ -240,6 +237,8 @@ csharp_blank_lines_around_multiline_case_section = 0
 csharp_blank_lines_before_case = 0
 csharp_blank_lines_after_case = 0
 csharp_keep_blank_lines_in_code = 0
+csharp_max_initializer_elements_on_line = 1
+csharp_max_array_initializer_elements_on_line = 1
 csharp_remove_blank_lines_near_braces_in_declarations = true
 csharp_remove_blank_lines_near_braces_in_code = true
 
@@ -288,7 +287,9 @@ csharp_space_between_square_brackets = false
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 csharp_wrap_before_first_method_call = true
-csharp_wrap_chained_method_calls = chop_always
+csharp_wrap_chained_method_calls = chop_if_long
+csharp_wrap_object_and_collection_initializer_style = chop_always
+csharp_wrap_array_initializer_style = chop_always
 
 # Brances preferences
 csharp_braces_for_ifelse = required

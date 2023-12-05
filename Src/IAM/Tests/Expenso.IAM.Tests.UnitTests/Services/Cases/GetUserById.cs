@@ -10,26 +10,15 @@ internal sealed class GetUserById : UserServiceTestBase
     public async Task ShouldReturnUser_When_UserExists()
     {
         // Arrange
-        string userId = Guid
-            .NewGuid()
-            .ToString();
-
-        KeycloakUserClientMock
-            .Setup(x => x.GetUser(It.IsAny<string>(), userId))
-            .ReturnsAsync(_user);
+        string userId = Guid.NewGuid().ToString();
+        KeycloakUserClientMock.Setup(x => x.GetUser(It.IsAny<string>(), userId)).ReturnsAsync(_user);
 
         // Act
         UserDto? user = await TestCandidate.GetUserById(userId);
 
         // Assert
-        user
-            .Should()
-            .NotBeNull();
-
-        user
-            .Should()
-            .BeEquivalentTo(_userDto);
-
+        user.Should().NotBeNull();
+        user.Should().BeEquivalentTo(_userDto);
         KeycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), userId), Times.Once);
     }
 
@@ -37,20 +26,14 @@ internal sealed class GetUserById : UserServiceTestBase
     public async Task ShouldReturnNull_When_UserDoesNotExists()
     {
         // Arrange
-        string userId = Guid
-            .NewGuid()
-            .ToString();
-
+        string userId = Guid.NewGuid().ToString();
         KeycloakUserClientMock.Setup(x => x.GetUser(It.IsAny<string>(), userId))!.ReturnsAsync((User?)null);
 
         // Act
         UserDto? user = await TestCandidate.GetUserById(userId);
 
         // Assert
-        user
-            .Should()
-            .BeNull();
-
+        user.Should().BeNull();
         KeycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), userId), Times.Once);
     }
 }
