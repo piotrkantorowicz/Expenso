@@ -16,10 +16,6 @@ internal abstract class UserContextAccessorTestBase : TestBase
     public void SetUp()
     {
         HttpContextAccessorMock = AutoFixtureProxy.Freeze<Mock<IHttpContextAccessor>>();
-
-        TestCandidate = AutoFixtureProxy
-            .Build<UserAccessor.UserContextAccessor>()
-            .WithAutoProperties()
-            .Create();
+        TestCandidate = AutoFixtureProxy.Build<UserAccessor.UserContextAccessor>().WithAutoProperties().Create();
     }
 }

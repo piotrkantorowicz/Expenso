@@ -12,17 +12,9 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
         bool testResult = Configuration.TryBindOptions("MyOptions", out MyOptions options);
 
         // Assert
-        testResult
-            .Should()
-            .BeTrue();
-
-        options
-            .Option1.Should()
-            .Be("Option1 value");
-
-        options
-            .Option2.Should()
-            .Be(500);
+        testResult.Should().BeTrue();
+        options.Option1.Should().Be("Option1 value");
+        options.Option2.Should().Be(500);
     }
 
     [Test]
@@ -33,17 +25,9 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
         bool testResult = Configuration.TryBindOptions("MyOptions1", out MyOptions options);
 
         // Assert
-        testResult
-            .Should()
-            .BeTrue();
-
-        options
-            .Option1.Should()
-            .Be(null);
-
-        options
-            .Option2.Should()
-            .Be(0);
+        testResult.Should().BeTrue();
+        options.Option1.Should().Be(null);
+        options.Option2.Should().Be(0);
     }
 
     [Test]
@@ -56,8 +40,6 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
 #pragma warning restore CS8625
 
         // Assert
-        testResult
-            .Should()
-            .BeFalse();
+        testResult.Should().BeFalse();
     }
 }

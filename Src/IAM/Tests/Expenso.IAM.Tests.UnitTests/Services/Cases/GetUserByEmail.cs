@@ -15,19 +15,17 @@ internal sealed class GetUserByEmail : UserServiceTestBase
 
         KeycloakUserClientMock
             .Setup(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()))
-            .ReturnsAsync(new[] { _user });
+            .ReturnsAsync(new[]
+            {
+                _user
+            });
 
         // Act
         UserDto? user = await TestCandidate.GetUserByEmail(email);
 
         // Assert
-        user
-            .Should()
-            .NotBeNull();
-
-        user
-            .Should()
-            .BeEquivalentTo(_userDto);
+        user.Should().NotBeNull();
+        user.Should().BeEquivalentTo(_userDto);
 
         KeycloakUserClientMock.Verify(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()),
             Times.Once);
@@ -47,9 +45,7 @@ internal sealed class GetUserByEmail : UserServiceTestBase
         UserDto? user = await TestCandidate.GetUserByEmail(email);
 
         // Assert
-        user
-            .Should()
-            .BeNull();
+        user.Should().BeNull();
 
         KeycloakUserClientMock.Verify(x => x.GetUsers(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>()),
             Times.Once);

@@ -8,8 +8,7 @@ internal static class StaticProblemDetailsSelector
     private static readonly Dictionary<int, ProblemDetails> ProblemDetailsMap = new()
     {
         {
-            StatusCodes.Status401Unauthorized,
-            new ProblemDetails
+            StatusCodes.Status401Unauthorized, new ProblemDetails
             {
                 Status = StatusCodes.Status401Unauthorized,
                 Title = "Unauthorized",
@@ -17,8 +16,7 @@ internal static class StaticProblemDetailsSelector
             }
         },
         {
-            StatusCodes.Status403Forbidden,
-            new ProblemDetails
+            StatusCodes.Status403Forbidden, new ProblemDetails
             {
                 Status = StatusCodes.Status403Forbidden,
                 Title = "Forbidden",
@@ -26,8 +24,7 @@ internal static class StaticProblemDetailsSelector
             }
         },
         {
-            StatusCodes.Status500InternalServerError,
-            new ProblemDetails
+            StatusCodes.Status500InternalServerError, new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "An error occurred while processing your request",
@@ -35,8 +32,7 @@ internal static class StaticProblemDetailsSelector
             }
         },
         {
-            StatusCodes.Status501NotImplemented,
-            new ProblemDetails
+            StatusCodes.Status501NotImplemented, new ProblemDetails
             {
                 Status = StatusCodes.Status501NotImplemented,
                 Title = "Not implemented",
@@ -62,7 +58,10 @@ internal static class StaticProblemDetailsSelector
         {
             problemDetails = new ValidationProblemDetails(modelState)
             {
-                Status = statusCode, Detail = detail, Title = title, Type = type
+                Status = statusCode,
+                Detail = detail,
+                Title = title,
+                Type = type
             };
 
             ProblemDetailsMap.Add(statusCode, problemDetails);
@@ -70,7 +69,14 @@ internal static class StaticProblemDetailsSelector
             return;
         }
 
-        problemDetails = new ProblemDetails { Status = statusCode, Detail = detail, Title = title, Type = type };
+        problemDetails = new ProblemDetails
+        {
+            Status = statusCode,
+            Detail = detail,
+            Title = title,
+            Type = type
+        };
+
         ProblemDetailsMap.Add(statusCode, problemDetails);
     }
 }

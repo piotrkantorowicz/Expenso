@@ -13,7 +13,13 @@ internal static class Assemblies
 
     public static IReadOnlyCollection<Assembly> ToArray()
     {
-        Assembly[] assemblies = new List<Assembly> { Api, UnitTests, E2E, ArchTests }.ToArray();
+        Assembly[] assemblies = new List<Assembly>
+        {
+            Api,
+            UnitTests,
+            E2E,
+            ArchTests
+        }.ToArray();
 
         return assemblies;
     }

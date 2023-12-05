@@ -11,7 +11,10 @@ public static class EndpointRegistrationExtensions
 
         if (endpointRegistration.Pattern[0] != '/')
         {
-            endpointRegistration = endpointRegistration with { Pattern = '/' + endpointRegistration.Pattern };
+            endpointRegistration = endpointRegistration with
+            {
+                Pattern = '/' + endpointRegistration.Pattern
+            };
         }
 
         return endpointRegistration;

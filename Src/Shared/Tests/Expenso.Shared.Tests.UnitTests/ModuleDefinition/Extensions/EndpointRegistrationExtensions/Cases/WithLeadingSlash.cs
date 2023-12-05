@@ -15,9 +15,7 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
 
         // Assert
-        testResult
-            .Should()
-            .Be(TestCandidate);
+        testResult.Should().Be(TestCandidate);
     }
 
     [Test, TestCase("users")]
@@ -30,8 +28,6 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
 
         // Assert
-        testResult
-            .Pattern.Should()
-            .Be($"/{TestCandidate.Pattern}");
+        testResult.Pattern.Should().Be($"/{TestCandidate.Pattern}");
     }
 }

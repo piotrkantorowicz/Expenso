@@ -8,7 +8,8 @@ internal abstract class OptionsExtensionsTestBase : TestBase
 {
     private readonly IDictionary<string, string?> _myConfiguration = new Dictionary<string, string?>
     {
-        ["MyOptions:Option1"] = "Option1 value", ["MyOptions:Option2"] = "500"
+        ["MyOptions:Option1"] = "Option1 value",
+        ["MyOptions:Option2"] = "500"
     };
 
     protected IConfiguration Configuration { get; private set; } = null!;
@@ -16,9 +17,7 @@ internal abstract class OptionsExtensionsTestBase : TestBase
     [SetUp]
     public void SetUp()
     {
-        Configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(_myConfiguration)
-            .Build();
+        Configuration = new ConfigurationBuilder().AddInMemoryCollection(_myConfiguration).Build();
     }
 }
 

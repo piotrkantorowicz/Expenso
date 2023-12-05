@@ -20,11 +20,7 @@ internal abstract class UserServiceTestBase : TestBase
     public void SetUp()
     {
         KeycloakUserClientMock = AutoFixtureProxy.Freeze<Mock<IKeycloakUserClient>>();
-
-        _user = AutoFixtureProxy
-            .Build<User>()
-            .WithAutoProperties()
-            .Create();
+        _user = AutoFixtureProxy.Build<User>().WithAutoProperties().Create();
 
         _userDto = AutoFixtureProxy
             .Build<UserDto>()
@@ -35,9 +31,6 @@ internal abstract class UserServiceTestBase : TestBase
             .With(x => x.Username, _user.Username)
             .Create();
 
-        TestCandidate = AutoFixtureProxy
-            .Build<UserService>()
-            .WithAutoProperties()
-            .Create();
+        TestCandidate = AutoFixtureProxy.Build<UserService>().WithAutoProperties().Create();
     }
 }

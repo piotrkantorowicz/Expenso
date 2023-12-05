@@ -15,14 +15,8 @@ internal sealed class HelloUser : GreetingsTestBase
 
         // Assert
         string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();
-
-        testResult
-            .StatusCode.Should()
-            .Be(HttpStatusCode.OK);
-
-        testResultContent
-            .Should()
-            .Be($"Hello {TestAuth.TestUsername}, I'm Expenso API.");
+        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        testResultContent.Should().Be($"Hello {TestAuth.TestUsername}, I'm Expenso API.");
     }
 
     [Test]
@@ -33,8 +27,6 @@ internal sealed class HelloUser : GreetingsTestBase
         HttpResponseMessage testResult = await HttpClient.GetAsync("/greetings/hello-user");
 
         // Assert
-        testResult
-            .StatusCode.Should()
-            .Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 }

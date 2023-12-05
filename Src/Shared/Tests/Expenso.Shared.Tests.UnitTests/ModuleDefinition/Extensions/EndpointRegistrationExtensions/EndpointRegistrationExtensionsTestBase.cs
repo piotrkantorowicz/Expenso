@@ -16,6 +16,9 @@ internal abstract class EndpointRegistrationExtensionsTestBase : TestBase
 
     protected void CustomizeEndpointRegistration(string pattern)
     {
-        TestCandidate = _endpointRegistration with { Pattern = pattern };
+        TestCandidate = _endpointRegistration with
+        {
+            Pattern = pattern
+        };
     }
 }
