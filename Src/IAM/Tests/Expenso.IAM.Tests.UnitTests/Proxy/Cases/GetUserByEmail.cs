@@ -1,4 +1,5 @@
-﻿using Expenso.IAM.Proxy.DTO;
+﻿using Expenso.IAM.Core.DTO;
+using Expenso.IAM.Proxy.Contracts;
 
 namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
 
@@ -12,11 +13,11 @@ internal sealed class GetUserByEmail : IamApiTestBase
         UserServiceMock.Setup(x => x.GetUserByEmail(It.IsAny<string>())).ReturnsAsync(_userDto);
 
         // Act
-        UserDto? user = await TestCandidate.GetUserByEmail(email);
+        UserContract? user = await TestCandidate.GetUserByEmail(email);
 
         // Assert
         user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_userDto);
+        user.Should().BeEquivalentTo(_userContract);
         UserServiceMock.Verify(x => x.GetUserByEmail(It.IsAny<string>()), Times.Once);
     }
 
@@ -28,7 +29,7 @@ internal sealed class GetUserByEmail : IamApiTestBase
         UserServiceMock.Setup(x => x.GetUserByEmail(It.IsAny<string>())).ReturnsAsync((UserDto?)null);
 
         // Act
-        UserDto? user = await TestCandidate.GetUserByEmail(email);
+        UserContract? user = await TestCandidate.GetUserByEmail(email);
 
         // Assert
         user.Should().BeNull();

@@ -1,6 +1,6 @@
+using Expenso.IAM.Core.DTO;
 using Expenso.IAM.Core.Mappings;
 using Expenso.IAM.Core.Services.Interfaces;
-using Expenso.IAM.Proxy.DTO;
 
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;
