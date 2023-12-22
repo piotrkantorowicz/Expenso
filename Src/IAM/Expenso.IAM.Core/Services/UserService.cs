@@ -9,7 +9,8 @@ using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
 namespace Expenso.IAM.Core.Services;
 
-internal sealed class UserService(IKeycloakUserClient keycloakUserClient,
+internal sealed class UserService(
+    IKeycloakUserClient keycloakUserClient,
     KeycloakProtectionClientOptions keycloakProtectionClientOptions) : IUserService
 {
     private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions =

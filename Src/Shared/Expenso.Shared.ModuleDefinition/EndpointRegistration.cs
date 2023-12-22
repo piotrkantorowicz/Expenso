@@ -1,6 +1,10 @@
 ﻿namespace Expenso.Shared.ModuleDefinition;
 
-public sealed record EndpointRegistration(string Pattern, string Name, AccessControl AccessControl, HttpVerb HttpVerb,
+public sealed record EndpointRegistration(
+    string Pattern,
+    string Name,
+    AccessControl AccessControl,
+    HttpVerb HttpVerb,
     Delegate Handler);
 
 public enum HttpVerb
