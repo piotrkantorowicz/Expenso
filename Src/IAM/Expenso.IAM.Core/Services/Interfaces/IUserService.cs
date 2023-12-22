@@ -1,4 +1,5 @@
-using Expenso.IAM.Proxy.DTO;
+
+using Expenso.IAM.Core.DTO;
 
 namespace Expenso.IAM.Core.Services.Interfaces;
 

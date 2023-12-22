@@ -1,6 +1,8 @@
+using Expenso.IAM.Core.DTO;
+using Expenso.IAM.Core.Mappings;
 using Expenso.IAM.Core.Services.Interfaces;
 using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.DTO;
+using Expenso.IAM.Proxy.Contracts;
 
 namespace Expenso.IAM.Core.ModuleApi;
 
@@ -8,13 +10,17 @@ internal sealed class IamApi(IUserService userService) : IIamApi
 {
     private readonly IUserService _userService = userService ?? throw new ArgumentNullException(nameof(userService));
 
-    public async Task<UserDto?> GetUserById(string userId)
+    public async Task<UserContract?> GetUserById(string userId)
     {
-        return await _userService.GetUserById(userId);
+        UserDto? userDto = await _userService.GetUserById(userId);
+
+        return UserDtoToUserContract.Map(userDto);
     }
 
-    public async Task<UserDto?> GetUserByEmail(string email)
+    public async Task<UserContract?> GetUserByEmail(string email)
     {
-        return await _userService.GetUserByEmail(email);
+        UserDto? userDto = await _userService.GetUserByEmail(email);
+
+        return UserDtoToUserContract.Map(userDto);
     }
 }

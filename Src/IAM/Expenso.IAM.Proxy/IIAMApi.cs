@@ -1,10 +1,10 @@
-using Expenso.IAM.Proxy.DTO;
+using Expenso.IAM.Proxy.Contracts;
 
 namespace Expenso.IAM.Proxy;
 
 public interface IIamApi
 {
-    Task<UserDto?> GetUserById(string userId);
+    Task<UserContract?> GetUserById(string userId);
 
-    Task<UserDto?> GetUserByEmail(string email);
+    Task<UserContract?> GetUserByEmail(string email);
 }

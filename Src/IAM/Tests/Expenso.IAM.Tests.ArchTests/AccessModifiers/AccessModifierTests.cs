@@ -8,7 +8,8 @@ internal sealed class AccessModifierTests : TestBase
     {
         "Module",
         "Registration",
-        "Dto"
+        "Dto",
+        "Contract"
     };
 
     private static readonly string[] NotSealed =

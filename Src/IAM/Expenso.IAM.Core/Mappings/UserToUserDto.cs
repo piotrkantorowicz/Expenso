@@ -1,4 +1,4 @@
-using Expenso.IAM.Proxy.DTO;
+using Expenso.IAM.Core.DTO;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
