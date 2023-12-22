@@ -1,8 +1,8 @@
 ### Hello
-GET {{hostAddress}}/{{greetingsRoute}}/hello
+GET {{apiHostAddress}}/{{greetingsRoute}}/hello
 Accept: application/json
 
 ### HelloUser
-GET {{hostAddress}}/{{greetingsRoute}}/hello-user
+GET {{apiHostAddress}}/{{greetingsRoute}}/hello-user
 Accept: application/json
 Authorization: Bearer {{accessToken}}
