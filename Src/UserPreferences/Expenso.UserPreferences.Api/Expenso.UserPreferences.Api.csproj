@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj" PrivateAssets="All"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.UnitTests"/>
+    </ItemGroup>
+
+</Project>
