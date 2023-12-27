@@ -6,12 +6,16 @@ internal sealed class TestIntegrationEventHandler : IIntegrationEventHandler<Tes
 {
     public Task HandleAsync(TestIntegrationEvent @event, CancellationToken cancellationToken = default)
     {
-        TestIntegrationEvent expectedTestIntegrationEvent = TestIntegrationEventDataSamples.Sample;
-        @event.Should().NotBeNull();
-        @event.Should().BeOfType<TestIntegrationEvent>();
-        @event.MessageId.Should().Be(expectedTestIntegrationEvent.MessageId);
-        @event.Payload.Should().Be(expectedTestIntegrationEvent.Payload);
+        AssertIncomingEvent(@event);
 
         return Task.CompletedTask;
+    }
+
+    private static void AssertIncomingEvent(TestIntegrationEvent @event)
+    {
+        @event.Should().NotBeNull();
+        @event.Should().BeOfType<TestIntegrationEvent>();
+        @event.MessageId.Should().Be(TestIntegrationEventDataSamples.Sample.MessageId);
+        @event.Payload.Should().Be(TestIntegrationEventDataSamples.Sample.Payload);
     }
 }
