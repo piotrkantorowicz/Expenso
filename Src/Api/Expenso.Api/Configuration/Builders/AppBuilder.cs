@@ -5,6 +5,7 @@ using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Filters;
 using Expenso.Api.Configuration.Options;
 using Expenso.IAM.Api;
+using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
 
@@ -162,6 +163,13 @@ internal sealed class AppBuilder : IAppBuilder
                 { securityScheme, Array.Empty<string>() }
             });
         });
+
+        return this;
+    }
+
+    public IAppBuilder ConfigureMessageBroker()
+    {
+        _services.AddMessageBroker();
 
         return this;
     }

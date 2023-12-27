@@ -8,6 +8,7 @@ appBuilder
     .ConfigureMvc()
     .ConfigureSerializationOptions()
     .ConfigureKeycloak()
+    .ConfigureMessageBroker()
     .ConfigureSwagger()
     .Build()
     .CreateEndpoints()

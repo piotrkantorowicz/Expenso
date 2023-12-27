@@ -18,6 +18,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj" />
         <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
