@@ -8,9 +8,9 @@ internal sealed class PublishAsync : MessageBrokerTestBase
     public async Task ShouldPublishMessage()
     {
         // Arrange
-        var integrationEvent = AutoFixtureProxy.Create<TestIntegrationEvent>();
-
         // Act
-        await TestCandidate.PublishAsync(integrationEvent);
+        await TestCandidate.PublishAsync(TestIntegrationEventDataSamples.Sample);
+
+        // Assert - See TestIntegrationEventHandler.cs
     }
 }
