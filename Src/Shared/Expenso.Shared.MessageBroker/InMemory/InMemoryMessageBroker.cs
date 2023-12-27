@@ -7,17 +7,18 @@ internal sealed class InMemoryMessageBroker(IMessageChannel channel) : IMessageB
 {
     private readonly IMessageChannel _channel = channel ?? throw new ArgumentNullException(nameof(channel));
 
-    public async Task PublishAsync<TIntegrationEvent>(TIntegrationEvent message, CancellationToken cancellationToken = default)
+    public async Task PublishAsync<TIntegrationEvent>(TIntegrationEvent @event,
+        CancellationToken cancellationToken = default)
         where TIntegrationEvent : IIntegrationEvent
     {
-        await PublishAsync(cancellationToken, message);
+        await PublishAsync(cancellationToken, @event);
     }
-    
-    private async Task PublishAsync(CancellationToken cancellation = default, params IIntegrationEvent[] messages)
+
+    private async Task PublishAsync(CancellationToken cancellation = default, params IIntegrationEvent[] events)
     {
-        foreach (var message in messages)
+        foreach (IIntegrationEvent @event in events)
         {
-            await _channel.Writer.WriteAsync(message, cancellation);
+            await _channel.Writer.WriteAsync(@event, cancellation);
         }
     }
 }
