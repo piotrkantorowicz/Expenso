@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Expenso.Shared.IntegrationEvents;
 using Expenso.Shared.MessageBroker.InMemory.Channels;
 
@@ -32,20 +34,32 @@ internal sealed class BackgroundMessageProcessor(
                 using var scope = _serviceProvider.CreateScope();
                 var handlerType = typeof(IIntegrationEventHandler<>).MakeGenericType(message.GetType());
                 var handlers = scope.ServiceProvider.GetServices(handlerType);
-                List<Task> handlerTasks = [];
+                List<Func<Task>> handlerTasks = [];
 
                 foreach (var handler in handlers)
                 {
-                    var handleMethod = handler?.GetType().GetMethod("HandleAsync");
-                    var handleTask = handleMethod?.Invoke(handler, [message, stoppingToken]);
+                    MethodInfo? handleAsyncMethod = handler?.GetType().GetMethod("HandleAsync");
+                    handlerTasks.Add(HandlerFunc);
 
-                    if (handleTask is Task task)
+                    continue;
+
+                    Task HandlerFunc()
                     {
-                        handlerTasks.Add(task);
+                        if (handleAsyncMethod == null)
+                        {
+                            return Task.CompletedTask;
+                        }
+
+                        object? func = handleAsyncMethod.Invoke(handler, [
+                            message,
+                            stoppingToken
+                        ]);
+
+                        return (Task)func!;
                     }
                 }
 
-                await Task.WhenAll(handlerTasks);
+                await Task.WhenAll(handlerTasks.Select(handlerFunc => handlerFunc()));
             }
             catch (Exception exception)
             {

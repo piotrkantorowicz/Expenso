@@ -14,7 +14,7 @@ internal abstract class MessageBrokerTestBase : TestBase
 {
     private readonly IMessageChannel _messageChannel = new MessageChannel();
     private readonly CancellationTokenSource _stoppingTokenSource = new();
-    private Task? _messageProcessorJob;
+    private BackgroundMessageProcessor? _backgroundMessageProcessor;
 
     protected IMessageBroker TestCandidate { get; private set; } = null!;
 
@@ -29,11 +29,8 @@ internal abstract class MessageBrokerTestBase : TestBase
     public async Task TearDown()
     {
         _messageChannel.Writer.Complete();
-        await _stoppingTokenSource.CancelAsync();
-
-        // Wait for the message processor to finish
-        await Task.Delay(1000);
-        _messageProcessorJob?.Dispose();
+        await _backgroundMessageProcessor?.StopAsync(_stoppingTokenSource.Token)!;
+        _backgroundMessageProcessor?.Dispose();
     }
 
     private async Task StartMessageProcessor(CancellationToken cancellationToken)
@@ -46,12 +43,11 @@ internal abstract class MessageBrokerTestBase : TestBase
                 .WithScopedLifetime())
             .BuildServiceProvider();
 
-        NullLoggerFactory loggerFactory = new NullLoggerFactory();
+        NullLoggerFactory loggerFactory = new();
 
-        BackgroundMessageProcessor backgroundJob = new BackgroundMessageProcessor(_messageChannel, serviceProvider,
+        _backgroundMessageProcessor = new BackgroundMessageProcessor(_messageChannel, serviceProvider,
             loggerFactory.CreateLogger<BackgroundMessageProcessor>());
 
-        _messageProcessorJob = backgroundJob.StartAsync(cancellationToken);
-        await _messageProcessorJob;
+        await _backgroundMessageProcessor.StartAsync(cancellationToken);
     }
 }
