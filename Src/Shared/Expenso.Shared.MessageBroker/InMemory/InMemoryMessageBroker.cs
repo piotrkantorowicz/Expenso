@@ -8,7 +8,8 @@ internal sealed class InMemoryMessageBroker(IMessageChannel channel) : IMessageB
     private readonly IMessageChannel _channel = channel ?? throw new ArgumentNullException(nameof(channel));
 
     public async Task PublishAsync<TIntegrationEvent>(TIntegrationEvent @event,
-        CancellationToken cancellationToken = default) where TIntegrationEvent : IIntegrationEvent
+        CancellationToken cancellationToken = default)
+        where TIntegrationEvent : IIntegrationEvent
     {
         await PublishAsync(cancellationToken, @event);
     }

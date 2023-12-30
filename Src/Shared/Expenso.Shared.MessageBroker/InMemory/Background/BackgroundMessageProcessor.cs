@@ -14,29 +14,29 @@ internal sealed class BackgroundMessageProcessor(
     IServiceProvider serviceProvider,
     ILogger<BackgroundMessageProcessor> logger) : BackgroundService
 {
-    private readonly ILogger<BackgroundMessageProcessor> _logger =
-        logger ?? throw new ArgumentNullException(nameof(logger));
-
     private readonly IMessageChannel _messageChannel =
         messageChannel ?? throw new ArgumentNullException(nameof(messageChannel));
 
     private readonly IServiceProvider _serviceProvider =
         serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
+    private readonly ILogger<BackgroundMessageProcessor> _logger =
+        logger ?? throw new ArgumentNullException(nameof(logger));
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Running the background message processor");
 
-        await foreach (IIntegrationEvent? message in _messageChannel.Reader.ReadAllAsync(stoppingToken))
+        await foreach (var message in _messageChannel.Reader.ReadAllAsync(stoppingToken))
         {
             try
             {
-                using IServiceScope scope = _serviceProvider.CreateScope();
-                Type handlerType = typeof(IIntegrationEventHandler<>).MakeGenericType(message.GetType());
-                IEnumerable<object?> handlers = scope.ServiceProvider.GetServices(handlerType);
+                using var scope = _serviceProvider.CreateScope();
+                var handlerType = typeof(IIntegrationEventHandler<>).MakeGenericType(message.GetType());
+                var handlers = scope.ServiceProvider.GetServices(handlerType);
                 List<Func<Task>> handlerTasks = [];
 
-                foreach (object? handler in handlers)
+                foreach (var handler in handlers)
                 {
                     MethodInfo? handleAsyncMethod = handler?.GetType().GetMethod("HandleAsync");
                     handlerTasks.Add(HandlerFunc);
