@@ -6,9 +6,4 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
-    </ItemGroup>
-
 </Project>
