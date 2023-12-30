@@ -6,7 +6,6 @@ using Expenso.Api.Configuration.Filters;
 using Expenso.IAM.Api;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.MessageBroker;
-using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
 
