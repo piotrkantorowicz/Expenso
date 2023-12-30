@@ -12,12 +12,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
         <PackageReference Include="Scrutor" Version="4.2.2"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj" PrivateAssets="All"/>
     </ItemGroup>
-    
+
 </Project>

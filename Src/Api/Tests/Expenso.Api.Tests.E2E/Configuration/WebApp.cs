@@ -1,4 +1,4 @@
-using Expenso.Api.Configuration.Options;
+using Expenso.Shared.Configuration.Extensions;
 
 using Microsoft.Extensions.Configuration;
 

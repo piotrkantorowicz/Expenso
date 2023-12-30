@@ -1,8 +1,6 @@
-using Expenso.Shared.Tests.Utils.UnitTests;
-
 using Microsoft.Extensions.Configuration;
 
-namespace Expenso.Api.Tests.UnitTests.Configuration.Options;
+namespace Expenso.Shared.Tests.UnitTests.Configuration;
 
 internal abstract class OptionsExtensionsTestBase : TestBase
 {

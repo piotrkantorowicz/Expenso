@@ -19,8 +19,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj" />
-        <ProjectReference Include="..\..\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj" />
+        <ProjectReference Include="..\..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>

@@ -1,6 +1,6 @@
-using Expenso.Api.Configuration.Options;
+using Expenso.Shared.Configuration.Extensions;
 
-namespace Expenso.Api.Tests.UnitTests.Configuration.Options.Cases;
+namespace Expenso.Shared.Tests.UnitTests.Configuration.Cases;
 
 internal sealed class TryBindOptions : OptionsExtensionsTestBase
 {
