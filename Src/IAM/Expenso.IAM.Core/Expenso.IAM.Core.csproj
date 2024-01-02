@@ -10,11 +10,12 @@
         <PackageReference Include="IdentityModel" Version="6.2.0"/>
         <PackageReference Include="Keycloak.AuthServices.Sdk" Version="1.6.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
+        <ProjectReference Include="..\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

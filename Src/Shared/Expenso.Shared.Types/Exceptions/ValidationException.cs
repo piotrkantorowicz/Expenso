@@ -1,10 +1,12 @@
 using System.Text;
 
+using Humanizer;
+
 namespace Expenso.Shared.Types.Exceptions;
 
 public sealed class ValidationException : Exception
 {
-    private const string DefaultMessage = "One or more validation fa" + "ilures have occurred.";
+    private const string DefaultMessage = "One or more validation failures have occurred.";
 
     public ValidationException(string details) : base(DefaultMessage)
     {
@@ -18,21 +20,25 @@ public sealed class ValidationException : Exception
 
     public ValidationException(string details, IDictionary<string, string> errorDictionary) : base(DefaultMessage)
     {
-        Details = details;
-        CreateErrorDictionary(errorDictionary);
+        CreateErrorDictionary(errorDictionary, details);
     }
 
-    public string? Details { get; set; }
+    public string? Details { get; private set; }
 
     public IDictionary<string, string> ErrorDictionary { get; set; } = new Dictionary<string, string>();
 
-    private void CreateErrorDictionary(IDictionary<string, string> errorDictionary)
+    private void CreateErrorDictionary(IDictionary<string, string> errorDictionary, string? details = null)
     {
         StringBuilder stringBuilder = new();
 
+        if (details is not null)
+        {
+            stringBuilder.AppendLine(details);
+        }
+
         foreach ((string key, string value) in errorDictionary)
         {
-            stringBuilder.AppendLine($"{key}: {value}.");
+            stringBuilder.AppendLine($"{key.Pascalize()}: {value}");
         }
 
         Details = stringBuilder.ToString();

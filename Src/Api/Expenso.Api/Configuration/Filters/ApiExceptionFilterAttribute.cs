@@ -11,8 +11,10 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private readonly Dictionary<Type, Action<ExceptionContext>> _exceptionHandlers = new()
     {
         { typeof(NotFoundException), HandleNotFoundException },
+        { typeof(ConflictException), HandleConflictException },
         { typeof(UnauthorizedException), HandleUnauthorizedAccessException },
-        { typeof(ForbiddenException), HandleForbiddenAccessException }
+        { typeof(ForbiddenException), HandleForbiddenAccessException },
+        { typeof(ValidationException), HandleInvalidModelStateException }
     };
 
     public override void OnException(ExceptionContext context)
@@ -46,12 +48,11 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     private static void HandleInvalidModelStateException(ExceptionContext context)
     {
         const int statusCode = StatusCodes.Status422UnprocessableEntity;
+        ValidationException? exception = context.Exception as ValidationException;
 
-        StaticProblemDetailsSelector.RegisterCustom(statusCode,
-            type: "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.21", title: "Validation error",
-            modelState: context.ModelState);
+        ProblemDetails details =
+            StaticProblemDetailsSelector.Select(statusCode, exception?.Details, context.ModelState);
 
-        ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
         context.Result = new UnprocessableEntityObjectResult(details);
         context.ExceptionHandled = true;
     }
@@ -60,13 +61,17 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         const int statusCode = StatusCodes.Status404NotFound;
         NotFoundException? exception = context.Exception as NotFoundException;
-
-        StaticProblemDetailsSelector.RegisterCustom(statusCode,
-            type: "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.5",
-            title: "The specified resource was not found.", detail: exception?.Message);
-
-        ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode);
+        ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode, exception?.Message);
         context.Result = new NotFoundObjectResult(details);
+        context.ExceptionHandled = true;
+    }
+
+    private static void HandleConflictException(ExceptionContext context)
+    {
+        const int statusCode = StatusCodes.Status409Conflict;
+        ConflictException? exception = context.Exception as ConflictException;
+        ProblemDetails details = StaticProblemDetailsSelector.Select(statusCode, exception?.Message);
+        context.Result = new ConflictObjectResult(details);
         context.ExceptionHandled = true;
     }
 

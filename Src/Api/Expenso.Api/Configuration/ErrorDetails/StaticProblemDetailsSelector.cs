@@ -24,10 +24,35 @@ internal static class StaticProblemDetailsSelector
             }
         },
         {
+            StatusCodes.Status404NotFound, new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "The specified resource was not found.",
+                Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.5"
+            }
+        },
+        {
+            StatusCodes.Status409Conflict, new ProblemDetails
+            {
+                Status = StatusCodes.Status409Conflict,
+                Title = "Conflict occurred.",
+                Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.10"
+            }
+        },
+        {
+            StatusCodes.Status422UnprocessableEntity, new ProblemDetails
+            {
+                Status = StatusCodes.Status422UnprocessableEntity,
+                Title = "Validation error",
+                Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.21"
+            }
+        },
+        {
             StatusCodes.Status500InternalServerError, new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
-                Title = "An error occurred while processing your request",
+                Title = "Unknown error",
+                Detail = "An error occurred while processing your request",
                 Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6.1"
             }
         },
@@ -36,47 +61,36 @@ internal static class StaticProblemDetailsSelector
             {
                 Status = StatusCodes.Status501NotImplemented,
                 Title = "Not implemented",
+                Detail = "The requested resource is not implemented",
                 Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6.2"
             }
         }
     };
 
-    public static ProblemDetails Select(int statusCode)
+    public static ProblemDetails Select(int statusCode, string? detail = null, ModelStateDictionary? modelState = null)
     {
-        return ProblemDetailsMap[statusCode];
+        return ToDetailedResponse(ProblemDetailsMap[statusCode], detail, modelState);
     }
 
-    public static void RegisterCustom(int statusCode, string? detail = null, string? title = null, string? type = null,
+    private static ProblemDetails ToDetailedResponse(ProblemDetails problemDetails, string? detail = null,
         ModelStateDictionary? modelState = null)
     {
-        if (ProblemDetailsMap.TryGetValue(statusCode, out ProblemDetails? problemDetails))
-        {
-            return;
-        }
-
         if (modelState is not null)
         {
-            problemDetails = new ValidationProblemDetails(modelState)
+            return new ValidationProblemDetails(modelState)
             {
-                Status = statusCode,
-                Detail = detail,
-                Title = title,
-                Type = type
+                Status = problemDetails.Status,
+                Title = problemDetails.Title,
+                Type = problemDetails.Type,
+                Detail = detail
             };
-
-            ProblemDetailsMap.Add(statusCode, problemDetails);
-
-            return;
         }
 
-        problemDetails = new ProblemDetails
+        if (detail is not null)
         {
-            Status = statusCode,
-            Detail = detail,
-            Title = title,
-            Type = type
-        };
+            problemDetails.Detail = detail;
+        }
 
-        ProblemDetailsMap.Add(statusCode, problemDetails);
+        return problemDetails;
     }
 }

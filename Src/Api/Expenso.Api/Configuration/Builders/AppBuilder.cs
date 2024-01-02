@@ -8,6 +8,7 @@ using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
+using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
@@ -38,6 +39,7 @@ internal sealed class AppBuilder : IAppBuilder
     public IAppBuilder ConfigureModules()
     {
         Modules.RegisterModule<IamModule>();
+        Modules.RegisterModule<UserPreferencesModule>();
         _services.AddModules(_configuration);
 
         return this;

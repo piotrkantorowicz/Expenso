@@ -36,7 +36,7 @@ public static class Modules
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(endpointRoute, new[]
                 {
                     endpoint.HttpVerb.ToString().ToUpper()
-                }, endpoint.Handler);
+                }, endpoint.Handler!);
 
                 switch (endpoint.AccessControl)
                 {
@@ -51,6 +51,8 @@ public static class Modules
                         throw new ArgumentOutOfRangeException(nameof(endpoint.AccessControl), endpoint.AccessControl,
                             "Unknown access control type.");
                 }
+
+                routeHandlerBuilder.WithName(endpoint.Name);
             }
         }
     }

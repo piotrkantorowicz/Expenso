@@ -16,8 +16,8 @@ internal static class Assemblies
 
     public static IReadOnlyCollection<Assembly> ToArray()
     {
-        List<Assembly> assemblies = new()
-        {
+        List<Assembly> assemblies =
+        [
             ModuleDefinition,
             Types,
             UserContext,
@@ -25,7 +25,7 @@ internal static class Assemblies
             UnitTestsUtils,
             ArchTests,
             ArchTestsUtils
-        };
+        ];
 
         return assemblies;
     }

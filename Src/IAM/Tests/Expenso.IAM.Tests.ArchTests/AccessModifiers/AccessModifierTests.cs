@@ -5,23 +5,23 @@ namespace Expenso.IAM.Tests.ArchTests.AccessModifiers;
 internal sealed class AccessModifierTests : TestBase
 {
     private static readonly string[] NotInternal =
-    {
+    [
         "Module",
-        "Registration",
+        "RegistrationExtensions",
         "Dto",
         "Contract"
-    };
+    ];
 
     private static readonly string[] NotSealed =
-    {
+    [
         "TestBase",
         "Program"
-    };
+    ];
 
     private static readonly string[] NotAbstract =
-    {
+    [
         "Program"
-    };
+    ];
 
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()

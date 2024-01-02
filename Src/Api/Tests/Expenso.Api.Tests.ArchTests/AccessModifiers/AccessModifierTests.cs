@@ -5,15 +5,15 @@ namespace Expenso.Api.Tests.ArchTests.AccessModifiers;
 internal sealed class AccessModifierTests : TestBase
 {
     private static readonly string[] NotSealed =
-    {
+    [
         "TestBase",
         "Program"
-    };
+    ];
 
     private static readonly string[] NotAbstract =
-    {
+    [
         "Program"
-    };
+    ];
 
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()

@@ -11,4 +11,8 @@
         <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.UnitTests"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
+    </ItemGroup>
+
 </Project>

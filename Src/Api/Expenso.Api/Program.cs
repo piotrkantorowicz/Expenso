@@ -15,4 +15,5 @@ appBuilder
     .UseAuth()
     .UseHttpsRedirection()
     .UseSwagger()
+    .MigrateDatabase()
     .Run();

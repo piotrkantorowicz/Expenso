@@ -1,0 +1,3 @@
+namespace Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
+
+public sealed record NotificationPreferenceContract(bool SendFinanceReportEnabled, int SendFinanceReportInterval);

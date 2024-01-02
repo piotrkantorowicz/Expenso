@@ -41,7 +41,7 @@ internal sealed class Get : UserContextAccessorTestBase
         {
             User = new ClaimsPrincipal(new[]
             {
-                new ClaimsIdentity(AutoFixtureProxy.Create<string>())
+                new ClaimsIdentity("rX8hkFW")
             })
         };
 
@@ -59,8 +59,8 @@ internal sealed class Get : UserContextAccessorTestBase
     public void Should_ReturnContext_WhenTokenHasClaims()
     {
         // Arrange
+        const string? username = "Phasellusfeugiat";
         string userId = Guid.NewGuid().ToString();
-        string? username = AutoFixtureProxy.Create<string>();
         Context.UserContext expectedUser = new(userId, username);
 
         DefaultHttpContext httpContext = new()
@@ -71,7 +71,7 @@ internal sealed class Get : UserContextAccessorTestBase
                 {
                     new("user_id", userId),
                     new("name", username)
-                }, AutoFixtureProxy.Create<string>())
+                })
             })
         };
 

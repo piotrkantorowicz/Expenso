@@ -10,5 +10,7 @@ internal interface IAppConfigurator
 
     IAppConfigurator CreateEndpoints();
 
+    IAppConfigurator MigrateDatabase();
+
     void Run();
 }

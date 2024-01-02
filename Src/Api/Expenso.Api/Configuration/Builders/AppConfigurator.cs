@@ -1,5 +1,6 @@
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Extensions.Environment;
+using Expenso.Shared.Database.EfCore.NpSql.Migrations;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
 
@@ -59,6 +60,17 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
             .WithName("HelloUser")
             .WithOpenApi()
             .RequireAuthorization();
+
+        return this;
+    }
+
+    public IAppConfigurator MigrateDatabase()
+    {
+        using (IServiceScope scope = app.Services.CreateScope())
+        {
+            IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
+            dbMigrator.EnsureDatabaseCreated(scope);
+        }
 
         return this;
     }

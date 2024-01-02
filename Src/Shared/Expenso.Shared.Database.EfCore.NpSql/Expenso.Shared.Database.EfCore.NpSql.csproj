@@ -11,8 +11,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
+        <ProjectReference Include="..\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
     </ItemGroup>
 
 </Project>

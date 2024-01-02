@@ -11,7 +11,8 @@ internal abstract class EndpointRegistrationExtensionsTestBase : TestBase
     [SetUp]
     public void SetUp()
     {
-        _endpointRegistration = AutoFixtureProxy.Create<EndpointRegistration>();
+        _endpointRegistration =
+            new EndpointRegistration("/pattern", "GET", AccessControl.Anonymous, HttpVerb.Get, null);
     }
 
     protected void CustomizeEndpointRegistration(string pattern)
