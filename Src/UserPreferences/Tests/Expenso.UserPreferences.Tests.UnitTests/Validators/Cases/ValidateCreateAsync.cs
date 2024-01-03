@@ -30,7 +30,7 @@ internal sealed class ValidateCreateAsync : PreferenceValidatorTestBase
             Assert.ThrowsAsync<ValidationException>(() => TestCandidate.ValidateCreateAsync(userId, default));
 
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("UserId: User id cannot be empty.\r\n");
+        exception?.Details.Should().Be(new StringBuilder().AppendLine("UserId: User id cannot be empty.").ToString());
     }
 
     [Test]

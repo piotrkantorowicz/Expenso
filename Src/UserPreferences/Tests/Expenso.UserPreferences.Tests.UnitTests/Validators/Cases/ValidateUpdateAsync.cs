@@ -39,11 +39,16 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
             TestCandidate.ValidateUpdateAsync(preferenceIdOrUserId, _updatePreferenceDto, default));
 
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("PreferenceIdOrUserId: Preferences or user id cannot be empty.\r\n");
+
+        exception
+            ?.Details.Should()
+            .Be(new StringBuilder()
+                .AppendLine("PreferenceIdOrUserId: Preferences or user id cannot be empty.")
+                .ToString());
     }
 
     [Test]
-    public void Should_ThrowValidationException_When_PreferenceDtoIsNull()
+    public void Should_ThrowValidationException_When_PreferenceIsNull()
     {
         // Arrange
         Guid preferenceIdOrUserId = Guid.NewGuid();
@@ -54,7 +59,7 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
             TestCandidate.ValidateUpdateAsync(preferenceIdOrUserId, null!, default));
 
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("Preferences cannot be null.");
+        exception?.Details.Should().Be(new StringBuilder().Append("Preferences cannot be null.").ToString());
     }
 
     [Test]
@@ -72,7 +77,10 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
             }, default));
 
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("Finance preferences cannot be null.\r\n");
+
+        exception
+            ?.Details.Should()
+            .Be(new StringBuilder().AppendLine("Finance preferences cannot be null.").ToString());
     }
 
     [Test]
@@ -93,7 +101,9 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
 
         exception
             ?.Details.Should()
-            .Be("MaxNumberOfFinancePlanReviewers: Max number of finance plan reviewers cannot be negative.\r\n");
+            .Be(new StringBuilder()
+                .AppendLine("MaxNumberOfFinancePlanReviewers: Max number of finance plan reviewers cannot be negative.")
+                .ToString());
     }
 
     [Test]
@@ -114,7 +124,10 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
 
         exception
             ?.Details.Should()
-            .Be("MaxNumberOfFinancePlanReviewers: Max number of finance plan reviewers cannot be greater than 10.\r\n");
+            .Be(new StringBuilder()
+                .AppendLine(
+                    "MaxNumberOfFinancePlanReviewers: Max number of finance plan reviewers cannot be greater than 10.")
+                .ToString());
     }
 
     [Test]
@@ -135,8 +148,10 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
 
         exception
             ?.Details.Should()
-            .Be(
-                "MaxNumberOfSubFinancePlanSubOwners: Max number of sub finance plan sub owners cannot be negative.\r\n");
+            .Be(new StringBuilder()
+                .AppendLine(
+                    "MaxNumberOfSubFinancePlanSubOwners: Max number of sub finance plan sub owners cannot be negative.")
+                .ToString());
     }
 
     [Test]
@@ -157,8 +172,10 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
 
         exception
             ?.Details.Should()
-            .Be(
-                "MaxNumberOfSubFinancePlanSubOwners: Max number of sub finance plan sub owners cannot be greater than 5.\r\n");
+            .Be(new StringBuilder()
+                .AppendLine(
+                    "MaxNumberOfSubFinancePlanSubOwners: Max number of sub finance plan sub owners cannot be greater than 5.")
+                .ToString());
     }
 
     [Test]
@@ -176,7 +193,10 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
             }, default));
 
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("Notification preferences cannot be null.\r\n");
+
+        exception
+            ?.Details.Should()
+            .Be(new StringBuilder().AppendLine("Notification preferences cannot be null.").ToString());
     }
 
     [Test]
@@ -197,7 +217,9 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
 
         exception
             ?.Details.Should()
-            .Be("SendFinanceReportInterval: Send finance report interval cannot be negative.\r\n");
+            .Be(new StringBuilder()
+                .AppendLine("SendFinanceReportInterval: Send finance report interval cannot be negative.")
+                .ToString());
     }
 
     [Test]
@@ -218,7 +240,9 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
 
         exception
             ?.Details.Should()
-            .Be("SendFinanceReportInterval: Send finance report interval cannot be greater than 31.\r\n");
+            .Be(new StringBuilder()
+                .AppendLine("SendFinanceReportInterval: Send finance report interval cannot be greater than 31.")
+                .ToString());
     }
 
     [Test]
@@ -236,7 +260,10 @@ internal sealed class ValidateUpdateAsync : PreferenceValidatorTestBase
             }, default));
 
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("General preferences cannot be null.\r\n");
+
+        exception
+            ?.Details.Should()
+            .Be(new StringBuilder().AppendLine("General preferences cannot be null.").ToString());
     }
 
     [Test]
