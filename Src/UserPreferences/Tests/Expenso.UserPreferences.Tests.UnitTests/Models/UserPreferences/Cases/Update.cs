@@ -15,7 +15,7 @@ internal sealed class Update : PreferenceTestBase
 
         // Act
         bool result = TestCandidate.Update(generalPreference, financePreference, notificationPreference,
-            MessageBrokerMock!.Object, default);
+            _messageBrokerMock.Object, default);
 
         // Assert
         result.Should().BeTrue();
@@ -25,10 +25,9 @@ internal sealed class Update : PreferenceTestBase
     public void Should_ReturnFalse_When_PropertiesUnchanged()
     {
         // Arrange
-
         // Act
-        bool result = TestCandidate.Update(DefaultGeneralPreference, DefaultFinancePreference,
-            DefaultNotificationPreference, MessageBrokerMock!.Object, default);
+        bool result = TestCandidate.Update(_defaultGeneralPreference, _defaultFinancePreference,
+            _defaultNotificationPreference, _messageBrokerMock.Object, default);
 
         // Assert
         result.Should().BeFalse();
@@ -43,7 +42,7 @@ internal sealed class Update : PreferenceTestBase
         FinancePreference financePreference = FinancePreference.Create(true, 2, true, 5);
 
         // Act
-        TestCandidate.Update(generalPreference, financePreference, notificationPreference, MessageBrokerMock!.Object,
+        TestCandidate.Update(generalPreference, financePreference, notificationPreference, _messageBrokerMock.Object,
             default);
 
         // Assert
@@ -56,15 +55,14 @@ internal sealed class Update : PreferenceTestBase
     public void Should_RemainOldValues_When_PropertiesUnchanged()
     {
         // Arrange
-
         // Act
-        TestCandidate.Update(DefaultGeneralPreference, DefaultFinancePreference, DefaultNotificationPreference,
-            MessageBrokerMock!.Object, default);
+        TestCandidate.Update(_defaultGeneralPreference, _defaultFinancePreference, _defaultNotificationPreference,
+            _messageBrokerMock.Object, default);
 
         // Assert
-        TestCandidate.GeneralPreference.Should().Be(DefaultGeneralPreference);
-        TestCandidate.FinancePreference.Should().Be(DefaultFinancePreference);
-        TestCandidate.NotificationPreference.Should().Be(DefaultNotificationPreference);
+        TestCandidate.GeneralPreference.Should().Be(_defaultGeneralPreference);
+        TestCandidate.FinancePreference.Should().Be(_defaultFinancePreference);
+        TestCandidate.NotificationPreference.Should().Be(_defaultNotificationPreference);
     }
 
     [Test]
@@ -76,42 +74,41 @@ internal sealed class Update : PreferenceTestBase
         FinancePreference financePreference = FinancePreference.Create(true, 2, true, 5);
 
         // Act
-        TestCandidate.Update(generalPreference, financePreference, notificationPreference, MessageBrokerMock!.Object,
+        TestCandidate.Update(generalPreference, financePreference, notificationPreference, _messageBrokerMock.Object,
             default);
 
         // Assert
-        MessageBrokerMock.Verify(
+        _messageBrokerMock.Verify(
             x => x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
             Times.Once);
 
-        MessageBrokerMock.Verify(
+        _messageBrokerMock.Verify(
             x => x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
             Times.Once());
 
-        MessageBrokerMock.Verify(
+        _messageBrokerMock.Verify(
             x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
                 It.IsAny<CancellationToken>()), Times.Once());
     }
 
     [Test]
-    public void ShouldNot_CallMessageBroker_When_PropertiesUnchanged()
+    public void Should_NotCallMessageBroker_When_PropertiesUnchanged()
     {
         // Arrange
-
         // Act
-        TestCandidate.Update(DefaultGeneralPreference, DefaultFinancePreference, DefaultNotificationPreference,
-            MessageBrokerMock!.Object, default);
+        TestCandidate.Update(_defaultGeneralPreference, _defaultFinancePreference, _defaultNotificationPreference,
+            _messageBrokerMock.Object, default);
 
         // Assert
-        MessageBrokerMock.Verify(
+        _messageBrokerMock.Verify(
             x => x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
             Times.Never);
 
-        MessageBrokerMock.Verify(
+        _messageBrokerMock.Verify(
             x => x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
             Times.Never());
 
-        MessageBrokerMock.Verify(
+        _messageBrokerMock.Verify(
             x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
                 It.IsAny<CancellationToken>()), Times.Never());
     }

@@ -8,27 +8,27 @@ namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
 internal sealed class GetUserByIdAsync : IamProxyTestBase
 {
     [Test]
-    public async Task ShouldReturnUser_When_UserExists()
+    public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        UserServiceMock.Setup(x => x.GetUserByIdInternalAsync(UserId)).ReturnsAsync(UserContract);
+        _userServiceMock.Setup(x => x.GetUserByIdInternalAsync(_userId)).ReturnsAsync(_userContract);
 
         // Act
-        UserContract user = await TestCandidate.GetUserByIdAsync(UserId);
+        UserContract user = await TestCandidate.GetUserByIdAsync(_userId);
 
         // Assert
         user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(UserContract);
-        UserServiceMock.Verify(x => x.GetUserByIdInternalAsync(It.IsAny<string>()), Times.Once);
+        user.Should().BeEquivalentTo(_userContract);
+        _userServiceMock.Verify(x => x.GetUserByIdInternalAsync(It.IsAny<string>()), Times.Once);
     }
 
     [Test]
-    public void ShouldReturnNull_When_UserDoesNotExists()
+    public void Should_ReturnNull_When_UserDoesNotExists()
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();
 
-        UserServiceMock
+        _userServiceMock
             .Setup(x => x.GetUserByIdInternalAsync(userId))
             .ThrowsAsync(new NotFoundException($"User with id {userId} not found."));
 

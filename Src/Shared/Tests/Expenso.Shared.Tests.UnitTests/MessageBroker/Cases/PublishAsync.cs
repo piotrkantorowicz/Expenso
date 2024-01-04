@@ -5,7 +5,7 @@ namespace Expenso.Shared.Tests.UnitTests.MessageBroker.Cases;
 internal sealed class PublishAsync : MessageBrokerTestBase
 {
     [Test]
-    public async Task ShouldPublishMessage()
+    public async Task Should_PublishMessage()
     {
         // Arrange
         // Act

@@ -10,42 +10,42 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;
 internal sealed class GetPreferencesForUserInternalAsync : PreferenceServiceTestBase
 {
     [Test]
-    public async Task ShouldReturnUser_When_UserExists()
+    public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        PreferencesRepositoryMock.Setup(x => x.GetByUserIdAsync(UserId, false, default)).ReturnsAsync(Preference);
+        _preferencesRepositoryMock.Setup(x => x.GetByUserIdAsync(_userId, false, default)).ReturnsAsync(_preference);
 
         // Act
-        PreferenceContract preferenceDto = await TestCandidate.GetPreferencesForUserInternalAsync(UserId, default);
+        PreferenceContract preferenceDto = await TestCandidate.GetPreferencesForUserInternalAsync(_userId, default);
 
         // Assert
         preferenceDto.Should().NotBeNull();
-        preferenceDto.Should().BeEquivalentTo(PreferenceMap.MapToContract(Preference));
-        PreferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(UserId, false, default), Times.Once);
+        preferenceDto.Should().BeEquivalentTo(PreferenceMap.MapToContract(_preference));
+        _preferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(_userId, false, default), Times.Once);
     }
 
     [Test]
-    public void ShouldThrowNotFoundException_When_UserDoesNotExists()
+    public void Should_ThrowNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
-        PreferencesRepositoryMock
-            .Setup(x => x.GetByUserIdAsync(UserId, false, default))
+        _preferencesRepositoryMock
+            .Setup(x => x.GetByUserIdAsync(_userId, false, default))
             .ReturnsAsync((Preference?)null);
 
         // Act
         // Assert
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.GetPreferencesForUserInternalAsync(UserId, default));
+                TestCandidate.GetPreferencesForUserInternalAsync(_userId, default));
 
         exception
             ?.Message.Should()
             .Be(new StringBuilder()
                 .Append("Preferences for user with id ")
-                .Append(UserId)
+                .Append(_userId)
                 .Append(" not found.")
                 .ToString());
 
-        PreferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(UserId, false, default), Times.Once);
+        _preferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(_userId, false, default), Times.Once);
     }
 }

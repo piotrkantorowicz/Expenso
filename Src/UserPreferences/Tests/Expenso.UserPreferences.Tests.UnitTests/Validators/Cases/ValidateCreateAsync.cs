@@ -39,7 +39,7 @@ internal sealed class ValidateCreateAsync : PreferenceValidatorTestBase
         // Arrange
         Guid userId = Guid.NewGuid();
 
-        PreferencesRepositoryMock
+        _preferencesRepositoryMock
             .Setup(x => x.GetByUserIdAsync(userId, true, default))
             .ReturnsAsync(Preference.CreateDefault(userId));
 
@@ -62,7 +62,10 @@ internal sealed class ValidateCreateAsync : PreferenceValidatorTestBase
     {
         // Arrange
         Guid userId = Guid.NewGuid();
-        PreferencesRepositoryMock.Setup(x => x.GetByUserIdAsync(userId, true, default)).ReturnsAsync((Preference?)null);
+
+        _preferencesRepositoryMock
+            .Setup(x => x.GetByUserIdAsync(userId, true, default))
+            .ReturnsAsync((Preference?)null);
 
         // Act
         // Assert

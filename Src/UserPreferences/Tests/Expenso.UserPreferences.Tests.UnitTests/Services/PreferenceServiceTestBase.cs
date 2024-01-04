@@ -7,37 +7,28 @@ using Expenso.UserPreferences.Core.Validators;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Services;
 
-internal abstract class PreferenceServiceTestBase : TestBase
+internal abstract class PreferenceServiceTestBase : TestBase<IPreferencesService>
 {
-    protected IPreferencesService TestCandidate { get; private set; } = null!;
-
-    protected Mock<IPreferencesRepository> PreferencesRepositoryMock { get; private set; } = null!;
-
-    protected Mock<IMessageBroker> MessageBrokerMock { get; private set; } = null!;
-
-    protected Mock<IPreferenceValidator> PreferenceValidatorMock { get; private set; } = null!;
-
-    protected Mock<IUserContextAccessor> UserContextAccessorMock { get; private set; } = null!;
-
-    protected Mock<IUserContext> UserContextMock { get; private set; } = null!;
-
-    protected Preference Preference { get; private set; } = null!;
-
-    protected Guid UserId { get; private set; }
+    private Mock<IMessageBroker> _messageBrokerMock = null!;
+    protected Mock<IPreferencesRepository> _preferencesRepositoryMock = null!;
+    protected Mock<IPreferenceValidator> _preferenceValidatorMock = null!;
+    protected Mock<IUserContextAccessor> _userContextAccessorMock = null!;
+    protected Mock<IUserContext> _userContextMock = null!;
+    protected Preference _preference = null!;
+    protected Guid _userId = Guid.NewGuid();
 
     [SetUp]
     public void SetUp()
     {
-        UserId = Guid.NewGuid();
-        Preference = Preference.CreateDefault(UserId);
-        PreferencesRepositoryMock = new Mock<IPreferencesRepository>();
-        MessageBrokerMock = new Mock<IMessageBroker>();
-        UserContextAccessorMock = new Mock<IUserContextAccessor>();
-        PreferenceValidatorMock = new Mock<IPreferenceValidator>();
-        UserContextMock = new Mock<IUserContext>();
-        UserContextMock.Setup(x => x.UserId).Returns(UserId.ToString());
+        _preference = Preference.CreateDefault(_userId);
+        _preferencesRepositoryMock = new Mock<IPreferencesRepository>();
+        _messageBrokerMock = new Mock<IMessageBroker>();
+        _userContextAccessorMock = new Mock<IUserContextAccessor>();
+        _preferenceValidatorMock = new Mock<IPreferenceValidator>();
+        _userContextMock = new Mock<IUserContext>();
+        _userContextMock.Setup(x => x.UserId).Returns(_userId.ToString());
 
-        TestCandidate = new PreferencesService(PreferencesRepositoryMock.Object, UserContextAccessorMock.Object,
-            MessageBrokerMock.Object, PreferenceValidatorMock.Object);
+        TestCandidate = new PreferencesService(_preferencesRepositoryMock.Object, _userContextAccessorMock.Object,
+            _messageBrokerMock.Object, _preferenceValidatorMock.Object);
     }
 }

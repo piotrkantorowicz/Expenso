@@ -8,38 +8,31 @@ using Keycloak.AuthServices.Sdk.Admin.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Services;
 
-internal abstract class UserServiceTestBase : TestBase
+internal abstract class UserServiceTestBase : TestBase<IUserService>
 {
-    protected IUserService TestCandidate { get; private set; } = null!;
-
-    protected Mock<IKeycloakUserClient> KeycloakUserClientMock { get; private set; } = null!;
-
-    protected User User { get; private set; } = null!;
-
-    protected UserDto UserDto { get; private set; } = null!;
-
-    protected string UserId { get; private set; } = null!;
-
-    protected string UserEmail { get; private set; } = null!;
+    protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
+    protected User _user = null!;
+    protected UserDto _userDto = null!;
+    protected string _userId = null!;
+    protected string _userEmail = null!;
 
     [SetUp]
     public void SetUp()
     {
-        KeycloakProtectionClientOptions keycloakProtectionClientOptions = new();
-        KeycloakUserClientMock = new Mock<IKeycloakUserClient>();
-        UserId = Guid.NewGuid().ToString();
-        UserEmail = "email@email.com";
+        _keycloakUserClientMock = new Mock<IKeycloakUserClient>();
+        _userId = Guid.NewGuid().ToString();
+        _userEmail = "email@email.com";
 
-        User = new User
+        _user = new User
         {
-            Id = UserId,
+            Id = _userId,
             FirstName = "Valentina",
             LastName = "Long",
             Username = "vLong",
-            Email = UserEmail
+            Email = _userEmail
         };
 
-        UserDto = UserMap.MapToDto(User)!;
-        TestCandidate = new UserService(KeycloakUserClientMock.Object, keycloakProtectionClientOptions);
+        _userDto = UserMap.MapToDto(_user)!;
+        TestCandidate = new UserService(_keycloakUserClientMock.Object, new KeycloakProtectionClientOptions());
     }
 }

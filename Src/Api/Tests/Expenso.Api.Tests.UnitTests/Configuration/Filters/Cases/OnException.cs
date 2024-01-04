@@ -11,13 +11,13 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public void Should_Return401_When_AuthorizationExceptionThrown()
     {
         // Arrange
-        ExceptionContext.Exception = new UnauthorizedException("Unauthorized");
+        _exceptionContext.Exception = new UnauthorizedException("Unauthorized");
 
         // Act
-        TestCandidate.OnException(ExceptionContext);
+        TestCandidate.OnException(_exceptionContext);
 
         // Assert
-        int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
+        int? statusCode = ((ObjectResult)_exceptionContext.Result!).StatusCode;
         statusCode.Should().Be(StatusCodes.Status401Unauthorized);
     }
 
@@ -25,13 +25,13 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public void Should_Return403_When_ForbiddenExceptionThrown()
     {
         // Arrange
-        ExceptionContext.Exception = new ForbiddenException("Forbidden");
+        _exceptionContext.Exception = new ForbiddenException("Forbidden");
 
         // Act
-        TestCandidate.OnException(ExceptionContext);
+        TestCandidate.OnException(_exceptionContext);
 
         // Assert
-        int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
+        int? statusCode = ((ObjectResult)_exceptionContext.Result!).StatusCode;
         statusCode.Should().Be(StatusCodes.Status403Forbidden);
     }
 
@@ -39,13 +39,13 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public void Should_Return404_When_NotFoundExceptionThrown()
     {
         // Arrange
-        ExceptionContext.Exception = new NotFoundException("Not found");
+        _exceptionContext.Exception = new NotFoundException("Not found");
 
         // Act
-        TestCandidate.OnException(ExceptionContext);
+        TestCandidate.OnException(_exceptionContext);
 
         // Assert
-        int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
+        int? statusCode = ((ObjectResult)_exceptionContext.Result!).StatusCode;
         statusCode.Should().Be(StatusCodes.Status404NotFound);
     }
 
@@ -53,13 +53,13 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public void Should_Return422_When_ValidationFailed()
     {
         // Arrange
-        ActionContext.ModelState.AddModelError("Error", "Message");
+        _actionContext.ModelState.AddModelError("Error", "Message");
 
         // Act
-        TestCandidate.OnException(ExceptionContext);
+        TestCandidate.OnException(_exceptionContext);
 
         // Assert
-        int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
+        int? statusCode = ((ObjectResult)_exceptionContext.Result!).StatusCode;
         statusCode.Should().Be(StatusCodes.Status422UnprocessableEntity);
     }
 
@@ -67,13 +67,13 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public void Should_Return500_When_UnhandledExceptionThrown()
     {
         // Arrange
-        ExceptionContext.Exception = new Exception();
+        _exceptionContext.Exception = new Exception();
 
         // Act
-        TestCandidate.OnException(ExceptionContext);
+        TestCandidate.OnException(_exceptionContext);
 
         // Assert
-        int? statusCode = ((ObjectResult)ExceptionContext.Result!).StatusCode;
+        int? statusCode = ((ObjectResult)_exceptionContext.Result!).StatusCode;
         statusCode.Should().Be(StatusCodes.Status500InternalServerError);
     }
 }

@@ -11,35 +11,35 @@ namespace Expenso.IAM.Tests.UnitTests.Services.Cases;
 internal sealed class GetUserByEmailInternalAsync : UserServiceTestBase
 {
     [Test]
-    public async Task ShouldReturnUser_When_UserExists()
+    public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        KeycloakUserClientMock
-            .Setup(x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == UserEmail)))
+        _keycloakUserClientMock
+            .Setup(x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)))
             .ReturnsAsync(new[]
             {
-                User
+                _user
             });
 
         // Act
-        UserContract user = await TestCandidate.GetUserByEmailInternalAsync(UserEmail);
+        UserContract user = await TestCandidate.GetUserByEmailInternalAsync(_userEmail);
 
         // Assert
         user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(UserDto);
+        user.Should().BeEquivalentTo(_userDto);
 
-        KeycloakUserClientMock.Verify(
-            x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == UserEmail)),
+        _keycloakUserClientMock.Verify(
+            x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)),
             Times.Once);
     }
 
     [Test]
-    public void ShouldThrowNotFoundException_When_UserDoesNotExists()
+    public void Should_ThrowNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         const string email = "email@email.com";
 
-        KeycloakUserClientMock
+        _keycloakUserClientMock
             .Setup(x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)))
             .ReturnsAsync(ArraySegment<User>.Empty);
 
@@ -52,7 +52,7 @@ internal sealed class GetUserByEmailInternalAsync : UserServiceTestBase
             ?.Message.Should()
             .Be(new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString());
 
-        KeycloakUserClientMock.Verify(
+        _keycloakUserClientMock.Verify(
             x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)), Times.Once);
     }
 }

@@ -2,11 +2,9 @@ using Expenso.Shared.ModuleDefinition;
 
 namespace Expenso.Shared.Tests.UnitTests.ModuleDefinition.Extensions.EndpointRegistrationExtensions;
 
-internal abstract class EndpointRegistrationExtensionsTestBase : TestBase
+internal abstract class EndpointRegistrationExtensionsTestBase : TestBase<EndpointRegistration>
 {
     private EndpointRegistration _endpointRegistration = null!;
-
-    protected EndpointRegistration TestCandidate { get; private set; } = null!;
 
     [SetUp]
     public void SetUp()

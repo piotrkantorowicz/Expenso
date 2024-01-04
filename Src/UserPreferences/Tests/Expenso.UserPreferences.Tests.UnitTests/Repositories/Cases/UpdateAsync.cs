@@ -8,7 +8,7 @@ internal sealed class UpdateAsync : PreferenceRepositoryTestBase
     private readonly Mock<IMessageBroker> _messageBrokerMock = new();
 
     [Test]
-    public async Task ShouldUpdatePreference_When_PreferenceExists()
+    public async Task Should_UpdatePreference_When_PreferenceExists()
     {
         // Arrange
         Preference preference = Preferences.First();

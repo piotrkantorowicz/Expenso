@@ -5,25 +5,20 @@ using Expenso.IAM.Proxy.Contracts;
 
 namespace Expenso.IAM.Tests.UnitTests.Proxy;
 
-internal abstract class IamProxyTestBase : TestBase
+internal abstract class IamProxyTestBase : TestBase<IIamProxy>
 {
-    protected IIamProxy TestCandidate { get; private set; } = null!;
-
-    protected Mock<IUserService> UserServiceMock { get; private set; } = null!;
-
-    protected string UserId { get; private set; } = null!;
-
-    protected string UserEmail { get; private set; } = null!;
-
-    protected UserContract UserContract { get; private set; } = null!;
+    protected Mock<IUserService> _userServiceMock = null!;
+    protected UserContract _userContract = null!;
+    protected string _userId = null!;
+    protected string _userEmail = null!;
 
     [SetUp]
     public void SetUp()
     {
-        UserId = Guid.NewGuid().ToString();
-        UserEmail = "email@email.com";
-        UserContract = new UserContract(UserId, "Valentina", "Long", "vLong", UserEmail);
-        UserServiceMock = new Mock<IUserService>();
-        TestCandidate = new IamProxy(UserServiceMock.Object);
+        _userId = Guid.NewGuid().ToString();
+        _userEmail = "email@email.com";
+        _userContract = new UserContract(_userId, "Valentina", "Long", "vLong", _userEmail);
+        _userServiceMock = new Mock<IUserService>();
+        TestCandidate = new IamProxy(_userServiceMock.Object);
     }
 }

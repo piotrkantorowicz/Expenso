@@ -3,16 +3,14 @@ using Expenso.UserPreferences.Core.Validators;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Validators;
 
-internal abstract class PreferenceValidatorTestBase : TestBase
+internal abstract class PreferenceValidatorTestBase : TestBase<IPreferenceValidator>
 {
-    protected IPreferenceValidator TestCandidate { get; private set; } = null!;
-
-    protected Mock<IPreferencesRepository> PreferencesRepositoryMock { get; private set; } = null!;
+    protected Mock<IPreferencesRepository> _preferencesRepositoryMock = null!;
 
     [SetUp]
     public void SetUp()
     {
-        PreferencesRepositoryMock = new Mock<IPreferencesRepository>();
-        TestCandidate = new PreferenceValidator(PreferencesRepositoryMock.Object);
+        _preferencesRepositoryMock = new Mock<IPreferencesRepository>();
+        TestCandidate = new PreferenceValidator(_preferencesRepositoryMock.Object);
     }
 }

@@ -10,13 +10,11 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Expenso.Shared.Tests.UnitTests.MessageBroker;
 
-internal abstract class MessageBrokerTestBase : TestBase
+internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
 {
     private readonly IMessageChannel _messageChannel = new MessageChannel();
     private readonly CancellationTokenSource _stoppingTokenSource = new();
     private BackgroundMessageProcessor? _backgroundMessageProcessor;
-
-    protected IMessageBroker TestCandidate { get; private set; } = null!;
 
     [SetUp]
     public async Task SetUp()

@@ -5,26 +5,22 @@ using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Proxy;
 
-internal abstract class UserPreferencesProxyTestBase
+internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferencesProxy>
 {
-    protected IUserPreferencesProxy TestCandidate { get; private set; } = null!;
-
-    protected Mock<IPreferencesService> PreferenceServiceMock { get; private set; } = null!;
-
-    protected PreferenceContract PreferenceContract { get; private set; } = null!;
-
-    protected Guid UserId { get; private set; }
+    protected Mock<IPreferencesService> _preferenceServiceMock = null!;
+    protected PreferenceContract _preferenceContract = null!;
+    protected Guid _userId = Guid.NewGuid();
 
     [SetUp]
     public void SetUp()
     {
-        UserId = Guid.NewGuid();
+        _userId = Guid.NewGuid();
 
-        PreferenceContract = new PreferenceContract(Guid.NewGuid(), UserId,
+        _preferenceContract = new PreferenceContract(Guid.NewGuid(), _userId,
             new FinancePreferenceContract(false, 0, false, 0), new NotificationPreferenceContract(true, 7),
             new GeneralPreferenceContract(false));
 
-        PreferenceServiceMock = new Mock<IPreferencesService>();
-        TestCandidate = new UserPreferencesProxy(PreferenceServiceMock.Object);
+        _preferenceServiceMock = new Mock<IPreferencesService>();
+        TestCandidate = new UserPreferencesProxy(_preferenceServiceMock.Object);
     }
 }

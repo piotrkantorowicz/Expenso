@@ -6,21 +6,21 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;
 internal sealed class CreatePreferencesAsync : PreferenceServiceTestBase
 {
     [Test]
-    public async Task ShouldCreatePreferences()
+    public async Task Should_CreatePreferences()
     {
         // Arrange
-        PreferencesRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Preference>(), default)).ReturnsAsync(Preference);
+        _preferencesRepositoryMock.Setup(x => x.CreateAsync(It.IsAny<Preference>(), default)).ReturnsAsync(_preference);
 
         // Act
-        PreferenceDto preference = await TestCandidate.CreatePreferencesAsync(UserId, default);
+        PreferenceDto preference = await TestCandidate.CreatePreferencesAsync(_userId, default);
 
         // Assert
         preference.Should().NotBeNull();
-        preference.PreferencesId.Should().Be(Preference.PreferencesId);
-        preference.UserId.Should().Be(Preference.UserId);
-        preference.FinancePreference.Should().BeEquivalentTo(Preference.FinancePreference);
-        preference.NotificationPreference.Should().BeEquivalentTo(Preference.NotificationPreference);
-        preference.GeneralPreference.Should().BeEquivalentTo(Preference.GeneralPreference);
-        PreferencesRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<Preference>(), default), Times.Once);
+        preference.PreferencesId.Should().Be(_preference.PreferencesId);
+        preference.UserId.Should().Be(_preference.UserId);
+        preference.FinancePreference.Should().BeEquivalentTo(_preference.FinancePreference);
+        preference.NotificationPreference.Should().BeEquivalentTo(_preference.NotificationPreference);
+        preference.GeneralPreference.Should().BeEquivalentTo(_preference.GeneralPreference);
+        _preferencesRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<Preference>(), default), Times.Once);
     }
 }

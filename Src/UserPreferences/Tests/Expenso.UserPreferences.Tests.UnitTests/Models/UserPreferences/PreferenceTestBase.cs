@@ -3,24 +3,19 @@ using Expenso.UserPreferences.Core.Models;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Models.UserPreferences;
 
-internal abstract class PreferenceTestBase : TestBase
+internal abstract class PreferenceTestBase : TestBase<Preference>
 {
-    protected Preference TestCandidate { get; private set; } = null!;
-
-    protected Mock<IMessageBroker>? MessageBrokerMock { get; private set; }
-
-    protected GeneralPreference DefaultGeneralPreference { get; } = GeneralPreference.Create(false);
-
-    protected FinancePreference DefaultFinancePreference { get; } = FinancePreference.Create(false, 0, false, 0);
-
-    protected NotificationPreference DefaultNotificationPreference { get; } = NotificationPreference.Create(true, 7);
+    protected Mock<IMessageBroker> _messageBrokerMock = null!;
+    protected readonly GeneralPreference _defaultGeneralPreference = GeneralPreference.Create(false);
+    protected readonly FinancePreference _defaultFinancePreference = FinancePreference.Create(false, 0, false, 0);
+    protected readonly NotificationPreference _defaultNotificationPreference = NotificationPreference.Create(true, 7);
 
     [SetUp]
     public void SetUp()
     {
-        MessageBrokerMock = new Mock<IMessageBroker>();
+        _messageBrokerMock = new Mock<IMessageBroker>();
 
-        TestCandidate = Preference.Create(Guid.NewGuid(), Guid.NewGuid(), DefaultGeneralPreference,
-            DefaultFinancePreference, DefaultNotificationPreference);
+        TestCandidate = Preference.Create(Guid.NewGuid(), Guid.NewGuid(), _defaultGeneralPreference,
+            _defaultFinancePreference, _defaultNotificationPreference);
     }
 }

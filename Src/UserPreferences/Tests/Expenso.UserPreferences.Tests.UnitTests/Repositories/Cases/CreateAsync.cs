@@ -5,12 +5,12 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Repositories.Cases;
 internal sealed class CreateAsync : PreferenceRepositoryTestBase
 {
     [Test]
-    public async Task ShouldCreatePreference_When_PreferenceDoesNotExist()
+    public async Task Should_CreatePreference_When_PreferenceDoesNotExist()
     {
         // Arrange
         Preference preference = Preference.CreateDefault(Guid.NewGuid(), Guid.NewGuid());
 
-        PreferenceDbSetMock
+        _preferenceDbSetMock
             .Setup(x => x.AddAsync(preference, It.IsAny<CancellationToken>()))
             .Callback<Preference, CancellationToken>((entity, _) => { AddPreference(entity); });
 

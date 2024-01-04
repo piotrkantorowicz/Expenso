@@ -7,9 +7,9 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
     {
         // Arrange
         // Act
-        await TestCandidate.CreatePreferencesAsync(UserId, default);
+        await TestCandidate.CreatePreferencesAsync(_userId, default);
 
         // Assert
-        PreferenceServiceMock.Verify(x => x.CreatePreferencesInternalAsync(UserId, default), Times.Once);
+        _preferenceServiceMock.Verify(x => x.CreatePreferencesInternalAsync(_userId, default), Times.Once);
     }
 }

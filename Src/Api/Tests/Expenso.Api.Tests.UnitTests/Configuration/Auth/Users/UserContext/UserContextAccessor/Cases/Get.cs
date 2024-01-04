@@ -22,7 +22,7 @@ internal sealed class Get : UserContextAccessorTestBase
             })
         };
 
-        HttpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
         // Act
         IUserContext? testResult = TestCandidate.Get();
@@ -45,7 +45,7 @@ internal sealed class Get : UserContextAccessorTestBase
             })
         };
 
-        HttpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
         // Act
         IUserContext? testResult = TestCandidate.Get();
@@ -75,7 +75,7 @@ internal sealed class Get : UserContextAccessorTestBase
             })
         };
 
-        HttpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
         // Act
         IUserContext? testResult = TestCandidate.Get();

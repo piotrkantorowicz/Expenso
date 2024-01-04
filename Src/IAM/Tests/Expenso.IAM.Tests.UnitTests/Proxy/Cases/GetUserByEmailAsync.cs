@@ -8,27 +8,27 @@ namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
 internal sealed class GetUserByEmailAsync : IamProxyTestBase
 {
     [Test]
-    public async Task ShouldReturnUser_When_UserExists()
+    public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        UserServiceMock.Setup(x => x.GetUserByEmailInternalAsync(UserEmail)).ReturnsAsync(UserContract);
+        _userServiceMock.Setup(x => x.GetUserByEmailInternalAsync(_userEmail)).ReturnsAsync(_userContract);
 
         // Act
-        UserContract user = await TestCandidate.GetUserByEmailAsync(UserEmail);
+        UserContract user = await TestCandidate.GetUserByEmailAsync(_userEmail);
 
         // Assert
         user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(UserContract);
-        UserServiceMock.Verify(x => x.GetUserByEmailInternalAsync(It.IsAny<string>()), Times.Once);
+        user.Should().BeEquivalentTo(_userContract);
+        _userServiceMock.Verify(x => x.GetUserByEmailInternalAsync(It.IsAny<string>()), Times.Once);
     }
 
     [Test]
-    public void ShouldReturnNull_When_UserDoesNotExists()
+    public void Should_ReturnNull_When_UserDoesNotExists()
     {
         // Arrange
         const string email = "email1@email.com";
 
-        UserServiceMock
+        _userServiceMock
             .Setup(x => x.GetUserByEmailInternalAsync(email))
             .ThrowsAsync(new NotFoundException($"User with email {email} not found."));
 

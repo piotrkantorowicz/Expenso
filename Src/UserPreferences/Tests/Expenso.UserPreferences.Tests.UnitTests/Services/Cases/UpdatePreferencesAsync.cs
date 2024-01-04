@@ -9,22 +9,22 @@ internal sealed class UpdatePreferencesAsync : PreferenceServiceTestBase
         new UpdateNotificationPreferenceDto(true, 3), new UpdateGeneralPreferenceDto(false));
 
     [Test]
-    public async Task ShouldUpdatePreferences()
+    public async Task Should_UpdatePreferences()
     {
         // Arrange
-        PreferencesRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Preference>(), default)).ReturnsAsync(Preference);
+        _preferencesRepositoryMock.Setup(x => x.UpdateAsync(It.IsAny<Preference>(), default)).ReturnsAsync(_preference);
 
-        PreferenceValidatorMock
-            .Setup(x => x.ValidateUpdateAsync(UserId, _updatePreferenceDto, default))
-            .ReturnsAsync(Preference);
+        _preferenceValidatorMock
+            .Setup(x => x.ValidateUpdateAsync(_userId, _updatePreferenceDto, default))
+            .ReturnsAsync(_preference);
 
         // Act
-        await TestCandidate.UpdatePreferencesAsync(UserId, _updatePreferenceDto, default);
+        await TestCandidate.UpdatePreferencesAsync(_userId, _updatePreferenceDto, default);
 
         // Assert
-        Preference.FinancePreference.Should().BeEquivalentTo(_updatePreferenceDto.FinancePreference);
-        Preference.NotificationPreference.Should().BeEquivalentTo(_updatePreferenceDto.NotificationPreference);
-        Preference.GeneralPreference.Should().BeEquivalentTo(_updatePreferenceDto.GeneralPreference);
-        PreferencesRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Preference>(), default), Times.Once);
+        _preference.FinancePreference.Should().BeEquivalentTo(_updatePreferenceDto.FinancePreference);
+        _preference.NotificationPreference.Should().BeEquivalentTo(_updatePreferenceDto.NotificationPreference);
+        _preference.GeneralPreference.Should().BeEquivalentTo(_updatePreferenceDto.GeneralPreference);
+        _preferencesRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Preference>(), default), Times.Once);
     }
 }
