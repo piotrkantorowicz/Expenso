@@ -4,7 +4,7 @@ namespace Expenso.IAM.Proxy;
 
 public interface IIamProxy
 {
-    Task<UserContract?> GetUserByIdAsync(string userId);
+    Task<UserContract> GetUserByIdAsync(string userId);
 
-    Task<UserContract?> GetUserByEmailAsync(string email);
+    Task<UserContract> GetUserByEmailAsync(string email);
 }

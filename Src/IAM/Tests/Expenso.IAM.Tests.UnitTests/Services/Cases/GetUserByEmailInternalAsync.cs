@@ -1,6 +1,6 @@
-﻿using System.Text;
+using System.Text;
 
-using Expenso.IAM.Core.DTO;
+using Expenso.IAM.Proxy.Contracts;
 using Expenso.Shared.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -8,7 +8,7 @@ using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
 namespace Expenso.IAM.Tests.UnitTests.Services.Cases;
 
-internal sealed class GetUserByEmailAsync : UserServiceTestBase
+internal sealed class GetUserByEmailInternalAsync : UserServiceTestBase
 {
     [Test]
     public async Task ShouldReturnUser_When_UserExists()
@@ -22,7 +22,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             });
 
         // Act
-        UserDto user = await TestCandidate.GetUserByEmailAsync(UserEmail);
+        UserContract user = await TestCandidate.GetUserByEmailInternalAsync(UserEmail);
 
         // Assert
         user.Should().NotBeNull();

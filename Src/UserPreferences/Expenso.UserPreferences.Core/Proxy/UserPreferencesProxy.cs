@@ -11,7 +11,7 @@ internal sealed class UserPreferencesProxy(IPreferencesService preferencesServic
 
     public async Task<PreferenceContract> GetUserPreferencesAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await _preferencesService.GetPreferencesInternalAsync(userId, cancellationToken);
+        return await _preferencesService.GetPreferencesForUserInternalAsync(userId, cancellationToken);
     }
 
     public async Task CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken)

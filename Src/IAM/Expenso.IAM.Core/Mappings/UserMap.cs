@@ -7,15 +7,13 @@ namespace Expenso.IAM.Core.Mappings;
 
 internal static class UserMap
 {
-    public static UserDto? MapToDto(User? user)
+    public static UserDto MapToDto(User user)
     {
-        return user is null ? null : new UserDto(user.Id!, user.FirstName, user.LastName, user.Username!, user.Email!);
+        return new UserDto(user.Id!, user.FirstName, user.LastName, user.Username!, user.Email!);
     }
 
-    public static UserContract? MapToContract(User? user)
+    public static UserContract MapToContract(User user)
     {
-        return user is null
-            ? null
-            : new UserContract(user.Id!, user.FirstName, user.LastName, user.Username!, user.Email!);
+        return new UserContract(user.Id!, user.FirstName, user.LastName, user.Username!, user.Email!);
     }
 }

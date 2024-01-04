@@ -1,4 +1,7 @@
-﻿using Expenso.IAM.Proxy.Contracts;
+﻿using System.Text;
+
+using Expenso.IAM.Proxy.Contracts;
+using Expenso.Shared.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
 
@@ -11,7 +14,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         UserServiceMock.Setup(x => x.GetUserByIdInternalAsync(UserId)).ReturnsAsync(UserContract);
 
         // Act
-        UserContract? user = await TestCandidate.GetUserByIdAsync(UserId);
+        UserContract user = await TestCandidate.GetUserByIdAsync(UserId);
 
         // Assert
         user.Should().NotBeNull();
@@ -20,17 +23,22 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     }
 
     [Test]
-    public async Task ShouldReturnNull_When_UserDoesNotExists()
+    public void ShouldReturnNull_When_UserDoesNotExists()
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();
-        UserServiceMock.Setup(x => x.GetUserByIdInternalAsync(userId)).ReturnsAsync((UserContract?)null);
+
+        UserServiceMock
+            .Setup(x => x.GetUserByIdInternalAsync(userId))
+            .ThrowsAsync(new NotFoundException($"User with id {userId} not found."));
 
         // Act
-        UserContract? user = await TestCandidate.GetUserByIdAsync(userId);
-
         // Assert
-        user.Should().BeNull();
-        UserServiceMock.Verify(x => x.GetUserByIdInternalAsync(userId), Times.Once);
+        NotFoundException? exception =
+            Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByIdAsync(userId));
+
+        exception
+            ?.Message.Should()
+            .Be(new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString());
     }
 }

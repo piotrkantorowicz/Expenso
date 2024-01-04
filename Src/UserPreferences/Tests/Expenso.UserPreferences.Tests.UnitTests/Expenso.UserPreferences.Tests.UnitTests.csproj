@@ -26,4 +26,8 @@
         <ProjectReference Include="..\..\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.ArchTests"/>
+    </ItemGroup>
+
 </Project>

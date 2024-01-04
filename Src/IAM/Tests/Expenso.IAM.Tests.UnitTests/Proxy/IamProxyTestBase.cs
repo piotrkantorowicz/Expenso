@@ -1,5 +1,5 @@
 using Expenso.IAM.Core.Proxy;
-using Expenso.IAM.Core.Services.Interfaces;
+using Expenso.IAM.Core.Services;
 using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.Contracts;
 

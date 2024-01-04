@@ -8,13 +8,13 @@ public interface IPreferencesService
 {
     Task<PreferenceDto> GetPreferencesForCurrentUserAsync(CancellationToken cancellationToken);
 
-    Task<PreferenceDto> GetPreferencesAsync(Guid userId, CancellationToken cancellationToken);
+    Task<PreferenceDto> GetPreferencesForUserAsync(Guid userId, CancellationToken cancellationToken);
 
-    Task<PreferenceContract> GetPreferencesInternalAsync(Guid userId, CancellationToken cancellationToken);
+    Task<PreferenceContract> GetPreferencesForUserInternalAsync(Guid userId, CancellationToken cancellationToken);
 
-    Task CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken);
+    Task<PreferenceDto> CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken);
 
-    Task CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken);
+    Task<Guid> CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken);
 
     Task UpdatePreferencesAsync(Guid preferenceIdOrUserId, UpdatePreferenceDto preferenceDto,
         CancellationToken cancellationToken);

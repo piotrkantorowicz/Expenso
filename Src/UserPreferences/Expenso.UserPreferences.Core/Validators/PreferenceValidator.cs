@@ -5,7 +5,7 @@ using Expenso.UserPreferences.Core.Repositories;
 
 namespace Expenso.UserPreferences.Core.Validators;
 
-internal sealed class PreferenceValidator(IPreferencesRepository preferencesRepository)
+internal sealed class PreferenceValidator(IPreferencesRepository preferencesRepository) : IPreferenceValidator
 {
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));

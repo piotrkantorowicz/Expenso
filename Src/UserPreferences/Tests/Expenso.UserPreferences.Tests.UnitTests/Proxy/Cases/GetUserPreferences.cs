@@ -9,7 +9,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
     {
         // Arrange
         PreferenceServiceMock
-            .Setup(x => x.GetPreferencesInternalAsync(UserId, default))
+            .Setup(x => x.GetPreferencesForUserInternalAsync(UserId, default))
             .ReturnsAsync(PreferenceContract);
 
         // Act
@@ -18,7 +18,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Assert
         user.Should().NotBeNull();
         user.Should().BeEquivalentTo(PreferenceContract);
-        PreferenceServiceMock.Verify(x => x.GetPreferencesInternalAsync(UserId, default), Times.Once);
+        PreferenceServiceMock.Verify(x => x.GetPreferencesForUserInternalAsync(UserId, default), Times.Once);
     }
 
     [Test]
@@ -27,7 +27,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         Guid userId = Guid.NewGuid();
 
-        PreferenceServiceMock.Setup(x => x.GetPreferencesInternalAsync(userId, default))!.ReturnsAsync(
+        PreferenceServiceMock.Setup(x => x.GetPreferencesForUserInternalAsync(userId, default))!.ReturnsAsync(
             (PreferenceContract?)null);
 
         // Act
@@ -35,6 +35,6 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
 
         // Assert
         user.Should().BeNull();
-        PreferenceServiceMock.Verify(x => x.GetPreferencesInternalAsync(userId, default), Times.Once);
+        PreferenceServiceMock.Verify(x => x.GetPreferencesForUserInternalAsync(userId, default), Times.Once);
     }
 }

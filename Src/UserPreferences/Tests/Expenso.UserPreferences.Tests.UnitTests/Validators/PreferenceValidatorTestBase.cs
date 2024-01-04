@@ -5,7 +5,7 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Validators;
 
 internal abstract class PreferenceValidatorTestBase : TestBase
 {
-    protected PreferenceValidator TestCandidate { get; private set; } = null!;
+    protected IPreferenceValidator TestCandidate { get; private set; } = null!;
 
     protected Mock<IPreferencesRepository> PreferencesRepositoryMock { get; private set; } = null!;
 

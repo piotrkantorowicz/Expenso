@@ -15,7 +15,7 @@ internal sealed class PreferencesService(
     IPreferencesRepository preferencesRepository,
     IUserContextAccessor userContextAccessor,
     IMessageBroker messageBroker,
-    PreferenceValidator preferenceValidator) : IPreferencesService
+    IPreferenceValidator preferenceValidator) : IPreferencesService
 {
     private readonly IMessageBroker _messageBroker =
         messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
@@ -23,7 +23,7 @@ internal sealed class PreferencesService(
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
-    private readonly PreferenceValidator _preferenceValidator =
+    private readonly IPreferenceValidator _preferenceValidator =
         preferenceValidator ?? throw new ArgumentNullException(nameof(preferenceValidator));
 
     private readonly IUserContextAccessor _userContextAccessor =
@@ -33,58 +33,65 @@ internal sealed class PreferencesService(
     {
         Guid userId = Guid.TryParse(_userContextAccessor.Get()?.UserId, out Guid id) ? id : Guid.Empty;
 
-        return GetPreferencesAsync(userId, cancellationToken);
+        return GetPreferencesForUserAsync(userId, cancellationToken);
     }
 
-    public async Task<PreferenceDto> GetPreferencesAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<PreferenceDto> GetPreferencesForUserAsync(Guid userId, CancellationToken cancellationToken)
     {
-        Preference? userPreferences = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken);
+        Preference? preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken);
 
-        if (userPreferences is null)
+        if (preference is null)
         {
-            throw new NotFoundException($"User preferences for user with id {userId} not found.");
+            throw new NotFoundException(userId == Guid.Empty
+                ? "Preferences for user not found."
+                : $"Preferences for user with id {userId} not found.");
         }
 
-        return PreferenceMap.MapToDto(userPreferences);
+        return PreferenceMap.MapToDto(preference);
     }
 
-    public async Task<PreferenceContract> GetPreferencesInternalAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<PreferenceContract> GetPreferencesForUserInternalAsync(Guid userId,
+        CancellationToken cancellationToken)
     {
-        Preference? userPreferences = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken);
+        Preference? preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken);
 
-        if (userPreferences is null)
+        if (preference is null)
         {
-            throw new NotFoundException($"User preferences for user with id {userId} not found.");
+            throw new NotFoundException($"Preferences for user with id {userId} not found.");
         }
 
-        return PreferenceMap.MapToContract(userPreferences);
+        return PreferenceMap.MapToContract(preference);
     }
 
-    public async Task CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<PreferenceDto> CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken)
     {
         await _preferenceValidator.ValidateCreateAsync(userId, cancellationToken);
         Preference userPreferenceToCreate = Preference.CreateDefault(userId);
-        await _preferencesRepository.CreateAsync(userPreferenceToCreate, cancellationToken);
+        Preference preference = await _preferencesRepository.CreateAsync(userPreferenceToCreate, cancellationToken);
+
+        return PreferenceMap.MapToDto(preference);
     }
 
-    public async Task CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<Guid> CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken)
     {
-        Preference userPreferenceToCreate = Preference.CreateDefault(userId);
-        await _preferencesRepository.CreateAsync(userPreferenceToCreate, cancellationToken);
+        Preference preferenceToCreate = Preference.CreateDefault(userId);
+        Preference preference = await _preferencesRepository.CreateAsync(preferenceToCreate, cancellationToken);
+
+        return preference.PreferencesId;
     }
 
     public async Task UpdatePreferencesAsync(Guid preferenceIdOrUserId, UpdatePreferenceDto preferenceDto,
         CancellationToken cancellationToken)
     {
-        Preference dbUserPreference =
+        Preference dbPreference =
             await _preferenceValidator.ValidateUpdateAsync(preferenceIdOrUserId, preferenceDto, cancellationToken);
 
-        if (dbUserPreference.Update(GeneralPreferenceMap.MapToModel(preferenceDto.GeneralPreference!),
+        if (dbPreference.Update(GeneralPreferenceMap.MapToModel(preferenceDto.GeneralPreference!),
                 FinancePreferenceMap.MapToModel(preferenceDto.FinancePreference!),
                 NotificationPreferenceMap.MapToModel(preferenceDto.NotificationPreference!), _messageBroker,
                 cancellationToken))
         {
-            await _preferencesRepository.UpdateAsync(dbUserPreference, cancellationToken);
+            await _preferencesRepository.UpdateAsync(dbPreference, cancellationToken);
         }
     }
 }

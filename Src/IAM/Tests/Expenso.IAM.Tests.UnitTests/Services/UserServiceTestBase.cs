@@ -1,7 +1,6 @@
 ﻿using Expenso.IAM.Core.DTO;
 using Expenso.IAM.Core.Mappings;
 using Expenso.IAM.Core.Services;
-using Expenso.IAM.Core.Services.Interfaces;
 
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;
@@ -26,7 +25,7 @@ internal abstract class UserServiceTestBase : TestBase
     [SetUp]
     public void SetUp()
     {
-        KeycloakProtectionClientOptions keycloakProtectionClientOptions = new KeycloakProtectionClientOptions();
+        KeycloakProtectionClientOptions keycloakProtectionClientOptions = new();
         KeycloakUserClientMock = new Mock<IKeycloakUserClient>();
         UserId = Guid.NewGuid().ToString();
         UserEmail = "email@email.com";

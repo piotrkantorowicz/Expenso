@@ -21,6 +21,6 @@ public static class RegistrationExtensions
 
         services.AddScoped<IPreferencesRepository, PreferencesRepository>();
         services.AddScoped<IPreferencesService, PreferencesService>();
-        services.AddScoped<PreferenceValidator>();
+        services.AddScoped<IPreferenceValidator, PreferenceValidator>();
     }
 }
