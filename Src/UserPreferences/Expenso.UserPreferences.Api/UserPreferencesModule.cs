@@ -6,7 +6,6 @@ using Expenso.UserPreferences.Core.Services;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,10 +17,10 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddUserPreferences(configuration);
+        services.AddUserPreferencesModulesDependencies(configuration, ModuleName);
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints(IEndpointRouteBuilder routeBuilder)
+    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new("preferences/current-user",
             "GetCurrentUserPreferences", AccessControl.User, HttpVerb.Get,

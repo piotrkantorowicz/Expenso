@@ -29,7 +29,7 @@ public static class Modules
     {
         foreach (ModuleDefinition module in RegisteredModules.Values)
         {
-            foreach (EndpointRegistration endpoint in module.CreateEndpoints(endpointRouteBuilder))
+            foreach (EndpointRegistration endpoint in module.CreateEndpoints())
             {
                 string endpointRoute = module.GetModulePrefixSanitized() + endpoint.WithLeadingSlash().Pattern;
 

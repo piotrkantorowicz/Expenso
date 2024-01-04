@@ -1,4 +1,5 @@
 using Expenso.Shared.Configuration.Extensions;
+using Expenso.Shared.Configuration.Sections;
 using Expenso.Shared.Database.EfCore;
 
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ internal sealed class UserPreferencesDbContextFactory : IDesignTimeDbContextFact
             .AddEnvironmentVariables()
             .Build();
 
-        configuration.TryBindOptions("EfCore", out EfCoreSettings databaseSettings);
+        configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
         optionsBuilder.UseNpgsql(databaseSettings.ConnectionString);
 
         return new UserPreferencesDbContext(optionsBuilder.Options);

@@ -12,9 +12,10 @@ namespace Expenso.UserPreferences.Core;
 
 public static class RegistrationExtensions
 {
-    public static void AddUserPreferences(this IServiceCollection services, IConfiguration configuration)
+    public static void AddUserPreferencesModulesDependencies(this IServiceCollection services,
+        IConfiguration configuration, string moduleName)
     {
-        services.AddPostgres<UserPreferencesDbContext>(configuration, "EfCore");
+        services.AddPostgres<UserPreferencesDbContext>(configuration, moduleName);
 
         services.AddScoped<IUserPreferencesDbContext, UserPreferencesDbContext>(x =>
             x.GetRequiredService<UserPreferencesDbContext>());

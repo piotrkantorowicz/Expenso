@@ -5,6 +5,8 @@ using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Filters;
 using Expenso.IAM.Api;
 using Expenso.Shared.Configuration.Extensions;
+using Expenso.Shared.Configuration.Sections;
+using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
@@ -36,19 +38,21 @@ internal sealed class AppBuilder : IAppBuilder
         _services = _applicationBuilder.Services;
     }
 
+    public IAppBuilder ConfigureApiDependencies()
+    {
+        _configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
+        _services.AddSingleton(databaseSettings);
+        _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
+        _services.AddHttpContextAccessor();
+
+        return this;
+    }
+
     public IAppBuilder ConfigureModules()
     {
         Modules.RegisterModule<IamModule>();
         Modules.RegisterModule<UserPreferencesModule>();
         _services.AddModules(_configuration);
-
-        return this;
-    }
-
-    public IAppBuilder ConfigureApiDependencies()
-    {
-        _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
-        _services.AddHttpContextAccessor();
 
         return this;
     }
