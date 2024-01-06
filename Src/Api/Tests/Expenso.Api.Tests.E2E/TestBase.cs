@@ -18,8 +18,7 @@ internal abstract class TestBase
     [SetUp]
     public virtual Task SetUp()
     {
-        WebApp.Instance.SetNewHttpClient();
-        _httpClient = WebApp.Instance.HttpClient!;
+        _httpClient = WebApp.Instance.GetHttpClient();
 
         return Task.CompletedTask;
     }
