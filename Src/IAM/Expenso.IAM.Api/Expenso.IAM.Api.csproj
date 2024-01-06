@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj" PrivateAssets="All"/>
-        <ProjectReference Include="..\Expenso.IAM.Core\Expenso.IAM.Core.csproj" PrivateAssets="All"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
+        <ProjectReference Include="..\Expenso.IAM.Core\Expenso.IAM.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

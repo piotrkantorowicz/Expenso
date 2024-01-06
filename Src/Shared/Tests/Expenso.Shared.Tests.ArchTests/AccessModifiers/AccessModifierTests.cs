@@ -3,20 +3,20 @@ namespace Expenso.Shared.Tests.ArchTests.AccessModifiers;
 internal sealed class AccessModifierTests : ArchTestTestBase
 {
     private static readonly string[] NotInternal =
-    {
+    [
         "TestBase"
-    };
+    ];
 
     private static readonly string[] NotSealed =
-    {
+    [
         "TestBase",
         "Program"
-    };
+    ];
 
     private static readonly string[] NotAbstract =
-    {
+    [
         "Program"
-    };
+    ];
 
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternalInTestAssemblies()

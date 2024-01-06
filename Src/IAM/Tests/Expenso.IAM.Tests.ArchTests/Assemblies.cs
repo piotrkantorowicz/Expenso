@@ -16,14 +16,14 @@ internal static class Assemblies
 
     public static IReadOnlyCollection<Assembly> ToArray()
     {
-        List<Assembly> assemblies = new()
-        {
+        List<Assembly> assemblies =
+        [
             Api,
             Core,
             Proxy,
             UnitTests,
             ArchTests
-        };
+        ];
 
         return assemblies;
     }

@@ -21,6 +21,13 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj"/>
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj"/>
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj"/>
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.ArchTests"/>
     </ItemGroup>
 
 </Project>

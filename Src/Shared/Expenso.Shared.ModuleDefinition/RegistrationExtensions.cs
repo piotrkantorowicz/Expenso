@@ -29,14 +29,14 @@ public static class Modules
     {
         foreach (ModuleDefinition module in RegisteredModules.Values)
         {
-            foreach (EndpointRegistration endpoint in module.CreateEndpoints(endpointRouteBuilder))
+            foreach (EndpointRegistration endpoint in module.CreateEndpoints())
             {
                 string endpointRoute = module.GetModulePrefixSanitized() + endpoint.WithLeadingSlash().Pattern;
 
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(endpointRoute, new[]
                 {
                     endpoint.HttpVerb.ToString().ToUpper()
-                }, endpoint.Handler);
+                }, endpoint.Handler!);
 
                 switch (endpoint.AccessControl)
                 {
@@ -51,6 +51,8 @@ public static class Modules
                         throw new ArgumentOutOfRangeException(nameof(endpoint.AccessControl), endpoint.AccessControl,
                             "Unknown access control type.");
                 }
+
+                routeHandlerBuilder.WithName(endpoint.Name);
             }
         }
     }

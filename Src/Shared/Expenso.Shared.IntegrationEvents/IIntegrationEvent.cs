@@ -1,5 +1,5 @@
 namespace Expenso.Shared.IntegrationEvents;
 
-public interface IIntegrationEvent 
+public interface IIntegrationEvent
 {
 }

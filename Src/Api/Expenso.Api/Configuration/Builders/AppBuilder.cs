@@ -2,12 +2,15 @@ using System.Text.Json.Serialization;
 
 using Expenso.Api.Configuration.Auth.Users.UserContext;
 using Expenso.Api.Configuration.Builders.Interfaces;
-using Expenso.Api.Configuration.Filters;
+using Expenso.Api.Configuration.Errors;
 using Expenso.IAM.Api;
 using Expenso.Shared.Configuration.Extensions;
+using Expenso.Shared.Configuration.Sections;
+using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.UserContext;
+using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
@@ -35,31 +38,32 @@ internal sealed class AppBuilder : IAppBuilder
         _services = _applicationBuilder.Services;
     }
 
-    public IAppBuilder ConfigureModules()
-    {
-        Modules.RegisterModule<IamModule>();
-        _services.AddModules(_configuration);
-
-        return this;
-    }
-
     public IAppBuilder ConfigureApiDependencies()
     {
+        _configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
+        _services.AddSingleton(databaseSettings);
         _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
         _services.AddHttpContextAccessor();
 
         return this;
     }
 
+    public IAppBuilder ConfigureModules()
+    {
+        Modules.RegisterModule<IamModule>();
+        Modules.RegisterModule<UserPreferencesModule>();
+        _services.AddModules(_configuration);
+
+        return this;
+    }
+
     public IAppBuilder ConfigureMvc()
     {
-        _services.AddControllers(options =>
-        {
-            options.Filters.Add<ApiExceptionFilterAttribute>();
-        });
-
+        _services.AddMvcCore();
         _services.AddEndpointsApiExplorer();
-
+        _services.AddExceptionHandler<GlobalExceptionHandler>();
+        _services.AddProblemDetails();
+        
         return this;
     }
 

@@ -3,8 +3,8 @@ using Expenso.Api.Configuration.Builders;
 AppBuilder appBuilder = new(args);
 
 appBuilder
-    .ConfigureModules()
     .ConfigureApiDependencies()
+    .ConfigureModules()
     .ConfigureMvc()
     .ConfigureSerializationOptions()
     .ConfigureKeycloak()
@@ -14,5 +14,7 @@ appBuilder
     .CreateEndpoints()
     .UseAuth()
     .UseHttpsRedirection()
+    .UseErrorHandler()
     .UseSwagger()
+    .MigrateDatabase()
     .Run();

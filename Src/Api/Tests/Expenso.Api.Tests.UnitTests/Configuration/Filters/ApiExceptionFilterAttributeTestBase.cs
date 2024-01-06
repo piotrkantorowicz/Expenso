@@ -1,34 +1,20 @@
-using Expenso.Api.Configuration.Filters;
+using Expenso.Api.Configuration.Errors;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Filters;
 
-internal abstract class ApiExceptionFilterAttributeTestBase : TestBase
+internal abstract class ApiExceptionFilterAttributeTestBase : TestBase<GlobalExceptionHandler>
 {
-    protected ApiExceptionFilterAttribute TestCandidate { get; private set; } = null!;
-
-    protected ActionContext ActionContext { get; private set; } = null!;
-
-    protected ExceptionContext ExceptionContext { get; private set; } = null!;
-
+    private readonly NullLoggerFactory _loggerFactory = new();
+    protected readonly DefaultHttpContext _httpContext = new();
+    
     [SetUp]
     public void SetUp()
     {
-        DefaultHttpContext httpContext = new();
-
-        ActionContext actionContext = new(httpContext, new RouteData(), new ActionDescriptor(),
-            new ModelStateDictionary());
-
-        ExceptionContext actionExecutingContext = new(actionContext, new List<IFilterMetadata>());
-        ActionContext = actionContext;
-        ExceptionContext = actionExecutingContext;
-        TestCandidate = new ApiExceptionFilterAttribute();
+        TestCandidate = new GlobalExceptionHandler(_loggerFactory.CreateLogger<GlobalExceptionHandler>());
     }
 }

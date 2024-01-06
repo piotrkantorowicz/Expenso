@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Expenso.Shared.Tests.UnitTests.Configuration;
 
-internal abstract class OptionsExtensionsTestBase : TestBase
+internal abstract class OptionsExtensionsTestBase : TestBase<IConfiguration>
 {
     private readonly IDictionary<string, string?> _myConfiguration = new Dictionary<string, string?>
     {
@@ -10,12 +10,10 @@ internal abstract class OptionsExtensionsTestBase : TestBase
         ["MyOptions:Option2"] = "500"
     };
 
-    protected IConfiguration Configuration { get; private set; } = null!;
-
     [SetUp]
     public void SetUp()
     {
-        Configuration = new ConfigurationBuilder().AddInMemoryCollection(_myConfiguration).Build();
+        TestCandidate = new ConfigurationBuilder().AddInMemoryCollection(_myConfiguration).Build();
     }
 }
 

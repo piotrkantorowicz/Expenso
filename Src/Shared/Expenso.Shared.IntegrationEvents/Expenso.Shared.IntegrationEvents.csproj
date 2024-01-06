@@ -7,8 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests" />
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests" />
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
     </ItemGroup>
-    
+
 </Project>

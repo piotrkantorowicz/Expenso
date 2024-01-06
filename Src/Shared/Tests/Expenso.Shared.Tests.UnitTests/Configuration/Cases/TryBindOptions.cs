@@ -9,7 +9,7 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
     {
         // Arrange
         // Act
-        bool testResult = Configuration.TryBindOptions("MyOptions", out MyOptions options);
+        bool testResult = TestCandidate.TryBindOptions("MyOptions", out MyOptions options);
 
         // Assert
         testResult.Should().BeTrue();
@@ -22,7 +22,7 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
     {
         // Arrange
         // Act
-        bool testResult = Configuration.TryBindOptions("MyOptions1", out MyOptions options);
+        bool testResult = TestCandidate.TryBindOptions("MyOptions1", out MyOptions options);
 
         // Assert
         testResult.Should().BeTrue();
@@ -36,7 +36,7 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
         // Arrange
         // Act
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-        bool testResult = Configuration.TryBindOptions(null, out MyOptions _);
+        bool testResult = TestCandidate.TryBindOptions(null, out MyOptions _);
 #pragma warning restore CS8625
 
         // Assert

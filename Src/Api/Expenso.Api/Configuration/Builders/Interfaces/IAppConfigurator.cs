@@ -8,7 +8,11 @@ internal interface IAppConfigurator
 
     IAppConfigurator UseHttpsRedirection();
 
+    IAppConfigurator UseErrorHandler();
+
     IAppConfigurator CreateEndpoints();
+
+    IAppConfigurator MigrateDatabase();
 
     void Run();
 }

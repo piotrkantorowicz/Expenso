@@ -5,7 +5,7 @@ public sealed record EndpointRegistration(
     string Name,
     AccessControl AccessControl,
     HttpVerb HttpVerb,
-    Delegate Handler);
+    Delegate? Handler);
 
 public enum HttpVerb
 {

@@ -1,24 +1,11 @@
 ﻿namespace Expenso.Shared.Tests.Utils.UnitTests;
 
-public abstract class TestBase
+public abstract class TestBase<T> where T : class
 {
-    protected Fixture AutoFixtureProxy { get; private set; } = null!;
+    protected T TestCandidate { get; set; } = null!;
 
     [SetUp]
     public void BaseSetUp()
     {
-        AutoFixtureProxy = new Fixture();
-
-        AutoFixtureProxy.Customize(new AutoMoqCustomization
-        {
-            ConfigureMembers = true
-        });
-
-        AutoFixtureProxy
-            .Behaviors.OfType<ThrowingRecursionBehavior>()
-            .ToList()
-            .ForEach(b => AutoFixtureProxy.Behaviors.Remove(b));
-
-        AutoFixtureProxy.Behaviors.Add(new OmitOnRecursionBehavior(10));
     }
 }
