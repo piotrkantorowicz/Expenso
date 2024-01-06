@@ -11,6 +11,8 @@ namespace Expenso.Api.Configuration.Builders;
 
 internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 {
+    private const string BaseTag = "Expenso";
+
     public IAppConfigurator UseSwagger()
     {
         if (!(app.Environment.IsDevelopment() || app.Environment.IsTest()))
@@ -48,15 +50,16 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
     public IAppConfigurator CreateEndpoints()
     {
-        app.MapModulesEndpoints();
+        app.MapModulesEndpoints(BaseTag);
 
         app
             .MapGet("/greetings/hello", (HttpContext httpContext) =>
             {
                 httpContext.Response.WriteAsJsonAsync("Hello, I'm Expenso API.");
             })
+            .WithOpenApi()
             .WithName("Hello")
-            .WithOpenApi();
+            .WithTags(BaseTag);
 
         app
             .MapGet("/greetings/hello-user", (HttpContext httpContext) =>
@@ -66,16 +69,19 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
                 IUserContext? userContext = userContextAccessor.Get();
 
-                httpContext.Response.WriteAsJsonAsync(new StringBuilder()
+                string response = new StringBuilder()
                     .Append("Hello ")
                     .Append(userContext?.Username)
                     .Append(", I'm Expenso API.")
-                    .ToString());
+                    .ToString();
+
+                httpContext.Response.WriteAsJsonAsync(response);
             })
-            .WithName("HelloUser")
             .WithOpenApi()
+            .WithName("HelloUser")
+            .WithTags(BaseTag)
             .RequireAuthorization();
-        
+
         return this;
     }
 
@@ -89,7 +95,7 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
             {
                 return this;
             }
-            
+
             IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
             dbMigrator.EnsureDatabaseCreated(scope);
         }

@@ -37,13 +37,13 @@ internal sealed class GetPreferencesForUserAsync : PreferenceServiceTestBase
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetPreferencesForUserAsync(_userId, default));
 
-        exception
-            ?.Message.Should()
-            .Be(new StringBuilder()
-                .Append("Preferences for user with id ")
-                .Append(_userId)
-                .Append(" not found.")
-                .ToString());
+        string expectedExceptionMessage = new StringBuilder()
+            .Append("Preferences for user with id ")
+            .Append(_userId)
+            .Append(" not found.")
+            .ToString();
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
 
         _preferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(_userId, false, default), Times.Once);
     }

@@ -12,10 +12,10 @@ internal sealed class CreatePreferences : PreferencesTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(_claims);
         Guid userId = Guid.NewGuid();
-
+        string request = new StringBuilder().Append("user-preferences/preferences/").Append(userId).ToString();
+        
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(
-            new StringBuilder().Append("user-preferences/preferences/").Append(userId).ToString(), null);
+        HttpResponseMessage testResult = await _httpClient.PostAsync(request, null);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Created);

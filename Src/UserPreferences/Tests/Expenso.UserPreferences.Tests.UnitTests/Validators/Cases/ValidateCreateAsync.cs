@@ -29,8 +29,10 @@ internal sealed class ValidateCreateAsync : PreferenceValidatorTestBase
         ValidationException? exception =
             Assert.ThrowsAsync<ValidationException>(() => TestCandidate.ValidateCreateAsync(userId, default));
 
+        string expectedExceptionDetails = new StringBuilder().AppendLine("UserId: User id cannot be empty.").ToString();
+        
         exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be(new StringBuilder().AppendLine("UserId: User id cannot be empty.").ToString());
+        exception?.Details.Should().Be(expectedExceptionDetails);
     }
 
     [Test]
@@ -48,13 +50,13 @@ internal sealed class ValidateCreateAsync : PreferenceValidatorTestBase
         ConflictException? exception =
             Assert.ThrowsAsync<ConflictException>(() => TestCandidate.ValidateCreateAsync(userId, default));
 
-        exception
-            ?.Message.Should()
-            .Be(new StringBuilder()
-                .Append("Preferences for user with id ")
-                .Append(userId)
-                .Append(" already exists.")
-                .ToString());
+        string expectedExceptionMessage = new StringBuilder()
+            .Append("Preferences for user with id ")
+            .Append(userId)
+            .Append(" already exists.")
+            .ToString();
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
     }
 
     [Test]

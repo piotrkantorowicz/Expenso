@@ -37,8 +37,9 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByEmailAsync(email));
 
-        exception
-            ?.Message.Should()
-            .Be(new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString());
+        string expectedExceptionMessage =
+            new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString();
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

@@ -70,13 +70,14 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
     private static Task HandleException(int statusCode, HttpContext httpContext, Exception? exception,
         CancellationToken cancellationToken)
     {
-        string? exceptionMessage = exception is ValidationException validationException
+        string? expectedExceptionMessage = exception is ValidationException validationException
             ? validationException.Details
             : exception?.Message;
 
         httpContext.Response.StatusCode = statusCode;
 
-        return httpContext.Response.WriteAsJsonAsync(StaticProblemDetailsSelector.Select(statusCode, exceptionMessage),
+        return httpContext.Response.WriteAsJsonAsync(
+            StaticProblemDetailsSelector.Select(statusCode, expectedExceptionMessage),
             cancellationToken);
     }
 }
