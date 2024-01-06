@@ -20,7 +20,7 @@ jobs:
 
   audit:
     uses: ./.github/workflows/audit.yml
-    with:
+    secrets:
       token: ${{ secrets.ACTION_GITHUB_TOKEN }}
   
   build-and-tests:
