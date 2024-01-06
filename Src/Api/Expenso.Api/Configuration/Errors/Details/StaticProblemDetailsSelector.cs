@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Expenso.Api.Configuration.ErrorDetails;
+namespace Expenso.Api.Configuration.Errors.Details;
 
 internal static class StaticProblemDetailsSelector
 {

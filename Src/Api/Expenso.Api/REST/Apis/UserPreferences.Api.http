@@ -1,10 +1,15 @@
+### GetUserPreferences
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/c57cd3ba-59a6-4696-99b9-89203802ea29
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
 ### GetCurrentUserPreferences
 GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
-### GetPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/e2bf7ed6-afce-4c25-a5c3-66b3e7cfe006
+### GetUserPreferences
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?userId=e2bf7ed6-afce-4c25-a5c3-66b3e7cfe006
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
@@ -19,17 +24,17 @@ Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 {
-  "financePreferences": {
+  "financePreference": {
     "allowAddFinancePlanSubOwners": true,
-    "allowAddFinancePlanReviewers": true,
     "maxNumberOfSubFinancePlanSubOwners": 5,
+    "allowAddFinancePlanReviewers": true,
     "maxNumberOfFinancePlanReviewers": 10
   },
-  "generalPreferences": {
-    "useDarkMode": false
-  },
-  "notificationPreferences": {
+  "notificationPreference": {
     "sendFinanceReportEnabled": true,
-    "sendFinanceReportInterval": 14
+    "sendFinanceReportInterval": 5
+  },
+  "generalPreference": {
+    "useDarkMode": true
   }
 }

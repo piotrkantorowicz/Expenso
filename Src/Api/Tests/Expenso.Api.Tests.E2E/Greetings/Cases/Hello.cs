@@ -7,7 +7,7 @@ internal sealed class Hello : GreetingsTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage testResult = await HttpClient.GetAsync("/greetings/hello");
+        HttpResponseMessage testResult = await _httpClient.GetAsync("/greetings/hello");
 
         // Assert
         string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();

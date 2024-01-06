@@ -29,6 +29,18 @@ internal sealed class PreferencesService(
     private readonly IUserContextAccessor _userContextAccessor =
         userContextAccessor ?? throw new ArgumentNullException(nameof(userContextAccessor));
 
+    public async Task<PreferenceDto> GetPreferences(Guid preferenceId, CancellationToken cancellationToken)
+    {
+        Preference? preference = await _preferencesRepository.GetByIdAsync(preferenceId, false, cancellationToken);
+
+        if (preference is null)
+        {
+            throw new NotFoundException($"Preferences with id {preferenceId} not found.");
+        }
+
+        return PreferenceMap.MapToDto(preference);
+    }
+
     public Task<PreferenceDto> GetPreferencesForCurrentUserAsync(CancellationToken cancellationToken)
     {
         Guid userId = Guid.TryParse(_userContextAccessor.Get()?.UserId, out Guid id) ? id : Guid.Empty;
@@ -72,12 +84,13 @@ internal sealed class PreferencesService(
         return PreferenceMap.MapToDto(preference);
     }
 
-    public async Task<Guid> CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<PreferenceContract> CreatePreferencesInternalAsync(Guid userId,
+        CancellationToken cancellationToken)
     {
         Preference preferenceToCreate = Preference.CreateDefault(userId);
         Preference preference = await _preferencesRepository.CreateAsync(preferenceToCreate, cancellationToken);
 
-        return preference.PreferencesId;
+        return PreferenceMap.MapToContract(preference);
     }
 
     public async Task UpdatePreferencesAsync(Guid preferenceIdOrUserId, UpdatePreferenceDto preferenceDto,

@@ -6,6 +6,8 @@ namespace Expenso.UserPreferences.Core.Services;
 
 public interface IPreferencesService
 {
+    Task<PreferenceDto> GetPreferences(Guid preferenceId, CancellationToken cancellationToken);
+    
     Task<PreferenceDto> GetPreferencesForCurrentUserAsync(CancellationToken cancellationToken);
 
     Task<PreferenceDto> GetPreferencesForUserAsync(Guid userId, CancellationToken cancellationToken);
@@ -14,7 +16,7 @@ public interface IPreferencesService
 
     Task<PreferenceDto> CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken);
 
-    Task<Guid> CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken);
+    Task<PreferenceContract> CreatePreferencesInternalAsync(Guid userId, CancellationToken cancellationToken);
 
     Task UpdatePreferencesAsync(Guid preferenceIdOrUserId, UpdatePreferenceDto preferenceDto,
         CancellationToken cancellationToken);

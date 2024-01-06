@@ -11,7 +11,7 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;
 internal sealed class GetPreferencesForCurrentUserAsync : PreferenceServiceTestBase
 {
     [Test]
-    public async Task Should_ReturnUser_When_UserExists()
+    public async Task Should_ReturnPreference_When_PreferenceExists()
     {
         // Arrange
         _userContextAccessorMock.Setup(x => x.Get()).Returns(_userContextMock.Object);
@@ -27,7 +27,7 @@ internal sealed class GetPreferencesForCurrentUserAsync : PreferenceServiceTestB
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_UserDoesNotExists()
+    public void Should_ThrowNotFoundException_When_PreferencesDoesNotExists()
     {
         // Arrange
         _userContextAccessorMock.Setup(x => x.Get()).Returns((IUserContext?)null);

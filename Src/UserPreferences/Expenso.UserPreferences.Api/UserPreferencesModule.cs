@@ -22,6 +22,15 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
+        EndpointRegistration getPreferencesEndpointRegistration = new("preferences/{preferenceId}", "GetPreferences",
+            AccessControl.User, HttpVerb.Get, async ([FromRoute] Guid preferenceId,
+                [FromServices] IPreferencesService preferencesService, CancellationToken cancellationToken) =>
+            {
+                PreferenceDto preferences = await preferencesService.GetPreferences(preferenceId, cancellationToken);
+
+                return Results.Ok(preferences);
+            });
+
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new("preferences/current-user",
             "GetCurrentUserPreferences", AccessControl.User, HttpVerb.Get,
             async ([FromServices] IPreferencesService preferencesService, CancellationToken cancellationToken) =>
@@ -32,9 +41,9 @@ public sealed class UserPreferencesModule : ModuleDefinition
                 return Results.Ok(preferences);
             });
 
-        EndpointRegistration getPreferencesEndpointRegistration = new("preferences/{userId}", "GetPreferences",
+        EndpointRegistration getUserPreferencesByEndpointRegistration = new("preferences", "GetUserPreferences",
             AccessControl.User, HttpVerb.Get, async ([FromServices] IPreferencesService preferencesService,
-                [FromRoute] Guid userId, CancellationToken cancellationToken) =>
+                [FromQuery] Guid userId, CancellationToken cancellationToken) =>
             {
                 PreferenceDto preferences =
                     await preferencesService.GetPreferencesForUserAsync(userId, cancellationToken);
@@ -50,23 +59,26 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
                 return Results.CreatedAtRoute(getPreferencesEndpointRegistration.Name, new
                 {
-                    userId = preference.PreferencesId
+                    preferenceId = preference.PreferencesId
                 }, preference);
             });
 
-        EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{userId}", "UpdatePreferences",
+        EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{userOrPreferenceId}",
+            "UpdatePreferences",
             AccessControl.User, HttpVerb.Put, async ([FromServices] IPreferencesService preferencesService,
-                [FromRoute] Guid userId, [FromBody] UpdatePreferenceDto model, CancellationToken cancellationToken) =>
+                [FromRoute] Guid userOrPreferenceId, [FromBody] UpdatePreferenceDto model,
+                CancellationToken cancellationToken) =>
             {
-                await preferencesService.UpdatePreferencesAsync(userId, model, cancellationToken);
+                await preferencesService.UpdatePreferencesAsync(userOrPreferenceId, model, cancellationToken);
 
                 return Results.NoContent();
             });
 
         return new[]
         {
-            getCurrentUserPreferencesEndpointRegistration,
             getPreferencesEndpointRegistration,
+            getCurrentUserPreferencesEndpointRegistration,
+            getUserPreferencesByEndpointRegistration,
             createPreferencesEndpointRegistration,
             updatePreferencesEndpointRegistration
         };

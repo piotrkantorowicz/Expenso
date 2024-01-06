@@ -1,7 +1,3 @@
-using Expenso.Shared.Configuration.Extensions;
-
-using Microsoft.Extensions.Configuration;
-
 namespace Expenso.Api.Tests.E2E.Configuration;
 
 internal sealed class WebApp
@@ -13,22 +9,32 @@ internal sealed class WebApp
     {
         ExpensoWebApplication app = new();
         HttpClient client = app.CreateClient();
-        IConfiguration configuration = (IConfiguration)app.Services.GetService(typeof(IConfiguration))!;
-        configuration.TryBindOptions(nameof(TestAuth), out TestAuth testAuth);
         _expensoWebApplication = app;
+        ServiceProvider = app.Services;
         HttpClient = client;
-        TestAuth = testAuth;
     }
 
     public static WebApp Instance => Lazy.Value;
 
-    public HttpClient HttpClient { get; }
+    public HttpClient? HttpClient { get; private set; }
 
-    public TestAuth TestAuth { get; }
+    public IServiceProvider ServiceProvider { get; }
 
+    public void SetNewHttpClient()
+    {
+        HttpClient client = _expensoWebApplication.CreateClient();
+        HttpClient = client;
+    }
+
+    public void DestroyHttpClient()
+    {
+        HttpClient?.Dispose();
+        HttpClient = null!;
+    }
+    
     public void Destroy()
     {
+        HttpClient?.Dispose();
         _expensoWebApplication.Dispose();
-        HttpClient.Dispose();
     }
 }

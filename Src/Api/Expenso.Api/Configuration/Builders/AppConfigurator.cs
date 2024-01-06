@@ -1,3 +1,5 @@
+using System.Text;
+
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Shared.Database.EfCore;
@@ -37,6 +39,13 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
         return this;
     }
 
+    public IAppConfigurator UseErrorHandler()
+    {
+        app.UseExceptionHandler();
+
+        return this;
+    }
+
     public IAppConfigurator CreateEndpoints()
     {
         app.MapModulesEndpoints();
@@ -56,12 +65,17 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
                     (IUserContextAccessor)httpContext.RequestServices.GetService(typeof(IUserContextAccessor))!;
 
                 IUserContext? userContext = userContextAccessor.Get();
-                httpContext.Response.WriteAsJsonAsync($"Hello {userContext?.Username}, I'm Expenso API.");
+
+                httpContext.Response.WriteAsJsonAsync(new StringBuilder()
+                    .Append("Hello ")
+                    .Append(userContext?.Username)
+                    .Append(", I'm Expenso API.")
+                    .ToString());
             })
             .WithName("HelloUser")
             .WithOpenApi()
             .RequireAuthorization();
-
+        
         return this;
     }
 

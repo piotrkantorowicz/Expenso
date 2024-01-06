@@ -16,6 +16,7 @@ internal abstract class PreferenceServiceTestBase : TestBase<IPreferencesService
     protected Mock<IUserContext> _userContextMock = null!;
     protected Preference _preference = null!;
     protected Guid _userId = Guid.NewGuid();
+    protected Guid _preferenceId = Guid.NewGuid();
 
     [SetUp]
     public void SetUp()

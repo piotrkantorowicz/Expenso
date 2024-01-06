@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 using Expenso.Api.Configuration.Auth.Users.UserContext;
 using Expenso.Api.Configuration.Builders.Interfaces;
-using Expenso.Api.Configuration.Filters;
+using Expenso.Api.Configuration.Errors;
 using Expenso.IAM.Api;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Configuration.Sections;
@@ -59,13 +59,11 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureMvc()
     {
-        _services.AddControllers(options =>
-        {
-            options.Filters.Add<ApiExceptionFilterAttribute>();
-        });
-
+        _services.AddMvcCore();
         _services.AddEndpointsApiExplorer();
-
+        _services.AddExceptionHandler<GlobalExceptionHandler>();
+        _services.AddProblemDetails();
+        
         return this;
     }
 

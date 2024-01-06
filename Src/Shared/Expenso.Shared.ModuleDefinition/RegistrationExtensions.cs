@@ -41,7 +41,7 @@ public static class Modules
                 switch (endpoint.AccessControl)
                 {
                     case AccessControl.User:
-                        routeHandlerBuilder.RequireAuthorization();
+                        //routeHandlerBuilder.RequireAuthorization();
 
                         break;
                     case AccessControl.Anonymous:
