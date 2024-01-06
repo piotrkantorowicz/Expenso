@@ -3,6 +3,7 @@ on:
   pull_request:
     branches: [ main ]
     types: [ opened, synchronize, reopened ]
+  workflow_call:
 env:
   DOTNET_VERSION: "8.0.x"
 
@@ -14,13 +15,16 @@ permissions:
 jobs:
   sanity:
     uses: ./.github/workflows/sanity.yml
-  
+
+  audit:
+    uses: ./.github/workflows/audit.yml
+
   build-and-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         dotnet-version: [ "8.0.x" ]
-    
+
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
@@ -62,6 +66,6 @@ jobs:
         if: success() || failure()
         with:
           name: test-results (${{ env.DOTNET_VERSION }})
-          path: 'TestResults/*.trx'
+          path: "TestResults/*.trx"
           reporter: dotnet-trx
-          list-tests: 'failed'
+          list-tests: "failed"

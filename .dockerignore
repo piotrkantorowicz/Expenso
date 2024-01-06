@@ -1,0 +1,14 @@
+.github/
+.idea/
+.Docs/
+.editorconfig
+.gitignore
+.dockerignore
+**/obj/
+**/bin/
+Dockerfile
+Expenso.sln.DotSettings
+Expenso.sln.DotSettings.user
+LICENSE
+README.md
+tests.runsettings
