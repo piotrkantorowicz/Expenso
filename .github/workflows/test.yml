@@ -9,8 +9,10 @@ env:
 
 permissions:
   contents: read
+  actions: read
   id-token: write
   checks: write
+  security-events: write
 
 jobs:
   sanity:
