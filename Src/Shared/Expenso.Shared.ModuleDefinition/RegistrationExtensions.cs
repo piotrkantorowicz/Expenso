@@ -1,6 +1,9 @@
-﻿using Expenso.Shared.ModuleDefinition.Extensions;
+﻿using System.Text;
+
+using Expenso.Shared.ModuleDefinition.Extensions;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,13 +28,16 @@ public static class Modules
         }
     }
 
-    public static void MapModulesEndpoints(this IEndpointRouteBuilder endpointRouteBuilder)
+    public static void MapModulesEndpoints(this IEndpointRouteBuilder endpointRouteBuilder, string rootTag)
     {
         foreach (ModuleDefinition module in RegisteredModules.Values)
         {
             foreach (EndpointRegistration endpoint in module.CreateEndpoints())
             {
-                string endpointRoute = module.GetModulePrefixSanitized() + endpoint.WithLeadingSlash().Pattern;
+                string endpointRoute = new StringBuilder()
+                    .Append(module.GetModulePrefixSanitized())
+                    .Append(endpoint.WithLeadingSlash().Pattern)
+                    .ToString();
 
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(endpointRoute, new[]
                 {
@@ -53,6 +59,8 @@ public static class Modules
                 }
 
                 routeHandlerBuilder.WithName(endpoint.Name);
+                string tag = new StringBuilder().Append(rootTag).Append('.').Append(module.ModuleName).ToString();
+                routeHandlerBuilder.WithOpenApi().WithTags(tag);
             }
         }
     }

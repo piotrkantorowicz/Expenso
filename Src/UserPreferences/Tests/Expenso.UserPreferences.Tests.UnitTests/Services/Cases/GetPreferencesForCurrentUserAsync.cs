@@ -41,7 +41,8 @@ internal sealed class GetPreferencesForCurrentUserAsync : PreferenceServiceTestB
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetPreferencesForCurrentUserAsync(default));
 
-        exception?.Message.Should().Be(new StringBuilder().Append("Preferences for user not found.").ToString());
+        string expectedExceptionMessage = new StringBuilder().Append("Preferences for user not found.").ToString();
+        exception?.Message.Should().Be(expectedExceptionMessage);
         _preferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(Guid.Empty, false, default), Times.Once);
     }
 }

@@ -15,11 +15,13 @@ internal sealed class GetPreferences : PreferencesTestBase
         PreferenceContract? preference = PreferencesDataProvider.Preferences?[4];
         _httpClient.SetFakeBearerToken(_claims);
 
-        // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(new StringBuilder()
+        string request = new StringBuilder()
             .Append("user-preferences/preferences/")
             .Append(preference?.PreferencesId)
-            .ToString());
+            .ToString();
+
+        // Act
+        HttpResponseMessage testResult = await _httpClient.GetAsync(request);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -33,11 +35,13 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         PreferenceContract? preference = PreferencesDataProvider.Preferences?[4];
 
-        // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(new StringBuilder()
+        string request = new StringBuilder()
             .Append("user-preferences/preferences/")
             .Append(preference?.PreferencesId)
-            .ToString());
+            .ToString();
+
+        // Act
+        HttpResponseMessage testResult = await _httpClient.GetAsync(request);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

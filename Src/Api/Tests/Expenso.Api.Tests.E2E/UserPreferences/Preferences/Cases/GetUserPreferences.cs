@@ -15,12 +15,10 @@ internal sealed class GetUserPreferences : PreferencesTestBase
         Guid userId = UsersDataProvider.UserIds[2];
         PreferenceContract? preference = PreferencesDataProvider.Preferences?[2];
         _httpClient.SetFakeBearerToken(_claims);
-
+        string request = new StringBuilder().Append("user-preferences/preferences?userId=").Append(userId).ToString();
+        
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(new StringBuilder()
-            .Append("user-preferences/preferences?userId=")
-            .Append(userId)
-            .ToString());
+        HttpResponseMessage testResult = await _httpClient.GetAsync(request);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -32,11 +30,13 @@ internal sealed class GetUserPreferences : PreferencesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(new StringBuilder()
+        string request = new StringBuilder()
             .Append("user-preferences/preferences?userId=")
             .Append(UsersDataProvider.UserIds[0])
-            .ToString());
+            .ToString();
+
+        // Act
+        HttpResponseMessage testResult = await _httpClient.GetAsync(request);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
