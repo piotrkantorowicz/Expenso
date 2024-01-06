@@ -20,7 +20,9 @@ jobs:
 
   audit:
     uses: ./.github/workflows/audit.yml
-
+    with:
+      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+  
   build-and-tests:
     runs-on: ubuntu-latest
     strategy:
