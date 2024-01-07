@@ -36,11 +36,24 @@ jobs:
   #     token: ${{ secrets.GITHUB_TOKEN }}
   #   needs: [trivy, code-ql]
 
+  # bump-version:
+  #   uses: ./.github/workflows/reusable_bump-version.yml
+  #   secrets:
+  #     token: ${{ secrets.GITHUB_TOKEN }}
+  # needs: test
+
   bump-version:
-    uses: ./.github/workflows/reusable_bump-version.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-    # needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: bump version
+        id: bump_version
+        uses: ./.github/workflows/reusable_bump-version.yml
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print new tag
+        run: echo "The new tag is ${{ steps.bump_version.outputs.new_tag }}"
+    outputs:
+      new_tag: ${{ steps.bump_version.outputs.new_tag }}
 
   another-job:
     needs: bump-version
