@@ -2,7 +2,7 @@ name: build and push docker image
 on:
   workflow_call:
     inputs:
-      tag:
+      new_tag:
         description: "The tag to use for the docker image"
         required: true
         type: string
@@ -60,5 +60,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ inputs.app_version }}
+          tags: ${{ inputs.new_tag }}
           labels: ${{ steps.meta.outputs.labels }}

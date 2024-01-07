@@ -9,8 +9,6 @@ on:
 jobs:
   bump-version:
     runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.tag_version.outputs.new_tag }}
 
     steps:
       - name: Checkout the repository
@@ -25,3 +23,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_sha: ${{ github.sha }}
+
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
