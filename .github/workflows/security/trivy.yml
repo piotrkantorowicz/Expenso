@@ -1,4 +1,4 @@
-name: code-ql
+name: trivy
 on:
   workflow_call:
     secrets:

@@ -1,16 +1,23 @@
-name: audit
+name: test
 on:
-  schedule:
-    - cron: "0 10 * * *"
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+  workflow_call:
 env:
   DOTNET_VERSION: "8.0.x"
 
 permissions:
-  actions: read
   contents: read
+  actions: read
+  id-token: write
+  checks: write
   security-events: write
 
 jobs:
+  sanity:
+    uses: ./.github/workflows/sanity/sanity.yml
+
   code-ql:
     uses: ./.github/workflows/security/code-ql.yml
     secrets:
@@ -18,5 +25,10 @@ jobs:
 
   trivy:
     uses: ./.github/workflows/security/trivy.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    uses: ./.github/workflows/app/test.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
