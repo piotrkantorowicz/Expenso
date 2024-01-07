@@ -2,10 +2,6 @@ name: audit
 on:
   schedule:
     - cron: "0 10 * * *"
-  workflow_call:
-    secrets:
-      token:
-        required: true
 env:
   DOTNET_VERSION: "8.0.x"
 
@@ -15,51 +11,12 @@ permissions:
   security-events: write
 
 jobs:
-  analyze:
-    name: Analyze
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ "8.0.x" ]
+  code-ql:
+    uses: ./.github/workflows/code-ql.yml
+    secrets:
+      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
 
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.token }}
-
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: "csharp"
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-          source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.token}}
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+  trivy:
+    uses: ./.github/workflows/trivy.yml
+    secrets:
+      token: ${{ secrets.ACTION_GITHUB_TOKEN }}

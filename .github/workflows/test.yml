@@ -18,8 +18,13 @@ jobs:
   sanity:
     uses: ./.github/workflows/sanity.yml
 
-  audit:
-    uses: ./.github/workflows/audit.yml
+  code-ql:
+    uses: ./.github/workflows/code-ql.yml
+    secrets:
+      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+
+  trivy:
+    uses: ./.github/workflows/trivy.yml
     secrets:
       token: ${{ secrets.ACTION_GITHUB_TOKEN }}
   
