@@ -1,0 +1,34 @@
+name: test
+on:
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened ]
+  workflow_call:
+env:
+  DOTNET_VERSION: "8.0.x"
+
+permissions:
+  contents: read
+  actions: read
+  id-token: write
+  checks: write
+  security-events: write
+
+jobs:
+  sanity:
+    uses: ./.github/workflows/reusable_sanity.yml
+
+  code-ql:
+    uses: ./.github/workflows/reusable_code-ql.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+  trivy:
+    uses: ./.github/workflows/reusable_trivy.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    uses: ./.github/workflows/reusable_test.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}

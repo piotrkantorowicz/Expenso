@@ -47,11 +47,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.ArchTests", "Src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF64440-1E3C-4AB3-9A4F-4A458235610F}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\audit.yml = .github\workflows\audit.yml
-		.github\workflows\test.yml = .github\workflows\test.yml
-		.github\workflows\sanity.yml = .github\workflows\sanity.yml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{59FB7D8C-374D-45B9-A17E-446B92720E07}"
 EndProject
@@ -78,6 +73,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.IntegrationEvents", "Src\Shared\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj", "{FAD04A57-A5F8-4CD8-B90D-322D47DA3971}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.MessageBroker", "Src\Shared\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj", "{A258A992-25E6-46C9-ACD5-20CCBD78CD2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{267622D5-1946-41A6-8BA6-79B05B40782A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\audit.yml = .github\workflows\audit.yml
+		.github\workflows\pull-request.yml = .github\workflows\pull-request.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -226,5 +227,6 @@ Global
 		{5AE2F529-4BC5-4A09-81A9-6E663A93ADC8} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
 		{FAD04A57-A5F8-4CD8-B90D-322D47DA3971} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
 		{A258A992-25E6-46C9-ACD5-20CCBD78CD2C} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
+		{267622D5-1946-41A6-8BA6-79B05B40782A} = {5BF64440-1E3C-4AB3-9A4F-4A458235610F}
 	EndGlobalSection
 EndGlobal

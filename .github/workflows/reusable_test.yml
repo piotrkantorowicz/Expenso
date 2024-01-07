@@ -1,31 +1,24 @@
 name: test
 on:
-  pull_request:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened ]
+  workflow_call:
+    secrets:
+      token:
+        required: true
 env:
   DOTNET_VERSION: "8.0.x"
 
-permissions:
-  contents: read
-  id-token: write
-  checks: write
-
 jobs:
-  sanity:
-    uses: ./.github/workflows/sanity.yml
-  
-  build-and-tests:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ "8.0.x" ]
-    
+        dotnet-version: ["8.0.x"]
+
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          token: ${{ secrets.token }}
           fetch-depth: 0
 
       - name: Setup .NET
@@ -34,7 +27,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
+          NUGET_AUTH_TOKEN: ${{secrets.token}}
 
       - name: Restore
         run: dotnet restore
@@ -62,6 +55,6 @@ jobs:
         if: success() || failure()
         with:
           name: test-results (${{ env.DOTNET_VERSION }})
-          path: 'TestResults/*.trx'
+          path: "TestResults/*.trx"
           reporter: dotnet-trx
-          list-tests: 'failed'
+          list-tests: "failed"
