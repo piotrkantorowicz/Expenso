@@ -14,9 +14,9 @@ jobs:
   code-ql:
     uses: ./.github/workflows/code-ql.yml
     secrets:
-      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     uses: ./.github/workflows/trivy.yml
     secrets:
-      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}

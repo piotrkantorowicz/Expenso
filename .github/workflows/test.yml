@@ -21,13 +21,13 @@ jobs:
   code-ql:
     uses: ./.github/workflows/code-ql.yml
     secrets:
-      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     uses: ./.github/workflows/trivy.yml
     secrets:
-      token: ${{ secrets.ACTION_GITHUB_TOKEN }}
-  
+      token: ${{ secrets.GITHUB_TOKEN }}
+
   build-and-tests:
     runs-on: ubuntu-latest
     strategy:
@@ -38,7 +38,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Setup .NET
@@ -47,7 +47,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.ACTION_GITHUB_TOKEN}}
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Restore
         run: dotnet restore
