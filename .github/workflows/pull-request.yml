@@ -32,3 +32,8 @@ jobs:
     uses: ./.github/workflows/reusable_test.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+
+  bump-version:
+    uses: ./.github/workflows/reusable_bump-version.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}

@@ -3,12 +3,14 @@ on:
   workflow_call:
     secrets:
       token:
+        description: "The GitHub token to use for authentication"
         required: true
 env:
   DOTNET_VERSION: "8.0.x"
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
