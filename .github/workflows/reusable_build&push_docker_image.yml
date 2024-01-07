@@ -2,8 +2,8 @@ name: build and push docker image
 on:
   workflow_call:
     inputs:
-      app_version:
-        description: "The version of the app to bump"
+      tag:
+        description: "The tag to use for the docker image"
         required: true
         type: string
     secrets:

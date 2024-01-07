@@ -10,7 +10,7 @@ jobs:
   bump-version:
     runs-on: ubuntu-latest
     outputs:
-      app_version: ${{ steps.tag_version.outputs.new_tag }}
+      tag: ${{ steps.tag_version.outputs.new_tag }}
 
     steps:
       - name: Checkout the repository

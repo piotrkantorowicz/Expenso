@@ -45,7 +45,7 @@ jobs:
   buid-push-docker-image:
     uses: ./.github/workflows/reusable_build&push_docker_image.yml
     with:
-      app_version: ${{ needs.bump-version.outputs.new_version }}
+      tag: ${{ needs.bump-version.outputs }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_hub_username: ${{ secrets.DOCKER_USERNAME }}
