@@ -1,0 +1,64 @@
+name: build and push docker image
+on:
+  workflow_call:
+    inputs:
+      app_version:
+        description: "The version of the app to bump"
+        required: true
+        type: string
+    secrets:
+      token:
+        description: "The GitHub token to use for authentication"
+        required: true
+      docker_hub_username:
+        description: "The Docker Hub username to use for login"
+        required: true
+      docker_hub_token:
+        description: "The Docker Hub token to use for login"
+        required: true
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.token }}
+          fetch-depth: 0
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5.5.0
+        with:
+          images: |
+            ${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.docker_hub_username }}
+          password: ${{ secrets.docker_hub_token }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.1.0
+        with:
+          context: .
+          push: true
+          tags: ${{ inputs.app_version }}
+          labels: ${{ steps.meta.outputs.labels }}

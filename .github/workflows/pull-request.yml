@@ -22,18 +22,32 @@ jobs:
     uses: ./.github/workflows/reusable_code-ql.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+    needs: sanity
 
   trivy:
     uses: ./.github/workflows/reusable_trivy.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+    needs: sanity
 
   test:
     uses: ./.github/workflows/reusable_test.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+    needs: [ trivy, code-ql ]
 
   bump-version:
     uses: ./.github/workflows/reusable_bump-version.yml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+    needs: test
+
+  buid-push-docker-image:
+    uses: ./.github/workflows/reusable_build&push_docker_image.yml
+    with:
+      app_version: ${{ needs.bump-version.outputs.new_version }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      docker_hub_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_hub_token: ${{ secrets.DOCKER_PASSWORD }}
+    needs: bump-version
