@@ -10,7 +10,8 @@ jobs:
   bump-version:
     runs-on: ubuntu-latest
     outputs:
-      app_version: ${{ steps.semantic.outputs.version }}
+      # app_version: ${{ steps.semantic.outputs.version }}
+      app_version: ${{ steps.tag_version.outputs.new_tag }}
 
     steps:
       - name: Checkout the repository
@@ -19,15 +20,22 @@ jobs:
           token: ${{ secrets.token }}
           fetch-depth: 0
 
-      - name: Semantic version
-        uses: paulhatch/semantic-version@v5.3.0
-        id: semantic
+      # - name: Semantic version
+      #   uses: paulhatch/semantic-version@v5.3.0
+      #   id: semantic
 
-      - name: Tag commit
-        uses: pkgdeps/git-tag-action@v2.0.6
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
         with:
-          version: ${{ steps.semantic.outputs.version }}
-          github_token: ${{ secrets.token }}
-          github_repo: ${{ github.repository }}
-          git_commit_sha: ${{ github.sha }}
-          git_tag_prefix: "v"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_sha: ${{ github.sha }}
+
+      # - name: Tag commit
+      #   uses: pkgdeps/git-tag-action@v2.0.6
+      #   with:
+      #     version: ${{ steps.semantic.outputs.version }}
+      #     github_token: ${{ secrets.token }}
+      #     github_repo: ${{ github.repository }}
+      #     git_commit_sha: ${{ github.sha }}
+      #     git_tag_prefix: "v"
