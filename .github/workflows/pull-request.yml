@@ -8,8 +8,8 @@ env:
   DOTNET_VERSION: "8.0.x"
 
 permissions:
-  contents: read
   actions: read
+  contents: write
   id-token: write
   checks: write
   security-events: write
