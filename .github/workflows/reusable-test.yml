@@ -26,7 +26,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.token}}
+          NUGET_AUTH_TOKEN: ${{ secrets.token }}
 
       - name: Restore
         run: dotnet restore

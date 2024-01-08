@@ -13,34 +13,23 @@ permissions:
   security-events: write
 
 jobs:
-  # sanity:
-  #   uses: ./.github/workflows/reusable-sanity.yml
+  sanity:
+    uses: ./.github/workflows/reusable-sanity.yml
 
-  # code-ql:
-  #   uses: ./.github/workflows/reusable-code-ql.yml
-  #   needs: sanity
-  #   secrets:
-  #     token: ${{ secrets.GITHUB_TOKEN }}
-
-  # trivy:
-  #   uses: ./.github/workflows/reusable-trivy.yml
-  #   needs: sanity
-  #   secrets:
-  #     token: ${{ secrets.GITHUB_TOKEN }}
-
-  # test:
-  #   uses: ./.github/workflows/reusable-test.yml
-  #   needs: [trivy, code-ql]
-  #   secrets:
-  #     token: ${{ secrets.GITHUB_TOKEN }}
-
-  buid-and-push-docker-image-to-ghcr:
-    # needs: test
-    uses: ./.github/workflows/reusable-build&push_docker_image.yml
-    with:
-      registry: ghcr.io
-      image: ghcr.io/${{ github.actor }}/expenso
+  code-ql:
+    uses: ./.github/workflows/reusable-code-ql.yml
+    needs: sanity
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
-      registry_username: ${{ github.actor }}
-      registry_password: ${{ secrets.GITHUB_TOKEN }}
+
+  trivy:
+    uses: ./.github/workflows/reusable-trivy.yml
+    needs: sanity
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    uses: ./.github/workflows/reusable-test.yml
+    needs: [ trivy, code-ql ]
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
