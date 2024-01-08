@@ -9,6 +9,7 @@ env:
 
 permissions:
   actions: read
+  packages: write
   contents: write
   id-token: write
   checks: write
