@@ -30,25 +30,16 @@ jobs:
 
   # test:
   #   uses: ./.github/workflows/reusable-test.yml
-  #   needs: [ trivy, code-ql ]
+  #   needs: [trivy, code-ql]
   #   secrets:
   #     token: ${{ secrets.GITHUB_TOKEN }}
-
-  print-context:
-    runs-on: ubuntu-latest
-    name: Dump GitHub context
-    env:
-      GITHUB_CONTEXT: ${{ toJson(github) }}
-    steps:
-      - name: Dump GitHub context
-        run: echo "$GITHUB_CONTEXT"
 
   buid-and-push-docker-image-to-ghcr:
     # needs: test
     uses: ./.github/workflows/reusable-build&push_docker_image.yml
     with:
       registry: ghcr.io
-      image: ghcr.io/pkantorowicz/expenso
+      image: ghcr.io/${{ github.actor }}/expenso
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       registry_username: ${{ github.actor }}
