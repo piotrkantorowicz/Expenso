@@ -18,50 +18,41 @@ jobs:
   sanity:
     uses: ./.github/workflows/reusable_sanity.yml
 
-  # code-ql:
-  #   uses: ./.github/workflows/reusable_code-ql.yml
-  #   needs: sanity
-  #   secrets:
-  #     token: ${{ secrets.GITHUB_TOKEN }}
+  code-ql:
+    uses: ./.github/workflows/reusable_code-ql.yml
+    needs: sanity
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
 
-  # trivy:
-  #   uses: ./.github/workflows/reusable_trivy.yml
-  #   needs: sanity
-  #   secrets:
-  #     token: ${{ secrets.GITHUB_TOKEN }}
+  trivy:
+    uses: ./.github/workflows/reusable_trivy.yml
+    needs: sanity
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
 
-  # test:
-  #   uses: ./.github/workflows/reusable_test.yml
-  #   needs: [trivy, code-ql]
-  #   secrets:
-  #     token: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    uses: ./.github/workflows/reusable_test.yml
+    needs: [ trivy, code-ql ]
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
 
   bump-version:
     runs-on: ubuntu-latest
-    # needs: test
-
+    needs: test
+    outputs:
+      new_tag: ${{ steps.bump.outputs.new_tag }}
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v4
+      - name: Bump version
+        id: bump
+        uses: ./.github/workflows/reusable_bump_version.yml
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
-
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_sha: ${{ github.sha }}
-
-    outputs:
-      new_tag: ${{ steps.tag_version.outputs.new_tag }}
 
   print-tag:
     runs-on: ubuntu-latest
     needs: bump-version
     steps:
-      - name: Use new tag
+      - name: Print new tag
         run: echo "The new tag is ${{ needs.bump-version.outputs.new_tag }}"
 
   buid-push-docker-image:
