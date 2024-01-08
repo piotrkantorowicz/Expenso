@@ -39,7 +39,9 @@ jobs:
     name: Dump GitHub context
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+    steps:
+      - name: Dump GitHub context
+        run: echo "$GITHUB_CONTEXT"
 
   buid-and-push-docker-image-to-ghcr:
     # needs: test
