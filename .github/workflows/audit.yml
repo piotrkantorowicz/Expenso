@@ -2,8 +2,6 @@ name: audit
 on:
   schedule:
     - cron: "0 10 * * *"
-env:
-  DOTNET_VERSION: "8.0.x"
 
 permissions:
   actions: read

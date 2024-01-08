@@ -2,22 +2,24 @@ name: build and push docker image
 on:
   workflow_call:
     inputs:
-      new_tag:
-        description: "The tag to use for the docker image"
+      registry:
+        description: "The docker registry"
+        required: true
+        type: string
+      image:
+        description: "The docker image name"
         required: true
         type: string
     secrets:
       token:
         description: "The GitHub token to use for authentication"
         required: true
-      docker_hub_username:
-        description: "The Docker Hub username to use for login"
+      registry_username:
+        description: "The username to use for the login to the docker registry"
         required: true
-      docker_hub_token:
-        description: "The Docker Hub token to use for login"
+      registry_password:
+        description: "The password to use for the login to the docker registry"
         required: true
-env:
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push-docker-image:
@@ -31,12 +33,12 @@ jobs:
           token: ${{ secrets.token }}
           fetch-depth: 0
 
-      - name: Log in to the Container registry
+      - name: Log in to the GH container registry
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ inputs.registry }}
+          username: ${{ secrets.registry_username }}
+          password: ${{ secrets.registry_password }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -48,8 +50,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5.5.0
         with:
-          images: 
-            ghcr.io/${{ github.repository }}
+          images: ${{ inputs.image }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
