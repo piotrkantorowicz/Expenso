@@ -34,7 +34,7 @@ jobs:
       token: ${{ secrets.GITHUB_TOKEN }}
 
   buid-and-push-docker-image-to-ghcr:
-    # needs: test
+    needs: test
     uses: ./.github/workflows/reusable-build&push_docker_image.yml
     with:
       registry: ghcr.io
