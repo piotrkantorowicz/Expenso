@@ -61,5 +61,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ inputs.new_tag }}
+          tags: ${{ env.IMAGE_NAME }}:${{ inputs.new_tag }}
           labels: ${{ steps.meta.outputs.labels }}
