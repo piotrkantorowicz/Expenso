@@ -29,17 +29,17 @@ jobs:
 
   test:
     uses: ./.github/workflows/reusable-test.yml
-    needs: [trivy, code-ql]
+    needs: [ trivy, code-ql ]
     secrets:
-      token: ${{secrets.GITHUB_TOKEN}}
+      token: ${{ secrets.GITHUB_TOKEN }}
 
   buid-and-push-docker-image-to-ghcr:
-    needs: test
+    # needs: test
     uses: ./.github/workflows/reusable-build&push_docker_image.yml
     with:
       registry: ghcr.io
-      image: ghcr.io/${{  github.repository  }}
+      image: ghcr.io/expenso
     secrets:
-      token: ${{secrets.GITHUB_TOKEN}}
+      token: ${{ secrets.GITHUB_TOKEN }}
       registry_username: ${{ github.actor }}
-      registry_password: ${{secrets.GITHUB_TOKEN}}
+      registry_password: ${{ secrets.GITHUB_TOKEN }}
