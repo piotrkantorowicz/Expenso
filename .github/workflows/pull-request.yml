@@ -49,7 +49,7 @@ jobs:
           fetch-depth: 0
       - name: Bump version
         id: bump
-        uses: './.github/workflows/reusable-bump-version.yml'
+        uses: ./.github/actions/reusable-bump-version.yml
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
