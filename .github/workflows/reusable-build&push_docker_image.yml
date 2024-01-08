@@ -20,7 +20,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  test:
+  build-and-push-docker-image:
+    name: Build and push Docker image
     runs-on: ubuntu-latest
 
     steps:

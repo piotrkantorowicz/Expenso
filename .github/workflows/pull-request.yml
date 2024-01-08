@@ -16,22 +16,22 @@ permissions:
 
 jobs:
   sanity:
-    uses: ./.github/workflows/reusable_sanity.yml
+    uses: ./.github/workflows/reusable-sanity.yml
 
   code-ql:
-    uses: ./.github/workflows/reusable_code-ql.yml
+    uses: ./.github/workflows/reusable-code-ql.yml
     needs: sanity
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
-    uses: ./.github/workflows/reusable_trivy.yml
+    uses: ./.github/workflows/reusable-trivy.yml
     needs: sanity
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
 
   test:
-    uses: ./.github/workflows/reusable_test.yml
+    uses: ./.github/workflows/reusable-test.yml
     needs: [ trivy, code-ql ]
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Bump version
         id: bump
-        uses: ./.github/workflows/reusable_bump_version.yml
+        uses: ./.github/workflows/reusable-bump-version.yml
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -57,7 +57,7 @@ jobs:
 
   buid-push-docker-image:
     needs: bump-version
-    uses: ./.github/workflows/reusable_build&push_docker_image.yml
+    uses: ./.github/workflows/reusable-build&push_docker_image.yml
     with:
       new_tag: ${{ needs.bump-version.outputs.new_tag }}
     secrets:
