@@ -3,6 +3,7 @@ on:
   workflow_call:
     secrets:
       token:
+        description: "The GitHub token to use for authentication"
         required: true
 env:
   DOTNET_VERSION: "8.0.x"
@@ -16,9 +17,6 @@ jobs:
   analyze:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ "8.0.x" ]
 
     steps:
       - name: Checkout the repository
@@ -37,13 +35,13 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{secrets.token}}
+          NUGET_AUTH_TOKEN: ${{ secrets.token }}
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Src/Api/Expenso.Api/Expenso.Api.csproj
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build Src/Api/Expenso.Api/Expenso.Api.csproj --configuration Release --no-restore
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2

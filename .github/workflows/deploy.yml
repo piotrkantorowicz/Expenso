@@ -1,8 +1,7 @@
-name: pull-request
+name: deploy
 on:
-  pull_request:
-    branches: [ main ]
-    types: [ opened, synchronize, reopened ]
+  push:
+    branches: [main]
 
 permissions:
   actions: read
@@ -30,6 +29,17 @@ jobs:
 
   test:
     uses: ./.github/workflows/reusable-test.yml
-    needs: [ trivy, code-ql ]
+    needs: [trivy, code-ql]
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+
+  buid-and-push-docker-image-to-ghcr:
+    needs: test
+    uses: ./.github/workflows/reusable-build&push_docker_image.yml
+    with:
+      registry: ghcr.io
+      image: ghcr.io/${{ github.actor }}/expenso
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      registry_username: ${{ github.actor }}
+      registry_password: ${{ secrets.GITHUB_TOKEN }}

@@ -3,9 +3,8 @@ on:
   workflow_call:
     secrets:
       token:
+        description: "The GitHub token to use for authentication"
         required: true
-env:
-  DOTNET_VERSION: "8.0.x"
 
 permissions:
   actions: read
@@ -16,9 +15,6 @@ jobs:
   analyze:
     name: Trivy Analysis
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ "8.0.x" ]
 
     steps:
       - name: Checkout the repository

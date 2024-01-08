@@ -1,6 +1,5 @@
 name: sanity
 on:
-  workflow_dispatch:
   workflow_call:
 
 jobs:
