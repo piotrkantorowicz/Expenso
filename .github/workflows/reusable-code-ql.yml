@@ -1,5 +1,6 @@
 name: code-ql
 on:
+  workflow_dispatch:
   workflow_call:
     secrets:
       token:
