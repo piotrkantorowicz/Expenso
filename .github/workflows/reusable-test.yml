@@ -2,10 +2,6 @@ name: test
 on:
   workflow_dispatch:
   workflow_call:
-    secrets:
-      token:
-        description: "The GitHub token to use for authentication"
-        required: true
 env:
   DOTNET_VERSION: "8.0.x"
 
@@ -18,7 +14,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Setup .NET
@@ -27,7 +23,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.token }}
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore
         run: dotnet restore

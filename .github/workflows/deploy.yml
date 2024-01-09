@@ -1,7 +1,7 @@
 name: deploy
 on:
   push:
-    branches: [main,dev]
+    branches: [ main, dev ]
 
 permissions:
   actions: read
@@ -14,19 +14,13 @@ permissions:
 jobs:
   code-ql:
     uses: ./.github/workflows/reusable-code-ql.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     uses: ./.github/workflows/reusable-trivy.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   test:
     uses: ./.github/workflows/reusable-test.yml
-    needs: [trivy, code-ql]
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    needs: [ trivy, code-ql ]
 
   buid-and-push-docker-image-to-ghcr:
     needs: test
@@ -34,7 +28,3 @@ jobs:
     with:
       registry: ghcr.io
       image: ghcr.io/${{ github.actor }}/expenso
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-      registry_username: ${{ github.actor }}
-      registry_password: ${{ secrets.GITHUB_TOKEN }}
