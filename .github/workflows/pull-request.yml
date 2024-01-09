@@ -19,17 +19,11 @@ jobs:
   code-ql:
     uses: ./.github/workflows/reusable-code-ql.yml
     needs: sanity
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     uses: ./.github/workflows/reusable-trivy.yml
     needs: sanity
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   test:
     uses: ./.github/workflows/reusable-test.yml
     needs: [ trivy, code-ql ]
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}

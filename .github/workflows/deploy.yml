@@ -14,19 +14,13 @@ permissions:
 jobs:
   code-ql:
     uses: ./.github/workflows/reusable-code-ql.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   trivy:
     uses: ./.github/workflows/reusable-trivy.yml
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   test:
     uses: ./.github/workflows/reusable-test.yml
     needs: [trivy, code-ql]
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
   buid-and-push-docker-image-to-ghcr:
     needs: test
