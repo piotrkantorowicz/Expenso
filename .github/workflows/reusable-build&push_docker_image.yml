@@ -1,5 +1,6 @@
 name: build and push docker image
 on:
+  workflow_dispatch:
   workflow_call:
     inputs:
       registry:
