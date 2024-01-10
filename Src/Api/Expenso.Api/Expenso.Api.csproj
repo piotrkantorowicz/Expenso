@@ -34,4 +34,10 @@
         <InternalsVisibleTo Include="Expenso.Api.Tests.E2E"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="..\..\..\Dockerfile">
+            <Link>Dockerfile</Link>
+        </Content>
+    </ItemGroup>
+
 </Project>

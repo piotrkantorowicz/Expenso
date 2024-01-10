@@ -78,7 +78,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\audit.yml = .github\workflows\audit.yml
 		.github\workflows\pull-request.yml = .github\workflows\pull-request.yml
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BudgetSharing", "BudgetSharing", "{3893B48F-DD21-4168-BE31-B01BF54D0D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Core", "Src\BudgetSharing\Expenso.BudgetSharing.Core\Expenso.BudgetSharing.Core.csproj", "{86575C7E-51E4-405A-941C-25F5237867F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Api", "Src\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj", "{320EE729-C18B-4C32-82F8-CFBE12EBBC06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Proxy", "Src\BudgetSharing\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj", "{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{348FEC73-3B51-464D-9E0D-3E82A66D1455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Tests.ArchTests", "Src\BudgetSharing\Tests\Expenso.BudgetSharing.Tests.ArchTests\Expenso.BudgetSharing.Tests.ArchTests.csproj", "{68A44277-74EF-42C2-9274-402A4ED8713E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Tests.UnitTests", "Src\BudgetSharing\Tests\Expenso.BudgetSharing.Tests.UnitTests\Expenso.BudgetSharing.Tests.UnitTests.csproj", "{6B978114-9116-4778-B59B-F8B9156C9471}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -190,6 +205,26 @@ Global
 		{A258A992-25E6-46C9-ACD5-20CCBD78CD2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A258A992-25E6-46C9-ACD5-20CCBD78CD2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A258A992-25E6-46C9-ACD5-20CCBD78CD2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86575C7E-51E4-405A-941C-25F5237867F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86575C7E-51E4-405A-941C-25F5237867F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86575C7E-51E4-405A-941C-25F5237867F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86575C7E-51E4-405A-941C-25F5237867F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{320EE729-C18B-4C32-82F8-CFBE12EBBC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{320EE729-C18B-4C32-82F8-CFBE12EBBC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{320EE729-C18B-4C32-82F8-CFBE12EBBC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{320EE729-C18B-4C32-82F8-CFBE12EBBC06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A44277-74EF-42C2-9274-402A4ED8713E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A44277-74EF-42C2-9274-402A4ED8713E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A44277-74EF-42C2-9274-402A4ED8713E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A44277-74EF-42C2-9274-402A4ED8713E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B978114-9116-4778-B59B-F8B9156C9471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B978114-9116-4778-B59B-F8B9156C9471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B978114-9116-4778-B59B-F8B9156C9471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B978114-9116-4778-B59B-F8B9156C9471}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7282BA62-2026-4B42-8A11-581AB03F589C} = {F3AA041E-331E-4B9B-80E6-A984C496E476}
@@ -228,5 +263,12 @@ Global
 		{FAD04A57-A5F8-4CD8-B90D-322D47DA3971} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
 		{A258A992-25E6-46C9-ACD5-20CCBD78CD2C} = {CF5195DB-3FF6-4592-9C13-9520176C8E5F}
 		{267622D5-1946-41A6-8BA6-79B05B40782A} = {5BF64440-1E3C-4AB3-9A4F-4A458235610F}
+		{3893B48F-DD21-4168-BE31-B01BF54D0D7F} = {B1E958E3-FBD0-4068-BEF5-84103D0870AC}
+		{86575C7E-51E4-405A-941C-25F5237867F7} = {3893B48F-DD21-4168-BE31-B01BF54D0D7F}
+		{320EE729-C18B-4C32-82F8-CFBE12EBBC06} = {3893B48F-DD21-4168-BE31-B01BF54D0D7F}
+		{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A} = {3893B48F-DD21-4168-BE31-B01BF54D0D7F}
+		{348FEC73-3B51-464D-9E0D-3E82A66D1455} = {3893B48F-DD21-4168-BE31-B01BF54D0D7F}
+		{68A44277-74EF-42C2-9274-402A4ED8713E} = {348FEC73-3B51-464D-9E0D-3E82A66D1455}
+		{6B978114-9116-4778-B59B-F8B9156C9471} = {348FEC73-3B51-464D-9E0D-3E82A66D1455}
 	EndGlobalSection
 EndGlobal

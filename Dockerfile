@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine as builder
 WORKDIR /app
 COPY . .
-RUN dotnet restore && dotnet publish Src/Api/Expenso.Api/Expenso.Api.csproj -c Release -o out
+RUN dotnet restore Src/Api/Expenso.Api/Expenso.Api.csproj && dotnet publish Src/Api/Expenso.Api/Expenso.Api.csproj -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 WORKDIR /app
 COPY --from=builder /app/out .

@@ -1,12 +1,14 @@
 .github/
 .idea/
-.Docs/
+Docs/
+.dockerignore
 .editorconfig
 .gitignore
-.dockerignore
 **/obj/
 **/bin/
+**/Tests/
 Dockerfile
+Expenso.sln
 Expenso.sln.DotSettings
 Expenso.sln.DotSettings.user
 LICENSE

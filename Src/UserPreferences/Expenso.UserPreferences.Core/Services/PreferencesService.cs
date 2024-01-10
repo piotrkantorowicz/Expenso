@@ -31,12 +31,8 @@ internal sealed class PreferencesService(
 
     public async Task<PreferenceDto> GetPreferences(Guid preferenceId, CancellationToken cancellationToken)
     {
-        Preference? preference = await _preferencesRepository.GetByIdAsync(preferenceId, false, cancellationToken);
-
-        if (preference is null)
-        {
-            throw new NotFoundException($"Preferences with id {preferenceId} not found.");
-        }
+        Preference preference = await _preferencesRepository.GetByIdAsync(preferenceId, false, cancellationToken) ??
+                                throw new NotFoundException($"Preferences with id {preferenceId} not found.");
 
         return PreferenceMap.MapToDto(preference);
     }
@@ -50,14 +46,10 @@ internal sealed class PreferencesService(
 
     public async Task<PreferenceDto> GetPreferencesForUserAsync(Guid userId, CancellationToken cancellationToken)
     {
-        Preference? preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken);
-
-        if (preference is null)
-        {
-            throw new NotFoundException(userId == Guid.Empty
-                ? "Preferences for user not found."
-                : $"Preferences for user with id {userId} not found.");
-        }
+        Preference preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken) ??
+                                throw new NotFoundException(userId == Guid.Empty
+                                    ? "Preferences for user not found."
+                                    : $"Preferences for user with id {userId} not found.");
 
         return PreferenceMap.MapToDto(preference);
     }
@@ -65,12 +57,8 @@ internal sealed class PreferencesService(
     public async Task<PreferenceContract> GetPreferencesForUserInternalAsync(Guid userId,
         CancellationToken cancellationToken)
     {
-        Preference? preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken);
-
-        if (preference is null)
-        {
-            throw new NotFoundException($"Preferences for user with id {userId} not found.");
-        }
+        Preference preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken) ??
+                                throw new NotFoundException($"Preferences for user with id {userId} not found.");
 
         return PreferenceMap.MapToContract(preference);
     }
