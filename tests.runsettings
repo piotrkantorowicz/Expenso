@@ -14,6 +14,8 @@
                         [Expenso.IAM.Tests.UnitTests]*,
                         [Expenso.UserPreferences.Tests.ArchTests]*,
                         [Expenso.UserPreferences.Tests.UnitTests]*,
+                        [Expenso.BudgetSharing.Tests.ArchTests]*,
+                        [Expenso.BudgetSharing.Tests.UnitTests]*,
                         [Expenso.Api.Tests.ArchTests]*,
                         [Expenso.Api.Tests.E2E]*,
                         [Expenso.Api.Tests.UnitTests]*
