@@ -16,35 +16,21 @@ jobs:
   sanity:
     uses: ./.github/workflows/reusable-sanity.yml
 
-  # code-ql:
-  #   uses: ./.github/workflows/reusable-code-ql.yml
-  #   needs: sanity
-
-  # trivy:
-  #   uses: ./.github/workflows/reusable-trivy.yml
-  #   needs: sanity
-
   check_changes:
-    runs-on: ubuntu-latest
-    outputs:
-      src_changed: ${{ steps.changes.outputs.src_changed }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Check for source changes
-        id: changes
-        uses: dorny/paths-filter@v2.11.1
-        with:
-          filters: |
-            src_changed:
-              - 'Src/**'
-      - name: Print src_changed
-        run: |
-          echo "src_changed: ${{ steps.changes.outputs.src_changed }}"
+    uses: ./.github/workflows/reusable-check-changes.yml
+    with:
+      path: 'Src/**'
+    needs: sanity
 
-    # needs: [ trivy, code-ql ]
+  code-ql:
+    uses: ./.github/workflows/reusable-code-ql.yml
+    needs: check_changes
+
+  trivy:
+    uses: ./.github/workflows/reusable-trivy.yml
+    needs: check_changes
 
   test:
     uses: ./.github/workflows/reusable-test.yml
-    if: needs.check_changes.outputs.src_changed == 'true'
-    needs: check_changes
+    if: needs.check_changes.outputs.changed == 'true'
+    needs: [ trivy, code-ql ]
