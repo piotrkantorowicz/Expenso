@@ -17,6 +17,7 @@ jobs:
     uses: ./.github/workflows/reusable-sanity.yml
 
   check_changes:
+    name: Check for source changes
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.filter_changes.outputs.changed }}
@@ -26,7 +27,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-      - name: Check for source changes
+      - name: Filter changes
         id: filter_changes
         uses: dorny/paths-filter@v2.11.1
         with:
