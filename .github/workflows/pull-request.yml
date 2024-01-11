@@ -17,9 +17,24 @@ jobs:
     uses: ./.github/workflows/reusable-sanity.yml
 
   check_changes:
-    uses: ./.github/workflows/reusable-check-changes.yml
-    with:
-      path: 'Src/**'
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.filter_changes.outputs.changed }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Check for source changes
+        id: filter_changes
+        uses: dorny/paths-filter@v2.11.1
+        with:
+          filters: |
+            changed:
+              - 'Src/**'
+      - name: Print changed value
+        run: echo ${{ steps.filter_changes.outputs.changed }}
     needs: sanity
 
   code-ql:
