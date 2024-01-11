@@ -24,6 +24,6 @@ jobs:
         with:
           filters: |
             changed:
-              - {{ inputs.path }}
+              - ${{ inputs.path }}
       - name: Print changed value
         run: echo ${{ steps.filter_changes.outputs.changed }}
