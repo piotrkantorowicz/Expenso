@@ -16,13 +16,21 @@ jobs:
   sanity:
     uses: ./.github/workflows/reusable-sanity.yml
 
+  check_changes:
+    uses: ./.github/workflows/reusable-check-changes.yml
+    with:
+      path: 'Src/**'
+    needs: sanity
+
   code-ql:
     uses: ./.github/workflows/reusable-code-ql.yml
-    needs: sanity
+    if: needs.check_changes.outputs.changed == 'true'
+    needs: check_changes
 
   trivy:
     uses: ./.github/workflows/reusable-trivy.yml
-    needs: sanity
+    if: needs.check_changes.outputs.changed == 'true'
+    needs: check_changes
 
   test:
     uses: ./.github/workflows/reusable-test.yml
