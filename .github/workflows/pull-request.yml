@@ -3,6 +3,8 @@ on:
   pull_request:
     branches: [ main, dev ]
     types: [ opened, synchronize, reopened ]
+    paths:
+      - Src/**
 
 permissions:
   actions: read
