@@ -24,13 +24,14 @@ jobs:
 
   code-ql:
     uses: ./.github/workflows/reusable-code-ql.yml
+    if: needs.check_changes.outputs.changed == 'true'
     needs: check_changes
 
   trivy:
     uses: ./.github/workflows/reusable-trivy.yml
+    if: needs.check_changes.outputs.changed == 'true'
     needs: check_changes
 
   test:
     uses: ./.github/workflows/reusable-test.yml
-    if: needs.check_changes.outputs.changed == 'true'
     needs: [ trivy, code-ql ]
