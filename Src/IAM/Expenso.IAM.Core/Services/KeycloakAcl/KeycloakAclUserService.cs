@@ -8,9 +8,9 @@ using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
-namespace Expenso.IAM.Core.Services;
+namespace Expenso.IAM.Core.Services.KeycloakAcl;
 
-internal sealed class UserService(
+internal sealed class KeycloakAclUserService(
     IKeycloakUserClient keycloakUserClient,
     KeycloakProtectionClientOptions keycloakProtectionClientOptions) : IUserService
 {
@@ -71,7 +71,7 @@ internal sealed class UserService(
             throw new NotFoundException($"User with email {email} not found.");
         }
 
-        UserContract? userContract = UserMap.MapToContract(user);
+        UserContract userContract = UserMap.MapToContract(user);
 
         return userContract;
     }

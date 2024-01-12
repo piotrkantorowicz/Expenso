@@ -54,7 +54,8 @@ public static class Modules
                     case AccessControl.Unknown:
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(endpoint.AccessControl), endpoint.AccessControl,
+                        throw new ArgumentOutOfRangeException(endpoint.AccessControl.GetType().Name,
+                            endpoint.AccessControl,
                             "Unknown access control type.");
                 }
 

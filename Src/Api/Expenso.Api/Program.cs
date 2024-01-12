@@ -7,7 +7,7 @@ appBuilder
     .ConfigureModules()
     .ConfigureMvc()
     .ConfigureSerializationOptions()
-    .ConfigureKeycloak()
+    .ConfigureAuthorization()
     .ConfigureMessageBroker()
     .ConfigureSwagger()
     .Build()
