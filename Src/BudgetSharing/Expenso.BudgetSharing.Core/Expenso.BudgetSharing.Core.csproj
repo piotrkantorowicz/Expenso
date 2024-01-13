@@ -7,6 +7,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
+        <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>
     </ItemGroup>
 
@@ -14,6 +29,17 @@
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Data\Ef\Configurations\"/>
+        <Folder Include="Data\Ef\Repositories\"/>
+        <Folder Include="DTO\"/>
+        <Folder Include="Mappings\"/>
+        <Folder Include="Proxy\"/>
+        <Folder Include="Repositories\"/>
+        <Folder Include="Services\"/>
+        <Folder Include="Validators\"/>
     </ItemGroup>
 
 </Project>
