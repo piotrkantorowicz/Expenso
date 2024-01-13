@@ -1,3 +1,5 @@
+using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -5,7 +7,7 @@ namespace Expenso.Shared.Database.EfCore.NpSql.Migrations;
 
 internal sealed class DbMigrator : IDbMigrator
 {
-    public void EnsureDatabaseCreated(IServiceScope scope)
+    public async Task EnsureDatabaseCreatedAsync(IServiceScope scope)
     {
         List<Type> dbContexts = AppDomain
             .CurrentDomain.GetAssemblies()
@@ -20,7 +22,10 @@ internal sealed class DbMigrator : IDbMigrator
 
         foreach (Type context in dbContextThatShouldMigrate)
         {
-            (scope.ServiceProvider.GetService(context) as DbContext)?.Database.Migrate();
+            if (scope.ServiceProvider.GetService(context) is IDbContext dbContext)
+            {
+                await dbContext.MigrateAsync();
+            }
         }
     }
 }

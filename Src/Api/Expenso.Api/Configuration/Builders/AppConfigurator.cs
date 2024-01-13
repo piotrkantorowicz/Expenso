@@ -97,7 +97,8 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
             }
 
             IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
-            dbMigrator.EnsureDatabaseCreated(scope);
+            var runMigrationsTask = dbMigrator.EnsureDatabaseCreatedAsync(scope);
+            Task.Run(() => runMigrationsTask).Wait();
         }
 
         return this;
