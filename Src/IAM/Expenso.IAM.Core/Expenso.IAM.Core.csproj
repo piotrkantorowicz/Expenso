@@ -23,6 +23,7 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Expenso.IAM.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.IAM.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
 </Project>

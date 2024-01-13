@@ -9,12 +9,19 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
         <ProjectReference Include="..\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
 </Project>

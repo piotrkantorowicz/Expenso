@@ -4,5 +4,5 @@ namespace Expenso.Shared.Database.EfCore.NpSql.Migrations;
 
 public interface IDbMigrator
 {
-    void EnsureDatabaseCreated(IServiceScope scope);
+    Task EnsureDatabaseCreatedAsync(IServiceScope scope);
 }

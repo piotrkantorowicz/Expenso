@@ -14,4 +14,9 @@ internal sealed class UserPreferencesDbContext(DbContextOptions<UserPreferencesD
         modelBuilder.HasDefaultSchema("user_preferences");
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
+
+    public async Task MigrateAsync()
+    {
+        await Database.MigrateAsync();
+    }
 }
