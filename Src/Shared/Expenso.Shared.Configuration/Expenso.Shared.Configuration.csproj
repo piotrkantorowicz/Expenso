@@ -11,4 +11,9 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+    </ItemGroup>
+
 </Project>

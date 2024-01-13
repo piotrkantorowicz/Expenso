@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
     </ItemGroup>
 
 </Project>
