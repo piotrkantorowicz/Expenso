@@ -31,13 +31,4 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Data\Migrations\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Remove="Data\Migrations\20240113101130_InitialMigration.Designer.cs"/>
-        <Compile Remove="Data\Migrations\20240113101652_InitialMigration.Designer.cs"/>
-    </ItemGroup>
-
 </Project>
