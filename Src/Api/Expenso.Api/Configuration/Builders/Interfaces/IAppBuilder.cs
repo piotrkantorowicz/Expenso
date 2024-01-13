@@ -10,7 +10,7 @@ internal interface IAppBuilder
 
     IAppBuilder ConfigureSerializationOptions();
 
-    IAppBuilder ConfigureKeycloak();
+    IAppBuilder ConfigureAuthorization();
 
     IAppBuilder ConfigureSwagger();
 

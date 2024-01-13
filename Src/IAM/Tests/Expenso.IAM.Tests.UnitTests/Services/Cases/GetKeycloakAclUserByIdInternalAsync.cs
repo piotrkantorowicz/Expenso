@@ -7,7 +7,7 @@ using Keycloak.AuthServices.Sdk.Admin.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Services.Cases;
 
-internal sealed class GetUserByIdInternalAsync : UserServiceTestBase
+internal sealed class GetKeycloakAclUserByIdInternalAsync : KeycloakAclUserServiceTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_UserExists()

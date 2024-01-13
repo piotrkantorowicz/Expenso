@@ -12,7 +12,7 @@ public sealed class IamModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIamCore();
+        services.AddIamCore(configuration);
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

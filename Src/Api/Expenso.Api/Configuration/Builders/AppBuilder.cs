@@ -6,6 +6,7 @@ using Expenso.Api.Configuration.Errors;
 using Expenso.IAM.Api;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Configuration.Sections;
+using Expenso.Shared.Configuration.Settings;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
@@ -30,6 +31,9 @@ internal sealed class AppBuilder : IAppBuilder
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
+    private EfCoreSettings? _efCoreSettings;
+    private ApplicationSettings? _applicationSettings;
+    private KeycloakProtectionClientOptions? _keycloakProtectionClientOptions;
 
     public AppBuilder(string[] args)
     {
@@ -40,8 +44,7 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureApiDependencies()
     {
-        _configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
-        _services.AddSingleton(databaseSettings);
+        ConfigureAppSettings();
         _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
         _services.AddHttpContextAccessor();
 
@@ -63,7 +66,7 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddEndpointsApiExplorer();
         _services.AddExceptionHandler<GlobalExceptionHandler>();
         _services.AddProblemDetails();
-        
+
         return this;
     }
 
@@ -77,7 +80,82 @@ internal sealed class AppBuilder : IAppBuilder
         return this;
     }
 
-    public IAppBuilder ConfigureKeycloak()
+    public IAppBuilder ConfigureAuthorization()
+    {
+        _services.AddAuthorization();
+        _services.AddAuthentication();
+
+        switch (_applicationSettings?.AuthServer)
+        {
+            case AuthServer.Keycloak:
+                ConfigureKeycloak();
+
+                break;
+            case AuthServer.None:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(_applicationSettings?.AuthServer.GetType().Name,
+                    _applicationSettings?.AuthServer, "Invalid auth server type.");
+        }
+
+        return this;
+    }
+
+    public IAppBuilder ConfigureSwagger()
+    {
+        OpenApiSecurityScheme securityScheme = new()
+        {
+            Name = "JWT Authentication",
+            Description = "Enter JWT Bearer token **_only_**",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = JwtBearerDefaults.AuthenticationScheme
+            }
+        };
+
+        _services.AddSwaggerGen(o =>
+        {
+            o.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+
+            o.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { securityScheme, Array.Empty<string>() }
+            });
+        });
+
+        return this;
+    }
+
+    public IAppBuilder ConfigureMessageBroker()
+    {
+        _services.AddMessageBroker();
+
+        return this;
+    }
+
+    public IAppConfigurator Build()
+    {
+        WebApplication app = _applicationBuilder.Build();
+
+        return new AppConfigurator(app);
+    }
+
+    private void ConfigureAppSettings()
+    {
+        _configuration.TryBindOptions(KeycloakProtectionClientOptions.Section, out _keycloakProtectionClientOptions);
+        _configuration.TryBindOptions(SectionNames.EfCoreSection, out _efCoreSettings);
+        _configuration.TryBindOptions(SectionNames.ApplicationSection, out _applicationSettings);
+        _services.AddSingleton(_efCoreSettings!);
+        _services.AddSingleton(_applicationSettings!);
+        _services.AddSingleton(_keycloakProtectionClientOptions!);
+    }
+
+    private void ConfigureKeycloak()
     {
         if (_configuration.TryBindOptions(KeycloakProtectionClientOptions.Section,
                 out KeycloakProtectionClientOptions options))
@@ -135,53 +213,7 @@ internal sealed class AppBuilder : IAppBuilder
             };
         });
 
-        _services.AddAuthorization().AddKeycloakAuthorization(_configuration);
+        _services.AddKeycloakAuthorization(_configuration);
         _services.AddKeycloakAdminHttpClient(_configuration);
-
-        return this;
-    }
-
-    public IAppBuilder ConfigureSwagger()
-    {
-        OpenApiSecurityScheme securityScheme = new()
-        {
-            Name = "JWT Authentication",
-            Description = "Enter JWT Bearer token **_only_**",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.Http,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-            Reference = new OpenApiReference
-            {
-                Type = ReferenceType.SecurityScheme,
-                Id = JwtBearerDefaults.AuthenticationScheme
-            }
-        };
-
-        _services.AddSwaggerGen(o =>
-        {
-            o.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-
-            o.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                { securityScheme, Array.Empty<string>() }
-            });
-        });
-
-        return this;
-    }
-
-    public IAppBuilder ConfigureMessageBroker()
-    {
-        _services.AddMessageBroker();
-
-        return this;
-    }
-
-    public IAppConfigurator Build()
-    {
-        WebApplication app = _applicationBuilder.Build();
-
-        return new AppConfigurator(app);
     }
 }
