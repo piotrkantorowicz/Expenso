@@ -29,9 +29,21 @@ internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
     public void Should_Passed_When_CreateDbContext()
     {
         // Arrange
-        const string relativePath = @"..\..\..\..\..\..\..\Src\Api\Expenso.Api";
+        string relativePath = Path.Combine([
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "Src",
+            "Api",
+            "Expenso.Api"
+        ]);
+
         string startupProjectPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, relativePath));
-        
+
         // Act
         TestDbContext dbContext = TestCandidate.CreateDbContext([startupProjectPath]);
 
