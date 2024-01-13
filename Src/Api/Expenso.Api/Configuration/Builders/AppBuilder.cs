@@ -91,8 +91,6 @@ internal sealed class AppBuilder : IAppBuilder
                 ConfigureKeycloak();
 
                 break;
-            case AuthServer.None:
-                break;
             default:
                 throw new ArgumentOutOfRangeException(_applicationSettings?.AuthServer.GetType().Name,
                     _applicationSettings?.AuthServer, "Invalid auth server type.");
