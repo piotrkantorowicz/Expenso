@@ -28,7 +28,7 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
                 .Append(startupProjectPath)
                 .ToString();
 
-            throw new ArgumentException(nameof(startupProjectPath), errorMessage);
+            throw new ArgumentException(errorMessage);
         }
 
         IConfiguration configuration = new ConfigurationBuilder()

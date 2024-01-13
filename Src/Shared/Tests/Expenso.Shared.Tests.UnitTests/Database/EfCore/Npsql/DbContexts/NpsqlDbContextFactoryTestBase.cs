@@ -13,9 +13,7 @@ internal abstract class NpsqlDbContextFactoryTestBase : TestBase<NpsqlDbContextF
     }
 }
 
-internal class TestDbContextFactory : NpsqlDbContextFactory<TestDbContext>
-{
-}
+internal sealed class TestDbContextFactory : NpsqlDbContextFactory<TestDbContext>;
 
 internal interface ITestDbContext : IDbContext;
 

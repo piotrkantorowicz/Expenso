@@ -7,11 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
         <PackageReference Include="Scrutor" Version="4.2.2"/>
@@ -19,6 +14,12 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
 </Project>
