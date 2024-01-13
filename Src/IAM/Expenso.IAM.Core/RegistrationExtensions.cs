@@ -25,8 +25,6 @@ public static class RegistrationExtensions
 
         switch (applicationSettings?.AuthServer)
         {
-            case AuthServer.None:
-                break;
             case AuthServer.Keycloak:
                 services.AddScoped<IUserService, KeycloakAclUserService>();
 
