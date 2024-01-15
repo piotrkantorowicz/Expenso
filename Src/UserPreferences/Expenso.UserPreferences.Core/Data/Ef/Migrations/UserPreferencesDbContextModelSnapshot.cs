@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Expenso.UserPreferences.Core.Data.Migrations
+namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
 {
     [DbContext(typeof(UserPreferencesDbContext))]
     partial class UserPreferencesDbContextModelSnapshot : ModelSnapshot

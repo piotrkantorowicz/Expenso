@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Expenso.UserPreferences.Core.Data.Migrations
+namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
 {
     [DbContext(typeof(UserPreferencesDbContext))]
     [Migration("20240115052855_InitialCreate")]
