@@ -7,7 +7,7 @@ namespace Expenso.BudgetSharing.Core.Data.Ef;
 internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options)
     : DbContext(options), IBudgetSharingDbContext
 {
-    public DbSet<ShareBudget> ShareBudgets { get; } = null!;
+    public DbSet<BudgetPermission> ShareBudgets { get; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

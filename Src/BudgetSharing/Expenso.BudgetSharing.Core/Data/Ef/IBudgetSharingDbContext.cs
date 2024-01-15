@@ -6,7 +6,7 @@ namespace Expenso.BudgetSharing.Core.Data.Ef;
 
 internal interface IBudgetSharingDbContext
 {
-    DbSet<ShareBudget> ShareBudgets { get; }
+    DbSet<BudgetPermission> ShareBudgets { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
