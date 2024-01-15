@@ -59,7 +59,7 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
                 return Results.CreatedAtRoute(getPreferencesEndpointRegistration.Name, new
                 {
-                    preferenceId = preference.PreferencesId
+                    preferenceId = preference.PreferenceId
                 }, preference);
             });
 

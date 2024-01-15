@@ -16,7 +16,7 @@ internal sealed class CreatePreferencesAsync : PreferenceServiceTestBase
 
         // Assert
         preference.Should().NotBeNull();
-        preference.PreferencesId.Should().Be(_preference.PreferencesId);
+        preference.PreferenceId.Should().Be(_preference.PreferenceId);
         preference.UserId.Should().Be(_preference.UserId);
         preference.FinancePreference.Should().BeEquivalentTo(_preference.FinancePreference);
         preference.NotificationPreference.Should().BeEquivalentTo(_preference.NotificationPreference);
