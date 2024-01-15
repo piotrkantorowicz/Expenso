@@ -17,7 +17,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(
-            new StringBuilder().Append("user-preferences/preferences/").Append(preference?.PreferencesId).ToString(),
+            new StringBuilder().Append("user-preferences/preferences/").Append(preference?.PreferenceId).ToString(),
             new UpdatePreferenceDto(new UpdateFinancePreferenceDto(true, 5, true, 10),
                 new UpdateNotificationPreferenceDto(true, 1), new UpdateGeneralPreferenceDto(true)));
 

@@ -17,7 +17,7 @@ internal sealed class GetPreferences : PreferencesTestBase
 
         string request = new StringBuilder()
             .Append("user-preferences/preferences/")
-            .Append(preference?.PreferencesId)
+            .Append(preference?.PreferenceId)
             .ToString();
 
         // Act
@@ -37,7 +37,7 @@ internal sealed class GetPreferences : PreferencesTestBase
 
         string request = new StringBuilder()
             .Append("user-preferences/preferences/")
-            .Append(preference?.PreferencesId)
+            .Append(preference?.PreferenceId)
             .ToString();
 
         // Act
