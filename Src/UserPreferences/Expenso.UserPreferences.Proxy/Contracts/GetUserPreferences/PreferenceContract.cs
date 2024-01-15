@@ -1,7 +1,7 @@
 namespace Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
 
 public sealed record PreferenceContract(
-    Guid PreferencesId,
+    Guid PreferenceId,
     Guid UserId,
     FinancePreferenceContract FinancePreference,
     NotificationPreferenceContract NotificationPreference,

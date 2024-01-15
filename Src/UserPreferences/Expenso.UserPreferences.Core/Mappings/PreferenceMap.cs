@@ -8,7 +8,7 @@ internal static class PreferenceMap
 {
     public static PreferenceDto MapToDto(Preference preference)
     {
-        return new PreferenceDto(preference.PreferencesId, preference.UserId,
+        return new PreferenceDto(preference.PreferenceId, preference.UserId,
             FinancePreferenceMap.MapToDto(preference.FinancePreference!),
             NotificationPreferenceMap.MapToDto(preference.NotificationPreference!),
             GeneralPreferenceMap.MapToDto(preference.GeneralPreference!));
@@ -16,7 +16,7 @@ internal static class PreferenceMap
 
     public static PreferenceContract MapToContract(Preference preference)
     {
-        return new PreferenceContract(preference.PreferencesId, preference.UserId,
+        return new PreferenceContract(preference.PreferenceId, preference.UserId,
             FinancePreferenceMap.MapToContract(preference.FinancePreference!),
             NotificationPreferenceMap.MapToContract(preference.NotificationPreference!),
             GeneralPreferenceMap.MapToContract(preference.GeneralPreference!));

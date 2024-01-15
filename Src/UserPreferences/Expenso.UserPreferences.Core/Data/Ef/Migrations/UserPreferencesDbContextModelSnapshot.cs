@@ -18,14 +18,14 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("user_preferences")
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Models.Preference", b =>
                 {
-                    b.Property<Guid>("PreferencesId")
+                    b.Property<Guid>("PreferenceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("preferences_id");
@@ -34,7 +34,7 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.HasKey("PreferencesId");
+                    b.HasKey("PreferenceId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -46,7 +46,7 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
                 {
                     b.OwnsOne("Expenso.UserPreferences.Core.Models.FinancePreference", "FinancePreference", b1 =>
                         {
-                            b1.Property<Guid>("PreferencesId")
+                            b1.Property<Guid>("PreferenceId")
                                 .HasColumnType("uuid");
 
                             b1.Property<bool>("AllowAddFinancePlanReviewers")
@@ -65,34 +65,34 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("max_number_of_sub_finance_plan_sub_owners");
 
-                            b1.HasKey("PreferencesId");
+                            b1.HasKey("PreferenceId");
 
                             b1.ToTable("preferences", "user_preferences");
 
                             b1.WithOwner()
-                                .HasForeignKey("PreferencesId");
+                                .HasForeignKey("PreferenceId");
                         });
 
                     b.OwnsOne("Expenso.UserPreferences.Core.Models.GeneralPreference", "GeneralPreference", b1 =>
                         {
-                            b1.Property<Guid>("PreferencesId")
+                            b1.Property<Guid>("PreferenceId")
                                 .HasColumnType("uuid");
 
                             b1.Property<bool>("UseDarkMode")
                                 .HasColumnType("boolean")
                                 .HasColumnName("use_dark_mode");
 
-                            b1.HasKey("PreferencesId");
+                            b1.HasKey("PreferenceId");
 
                             b1.ToTable("preferences", "user_preferences");
 
                             b1.WithOwner()
-                                .HasForeignKey("PreferencesId");
+                                .HasForeignKey("PreferenceId");
                         });
 
                     b.OwnsOne("Expenso.UserPreferences.Core.Models.NotificationPreference", "NotificationPreference", b1 =>
                         {
-                            b1.Property<Guid>("PreferencesId")
+                            b1.Property<Guid>("PreferenceId")
                                 .HasColumnType("uuid");
 
                             b1.Property<bool>("SendFinanceReportEnabled")
@@ -103,12 +103,12 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("send_finance_report_interval");
 
-                            b1.HasKey("PreferencesId");
+                            b1.HasKey("PreferenceId");
 
                             b1.ToTable("preferences", "user_preferences");
 
                             b1.WithOwner()
-                                .HasForeignKey("PreferencesId");
+                                .HasForeignKey("PreferenceId");
                         });
 
                     b.Navigation("FinancePreference");

@@ -1,7 +1,7 @@
 namespace Expenso.UserPreferences.Core.DTO.GetUserPreferences;
 
 public sealed record PreferenceDto(
-    Guid PreferencesId,
+    Guid PreferenceId,
     Guid UserId,
     FinancePreferenceDto FinancePreference,
     NotificationPreferenceDto NotificationPreference,

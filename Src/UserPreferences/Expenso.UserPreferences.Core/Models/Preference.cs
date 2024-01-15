@@ -12,15 +12,15 @@ internal sealed record Preference
     {
     }
 
-    private Preference(Guid preferencesId, Guid userId) : this(preferencesId, userId, GeneralPreference.CreateDefault(),
+    private Preference(Guid preferenceId, Guid userId) : this(preferenceId, userId, GeneralPreference.CreateDefault(),
         FinancePreference.CreateDefault(), NotificationPreference.CreateDefault())
     {
     }
 
-    private Preference(Guid preferencesId, Guid userId, GeneralPreference? generalPreference,
+    private Preference(Guid preferenceId, Guid userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
-        PreferencesId = preferencesId;
+        PreferenceId = preferenceId;
         UserId = userId;
         GeneralPreference = generalPreference;
         FinancePreference = financePreference;
@@ -29,7 +29,7 @@ internal sealed record Preference
 
     public Guid UserId { get; }
 
-    public Guid PreferencesId { get; }
+    public Guid PreferenceId { get; }
 
     public GeneralPreference? GeneralPreference { get; private set; }
 

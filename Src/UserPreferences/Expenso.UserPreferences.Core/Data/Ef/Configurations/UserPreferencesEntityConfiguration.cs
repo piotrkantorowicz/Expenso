@@ -10,8 +10,8 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
     public void Configure(EntityTypeBuilder<Preference> builder)
     {
         builder.ToTable("preferences");
-        builder.Property(x => x.PreferencesId).HasColumnName("preferences_id").IsRequired();
-        builder.HasKey(x => x.PreferencesId);
+        builder.Property(x => x.PreferenceId).HasColumnName("preferences_id").IsRequired();
+        builder.HasKey(x => x.PreferenceId);
         builder.Property(x => x.UserId).HasColumnName("user_id").IsRequired();
         builder.HasIndex(x => x.UserId).IsUnique();
 
