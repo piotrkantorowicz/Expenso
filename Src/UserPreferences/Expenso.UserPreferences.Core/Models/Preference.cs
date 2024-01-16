@@ -12,42 +12,39 @@ internal sealed record Preference
     {
     }
 
-    private Preference(Guid preferenceId, Guid userId) : this(preferenceId, userId, GeneralPreference.CreateDefault(),
-        FinancePreference.CreateDefault(), NotificationPreference.CreateDefault())
-    {
-    }
-
-    private Preference(Guid preferenceId, Guid userId, GeneralPreference? generalPreference,
+    private Preference(PreferenceId? preferenceId, UserId? userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
-        PreferenceId = preferenceId;
-        UserId = userId;
+        PreferenceId = preferenceId ?? throw new ArgumentNullException(nameof(preferenceId));
+        UserId = userId ?? throw new ArgumentNullException(nameof(userId));
         GeneralPreference = generalPreference;
         FinancePreference = financePreference;
         NotificationPreference = notificationPreference;
     }
 
-    public Guid UserId { get; }
+    public PreferenceId PreferenceId { get; }
 
-    public Guid PreferenceId { get; }
-
+    public UserId UserId { get; }
+    
     public GeneralPreference? GeneralPreference { get; private set; }
 
     public FinancePreference? FinancePreference { get; private set; }
 
     public NotificationPreference? NotificationPreference { get; private set; }
 
-    public static Preference CreateDefault(Guid userId)
+    public static Preference CreateDefault(UserId userId)
     {
-        return new Preference(Guid.NewGuid(), userId);
+        return new Preference(Guid.NewGuid(), userId, GeneralPreference.CreateDefault(),
+            FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 
-    public static Preference CreateDefault(Guid preferenceId, Guid userId)
+    public static Preference CreateDefault(PreferenceId preferenceId, UserId userId)
     {
-        return new Preference(preferenceId, userId);
+        return new Preference(preferenceId, userId, GeneralPreference.CreateDefault(),
+        FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 
-    public static Preference Create(Guid preferencesId, Guid userId, GeneralPreference? generalPreference,
+    public static Preference Create(PreferenceId preferencesId, UserId userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
         return new Preference(preferencesId, userId, generalPreference ?? GeneralPreference.CreateDefault(),

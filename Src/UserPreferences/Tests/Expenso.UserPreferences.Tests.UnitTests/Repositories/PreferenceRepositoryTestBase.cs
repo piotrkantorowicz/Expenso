@@ -14,14 +14,14 @@ internal abstract class PreferenceRepositoryTestBase : TestBase<IPreferencesRepo
     private IList<Preference> _preferences = null!;
     private Mock<IUserPreferencesDbContext> _dbContextMock = null!;
 
-    protected static IList<Guid> _preferenceIds =
+    protected static IList<PreferenceId> _preferenceIds =
     [
         new Guid("19967114-32ef-4202-90c8-3aa590d14a03"),
         new Guid("87ddf365-e001-4949-abae-451d7ccd46c1"),
         new Guid("d3b1e36e-f188-4858-8d07-1b8bcd1b87fb")
     ];
 
-    protected static IList<Guid> _userIds =
+    protected static IList<UserId> _userIds =
     [
         new Guid("527336da-3371-45a9-9b9f-bbd42d01ffc2"),
         new Guid("3318e89e-fe27-453b-b9cb-3edce39ee187"),
