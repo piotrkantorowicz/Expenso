@@ -15,16 +15,16 @@ internal sealed record Preference
     private Preference(PreferenceId? preferenceId, UserId? userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
-        PreferenceId = preferenceId ?? throw new ArgumentNullException(nameof(preferenceId));
-        UserId = userId ?? throw new ArgumentNullException(nameof(userId));
+        PreferenceId = preferenceId;
+        UserId = userId;
         GeneralPreference = generalPreference;
         FinancePreference = financePreference;
         NotificationPreference = notificationPreference;
     }
 
-    public PreferenceId PreferenceId { get; }
+    public PreferenceId? PreferenceId { get; }
 
-    public UserId UserId { get; }
+    public UserId? UserId { get; }
     
     public GeneralPreference? GeneralPreference { get; private set; }
 
@@ -62,8 +62,7 @@ internal sealed record Preference
         {
             GeneralPreference = generalPreference;
 
-            messageBroker.PublishAsync(
-                new GeneralPreferenceUpdatedIntegrationEvent(UserId,
+            messageBroker.PublishAsync(new GeneralPreferenceUpdatedIntegrationEvent(UserId!,
                     GeneralPreferenceMap.MapToContract(generalPreference)), cancellationToken);
 
             isUpdated = true;
@@ -73,8 +72,7 @@ internal sealed record Preference
         {
             FinancePreference = financePreference;
 
-            messageBroker.PublishAsync(
-                new FinancePreferenceUpdatedIntegrationEvent(UserId,
+            messageBroker.PublishAsync(new FinancePreferenceUpdatedIntegrationEvent(UserId!,
                     FinancePreferenceMap.MapToContract(financePreference)), cancellationToken);
 
             isUpdated = true;
@@ -84,8 +82,7 @@ internal sealed record Preference
         {
             NotificationPreference = notificationPreference;
 
-            messageBroker.PublishAsync(
-                new NotificationPreferenceUpdatedIntegrationEvent(UserId,
+            messageBroker.PublishAsync(new NotificationPreferenceUpdatedIntegrationEvent(UserId!,
                     NotificationPreferenceMap.MapToContract(notificationPreference)), cancellationToken);
 
             isUpdated = true;

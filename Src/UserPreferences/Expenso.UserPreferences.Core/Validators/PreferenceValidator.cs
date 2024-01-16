@@ -10,11 +10,11 @@ internal sealed class PreferenceValidator(IPreferencesRepository preferencesRepo
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
-    public async Task ValidateCreateAsync(UserId? userId, CancellationToken cancellationToken)
+    public async Task ValidateCreateAsync(Guid userId, CancellationToken cancellationToken)
     {
         Dictionary<string, string> errors = new();
 
-        if (userId is null)
+        if (userId == Guid.Empty)
         {
             errors.Add(nameof(userId), "User id cannot be empty.");
             

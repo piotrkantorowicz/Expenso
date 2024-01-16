@@ -4,7 +4,6 @@ using Expenso.Shared.Types.Exceptions;
 using Expenso.Shared.UserContext;
 using Expenso.UserPreferences.Core.DTO.GetUserPreferences;
 using Expenso.UserPreferences.Core.Mappings;
-using Expenso.UserPreferences.Core.Models;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;
 
@@ -32,17 +31,14 @@ internal sealed class GetPreferencesForCurrentUserAsync : PreferenceServiceTestB
         // Arrange
         _userContextAccessorMock.Setup(x => x.Get()).Returns((IUserContext?)null);
 
-        _preferencesRepositoryMock
-            .Setup(x => x.GetByUserIdAsync(Guid.Empty, false, default))
-            .ReturnsAsync((Preference?)null);
-
         // Act
         // Assert
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetPreferencesForCurrentUserAsync(default));
 
-        string expectedExceptionMessage = new StringBuilder().Append("Preferences for user not found.").ToString();
+        string expectedExceptionMessage = new StringBuilder()
+            .Append("Preferences for current user not found, because user id from user context is empty.")
+            .ToString();
         exception?.Message.Should().Be(expectedExceptionMessage);
-        _preferencesRepositoryMock.Verify(x => x.GetByUserIdAsync(Guid.Empty, false, default), Times.Once);
     }
 }
