@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
 {
     [DbContext(typeof(UserPreferencesDbContext))]
-    [Migration("20240115052855_InitialCreate")]
+    [Migration("20240117142602_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,7 +29,6 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
             modelBuilder.Entity("Expenso.UserPreferences.Core.Models.Preference", b =>
                 {
                     b.Property<Guid>("PreferenceId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("preferences_id");
 

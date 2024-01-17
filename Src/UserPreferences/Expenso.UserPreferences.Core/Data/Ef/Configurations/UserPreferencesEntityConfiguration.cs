@@ -13,7 +13,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 
         builder
             .Property(x => x.PreferenceId)
-            .HasConversion(x => x.Value, x => new PreferenceId(x))
+            .HasConversion(x => x.Value, x => PreferenceId.Create(x))
             .HasColumnName("preferences_id")
             .IsRequired();
 
@@ -21,7 +21,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 
         builder
             .Property(x => x.UserId)
-            .HasConversion(x => x.Value, x => new UserId(x))
+            .HasConversion(x => x.Value, x => UserId.Create(x))
             .HasColumnName("user_id")
             .IsRequired();
 

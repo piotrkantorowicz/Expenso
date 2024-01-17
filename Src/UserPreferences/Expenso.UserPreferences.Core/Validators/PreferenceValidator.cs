@@ -107,8 +107,9 @@ internal sealed class PreferenceValidator(IPreferencesRepository preferencesRepo
         }
 
         Preference? dbUserPreferences =
-            await _preferencesRepository.GetByIdAsync(new PreferenceId(preferenceIdOrUserId), true, cancellationToken) ??
-            await _preferencesRepository.GetByUserIdAsync(new UserId(preferenceIdOrUserId), true, cancellationToken);
+            await _preferencesRepository.GetByIdAsync(PreferenceId.Create(preferenceIdOrUserId), true,
+                cancellationToken) ??
+            await _preferencesRepository.GetByUserIdAsync(UserId.Create(preferenceIdOrUserId), true, cancellationToken);
 
         if (dbUserPreferences is null)
         {
