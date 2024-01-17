@@ -8,6 +8,7 @@ appBuilder
     .ConfigureMvc()
     .ConfigureSerializationOptions()
     .ConfigureAuthorization()
+    .ConfigureCqrs()
     .ConfigureMessageBroker()
     .ConfigureSwagger()
     .Build()
