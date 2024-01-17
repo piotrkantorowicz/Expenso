@@ -1,7 +1,7 @@
 using Expenso.UserPreferences.Core.Models;
 using Expenso.UserPreferences.Proxy.IntegrationEvents;
 
-namespace Expenso.UserPreferences.Tests.UnitTests.Models.UserPreferences.Cases;
+namespace Expenso.UserPreferences.Tests.UnitTests.Models.Preferences.Cases;
 
 internal sealed class Update : PreferenceTestBase
 {

@@ -1,14 +1,14 @@
 using Expenso.Shared.MessageBroker;
 using Expenso.UserPreferences.Core.Models;
 
-namespace Expenso.UserPreferences.Tests.UnitTests.Models.UserPreferences;
+namespace Expenso.UserPreferences.Tests.UnitTests.Models.Preferences;
 
 internal abstract class PreferenceTestBase : TestBase<Preference>
 {
-    protected Mock<IMessageBroker> _messageBrokerMock = null!;
     protected readonly GeneralPreference _defaultGeneralPreference = GeneralPreference.Create(false);
     protected readonly FinancePreference _defaultFinancePreference = FinancePreference.Create(false, 0, false, 0);
     protected readonly NotificationPreference _defaultNotificationPreference = NotificationPreference.Create(true, 7);
+    protected Mock<IMessageBroker> _messageBrokerMock = null!;
 
     [SetUp]
     public void SetUp()

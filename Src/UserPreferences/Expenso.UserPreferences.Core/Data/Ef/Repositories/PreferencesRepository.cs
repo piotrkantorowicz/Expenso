@@ -10,7 +10,7 @@ internal sealed class PreferencesRepository(IUserPreferencesDbContext userPrefer
     private readonly IUserPreferencesDbContext _userPreferencesDbContext =
         userPreferencesDbContext ?? throw new ArgumentNullException(nameof(userPreferencesDbContext));
 
-    public async Task<Preference?> GetByIdAsync(Guid preferenceId, bool useTracking,
+    public async Task<Preference?> GetByIdAsync(PreferenceId preferenceId, bool useTracking,
         CancellationToken cancellationToken)
     {
         IQueryable<Preference> preferencesQueryable = _userPreferencesDbContext.Preferences.AsQueryable();
@@ -23,7 +23,7 @@ internal sealed class PreferencesRepository(IUserPreferencesDbContext userPrefer
         return await preferencesQueryable.SingleOrDefaultAsync(x => x.PreferenceId == preferenceId, cancellationToken);
     }
 
-    public async Task<Preference?> GetByUserIdAsync(Guid userId, bool useTracking, CancellationToken cancellationToken)
+    public async Task<Preference?> GetByUserIdAsync(UserId userId, bool useTracking, CancellationToken cancellationToken)
     {
         IQueryable<Preference> userPreferencesQueryable = _userPreferencesDbContext.Preferences.AsQueryable();
 

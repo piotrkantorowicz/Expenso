@@ -8,16 +8,11 @@ internal sealed record Preference
 {
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core
-    private Preference() : this(default, default, default, default, default)
+    private Preference() : this(PreferenceId.CreateDefault(), UserId.CreateDefault(), default, default, default)
     {
     }
 
-    private Preference(Guid preferenceId, Guid userId) : this(preferenceId, userId, GeneralPreference.CreateDefault(),
-        FinancePreference.CreateDefault(), NotificationPreference.CreateDefault())
-    {
-    }
-
-    private Preference(Guid preferenceId, Guid userId, GeneralPreference? generalPreference,
+    private Preference(PreferenceId preferenceId, UserId userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
         PreferenceId = preferenceId;
@@ -27,9 +22,9 @@ internal sealed record Preference
         NotificationPreference = notificationPreference;
     }
 
-    public Guid UserId { get; }
+    public PreferenceId PreferenceId { get; }
 
-    public Guid PreferenceId { get; }
+    public UserId UserId { get; }
 
     public GeneralPreference? GeneralPreference { get; private set; }
 
@@ -37,17 +32,19 @@ internal sealed record Preference
 
     public NotificationPreference? NotificationPreference { get; private set; }
 
-    public static Preference CreateDefault(Guid userId)
+    public static Preference CreateDefault(UserId userId)
     {
-        return new Preference(Guid.NewGuid(), userId);
+        return new Preference(Guid.NewGuid(), userId, GeneralPreference.CreateDefault(),
+            FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 
-    public static Preference CreateDefault(Guid preferenceId, Guid userId)
+    public static Preference CreateDefault(PreferenceId preferenceId, UserId userId)
     {
-        return new Preference(preferenceId, userId);
+        return new Preference(preferenceId, userId, GeneralPreference.CreateDefault(),
+            FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 
-    public static Preference Create(Guid preferencesId, Guid userId, GeneralPreference? generalPreference,
+    public static Preference Create(PreferenceId preferencesId, UserId userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
         return new Preference(preferencesId, userId, generalPreference ?? GeneralPreference.CreateDefault(),
@@ -65,8 +62,7 @@ internal sealed record Preference
         {
             GeneralPreference = generalPreference;
 
-            messageBroker.PublishAsync(
-                new GeneralPreferenceUpdatedIntegrationEvent(UserId,
+            messageBroker.PublishAsync(new GeneralPreferenceUpdatedIntegrationEvent(UserId!,
                     GeneralPreferenceMap.MapToContract(generalPreference)), cancellationToken);
 
             isUpdated = true;
@@ -76,8 +72,7 @@ internal sealed record Preference
         {
             FinancePreference = financePreference;
 
-            messageBroker.PublishAsync(
-                new FinancePreferenceUpdatedIntegrationEvent(UserId,
+            messageBroker.PublishAsync(new FinancePreferenceUpdatedIntegrationEvent(UserId!,
                     FinancePreferenceMap.MapToContract(financePreference)), cancellationToken);
 
             isUpdated = true;
@@ -87,8 +82,7 @@ internal sealed record Preference
         {
             NotificationPreference = notificationPreference;
 
-            messageBroker.PublishAsync(
-                new NotificationPreferenceUpdatedIntegrationEvent(UserId,
+            messageBroker.PublishAsync(new NotificationPreferenceUpdatedIntegrationEvent(UserId!,
                     NotificationPreferenceMap.MapToContract(notificationPreference)), cancellationToken);
 
             isUpdated = true;

@@ -5,7 +5,7 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Repositories.Cases;
 internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
 {
     [Test, TestCaseSource(nameof(_userIds))]
-    public async Task Should_ReturnPreference_When_PreferenceExists(Guid userId)
+    public async Task Should_ReturnPreference_When_PreferenceExists(UserId userId)
     {
         // Arrange
         // Act

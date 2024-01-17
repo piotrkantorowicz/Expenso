@@ -26,7 +26,6 @@ namespace Expenso.UserPreferences.Core.Data.Ef.Migrations
             modelBuilder.Entity("Expenso.UserPreferences.Core.Models.Preference", b =>
                 {
                     b.Property<Guid>("PreferenceId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("preferences_id");
 
