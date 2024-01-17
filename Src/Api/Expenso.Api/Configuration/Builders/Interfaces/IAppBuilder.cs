@@ -14,6 +14,8 @@ internal interface IAppBuilder
 
     IAppBuilder ConfigureSwagger();
 
+    IAppBuilder ConfigureCqrs();
+    
     IAppBuilder ConfigureMessageBroker();
 
     IAppConfigurator Build();
