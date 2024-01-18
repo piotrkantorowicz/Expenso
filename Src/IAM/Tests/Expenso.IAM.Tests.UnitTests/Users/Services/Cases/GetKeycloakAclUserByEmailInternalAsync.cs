@@ -1,14 +1,14 @@
-﻿using System.Text;
+using System.Text;
 
-using Expenso.IAM.Core.Users.DTO.GetUser;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
-namespace Expenso.IAM.Tests.UnitTests.Services.Cases;
+namespace Expenso.IAM.Tests.UnitTests.Users.Services.Cases;
 
-internal sealed class GetKeycloakAclUserByEmailAsync : KeycloakAclUserServiceTestBase
+internal sealed class GetKeycloakAclUserByEmailInternalAsync : KeycloakAclUserServiceTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_UserExists()
@@ -22,11 +22,11 @@ internal sealed class GetKeycloakAclUserByEmailAsync : KeycloakAclUserServiceTes
             });
 
         // Act
-        GetUserResponse getUser = await TestCandidate.GetUserByEmailAsync(_userEmail);
+        GetUserInternalResponse getUserInternal = await TestCandidate.GetUserByEmailInternalAsync(_userEmail);
 
         // Assert
-        getUser.Should().NotBeNull();
-        getUser.Should().BeEquivalentTo(_getUserResponse);
+        getUserInternal.Should().NotBeNull();
+        getUserInternal.Should().BeEquivalentTo(_getUserResponse);
 
         _keycloakUserClientMock.Verify(
             x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)),
@@ -50,8 +50,10 @@ internal sealed class GetKeycloakAclUserByEmailAsync : KeycloakAclUserServiceTes
 
         string expectedExceptionMessage =
             new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString();
-
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        
+        exception
+            ?.Message.Should()
+            .Be(expectedExceptionMessage);
 
         _keycloakUserClientMock.Verify(
             x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)), Times.Once);

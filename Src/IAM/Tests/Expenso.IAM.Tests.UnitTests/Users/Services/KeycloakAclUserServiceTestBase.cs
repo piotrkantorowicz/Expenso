@@ -7,7 +7,7 @@ using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
-namespace Expenso.IAM.Tests.UnitTests.Services;
+namespace Expenso.IAM.Tests.UnitTests.Users.Services;
 
 internal abstract class KeycloakAclUserServiceTestBase : TestBase<IUserService>
 {

@@ -2,7 +2,7 @@
 using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.IAM.Tests.ArchTests.AccessModifiers;
-using Expenso.IAM.Tests.UnitTests.Services;
+using Expenso.IAM.Tests.UnitTests.Users.Services;
 
 namespace Expenso.IAM.Tests.ArchTests;
 

@@ -5,7 +5,7 @@ using Expenso.Shared.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
-namespace Expenso.IAM.Tests.UnitTests.Services.Cases;
+namespace Expenso.IAM.Tests.UnitTests.Users.Services.Cases;
 
 internal sealed class GetKeycloakAclUserByIdInternalAsync : KeycloakAclUserServiceTestBase
 {

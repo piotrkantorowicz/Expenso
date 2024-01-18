@@ -4,7 +4,7 @@ using Expenso.IAM.Core.Users.Queries.GetUserInternal;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
-namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
+namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.Cases;
 
 internal sealed class GetUserByEmailAsync : IamProxyTestBase
 {

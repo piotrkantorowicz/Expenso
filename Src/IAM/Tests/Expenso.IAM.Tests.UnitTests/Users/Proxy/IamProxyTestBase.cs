@@ -3,7 +3,7 @@ using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Queries;
 
-namespace Expenso.IAM.Tests.UnitTests.Proxy;
+namespace Expenso.IAM.Tests.UnitTests.Users.Proxy;
 
 internal abstract class IamProxyTestBase : TestBase<IIamUsersProxy>
 {
