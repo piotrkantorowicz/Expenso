@@ -1,6 +1,6 @@
-﻿using Expenso.IAM.Core.Proxy;
-using Expenso.IAM.Core.Services;
-using Expenso.IAM.Core.Services.KeycloakAcl;
+﻿using Expenso.IAM.Core.Users.Proxy;
+using Expenso.IAM.Core.Users.Services;
+using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
 using Expenso.IAM.Proxy;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Configuration.Sections;
@@ -16,7 +16,7 @@ public static class RegistrationExtensions
     public static void AddIamCore(this IServiceCollection services, IConfiguration configuration)
     {
         RegisterAclUserServices(services, configuration);
-        services.AddScoped<IIamProxy, IamProxy>();
+        services.AddScoped<IIamUsersProxy, IamUsersUsersProxy>();
     }
 
     private static void RegisterAclUserServices(IServiceCollection services, IConfiguration configuration)
@@ -26,7 +26,7 @@ public static class RegistrationExtensions
         switch (applicationSettings?.AuthServer)
         {
             case AuthServer.Keycloak:
-                services.AddScoped<IUserService, KeycloakAclUserService>();
+                services.AddScoped<IUserService, UserService>();
 
                 break;
             default:
