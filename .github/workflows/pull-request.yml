@@ -1,7 +1,7 @@
 name: pull-request
 on:
   pull_request:
-    branches: [ main, dev, 'feature*' ]
+    branches: [ main, dev ]
     types: [ opened, synchronize, reopened ]
 
 permissions:
