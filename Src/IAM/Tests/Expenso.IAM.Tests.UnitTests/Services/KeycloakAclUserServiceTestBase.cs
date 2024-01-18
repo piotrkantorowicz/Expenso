@@ -1,7 +1,7 @@
-﻿using Expenso.IAM.Core.DTO;
-using Expenso.IAM.Core.Mappings;
-using Expenso.IAM.Core.Services;
-using Expenso.IAM.Core.Services.KeycloakAcl;
+﻿using Expenso.IAM.Core.Users.DTO.GetUser;
+using Expenso.IAM.Core.Users.Mappings;
+using Expenso.IAM.Core.Users.Services;
+using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
 
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;
@@ -13,7 +13,7 @@ internal abstract class KeycloakAclUserServiceTestBase : TestBase<IUserService>
 {
     protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
     protected User _user = null!;
-    protected UserDto _userDto = null!;
+    protected GetUserResponse _getUserResponse = null!;
     protected string _userId = null!;
     protected string _userEmail = null!;
 
@@ -33,9 +33,8 @@ internal abstract class KeycloakAclUserServiceTestBase : TestBase<IUserService>
             Email = _userEmail
         };
 
-        _userDto = UserMap.MapToDto(_user);
+        _getUserResponse = UserMap.MapToDto(_user);
 
-        TestCandidate =
-            new KeycloakAclUserService(_keycloakUserClientMock.Object, new KeycloakProtectionClientOptions());
+        TestCandidate = new UserService(_keycloakUserClientMock.Object, new KeycloakProtectionClientOptions());
     }
 }

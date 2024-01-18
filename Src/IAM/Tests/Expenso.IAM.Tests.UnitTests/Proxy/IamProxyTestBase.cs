@@ -1,14 +1,14 @@
-using Expenso.IAM.Core.Proxy;
-using Expenso.IAM.Core.Services;
+using Expenso.IAM.Core.Users.Proxy;
 using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.Contracts;
+using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.Shared.Queries;
 
 namespace Expenso.IAM.Tests.UnitTests.Proxy;
 
-internal abstract class IamProxyTestBase : TestBase<IIamProxy>
+internal abstract class IamProxyTestBase : TestBase<IIamUsersProxy>
 {
-    protected Mock<IUserService> _userServiceMock = null!;
-    protected UserContract _userContract = null!;
+    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
+    protected GetUserInternalResponse _getUserInternalResponse = null!;
     protected string _userId = null!;
     protected string _userEmail = null!;
 
@@ -17,8 +17,8 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
     {
         _userId = Guid.NewGuid().ToString();
         _userEmail = "email@email.com";
-        _userContract = new UserContract(_userId, "Valentina", "Long", "vLong", _userEmail);
-        _userServiceMock = new Mock<IUserService>();
-        TestCandidate = new IamProxy(_userServiceMock.Object);
+        _getUserInternalResponse = new GetUserInternalResponse(_userId, "Valentina", "Long", "vLong", _userEmail);
+        _queryDispatcherMock = new Mock<IQueryDispatcher>();
+        TestCandidate = new IamUsersUsersProxy(_queryDispatcherMock.Object);
     }
 }

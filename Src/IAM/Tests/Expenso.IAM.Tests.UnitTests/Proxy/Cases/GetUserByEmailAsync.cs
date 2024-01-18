@@ -1,6 +1,7 @@
 ﻿using System.Text;
 
-using Expenso.IAM.Proxy.Contracts;
+using Expenso.IAM.Core.Users.Queries.GetUserInternal;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
@@ -11,15 +12,21 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        _userServiceMock.Setup(x => x.GetUserByEmailInternalAsync(_userEmail)).ReturnsAsync(_userContract);
+        _queryDispatcherMock
+            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Email == _userEmail),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_getUserInternalResponse);
 
         // Act
-        UserContract user = await TestCandidate.GetUserByEmailAsync(_userEmail);
+        GetUserInternalResponse? getUserInternal = await TestCandidate.GetUserByEmailAsync(_userEmail);
 
         // Assert
-        user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_userContract);
-        _userServiceMock.Verify(x => x.GetUserByEmailInternalAsync(It.IsAny<string>()), Times.Once);
+        getUserInternal.Should().NotBeNull();
+        getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
+
+        _queryDispatcherMock.Verify(
+            x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Test]
@@ -28,8 +35,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         // Arrange
         const string email = "email1@email.com";
 
-        _userServiceMock
-            .Setup(x => x.GetUserByEmailInternalAsync(email))
+        _queryDispatcherMock
+            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException($"User with email {email} not found."));
 
         // Act

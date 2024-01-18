@@ -1,6 +1,7 @@
 ﻿using System.Text;
 
-using Expenso.IAM.Proxy.Contracts;
+using Expenso.IAM.Core.Users.Queries.GetUserInternal;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Proxy.Cases;
@@ -11,15 +12,20 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        _userServiceMock.Setup(x => x.GetUserByIdInternalAsync(_userId)).ReturnsAsync(_userContract);
+        _queryDispatcherMock
+            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_getUserInternalResponse);
 
         // Act
-        UserContract user = await TestCandidate.GetUserByIdAsync(_userId);
+        GetUserInternalResponse? getUserInternal = await TestCandidate.GetUserByIdAsync(_userId);
 
         // Assert
-        user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_userContract);
-        _userServiceMock.Verify(x => x.GetUserByIdInternalAsync(It.IsAny<string>()), Times.Once);
+        getUserInternal.Should().NotBeNull();
+        getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
+
+        _queryDispatcherMock.Verify(
+            x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Test]
@@ -28,8 +34,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         // Arrange
         string userId = Guid.NewGuid().ToString();
 
-        _userServiceMock
-            .Setup(x => x.GetUserByIdInternalAsync(userId))
+        _queryDispatcherMock
+            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Id == userId), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException($"User with id {userId} not found."));
 
         // Act

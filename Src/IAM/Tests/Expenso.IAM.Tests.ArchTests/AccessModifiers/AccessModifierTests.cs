@@ -4,12 +4,15 @@ namespace Expenso.IAM.Tests.ArchTests.AccessModifiers;
 
 internal sealed class AccessModifierTests : TestBase
 {
+    private static readonly string[] PublicTypes =
+    [
+        "DTO"
+    ];
+    
     private static readonly string[] NotInternal =
     [
         "Module",
-        "RegistrationExtensions",
-        "Dto",
-        "Contract"
+        "RegistrationExtensions"
     ];
 
     private static readonly string[] NotSealed =
@@ -30,6 +33,9 @@ internal sealed class AccessModifierTests : TestBase
 
         types = NotInternal.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+
+        types = PublicTypes.Aggregate(types,
+            (current, skippedTypeName) => current.And().ResideInNamespaceEndingWith(skippedTypeName));
 
         AssertArchTestResult(types);
     }
