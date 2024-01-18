@@ -1,7 +1,8 @@
-using Expenso.UserPreferences.Core.Data.Ef;
-using Expenso.UserPreferences.Core.Data.Ef.Repositories;
-using Expenso.UserPreferences.Core.Models;
-using Expenso.UserPreferences.Core.Repositories;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
+using Expenso.UserPreferences.Core.Persistence.EfCore;
+using Expenso.UserPreferences.Core.Persistence.EfCore.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 

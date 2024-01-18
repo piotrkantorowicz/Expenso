@@ -1,5 +1,5 @@
-using Expenso.UserPreferences.Core.Repositories;
-using Expenso.UserPreferences.Core.Validators;
+using Expenso.UserPreferences.Core.Application.Validators;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Validators;
 

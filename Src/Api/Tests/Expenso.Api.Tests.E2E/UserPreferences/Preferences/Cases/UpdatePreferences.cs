@@ -1,7 +1,7 @@
 using System.Text;
 
 using Expenso.Api.Tests.E2E.TestData;
-using Expenso.UserPreferences.Core.DTO.UpdateUserPreferences;
+using Expenso.UserPreferences.Core.Application.DTO.UpdateUserPreferences;
 using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences.Cases;

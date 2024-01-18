@@ -1,8 +1,8 @@
 using Expenso.Shared.ModuleDefinition;
 using Expenso.UserPreferences.Core;
-using Expenso.UserPreferences.Core.DTO.GetUserPreferences;
-using Expenso.UserPreferences.Core.DTO.UpdateUserPreferences;
-using Expenso.UserPreferences.Core.Services;
+using Expenso.UserPreferences.Core.Application.DTO.GetUserPreferences;
+using Expenso.UserPreferences.Core.Application.DTO.UpdateUserPreferences;
+using Expenso.UserPreferences.Core.Application.Services;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

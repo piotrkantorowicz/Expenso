@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Models;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;

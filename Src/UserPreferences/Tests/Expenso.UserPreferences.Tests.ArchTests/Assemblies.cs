@@ -1,5 +1,5 @@
 ﻿using Expenso.UserPreferences.Api;
-using Expenso.UserPreferences.Core.Services;
+using Expenso.UserPreferences.Core.Application.Services;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Tests.ArchTests.AccessModifiers;
 using Expenso.UserPreferences.Tests.UnitTests.Services;

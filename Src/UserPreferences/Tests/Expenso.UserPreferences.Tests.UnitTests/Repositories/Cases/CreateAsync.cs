@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Models;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Repositories.Cases;
 

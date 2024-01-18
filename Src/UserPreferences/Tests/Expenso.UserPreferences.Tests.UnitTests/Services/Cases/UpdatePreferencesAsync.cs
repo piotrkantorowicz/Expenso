@@ -1,5 +1,5 @@
-using Expenso.UserPreferences.Core.DTO.UpdateUserPreferences;
-using Expenso.UserPreferences.Core.Models;
+using Expenso.UserPreferences.Core.Application.DTO.UpdateUserPreferences;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;
 

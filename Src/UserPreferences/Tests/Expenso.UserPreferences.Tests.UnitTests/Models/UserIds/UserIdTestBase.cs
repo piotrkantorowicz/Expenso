@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Models;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Models.UserIds;
 

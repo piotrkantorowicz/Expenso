@@ -2,8 +2,8 @@ using System.Text;
 
 using Expenso.Shared.Types.Exceptions;
 using Expenso.Shared.UserContext;
-using Expenso.UserPreferences.Core.DTO.GetUserPreferences;
-using Expenso.UserPreferences.Core.Mappings;
+using Expenso.UserPreferences.Core.Application.DTO.GetUserPreferences;
+using Expenso.UserPreferences.Core.Application.Mappings;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Services.Cases;
 

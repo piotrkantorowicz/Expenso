@@ -1,5 +1,5 @@
-using Expenso.UserPreferences.Core.Proxy;
-using Expenso.UserPreferences.Core.Services;
+using Expenso.UserPreferences.Core.Application.Proxy;
+using Expenso.UserPreferences.Core.Application.Services;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
 

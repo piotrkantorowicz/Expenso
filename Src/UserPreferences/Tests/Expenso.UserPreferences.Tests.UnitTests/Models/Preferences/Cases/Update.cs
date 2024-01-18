@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Models;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Proxy.IntegrationEvents;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Models.Preferences.Cases;

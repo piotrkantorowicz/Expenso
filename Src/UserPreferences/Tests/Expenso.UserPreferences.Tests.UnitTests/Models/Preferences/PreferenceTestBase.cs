@@ -1,5 +1,6 @@
 using Expenso.Shared.MessageBroker;
-using Expenso.UserPreferences.Core.Models;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Models.Preferences;
 

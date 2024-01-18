@@ -1,9 +1,9 @@
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.UserContext;
-using Expenso.UserPreferences.Core.Models;
-using Expenso.UserPreferences.Core.Repositories;
-using Expenso.UserPreferences.Core.Services;
-using Expenso.UserPreferences.Core.Validators;
+using Expenso.UserPreferences.Core.Application.Services;
+using Expenso.UserPreferences.Core.Application.Validators;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Services;
 

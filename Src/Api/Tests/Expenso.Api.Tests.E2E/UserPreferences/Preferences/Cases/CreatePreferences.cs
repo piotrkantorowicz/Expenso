@@ -1,6 +1,6 @@
 using System.Text;
 
-using Expenso.UserPreferences.Core.DTO.GetUserPreferences;
+using Expenso.UserPreferences.Core.Application.DTO.GetUserPreferences;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences.Cases;
 
