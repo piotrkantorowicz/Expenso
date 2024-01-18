@@ -1,6 +1,6 @@
-using Expenso.IAM.Core.DTO;
-using Expenso.IAM.Core.Mappings;
-using Expenso.IAM.Proxy.Contracts;
+using Expenso.IAM.Core.Users.DTO.GetUser;
+using Expenso.IAM.Core.Users.Mappings;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
 using Keycloak.AuthServices.Authorization;
@@ -8,9 +8,9 @@ using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
-namespace Expenso.IAM.Core.Services.KeycloakAcl;
+namespace Expenso.IAM.Core.Users.Services.Acl.Keycloak;
 
-internal sealed class KeycloakAclUserService(
+internal sealed class UserService(
     IKeycloakUserClient keycloakUserClient,
     KeycloakProtectionClientOptions keycloakProtectionClientOptions) : IUserService
 {
@@ -20,7 +20,7 @@ internal sealed class KeycloakAclUserService(
     private readonly IKeycloakUserClient _keycloakUserClient =
         keycloakUserClient ?? throw new ArgumentNullException(nameof(keycloakUserClient));
 
-    public async Task<UserDto> GetUserByIdAsync(string userId)
+    public async Task<GetUserResponse> GetUserByIdAsync(string userId)
     {
         User keycloakUser = await _keycloakUserClient.GetUser(_keycloakProtectionClientOptions.Realm, userId);
 
@@ -29,12 +29,12 @@ internal sealed class KeycloakAclUserService(
             throw new NotFoundException($"User with id {userId} not found.");
         }
 
-        UserDto userDto = UserMap.MapToDto(keycloakUser);
+        GetUserResponse getUserResponse = UserMap.MapToDto(keycloakUser);
 
-        return userDto;
+        return getUserResponse;
     }
 
-    public async Task<UserContract> GetUserByIdInternalAsync(string userId)
+    public async Task<GetUserInternalResponse> GetUserByIdInternalAsync(string userId)
     {
         User keycloakUser = await _keycloakUserClient.GetUser(_keycloakProtectionClientOptions.Realm, userId);
 
@@ -43,12 +43,12 @@ internal sealed class KeycloakAclUserService(
             throw new NotFoundException($"User with id {userId} not found.");
         }
 
-        UserContract userContract = UserMap.MapToContract(keycloakUser);
+        GetUserInternalResponse getUserInternalResponse = UserMap.MapToContract(keycloakUser);
 
-        return userContract;
+        return getUserInternalResponse;
     }
 
-    public async Task<UserDto> GetUserByEmailAsync(string email)
+    public async Task<GetUserResponse> GetUserByEmailAsync(string email)
     {
         User? user = await GetByEmailAsync(email);
 
@@ -57,12 +57,12 @@ internal sealed class KeycloakAclUserService(
             throw new NotFoundException($"User with email {email} not found.");
         }
 
-        UserDto userDto = UserMap.MapToDto(user);
+        GetUserResponse getUserResponse = UserMap.MapToDto(user);
 
-        return userDto;
+        return getUserResponse;
     }
 
-    public async Task<UserContract> GetUserByEmailInternalAsync(string email)
+    public async Task<GetUserInternalResponse> GetUserByEmailInternalAsync(string email)
     {
         User? user = await GetByEmailAsync(email);
 
@@ -71,9 +71,9 @@ internal sealed class KeycloakAclUserService(
             throw new NotFoundException($"User with email {email} not found.");
         }
 
-        UserContract userContract = UserMap.MapToContract(user);
+        GetUserInternalResponse getUserInternalResponse = UserMap.MapToContract(user);
 
-        return userContract;
+        return getUserInternalResponse;
     }
 
     private async Task<User?> GetByEmailAsync(string email)

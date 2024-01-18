@@ -1,6 +1,6 @@
 using System.Text;
 
-using Expenso.IAM.Proxy.Contracts;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -16,11 +16,11 @@ internal sealed class GetKeycloakAclUserByIdInternalAsync : KeycloakAclUserServi
         _keycloakUserClientMock.Setup(x => x.GetUser(It.IsAny<string>(), _userId)).ReturnsAsync(_user);
 
         // Act
-        UserContract user = await TestCandidate.GetUserByIdInternalAsync(_userId);
+        GetUserInternalResponse getUserInternal = await TestCandidate.GetUserByIdInternalAsync(_userId);
 
         // Assert
-        user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_userDto);
+        getUserInternal.Should().NotBeNull();
+        getUserInternal.Should().BeEquivalentTo(_getUserResponse);
         _keycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), _userId), Times.Once);
     }
 

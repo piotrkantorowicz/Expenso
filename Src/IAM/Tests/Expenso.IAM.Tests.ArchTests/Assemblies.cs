@@ -1,6 +1,6 @@
 ﻿using Expenso.IAM.Api;
-using Expenso.IAM.Core.Services.KeycloakAcl;
-using Expenso.IAM.Proxy.Contracts;
+using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.IAM.Tests.ArchTests.AccessModifiers;
 using Expenso.IAM.Tests.UnitTests.Services;
 
@@ -9,8 +9,8 @@ namespace Expenso.IAM.Tests.ArchTests;
 internal static class Assemblies
 {
     private static readonly Assembly Api = typeof(IamModule).Assembly;
-    private static readonly Assembly Core = typeof(KeycloakAclUserService).Assembly;
-    private static readonly Assembly Proxy = typeof(UserContract).Assembly;
+    private static readonly Assembly Core = typeof(UserService).Assembly;
+    private static readonly Assembly Proxy = typeof(GetUserInternalResponse).Assembly;
     private static readonly Assembly UnitTests = typeof(KeycloakAclUserServiceTestBase).Assembly;
     private static readonly Assembly ArchTests = typeof(AccessModifierTests).Assembly;
 
