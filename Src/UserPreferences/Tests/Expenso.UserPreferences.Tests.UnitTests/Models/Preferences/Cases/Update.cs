@@ -1,5 +1,7 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
-using Expenso.UserPreferences.Proxy.IntegrationEvents;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Models.Preferences.Cases;
 

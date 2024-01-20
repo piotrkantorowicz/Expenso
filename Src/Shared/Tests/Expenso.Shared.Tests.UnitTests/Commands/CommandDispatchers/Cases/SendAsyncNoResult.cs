@@ -9,7 +9,7 @@ internal sealed class SendAsync : CommandDispatcherTestBase
     {
         // Arrange
         Guid testCommandId = Guid.NewGuid();
-        TestCommand testCommand = new TestCommand(testCommandId);
+        TestCommand testCommand = new(testCommandId);
 
         // Act
         // Assert

@@ -14,6 +14,6 @@ internal sealed class GetByIdAsync : PreferenceRepositoryTestBase
 
         // Assert
         preference.Should().NotBeNull();
-        preference.Should().Be(Preferences.Single(x => x.PreferenceId == preferenceId));
+        preference.Should().Be(Preferences.Single(x => x.Id == preferenceId));
     }
 }

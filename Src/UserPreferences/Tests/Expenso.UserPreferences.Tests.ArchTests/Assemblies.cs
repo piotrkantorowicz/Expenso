@@ -1,17 +1,17 @@
 ﻿using Expenso.UserPreferences.Api;
-using Expenso.UserPreferences.Core.Application.Services;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Tests.ArchTests.AccessModifiers;
-using Expenso.UserPreferences.Tests.UnitTests.Services;
+using Expenso.UserPreferences.Tests.UnitTests.Repositories;
 
 namespace Expenso.UserPreferences.Tests.ArchTests;
 
 internal static class Assemblies
 {
     private static readonly Assembly Api = typeof(UserPreferencesModule).Assembly;
-    private static readonly Assembly Core = typeof(IPreferencesService).Assembly;
+    private static readonly Assembly Core = typeof(IPreferencesRepository).Assembly;
     private static readonly Assembly Proxy = typeof(IUserPreferencesProxy).Assembly;
-    private static readonly Assembly UnitTests = typeof(PreferenceServiceTestBase).Assembly;
+    private static readonly Assembly UnitTests = typeof(PreferenceRepositoryTestBase).Assembly;
     private static readonly Assembly ArchTests = typeof(AccessModifierTests).Assembly;
 
     public static IReadOnlyCollection<Assembly> ToArray()

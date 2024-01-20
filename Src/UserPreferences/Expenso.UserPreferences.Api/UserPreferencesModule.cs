@@ -1,8 +1,14 @@
+using Expenso.Shared.Commands;
 using Expenso.Shared.ModuleDefinition;
+using Expenso.Shared.Queries;
 using Expenso.UserPreferences.Core;
-using Expenso.UserPreferences.Core.Application.DTO.GetUserPreferences;
-using Expenso.UserPreferences.Core.Application.DTO.UpdateUserPreferences;
-using Expenso.UserPreferences.Core.Application.Services;
+using Expenso.UserPreferences.Core.Application.Preferences.Commands.CreatePreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Commands.UpdatePreference;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.UpdatePreferences.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Queries.GetPreference;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,54 +28,59 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
-        EndpointRegistration getPreferencesEndpointRegistration = new("preferences/{preferenceId}", "GetPreferences",
-            AccessControl.User, HttpVerb.Get, async ([FromRoute] Guid preferenceId,
-                [FromServices] IPreferencesService preferencesService, CancellationToken cancellationToken) =>
+        EndpointRegistration getPreferencesEndpointRegistration = new("preferences/{id}", "GetPreferences",
+            AccessControl.User, HttpVerb.Get, async ([FromRoute] Guid id,
+                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
+                CancellationToken cancellationToken) =>
             {
-                PreferenceDto preferences = await preferencesService.GetPreferences(preferenceId, cancellationToken);
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(new GetPreferenceQuery(id),
+                    cancellationToken);
 
-                return Results.Ok(preferences);
+                return Results.Ok(getPreferences);
             });
 
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new("preferences/current-user",
-            "GetCurrentUserPreferences", AccessControl.User, HttpVerb.Get,
-            async ([FromServices] IPreferencesService preferencesService, CancellationToken cancellationToken) =>
+            "GetCurrentUserPreferences", AccessControl.User, HttpVerb.Get, async (
+                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
+                CancellationToken cancellationToken) =>
             {
-                PreferenceDto preferences =
-                    await preferencesService.GetPreferencesForCurrentUserAsync(cancellationToken);
+                GetPreferenceResponse? getPreferences =
+                    await handler.HandleAsync(new GetPreferenceQuery(), cancellationToken);
 
-                return Results.Ok(preferences);
+                return Results.Ok(getPreferences);
             });
 
         EndpointRegistration getUserPreferencesByEndpointRegistration = new("preferences", "GetUserPreferences",
-            AccessControl.User, HttpVerb.Get, async ([FromServices] IPreferencesService preferencesService,
+            AccessControl.User, HttpVerb.Get, async (
+                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
                 [FromQuery] Guid userId, CancellationToken cancellationToken) =>
             {
-                PreferenceDto preferences =
-                    await preferencesService.GetPreferencesForUserAsync(userId, cancellationToken);
+                GetPreferenceResponse? getPreferences =
+                    await handler.HandleAsync(new GetPreferenceQuery(UserId: userId), cancellationToken);
 
-                return Results.Ok(preferences);
+                return Results.Ok(getPreferences);
             });
 
-        EndpointRegistration createPreferencesEndpointRegistration = new("preferences/{userId}", "CreatePreferences",
-            AccessControl.User, HttpVerb.Post, async ([FromServices] IPreferencesService preferencesService,
-                [FromRoute] Guid userId, CancellationToken cancellationToken) =>
+        EndpointRegistration createPreferencesEndpointRegistration = new("preferences", "CreatePreferences",
+            AccessControl.User, HttpVerb.Post,
+            async ([FromServices] ICommandHandler<CreatePreferenceCommand, CreatePreferenceResponse> handler,
+                [FromBody] CreatePreferenceRequest model, CancellationToken cancellationToken) =>
             {
-                PreferenceDto preference = await preferencesService.CreatePreferencesAsync(userId, cancellationToken);
+                CreatePreferenceResponse? getPreference = await handler.HandleAsync(
+                    new CreatePreferenceCommand(new CreatePreferenceRequest(model.UserId)), cancellationToken);
 
                 return Results.CreatedAtRoute(getPreferencesEndpointRegistration.Name, new
                 {
-                    preferenceId = preference.PreferenceId
-                }, preference);
+                    id = getPreference?.Id
+                }, getPreference);
             });
 
-        EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{userOrPreferenceId}",
-            "UpdatePreferences",
-            AccessControl.User, HttpVerb.Put, async ([FromServices] IPreferencesService preferencesService,
-                [FromRoute] Guid userOrPreferenceId, [FromBody] UpdatePreferenceDto model,
+        EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{id}", "UpdatePreferences",
+            AccessControl.User, HttpVerb.Put, async ([FromServices] ICommandHandler<UpdatePreferenceCommand> handler,
+                [FromRoute] Guid id, [FromBody] UpdatePreferenceRequest model,
                 CancellationToken cancellationToken) =>
             {
-                await preferencesService.UpdatePreferencesAsync(userOrPreferenceId, model, cancellationToken);
+                await handler.HandleAsync(new UpdatePreferenceCommand(id, model), cancellationToken);
 
                 return Results.NoContent();
             });

@@ -1,7 +1,9 @@
 using Expenso.Shared.MessageBroker;
-using Expenso.UserPreferences.Core.Application.Mappings;
+using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
-using Expenso.UserPreferences.Proxy.IntegrationEvents;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
@@ -13,17 +15,17 @@ internal sealed record Preference
     {
     }
 
-    private Preference(PreferenceId preferenceId, UserId userId, GeneralPreference? generalPreference,
+    private Preference(PreferenceId id, UserId userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
-        PreferenceId = preferenceId;
+        Id = id;
         UserId = userId;
         GeneralPreference = generalPreference;
         FinancePreference = financePreference;
         NotificationPreference = notificationPreference;
     }
 
-    public PreferenceId PreferenceId { get; }
+    public PreferenceId Id { get; }
 
     public UserId UserId { get; }
 
@@ -39,16 +41,16 @@ internal sealed record Preference
             FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 
-    public static Preference CreateDefault(PreferenceId preferenceId, UserId userId)
+    public static Preference CreateDefault(PreferenceId id, UserId userId)
     {
-        return new Preference(preferenceId, userId, GeneralPreference.CreateDefault(),
+        return new Preference(id, userId, GeneralPreference.CreateDefault(),
             FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 
-    public static Preference Create(PreferenceId preferencesId, UserId userId, GeneralPreference? generalPreference,
+    public static Preference Create(PreferenceId id, UserId userId, GeneralPreference? generalPreference,
         FinancePreference? financePreference, NotificationPreference? notificationPreference)
     {
-        return new Preference(preferencesId, userId, generalPreference ?? GeneralPreference.CreateDefault(),
+        return new Preference(id, userId, generalPreference ?? GeneralPreference.CreateDefault(),
             financePreference ?? FinancePreference.CreateDefault(),
             notificationPreference ?? NotificationPreference.CreateDefault());
     }
@@ -63,8 +65,9 @@ internal sealed record Preference
         {
             GeneralPreference = generalPreference;
 
-            messageBroker.PublishAsync(new GeneralPreferenceUpdatedIntegrationEvent(UserId!,
-                    GeneralPreferenceMap.MapToContract(generalPreference)), cancellationToken);
+            messageBroker.PublishAsync(
+                new GeneralPreferenceUpdatedIntegrationEvent(UserId,
+                    GeneralPreferenceMap.MapToInternalContract(generalPreference)), cancellationToken);
 
             isUpdated = true;
         }
@@ -73,8 +76,9 @@ internal sealed record Preference
         {
             FinancePreference = financePreference;
 
-            messageBroker.PublishAsync(new FinancePreferenceUpdatedIntegrationEvent(UserId!,
-                    FinancePreferenceMap.MapToContract(financePreference)), cancellationToken);
+            messageBroker.PublishAsync(
+                new FinancePreferenceUpdatedIntegrationEvent(UserId,
+                    FinancePreferenceMap.MapToInternalContract(financePreference)), cancellationToken);
 
             isUpdated = true;
         }
@@ -83,8 +87,9 @@ internal sealed record Preference
         {
             NotificationPreference = notificationPreference;
 
-            messageBroker.PublishAsync(new NotificationPreferenceUpdatedIntegrationEvent(UserId!,
-                    NotificationPreferenceMap.MapToContract(notificationPreference)), cancellationToken);
+            messageBroker.PublishAsync(
+                new NotificationPreferenceUpdatedIntegrationEvent(UserId,
+                    NotificationPreferenceMap.MapToInternalContract(notificationPreference)), cancellationToken);
 
             isUpdated = true;
         }

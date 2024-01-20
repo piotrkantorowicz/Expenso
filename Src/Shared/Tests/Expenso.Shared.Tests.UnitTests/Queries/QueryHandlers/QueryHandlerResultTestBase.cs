@@ -22,7 +22,7 @@ internal sealed class TestQueryHandler : IQueryHandler<TestQuery, TestResponse>
 {
     public async Task<TestResponse?> HandleAsync(TestQuery query, CancellationToken cancellationToken = default)
     {
-        TestResponse response = new TestResponse(query.Id, "vWdGYZaiMz9cex");
+        TestResponse response = new(query.Id, "vWdGYZaiMz9cex");
 
         return await Task.FromResult(response);
     }

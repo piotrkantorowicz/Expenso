@@ -13,12 +13,12 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
         builder.ToTable("preferences");
 
         builder
-            .Property(x => x.PreferenceId)
+            .Property(x => x.Id)
             .HasConversion(x => x.Value, x => PreferenceId.Create(x))
             .HasColumnName("preferences_id")
             .IsRequired();
 
-        builder.HasKey(x => x.PreferenceId);
+        builder.HasKey(x => x.Id);
 
         builder
             .Property(x => x.UserId)

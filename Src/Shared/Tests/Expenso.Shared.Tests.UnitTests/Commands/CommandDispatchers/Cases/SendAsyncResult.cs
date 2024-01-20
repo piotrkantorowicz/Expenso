@@ -10,7 +10,7 @@ internal sealed class SendAsyncResult : CommandDispatcherTestBase
     public async Task Should_SendCommand()
     {
         // Arrange
-        TestCommand testCommand = new TestCommand(Guid.NewGuid());
+        TestCommand testCommand = new(Guid.NewGuid());
 
         // Act
         CommandResult? commandResult = await TestCandidate.SendAsync<TestCommand, CommandResult>(testCommand);

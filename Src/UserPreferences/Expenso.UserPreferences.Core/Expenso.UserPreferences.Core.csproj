@@ -7,11 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
         <ProjectReference Include="..\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
@@ -29,12 +31,6 @@
         <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Application\"/>
-        <Folder Include="Domain\Preferences\"/>
-        <Folder Include="Persistence\"/>
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
+using Expenso.UserPreferences.Core.Application.Preferences.Internal.Queries.GetPreference;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Proxy.Cases;
 
@@ -8,31 +9,38 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
     public async Task Should_ReturnPreferences_When_PreferencesExists()
     {
         // Arrange
-        _preferenceServiceMock
-            .Setup(x => x.GetPreferencesForUserInternalAsync(_userId, default))
-            .ReturnsAsync(_preferenceContract);
+        _queryDispatcherMock
+            .Setup(x => x.QueryAsync(new GetPreferenceInternalQuery(_userId), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_getPreferenceInternalResponse);
 
         // Act
-        PreferenceContract user = await TestCandidate.GetUserPreferencesAsync(_userId, default);
+        GetPreferenceInternalResponse? preference =
+            await TestCandidate.GetUserPreferencesAsync(_userId, It.IsAny<CancellationToken>());
 
         // Assert
-        user.Should().NotBeNull();
-        user.Should().BeEquivalentTo(_preferenceContract);
-        _preferenceServiceMock.Verify(x => x.GetPreferencesForUserInternalAsync(_userId, default), Times.Once);
+        preference.Should().NotBeNull();
+        preference.Should().BeEquivalentTo(_getPreferenceInternalResponse);
+
+        _queryDispatcherMock.Verify(
+            x => x.QueryAsync(new GetPreferenceInternalQuery(_userId), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
     public async Task Should_ReturnNull_When_PreferencesDoesNotExists()
     {
         // Arrange
-        _preferenceServiceMock.Setup(x => x.GetPreferencesForUserInternalAsync(_userId, default))!.ReturnsAsync(
-            (PreferenceContract?)null);
+        _queryDispatcherMock
+            .Setup(x => x.QueryAsync(new GetPreferenceInternalQuery(_userId), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((GetPreferenceInternalResponse?)null);
 
         // Act
-        PreferenceContract user = await TestCandidate.GetUserPreferencesAsync(_userId, default);
+        GetPreferenceInternalResponse? preference =
+            await TestCandidate.GetUserPreferencesAsync(_userId, It.IsAny<CancellationToken>());
 
         // Assert
-        user.Should().BeNull();
-        _preferenceServiceMock.Verify(x => x.GetPreferencesForUserInternalAsync(_userId, default), Times.Once);
+        preference.Should().BeNull();
+
+        _queryDispatcherMock.Verify(
+            x => x.QueryAsync(new GetPreferenceInternalQuery(_userId), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

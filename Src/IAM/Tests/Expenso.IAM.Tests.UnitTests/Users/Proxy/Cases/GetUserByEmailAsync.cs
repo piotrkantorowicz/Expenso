@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-using Expenso.IAM.Core.Users.Queries.GetUserInternal;
+using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
@@ -13,7 +13,7 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Email == _userEmail),
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(_getUserInternalResponse);
 
@@ -25,7 +25,7 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
 
         _queryDispatcherMock.Verify(
-            x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
+            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
@@ -36,7 +36,7 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         const string email = "email1@email.com";
 
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException($"User with email {email} not found."));
 
         // Act
