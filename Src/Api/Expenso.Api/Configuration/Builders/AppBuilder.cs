@@ -33,8 +33,8 @@ internal sealed class AppBuilder : IAppBuilder
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private EfCoreSettings? _efCoreSettings;
     private ApplicationSettings? _applicationSettings;
+    private EfCoreSettings? _efCoreSettings;
     private KeycloakProtectionClientOptions? _keycloakProtectionClientOptions;
 
     public AppBuilder(string[] args)

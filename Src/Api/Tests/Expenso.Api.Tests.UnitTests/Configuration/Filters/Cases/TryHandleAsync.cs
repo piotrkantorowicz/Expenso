@@ -10,7 +10,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public async Task Should_Return401_When_AuthorizationExceptionThrown()
     {
         // Arrange
-        UnauthorizedException exception = new UnauthorizedException("Unauthorized");
+        UnauthorizedException exception = new("Unauthorized");
 
         // Act
         await TestCandidate.TryHandleAsync(_httpContext, exception, default);
@@ -23,7 +23,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public async Task Should_Return403_When_ForbiddenExceptionThrown()
     {
         // Arrange
-        ForbiddenException exception = new ForbiddenException("Forbidden");
+        ForbiddenException exception = new("Forbidden");
 
         // Act
         await TestCandidate.TryHandleAsync(_httpContext, exception, default);
@@ -36,7 +36,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public async Task Should_Return404_When_NotFoundExceptionThrown()
     {
         // Arrange
-        NotFoundException exception = new NotFoundException("Not found");
+        NotFoundException exception = new("Not found");
 
         // Act
         await TestCandidate.TryHandleAsync(_httpContext, exception, default);
@@ -49,7 +49,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public async Task Should_Return422_When_ValidationFailed()
     {
         // Arrange
-        ValidationException exception = new ValidationException("Validation failed");
+        ValidationException exception = new("Validation failed");
 
         // Act
         await TestCandidate.TryHandleAsync(_httpContext, exception, default);
@@ -62,7 +62,7 @@ internal sealed class OnException : ApiExceptionFilterAttributeTestBase
     public async Task Should_Return500_When_UnhandledExceptionThrown()
     {
         // Arrange
-        Exception exception = new Exception();
+        Exception exception = new();
 
         // Act
         await TestCandidate.TryHandleAsync(_httpContext, exception, default);

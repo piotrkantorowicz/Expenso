@@ -1,3 +1,5 @@
+using Expenso.Shared.Queries.Dispatchers;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Queries;

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-using Expenso.IAM.Core.Users.Queries.GetUserInternal;
+using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Types.Exceptions;
 
@@ -13,7 +13,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()))
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_getUserInternalResponse);
 
         // Act
@@ -24,8 +24,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
 
         _queryDispatcherMock.Verify(
-            x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()),
-            Times.Once);
+            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -35,7 +34,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         string userId = Guid.NewGuid().ToString();
 
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserInternalQuery>(y => y.Id == userId), It.IsAny<CancellationToken>()))
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == userId), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException($"User with id {userId} not found."));
 
         // Act
@@ -45,9 +44,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
 
         string expectedExceptionMessage =
             new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString();
-        
-        exception
-            ?.Message.Should()
-            .Be(expectedExceptionMessage);
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

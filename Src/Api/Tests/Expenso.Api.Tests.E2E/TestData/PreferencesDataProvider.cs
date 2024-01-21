@@ -1,20 +1,23 @@
 using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 
 namespace Expenso.Api.Tests.E2E.TestData;
 
 internal static class PreferencesDataProvider
 {
-    public static readonly IList<PreferenceContract>? Preferences = new List<PreferenceContract>();
+    public static readonly IList<Guid> PreferenceIds = new List<Guid>();
 
     public static async Task Initialize(IUserPreferencesProxy preferencesProxy, CancellationToken cancellationToken)
     {
         foreach (Guid userId in UsersDataProvider.UserIds)
         {
-            PreferenceContract preferenceContract =
+            CreatePreferenceInternalResponse? preference =
                 await preferencesProxy.CreatePreferencesAsync(userId, cancellationToken);
 
-            Preferences?.Add(preferenceContract);
+            if (preference is not null)
+            {
+                PreferenceIds?.Add(preference.Id);
+            }
         }
     }
 }

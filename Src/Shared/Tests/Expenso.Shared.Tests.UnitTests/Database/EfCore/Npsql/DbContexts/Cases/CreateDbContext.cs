@@ -4,10 +4,7 @@ namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.Cases;
 
 internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
 {
-    [Test]
-    [TestCase(null)]
-    [TestCase("")]
-    [TestCase("Path not exists not this machine")]
+    [Test, TestCase(null), TestCase(""), TestCase("Path not exists not this machine")]
     public void Should_ThrowArgumentException_When_PathIsNotValid(string projectPath)
     {
         // Arrange

@@ -1,4 +1,4 @@
-using Expenso.Shared.Tests.UnitTests.Commands.CommandHandlers.NoResult;
+using Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatchers.Cases;
 
@@ -9,7 +9,7 @@ internal sealed class SendAsync : CommandDispatcherTestBase
     {
         // Arrange
         Guid testCommandId = Guid.NewGuid();
-        TestCommand testCommand = new TestCommand(testCommandId);
+        TestCommand testCommand = new(testCommandId, "UsWNuYtfQTtvYR");
 
         // Act
         // Assert

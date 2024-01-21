@@ -1,6 +1,8 @@
 using System.Text;
 
-using Expenso.UserPreferences.Core.DTO.GetUserPreferences;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences.Cases;
 
@@ -12,29 +14,38 @@ internal sealed class CreatePreferences : PreferencesTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(_claims);
         Guid userId = Guid.NewGuid();
-        string request = new StringBuilder().Append("user-preferences/preferences/").Append(userId).ToString();
-        
+        string request = new StringBuilder().Append("user-preferences/preferences").ToString();
+
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(request, null);
+        HttpResponseMessage testResult =
+            await _httpClient.PostAsJsonAsync(request, new CreatePreferenceRequest(userId));
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Created);
-        PreferenceDto? testResultContent = await testResult.Content.ReadFromJsonAsync<PreferenceDto>();
+
+        CreatePreferenceResponse? testResultContent =
+            await testResult.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
+
         testResultContent?.UserId.Should().Be(userId);
-        testResultContent?.FinancePreference.Should().BeEquivalentTo(new FinancePreferenceDto(false, 0, false, 0));
-        testResultContent?.NotificationPreference.Should().BeEquivalentTo(new NotificationPreferenceDto(true, 7));
-        testResultContent?.GeneralPreference.Should().BeEquivalentTo(new GeneralPreferenceDto(false));
+
+        testResultContent
+            ?.FinancePreference.Should()
+            .BeEquivalentTo(new GetFinancePreferenceResponse(false, 0, false, 0));
+
+        testResultContent
+            ?.NotificationPreference.Should()
+            .BeEquivalentTo(new GetNotificationPreferenceResponse(true, 7));
+
+        testResultContent?.GeneralPreference.Should().BeEquivalentTo(new GetGeneralPreferenceResponse(false));
     }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        Guid preferenceId = Guid.NewGuid();
-
         // Act
         HttpResponseMessage testResult = await _httpClient.PostAsync(
-            new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString(), null);
+            new StringBuilder().Append("user-preferences/preferences").ToString(), null);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

@@ -12,7 +12,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new GetUserQuery(_userId);
+        GetUserQuery query = new(_userId);
         _userServiceMock.Setup(x => x.GetUserByIdAsync(_userId)).ReturnsAsync(_getUserResponse);
 
         // Act
@@ -27,7 +27,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByEmailAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new GetUserQuery(Email: _userEmail);
+        GetUserQuery query = new(Email: _userEmail);
         _userServiceMock.Setup(x => x.GetUserByEmailAsync(_userEmail)).ReturnsAsync(_getUserResponse);
 
         // Act
@@ -42,7 +42,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByIdAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new GetUserQuery(_userId);
+        GetUserQuery query = new(_userId);
         _userServiceMock.Setup(x => x.GetUserByIdAsync(_userId))!.ReturnsAsync((GetUserResponse?)null);
 
         // Act
@@ -56,7 +56,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByEmailAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new GetUserQuery(Email: _userEmail);
+        GetUserQuery query = new(Email: _userEmail);
         _userServiceMock.Setup(x => x.GetUserByEmailAsync(_userEmail))!.ReturnsAsync((GetUserResponse?)null);
 
         // Act
@@ -70,7 +70,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_QueryIsEmpty()
     {
         // Arrange
-        GetUserQuery query = new GetUserQuery();
+        GetUserQuery query = new();
 
         // Act
         // Assert

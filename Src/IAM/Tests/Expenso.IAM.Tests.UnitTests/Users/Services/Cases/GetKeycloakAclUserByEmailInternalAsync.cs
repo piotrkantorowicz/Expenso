@@ -50,10 +50,8 @@ internal sealed class GetKeycloakAclUserByEmailInternalAsync : KeycloakAclUserSe
 
         string expectedExceptionMessage =
             new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString();
-        
-        exception
-            ?.Message.Should()
-            .Be(expectedExceptionMessage);
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
 
         _keycloakUserClientMock.Verify(
             x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)), Times.Once);

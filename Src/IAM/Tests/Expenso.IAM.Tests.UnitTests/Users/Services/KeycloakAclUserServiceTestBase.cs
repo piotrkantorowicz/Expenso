@@ -11,11 +11,11 @@ namespace Expenso.IAM.Tests.UnitTests.Users.Services;
 
 internal abstract class KeycloakAclUserServiceTestBase : TestBase<IUserService>
 {
+    protected GetUserResponse _getUserResponse = null!;
     protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
     protected User _user = null!;
-    protected GetUserResponse _getUserResponse = null!;
-    protected string _userId = null!;
     protected string _userEmail = null!;
+    protected string _userId = null!;
 
     [SetUp]
     public void SetUp()
@@ -34,7 +34,6 @@ internal abstract class KeycloakAclUserServiceTestBase : TestBase<IUserService>
         };
 
         _getUserResponse = UserMap.MapToDto(_user);
-
         TestCandidate = new UserService(_keycloakUserClientMock.Object, new KeycloakProtectionClientOptions());
     }
 }

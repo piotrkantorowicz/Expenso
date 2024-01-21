@@ -8,7 +8,10 @@ internal sealed class AccessModifierTests : TestBase
     [
         "Module",
         "RegistrationExtensions",
-        "Dto",
+        "Request",
+        "Response",
+        "Query",
+        "Command",
         "Contract",
         "IntegrationEvent"
     ];
@@ -26,7 +29,7 @@ internal sealed class AccessModifierTests : TestBase
 
     private static readonly string[] NamespacesToExclude =
     [
-        "Expenso.UserPreferences.Core.Data.Ef.Migrations"
+        "Expenso.UserPreferences.Core.Persistence.EfCore.Migrations"
     ];
 
     [Test]
