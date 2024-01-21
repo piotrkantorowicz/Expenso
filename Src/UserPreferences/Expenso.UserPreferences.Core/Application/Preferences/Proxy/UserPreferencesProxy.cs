@@ -1,5 +1,5 @@
-using Expenso.Shared.Commands;
-using Expenso.Shared.Queries;
+using Expenso.Shared.Commands.Dispatchers;
+using Expenso.Shared.Queries.Dispatchers;
 using Expenso.UserPreferences.Core.Application.Preferences.Internal.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Internal.Queries.GetPreference;
 using Expenso.UserPreferences.Proxy;

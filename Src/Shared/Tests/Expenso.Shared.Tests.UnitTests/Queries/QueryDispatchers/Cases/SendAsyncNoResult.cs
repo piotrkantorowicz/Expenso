@@ -1,5 +1,3 @@
-using Expenso.Shared.Tests.UnitTests.Queries.QueryHandlers;
-
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryDispatchers.Cases;
 
 internal sealed class QueryAsync : QueryDispatcherTestBase

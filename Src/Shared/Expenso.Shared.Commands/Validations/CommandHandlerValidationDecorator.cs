@@ -1,6 +1,6 @@
 using Expenso.Shared.Types.Exceptions;
 
-namespace Expenso.Shared.Commands;
+namespace Expenso.Shared.Commands.Validations;
 
 internal class CommandHandlerValidationDecorator<TCommand>(
     IEnumerable<ICommandValidator<TCommand>> validators,

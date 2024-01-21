@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expenso.Shared.Commands;
+namespace Expenso.Shared.Commands.Dispatchers;
 
 internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICommandDispatcher
 {

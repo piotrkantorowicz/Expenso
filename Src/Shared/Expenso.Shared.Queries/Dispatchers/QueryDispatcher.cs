@@ -2,7 +2,7 @@ using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expenso.Shared.Queries;
+namespace Expenso.Shared.Queries.Dispatchers;
 
 internal sealed class QueryDispatcher(IServiceProvider serviceProvider) : IQueryDispatcher
 {

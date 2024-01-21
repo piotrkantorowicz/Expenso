@@ -1,4 +1,4 @@
-namespace Expenso.Shared.Commands;
+namespace Expenso.Shared.Commands.Dispatchers;
 
 public interface ICommandDispatcher
 {

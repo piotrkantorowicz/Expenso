@@ -18,17 +18,18 @@ internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandl
 
 internal sealed record TestCommand(Guid Id) : ICommand;
 
-internal sealed record CommandResult(string Message);
+internal sealed record TestCommandResult(string Message);
 
-internal sealed class TestCommandHandler : ICommandHandler<TestCommand, CommandResult>
+internal sealed class TestCommandHandler : ICommandHandler<TestCommand, TestCommandResult>
 {
-    public async Task<CommandResult?> HandleAsync(TestCommand command, CancellationToken cancellationToken = default)
+    public async Task<TestCommandResult?> HandleAsync(TestCommand command,
+        CancellationToken cancellationToken = default)
     {
         string message = new StringBuilder()
             .Append("Successfully processed command with id: ")
             .Append(command.Id)
             .ToString();
 
-        return await Task.FromResult(new CommandResult(message));
+        return await Task.FromResult(new TestCommandResult(message));
     }
 }

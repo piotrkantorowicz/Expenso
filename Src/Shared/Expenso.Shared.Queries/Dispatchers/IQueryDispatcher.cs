@@ -1,4 +1,4 @@
-namespace Expenso.Shared.Queries;
+namespace Expenso.Shared.Queries.Dispatchers;
 
 public interface IQueryDispatcher
 {

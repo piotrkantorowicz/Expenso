@@ -9,7 +9,7 @@ internal sealed class HandleAsync : CommandHandlerResultTestBase
     {
         // Arrange
         // Act
-        CommandResult? commandResult = await TestCandidate.HandleAsync(_testCommand);
+        TestCommandResult? commandResult = await TestCandidate.HandleAsync(_testCommand);
 
         // Assert
         commandResult?.Should().NotBeNull();
