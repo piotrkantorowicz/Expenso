@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Validations;
+using Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
 
 using Moq;
 
@@ -23,5 +24,3 @@ internal abstract class
                 handler.Object);
     }
 }
-
-internal sealed record TestCommand(Guid Id, string Name) : ICommand;

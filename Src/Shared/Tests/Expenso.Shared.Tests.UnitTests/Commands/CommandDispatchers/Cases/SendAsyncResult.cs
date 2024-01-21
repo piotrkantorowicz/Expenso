@@ -1,5 +1,7 @@
 using System.Text;
 
+using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
+
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatchers.Cases;
 
 internal sealed class SendAsyncResult : CommandDispatcherTestBase
@@ -8,7 +10,7 @@ internal sealed class SendAsyncResult : CommandDispatcherTestBase
     public async Task Should_SendCommand()
     {
         // Arrange
-        TestCommand testCommand = new(Guid.NewGuid());
+        TestCommand testCommand = new(Guid.NewGuid(), "BzC6M2Qjw7Y2CPC4s");
 
         // Act
         TestCommandResult? commandResult = await TestCandidate.SendAsync<TestCommand, TestCommandResult>(testCommand);

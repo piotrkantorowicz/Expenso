@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Validations;
+using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
 using Moq;
 
@@ -23,7 +24,3 @@ internal abstract class
             new CommandHandlerValidationDecorator<TestCommand, TestCommandResult>([_validator.Object], _handler.Object);
     }
 }
-
-internal sealed record TestCommand(Guid Id, string Name) : ICommand;
-
-internal sealed record TestCommandResult(string Message);

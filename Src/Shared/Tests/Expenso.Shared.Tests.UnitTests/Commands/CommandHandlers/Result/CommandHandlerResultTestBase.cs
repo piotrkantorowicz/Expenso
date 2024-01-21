@@ -1,6 +1,4 @@
-using System.Text;
-
-using Expenso.Shared.Commands;
+using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlers.Result;
 
@@ -11,25 +9,7 @@ internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandl
     [SetUp]
     protected void Setup()
     {
-        _testCommand = new TestCommand(Guid.NewGuid());
+        _testCommand = new TestCommand(Guid.NewGuid(), "TkpxYGL8bVkwqDIo");
         TestCandidate = new TestCommandHandler();
-    }
-}
-
-internal sealed record TestCommand(Guid Id) : ICommand;
-
-internal sealed record TestCommandResult(string Message);
-
-internal sealed class TestCommandHandler : ICommandHandler<TestCommand, TestCommandResult>
-{
-    public async Task<TestCommandResult?> HandleAsync(TestCommand command,
-        CancellationToken cancellationToken = default)
-    {
-        string message = new StringBuilder()
-            .Append("Successfully processed command with id: ")
-            .Append(command.Id)
-            .ToString();
-
-        return await Task.FromResult(new TestCommandResult(message));
     }
 }
