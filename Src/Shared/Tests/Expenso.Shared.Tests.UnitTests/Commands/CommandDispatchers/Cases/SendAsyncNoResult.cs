@@ -1,5 +1,3 @@
-using Expenso.Shared.Tests.UnitTests.Commands.CommandHandlers.NoResult;
-
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatchers.Cases;
 
 internal sealed class SendAsync : CommandDispatcherTestBase
