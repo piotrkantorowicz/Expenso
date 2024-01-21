@@ -6,8 +6,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorators.NoResult;
 
-internal abstract class
-    CommandHandlerDecoratorTests : TestBase<Shared.Commands.Decorators.CommandHandlerValidationDecorator<TestCommand>>
+internal abstract class CommandHandlerDecoratorTests : TestBase<CommandHandlerValidationDecorator<TestCommand>>
 {
     protected TestCommand _testCommand = null!;
     protected Mock<ICommandValidator<TestCommand>> _validator = null!;
@@ -19,8 +18,7 @@ internal abstract class
         _validator = new Mock<ICommandValidator<TestCommand>>();
         Mock<ICommandHandler<TestCommand>> handler = new();
 
-        TestCandidate =
-            new Shared.Commands.Decorators.CommandHandlerValidationDecorator<TestCommand>([_validator.Object],
+        TestCandidate = new CommandHandlerValidationDecorator<TestCommand>([_validator.Object],
                 handler.Object);
     }
 }
