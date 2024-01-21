@@ -14,7 +14,7 @@ internal sealed class GetUserPreferences : PreferencesTestBase
         Guid userId = UsersDataProvider.UserIds[2];
         _httpClient.SetFakeBearerToken(_claims);
         string request = new StringBuilder().Append("user-preferences/preferences?userId=").Append(userId).ToString();
-        
+
         // Act
         HttpResponseMessage testResult = await _httpClient.GetAsync(request);
 

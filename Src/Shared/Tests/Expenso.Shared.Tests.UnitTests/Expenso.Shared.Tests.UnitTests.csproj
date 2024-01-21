@@ -21,7 +21,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj" />
+        <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>

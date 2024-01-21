@@ -77,8 +77,7 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
         EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{id}", "UpdatePreferences",
             AccessControl.User, HttpVerb.Put, async ([FromServices] ICommandHandler<UpdatePreferenceCommand> handler,
-                [FromRoute] Guid id, [FromBody] UpdatePreferenceRequest model,
-                CancellationToken cancellationToken) =>
+                [FromRoute] Guid id, [FromBody] UpdatePreferenceRequest model, CancellationToken cancellationToken) =>
             {
                 await handler.HandleAsync(new UpdatePreferenceCommand(id, model), cancellationToken);
 

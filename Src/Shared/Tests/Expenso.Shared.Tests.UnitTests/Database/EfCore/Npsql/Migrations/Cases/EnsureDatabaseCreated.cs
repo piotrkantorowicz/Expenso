@@ -11,14 +11,14 @@ internal sealed class EnsureDatabaseCreated : DbMigratorTestBase
         _serviceScopeMock
             .Setup(x => x.ServiceProvider.GetService(typeof(TestDbContextMigrate)))
             .Returns(_testDbContextMigrateMock.Object);
-        
+
         // Act
         await TestCandidate.EnsureDatabaseCreatedAsync(_serviceScopeMock.Object);
 
         // Assert
         _testDbContextMigrateMock.Verify(x => x.MigrateAsync(), Times.Once);
     }
-    
+
     [Test]
     public async Task Should_NotRunMigrations_When_DbContextIsNotMigratable()
     {
@@ -26,7 +26,7 @@ internal sealed class EnsureDatabaseCreated : DbMigratorTestBase
         _serviceScopeMock
             .Setup(x => x.ServiceProvider.GetService(typeof(TestDbContextNoMigrate)))
             .Returns(_testDbContextNoMigrateMock.Object);
-        
+
         // Act
         await TestCandidate.EnsureDatabaseCreatedAsync(_serviceScopeMock.Object);
 

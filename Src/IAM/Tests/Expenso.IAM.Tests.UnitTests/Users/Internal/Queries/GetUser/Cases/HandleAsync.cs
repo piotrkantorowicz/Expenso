@@ -6,7 +6,7 @@ using Expenso.Shared.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Internal.Queries.GetUser.Cases;
 
-internal sealed class HandleAsync : GetUserQueryHandlerTestBase
+internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()

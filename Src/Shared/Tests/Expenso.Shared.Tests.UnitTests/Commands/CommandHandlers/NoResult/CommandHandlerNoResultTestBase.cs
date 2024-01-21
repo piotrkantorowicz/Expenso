@@ -8,8 +8,8 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlers.NoResult;
 
 internal abstract class CommandHandlerNoResultTestBase : TestBase<TestCommandHandler>
 {
-    protected TestCommand _testCommand = null!;
     protected Mock<ILogger<TestCommandHandler>> _loggerMock = null!;
+    protected TestCommand _testCommand = null!;
 
     [SetUp]
     protected void Setup()

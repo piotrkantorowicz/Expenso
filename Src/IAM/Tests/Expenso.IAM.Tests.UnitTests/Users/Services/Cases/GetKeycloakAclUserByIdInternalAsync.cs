@@ -38,11 +38,8 @@ internal sealed class GetKeycloakAclUserByIdInternalAsync : KeycloakAclUserServi
 
         string expectedExceptionMessage =
             new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString();
-        
-        exception
-            ?.Message.Should()
-            .Be(expectedExceptionMessage);
 
+        exception?.Message.Should().Be(expectedExceptionMessage);
         _keycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), userId), Times.Once);
     }
 }

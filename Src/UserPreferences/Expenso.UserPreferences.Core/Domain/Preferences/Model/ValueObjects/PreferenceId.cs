@@ -7,7 +7,12 @@ internal sealed record PreferenceId
         Value = value;
     }
 
-    public static implicit operator Guid(PreferenceId id) => id.Value;
+    public Guid Value { get; }
+
+    public static implicit operator Guid(PreferenceId id)
+    {
+        return id.Value;
+    }
 
     public static implicit operator PreferenceId(Guid id)
     {
@@ -23,8 +28,6 @@ internal sealed record PreferenceId
     {
         return new PreferenceId(value);
     }
-
-    public Guid Value { get; }
 
     public bool IsEmpty()
     {

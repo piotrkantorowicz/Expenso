@@ -6,10 +6,10 @@ namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser;
 
 internal abstract class GetUserQueryHandlerTestBase : TestBase<GetUserQueryHandler>
 {
-    protected Mock<IUserService> _userServiceMock = null!;
     protected GetUserResponse _getUserResponse = null!;
-    protected string _userId = null!;
     protected string _userEmail = null!;
+    protected string _userId = null!;
+    protected Mock<IUserService> _userServiceMock = null!;
 
     [SetUp]
     public void SetUp()

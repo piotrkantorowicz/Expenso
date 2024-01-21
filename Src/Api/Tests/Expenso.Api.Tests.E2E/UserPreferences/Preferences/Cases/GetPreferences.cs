@@ -13,11 +13,7 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
         _httpClient.SetFakeBearerToken(_claims);
-
-        string request = new StringBuilder()
-            .Append("user-preferences/preferences/")
-            .Append(preferenceId)
-            .ToString();
+        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
 
         // Act
         HttpResponseMessage testResult = await _httpClient.GetAsync(request);
@@ -33,11 +29,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
-        
-        string request = new StringBuilder()
-            .Append("user-preferences/preferences/")
-            .Append(preferenceId)
-            .ToString();
+        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
 
         // Act
         HttpResponseMessage testResult = await _httpClient.GetAsync(request);

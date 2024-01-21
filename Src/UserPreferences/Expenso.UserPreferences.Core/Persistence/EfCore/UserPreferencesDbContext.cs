@@ -9,14 +9,14 @@ internal sealed class UserPreferencesDbContext(DbContextOptions<UserPreferencesD
 {
     public DbSet<Preference> Preferences { get; set; } = null!;
 
+    public async Task MigrateAsync()
+    {
+        await Database.MigrateAsync();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("user_preferences");
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-    }
-
-    public async Task MigrateAsync()
-    {
-        await Database.MigrateAsync();
     }
 }

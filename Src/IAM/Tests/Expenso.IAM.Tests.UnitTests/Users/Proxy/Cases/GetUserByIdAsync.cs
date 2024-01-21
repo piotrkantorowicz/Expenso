@@ -24,8 +24,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
 
         _queryDispatcherMock.Verify(
-            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()),
-            Times.Once);
+            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -45,9 +44,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
 
         string expectedExceptionMessage =
             new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString();
-        
-        exception
-            ?.Message.Should()
-            .Be(expectedExceptionMessage);
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

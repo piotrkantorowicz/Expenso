@@ -7,7 +7,12 @@ internal sealed record UserId
         Value = value;
     }
 
-    public static implicit operator Guid(UserId id) => id.Value;
+    public Guid Value { get; }
+
+    public static implicit operator Guid(UserId id)
+    {
+        return id.Value;
+    }
 
     public static implicit operator UserId(Guid id)
     {
@@ -23,8 +28,6 @@ internal sealed record UserId
     {
         return new UserId(value);
     }
-
-    public Guid Value { get; }
 
     public bool IsEmpty()
     {

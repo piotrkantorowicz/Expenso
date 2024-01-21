@@ -80,7 +80,6 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         httpContext.Response.StatusCode = statusCode;
 
         return httpContext.Response.WriteAsJsonAsync(
-            StaticProblemDetailsSelector.Select(statusCode, expectedExceptionMessage),
-            cancellationToken);
+            StaticProblemDetailsSelector.Select(statusCode, expectedExceptionMessage), cancellationToken);
     }
 }

@@ -13,11 +13,11 @@ internal sealed class UpdatePreferenceCommandHandler(
     IPreferencesRepository preferencesRepository,
     IMessageBroker messageBroker) : ICommandHandler<UpdatePreferenceCommand>
 {
-    private readonly IPreferencesRepository _preferencesRepository =
-        preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
-
     private readonly IMessageBroker _messageBroker =
         messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
+
+    private readonly IPreferencesRepository _preferencesRepository =
+        preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken = default)
     {

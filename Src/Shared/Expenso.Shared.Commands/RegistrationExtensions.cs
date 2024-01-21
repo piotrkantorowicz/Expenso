@@ -14,14 +14,14 @@ public static class RegistrationExtensions
                 .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-        
+
         services.Scan(selector =>
             selector
                 .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
                 .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-        
+
         services.Scan(selector =>
             selector
                 .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
@@ -31,7 +31,7 @@ public static class RegistrationExtensions
 
         services.Decorate(typeof(ICommandHandler<>), typeof(CommandHandlerValidationDecorator<>));
         services.Decorate(typeof(ICommandHandler<,>), typeof(CommandHandlerValidationDecorator<,>));
-        
+
         return services;
     }
 }

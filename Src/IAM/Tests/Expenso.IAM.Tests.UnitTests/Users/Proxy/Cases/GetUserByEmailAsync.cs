@@ -13,8 +13,7 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail),
-                It.IsAny<CancellationToken>()))
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_getUserInternalResponse);
 
         // Act

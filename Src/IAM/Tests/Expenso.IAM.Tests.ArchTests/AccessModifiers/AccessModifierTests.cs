@@ -8,7 +8,7 @@ internal sealed class AccessModifierTests : TestBase
     [
         "DTO"
     ];
-    
+
     private static readonly string[] NotInternal =
     [
         "Module",

@@ -43,8 +43,8 @@ internal sealed record Preference
 
     public static Preference CreateDefault(PreferenceId id, UserId userId)
     {
-        return new Preference(id, userId, GeneralPreference.CreateDefault(),
-            FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
+        return new Preference(id, userId, GeneralPreference.CreateDefault(), FinancePreference.CreateDefault(),
+            NotificationPreference.CreateDefault());
     }
 
     public static Preference Create(PreferenceId id, UserId userId, GeneralPreference? generalPreference,

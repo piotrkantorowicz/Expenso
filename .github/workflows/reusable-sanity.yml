@@ -17,15 +17,15 @@ jobs:
           pattern: '^.{0,80}(\n.*)*$'
           error: "Subject of all commits in the PR has to be shorter than 80 characters."
 
-      # - name: Disallow issue hashtag in subject
-      #   uses: gsactions/commit-message-checker@v2
-      #   with:
-      #     excludeDescription: "true"
-      #     excludeTitle: "true"
-      #     checkAllCommitMessages: "true"
-      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
-      #     pattern: '^(?!.*#\d*).*(\n.*)*$'
-      #     error: "Do not include issue hashtags (e.g., #123) in the subject of any commit in the PR."
+      - name: Disallow issue hashtag in subject
+        uses: gsactions/commit-message-checker@v2
+        with:
+          excludeDescription: "true"
+          excludeTitle: "true"
+          checkAllCommitMessages: "true"
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          pattern: '^(?!.*#\d*).*(\n.*)*$'
+          error: "Do not include issue hashtags (e.g., #123) in the subject of any commit in the PR."
 
       - name: Disallow specific prefixes in title
         uses: gsactions/commit-message-checker@v2

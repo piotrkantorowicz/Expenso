@@ -24,7 +24,8 @@ internal sealed class PreferencesRepository(IUserPreferencesDbContext userPrefer
         return await preferencesQueryable.SingleOrDefaultAsync(x => x.Id == preferenceId, cancellationToken);
     }
 
-    public async Task<Preference?> GetByUserIdAsync(UserId userId, bool useTracking, CancellationToken cancellationToken)
+    public async Task<Preference?> GetByUserIdAsync(UserId userId, bool useTracking,
+        CancellationToken cancellationToken)
     {
         IQueryable<Preference> userPreferencesQueryable = _userPreferencesDbContext.Preferences.AsQueryable();
 

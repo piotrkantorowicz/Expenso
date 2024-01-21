@@ -25,6 +25,7 @@ internal sealed class CreatePreferences : PreferencesTestBase
 
         CreatePreferenceResponse? testResultContent =
             await testResult.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
+
         testResultContent?.UserId.Should().Be(userId);
 
         testResultContent

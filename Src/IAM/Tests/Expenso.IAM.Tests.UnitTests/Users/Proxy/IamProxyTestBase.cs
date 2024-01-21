@@ -7,10 +7,10 @@ namespace Expenso.IAM.Tests.UnitTests.Users.Proxy;
 
 internal abstract class IamProxyTestBase : TestBase<IIamUsersProxy>
 {
-    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
     protected GetUserInternalResponse _getUserInternalResponse = null!;
-    protected string _userId = null!;
+    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
     protected string _userEmail = null!;
+    protected string _userId = null!;
 
     [SetUp]
     public void SetUp()
