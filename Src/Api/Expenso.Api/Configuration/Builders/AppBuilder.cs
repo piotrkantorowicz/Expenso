@@ -4,12 +4,14 @@ using Expenso.Api.Configuration.Auth.Users.UserContext;
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.IAM.Api;
+using Expenso.Shared.Commands;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Configuration.Sections;
 using Expenso.Shared.Configuration.Settings;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
+using Expenso.Shared.Queries;
 using Expenso.Shared.UserContext;
 using Expenso.UserPreferences.Api;
 
@@ -31,8 +33,8 @@ internal sealed class AppBuilder : IAppBuilder
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private EfCoreSettings? _efCoreSettings;
     private ApplicationSettings? _applicationSettings;
+    private EfCoreSettings? _efCoreSettings;
     private KeycloakProtectionClientOptions? _keycloakProtectionClientOptions;
 
     public AppBuilder(string[] args)
@@ -125,6 +127,14 @@ internal sealed class AppBuilder : IAppBuilder
                 { securityScheme, Array.Empty<string>() }
             });
         });
+
+        return this;
+    }
+
+    public IAppBuilder ConfigureCqrs()
+    {
+        _services.AddCommands();
+        _services.AddQueries();
 
         return this;
     }

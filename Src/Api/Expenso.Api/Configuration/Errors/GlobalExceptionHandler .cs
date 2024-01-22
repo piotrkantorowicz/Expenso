@@ -13,8 +13,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         { typeof(ConflictException), HandleConflictException },
         { typeof(UnauthorizedException), HandleUnauthorizedAccessException },
         { typeof(ForbiddenException), HandleForbiddenAccessException },
-        { typeof(ValidationException), HandleInvalidModelStateException },
-        { typeof(Exception), HandleUnknownException }
+        { typeof(ValidationException), HandleInvalidModelStateException }
     };
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
@@ -26,7 +25,11 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         if (_exceptionHandlers.TryGetValue(type, out Func<Exception, HttpContext, CancellationToken, Task>? handler))
         {
             await handler.Invoke(exception, httpContext, cancellationToken);
+
+            return true;
         }
+
+        await HandleUnknownException(exception, httpContext, cancellationToken);
 
         return true;
     }
@@ -77,7 +80,6 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         httpContext.Response.StatusCode = statusCode;
 
         return httpContext.Response.WriteAsJsonAsync(
-            StaticProblemDetailsSelector.Select(statusCode, expectedExceptionMessage),
-            cancellationToken);
+            StaticProblemDetailsSelector.Select(statusCode, expectedExceptionMessage), cancellationToken);
     }
 }

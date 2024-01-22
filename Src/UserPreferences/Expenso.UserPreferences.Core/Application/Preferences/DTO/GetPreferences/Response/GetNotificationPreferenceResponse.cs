@@ -1,0 +1,3 @@
+namespace Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
+
+public sealed record GetNotificationPreferenceResponse(bool SendFinanceReportEnabled, int SendFinanceReportInterval);

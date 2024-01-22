@@ -18,11 +18,6 @@ public sealed class ValidationException : Exception
         CreateErrorDictionary(errorDictionary);
     }
 
-    public ValidationException(string details, IDictionary<string, string> errorDictionary) : base(DefaultMessage)
-    {
-        CreateErrorDictionary(errorDictionary, details);
-    }
-
     public string? Details { get; private set; }
 
     public IDictionary<string, string> ErrorDictionary { get; set; } = new Dictionary<string, string>();

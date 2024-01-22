@@ -1,10 +1,11 @@
-using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
 
 namespace Expenso.UserPreferences.Proxy;
 
 public interface IUserPreferencesProxy
 {
-    Task<PreferenceContract> GetUserPreferencesAsync(Guid userId, CancellationToken cancellationToken);
+    Task<GetPreferenceInternalResponse?> GetUserPreferencesAsync(Guid userId, CancellationToken cancellationToken);
 
-    Task<PreferenceContract> CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken);
+    Task<CreatePreferenceInternalResponse?> CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken);
 }

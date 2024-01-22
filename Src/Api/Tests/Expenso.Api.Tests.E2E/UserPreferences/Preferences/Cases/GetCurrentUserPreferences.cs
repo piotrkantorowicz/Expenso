@@ -1,6 +1,5 @@
 using Expenso.Api.Tests.E2E.TestData;
-using Expenso.UserPreferences.Core.DTO.GetUserPreferences;
-using Expenso.UserPreferences.Proxy.Contracts.GetUserPreferences;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences.Cases;
 
@@ -10,7 +9,7 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        PreferenceContract? preference = PreferencesDataProvider.Preferences?[3];
+        Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
         _httpClient.SetFakeBearerToken(_claims);
 
         // Act
@@ -18,8 +17,8 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.OK);
-        PreferenceDto? testResultContent = await testResult.Content.ReadFromJsonAsync<PreferenceDto>();
-        testResultContent?.Should().BeEquivalentTo(preference);
+        GetPreferenceResponse? testResultContent = await testResult.Content.ReadFromJsonAsync<GetPreferenceResponse>();
+        testResultContent?.Id.Should().Be(preferenceId);
     }
 
     [Test]

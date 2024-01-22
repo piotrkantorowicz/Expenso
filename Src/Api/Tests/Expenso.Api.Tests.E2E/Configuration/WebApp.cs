@@ -5,7 +5,7 @@ internal sealed class WebApp
     private static readonly Lazy<WebApp> Lazy = new(() => new WebApp());
     private readonly ExpensoWebApplication _expensoWebApplication;
     private HttpClient? _httpClient;
-    
+
     private WebApp()
     {
         ExpensoWebApplication app = new();
@@ -31,7 +31,7 @@ internal sealed class WebApp
         _httpClient?.Dispose();
         _httpClient = null;
     }
-    
+
     public void Destroy()
     {
         _httpClient?.Dispose();

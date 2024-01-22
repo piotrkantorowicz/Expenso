@@ -19,11 +19,13 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj" />
+        <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
         <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj"/>

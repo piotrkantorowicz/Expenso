@@ -9,9 +9,9 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Filters;
 
 internal abstract class ApiExceptionFilterAttributeTestBase : TestBase<GlobalExceptionHandler>
 {
-    private readonly NullLoggerFactory _loggerFactory = new();
     protected readonly DefaultHttpContext _httpContext = new();
-    
+    private readonly NullLoggerFactory _loggerFactory = new();
+
     [SetUp]
     public void SetUp()
     {
