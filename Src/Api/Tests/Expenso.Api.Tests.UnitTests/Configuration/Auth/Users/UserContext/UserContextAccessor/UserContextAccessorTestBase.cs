@@ -3,7 +3,7 @@ using Expenso.Shared.UserContext;
 
 using Microsoft.AspNetCore.Http;
 
-using UserAccessor = Expenso.Api.Configuration.Auth.Users.UserContext;
+using TestCandidate = Expenso.Api.Configuration.Auth.Users.UserContext;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Auth.Users.UserContext.UserContextAccessor;
 
@@ -15,6 +15,6 @@ internal abstract class UserContextAccessorTestBase : TestBase<IUserContextAcces
     public void SetUp()
     {
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        TestCandidate = new UserAccessor.UserContextAccessor(_httpContextAccessorMock.Object);
+        TestCandidate = new TestCandidate.UserContextAccessor(_httpContextAccessorMock.Object);
     }
 }

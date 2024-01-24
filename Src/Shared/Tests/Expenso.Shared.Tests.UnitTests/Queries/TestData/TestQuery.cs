@@ -1,5 +1,4 @@
 using Expenso.Shared.Queries;
-using Expenso.Shared.Tests.UnitTests.Queries.QueryHandlers;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.TestData;
 
