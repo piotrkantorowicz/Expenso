@@ -16,7 +16,7 @@ public static class RegistrationExtensions
     public static void AddIamCore(this IServiceCollection services, IConfiguration configuration)
     {
         RegisterAclUserServices(services, configuration);
-        services.AddScoped<IIamUsersProxy, IamUsersUsersProxy>();
+        services.AddScoped<IIamProxy, IamProxy>();
     }
 
     private static void RegisterAclUserServices(IServiceCollection services, IConfiguration configuration)
