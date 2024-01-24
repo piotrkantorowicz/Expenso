@@ -15,7 +15,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
         builder
             .Property(x => x.Id)
             .HasConversion(x => x.Value, x => PreferenceId.Create(x))
-            .HasColumnName("preferences_id")
+            .HasColumnName("id")
             .IsRequired();
 
         builder.HasKey(x => x.Id);
@@ -31,22 +31,22 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
         builder.OwnsOne(x => x.FinancePreference, financePreferencesBuilder =>
         {
             financePreferencesBuilder
-                .Property(a => a.AllowAddFinancePlanReviewers)
+                .Property(x => x.AllowAddFinancePlanReviewers)
                 .HasColumnName("allow_add_finance_plan_reviewers")
                 .IsRequired();
 
             financePreferencesBuilder
-                .Property(a => a.AllowAddFinancePlanSubOwners)
+                .Property(x => x.AllowAddFinancePlanSubOwners)
                 .HasColumnName("allow_add_finance_plan_sub_owners")
                 .IsRequired();
 
             financePreferencesBuilder
-                .Property(a => a.MaxNumberOfFinancePlanReviewers)
+                .Property(x => x.MaxNumberOfFinancePlanReviewers)
                 .HasColumnName("max_number_of_finance_plan_reviewers")
                 .IsRequired();
 
             financePreferencesBuilder
-                .Property(a => a.MaxNumberOfSubFinancePlanSubOwners)
+                .Property(x => x.MaxNumberOfSubFinancePlanSubOwners)
                 .HasColumnName("max_number_of_sub_finance_plan_sub_owners")
                 .IsRequired();
         });
@@ -54,19 +54,19 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
         builder.OwnsOne(x => x.NotificationPreference, notificationPreferencesBuilder =>
         {
             notificationPreferencesBuilder
-                .Property(a => a.SendFinanceReportEnabled)
+                .Property(x => x.SendFinanceReportEnabled)
                 .HasColumnName("send_finance_report_enabled")
                 .IsRequired();
 
             notificationPreferencesBuilder
-                .Property(a => a.SendFinanceReportInterval)
+                .Property(x => x.SendFinanceReportInterval)
                 .HasColumnName("send_finance_report_interval")
                 .IsRequired();
         });
 
         builder.OwnsOne(x => x.GeneralPreference, generalPreferencesBuilder =>
         {
-            generalPreferencesBuilder.Property(a => a.UseDarkMode).HasColumnName("use_dark_mode").IsRequired();
+            generalPreferencesBuilder.Property(x => x.UseDarkMode).HasColumnName("use_dark_mode").IsRequired();
         });
     }
 }

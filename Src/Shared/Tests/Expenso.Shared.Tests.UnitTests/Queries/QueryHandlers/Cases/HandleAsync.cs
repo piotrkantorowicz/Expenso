@@ -1,3 +1,5 @@
+using Expenso.Shared.Tests.UnitTests.Queries.TestData;
+
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryHandlers.Cases;
 
 internal sealed class HandleAsync : QueryHandlerResultTestBase

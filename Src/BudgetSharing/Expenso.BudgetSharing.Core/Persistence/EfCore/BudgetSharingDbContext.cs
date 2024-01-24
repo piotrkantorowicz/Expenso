@@ -1,13 +1,13 @@
-using Expenso.BudgetSharing.Core.Models;
+using Expenso.BudgetSharing.Core.Domain.BudgetPermissions.Model;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Expenso.BudgetSharing.Core.Data.Ef;
+namespace Expenso.BudgetSharing.Core.Persistence.EfCore;
 
 internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options)
     : DbContext(options), IBudgetSharingDbContext
 {
-    public DbSet<BudgetPermission> ShareBudgets { get; } = null!;
+    public DbSet<BudgetPermission> BudgetPermissions { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

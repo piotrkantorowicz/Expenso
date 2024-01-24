@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
@@ -32,14 +33,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Data\Ef\Configurations\"/>
-        <Folder Include="Data\Ef\Repositories\"/>
-        <Folder Include="DTO\"/>
-        <Folder Include="Mappings\"/>
-        <Folder Include="Proxy\"/>
-        <Folder Include="Repositories\"/>
-        <Folder Include="Services\"/>
-        <Folder Include="Validators\"/>
+        <Folder Include="Application\Internal\"/>
+        <Folder Include="Application\Proxy\"/>
+        <Folder Include="Application\Queries\"/>
+        <Folder Include="Domain\BudgetPermissionRequests\Model\Rules\"/>
+        <Folder Include="Domain\BudgetPermissions\Model\Rules\"/>
     </ItemGroup>
 
 </Project>
