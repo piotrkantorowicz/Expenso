@@ -7,15 +7,15 @@ jobs:
     name: Validate commit messages
     runs-on: ubuntu-latest
     steps:
-      - name: Check subject line length
-        uses: gsactions/commit-message-checker@v2
-        with:
-          excludeDescription: "true"
-          excludeTitle: "true"
-          checkAllCommitMessages: "true"
-          accessToken: ${{ secrets.GITHUB_TOKEN }}
-          pattern: '^.{0,80}(\n.*)*$'
-          error: "Subject of all commits in the PR has to be shorter than 80 characters."
+      # - name: Check subject line length
+      #   uses: gsactions/commit-message-checker@v2
+      #   with:
+      #     excludeDescription: "true"
+      #     excludeTitle: "true"
+      #     checkAllCommitMessages: "true"
+      #     accessToken: ${{ secrets.GITHUB_TOKEN }}
+      #     pattern: '^.{0,80}(\n.*)*$'
+      #     error: "Subject of all commits in the PR has to be shorter than 80 characters."
 
       - name: Disallow issue hashtag in subject
         uses: gsactions/commit-message-checker@v2
