@@ -15,7 +15,7 @@ internal sealed class UpdateAsync : PreferenceRepositoryTestBase
         Preference preference = Preferences.First();
 
         preference.Update(GeneralPreference.Create(true), FinancePreference.Create(true, 5, true, 8),
-            NotificationPreference.Create(true, 14), _messageBrokerMock.Object, default);
+            NotificationPreference.Create(true, 14));
 
         // Act
         Preference updatedPreference = await TestCandidate.UpdateAsync(preference, default);

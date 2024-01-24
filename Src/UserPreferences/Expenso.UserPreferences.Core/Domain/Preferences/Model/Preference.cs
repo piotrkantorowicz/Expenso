@@ -1,9 +1,4 @@
-using Expenso.Shared.MessageBroker;
-using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
@@ -55,45 +50,34 @@ internal sealed record Preference
             notificationPreference ?? NotificationPreference.CreateDefault());
     }
 
-    public bool Update(GeneralPreference generalPreference, FinancePreference financePreference,
-        NotificationPreference notificationPreference, IMessageBroker messageBroker,
-        CancellationToken cancellationToken)
+    public PreferenceChangeType Update(GeneralPreference generalPreference, FinancePreference financePreference,
+        NotificationPreference notificationPreference)
     {
-        bool isUpdated = false;
+        bool isGeneralPreferencesChanged = false;
+        bool isFinancePreferencesChanged = false;
+        bool isNotificationPreferencesChanged = false;
 
         if (GeneralPreference != generalPreference)
         {
             GeneralPreference = generalPreference;
-
-            messageBroker.PublishAsync(
-                new GeneralPreferenceUpdatedIntegrationEvent(UserId,
-                    GeneralPreferenceMap.MapToInternalContract(generalPreference)), cancellationToken);
-
-            isUpdated = true;
+            isGeneralPreferencesChanged = true;
         }
 
         if (FinancePreference != financePreference)
         {
             FinancePreference = financePreference;
-
-            messageBroker.PublishAsync(
-                new FinancePreferenceUpdatedIntegrationEvent(UserId,
-                    FinancePreferenceMap.MapToInternalContract(financePreference)), cancellationToken);
-
-            isUpdated = true;
+            isFinancePreferencesChanged = true;
         }
 
         if (NotificationPreference != notificationPreference)
         {
             NotificationPreference = notificationPreference;
-
-            messageBroker.PublishAsync(
-                new NotificationPreferenceUpdatedIntegrationEvent(UserId,
-                    NotificationPreferenceMap.MapToInternalContract(notificationPreference)), cancellationToken);
-
-            isUpdated = true;
+            isNotificationPreferencesChanged = true;
         }
 
-        return isUpdated;
+        PreferenceChangeType preferenceChangeType = new(isGeneralPreferencesChanged, isFinancePreferencesChanged,
+            isNotificationPreferencesChanged);
+
+        return preferenceChangeType;
     }
 }
