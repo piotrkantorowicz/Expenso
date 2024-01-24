@@ -4,6 +4,9 @@ using Expenso.Shared.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.DTO.UpdatePreferences.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Commands.UpdatePreference.Cases;
 
@@ -15,7 +18,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         // Arrange
         UpdatePreferenceCommand command = new(_userId,
             new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
-                new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(false)));
+                new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(true)));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
@@ -31,6 +34,18 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
             x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
 
         _preferenceRepositoryMock.Verify(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()), Times.Once);
+
+        _messageBrokerMock.Verify(
+            x => x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            Times.Once);
+
+        _messageBrokerMock.Verify(
+            x => x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            Times.Once());
+
+        _messageBrokerMock.Verify(
+            x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
+                It.IsAny<CancellationToken>()), Times.Once());
     }
 
     [Test]
@@ -58,5 +73,22 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
             .ToString();
 
         exception?.Message.Should().Be(expectedExceptionMessage);
+
+        _preferenceRepositoryMock.Verify(
+            x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Once);
+
+        _preferenceRepositoryMock.Verify(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()), Times.Never);
+
+        _messageBrokerMock.Verify(
+            x => x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+
+        _messageBrokerMock.Verify(
+            x => x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            Times.Never());
+
+        _messageBrokerMock.Verify(
+            x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
+                It.IsAny<CancellationToken>()), Times.Never());
     }
 }

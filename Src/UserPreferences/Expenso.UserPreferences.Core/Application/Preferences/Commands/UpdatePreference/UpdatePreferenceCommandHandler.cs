@@ -1,11 +1,13 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.Types.Exceptions;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.UpdatePreferences.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Commands.UpdatePreference;
 
@@ -33,14 +35,42 @@ internal sealed class UpdatePreferenceCommandHandler(
                 $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.");
         }
 
-        UpdatePreferenceRequest preference = command.Preference!;
+        GeneralPreference generalPreference = GeneralPreferenceMap.MapToModel(command.Preference?.GeneralPreference!);
+        FinancePreference financePreference = FinancePreferenceMap.MapToModel(command.Preference?.FinancePreference!);
 
-        if (dbPreference.Update(GeneralPreferenceMap.MapToModel(preference.GeneralPreference!),
-                FinancePreferenceMap.MapToModel(preference.FinancePreference!),
-                NotificationPreferenceMap.MapToModel(preference.NotificationPreference!), _messageBroker,
-                cancellationToken))
+        NotificationPreference notificationPreference =
+            NotificationPreferenceMap.MapToModel(command.Preference?.NotificationPreference!);
+
+        PreferenceChangeType preferenceChangeType =
+            dbPreference.Update(generalPreference, financePreference, notificationPreference);
+
+        if (preferenceChangeType.IsAnyPreferencesChanged)
         {
+            List<Task> tasks = new List<Task>();
+
+            if (preferenceChangeType.GeneralPreferencesChanged)
+            {
+                tasks.Add(messageBroker.PublishAsync(
+                    new GeneralPreferenceUpdatedIntegrationEvent(dbPreference.UserId,
+                        GeneralPreferenceMap.MapToInternalContract(generalPreference)), cancellationToken));
+            }
+
+            if (preferenceChangeType.FinancePreferencesChanged)
+            {
+                tasks.Add(messageBroker.PublishAsync(
+                    new FinancePreferenceUpdatedIntegrationEvent(dbPreference.UserId,
+                        FinancePreferenceMap.MapToInternalContract(financePreference)), cancellationToken));
+            }
+
+            if (preferenceChangeType.NotificationPreferencesChanged)
+            {
+                tasks.Add(messageBroker.PublishAsync(
+                    new NotificationPreferenceUpdatedIntegrationEvent(dbPreference.UserId,
+                        NotificationPreferenceMap.MapToInternalContract(notificationPreference)), cancellationToken));
+            }
+
             await _preferencesRepository.UpdateAsync(dbPreference, cancellationToken);
+            await Task.WhenAll(tasks);
         }
     }
 }
