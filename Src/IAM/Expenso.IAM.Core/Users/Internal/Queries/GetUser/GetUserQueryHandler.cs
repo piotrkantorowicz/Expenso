@@ -25,6 +25,6 @@ internal sealed class GetUserInternalQueryHandler(IUserService userService)
             return await _userService.GetUserByEmailInternalAsync(email);
         }
 
-        throw new NotFoundException($"{nameof(id)} or {nameof(email)} must be provided.");
+        throw new NotFoundException($"{nameof(query.Id)} or {nameof(query.Email)} must be provided.");
     }
 }
