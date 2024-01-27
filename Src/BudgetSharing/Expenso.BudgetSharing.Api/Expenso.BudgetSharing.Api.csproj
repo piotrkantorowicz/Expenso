@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Expenso.BudgetSharing.Core\Expenso.BudgetSharing.Core.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Expenso.BudgetSharing.Infrastructure\Expenso.BudgetSharing.Infrastructure.csproj"/>
     </ItemGroup>
 
 </Project>

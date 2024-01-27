@@ -5,7 +5,7 @@ using Expenso.Shared.Types.Exceptions;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.Result.Cases;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.Result;
 
 internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
 {
