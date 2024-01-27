@@ -21,14 +21,16 @@ internal sealed class GetPreferenceQueryHandler(
     public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query,
         CancellationToken cancellationToken = default)
     {
-        if (query.PreferenceId is not null)
+        (Guid? preferenceId, Guid? userId) = query;
+
+        if (preferenceId.HasValue)
         {
-            return await GetPreferencesAsync(query.PreferenceId.Value, cancellationToken);
+            return await GetPreferencesAsync(preferenceId.Value, cancellationToken);
         }
 
-        if (query.UserId is not null)
+        if (userId.HasValue)
         {
-            return await GetPreferencesForUserAsync(query.UserId.Value, cancellationToken);
+            return await GetPreferencesForUserAsync(userId.Value, cancellationToken);
         }
 
         return await GetPreferencesForCurrentUserAsync(cancellationToken);
