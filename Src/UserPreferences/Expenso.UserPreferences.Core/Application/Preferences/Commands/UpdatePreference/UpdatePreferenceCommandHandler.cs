@@ -1,6 +1,7 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.Types.Exceptions;
+using Expenso.UserPreferences.Core.Application.Preferences.DTO.UpdatePreferences.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
@@ -23,30 +24,36 @@ internal sealed class UpdatePreferenceCommandHandler(
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken = default)
     {
-        Preference? dbPreference =
-            await _preferencesRepository.GetByIdAsync(PreferenceId.Create(command.PreferenceOrUserId), true,
-                cancellationToken) ??
-            await _preferencesRepository.GetByUserIdAsync(UserId.Create(command.PreferenceOrUserId), true,
-                cancellationToken);
+        (Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) = command;
+
+        (UpdateFinancePreferenceRequest? financePreferenceRequest,
+            UpdateNotificationPreferenceRequest? notificationPreferenceRequest,
+            UpdateGeneralPreferenceRequest? generalPreferenceRequest) = updatePreferenceRequest!;
+
+        Preference? dbPreference = await _preferencesRepository.GetByIdAsync(PreferenceId.Create(preferenceOrUserId),
+                                       true,
+                                       cancellationToken) ??
+                                   await _preferencesRepository.GetByUserIdAsync(UserId.Create(preferenceOrUserId),
+                                       true, cancellationToken);
 
         if (dbPreference is null)
         {
             throw new ConflictException(
-                $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.");
+                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found.");
         }
 
-        GeneralPreference generalPreference = GeneralPreferenceMap.MapToModel(command.Preference?.GeneralPreference!);
-        FinancePreference financePreference = FinancePreferenceMap.MapToModel(command.Preference?.FinancePreference!);
+        GeneralPreference generalPreference = GeneralPreferenceMap.MapToModel(generalPreferenceRequest!);
+        FinancePreference financePreference = FinancePreferenceMap.MapToModel(financePreferenceRequest!);
 
         NotificationPreference notificationPreference =
-            NotificationPreferenceMap.MapToModel(command.Preference?.NotificationPreference!);
+            NotificationPreferenceMap.MapToModel(notificationPreferenceRequest!);
 
         PreferenceChangeType preferenceChangeType =
             dbPreference.Update(generalPreference, financePreference, notificationPreference);
 
         if (preferenceChangeType.IsAnyPreferencesChanged)
         {
-            List<Task> tasks = new List<Task>();
+            List<Task> tasks = [];
 
             if (preferenceChangeType.GeneralPreferencesChanged)
             {

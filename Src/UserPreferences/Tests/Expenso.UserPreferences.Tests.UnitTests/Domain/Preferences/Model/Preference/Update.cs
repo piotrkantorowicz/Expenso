@@ -17,7 +17,7 @@ internal sealed class Update : PreferenceTestBase
             TestCandidate.Update(generalPreference, financePreference, notificationPreference);
 
         // Assert
-        result.Should().BeEquivalentTo(new PreferenceChangeType(true, true, true));
+        result.Should().BeEquivalentTo(PreferenceChangeType.Create(true, true, true));
     }
 
     [Test]
@@ -29,7 +29,7 @@ internal sealed class Update : PreferenceTestBase
             _defaultNotificationPreference);
 
         // Assert
-        result.Should().BeEquivalentTo(new PreferenceChangeType(false, false, false));
+        result.Should().BeEquivalentTo(PreferenceChangeType.Create(false, false, false));
     }
 
     [Test]
