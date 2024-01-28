@@ -10,10 +10,10 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Application.Proxy.UserPreferen
 
 internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferencesProxy>
 {
-    private Guid _id;
     protected Mock<ICommandDispatcher> _commandDispatcherMock = null!;
     protected CreatePreferenceInternalResponse _createPreferenceInternalResponse = null!;
     protected GetPreferenceInternalResponse _getPreferenceInternalResponse = null!;
+    private Guid _id;
     protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
     protected Guid _userId;
 

@@ -1,5 +1,5 @@
 ### GetUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/a433bf38-4ece-4d43-b4a1-b46cf9f4cae5
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/8b6f6926-7513-4791-a59a-8f0bba6fa216
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?userId=e2bf7ed6-afce-4c25-a5c3-66b3e7cfe006
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?userId=4c7a9020-398f-4d42-8cb4-cac1477a49ac
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
@@ -19,11 +19,11 @@ Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 {
-  "userId": "e2bf7ed6-afce-4c25-a5c3-66b3e7cfe006"
+  "userId": "4c7a9020-398f-4d42-8cb4-cac1477a49ac"
 }
 
 ### UpdatePreferences
-PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/a433bf38-4ece-4d43-b4a1-b46cf9f4cae5
+PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/4c7a9020-398f-4d42-8cb4-cac1477a49ac
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 

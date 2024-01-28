@@ -17,8 +17,6 @@ internal abstract class CommandHandlerDecoratorTestBase : TestBase<CommandHandle
         _testCommand = new TestCommand(Guid.NewGuid(), "JYi9R7e7v2Qor");
         _validator = new Mock<ICommandValidator<TestCommand>>();
         Mock<ICommandHandler<TestCommand>> handler = new();
-
-        TestCandidate = new CommandHandlerValidationDecorator<TestCommand>([_validator.Object],
-                handler.Object);
+        TestCandidate = new CommandHandlerValidationDecorator<TestCommand>([_validator.Object], handler.Object);
     }
 }

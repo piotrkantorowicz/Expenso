@@ -18,7 +18,7 @@ internal sealed class CreatePreferenceInternalCommandHandler(IPreferencesReposit
         CancellationToken cancellationToken = default)
     {
         CreatePreferenceInternalRequest request = command.Preference;
-        
+
         Preference? dbUserPreferences =
             await _preferencesRepository.GetByUserIdAsync(request.UserId, true, cancellationToken);
 

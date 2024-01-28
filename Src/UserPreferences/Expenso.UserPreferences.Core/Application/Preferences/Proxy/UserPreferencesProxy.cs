@@ -19,13 +19,13 @@ internal sealed class UserPreferencesProxy(ICommandDispatcher commandDispatcher,
         queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
 
     public async Task<GetPreferenceInternalResponse?> GetUserPreferencesAsync(Guid userId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(new GetPreferenceInternalQuery(userId), cancellationToken);
     }
 
     public async Task<CreatePreferenceInternalResponse?> CreatePreferencesAsync(Guid userId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<CreatePreferenceInternalCommand, CreatePreferenceInternalResponse>(
             new CreatePreferenceInternalCommand(new CreatePreferenceInternalRequest(userId)), cancellationToken);

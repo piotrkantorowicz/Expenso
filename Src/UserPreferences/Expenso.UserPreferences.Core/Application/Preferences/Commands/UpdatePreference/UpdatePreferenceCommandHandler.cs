@@ -30,11 +30,10 @@ internal sealed class UpdatePreferenceCommandHandler(
             UpdateNotificationPreferenceRequest? notificationPreferenceRequest,
             UpdateGeneralPreferenceRequest? generalPreferenceRequest) = updatePreferenceRequest!;
 
-        Preference? dbPreference = await _preferencesRepository.GetByIdAsync(PreferenceId.Create(preferenceOrUserId),
-                                       true,
-                                       cancellationToken) ??
-                                   await _preferencesRepository.GetByUserIdAsync(UserId.Create(preferenceOrUserId),
-                                       true, cancellationToken);
+        Preference? dbPreference =
+            await _preferencesRepository.GetByIdAsync(PreferenceId.Create(preferenceOrUserId), true,
+                cancellationToken) ??
+            await _preferencesRepository.GetByUserIdAsync(UserId.Create(preferenceOrUserId), true, cancellationToken);
 
         if (dbPreference is null)
         {
@@ -57,21 +56,21 @@ internal sealed class UpdatePreferenceCommandHandler(
 
             if (preferenceChangeType.GeneralPreferencesChanged)
             {
-                tasks.Add(messageBroker.PublishAsync(
+                tasks.Add(_messageBroker.PublishAsync(
                     new GeneralPreferenceUpdatedIntegrationEvent(dbPreference.UserId,
                         GeneralPreferenceMap.MapToInternalContract(generalPreference)), cancellationToken));
             }
 
             if (preferenceChangeType.FinancePreferencesChanged)
             {
-                tasks.Add(messageBroker.PublishAsync(
+                tasks.Add(_messageBroker.PublishAsync(
                     new FinancePreferenceUpdatedIntegrationEvent(dbPreference.UserId,
                         FinancePreferenceMap.MapToInternalContract(financePreference)), cancellationToken));
             }
 
             if (preferenceChangeType.NotificationPreferencesChanged)
             {
-                tasks.Add(messageBroker.PublishAsync(
+                tasks.Add(_messageBroker.PublishAsync(
                     new NotificationPreferenceUpdatedIntegrationEvent(dbPreference.UserId,
                         NotificationPreferenceMap.MapToInternalContract(notificationPreference)), cancellationToken));
             }

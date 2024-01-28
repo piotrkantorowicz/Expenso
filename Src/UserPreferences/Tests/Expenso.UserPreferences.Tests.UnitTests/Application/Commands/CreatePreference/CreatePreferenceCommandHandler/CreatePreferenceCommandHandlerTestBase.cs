@@ -10,10 +10,10 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Application.Commands.CreatePre
 
 internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<TestCandidate>
 {
+    protected CreatePreferenceResponse _createPreferenceResponse = null!;
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
     protected Guid _userId;
-    protected CreatePreferenceResponse _createPreferenceResponse = null!;
 
     [SetUp]
     public void SetUp()
