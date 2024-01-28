@@ -16,13 +16,13 @@ internal sealed record PreferenceChangeType
 
     public bool NotificationPreferencesChanged { get; }
 
+    public bool IsAnyPreferencesChanged =>
+        GeneralPreferencesChanged || FinancePreferencesChanged || NotificationPreferencesChanged;
+
     public static PreferenceChangeType Create(bool generalPreferencesChanged, bool financePreferencesChanged,
         bool notificationPreferencesChanged)
     {
         return new PreferenceChangeType(generalPreferencesChanged, financePreferencesChanged,
             notificationPreferencesChanged);
     }
-
-    public bool IsAnyPreferencesChanged =>
-        GeneralPreferencesChanged || FinancePreferencesChanged || NotificationPreferencesChanged;
 }

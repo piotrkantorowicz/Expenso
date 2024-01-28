@@ -76,8 +76,7 @@ internal sealed record Preference
         }
 
         PreferenceChangeType preferenceChangeType = PreferenceChangeType.Create(isGeneralPreferencesChanged,
-            isFinancePreferencesChanged,
-            isNotificationPreferencesChanged);
+            isFinancePreferencesChanged, isNotificationPreferencesChanged);
 
         return preferenceChangeType;
     }
