@@ -1,7 +1,6 @@
 using System.Text;
 
-using Expenso.BudgetSharing.Domain.BudgetPermissions.Model.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Model.Rules;

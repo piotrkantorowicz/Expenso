@@ -1,6 +1,6 @@
 namespace Expenso.BudgetSharing.Application.DTO.AssignParticipant;
 
-public enum ParticipationType
+public enum PermissionTypeRequest
 {
     Unknown = 0,
     Owner = 1,

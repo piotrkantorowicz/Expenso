@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj"/>

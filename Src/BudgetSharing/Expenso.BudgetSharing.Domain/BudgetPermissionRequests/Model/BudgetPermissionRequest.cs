@@ -1,9 +1,8 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.ValueObjects;
-using Expenso.BudgetSharing.Domain.BudgetPermissions.Model.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.BudgetSharing.Domain.Shared.Model.Base;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.ValueObjects;
 

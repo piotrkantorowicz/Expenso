@@ -1,4 +1,4 @@
-namespace Expenso.BudgetSharing.Domain.Shared;
+namespace Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 
 public sealed class BudgetId
 {

@@ -1,6 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,5 @@
 namespace Expenso.BudgetSharing.Application.Commands.ConfirmParticipation;
 
-public class ConfirmParticipationCommandValidator
+internal sealed class ConfirmParticipationCommandValidator
 {
 }
