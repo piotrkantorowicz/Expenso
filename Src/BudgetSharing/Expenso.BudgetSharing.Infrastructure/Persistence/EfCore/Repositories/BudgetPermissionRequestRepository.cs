@@ -1,7 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
-using Expenso.Shared.Database.EfCore.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +12,11 @@ internal sealed class BudgetPermissionRequestRepository(IBudgetSharingDbContext 
     private readonly IBudgetSharingDbContext _budgetSharingDbContext =
         budgetSharingDbContext ?? throw new ArgumentNullException(nameof(budgetSharingDbContext));
 
-    public async Task<BudgetPermissionRequest?> GetByIdAsync(BudgetPermissionRequestId permissionId, bool useTracking,
+    public async Task<BudgetPermissionRequest?> GetByIdAsync(BudgetPermissionRequestId permissionId,
         CancellationToken cancellationToken = default)
     {
-        return await _budgetSharingDbContext
-            .BudgetPermissionRequests.Tracking(useTracking)
-            .SingleOrDefaultAsync(x => x.Id == permissionId, cancellationToken);
+        return await _budgetSharingDbContext.BudgetPermissionRequests.SingleOrDefaultAsync(x => x.Id == permissionId,
+            cancellationToken);
     }
 
     public async Task<BudgetPermissionRequest> AddAsync(BudgetPermissionRequest permission,

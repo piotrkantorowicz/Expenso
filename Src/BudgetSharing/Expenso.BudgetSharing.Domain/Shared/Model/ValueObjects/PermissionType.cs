@@ -13,13 +13,8 @@ public sealed record PermissionType : Enumeration<PermissionType>
     {
     }
 
-    public bool IsReviewerOrSubOwner()
+    public bool IsUnknown()
     {
-        return this == Reviewer || this == SubOwner;
-    }
-
-    public bool IsOwner()
-    {
-        return this == Owner;
+        return this == Unknown;
     }
 }

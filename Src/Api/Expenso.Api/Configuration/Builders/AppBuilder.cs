@@ -5,6 +5,7 @@ using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
+using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Configuration.Sections;
 using Expenso.Shared.Configuration.Settings;
@@ -134,6 +135,7 @@ internal sealed class AppBuilder : IAppBuilder
     public IAppBuilder ConfigureCqrs()
     {
         _services.AddCommands();
+        _services.AddCommandsValidation();
         _services.AddQueries();
 
         return this;

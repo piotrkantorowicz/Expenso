@@ -17,9 +17,10 @@ internal sealed class DomainModelState
         if (_brokenRules.Count != 0 && throwException)
         {
             IBusinessRule[] brokenRules = _brokenRules.ToArray();
+            DomainRuleValidationException exception = new(brokenRules);
             _brokenRules.Clear();
 
-            throw new DomainRuleValidationException(brokenRules);
+            throw exception;
         }
     }
 }

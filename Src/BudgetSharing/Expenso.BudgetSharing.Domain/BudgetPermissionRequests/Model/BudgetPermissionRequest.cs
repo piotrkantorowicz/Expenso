@@ -2,9 +2,11 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.Base;
+using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.ValueObjects;
+using Expenso.Shared.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model;
 
@@ -15,14 +17,21 @@ public sealed class BudgetPermissionRequest
 
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core   
-    private BudgetPermissionRequest() : this(BudgetPermissionRequestId.CreateDefault(), BudgetId.CreateDefault(),
-        PersonId.CreateDefault(), PermissionType.Unknown, BudgetPermissionRequestStatus.Unknown, null)
+    private BudgetPermissionRequest()
     {
     }
 
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
-        PermissionType permissionType, BudgetPermissionRequestStatus status, DateAndTime? expirationDate)
+        PermissionType permissionType, BudgetPermissionRequestStatus status, int expirationDays, IClock clock)
     {
+        DateAndTime expirationDate = DateAndTime.Create(clock.UtcNow.AddDays(expirationDays));
+
+        _domainModelState.CheckBusinessRules([
+            new UnknownPermissionTypeCannotBeProcessed(permissionType),
+            new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status),
+            new ExpirationDateMustBeGreaterThanOneDay(expirationDate, clock)
+        ]);
+
         Id = id;
         BudgetId = budgetId;
         ParticipantId = participantId;
@@ -45,10 +54,10 @@ public sealed class BudgetPermissionRequest
     public DateAndTime? ExpirationDate { get; private set; }
 
     public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId personId, PermissionType permissionType,
-        DateAndTime? expirationDate)
+        int expirationDays, IClock clock)
     {
         return new BudgetPermissionRequest(Guid.NewGuid(), budgetId, personId, permissionType,
-            BudgetPermissionRequestStatus.Pending, expirationDate);
+            BudgetPermissionRequestStatus.Pending, expirationDays, clock);
     }
 
     public void Confirm()

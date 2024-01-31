@@ -11,5 +11,7 @@ internal interface IBudgetSharingDbContext
 
     DbSet<BudgetPermissionRequest> BudgetPermissionRequests { get; }
 
+    EntityState GetEntryState(object entity);
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

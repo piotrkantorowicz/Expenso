@@ -19,7 +19,7 @@ public sealed class PersonId
         return new PersonId(id);
     }
 
-    public static PersonId CreateDefault()
+    internal static PersonId CreateDefault()
     {
         return new PersonId(Guid.Empty);
     }
@@ -27,10 +27,5 @@ public sealed class PersonId
     public static PersonId Create(Guid value)
     {
         return new PersonId(value);
-    }
-
-    public bool IsEmpty()
-    {
-        return Value == Guid.Empty;
     }
 }

@@ -20,26 +20,26 @@ internal sealed class ConfirmParticipationCommandHandler(
 
     public async Task HandleAsync(ConfirmParticipationCommand command, CancellationToken cancellationToken = default)
     {
-        (Guid budgetPermissionRequestId, Guid budgetPermissionId) = command;
-
         BudgetPermissionRequest? permissionRequest =
-            await _budgetPermissionRequestRepository.GetByIdAsync(budgetPermissionRequestId, true, cancellationToken);
+            await _budgetPermissionRequestRepository.GetByIdAsync(command.BudgetPermissionRequestId, cancellationToken);
 
         if (permissionRequest is null)
         {
             throw new NotFoundException(
-                $"Budget permission request with id {budgetPermissionRequestId} hasn't been found");
+                $"Budget permission request with id {command.BudgetPermissionRequestId} hasn't been found");
         }
 
         permissionRequest.Confirm();
         await _budgetPermissionRequestRepository.UpdateAsync(permissionRequest, cancellationToken);
 
         BudgetPermission? budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(budgetPermissionId, true, true, cancellationToken);
+            await _budgetPermissionRepository.GetByIdAsync(command.ConfirmParticipationRequest.BudgetPermissionId,
+                cancellationToken);
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException($"Budget permission with id {budgetPermissionId} hasn't been found");
+            throw new NotFoundException(
+                $"Budget permission with id {command.ConfirmParticipationRequest.BudgetPermissionId} hasn't been found");
         }
 
         budgetPermission.AddPermission(permissionRequest.ParticipantId, permissionRequest.PermissionType);

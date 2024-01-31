@@ -1,5 +1,5 @@
 using Expenso.Shared.Commands;
-using Expenso.Shared.Commands.Validations;
+using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
 using Moq;

@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Dispatchers;
+using Expenso.Shared.Commands.Validation;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,12 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
     [SetUp]
     public void Setup()
     {
-        ServiceProvider serviceProvider = new ServiceCollection().AddCommands().AddLogging().BuildServiceProvider();
+        ServiceProvider serviceProvider = new ServiceCollection()
+            .AddCommands()
+            .AddCommandsValidation()
+            .AddLogging()
+            .BuildServiceProvider();
+
         TestCandidate = new TestCandidate(serviceProvider);
     }
 }

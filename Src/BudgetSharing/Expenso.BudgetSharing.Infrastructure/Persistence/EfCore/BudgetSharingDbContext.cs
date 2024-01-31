@@ -12,6 +12,11 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
 
     public DbSet<BudgetPermissionRequest> BudgetPermissionRequests { get; set; } = null!;
 
+    public EntityState GetEntryState(object entity)
+    {
+        return Entry(entity).State;
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("budget_sharing");

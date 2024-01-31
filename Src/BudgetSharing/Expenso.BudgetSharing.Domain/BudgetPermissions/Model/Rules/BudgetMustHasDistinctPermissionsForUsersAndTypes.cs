@@ -14,11 +14,11 @@ internal sealed class BudgetMustHasDistinctPermissionsForUsersAndTypes(
     private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
     private readonly PersonId _participantId = participantId ?? throw new ArgumentNullException(nameof(participantId));
 
-    private readonly PermissionType _permissionType =
-        permissionType ?? throw new ArgumentNullException(nameof(permissionType));
-
     private readonly IEnumerable<Permission> _permissions =
         permissions ?? throw new ArgumentNullException(nameof(permissions));
+
+    private readonly PermissionType _permissionType =
+        permissionType ?? throw new ArgumentNullException(nameof(permissionType));
 
     public string Message => new StringBuilder()
         .Append("Budget ")

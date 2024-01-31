@@ -14,11 +14,6 @@ public sealed record DateAndTime
         return new DateAndTime(value);
     }
 
-    public static DateAndTime CreateDefault()
-    {
-        return new DateAndTime(DateTimeOffset.MinValue);
-    }
-
     public static bool operator >(DateTimeOffset left, DateAndTime right)
     {
         return left > right.Value;

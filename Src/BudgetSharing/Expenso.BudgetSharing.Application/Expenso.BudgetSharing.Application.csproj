@@ -7,16 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Internal\"/>
-        <Folder Include="Proxy\"/>
-        <Folder Include="Queries\"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\..\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj"/>
+        <ProjectReference Include="..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,4 @@
 using Expenso.Shared.Commands.Dispatchers;
-using Expenso.Shared.Commands.Validations;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,13 +13,6 @@ public static class RegistrationExtensions
         services.Scan(selector =>
             selector
                 .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
-                .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
-                .AsImplementedInterfaces()
-                .WithScopedLifetime());
-
-        services.Scan(selector =>
-            selector
-                .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
                 .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
@@ -31,9 +23,6 @@ public static class RegistrationExtensions
                 .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-
-        services.Decorate(typeof(ICommandHandler<>), typeof(Decorators.CommandHandlerValidationDecorator<>));
-        services.Decorate(typeof(ICommandHandler<,>), typeof(Decorators.CommandHandlerValidationDecorator<,>));
 
         return services;
     }

@@ -1,9 +1,20 @@
+using Expenso.BudgetSharing.Domain.Shared.Model.Base;
+using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
+
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Model.ValueObjects;
 
 public sealed class BudgetPermissionId
 {
+    private readonly DomainModelState _domainModelState = new();
+
+    private BudgetPermissionId()
+    {
+        Value = Guid.Empty;
+    }
+
     private BudgetPermissionId(Guid value)
     {
+        _domainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, GetType())]);
         Value = value;
     }
 
@@ -19,18 +30,13 @@ public sealed class BudgetPermissionId
         return new BudgetPermissionId(id);
     }
 
-    public static BudgetPermissionId CreateDefault()
+    internal static BudgetPermissionId CreateDefault()
     {
-        return new BudgetPermissionId(Guid.Empty);
+        return new BudgetPermissionId();
     }
 
     public static BudgetPermissionId Create(Guid value)
     {
         return new BudgetPermissionId(value);
-    }
-
-    public bool IsEmpty()
-    {
-        return Value == Guid.Empty;
     }
 }

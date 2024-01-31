@@ -12,8 +12,8 @@ internal sealed class BudgetCanHasOnlyOwnerPermissionForItsOwner(
     PermissionType permissionType) : IBusinessRule
 {
     private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
-    private readonly PersonId _participantId = participantId ?? throw new ArgumentNullException(nameof(participantId));
     private readonly PersonId _ownerId = ownerId ?? throw new ArgumentNullException(nameof(ownerId));
+    private readonly PersonId _participantId = participantId ?? throw new ArgumentNullException(nameof(participantId));
 
     private readonly PermissionType _permissionType =
         permissionType ?? throw new ArgumentNullException(nameof(permissionType));

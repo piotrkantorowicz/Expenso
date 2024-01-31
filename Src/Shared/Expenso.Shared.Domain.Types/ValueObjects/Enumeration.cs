@@ -33,6 +33,11 @@ public abstract record Enumeration<T>(int Value, string DisplayName) : IComparab
         });
     }
 
+    public int CompareTo(T? other)
+    {
+        return Value.CompareTo(other!.Value);
+    }
+
     public override string ToString()
     {
         return DisplayName;
@@ -66,10 +71,5 @@ public abstract record Enumeration<T>(int Value, string DisplayName) : IComparab
         }
 
         throw new InvalidOperationException($"'{displayName}' is not a valid display name in {typeof(T)}");
-    }
-
-    public int CompareTo(T? other)
-    {
-        return Value.CompareTo(other!.Value);
     }
 }

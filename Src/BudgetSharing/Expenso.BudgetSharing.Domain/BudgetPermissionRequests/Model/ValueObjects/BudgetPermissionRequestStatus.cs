@@ -18,4 +18,9 @@ public sealed record BudgetPermissionRequestStatus : Enumeration<BudgetPermissio
     {
         return this == Pending;
     }
+
+    public bool IsUnknown()
+    {
+        return this == Unknown;
+    }
 }

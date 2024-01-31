@@ -2,11 +2,13 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.Model.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Model.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.Base;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.Shared.Domain.Types.Events;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Model;
 
 public sealed record BudgetPermission
 {
+    private readonly DomainEventsSource _domainEventsSource = new();
     private readonly DomainModelState _domainModelState = new();
 
     // ReSharper disable once UnusedMember.Local
@@ -45,19 +47,22 @@ public sealed record BudgetPermission
             new BudgetCanHasOnlyOwnerPermissionForItsOwner(BudgetId, participantId, OwnerId, permissionType)
         ]);
 
-        Permissions.Add(Permission.Create(Id, participantId, permissionType));
+        Permissions.Add(Permission.Create(Id, participantId, permissionType, _domainModelState));
     }
 
-    public void RemovePermission(PersonId participantId, PermissionType permissionType)
+    public void RemovePermission(PermissionId permissionId)
     {
-        Permission? permission =
-            Permissions.SingleOrDefault(x => x.ParticipantId == participantId && x.PermissionType == permissionType);
+        Permission? permission = Permissions.SingleOrDefault(x => x.Id == permissionId);
 
         _domainModelState.CheckBusinessRules([
-            new BudgetMustContainsPermissionForProvidedUsersAndTypes(BudgetId, participantId, permissionType,
-                Permissions)
+            new BudgetMustContainsPermissionForProvidedUsersAndTypes(BudgetId, permissionId, permission)
         ]);
 
         Permissions.Remove(permission!);
+    }
+
+    public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
+    {
+        return _domainEventsSource.DomainEvents;
     }
 }

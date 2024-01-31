@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
