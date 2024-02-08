@@ -1,9 +1,13 @@
+using Expenso.BudgetSharing.Domain.Shared.Model.Base;
+using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
+
 namespace Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 
 public sealed class PersonId
 {
     private PersonId(Guid value)
     {
+        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, GetType())]);
         Value = value;
     }
 
@@ -19,13 +23,13 @@ public sealed class PersonId
         return new PersonId(id);
     }
 
-    internal static PersonId CreateDefault()
-    {
-        return new PersonId(Guid.Empty);
-    }
-
     public static PersonId Create(Guid value)
     {
         return new PersonId(value);
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

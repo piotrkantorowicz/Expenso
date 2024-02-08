@@ -11,6 +11,7 @@ public enum HttpVerb
 {
     Get,
     Post,
+    Patch,
     Put,
     Delete
 }

@@ -13,11 +13,11 @@ internal sealed class GetUserInternalQueryHandler(IUserService userService)
     public async Task<GetUserInternalResponse?> HandleAsync(GetUserQuery query,
         CancellationToken cancellationToken = default)
     {
-        (string? id, string? email) = query;
+        (string? userId, string? email) = query;
 
-        if (!string.IsNullOrEmpty(id))
+        if (!string.IsNullOrEmpty(userId))
         {
-            return await _userService.GetUserByIdInternalAsync(id);
+            return await _userService.GetUserByIdInternalAsync(userId);
         }
 
         if (!string.IsNullOrEmpty(email))
@@ -25,6 +25,6 @@ internal sealed class GetUserInternalQueryHandler(IUserService userService)
             return await _userService.GetUserByEmailInternalAsync(email);
         }
 
-        throw new NotFoundException($"{nameof(query.Id)} or {nameof(query.Email)} must be provided.");
+        throw new NotFoundException($"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.");
     }
 }

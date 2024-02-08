@@ -1,11 +1,13 @@
-using Expenso.BudgetSharing.Domain.BudgetPermissions.Model;
-using Expenso.BudgetSharing.Domain.BudgetPermissions.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 
 public interface IBudgetPermissionRepository
 {
     Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id, CancellationToken cancellationToken = default);
+
+    Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken = default);
 
     Task<BudgetPermission> AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);
 

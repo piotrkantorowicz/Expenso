@@ -1,5 +1,4 @@
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model;
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 

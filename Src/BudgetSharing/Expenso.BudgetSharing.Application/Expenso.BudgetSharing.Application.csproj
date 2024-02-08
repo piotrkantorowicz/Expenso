@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
@@ -20,6 +19,13 @@
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Proxy\Read\"/>
+        <Folder Include="Proxy\Write\"/>
+        <Folder Include="Read\Shared\"/>
+        <Folder Include="Write\"/>
     </ItemGroup>
 
 </Project>

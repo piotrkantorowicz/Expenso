@@ -16,7 +16,7 @@ internal sealed class UserPreferencesDbContext(DbContextOptions<UserPreferencesD
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("user_preferences");
+        modelBuilder.HasDefaultSchema("UserPreferences");
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
     }
 }

@@ -13,7 +13,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()))
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_getUserInternalResponse);
 
         // Act
@@ -24,7 +24,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
 
         _queryDispatcherMock.Verify(
-            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == _userId), It.IsAny<CancellationToken>()), Times.Once);
+            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 
     [Test]
@@ -34,7 +35,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         string userId = Guid.NewGuid().ToString();
 
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Id == userId), It.IsAny<CancellationToken>()))
+            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == userId), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException($"User with id {userId} not found."));
 
         // Act

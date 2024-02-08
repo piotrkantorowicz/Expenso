@@ -6,6 +6,8 @@ internal interface IAppBuilder
 
     IAppBuilder ConfigureModules();
 
+    IAppBuilder ConfigureSharedFramework();
+
     IAppBuilder ConfigureMvc();
 
     IAppBuilder ConfigureSerializationOptions();
@@ -13,10 +15,6 @@ internal interface IAppBuilder
     IAppBuilder ConfigureAuthorization();
 
     IAppBuilder ConfigureSwagger();
-
-    IAppBuilder ConfigureCqrs();
-
-    IAppBuilder ConfigureMessageBroker();
 
     IAppConfigurator Build();
 }

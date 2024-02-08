@@ -11,9 +11,15 @@ public static class QueryableExtensions
         return useTracking ? queryable : queryable.AsNoTracking();
     }
 
-    public static IQueryable<T> Include<T>(this IQueryable<T> queryable, bool include,
+    public static IQueryable<T> IncludeIf<T>(this IQueryable<T> queryable, bool include,
         Expression<Func<T, object>> includeExpression) where T : class
     {
         return include ? queryable.Include(includeExpression) : queryable;
+    }
+
+    public static IQueryable<T> IncludeIfNotNull<T>(this IQueryable<T> queryable,
+        Expression<Func<T, object>>? includeExpression) where T : class
+    {
+        return includeExpression != null ? queryable.Include(includeExpression) : queryable;
     }
 }

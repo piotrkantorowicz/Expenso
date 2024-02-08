@@ -1,14 +1,17 @@
+using System.Reflection;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Commands.Validation;
 
 public static class RegistrationExtensions
 {
-    public static IServiceCollection AddCommandsValidation(this IServiceCollection services)
+    public static IServiceCollection AddCommandsValidations(this IServiceCollection services,
+        IEnumerable<Assembly> assemblies)
     {
         services.Scan(selector =>
             selector
-                .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
+                .FromAssemblies(assemblies)
                 .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

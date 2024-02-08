@@ -10,44 +10,31 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<Preference> builder)
     {
-        builder.ToTable("preferences");
-
-        builder
-            .Property(x => x.Id)
-            .HasConversion(x => x.Value, x => PreferenceId.Create(x))
-            .HasColumnName("id")
-            .IsRequired();
-
+        builder.Property(x => x.Id).HasConversion(x => x.Value, x => PreferenceId.Create(x)).IsRequired();
         builder.HasKey(x => x.Id);
-
-        builder
-            .Property(x => x.UserId)
-            .HasConversion(x => x.Value, x => UserId.Create(x))
-            .HasColumnName("user_id")
-            .IsRequired();
-
+        builder.Property(x => x.UserId).HasConversion(x => x.Value, x => UserId.Create(x)).IsRequired();
         builder.HasIndex(x => x.UserId).IsUnique();
 
         builder.OwnsOne(x => x.FinancePreference, financePreferencesBuilder =>
         {
             financePreferencesBuilder
                 .Property(x => x.AllowAddFinancePlanReviewers)
-                .HasColumnName("allow_add_finance_plan_reviewers")
+                .HasColumnName("AllowAddFinancePlanReviewers")
                 .IsRequired();
 
             financePreferencesBuilder
                 .Property(x => x.AllowAddFinancePlanSubOwners)
-                .HasColumnName("allow_add_finance_plan_sub_owners")
+                .HasColumnName("AllowAddFinancePlanSubOwners")
                 .IsRequired();
 
             financePreferencesBuilder
                 .Property(x => x.MaxNumberOfFinancePlanReviewers)
-                .HasColumnName("max_number_of_finance_plan_reviewers")
+                .HasColumnName("MaxNumberOfFinancePlanReviewers")
                 .IsRequired();
 
             financePreferencesBuilder
                 .Property(x => x.MaxNumberOfSubFinancePlanSubOwners)
-                .HasColumnName("max_number_of_sub_finance_plan_sub_owners")
+                .HasColumnName("MaxNumberOfSubFinancePlanSubOwners")
                 .IsRequired();
         });
 
@@ -55,18 +42,18 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
         {
             notificationPreferencesBuilder
                 .Property(x => x.SendFinanceReportEnabled)
-                .HasColumnName("send_finance_report_enabled")
+                .HasColumnName("SendFinanceReportEnabled")
                 .IsRequired();
 
             notificationPreferencesBuilder
                 .Property(x => x.SendFinanceReportInterval)
-                .HasColumnName("send_finance_report_interval")
+                .HasColumnName("SendFinanceReportInterval")
                 .IsRequired();
         });
 
         builder.OwnsOne(x => x.GeneralPreference, generalPreferencesBuilder =>
         {
-            generalPreferencesBuilder.Property(x => x.UseDarkMode).HasColumnName("use_dark_mode").IsRequired();
+            generalPreferencesBuilder.Property(x => x.UseDarkMode).IsRequired();
         });
     }
 }

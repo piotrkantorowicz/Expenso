@@ -1,7 +1,11 @@
+using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
-using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories;
+using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.Read;
+using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.Write;
+using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.UoW;
+using Expenso.Shared.Database;
 using Expenso.Shared.Database.EfCore.NpSql;
 
 using Microsoft.Extensions.Configuration;
@@ -11,8 +15,8 @@ namespace Expenso.BudgetSharing.Infrastructure;
 
 public static class RegistrationExtensions
 {
-    public static void AddBudgetSharingModulesDependencies(this IServiceCollection services,
-        IConfiguration configuration, string moduleName)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration,
+        string moduleName)
     {
         services.AddPostgres<BudgetSharingDbContext>(configuration, moduleName);
 
@@ -21,5 +25,8 @@ public static class RegistrationExtensions
 
         services.AddScoped<IBudgetPermissionRequestRepository, BudgetPermissionRequestRepository>();
         services.AddScoped<IBudgetPermissionRepository, BudgetPermissionRepository>();
+        services.AddScoped<IBudgetPermissionRequestQueryStore, BudgetPermissionRequestQueryStore>();
+        services.AddScoped<IBudgetPermissionQueryStore, BudgetPermissionQueryStore>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

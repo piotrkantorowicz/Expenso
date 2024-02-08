@@ -5,11 +5,10 @@ AppBuilder appBuilder = new(args);
 appBuilder
     .ConfigureApiDependencies()
     .ConfigureModules()
+    .ConfigureSharedFramework()
     .ConfigureMvc()
     .ConfigureSerializationOptions()
     .ConfigureAuthorization()
-    .ConfigureCqrs()
-    .ConfigureMessageBroker()
     .ConfigureSwagger()
     .Build()
     .CreateEndpoints()

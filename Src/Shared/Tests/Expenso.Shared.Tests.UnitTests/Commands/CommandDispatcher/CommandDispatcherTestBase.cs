@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Commands.Validation;
@@ -13,9 +15,11 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
     [SetUp]
     public void Setup()
     {
+        Assembly[] assemblies = [typeof(CommandDispatcherTestBase).Assembly];
+
         ServiceProvider serviceProvider = new ServiceCollection()
-            .AddCommands()
-            .AddCommandsValidation()
+            .AddCommands(assemblies)
+            .AddCommandsValidations(assemblies)
             .AddLogging()
             .BuildServiceProvider();
 

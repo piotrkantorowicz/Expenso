@@ -7,7 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
     </ItemGroup>
 

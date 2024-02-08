@@ -17,16 +17,20 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj"/>
+        <ProjectReference Include="..\..\Communication\Expenso.Communication.Api\Expenso.Communication.Api.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
+        <ProjectReference Include="..\..\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
+        <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj"/>
         <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj"/>
     </ItemGroup>
 

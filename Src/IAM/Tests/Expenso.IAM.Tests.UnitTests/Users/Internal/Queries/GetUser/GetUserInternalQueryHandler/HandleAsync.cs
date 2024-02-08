@@ -79,7 +79,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.HandleAsync(query));
 
         string expectedExceptionMessage = new StringBuilder()
-            .Append(nameof(query.Id))
+            .Append(nameof(query.UserId))
             .Append(" or ")
             .Append(nameof(query.Email))
             .Append(" must be provided.")

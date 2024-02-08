@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Infrastructure\Expenso.BudgetSharing.Infrastructure.csproj"/>
     </ItemGroup>
 

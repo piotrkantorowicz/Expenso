@@ -1,0 +1,31 @@
+### GetBudgetPermissionRequest
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/607c8c93-de84-445a-967d-3596fa618b0f
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### GetBudgetPermissionRequests
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### AssignParticipant
+POST {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+{
+  "BudgetPermissionId": "607c8c93-de84-445a-967d-3596fa618b0f",
+  "ParticipantId": "607c8c93-de84-445a-967d-3596fa618b0f",
+  "AssignParticipantRequestPermissionType": 2,
+  "ExpirationDays": 3
+}
+
+### ConfirmAssigningParticipant
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/607c8c93-de84-445a-967d-3596fa618b0f/confirm
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### CancelAssigningParticipant
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/607c8c93-de84-445a-967d-3596fa618b0f/cancel
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}

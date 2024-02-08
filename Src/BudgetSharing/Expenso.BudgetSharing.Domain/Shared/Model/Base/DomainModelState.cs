@@ -3,22 +3,25 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.Shared.Model.Base;
 
-internal sealed class DomainModelState
+internal static class DomainModelState
 {
-    private readonly List<IBusinessRule> _brokenRules = [];
+    private static readonly List<IBusinessRule> BrokenRules = [];
 
-    public void CheckBusinessRules(IEnumerable<IBusinessRule> rules, bool throwException = true)
+    public static void CheckBusinessRules(IEnumerable<IBusinessRule> rules, bool throwException = true)
     {
         foreach (IBusinessRule rule in rules)
         {
-            _brokenRules.Add(rule);
+            if (rule.IsBroken())
+            {
+                BrokenRules.Add(rule);
+            }
         }
 
-        if (_brokenRules.Count != 0 && throwException)
+        if (BrokenRules.Count != 0 && throwException)
         {
-            IBusinessRule[] brokenRules = _brokenRules.ToArray();
+            IBusinessRule[] brokenRules = BrokenRules.ToArray();
             DomainRuleValidationException exception = new(brokenRules);
-            _brokenRules.Clear();
+            BrokenRules.Clear();
 
             throw exception;
         }

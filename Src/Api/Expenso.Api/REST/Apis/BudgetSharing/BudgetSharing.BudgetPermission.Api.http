@@ -1,0 +1,15 @@
+### GetBudgetPermission
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731?
+    IncludePermissions=true
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### GetBudgetPermissions
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions?IncludePermissions=true
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### RemovePermission
+DELETE {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/fab3cf10-e0da-4bcb-b41c-dfbba1382215/permissions/607c8c93-de84-445a-967d-3596fa618b0f
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}

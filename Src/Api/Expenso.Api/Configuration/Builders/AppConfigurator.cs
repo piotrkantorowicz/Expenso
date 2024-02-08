@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 
 using Expenso.Api.Configuration.Builders.Interfaces;
@@ -96,8 +97,9 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
                 return this;
             }
 
+            IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
             IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
-            Task runMigrationsTask = dbMigrator.EnsureDatabaseCreatedAsync(scope);
+            Task runMigrationsTask = dbMigrator.EnsureDatabaseCreatedAsync(scope, assemblies);
             Task.Run(() => runMigrationsTask).Wait();
         }
 

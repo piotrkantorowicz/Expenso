@@ -21,8 +21,4 @@
         <ProjectReference Include="..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Validations\"/>
-    </ItemGroup>
-
 </Project>

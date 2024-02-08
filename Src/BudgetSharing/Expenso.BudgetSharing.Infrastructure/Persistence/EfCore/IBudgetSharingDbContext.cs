@@ -1,11 +1,13 @@
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Model;
-using Expenso.BudgetSharing.Domain.BudgetPermissions.Model;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Domain.BudgetPermissions;
+using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+using Expenso.Shared.Domain.Types.Events;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 
-internal interface IBudgetSharingDbContext
+internal interface IBudgetSharingDbContext : IDbContext
 {
     DbSet<BudgetPermission> BudgetPermissions { get; }
 
@@ -13,5 +15,7 @@ internal interface IBudgetSharingDbContext
 
     EntityState GetEntryState(object entity);
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyCollection<IDomainEvent>> CommitTransactionAsync(CancellationToken cancellationToken = default);
 }
