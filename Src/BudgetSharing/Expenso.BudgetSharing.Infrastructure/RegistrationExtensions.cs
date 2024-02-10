@@ -4,7 +4,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.Read;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.Write;
-using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.UoW;
+using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Transactions;
 using Expenso.Shared.Database;
 using Expenso.Shared.Database.EfCore.NpSql;
 

@@ -2,7 +2,7 @@ using Expenso.Shared.Database;
 using Expenso.Shared.Domain.Events.Dispatchers;
 using Expenso.Shared.Domain.Types.Events;
 
-namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.UoW;
+namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Transactions;
 
 internal sealed class UnitOfWork(IBudgetSharingDbContext budgetSharingDbContext, IDomainEventBroker domainEventBroker)
     : IUnitOfWork
@@ -12,11 +12,15 @@ internal sealed class UnitOfWork(IBudgetSharingDbContext budgetSharingDbContext,
         await budgetSharingDbContext.BeginTransactionAsync(cancellationToken);
     }
 
+    public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        await budgetSharingDbContext.RollbackTransactionAsync(cancellationToken);
+    }
+
     public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
     {
-        IReadOnlyCollection<IDomainEvent> domainEvents =
-            await budgetSharingDbContext.CommitTransactionAsync(cancellationToken);
-
+        IReadOnlyCollection<IDomainEvent> domainEvents = budgetSharingDbContext.GetUncommittedChanges();
+        await budgetSharingDbContext.CommitTransactionAsync(cancellationToken);
         await domainEventBroker.PublishMultipleAsync(domainEvents, cancellationToken);
     }
 }

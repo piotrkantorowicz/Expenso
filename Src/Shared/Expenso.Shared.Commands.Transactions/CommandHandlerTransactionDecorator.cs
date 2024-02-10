@@ -2,7 +2,7 @@ using Expenso.Shared.Database;
 
 namespace Expenso.Shared.Commands.Transactions;
 
-internal class CommandHandlerValidationDecorator<TCommand>(IUnitOfWork unitOfWork, ICommandHandler<TCommand> decorated)
+internal class CommandHandlerTransactionDecorator<TCommand>(IUnitOfWork unitOfWork, ICommandHandler<TCommand> decorated)
     : ICommandHandler<TCommand> where TCommand : class, ICommand
 {
     private readonly ICommandHandler<TCommand> _decorated =
@@ -12,13 +12,22 @@ internal class CommandHandlerValidationDecorator<TCommand>(IUnitOfWork unitOfWor
 
     public async Task HandleAsync(TCommand command, CancellationToken cancellationToken = default)
     {
-        await _unitOfWork.BeginTransactionAsync(cancellationToken);
-        await decorated.HandleAsync(command, cancellationToken);
-        await _unitOfWork.CommitTransactionAsync(cancellationToken);
+        try
+        {
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            await decorated.HandleAsync(command, cancellationToken);
+            await _unitOfWork.CommitTransactionAsync(cancellationToken);
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+
+            throw;
+        }
     }
 }
 
-internal class CommandHandlerValidationDecorator<TCommand, TResult>(
+internal class CommandHandlerTransactionDecorator<TCommand, TResult>(
     IUnitOfWork unitOfWork,
     ICommandHandler<TCommand, TResult> decorated)
     : ICommandHandler<TCommand, TResult> where TCommand : class, ICommand where TResult : class
@@ -30,10 +39,19 @@ internal class CommandHandlerValidationDecorator<TCommand, TResult>(
 
     public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
     {
-        await _unitOfWork.BeginTransactionAsync(cancellationToken);
-        TResult? commandResult = await decorated.HandleAsync(command, cancellationToken);
-        await _unitOfWork.CommitTransactionAsync(cancellationToken);
+        try
+        {
+            await _unitOfWork.BeginTransactionAsync(cancellationToken);
+            TResult? commandResult = await decorated.HandleAsync(command, cancellationToken);
+            await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
-        return commandResult;
+            return commandResult;
+        }
+        catch
+        {
+            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
+
+            throw;
+        }
     }
 }

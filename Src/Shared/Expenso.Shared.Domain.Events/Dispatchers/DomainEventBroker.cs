@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Expenso.Shared.Domain.Types.Events;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +22,20 @@ internal sealed class DomainEventBroker(IServiceProvider serviceProvider) : IDom
     public async Task PublishMultipleAsync(IEnumerable<IDomainEvent> events,
         CancellationToken cancellationToken = default)
     {
-        IEnumerable<Task> handlerTasks = events.Select(@event => PublishAsync(@event, cancellationToken));
-        await Task.WhenAll(handlerTasks);
+        using IServiceScope scope = _serviceProvider.CreateScope();
+
+        foreach (IDomainEvent @event in events)
+        {
+            Type handlerType = typeof(IDomainEventHandler<>).MakeGenericType(@event.GetType());
+            object handler = scope.ServiceProvider.GetRequiredService(handlerType);
+            MethodInfo? handleAsyncMethod = handler.GetType().GetMethod("HandleAsync");
+
+            handleAsyncMethod?.Invoke(handler, [
+                @event,
+                cancellationToken
+            ]);
+        }
+
+        await Task.CompletedTask;
     }
 }

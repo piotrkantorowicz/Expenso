@@ -27,33 +27,36 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
         _currentTransaction = await Database.BeginTransactionAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<IDomainEvent>> CommitTransactionAsync(
-        CancellationToken cancellationToken = default)
+    public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
         if (_currentTransaction is null)
         {
             throw new InvalidOperationException("Transaction has not been started.");
         }
 
-        try
+        await _currentTransaction.RollbackAsync(cancellationToken);
+        DisposeTransaction();
+    }
+
+    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        if (_currentTransaction is null)
         {
-            List<IDomainEvent> domainEvents = ChangeTracker
-                .Entries<IAggregateRoot>()
-                .SelectMany(x => x.Entity.GetUncommittedChanges())
-                .ToList();
-
-            await _currentTransaction.CommitAsync(cancellationToken);
-            DisposeTransaction();
-
-            return domainEvents;
+            throw new InvalidOperationException("Transaction has not been started.");
         }
-        catch
-        {
-            await _currentTransaction.RollbackAsync(cancellationToken);
-            DisposeTransaction();
 
-            throw;
-        }
+        await _currentTransaction.CommitAsync(cancellationToken);
+        DisposeTransaction();
+    }
+
+    public IReadOnlyCollection<IDomainEvent> GetUncommittedChanges()
+    {
+        List<IDomainEvent> domainEvents = ChangeTracker
+            .Entries<IAggregateRoot>()
+            .SelectMany(x => x.Entity.GetUncommittedChanges())
+            .ToList();
+
+        return domainEvents;
     }
 
     public async Task MigrateAsync()

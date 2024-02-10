@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 
-internal interface IBudgetSharingDbContext : IDbContext
+public interface IBudgetSharingDbContext : IDbContext
 {
     DbSet<BudgetPermission> BudgetPermissions { get; }
 
@@ -17,5 +17,9 @@ internal interface IBudgetSharingDbContext : IDbContext
 
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyCollection<IDomainEvent>> CommitTransactionAsync(CancellationToken cancellationToken = default);
+    Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
+
+    Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+
+    IReadOnlyCollection<IDomainEvent> GetUncommittedChanges();
 }

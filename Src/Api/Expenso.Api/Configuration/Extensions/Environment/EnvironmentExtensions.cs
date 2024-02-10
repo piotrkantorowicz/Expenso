@@ -6,8 +6,6 @@ internal static class EnvironmentExtensions
 {
     public static bool IsTest(this IWebHostEnvironment environment)
     {
-        ArgumentNullException.ThrowIfNull(environment);
-
         return environment.IsEnvironment(CustomEnvironments.Test);
     }
 }
