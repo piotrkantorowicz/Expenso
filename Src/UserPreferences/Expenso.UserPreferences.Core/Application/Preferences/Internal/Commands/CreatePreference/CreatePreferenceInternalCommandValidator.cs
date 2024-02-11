@@ -1,4 +1,4 @@
-using Expenso.Shared.Commands.Validations;
+using Expenso.Shared.Commands.Validation;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Internal.Commands.CreatePreference;
 

@@ -72,8 +72,8 @@ internal static class StaticProblemDetailsSelector
         return ToDetailedResponse(ProblemDetailsMap[statusCode], detail, modelState);
     }
 
-    private static ProblemDetails ToDetailedResponse(ProblemDetails problemDetails, string? detail = null,
-        ModelStateDictionary? modelState = null)
+    private static ProblemDetails ToDetailedResponse(ProblemDetails problemDetails, string? detail,
+        ModelStateDictionary? modelState)
     {
         if (modelState is not null)
         {

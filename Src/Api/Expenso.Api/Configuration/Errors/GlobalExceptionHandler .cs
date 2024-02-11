@@ -1,4 +1,5 @@
 using Expenso.Api.Configuration.Errors.Details;
+using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.Types.Exceptions;
 
 using Microsoft.AspNetCore.Diagnostics;
@@ -13,7 +14,8 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         { typeof(ConflictException), HandleConflictException },
         { typeof(UnauthorizedException), HandleUnauthorizedAccessException },
         { typeof(ForbiddenException), HandleForbiddenAccessException },
-        { typeof(ValidationException), HandleInvalidModelStateException }
+        { typeof(ValidationException), HandleInvalidModelStateException },
+        { typeof(DomainRuleValidationException), HandleInvalidModelStateException }
     };
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
@@ -73,9 +75,12 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
     private static Task HandleException(int statusCode, HttpContext httpContext, Exception? exception,
         CancellationToken cancellationToken)
     {
-        string? expectedExceptionMessage = exception is ValidationException validationException
-            ? validationException.Details
-            : exception?.Message;
+        string? expectedExceptionMessage = exception switch
+        {
+            DomainRuleValidationException domainRuleValidationException => domainRuleValidationException.Details,
+            ValidationException validationException => validationException.Details,
+            _ => exception?.Message
+        };
 
         httpContext.Response.StatusCode = statusCode;
 

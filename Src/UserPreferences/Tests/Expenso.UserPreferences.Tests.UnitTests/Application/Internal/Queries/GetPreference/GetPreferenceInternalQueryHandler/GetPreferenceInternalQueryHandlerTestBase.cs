@@ -4,7 +4,8 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
 
 using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Internal.Queries.GetPreference.GetPreferenceInternalQueryHandler;
+    Expenso.UserPreferences.Core.Application.Preferences.Internal.Queries.GetPreference.
+    GetPreferenceInternalQueryHandler;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Internal.Queries.GetPreference.
     GetPreferenceInternalQueryHandler;

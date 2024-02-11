@@ -17,7 +17,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("user_preferences")
+                .HasDefaultSchema("UserPreferences")
                 .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -26,19 +26,17 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("preferences_id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("preferences", "user_preferences");
+                    b.ToTable("Preferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
@@ -50,23 +48,23 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
 
                             b1.Property<bool>("AllowAddFinancePlanReviewers")
                                 .HasColumnType("boolean")
-                                .HasColumnName("allow_add_finance_plan_reviewers");
+                                .HasColumnName("AllowAddFinancePlanReviewers");
 
                             b1.Property<bool>("AllowAddFinancePlanSubOwners")
                                 .HasColumnType("boolean")
-                                .HasColumnName("allow_add_finance_plan_sub_owners");
+                                .HasColumnName("AllowAddFinancePlanSubOwners");
 
                             b1.Property<int>("MaxNumberOfFinancePlanReviewers")
                                 .HasColumnType("integer")
-                                .HasColumnName("max_number_of_finance_plan_reviewers");
+                                .HasColumnName("MaxNumberOfFinancePlanReviewers");
 
                             b1.Property<int>("MaxNumberOfSubFinancePlanSubOwners")
                                 .HasColumnType("integer")
-                                .HasColumnName("max_number_of_sub_finance_plan_sub_owners");
+                                .HasColumnName("MaxNumberOfSubFinancePlanSubOwners");
 
                             b1.HasKey("PreferenceId");
 
-                            b1.ToTable("preferences", "user_preferences");
+                            b1.ToTable("Preferences", "UserPreferences");
 
                             b1.WithOwner()
                                 .HasForeignKey("PreferenceId");
@@ -78,12 +76,11 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<bool>("UseDarkMode")
-                                .HasColumnType("boolean")
-                                .HasColumnName("use_dark_mode");
+                                .HasColumnType("boolean");
 
                             b1.HasKey("PreferenceId");
 
-                            b1.ToTable("preferences", "user_preferences");
+                            b1.ToTable("Preferences", "UserPreferences");
 
                             b1.WithOwner()
                                 .HasForeignKey("PreferenceId");
@@ -96,15 +93,15 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
 
                             b1.Property<bool>("SendFinanceReportEnabled")
                                 .HasColumnType("boolean")
-                                .HasColumnName("send_finance_report_enabled");
+                                .HasColumnName("SendFinanceReportEnabled");
 
                             b1.Property<int>("SendFinanceReportInterval")
                                 .HasColumnType("integer")
-                                .HasColumnName("send_finance_report_interval");
+                                .HasColumnName("SendFinanceReportInterval");
 
                             b1.HasKey("PreferenceId");
 
-                            b1.ToTable("preferences", "user_preferences");
+                            b1.ToTable("Preferences", "UserPreferences");
 
                             b1.WithOwner()
                                 .HasForeignKey("PreferenceId");

@@ -2,7 +2,7 @@ using System.Text;
 
 using Expenso.Shared.Types.Exceptions;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.NoResult.Cases;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.NoResult;
 
 internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
 {

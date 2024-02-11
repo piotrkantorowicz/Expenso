@@ -33,4 +33,9 @@ internal sealed record UserId
     {
         return Value == Guid.Empty;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

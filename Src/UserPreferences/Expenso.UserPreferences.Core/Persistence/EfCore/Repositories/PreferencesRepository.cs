@@ -1,3 +1,4 @@
+using Expenso.Shared.Database.EfCore.Extensions;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
@@ -14,27 +15,17 @@ internal sealed class PreferencesRepository(IUserPreferencesDbContext userPrefer
     public async Task<Preference?> GetByIdAsync(PreferenceId preferenceId, bool useTracking,
         CancellationToken cancellationToken)
     {
-        IQueryable<Preference> preferencesQueryable = _userPreferencesDbContext.Preferences.AsQueryable();
-
-        if (!useTracking)
-        {
-            preferencesQueryable = preferencesQueryable.AsNoTracking();
-        }
-
-        return await preferencesQueryable.SingleOrDefaultAsync(x => x.Id == preferenceId, cancellationToken);
+        return await _userPreferencesDbContext
+            .Preferences.Tracking(useTracking)
+            .SingleOrDefaultAsync(x => x.Id == preferenceId, cancellationToken);
     }
 
     public async Task<Preference?> GetByUserIdAsync(UserId userId, bool useTracking,
         CancellationToken cancellationToken)
     {
-        IQueryable<Preference> userPreferencesQueryable = _userPreferencesDbContext.Preferences.AsQueryable();
-
-        if (!useTracking)
-        {
-            userPreferencesQueryable = userPreferencesQueryable.AsNoTracking();
-        }
-
-        return await userPreferencesQueryable.SingleOrDefaultAsync(x => x.UserId == userId, cancellationToken);
+        return await _userPreferencesDbContext
+            .Preferences.Tracking(useTracking)
+            .SingleOrDefaultAsync(x => x.UserId == userId, cancellationToken);
     }
 
     public async Task<Preference> CreateAsync(Preference preference, CancellationToken cancellationToken)

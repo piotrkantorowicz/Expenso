@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using Expenso.Shared.IntegrationEvents;
 using Expenso.Shared.MessageBroker.InMemory;
 using Expenso.Shared.MessageBroker.InMemory.Background;
@@ -9,7 +11,8 @@ namespace Expenso.Shared.MessageBroker;
 
 public static class RegistrationExtensions
 {
-    public static IServiceCollection AddMessageBroker(this IServiceCollection services)
+    public static IServiceCollection AddMessageBroker(this IServiceCollection services,
+        IEnumerable<Assembly> assemblies)
     {
         services.AddSingleton<IMessageBroker, InMemoryMessageBroker>();
         services.AddSingleton<IMessageChannel, MessageChannel>();
@@ -17,7 +20,7 @@ public static class RegistrationExtensions
 
         services.Scan(selector =>
             selector
-                .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
+                .FromAssemblies(assemblies)
                 .AddClasses(c => c.AssignableTo(typeof(IIntegrationEventHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());

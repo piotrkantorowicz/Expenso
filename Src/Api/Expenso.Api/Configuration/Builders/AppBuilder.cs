@@ -1,17 +1,23 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 using Expenso.Api.Configuration.Auth.Users.UserContext;
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Errors;
+using Expenso.BudgetSharing.Api;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
+using Expenso.Shared.Commands.Transactions;
+using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Configuration.Sections;
 using Expenso.Shared.Configuration.Settings;
 using Expenso.Shared.Database.EfCore;
+using Expenso.Shared.Domain.Events;
 using Expenso.Shared.MessageBroker;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.Queries;
+using Expenso.Shared.Types;
 using Expenso.Shared.UserContext;
 using Expenso.UserPreferences.Api;
 
@@ -47,8 +53,8 @@ internal sealed class AppBuilder : IAppBuilder
     public IAppBuilder ConfigureApiDependencies()
     {
         ConfigureAppSettings();
-        _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
         _services.AddHttpContextAccessor();
+        _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
 
         return this;
     }
@@ -57,7 +63,24 @@ internal sealed class AppBuilder : IAppBuilder
     {
         Modules.RegisterModule<IamModule>();
         Modules.RegisterModule<UserPreferencesModule>();
+        Modules.RegisterModule<BudgetSharingModule>();
         _services.AddModules(_configuration);
+
+        return this;
+    }
+
+    public IAppBuilder ConfigureSharedFramework()
+    {
+        IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
+
+        _services
+            .AddCommands(assemblies)
+            .AddCommandsValidations(assemblies)
+            .AddCommandsTransactions()
+            .AddQueries(assemblies)
+            .AddDomainEvents(assemblies)
+            .AddMessageBroker(assemblies)
+            .AddClock();
 
         return this;
     }
@@ -127,21 +150,6 @@ internal sealed class AppBuilder : IAppBuilder
                 { securityScheme, Array.Empty<string>() }
             });
         });
-
-        return this;
-    }
-
-    public IAppBuilder ConfigureCqrs()
-    {
-        _services.AddCommands();
-        _services.AddQueries();
-
-        return this;
-    }
-
-    public IAppBuilder ConfigureMessageBroker()
-    {
-        _services.AddMessageBroker();
 
         return this;
     }

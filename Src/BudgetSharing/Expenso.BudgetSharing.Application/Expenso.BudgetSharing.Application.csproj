@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
+        <ProjectReference Include="..\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj"/>
+        <ProjectReference Include="..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Proxy\Read\"/>
+        <Folder Include="Proxy\Write\"/>
+        <Folder Include="Read\Shared\"/>
+        <Folder Include="Write\"/>
+    </ItemGroup>
+
+</Project>

@@ -24,7 +24,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
-        <ProjectReference Include="..\..\Expenso.BudgetSharing.Core\Expenso.BudgetSharing.Core.csproj"/>
         <ProjectReference Include="..\..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>
     </ItemGroup>
 
