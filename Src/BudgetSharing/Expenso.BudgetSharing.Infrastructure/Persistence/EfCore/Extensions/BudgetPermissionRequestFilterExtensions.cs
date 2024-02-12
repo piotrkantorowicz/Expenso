@@ -14,17 +14,17 @@ public static class BudgetPermissionRequestFilterExtensions
     {
         ExpressionStarter<BudgetPermissionRequest>? predicate = PredicateBuilder.New<BudgetPermissionRequest>(true);
 
-        if (filter.Id.HasValue)
+        if (filter.Id is not null)
         {
             predicate = predicate.And(x => x.Id == filter.Id);
         }
 
-        if (filter.BudgetId.HasValue)
+        if (filter.BudgetId is not null)
         {
             predicate = predicate.And(x => x.BudgetId == filter.BudgetId);
         }
 
-        if (filter.ParticipantId.HasValue)
+        if (filter.ParticipantId is not null)
         {
             predicate = predicate.And(x => x.ParticipantId == filter.ParticipantId);
         }

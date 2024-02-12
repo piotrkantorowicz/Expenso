@@ -4,6 +4,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.
 using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Response;
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Commands.CreatePreference;
@@ -20,14 +21,15 @@ internal sealed class CreatePreferenceCommandHandler(IPreferencesRepository pref
         CreatePreferenceRequest request = command.Preference;
 
         Preference? dbUserPreferences =
-            await _preferencesRepository.GetByUserIdAsync(request.UserId, true, cancellationToken);
+            await _preferencesRepository.GetByUserIdAsync(UserId.New(command.Preference.UserId), true,
+                cancellationToken);
 
         if (dbUserPreferences is not null)
         {
-            throw new ConflictException($"Preferences for user with id {request.UserId} already exists.");
+            throw new ConflictException($"Preferences for user with id {command.Preference.UserId} already exists.");
         }
 
-        Preference preferenceToCreate = Preference.CreateDefault(request.UserId);
+        Preference preferenceToCreate = Preference.CreateDefault(UserId.New(command.Preference.UserId));
         Preference preference = await _preferencesRepository.CreateAsync(preferenceToCreate, cancellationToken);
 
         return PreferenceMap.MapToCreateResponse(preference);

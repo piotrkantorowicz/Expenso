@@ -16,7 +16,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     public async Task Should_UpdatePreference()
     {
         // Arrange
-        UpdatePreferenceCommand command = new(_userId,
+        UpdatePreferenceCommand command = new(_userId.Value,
             new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
                 new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(true)));
 
@@ -52,7 +52,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     public void Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
     {
         // Arrange
-        UpdatePreferenceCommand command = new(_userId,
+        UpdatePreferenceCommand command = new(_userId.Value,
             new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
                 new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(false)));
 

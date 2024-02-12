@@ -13,16 +13,6 @@ public sealed class BudgetPermissionRequestId
 
     public Guid Value { get; }
 
-    public static implicit operator Guid(BudgetPermissionRequestId budgetPermissionRequestId)
-    {
-        return budgetPermissionRequestId.Value;
-    }
-
-    public static implicit operator BudgetPermissionRequestId(Guid id)
-    {
-        return new BudgetPermissionRequestId(id);
-    }
-
     public static BudgetPermissionRequestId Create(Guid value)
     {
         return new BudgetPermissionRequestId(value);

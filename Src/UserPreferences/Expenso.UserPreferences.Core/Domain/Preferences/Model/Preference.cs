@@ -6,7 +6,7 @@ internal sealed record Preference
 {
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core
-    private Preference() : this(PreferenceId.CreateDefault(), UserId.CreateDefault(), default, default, default)
+    private Preference() : this(PreferenceId.Default(), UserId.Default(), default, default, default)
     {
     }
 
@@ -32,7 +32,7 @@ internal sealed record Preference
 
     public static Preference CreateDefault(UserId userId)
     {
-        return new Preference(Guid.NewGuid(), userId, GeneralPreference.CreateDefault(),
+        return new Preference(PreferenceId.New(Guid.NewGuid()), userId, GeneralPreference.CreateDefault(),
             FinancePreference.CreateDefault(), NotificationPreference.CreateDefault());
     }
 

@@ -15,7 +15,7 @@ internal sealed class HandleAsync : CreatePreferenceInternalCommandHandlerTestBa
     public async Task Should_ReturnCreatePreferenceResponse_When_CreatingPreference()
     {
         // Arrange
-        CreatePreferenceInternalCommand command = new(new CreatePreferenceInternalRequest(_userId));
+        CreatePreferenceInternalCommand command = new(new CreatePreferenceInternalRequest(_userId.Value));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
@@ -40,7 +40,7 @@ internal sealed class HandleAsync : CreatePreferenceInternalCommandHandlerTestBa
     public void Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
     {
         // Arrange
-        CreatePreferenceInternalCommand command = new(new CreatePreferenceInternalRequest(_userId));
+        CreatePreferenceInternalCommand command = new(new CreatePreferenceInternalRequest(_userId.Value));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))

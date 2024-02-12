@@ -2,29 +2,27 @@ namespace Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 
 internal sealed record PreferenceId
 {
+    private PreferenceId()
+    {
+        Value = Guid.Empty;
+    }
+    
     private PreferenceId(Guid value)
     {
+        if (value == Guid.Empty)
+            throw new ArgumentNullException(nameof(value));
+        
         Value = value;
     }
 
     public Guid Value { get; }
 
-    public static implicit operator Guid(PreferenceId id)
+    public static PreferenceId Default()
     {
-        return id.Value;
+        return new PreferenceId();
     }
 
-    public static implicit operator PreferenceId(Guid id)
-    {
-        return new PreferenceId(id);
-    }
-
-    public static PreferenceId CreateDefault()
-    {
-        return new PreferenceId(Guid.Empty);
-    }
-
-    public static PreferenceId Create(Guid value)
+    public static PreferenceId New(Guid value)
     {
         return new PreferenceId(value);
     }

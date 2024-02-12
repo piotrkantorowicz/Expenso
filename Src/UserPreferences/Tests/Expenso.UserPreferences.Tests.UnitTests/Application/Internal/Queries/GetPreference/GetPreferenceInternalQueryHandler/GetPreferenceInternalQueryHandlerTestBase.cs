@@ -1,5 +1,6 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
 
@@ -15,13 +16,13 @@ internal abstract class GetPreferenceInternalQueryHandlerTestBase : TestBase<Tes
     protected GetPreferenceInternalResponse _getPreferenceResponse = null!;
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
-    protected Guid _userId;
+    protected UserId _userId = null!;
 
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid();
-        _preference = Preference.CreateDefault(Guid.NewGuid(), _userId);
+        _userId = UserId.New(Guid.NewGuid());
+        _preference = Preference.CreateDefault(PreferenceId.New(Guid.NewGuid()), _userId);
         _getPreferenceResponse = PreferenceMap.MapToInternalGetRequest(_preference);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         TestCandidate = new TestCandidate(_preferenceRepositoryMock.Object);

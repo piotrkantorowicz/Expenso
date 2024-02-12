@@ -6,7 +6,7 @@ internal sealed class IsEmpty : UserIdTestBase
     public void Should_ReturnsTrue_When_UserIdIsEmpty()
     {
         // Arrange
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.CreateDefault();
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.Default();
 
         // Act
         bool result = TestCandidate.IsEmpty();
@@ -19,7 +19,7 @@ internal sealed class IsEmpty : UserIdTestBase
     public void Should_ReturnsFalse_When_UserIdIsNotEmpty()
     {
         // Arrange
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.Create(Guid.NewGuid());
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.New(Guid.NewGuid());
 
         // Act
         bool result = TestCandidate.IsEmpty();

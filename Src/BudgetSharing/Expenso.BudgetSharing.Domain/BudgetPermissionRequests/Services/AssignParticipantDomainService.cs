@@ -25,8 +25,9 @@ internal sealed class AssignParticipantDomainService(
         // DomainModelState.CheckBusinessRules(
         //     [new OnlyExistingUserCanBeAssignedAsBudgetParticipant(participantId, user)], false);
 
-        BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(budgetPermissionId,
-            new Guid("e253a2f0-e47f-47a3-9d65-f3468f32a5d5"), permissionType, expirationDays, _clock);
+        BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(
+            BudgetId.Create(budgetPermissionId), PersonId.Create(new Guid("e253a2f0-e47f-47a3-9d65-f3468f32a5d5")),
+            permissionType, expirationDays, _clock);
 
         await _budgetPermissionRequestRepository.AddAsync(budgetPermissionRequest, cancellationToken);
 

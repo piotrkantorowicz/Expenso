@@ -7,7 +7,7 @@ internal sealed class CreateDefault : PreferenceIdTestBase
     {
         // Arrange
         // Act
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.PreferenceId.CreateDefault();
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.PreferenceId.Default();
 
         // Assert
         TestCandidate.Value.Should().BeEmpty();

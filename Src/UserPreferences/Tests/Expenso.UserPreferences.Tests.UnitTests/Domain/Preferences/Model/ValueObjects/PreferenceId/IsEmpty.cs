@@ -6,7 +6,7 @@ internal sealed class IsEmpty : PreferenceIdTestBase
     public void Should_ReturnsTrue_When_PreferenceIdIsEmpty()
     {
         // Arrange
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.PreferenceId.CreateDefault();
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.PreferenceId.Default();
 
         // Act
         bool result = TestCandidate.IsEmpty();
@@ -19,7 +19,7 @@ internal sealed class IsEmpty : PreferenceIdTestBase
     public void Should_ReturnsFalse_When_PreferenceIdIsNotEmpty()
     {
         // Arrange
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.PreferenceId.Create(Guid.NewGuid());
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.PreferenceId.New(Guid.NewGuid());
 
         // Act
         bool result = TestCandidate.IsEmpty();

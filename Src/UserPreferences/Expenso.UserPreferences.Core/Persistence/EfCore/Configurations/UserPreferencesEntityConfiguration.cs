@@ -10,9 +10,9 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<Preference> builder)
     {
-        builder.Property(x => x.Id).HasConversion(x => x.Value, x => PreferenceId.Create(x)).IsRequired();
+        builder.Property(x => x.Id).HasConversion(x => x.Value, x => PreferenceId.New(x)).IsRequired();
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.UserId).HasConversion(x => x.Value, x => UserId.Create(x)).IsRequired();
+        builder.Property(x => x.UserId).HasConversion(x => x.Value, x => UserId.New(x)).IsRequired();
         builder.HasIndex(x => x.UserId).IsUnique();
 
         builder.OwnsOne(x => x.FinancePreference, financePreferencesBuilder =>

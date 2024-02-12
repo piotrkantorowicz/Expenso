@@ -14,13 +14,14 @@ internal static class GetBudgetPermissionMap
 
     private static GetBudgetPermissionsResponse MapTo(BudgetPermission budgetPermission)
     {
-        return new GetBudgetPermissionsResponse(budgetPermission.Id, budgetPermission.BudgetId,
-            budgetPermission.OwnerId, budgetPermission.Permissions.Select(MapTo).ToList());
+        return new GetBudgetPermissionsResponse(budgetPermission.Id.Value, budgetPermission.BudgetId.Value,
+            budgetPermission.OwnerId.Value, budgetPermission.Permissions.Select(MapTo).ToList());
     }
 
     private static GetBudgetPermissionsResponsePermission MapTo(Permission permission)
     {
-        return new GetBudgetPermissionsResponsePermission(permission.ParticipantId, MapTo(permission.PermissionType));
+        return new GetBudgetPermissionsResponsePermission(permission.ParticipantId.Value,
+            MapTo(permission.PermissionType));
     }
 
     private static GetBudgetPermissionsResponsePermissionType MapTo(PermissionType permissionType)

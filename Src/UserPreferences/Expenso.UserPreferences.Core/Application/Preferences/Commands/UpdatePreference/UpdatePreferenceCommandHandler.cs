@@ -31,9 +31,9 @@ internal sealed class UpdatePreferenceCommandHandler(
             UpdateGeneralPreferenceRequest? generalPreferenceRequest) = updatePreferenceRequest!;
 
         Preference? dbPreference =
-            await _preferencesRepository.GetByIdAsync(PreferenceId.Create(preferenceOrUserId), true,
+            await _preferencesRepository.GetByIdAsync(PreferenceId.New(preferenceOrUserId), true,
                 cancellationToken) ??
-            await _preferencesRepository.GetByUserIdAsync(UserId.Create(preferenceOrUserId), true, cancellationToken);
+            await _preferencesRepository.GetByUserIdAsync(UserId.New(preferenceOrUserId), true, cancellationToken);
 
         if (dbPreference is null)
         {
@@ -57,21 +57,21 @@ internal sealed class UpdatePreferenceCommandHandler(
             if (preferenceChangeType.GeneralPreferencesChanged)
             {
                 tasks.Add(_messageBroker.PublishAsync(
-                    new GeneralPreferenceUpdatedIntegrationEvent(dbPreference.UserId,
+                    new GeneralPreferenceUpdatedIntegrationEvent(dbPreference.UserId.Value,
                         GeneralPreferenceMap.MapToInternalContract(generalPreference)), cancellationToken));
             }
 
             if (preferenceChangeType.FinancePreferencesChanged)
             {
                 tasks.Add(_messageBroker.PublishAsync(
-                    new FinancePreferenceUpdatedIntegrationEvent(dbPreference.UserId,
+                    new FinancePreferenceUpdatedIntegrationEvent(dbPreference.UserId.Value,
                         FinancePreferenceMap.MapToInternalContract(financePreference)), cancellationToken));
             }
 
             if (preferenceChangeType.NotificationPreferencesChanged)
             {
                 tasks.Add(_messageBroker.PublishAsync(
-                    new NotificationPreferenceUpdatedIntegrationEvent(dbPreference.UserId,
+                    new NotificationPreferenceUpdatedIntegrationEvent(dbPreference.UserId.Value,
                         NotificationPreferenceMap.MapToInternalContract(notificationPreference)), cancellationToken));
             }
 

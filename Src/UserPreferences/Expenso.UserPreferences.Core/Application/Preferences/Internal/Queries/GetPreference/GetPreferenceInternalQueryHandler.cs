@@ -2,6 +2,7 @@ using Expenso.Shared.Queries;
 using Expenso.Shared.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
 
@@ -22,8 +23,9 @@ internal sealed class GetPreferenceInternalQueryHandler(IPreferencesRepository p
     private async Task<GetPreferenceInternalResponse> GetPreferencesForUserAsync(Guid userId,
         CancellationToken cancellationToken)
     {
-        Preference preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken) ??
-                                throw new NotFoundException($"Preferences for user with id {userId} not found.");
+        Preference preference =
+            await _preferencesRepository.GetByUserIdAsync(UserId.New(userId), false, cancellationToken) ??
+            throw new NotFoundException($"Preferences for user with id {userId} not found.");
 
         return PreferenceMap.MapToInternalGetRequest(preference);
     }

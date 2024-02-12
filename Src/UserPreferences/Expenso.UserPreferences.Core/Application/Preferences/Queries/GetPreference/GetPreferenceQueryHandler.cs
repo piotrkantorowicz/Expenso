@@ -4,6 +4,7 @@ using Expenso.Shared.UserContext;
 using Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Queries.GetPreference;
@@ -39,8 +40,9 @@ internal sealed class GetPreferenceQueryHandler(
     private async Task<GetPreferenceResponse> GetPreferencesAsync(Guid preferenceId,
         CancellationToken cancellationToken)
     {
-        Preference preference = await _preferencesRepository.GetByIdAsync(preferenceId, false, cancellationToken) ??
-                                throw new NotFoundException($"Preferences with id {preferenceId} not found.");
+        Preference preference =
+            await _preferencesRepository.GetByIdAsync(PreferenceId.New(preferenceId), false, cancellationToken) ??
+            throw new NotFoundException($"Preferences with id {preferenceId} not found.");
 
         return PreferenceMap.MapToGetResponse(preference);
     }
@@ -61,8 +63,9 @@ internal sealed class GetPreferenceQueryHandler(
     private async Task<GetPreferenceResponse> GetPreferencesForUserAsync(Guid userId,
         CancellationToken cancellationToken)
     {
-        Preference preference = await _preferencesRepository.GetByUserIdAsync(userId, false, cancellationToken) ??
-                                throw new NotFoundException($"Preferences for user with id {userId} not found.");
+        Preference preference =
+            await _preferencesRepository.GetByUserIdAsync(UserId.New(userId), false, cancellationToken) ??
+            throw new NotFoundException($"Preferences for user with id {userId} not found.");
 
         return PreferenceMap.MapToGetResponse(preference);
     }

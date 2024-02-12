@@ -7,7 +7,7 @@ internal sealed class CreateDefault : UserIdTestBase
     {
         // Arrange
         // Act
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.CreateDefault();
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.Default();
 
         // Assert
         TestCandidate.Value.Should().BeEmpty();

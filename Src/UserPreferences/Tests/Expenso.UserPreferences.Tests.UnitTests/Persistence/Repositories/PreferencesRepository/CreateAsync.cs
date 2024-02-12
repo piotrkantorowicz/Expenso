@@ -1,4 +1,5 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.Repositories.PreferencesRepository;
 
@@ -8,7 +9,7 @@ internal sealed class CreateAsync : PreferenceRepositoryTestBase
     public async Task Should_CreatePreference_When_PreferenceDoesNotExist()
     {
         // Arrange
-        Preference preference = Preference.CreateDefault(Guid.NewGuid(), Guid.NewGuid());
+        Preference preference = Preference.CreateDefault(PreferenceId.New(Guid.NewGuid()), UserId.New(Guid.NewGuid()));
 
         _preferenceDbSetMock
             .Setup(x => x.AddAsync(preference, It.IsAny<CancellationToken>()))

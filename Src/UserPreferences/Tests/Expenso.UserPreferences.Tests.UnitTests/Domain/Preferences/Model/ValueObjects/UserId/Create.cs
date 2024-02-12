@@ -7,7 +7,7 @@ internal sealed class Create : UserIdTestBase
     {
         // Arrange
         // Act
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.Create(Guid.NewGuid());
+        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.New(Guid.NewGuid());
 
         // Assert
         TestCandidate.Value.Should().NotBeEmpty();
