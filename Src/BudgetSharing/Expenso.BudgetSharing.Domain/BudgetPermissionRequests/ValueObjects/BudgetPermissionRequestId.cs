@@ -17,7 +17,7 @@ public sealed record BudgetPermissionRequestId
         DomainModelState.CheckBusinessRules([
             new EmptyIdentifierCannotBeProcessed(value, typeof(BudgetPermissionRequestId))
         ]);
-        
+
         return new BudgetPermissionRequestId(value);
     }
 

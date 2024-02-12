@@ -4,7 +4,6 @@ using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Internal.Commands.CreatePreference;

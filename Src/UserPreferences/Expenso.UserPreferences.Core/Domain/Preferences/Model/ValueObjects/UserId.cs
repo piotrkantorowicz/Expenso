@@ -12,8 +12,10 @@ internal sealed record UserId
     public static UserId New(Guid value)
     {
         if (value == Guid.Empty)
+        {
             throw new ArgumentNullException(nameof(value));
-        
+        }
+
         return new UserId(value);
     }
 

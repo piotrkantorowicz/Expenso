@@ -17,7 +17,7 @@ internal abstract class PreferenceTestBase : TestBase<TestCandidate>
     {
         _messageBrokerMock = new Mock<IMessageBroker>();
 
-        TestCandidate = TestCandidate.Create(PreferenceId.New( Guid.NewGuid()), UserId.New( Guid.NewGuid()), _defaultGeneralPreference,
-            _defaultFinancePreference, _defaultNotificationPreference);
+        TestCandidate = TestCandidate.Create(PreferenceId.New(Guid.NewGuid()), UserId.New(Guid.NewGuid()),
+            _defaultGeneralPreference, _defaultFinancePreference, _defaultNotificationPreference);
     }
 }

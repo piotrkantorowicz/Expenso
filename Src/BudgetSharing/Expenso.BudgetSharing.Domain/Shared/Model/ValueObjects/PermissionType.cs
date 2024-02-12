@@ -8,7 +8,7 @@ public sealed record PermissionType : Enumeration<PermissionType>
     public static readonly PermissionType Owner = new(1, "Owner");
     public static readonly PermissionType SubOwner = new(2, "SubOwner");
     public static readonly PermissionType Reviewer = new(3, "Reviewer");
-    
+
     private PermissionType(int value, string displayName) : base(value, displayName)
     {
     }

@@ -1,4 +1,3 @@
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 

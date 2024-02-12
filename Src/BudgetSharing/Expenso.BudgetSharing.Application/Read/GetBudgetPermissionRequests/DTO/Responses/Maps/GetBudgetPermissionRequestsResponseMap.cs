@@ -16,8 +16,8 @@ internal static class GetBudgetPermissionRequestsResponseMap
     {
         return new GetBudgetPermissionRequestsResponse(budgetPermissionRequest.Id.Value,
             budgetPermissionRequest.BudgetId.Value, budgetPermissionRequest.ParticipantId.Value,
-            MapTo(budgetPermissionRequest.PermissionType),
-            MapTo(budgetPermissionRequest.Status), budgetPermissionRequest.ExpirationDate?.Value);
+            MapTo(budgetPermissionRequest.PermissionType), MapTo(budgetPermissionRequest.Status),
+            budgetPermissionRequest.ExpirationDate?.Value);
     }
 
     private static GetBudgetPermissionRequestsResponseStatus MapTo(

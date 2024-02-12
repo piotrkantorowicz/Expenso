@@ -31,8 +31,7 @@ internal sealed class UpdatePreferenceCommandHandler(
             UpdateGeneralPreferenceRequest? generalPreferenceRequest) = updatePreferenceRequest!;
 
         Preference? dbPreference =
-            await _preferencesRepository.GetByIdAsync(PreferenceId.New(preferenceOrUserId), true,
-                cancellationToken) ??
+            await _preferencesRepository.GetByIdAsync(PreferenceId.New(preferenceOrUserId), true, cancellationToken) ??
             await _preferencesRepository.GetByUserIdAsync(UserId.New(preferenceOrUserId), true, cancellationToken);
 
         if (dbPreference is null)

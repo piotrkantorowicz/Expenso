@@ -68,8 +68,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         int expirationDays, IClock clock)
     {
         return new BudgetPermissionRequest(BudgetPermissionRequestId.New(Guid.NewGuid()), budgetId, personId,
-            permissionType,
-            BudgetPermissionRequestStatus.Pending, expirationDays, clock);
+            permissionType, BudgetPermissionRequestStatus.Pending, expirationDays, clock);
     }
 
     public void Confirm()
