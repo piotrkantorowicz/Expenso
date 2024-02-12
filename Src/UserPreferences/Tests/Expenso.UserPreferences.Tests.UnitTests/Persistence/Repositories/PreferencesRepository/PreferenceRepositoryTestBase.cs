@@ -15,16 +15,16 @@ internal abstract class PreferenceRepositoryTestBase : TestBase<IPreferencesRepo
 {
     protected static IList<PreferenceId> _preferenceIds =
     [
-        new Guid("19967114-32ef-4202-90c8-3aa590d14a03"),
-        new Guid("87ddf365-e001-4949-abae-451d7ccd46c1"),
-        new Guid("d3b1e36e-f188-4858-8d07-1b8bcd1b87fb")
+        PreferenceId.New(new Guid("19967114-32ef-4202-90c8-3aa590d14a03")),
+        PreferenceId.New(new Guid("87ddf365-e001-4949-abae-451d7ccd46c1")),
+        PreferenceId.New(new Guid("d3b1e36e-f188-4858-8d07-1b8bcd1b87fb"))
     ];
 
     protected static IList<UserId> _userIds =
     [
-        new Guid("527336da-3371-45a9-9b9f-bbd42d01ffc2"),
-        new Guid("3318e89e-fe27-453b-b9cb-3edce39ee187"),
-        new Guid("41e0197a-014f-419a-9521-d0946e88818d")
+        UserId.New(new Guid("527336da-3371-45a9-9b9f-bbd42d01ffc2")),
+        UserId.New(new Guid("3318e89e-fe27-453b-b9cb-3edce39ee187")),
+        UserId.New(new Guid("41e0197a-014f-419a-9521-d0946e88818d"))
     ];
 
     private Mock<IUserPreferencesDbContext> _dbContextMock = null!;

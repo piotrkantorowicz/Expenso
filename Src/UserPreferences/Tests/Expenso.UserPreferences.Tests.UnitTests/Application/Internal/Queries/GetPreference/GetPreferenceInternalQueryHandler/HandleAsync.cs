@@ -13,7 +13,7 @@ internal sealed class HandleAsync : GetPreferenceInternalQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByUserIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceInternalQuery query = new(_userId);
+        GetPreferenceInternalQuery query = new(_userId.Value);
 
         _preferenceRepositoryMock
             .Setup(x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
@@ -34,7 +34,7 @@ internal sealed class HandleAsync : GetPreferenceInternalQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_SearchingByUserIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceInternalQuery query = new(_userId);
+        GetPreferenceInternalQuery query = new(_userId.Value);
 
         // Act
         // Assert

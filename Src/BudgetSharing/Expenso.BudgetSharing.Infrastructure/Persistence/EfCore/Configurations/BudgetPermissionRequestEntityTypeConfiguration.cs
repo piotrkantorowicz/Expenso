@@ -13,8 +13,8 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
     public void Configure(EntityTypeBuilder<BudgetPermissionRequest> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionRequestId.Create(x)).IsRequired();
-        builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.Create(x)).IsRequired();
+        builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionRequestId.New(x)).IsRequired();
+        builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.New(x)).IsRequired();
 
         builder
             .Property(x => x.ExpirationDate)
@@ -22,7 +22,7 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
                 x => x.HasValue ? DateAndTime.Create(x.Value) : null)
             .IsRequired(false);
 
-        builder.Property(x => x.ParticipantId).HasConversion(x => x.Value, x => PersonId.Create(x)).IsRequired();
+        builder.Property(x => x.ParticipantId).HasConversion(x => x.Value, x => PersonId.New(x)).IsRequired();
         builder.Property(x => x.PermissionType).HasConversion(x => x.Value, x => PermissionType.Create(x)).IsRequired();
 
         builder

@@ -9,29 +9,14 @@ internal sealed record PreferenceId
 
     public Guid Value { get; }
 
-    public static implicit operator Guid(PreferenceId id)
+    public static PreferenceId New(Guid value)
     {
-        return id.Value;
-    }
+        if (value == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
 
-    public static implicit operator PreferenceId(Guid id)
-    {
-        return new PreferenceId(id);
-    }
-
-    public static PreferenceId CreateDefault()
-    {
-        return new PreferenceId(Guid.Empty);
-    }
-
-    public static PreferenceId Create(Guid value)
-    {
         return new PreferenceId(value);
-    }
-
-    public bool IsEmpty()
-    {
-        return Value == Guid.Empty;
     }
 
     public override string ToString()

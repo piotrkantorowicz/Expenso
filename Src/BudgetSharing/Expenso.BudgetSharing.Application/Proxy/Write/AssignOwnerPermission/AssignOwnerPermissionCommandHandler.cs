@@ -1,5 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.BudgetSharing.Proxy.DTO.API.AssignOwnerPermission.Responses;
 using Expenso.Shared.Commands;
@@ -19,12 +20,12 @@ internal sealed class AssignOwnerPermissionCommandHandler(IBudgetPermissionRepos
         (Guid budgetPermissionId, (Guid budgetId, Guid ownerId)) = command;
 
         BudgetPermission budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(budgetPermissionId, cancellationToken) ??
-            BudgetPermission.Create(budgetId, ownerId);
+            await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),
+                cancellationToken) ?? BudgetPermission.Create(BudgetId.New(budgetId), PersonId.New(ownerId));
 
-        budgetPermission.AddPermission(ownerId, PermissionType.Owner);
+        budgetPermission.AddPermission(PersonId.New(ownerId), PermissionType.Owner);
         await _budgetPermissionRepository.AddOrUpdateAsync(budgetPermission, cancellationToken);
 
-        return new AssignOwnerPermissionResponse(budgetPermission.Id);
+        return new AssignOwnerPermissionResponse(budgetPermission.Id.Value);
     }
 }

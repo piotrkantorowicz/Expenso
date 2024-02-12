@@ -9,29 +9,14 @@ internal sealed record UserId
 
     public Guid Value { get; }
 
-    public static implicit operator Guid(UserId id)
+    public static UserId New(Guid value)
     {
-        return id.Value;
-    }
+        if (value == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
 
-    public static implicit operator UserId(Guid id)
-    {
-        return new UserId(id);
-    }
-
-    public static UserId CreateDefault()
-    {
-        return new UserId(Guid.Empty);
-    }
-
-    public static UserId Create(Guid value)
-    {
         return new UserId(value);
-    }
-
-    public bool IsEmpty()
-    {
-        return Value == Guid.Empty;
     }
 
     public override string ToString()

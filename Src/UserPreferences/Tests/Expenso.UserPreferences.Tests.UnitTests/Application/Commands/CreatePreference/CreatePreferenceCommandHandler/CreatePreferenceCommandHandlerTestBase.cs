@@ -1,6 +1,7 @@
 using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Response;
 using Expenso.UserPreferences.Core.Application.Preferences.Mappings;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 using TestCandidate =
@@ -13,13 +14,13 @@ internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<TestCa
     protected CreatePreferenceResponse _createPreferenceResponse = null!;
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
-    protected Guid _userId;
+    protected UserId _userId = null!;
 
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid();
-        _preference = Preference.CreateDefault(Guid.NewGuid(), _userId);
+        _userId = UserId.New(Guid.NewGuid());
+        _preference = Preference.CreateDefault(PreferenceId.New(Guid.NewGuid()), _userId);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _createPreferenceResponse = PreferenceMap.MapToCreateResponse(_preference);
         TestCandidate = new TestCandidate(_preferenceRepositoryMock.Object);

@@ -3,6 +3,7 @@ using Expenso.BudgetSharing.Application.Read.GetBudgetPermission.DTO.Responses.M
 using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Read.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.Shared.Queries;
 using Expenso.Shared.Types.Exceptions;
 
@@ -18,11 +19,11 @@ internal sealed class GetBudgetPermissionQueryHandler(IBudgetPermissionQueryStor
     public async Task<GetBudgetPermissionResponse?> HandleAsync(GetBudgetPermissionQuery query,
         CancellationToken cancellationToken = default)
     {
-        (Guid id, bool? includePermissions) = query;
+        (Guid budgetPermissionId, bool? includePermissions) = query;
 
         BudgetPermissionFilter filter = new()
         {
-            Id = id,
+            Id = BudgetPermissionId.Nullable(budgetPermissionId),
             IncludePermissions = includePermissions
         };
 

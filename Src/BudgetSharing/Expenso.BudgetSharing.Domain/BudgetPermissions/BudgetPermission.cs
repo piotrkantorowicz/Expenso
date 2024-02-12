@@ -45,7 +45,7 @@ public class BudgetPermission : IAggregateRoot
 
     public static BudgetPermission Create(BudgetId budgetId, PersonId ownerId)
     {
-        return new BudgetPermission(Guid.NewGuid(), budgetId, ownerId);
+        return new BudgetPermission(BudgetPermissionId.New(Guid.NewGuid()), budgetId, ownerId);
     }
 
     public void AddPermission(PersonId participantId, PermissionType permissionType)

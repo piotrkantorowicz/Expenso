@@ -12,7 +12,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(_id);
+        GetPreferenceQuery query = new(_id.Value);
 
         _preferenceRepositoryMock
             .Setup(x => x.GetByIdAsync(_id, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
@@ -33,7 +33,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByUserIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(UserId: _userId);
+        GetPreferenceQuery query = new(UserId: _userId.Value);
 
         _preferenceRepositoryMock
             .Setup(x => x.GetByUserIdAsync(_userId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
@@ -78,7 +78,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_SearchingByIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(_id);
+        GetPreferenceQuery query = new(_id.Value);
 
         // Act
         // Assert
@@ -97,7 +97,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_SearchingByUserIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(UserId: _userId);
+        GetPreferenceQuery query = new(UserId: _userId.Value);
 
         // Act
         // Assert

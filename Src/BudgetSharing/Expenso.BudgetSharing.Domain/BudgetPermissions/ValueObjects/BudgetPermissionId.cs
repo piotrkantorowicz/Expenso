@@ -3,29 +3,25 @@ using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 
-public sealed class BudgetPermissionId
+public sealed record BudgetPermissionId
 {
     private BudgetPermissionId(Guid value)
     {
-        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, GetType())]);
         Value = value;
     }
 
     public Guid Value { get; }
 
-    public static implicit operator Guid(BudgetPermissionId id)
+    public static BudgetPermissionId New(Guid value)
     {
-        return id.Value;
-    }
+        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, typeof(BudgetPermissionId))]);
 
-    public static implicit operator BudgetPermissionId(Guid id)
-    {
-        return new BudgetPermissionId(id);
-    }
-
-    public static BudgetPermissionId Create(Guid value)
-    {
         return new BudgetPermissionId(value);
+    }
+
+    public static BudgetPermissionId? Nullable(Guid? value)
+    {
+        return value is null || value == Guid.Empty ? null : new BudgetPermissionId(value.Value);
     }
 
     public override string ToString()

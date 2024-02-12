@@ -5,6 +5,7 @@ using Expenso.BudgetSharing.Application.Read.GetBudgetPermissionRequests.DTO.Res
 using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Read.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Queries;
 using Expenso.Shared.UserContext;
 
@@ -34,8 +35,8 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler(
 
         BudgetPermissionRequestFilter filter = new()
         {
-            BudgetId = budgetId,
-            ParticipantId = participantId,
+            BudgetId = BudgetId.Nullable(budgetId),
+            ParticipantId = PersonId.Nullable(participantId),
             Status = status.HasValue ? GetBudgetPermissionRequestsRequestMap.MapTo(status.Value) : null,
             PermissionType = permissionType.HasValue
                 ? GetBudgetPermissionRequestsRequestMap.MapTo(permissionType.Value)

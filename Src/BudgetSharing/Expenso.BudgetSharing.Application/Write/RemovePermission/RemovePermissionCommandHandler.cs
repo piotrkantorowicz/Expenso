@@ -1,5 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Types.Exceptions;
 
@@ -17,14 +19,15 @@ internal sealed class RemovePermissionCommandHandler(IBudgetPermissionRepository
         (Guid budgetPermissionId, Guid participantId) = command;
 
         BudgetPermission? budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(budgetPermissionId, cancellationToken);
+            await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),
+                cancellationToken);
 
         if (budgetPermission is null)
         {
             throw new NotFoundException($"Budget permission with id {budgetPermissionId} hasn't been found");
         }
 
-        budgetPermission.RemovePermission(participantId);
+        budgetPermission.RemovePermission(PersonId.New(participantId));
         await _budgetPermissionRepository.UpdateAsync(budgetPermission, cancellationToken);
     }
 }

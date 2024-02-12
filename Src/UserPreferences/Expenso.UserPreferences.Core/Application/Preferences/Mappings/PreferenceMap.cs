@@ -10,7 +10,7 @@ internal static class PreferenceMap
 {
     public static GetPreferenceResponse MapToGetResponse(Preference preference)
     {
-        return new GetPreferenceResponse(preference.Id, preference.UserId,
+        return new GetPreferenceResponse(preference.Id.Value, preference.UserId.Value,
             FinancePreferenceMap.MapToGetResponse(preference.FinancePreference!),
             NotificationPreferenceMap.MapToGetResponse(preference.NotificationPreference!),
             GeneralPreferenceMap.MapToGetResponse(preference.GeneralPreference!));
@@ -18,7 +18,7 @@ internal static class PreferenceMap
 
     public static CreatePreferenceResponse MapToCreateResponse(Preference preference)
     {
-        return new CreatePreferenceResponse(preference.Id, preference.UserId,
+        return new CreatePreferenceResponse(preference.Id.Value, preference.UserId.Value,
             FinancePreferenceMap.MapToCreateResponse(preference.FinancePreference!),
             NotificationPreferenceMap.MapToCreateResponse(preference.NotificationPreference!),
             GeneralPreferenceMap.MapToCreateResponse(preference.GeneralPreference!));
@@ -34,7 +34,7 @@ internal static class PreferenceMap
 
     public static CreatePreferenceInternalResponse MapToInternalCreateResponse(Preference preference)
     {
-        return new CreatePreferenceInternalResponse(preference.Id, preference.UserId,
+        return new CreatePreferenceInternalResponse(preference.Id.Value, preference.UserId.Value,
             FinancePreferenceMap.MapToInternalCreateResponse(preference.FinancePreference!),
             NotificationPreferenceMap.MapToInternalCreateResponse(preference.NotificationPreference!),
             GeneralPreferenceMap.MapToInternalCreateResponse(preference.GeneralPreference!));
