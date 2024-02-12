@@ -20,10 +20,10 @@ internal sealed class AssignOwnerPermissionCommandHandler(IBudgetPermissionRepos
         (Guid budgetPermissionId, (Guid budgetId, Guid ownerId)) = command;
 
         BudgetPermission budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.Create(budgetPermissionId),
-                cancellationToken) ?? BudgetPermission.Create(BudgetId.Create(budgetId), PersonId.Create(ownerId));
+            await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),
+                cancellationToken) ?? BudgetPermission.Create(BudgetId.New(budgetId), PersonId.New(ownerId));
 
-        budgetPermission.AddPermission(PersonId.Create(ownerId), PermissionType.Owner);
+        budgetPermission.AddPermission(PersonId.New(ownerId), PermissionType.Owner);
         await _budgetPermissionRepository.AddOrUpdateAsync(budgetPermission, cancellationToken);
 
         return new AssignOwnerPermissionResponse(budgetPermission.Id.Value);

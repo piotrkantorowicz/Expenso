@@ -1,5 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Types.Exceptions;
 
@@ -16,7 +17,8 @@ internal sealed class CancelAssigningParticipantCommandHandler(
         CancellationToken cancellationToken = default)
     {
         BudgetPermissionRequest? budgetPermissionRequest =
-            await _budgetPermissionRequestRepository.GetByIdAsync(command.BudgetPermissionRequestId, cancellationToken);
+            await _budgetPermissionRequestRepository.GetByIdAsync(
+                BudgetPermissionRequestId.New(command.BudgetPermissionRequestId), cancellationToken);
 
         if (budgetPermissionRequest is null)
         {

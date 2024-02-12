@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 
 namespace Expenso.BudgetSharing.Application.Read.GetBudgetPermissions.DTO.Responses.Maps;
 
-internal sealed class GetBudgetPermissionsResponseMap
+internal static class GetBudgetPermissionsResponseMap
 {
     public static IReadOnlyCollection<GetBudgetPermissionsResponse> MapTo(
         IEnumerable<BudgetPermission> budgetPermissions)
@@ -13,13 +13,14 @@ internal sealed class GetBudgetPermissionsResponseMap
 
     private static GetBudgetPermissionsResponse MapTo(BudgetPermission budgetPermission)
     {
-        return new GetBudgetPermissionsResponse(budgetPermission.Id, budgetPermission.BudgetId,
-            budgetPermission.OwnerId, budgetPermission.Permissions.Select(MapTo).ToList());
+        return new GetBudgetPermissionsResponse(budgetPermission.Id.Value, budgetPermission.BudgetId.Value,
+            budgetPermission.OwnerId.Value, budgetPermission.Permissions.Select(MapTo).ToList());
     }
 
     private static GetBudgetPermissionsResponsePermission MapTo(Permission permission)
     {
-        return new GetBudgetPermissionsResponsePermission(permission.ParticipantId, MapTo(permission.PermissionType));
+        return new GetBudgetPermissionsResponsePermission(permission.ParticipantId.Value,
+            MapTo(permission.PermissionType));
     }
 
     private static GetBudgetPermissionsResponsePermissionType MapTo(PermissionType permissionType)

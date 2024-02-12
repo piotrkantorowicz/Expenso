@@ -3,19 +3,25 @@ using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
 
 namespace Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 
-public sealed class BudgetId
+public sealed record BudgetId
 {
     private BudgetId(Guid value)
     {
-        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, GetType())]);
         Value = value;
     }
 
     public Guid Value { get; }
 
-    public static BudgetId Create(Guid value)
+    public static BudgetId New(Guid value)
     {
+        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, typeof(BudgetId))]);
+
         return new BudgetId(value);
+    }
+
+    public static BudgetId? Nullable(Guid? value)
+    {
+        return value is null || value == Guid.Empty ? null : new BudgetId(value.Value);
     }
 
     public override string ToString()

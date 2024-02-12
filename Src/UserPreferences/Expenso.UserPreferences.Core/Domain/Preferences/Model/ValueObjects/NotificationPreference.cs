@@ -2,12 +2,6 @@ namespace Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 
 internal sealed record NotificationPreference
 {
-    // ReSharper disable once UnusedMember.Local
-    // Required by EF Core
-    private NotificationPreference() : this(default, default)
-    {
-    }
-
     private NotificationPreference(bool sendFinanceReportEnabled, int sendFinanceReportInterval)
     {
         SendFinanceReportEnabled = sendFinanceReportEnabled;

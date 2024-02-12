@@ -10,23 +10,13 @@ public sealed record BudgetPermissionRequestStatus : Enumeration<BudgetPermissio
     public static readonly BudgetPermissionRequestStatus Cancelled = new(3, "Cancelled");
     public static readonly BudgetPermissionRequestStatus Expired = new(4, "Expired");
 
-    // Required for EF Core
-    // ReSharper disable once UnusedMember.Local
-    private BudgetPermissionRequestStatus() : this(default, default!)
-    {
-    }
-
     private BudgetPermissionRequestStatus(int value, string displayName) : base(value, displayName)
-    {
-    }
-
-    private BudgetPermissionRequestStatus(int value) : base(value, FromValue(value).DisplayName)
     {
     }
 
     public static BudgetPermissionRequestStatus Create(int value)
     {
-        return new BudgetPermissionRequestStatus(value);
+        return FromValue(value);
     }
 
     public bool IsPending()

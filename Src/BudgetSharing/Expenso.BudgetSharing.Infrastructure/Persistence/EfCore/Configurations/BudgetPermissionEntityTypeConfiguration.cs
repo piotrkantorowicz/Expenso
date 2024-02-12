@@ -12,16 +12,16 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
     public void Configure(EntityTypeBuilder<BudgetPermission> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionId.Create(x)).IsRequired();
+        builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionId.New(x)).IsRequired();
         builder.HasIndex(x => x.BudgetId).IsUnique();
-        builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.Create(x)).IsRequired();
-        builder.Property(x => x.OwnerId).HasConversion(x => x.Value, x => PersonId.Create(x)).IsRequired();
+        builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.New(x)).IsRequired();
+        builder.Property(x => x.OwnerId).HasConversion(x => x.Value, x => PersonId.New(x)).IsRequired();
 
         builder.OwnsMany(x => x.Permissions, permissionsBuilder =>
         {
             permissionsBuilder
                 .Property(x => x.ParticipantId)
-                .HasConversion(x => x.Value, x => PersonId.Create(x))
+                .HasConversion(x => x.Value, x => PersonId.New(x))
                 .IsRequired();
 
             permissionsBuilder

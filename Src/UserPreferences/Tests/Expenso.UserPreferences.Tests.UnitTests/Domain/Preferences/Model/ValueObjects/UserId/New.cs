@@ -1,6 +1,6 @@
 namespace Expenso.UserPreferences.Tests.UnitTests.Domain.Preferences.Model.ValueObjects.UserId;
 
-internal sealed class Create : UserIdTestBase
+internal sealed class New : UserIdTestBase
 {
     [Test]
     public void Should_CreateUserIdWithCorrectGuidAsValue()

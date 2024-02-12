@@ -2,6 +2,8 @@ using Expenso.BudgetSharing.Application.Proxy.Read.GetBudgetPermissions.DTO;
 using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Read.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Responses;
 using Expenso.Shared.Queries;
 
@@ -19,10 +21,10 @@ internal sealed class GetBudgetPermissionsQueryHandler(IBudgetPermissionQuerySto
     {
         BudgetPermissionFilter filter = new()
         {
-            Id = query.BudgetPermissionId,
-            BudgetId = query.BudgetId,
-            OwnerId = query.OwnerId,
-            ParticipantId = query.ParticipantId
+            Id = BudgetPermissionId.Nullable(query.BudgetPermissionId),
+            BudgetId = BudgetId.Nullable(query.BudgetId),
+            OwnerId = PersonId.Nullable(query.OwnerId),
+            ParticipantId = PersonId.Nullable(query.ParticipantId)
         };
 
         IReadOnlyList<BudgetPermission> budgetPermissions =

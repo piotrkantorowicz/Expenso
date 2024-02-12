@@ -23,6 +23,6 @@ internal sealed class AssignParticipantCommandHandler(IAssignParticipantDomainSe
             await _assignParticipantDomainService.AssignParticipantAsync(budgetPermissionId, participantId,
                 AssignParticipantRequestMap.ToPermissionType(permissionTypeRequest), expirationDays, cancellationToken);
 
-        return new AssignParticipantResponse(budgetPermissionRequestId);
+        return new AssignParticipantResponse(budgetPermissionRequestId.Value);
     }
 }
