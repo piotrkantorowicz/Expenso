@@ -1,3 +1,5 @@
+using TestCandidate = Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects.UserId;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Domain.Preferences.Model.ValueObjects.UserId;
 
 internal sealed class New : UserIdTestBase
@@ -7,7 +9,7 @@ internal sealed class New : UserIdTestBase
     {
         // Arrange
         // Act
-        TestCandidate = Core.Domain.Preferences.Model.ValueObjects.UserId.New(Guid.NewGuid());
+        TestCandidate = TestCandidate.New(Guid.NewGuid());
 
         // Assert
         TestCandidate.Value.Should().NotBeEmpty();
