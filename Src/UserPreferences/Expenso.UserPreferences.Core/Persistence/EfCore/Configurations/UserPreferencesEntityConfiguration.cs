@@ -12,7 +12,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
     public void Configure(EntityTypeBuilder<FinancePreference> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired();
+        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.Property(x => x.AllowAddFinancePlanReviewers).IsRequired();
         builder.Property(x => x.AllowAddFinancePlanSubOwners).IsRequired();
         builder.Property(x => x.MaxNumberOfFinancePlanReviewers).IsRequired();
@@ -22,14 +22,14 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
     public void Configure(EntityTypeBuilder<GeneralPreference> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired();
+        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.Property(x => x.UseDarkMode).IsRequired();
     }
 
     public void Configure(EntityTypeBuilder<NotificationPreference> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired();
+        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.Property(x => x.SendFinanceReportEnabled).IsRequired();
         builder.Property(x => x.SendFinanceReportInterval).IsRequired();
     }
@@ -37,9 +37,9 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
     public void Configure(EntityTypeBuilder<Preference> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired();
-        builder.Property(x => x.UserId).IsRequired();
+        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.HasIndex(x => x.UserId).IsUnique();
+        builder.Property(x => x.UserId).IsRequired().ValueGeneratedNever();
         builder.HasOne(x => x.FinancePreference).WithOne().HasForeignKey<FinancePreference>(x => x.PreferenceId);
 
         builder
