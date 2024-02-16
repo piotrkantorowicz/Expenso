@@ -11,7 +11,7 @@ internal static class PreferencesDataProvider
     {
         foreach (Guid userId in UsersDataProvider.UserIds)
         {
-            CreatePreferenceInternalResponse? preference =
+            CreatePreferenceResponse? preference =
                 await preferencesProxy.CreatePreferencesAsync(userId, cancellationToken);
 
             if (preference is not null)

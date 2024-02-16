@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="LinqKit.Core" Version="1.2.5"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -32,6 +33,11 @@
         <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Application\Preferences\Read\"/>
+        <Folder Include="Application\Preferences\Write\Commands\CreatePreference\Shared\"/>
     </ItemGroup>
 
 </Project>

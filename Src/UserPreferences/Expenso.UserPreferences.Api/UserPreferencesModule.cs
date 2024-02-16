@@ -4,13 +4,13 @@ using Expenso.Shared.Commands;
 using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.Queries;
 using Expenso.UserPreferences.Core;
-using Expenso.UserPreferences.Core.Application.Preferences.Commands.CreatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Request;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Response;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.UpdatePreferences.Request;
-using Expenso.UserPreferences.Core.Application.Preferences.Queries.GetPreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Proxy;
 
 using Microsoft.AspNetCore.Http;
@@ -44,12 +44,16 @@ public sealed class UserPreferencesModule : ModuleDefinition
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         EndpointRegistration getPreferencesEndpointRegistration = new("preferences/{id}", "GetPreferences",
-            AccessControl.User, HttpVerb.Get, async ([FromRoute] Guid id,
-                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
-                CancellationToken cancellationToken = default) =>
+            AccessControl.User, HttpVerb.Get, async (
+                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler, [FromRoute] Guid id,
+                [FromQuery] bool? includeFinancePreferences = null,
+                [FromQuery] bool? includeNotificationPreferences = null,
+                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences =
-                    await handler.HandleAsync(new GetPreferenceQuery(id), cancellationToken);
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                    new GetPreferenceQuery(id, IncludeFinancePreferences: includeFinancePreferences,
+                        IncludeNotificationPreferences: includeNotificationPreferences,
+                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
 
                 return Results.Ok(getPreferences);
             });
@@ -57,10 +61,14 @@ public sealed class UserPreferencesModule : ModuleDefinition
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new("preferences/current-user",
             "GetCurrentUserPreferences", AccessControl.User, HttpVerb.Get, async (
                 [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
-                CancellationToken cancellationToken = default) =>
+                [FromQuery] bool? includeFinancePreferences = null,
+                [FromQuery] bool? includeNotificationPreferences = null,
+                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences =
-                    await handler.HandleAsync(new GetPreferenceQuery(), cancellationToken);
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                    new GetPreferenceQuery(ForCurrentUser: true, IncludeFinancePreferences: includeFinancePreferences,
+                        IncludeNotificationPreferences: includeNotificationPreferences,
+                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
 
                 return Results.Ok(getPreferences);
             });
@@ -68,10 +76,14 @@ public sealed class UserPreferencesModule : ModuleDefinition
         EndpointRegistration getUserPreferencesByEndpointRegistration = new("preferences", "GetUserPreferences",
             AccessControl.User, HttpVerb.Get, async (
                 [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
-                [FromQuery] Guid userId, CancellationToken cancellationToken = default) =>
+                [FromQuery] Guid userId, [FromQuery] bool? includeFinancePreferences = null,
+                [FromQuery] bool? includeNotificationPreferences = null,
+                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences =
-                    await handler.HandleAsync(new GetPreferenceQuery(UserId: userId), cancellationToken);
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                    new GetPreferenceQuery(UserId: userId, IncludeFinancePreferences: includeFinancePreferences,
+                        IncludeNotificationPreferences: includeNotificationPreferences,
+                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
 
                 return Results.Ok(getPreferences);
             });

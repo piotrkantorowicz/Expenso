@@ -1,19 +1,23 @@
 ### GetUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/8b6f6926-7513-4791-a59a-8f0bba6fa216
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/f68546d6-fc1b-48cb-93d8-b96b29d8666d?
+    includeFinancePreferences=true&includeNotificationPreferences=true&includeGeneralPreferences=true
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetCurrentUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user?includeFinancePreferences=true&
+    includeNotificationPreferences=true&includeGeneralPreferences=true
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?userId=4c7a9020-398f-4d42-8cb4-cac1477a49ac
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?
+    userId=4c7a9020-398f-4d42-8cb4-cac1477a49ac&includeFinancePreferences=true&includeNotificationPreferences=true&
+    includeGeneralPreferences=true
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
-### CreatePreferences
+### CreatePreferences 
 POST {{apiHostAddress}}/{{userPreferencesRoute}}/preferences
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
@@ -23,7 +27,7 @@ Authorization: Bearer {{apiAccessToken}}
 }
 
 ### UpdatePreferences
-PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/4c7a9020-398f-4d42-8cb4-cac1477a49ac
+PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/f68546d6-fc1b-48cb-93d8-b96b29d8666d
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
