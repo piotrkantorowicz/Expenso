@@ -31,13 +31,4 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Application\Preferences\Read\"/>
-        <Folder Include="Application\Preferences\Read\Queries\GetPreference\"/>
-        <Folder Include="Application\Preferences\Write\"/>
-        <Folder Include="Application\Preferences\Write\CreatePreference\External\"/>
-        <Folder Include="Application\Preferences\Write\CreatePreference\Internal\"/>
-        <Folder Include="Persistence\EfCore\"/>
-    </ItemGroup>
-
 </Project>

@@ -35,9 +35,4 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Application\Preferences\Read\"/>
-        <Folder Include="Application\Preferences\Write\Commands\CreatePreference\Shared\"/>
-    </ItemGroup>
-
 </Project>
