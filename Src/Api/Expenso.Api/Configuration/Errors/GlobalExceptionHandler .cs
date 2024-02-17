@@ -1,6 +1,6 @@
 using Expenso.Api.Configuration.Errors.Details;
 using Expenso.Shared.Domain.Types.Exceptions;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 using Microsoft.AspNetCore.Diagnostics;
 

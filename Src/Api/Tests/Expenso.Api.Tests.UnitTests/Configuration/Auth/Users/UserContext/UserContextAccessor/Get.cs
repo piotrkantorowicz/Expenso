@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-using Expenso.Shared.UserContext;
+using Expenso.Shared.System.Types.UserContext;
 
 using Microsoft.AspNetCore.Http;
 

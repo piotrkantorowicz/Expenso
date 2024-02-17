@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
+        <ProjectReference Include="..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
     </ItemGroup>
 
 </Project>

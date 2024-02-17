@@ -1,4 +1,4 @@
-using Expenso.Shared.IntegrationEvents;
+using Expenso.Shared.Integration.Events;
 
 namespace Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
 

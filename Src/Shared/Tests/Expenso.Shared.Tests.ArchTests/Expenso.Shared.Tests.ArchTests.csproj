@@ -14,14 +14,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj"/>
         <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
     </ItemGroup>

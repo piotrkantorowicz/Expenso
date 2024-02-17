@@ -2,7 +2,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.IAM.Proxy;
-using Expenso.Shared.Types.Clock;
+using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 

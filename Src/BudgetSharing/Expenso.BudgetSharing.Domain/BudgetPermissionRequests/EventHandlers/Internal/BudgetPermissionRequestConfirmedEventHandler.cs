@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.Shared.Database;
 using Expenso.Shared.Domain.Events;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal;
 

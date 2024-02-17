@@ -1,7 +1,7 @@
 using System.Text;
 
-using Expenso.Shared.Configuration.Extensions;
-using Expenso.Shared.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Extensions;
+using Expenso.Shared.System.Configuration.Sections;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

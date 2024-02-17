@@ -17,7 +17,7 @@ internal static class GetPreferenceResponseMap
         {
             return null;
         }
-        
+
         return new GetFinancePreferenceResponse(financePreference.AllowAddFinancePlanSubOwners,
             financePreference.MaxNumberOfSubFinancePlanSubOwners, financePreference.AllowAddFinancePlanReviewers,
             financePreference.MaxNumberOfFinancePlanReviewers);
@@ -29,7 +29,7 @@ internal static class GetPreferenceResponseMap
         {
             return null;
         }
-        
+
         return new GetNotificationPreferenceResponse(notificationPreference.SendFinanceReportEnabled,
             notificationPreference.SendFinanceReportInterval);
     }
@@ -40,7 +40,7 @@ internal static class GetPreferenceResponseMap
         {
             return null;
         }
-        
+
         return new GetGeneralPreferenceResponse(generalPreference.UseDarkMode);
     }
 }

@@ -1,8 +1,8 @@
 using Expenso.Api.Configuration.Extensions.Environment.Const;
 using Expenso.Api.Tests.E2E.BudgetSharing.Persistence;
-using Expenso.Shared.Configuration.Extensions;
 using Expenso.Shared.Database;
 using Expenso.Shared.Database.EfCore;
+using Expenso.Shared.System.Configuration.Extensions;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

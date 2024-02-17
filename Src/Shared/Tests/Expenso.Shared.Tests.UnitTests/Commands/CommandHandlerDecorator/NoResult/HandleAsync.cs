@@ -1,6 +1,6 @@
 using System.Text;
 
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.NoResult;
 

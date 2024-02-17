@@ -1,4 +1,4 @@
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 using Microsoft.AspNetCore.Http;
 

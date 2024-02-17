@@ -2,10 +2,12 @@
 
 using Expenso.IAM.Core;
 using Expenso.IAM.Proxy;
-using Expenso.Shared.ModuleDefinition;
+using Expenso.Shared.System.Modules;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using ServiceCollectionExtensions = Expenso.IAM.Core.ServiceCollectionExtensions;
 
 namespace Expenso.IAM.Api;
 
@@ -18,7 +20,7 @@ public sealed class IamModule : ModuleDefinition
         return
         [
             typeof(IamModule).Assembly,
-            typeof(RegistrationExtensions).Assembly,
+            typeof(ServiceCollectionExtensions).Assembly,
             typeof(IIamProxy).Assembly
         ];
     }

@@ -2,7 +2,7 @@ using System.Text;
 
 using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Internal.Queries.GetUser.GetUserInternalQueryHandler;
 
