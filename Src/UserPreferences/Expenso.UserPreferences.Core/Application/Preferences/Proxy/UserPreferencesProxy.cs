@@ -1,7 +1,7 @@
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
-using Expenso.UserPreferences.Core.Application.Preferences.Internal.Commands.CreatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Internal.Queries.GetPreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.External;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.External;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
@@ -18,16 +18,19 @@ internal sealed class UserPreferencesProxy(ICommandDispatcher commandDispatcher,
     private readonly IQueryDispatcher _queryDispatcher =
         queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
 
-    public async Task<GetPreferenceInternalResponse?> GetUserPreferencesAsync(Guid userId,
+    public async Task<GetPreferenceResponse?> GetUserPreferencesAsync(Guid userId, bool includeFinancePreferences,
+        bool includeNotificationPreferences, bool includeGeneralPreferences,
         CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(new GetPreferenceInternalQuery(userId), cancellationToken);
+        return await _queryDispatcher.QueryAsync(
+            new GetPreferenceQuery(userId, includeFinancePreferences, includeNotificationPreferences,
+                includeGeneralPreferences), cancellationToken);
     }
 
-    public async Task<CreatePreferenceInternalResponse?> CreatePreferencesAsync(Guid userId,
+    public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(Guid userId,
         CancellationToken cancellationToken = default)
     {
-        return await _commandDispatcher.SendAsync<CreatePreferenceInternalCommand, CreatePreferenceInternalResponse>(
-            new CreatePreferenceInternalCommand(new CreatePreferenceInternalRequest(userId)), cancellationToken);
+        return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
+            new CreatePreferenceCommand(new CreatePreferenceRequest(userId)), cancellationToken);
     }
 }

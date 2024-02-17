@@ -2,7 +2,7 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Tests.ArchTests.AccessModifiers;
-using Expenso.UserPreferences.Tests.UnitTests.Persistence.Repositories.PreferencesRepository;
+using Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
 namespace Expenso.UserPreferences.Tests.ArchTests;
 

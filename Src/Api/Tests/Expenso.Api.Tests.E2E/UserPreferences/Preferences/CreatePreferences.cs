@@ -1,8 +1,8 @@
 using System.Text;
 
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Request;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.CreatePreference.Response;
-using Expenso.UserPreferences.Core.Application.Preferences.DTO.GetPreferences.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 

@@ -1,7 +1,8 @@
 using Expenso.Shared.Database.EfCore.Extensions;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
-using Expenso.UserPreferences.Core.Domain.Preferences.Model.ValueObjects;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Persistence.EfCore.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -12,20 +13,20 @@ internal sealed class PreferencesRepository(IUserPreferencesDbContext userPrefer
     private readonly IUserPreferencesDbContext _userPreferencesDbContext =
         userPreferencesDbContext ?? throw new ArgumentNullException(nameof(userPreferencesDbContext));
 
-    public async Task<Preference?> GetByIdAsync(PreferenceId preferenceId, bool useTracking,
-        CancellationToken cancellationToken)
+    public async Task<Preference?> GetAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken)
     {
         return await _userPreferencesDbContext
-            .Preferences.Tracking(useTracking)
-            .SingleOrDefaultAsync(x => x.Id == preferenceId, cancellationToken);
+            .Preferences.Tracking(preferenceFilter.UseTracking)
+            .IncludeMany(preferenceFilter.ToIncludeExpressions())
+            .SingleOrDefaultAsync(preferenceFilter.ToFilterExpression(), cancellationToken);
     }
 
-    public async Task<Preference?> GetByUserIdAsync(UserId userId, bool useTracking,
-        CancellationToken cancellationToken)
+    public async Task<bool> ExistsAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken)
     {
         return await _userPreferencesDbContext
-            .Preferences.Tracking(useTracking)
-            .SingleOrDefaultAsync(x => x.UserId == userId, cancellationToken);
+            .Preferences.Tracking(preferenceFilter.UseTracking)
+            .IncludeMany(preferenceFilter.ToIncludeExpressions())
+            .AnyAsync(preferenceFilter.ToFilterExpression(), cancellationToken);
     }
 
     public async Task<Preference> CreateAsync(Preference preference, CancellationToken cancellationToken)
