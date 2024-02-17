@@ -19,5 +19,5 @@
         <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
-    
+
 </Project>

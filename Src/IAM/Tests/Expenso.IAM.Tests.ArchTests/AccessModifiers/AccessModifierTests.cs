@@ -12,7 +12,7 @@ internal sealed class AccessModifierTests : TestBase
     private static readonly string[] NotInternal =
     [
         "Module",
-        "RegistrationExtensions"
+        "ServiceCollectionExtensions"
     ];
 
     private static readonly string[] NotSealed =

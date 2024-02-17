@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.IAM.Core;
 
-public static class RegistrationExtensions
+public static class ServiceCollectionExtensions
 {
     public static void AddIamCore(this IServiceCollection services, IConfiguration configuration)
     {

@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Database.EfCore.NpSql;
 
-public static class RegistrationExtensions
+public static class ServiceCollectionExtensions
 {
     public static void AddPostgres<T>(this IServiceCollection services, IConfiguration configuration, string moduleName)
         where T : DbContext

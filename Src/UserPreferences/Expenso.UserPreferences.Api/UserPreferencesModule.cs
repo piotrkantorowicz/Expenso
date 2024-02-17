@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using RegistrationExtensions = Expenso.UserPreferences.Core.RegistrationExtensions;
+using ServiceCollectionExtensions = Expenso.UserPreferences.Core.ServiceCollectionExtensions;
 
 namespace Expenso.UserPreferences.Api;
 
@@ -31,7 +31,7 @@ public sealed class UserPreferencesModule : ModuleDefinition
         return
         [
             typeof(UserPreferencesModule).Assembly,
-            typeof(RegistrationExtensions).Assembly,
+            typeof(ServiceCollectionExtensions).Assembly,
             typeof(IUserPreferencesProxy).Assembly
         ];
     }

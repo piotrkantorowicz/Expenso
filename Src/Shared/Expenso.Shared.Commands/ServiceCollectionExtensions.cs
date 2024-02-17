@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Commands;
 
-public static class RegistrationExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCommands(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {

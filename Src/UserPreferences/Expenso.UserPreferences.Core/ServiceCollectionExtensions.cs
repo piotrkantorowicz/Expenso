@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.UserPreferences.Core;
 
-public static class RegistrationExtensions
+public static class ServiceCollectionExtensions
 {
     public static void AddUserPreferencesModulesDependencies(this IServiceCollection services,
         IConfiguration configuration, string moduleName)

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Commands.Validation;
 
-public static class RegistrationExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddCommandsValidations(this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
