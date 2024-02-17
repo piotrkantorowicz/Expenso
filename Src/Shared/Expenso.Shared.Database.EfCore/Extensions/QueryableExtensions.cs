@@ -10,22 +10,16 @@ public static class QueryableExtensions
     {
         return useTracking == true ? queryable : queryable.AsNoTracking();
     }
-
-    public static IQueryable<T> IncludeIf<T>(this IQueryable<T> queryable, bool include,
-        Expression<Func<T, object>> includeExpression) where T : class
-    {
-        return include ? queryable.Include(includeExpression) : queryable;
-    }
-
-    public static IQueryable<T> IncludeIfNotNull<T>(this IQueryable<T> queryable,
-        Expression<Func<T, object>>? includeExpression) where T : class
-    {
-        return includeExpression != null ? queryable.Include(includeExpression) : queryable;
-    }
-
+    
     public static IQueryable<T> IncludeMany<T>(this IQueryable<T> queryable,
         IEnumerable<Expression<Func<T, object>>> includeExpression) where T : class
     {
-        return includeExpression.Aggregate(queryable, (current, include) => current.Include(include));
+        return includeExpression.Aggregate(queryable, (current, include) => current.IncludeIfNotNull(include));
+    }
+
+    private static IQueryable<T> IncludeIfNotNull<T>(this IQueryable<T> queryable,
+        Expression<Func<T, object>>? includeExpression) where T : class
+    {
+        return includeExpression != null ? queryable.Include(includeExpression) : queryable;
     }
 }

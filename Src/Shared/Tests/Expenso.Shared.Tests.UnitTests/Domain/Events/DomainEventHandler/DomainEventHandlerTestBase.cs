@@ -1,10 +1,10 @@
-using Expenso.Shared.Tests.UnitTests.Domain.TestData;
+using Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
 using Microsoft.Extensions.Logging;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Domain.DomainEventHandler;
+namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandler;
 
 internal abstract class DomainEventHandlerTestBase : TestBase<TestDomainEventHandler>
 {

@@ -1,6 +1,6 @@
-using Expenso.Shared.Tests.UnitTests.Domain.TestData;
+using Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
-namespace Expenso.Shared.Tests.UnitTests.Domain.DomainEventBroker;
+namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 
 internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
 {

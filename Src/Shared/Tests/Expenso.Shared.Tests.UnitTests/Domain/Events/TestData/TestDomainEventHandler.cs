@@ -2,7 +2,7 @@ using Expenso.Shared.Domain.Events;
 
 using Microsoft.Extensions.Logging;
 
-namespace Expenso.Shared.Tests.UnitTests.Domain.TestData;
+namespace Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
 internal sealed class TestDomainEventHandler(ILogger<TestDomainEventHandler> logger)
     : IDomainEventHandler<TestDomainEvent>

@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Domain.DomainEventHandler;
+namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandler;
 
 internal sealed class HandleAsync : DomainEventHandlerTestBase
 {
