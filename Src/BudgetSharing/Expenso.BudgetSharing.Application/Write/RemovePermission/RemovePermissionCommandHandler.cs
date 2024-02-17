@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Commands;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.Write.RemovePermission;
 

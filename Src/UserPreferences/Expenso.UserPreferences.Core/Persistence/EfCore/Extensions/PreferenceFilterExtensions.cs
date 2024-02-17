@@ -1,9 +1,8 @@
 using System.Linq.Expressions;
 
+using Expenso.Shared.System.Expressions.And;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-
-using LinqKit;
 
 namespace Expenso.UserPreferences.Core.Persistence.EfCore.Extensions;
 
@@ -11,24 +10,24 @@ internal static class PreferenceFilterExtensions
 {
     public static Expression<Func<Preference, bool>> ToFilterExpression(this PreferenceFilter filter)
     {
-        ExpressionStarter<Preference>? predicate = PredicateBuilder.New<Preference>(true);
+        Expression<Func<Preference, bool>> predicate = p => true;
 
         if (filter.Id.HasValue)
         {
-            predicate = predicate.And(x => x.Id == filter.Id);
+            predicate = AndExpression<Preference>.And(predicate, p => p.Id == filter.Id.Value);
         }
 
         if (filter.UserId.HasValue)
         {
-            predicate = predicate.And(x => x.UserId == filter.UserId);
+            predicate = AndExpression<Preference>.And(predicate, p => p.UserId == filter.UserId.Value);
         }
 
         return predicate;
     }
 
-    public static Expression<Func<Preference, object>>[] ToIncludeExpressions(this PreferenceFilter filter)
+    public static IEnumerable<Expression<Func<Preference, object>>> ToIncludeExpressions(this PreferenceFilter filter)
     {
-        List<Expression<Func<Preference, object>>> includes = new();
+        List<Expression<Func<Preference, object>>> includes = [];
 
         if (filter.IncludeFinancePreferences.HasValue && filter.IncludeFinancePreferences.Value)
         {

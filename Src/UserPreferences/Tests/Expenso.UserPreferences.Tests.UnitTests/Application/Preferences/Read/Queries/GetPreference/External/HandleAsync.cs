@@ -1,6 +1,6 @@
 using System.Text;
 
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.External;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;

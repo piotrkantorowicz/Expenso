@@ -1,8 +1,8 @@
 using System.Reflection;
 
 using Expenso.Shared.Commands;
-using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.Queries;
+using Expenso.Shared.System.Modules;
 using Expenso.UserPreferences.Core;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;

@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
     </ItemGroup>
 
 </Project>

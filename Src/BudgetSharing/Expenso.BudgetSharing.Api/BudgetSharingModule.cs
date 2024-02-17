@@ -21,8 +21,8 @@ using Expenso.BudgetSharing.Domain;
 using Expenso.BudgetSharing.Infrastructure;
 using Expenso.BudgetSharing.Proxy;
 using Expenso.Shared.Commands;
-using Expenso.Shared.ModuleDefinition;
 using Expenso.Shared.Queries;
+using Expenso.Shared.System.Modules;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

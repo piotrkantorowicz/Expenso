@@ -1,5 +1,5 @@
 using Expenso.Shared.Commands;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.External.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Shared.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;

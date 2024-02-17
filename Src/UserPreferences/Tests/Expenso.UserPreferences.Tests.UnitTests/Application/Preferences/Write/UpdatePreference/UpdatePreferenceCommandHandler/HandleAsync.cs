@@ -1,6 +1,6 @@
 using System.Text;
 
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;

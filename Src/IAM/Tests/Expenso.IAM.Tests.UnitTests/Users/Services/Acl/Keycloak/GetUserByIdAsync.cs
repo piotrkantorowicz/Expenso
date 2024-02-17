@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 using Expenso.IAM.Core.Users.DTO.GetUser;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 

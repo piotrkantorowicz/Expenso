@@ -2,7 +2,7 @@ using System.Text;
 
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
-using Expenso.Shared.Types.Clock;
+using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 

@@ -5,8 +5,8 @@ using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.Database.EfCore.NpSql.Migrations;
-using Expenso.Shared.ModuleDefinition;
-using Expenso.Shared.UserContext;
+using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Types.UserContext;
 
 namespace Expenso.Api.Configuration.Builders;
 

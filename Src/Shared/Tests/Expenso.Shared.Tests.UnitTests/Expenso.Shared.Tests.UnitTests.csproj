@@ -14,29 +14,33 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.IntegrationEvents\Expenso.Shared.IntegrationEvents.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.MessageBroker\Expenso.Shared.MessageBroker.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.ModuleDefinition\Expenso.Shared.ModuleDefinition.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
         <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Integration\"/>
     </ItemGroup>
 
 </Project>

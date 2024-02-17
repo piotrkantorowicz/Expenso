@@ -9,15 +9,14 @@
     <ItemGroup>
         <PackageReference Include="IdentityModel" Version="6.2.0"/>
         <PackageReference Include="Keycloak.AuthServices.Sdk" Version="1.6.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Configuration\Expenso.Shared.Configuration.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Types\Expenso.Shared.Types.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.UserContext\Expenso.Shared.UserContext.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
     </ItemGroup>
 

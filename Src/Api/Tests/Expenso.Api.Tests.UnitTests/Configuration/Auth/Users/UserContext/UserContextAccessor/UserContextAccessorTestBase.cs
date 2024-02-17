@@ -1,5 +1,5 @@
+using Expenso.Shared.System.Types.UserContext;
 using Expenso.Shared.Tests.Utils.UnitTests;
-using Expenso.Shared.UserContext;
 
 using Microsoft.AspNetCore.Http;
 

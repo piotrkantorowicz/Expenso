@@ -2,9 +2,9 @@
 using Expenso.IAM.Core.Users.Services;
 using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
 using Expenso.IAM.Proxy;
-using Expenso.Shared.Configuration.Extensions;
-using Expenso.Shared.Configuration.Sections;
-using Expenso.Shared.Configuration.Settings;
+using Expenso.Shared.System.Configuration.Extensions;
+using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Settings;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,7 +1,7 @@
 using Expenso.IAM.Core.Users.Services;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Queries;
-using Expenso.Shared.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 

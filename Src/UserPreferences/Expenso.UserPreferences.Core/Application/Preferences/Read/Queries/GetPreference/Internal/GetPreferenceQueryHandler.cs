@@ -1,6 +1,6 @@
 using Expenso.Shared.Queries;
-using Expenso.Shared.Types.Exceptions;
-using Expenso.Shared.UserContext;
+using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.UserContext;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;

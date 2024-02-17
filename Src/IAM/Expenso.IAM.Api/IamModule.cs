@@ -2,7 +2,7 @@
 
 using Expenso.IAM.Core;
 using Expenso.IAM.Proxy;
-using Expenso.Shared.ModuleDefinition;
+using Expenso.Shared.System.Modules;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

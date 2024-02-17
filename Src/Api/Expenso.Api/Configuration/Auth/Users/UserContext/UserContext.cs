@@ -1,4 +1,4 @@
-using Expenso.Shared.UserContext;
+using Expenso.Shared.System.Types.UserContext;
 
 namespace Expenso.Api.Configuration.Auth.Users.UserContext;
 
