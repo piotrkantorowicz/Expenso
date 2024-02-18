@@ -1,6 +1,6 @@
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
-using Expenso.Shared.System.Types.UserContext;
+using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
@@ -11,13 +11,13 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetP
 
 internal sealed class GetPreferenceQueryHandler(
     IPreferencesRepository preferencesRepository,
-    IUserContextAccessor userContextAccessor) : IQueryHandler<GetPreferenceQuery, GetPreferenceResponse>
+    IExecutionContextAccessor executionContextAccessor) : IQueryHandler<GetPreferenceQuery, GetPreferenceResponse>
 {
+    private readonly IExecutionContextAccessor _executionContextAccessor =
+        executionContextAccessor ?? throw new ArgumentNullException(nameof(executionContextAccessor));
+
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
-
-    private readonly IUserContextAccessor _userContextAccessor =
-        userContextAccessor ?? throw new ArgumentNullException(nameof(userContextAccessor));
 
     public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query,
         CancellationToken cancellationToken = default)
@@ -37,7 +37,7 @@ internal sealed class GetPreferenceQueryHandler(
 
         if (forCurrentUser == true)
         {
-            userId = Guid.TryParse(_userContextAccessor.Get()?.UserId, out Guid id) ? id : Guid.Empty;
+            userId = Guid.TryParse(_executionContextAccessor.Get()?.UserContext?.UserId, out Guid id) ? id : Guid.Empty;
         }
 
         return new PreferenceFilter

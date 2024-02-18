@@ -1,4 +1,4 @@
-﻿namespace Expenso.Shared.System.Types.UserContext;
+﻿namespace Expenso.Shared.System.Types.ExecutionContext.Models;
 
 public interface IUserContext
 {

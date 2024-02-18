@@ -1,9 +1,9 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-using Expenso.Api.Configuration.Auth.Users.UserContext;
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Errors;
+using Expenso.Api.Configuration.Execution;
 using Expenso.BudgetSharing.Api;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
@@ -18,7 +18,7 @@ using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types;
-using Expenso.Shared.System.Types.UserContext;
+using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
@@ -54,7 +54,7 @@ internal sealed class AppBuilder : IAppBuilder
     {
         ConfigureAppSettings();
         _services.AddHttpContextAccessor();
-        _services.AddScoped<IUserContextAccessor, UserContextAccessor>();
+        _services.AddScoped<IExecutionContextAccessor, ExecutionContextAccessor>();
 
         return this;
     }

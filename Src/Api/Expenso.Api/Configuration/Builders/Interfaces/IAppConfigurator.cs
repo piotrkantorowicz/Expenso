@@ -8,6 +8,8 @@ internal interface IAppConfigurator
 
     IAppConfigurator UseHttpsRedirection();
 
+    IAppConfigurator UseRequestsCorrelation();
+
     IAppConfigurator UseErrorHandler();
 
     IAppConfigurator CreateEndpoints();

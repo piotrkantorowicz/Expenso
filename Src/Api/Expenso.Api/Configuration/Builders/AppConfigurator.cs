@@ -2,11 +2,13 @@ using System.Reflection;
 using System.Text;
 
 using Expenso.Api.Configuration.Builders.Interfaces;
+using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.Database.EfCore.NpSql.Migrations;
 using Expenso.Shared.System.Modules;
-using Expenso.Shared.System.Types.UserContext;
+using Expenso.Shared.System.Types.ExecutionContext;
+using Expenso.Shared.System.Types.ExecutionContext.Models;
 
 namespace Expenso.Api.Configuration.Builders;
 
@@ -42,6 +44,13 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
         return this;
     }
 
+    public IAppConfigurator UseRequestsCorrelation()
+    {
+        app.UseMiddleware<CorrelationIdMiddleware>();
+
+        return this;
+    }
+
     public IAppConfigurator UseErrorHandler()
     {
         app.UseExceptionHandler();
@@ -65,10 +74,11 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
         app
             .MapGet("/greetings/hello-user", (HttpContext httpContext) =>
             {
-                IUserContextAccessor userContextAccessor =
-                    (IUserContextAccessor)httpContext.RequestServices.GetService(typeof(IUserContextAccessor))!;
+                IExecutionContextAccessor executionContextAccessor =
+                    (IExecutionContextAccessor)
+                    httpContext.RequestServices.GetService(typeof(IExecutionContextAccessor))!;
 
-                IUserContext? userContext = userContextAccessor.Get();
+                IUserContext? userContext = executionContextAccessor.Get()?.UserContext;
 
                 string response = new StringBuilder()
                     .Append("Hello ")

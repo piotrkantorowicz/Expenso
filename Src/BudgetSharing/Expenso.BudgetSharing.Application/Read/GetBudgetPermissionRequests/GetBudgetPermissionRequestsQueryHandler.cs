@@ -7,20 +7,20 @@ using Expenso.BudgetSharing.Application.Read.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Queries;
-using Expenso.Shared.System.Types.UserContext;
+using Expenso.Shared.System.Types.ExecutionContext;
 
 namespace Expenso.BudgetSharing.Application.Read.GetBudgetPermissionRequests;
 
 internal sealed class GetBudgetPermissionRequestsQueryHandler(
     IBudgetPermissionRequestQueryStore budgetPermissionRequestStore,
-    IUserContextAccessor userContextAccessor)
+    IExecutionContextAccessor executionContextAccessor)
     : IQueryHandler<GetBudgetPermissionRequestsQuery, IReadOnlyCollection<GetBudgetPermissionRequestsResponse>>
 {
     private readonly IBudgetPermissionRequestQueryStore _budgetPermissionRequestStore = budgetPermissionRequestStore ??
         throw new ArgumentNullException(nameof(budgetPermissionRequestStore));
 
-    private readonly IUserContextAccessor _userContextAccessor =
-        userContextAccessor ?? throw new ArgumentNullException(nameof(userContextAccessor));
+    private readonly IExecutionContextAccessor _executionContextAccessor =
+        executionContextAccessor ?? throw new ArgumentNullException(nameof(executionContextAccessor));
 
     public async Task<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>?> HandleAsync(
         GetBudgetPermissionRequestsQuery query, CancellationToken cancellationToken = default)
@@ -30,7 +30,9 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler(
 
         if (forCurrentUser is true)
         {
-            participantId = Guid.TryParse(_userContextAccessor.Get()?.UserId, out Guid userId) ? userId : null;
+            participantId = Guid.TryParse(_executionContextAccessor.Get()?.UserContext?.UserId, out Guid userId)
+                ? userId
+                : null;
         }
 
         BudgetPermissionRequestFilter filter = new()
