@@ -1,6 +1,6 @@
 ﻿using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types.Exceptions;
-using Expenso.Shared.System.Types.UserContext;
+using Expenso.Shared.System.Types.ExecutionContext.Models;
 using Expenso.Shared.Tests.UnitTests.System.Modules.Extensions.EndpointRegistrationExtensions;
 using Expenso.Shared.Tests.Utils.UnitTests;
 

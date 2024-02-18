@@ -66,7 +66,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         GetPreferenceQuery query = new(ForCurrentUser: true, IncludeFinancePreferences: It.IsAny<bool>(),
             IncludeNotificationPreferences: It.IsAny<bool>(), IncludeGeneralPreferences: It.IsAny<bool>());
 
-        _userContextAccessorMock.Setup(x => x.Get()).Returns(_userContextMock.Object);
+        _userContextAccessorMock.Setup(x => x.Get()).Returns(_executionContextMock.Object);
 
         _preferenceRepositoryMock
             .Setup(x => x.GetAsync(

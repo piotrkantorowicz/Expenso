@@ -14,6 +14,7 @@ appBuilder
     .CreateEndpoints()
     .UseAuth()
     .UseHttpsRedirection()
+    .UseRequestsCorrelation()
     .UseErrorHandler()
     .UseSwagger()
     .MigrateDatabase()
