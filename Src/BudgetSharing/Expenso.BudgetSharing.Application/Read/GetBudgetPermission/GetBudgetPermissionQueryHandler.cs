@@ -19,7 +19,7 @@ internal sealed class GetBudgetPermissionQueryHandler(IBudgetPermissionQueryStor
     public async Task<GetBudgetPermissionResponse?> HandleAsync(GetBudgetPermissionQuery query,
         CancellationToken cancellationToken = default)
     {
-        (Guid budgetPermissionId, bool? includePermissions) = query;
+        (_, Guid budgetPermissionId, bool? includePermissions) = query;
 
         BudgetPermissionFilter filter = new()
         {

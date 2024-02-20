@@ -9,7 +9,7 @@ internal sealed class SendAsync : CommandDispatcherTestBase
     {
         // Arrange
         Guid testCommandId = Guid.NewGuid();
-        TestCommand testCommand = new(testCommandId, "UsWNuYtfQTtvYR");
+        TestCommand testCommand = new(MessageContextFactoryMock.Object.Current(), testCommandId, "UsWNuYtfQTtvYR");
 
         // Act
         // Assert

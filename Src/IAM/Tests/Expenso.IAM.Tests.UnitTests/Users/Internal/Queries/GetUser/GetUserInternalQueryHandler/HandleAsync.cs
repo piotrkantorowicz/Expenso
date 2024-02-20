@@ -12,7 +12,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new(_userId);
+        GetUserQuery query = new(_messageContextMock.Object, _userId);
         _userServiceMock.Setup(x => x.GetUserByIdInternalAsync(_userId)).ReturnsAsync(_getUserInternalResponse);
 
         // Act
@@ -27,7 +27,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByEmailAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new(Email: _userEmail);
+        GetUserQuery query = new(_messageContextMock.Object, Email: _userEmail);
         _userServiceMock.Setup(x => x.GetUserByEmailInternalAsync(_userEmail)).ReturnsAsync(_getUserInternalResponse);
 
         // Act
@@ -42,7 +42,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByIdAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new(_userId);
+        GetUserQuery query = new(_messageContextMock.Object, _userId);
         _userServiceMock.Setup(x => x.GetUserByIdInternalAsync(_userId))!.ReturnsAsync((GetUserInternalResponse?)null);
 
         // Act
@@ -56,7 +56,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByEmailAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new(Email: _userEmail);
+        GetUserQuery query = new(_messageContextMock.Object, Email: _userEmail);
 
         _userServiceMock.Setup(x => x.GetUserByEmailInternalAsync(_userEmail))!.ReturnsAsync(
             (GetUserInternalResponse?)null);
@@ -72,7 +72,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_QueryIsEmpty()
     {
         // Arrange
-        GetUserQuery query = new();
+        GetUserQuery query = new(_messageContextMock.Object);
 
         // Act
         // Assert

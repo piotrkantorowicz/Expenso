@@ -9,7 +9,13 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.ArchTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
     </ItemGroup>
 
 </Project>

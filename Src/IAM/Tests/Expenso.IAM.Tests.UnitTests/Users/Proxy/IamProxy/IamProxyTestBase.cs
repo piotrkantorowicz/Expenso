@@ -20,6 +20,6 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
         _userEmail = "email@email.com";
         _getUserInternalResponse = new GetUserInternalResponse(_userId, "Valentina", "Long", "vLong", _userEmail);
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
-        TestCandidate = new TestCandidate(_queryDispatcherMock.Object);
+        TestCandidate = new TestCandidate(_queryDispatcherMock.Object, MessageContextFactoryMock.Object);
     }
 }

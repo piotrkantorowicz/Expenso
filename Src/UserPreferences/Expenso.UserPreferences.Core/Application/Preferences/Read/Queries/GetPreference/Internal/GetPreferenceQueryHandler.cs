@@ -32,7 +32,7 @@ internal sealed class GetPreferenceQueryHandler(
 
     private PreferenceFilter GetFilter(GetPreferenceQuery query)
     {
-        (Guid? preferenceId, Guid? userId, bool? forCurrentUser, bool? includeFinancePreferences,
+        (_, Guid? preferenceId, Guid? userId, bool? forCurrentUser, bool? includeFinancePreferences,
             bool? includeNotificationPreferences, bool? includeGeneralPreferences) = query;
 
         if (forCurrentUser == true)

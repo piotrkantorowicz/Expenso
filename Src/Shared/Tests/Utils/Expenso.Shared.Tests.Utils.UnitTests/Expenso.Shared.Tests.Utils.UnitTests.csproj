@@ -30,4 +30,8 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
+    </ItemGroup>
+
 </Project>

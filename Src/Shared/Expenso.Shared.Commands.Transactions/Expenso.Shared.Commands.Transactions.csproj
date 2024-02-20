@@ -7,6 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
     </ItemGroup>

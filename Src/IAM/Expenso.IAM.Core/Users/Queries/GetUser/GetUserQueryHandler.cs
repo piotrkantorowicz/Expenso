@@ -11,7 +11,7 @@ internal sealed class GetUserQueryHandler(IUserService userService) : IQueryHand
 
     public async Task<GetUserResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken = default)
     {
-        (string? userId, string? email) = query;
+        (_, string? userId, string? email) = query;
 
         if (!string.IsNullOrEmpty(userId))
         {

@@ -80,7 +80,8 @@ internal sealed class AppBuilder : IAppBuilder
             .AddQueries(assemblies)
             .AddDomainEvents(assemblies)
             .AddMessageBroker(assemblies)
-            .AddClock();
+            .AddClock()
+            .AddMessageContext();
 
         return this;
     }

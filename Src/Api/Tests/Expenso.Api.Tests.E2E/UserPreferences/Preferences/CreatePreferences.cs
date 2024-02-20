@@ -1,8 +1,6 @@
 using System.Text;
 
-using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Request;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
@@ -22,21 +20,8 @@ internal sealed class CreatePreferences : PreferencesTestBase
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Created);
-
-        CreatePreferenceResponse? testResultContent =
-            await testResult.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
-
-        testResultContent?.UserId.Should().Be(userId);
-
-        testResultContent
-            ?.FinancePreference.Should()
-            .BeEquivalentTo(new GetFinancePreferenceResponse(false, 0, false, 0));
-
-        testResultContent
-            ?.NotificationPreference.Should()
-            .BeEquivalentTo(new GetNotificationPreferenceResponse(true, 7));
-
-        testResultContent?.GeneralPreference.Should().BeEquivalentTo(new GetGeneralPreferenceResponse(false));
+        Guid? testResultContent = await testResult.Content.ReadFromJsonAsync<Guid>();
+        testResultContent.Should().NotBeEmpty();
     }
 
     [Test]

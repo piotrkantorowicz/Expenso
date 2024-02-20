@@ -7,14 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+        <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
     </ItemGroup>
 
 </Project>

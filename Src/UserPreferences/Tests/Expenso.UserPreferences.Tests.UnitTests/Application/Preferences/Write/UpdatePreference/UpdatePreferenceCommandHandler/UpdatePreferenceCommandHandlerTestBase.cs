@@ -23,6 +23,8 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<TestCa
         _preference = PreferenceFactory.Create(_userId);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _messageBrokerMock = new Mock<IMessageBroker>();
-        TestCandidate = new TestCandidate(_preferenceRepositoryMock.Object, _messageBrokerMock.Object);
+
+        TestCandidate = new TestCandidate(_preferenceRepositoryMock.Object, _messageBrokerMock.Object,
+            MessageContextFactoryMock.Object);
     }
 }

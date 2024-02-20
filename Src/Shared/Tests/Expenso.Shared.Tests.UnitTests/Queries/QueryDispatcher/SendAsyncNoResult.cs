@@ -8,7 +8,7 @@ internal sealed class QueryAsync : QueryDispatcherTestBase
     public async Task Should_SendQuery()
     {
         // Arrange
-        TestQuery testQuery = new(Guid.NewGuid());
+        TestQuery testQuery = new(MessageContextFactoryMock.Object.Current(), Guid.NewGuid());
 
         // Act
         TestResponse? queryResult = await TestCandidate.QueryAsync(testQuery);

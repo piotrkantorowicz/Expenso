@@ -11,7 +11,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(
-                new GetPreferenceQuery(_userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(_getPreferenceResponse);
 
@@ -23,8 +23,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         preference.Should().NotBeNull();
         preference.Should().BeEquivalentTo(_getPreferenceResponse);
 
-        _queryDispatcherMock.Verify(
-            x => x.QueryAsync(new GetPreferenceQuery(_userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+        _queryDispatcherMock.Verify(x =>
+            x.QueryAsync(
+                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -34,7 +35,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(
-                new GetPreferenceQuery(_userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((GetPreferenceResponse?)null);
 
@@ -45,8 +46,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Assert
         preference.Should().BeNull();
 
-        _queryDispatcherMock.Verify(
-            x => x.QueryAsync(new GetPreferenceQuery(_userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+        _queryDispatcherMock.Verify(x =>
+            x.QueryAsync(
+                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()), Times.Once);
     }
 }

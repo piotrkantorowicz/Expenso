@@ -1,16 +1,21 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.BudgetSharing.Domain.Shared.Model.Base;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions;
 
 public class BudgetPermission : IAggregateRoot
 {
     private readonly DomainEventsSource _domainEventsSource = new();
+
+    private readonly IMessageContextFactory _messageContextFactory =
+        DependencyResolver.Resolve<IMessageContextFactory>();
 
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core   
@@ -57,7 +62,9 @@ public class BudgetPermission : IAggregateRoot
         ]);
 
         Permissions.Add(Permission.Create(participantId, permissionType));
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionGrantedEvent(BudgetId, participantId, permissionType));
+
+        _domainEventsSource.AddDomainEvent(new BudgetPermissionGrantedEvent(_messageContextFactory.Current(), BudgetId,
+            participantId, permissionType));
     }
 
     public void RemovePermission(PersonId participantId)
@@ -71,7 +78,7 @@ public class BudgetPermission : IAggregateRoot
         Permission validatedPermission = permission!;
         Permissions.Remove(validatedPermission);
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionWithdrawnEvent(BudgetId,
-            validatedPermission.ParticipantId, validatedPermission.PermissionType));
+        _domainEventsSource.AddDomainEvent(new BudgetPermissionWithdrawnEvent(_messageContextFactory.Current(),
+            BudgetId, validatedPermission.ParticipantId, validatedPermission.PermissionType));
     }
 }
