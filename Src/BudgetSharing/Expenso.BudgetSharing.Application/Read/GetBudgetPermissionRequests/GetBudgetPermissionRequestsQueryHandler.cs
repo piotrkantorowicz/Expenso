@@ -25,7 +25,7 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler(
     public async Task<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>?> HandleAsync(
         GetBudgetPermissionRequestsQuery query, CancellationToken cancellationToken = default)
     {
-        (Guid? budgetId, Guid? participantId, bool? forCurrentUser, GetBudgetPermissionRequestsRequestStatus? status,
+        (_, Guid? budgetId, Guid? participantId, bool? forCurrentUser, GetBudgetPermissionRequestsRequestStatus? status,
             GetBudgetPermissionRequestsRequestPermissionType? permissionType) = query;
 
         if (forCurrentUser is true)

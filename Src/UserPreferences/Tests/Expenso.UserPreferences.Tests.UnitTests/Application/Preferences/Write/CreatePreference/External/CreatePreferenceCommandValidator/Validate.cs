@@ -22,7 +22,9 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
     {
         // Arrange
         Guid userId = Guid.Empty;
-        CreatePreferenceCommand command = new(new CreatePreferenceRequest(userId));
+
+        CreatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(),
+            new CreatePreferenceRequest(userId));
 
         // Act
         IDictionary<string, string> validationResult = TestCandidate.Validate(command);

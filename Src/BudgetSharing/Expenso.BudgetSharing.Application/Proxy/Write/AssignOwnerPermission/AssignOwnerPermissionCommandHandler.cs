@@ -17,7 +17,7 @@ internal sealed class AssignOwnerPermissionCommandHandler(IBudgetPermissionRepos
     public async Task<AssignOwnerPermissionResponse?> HandleAsync(AssignOwnerPermissionCommand command,
         CancellationToken cancellationToken = default)
     {
-        (Guid budgetPermissionId, (Guid budgetId, Guid ownerId)) = command;
+        (_, Guid budgetPermissionId, (Guid budgetId, Guid ownerId)) = command;
 
         BudgetPermission budgetPermission =
             await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),

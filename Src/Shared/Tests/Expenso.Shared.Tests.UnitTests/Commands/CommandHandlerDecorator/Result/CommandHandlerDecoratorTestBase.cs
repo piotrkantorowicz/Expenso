@@ -16,7 +16,7 @@ internal abstract class
     [SetUp]
     protected void Setup()
     {
-        _testCommand = new TestCommand(Guid.NewGuid(), "JYi9R7e7v2Qor");
+        _testCommand = new TestCommand(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "JYi9R7e7v2Qor");
         _validator = new Mock<ICommandValidator<TestCommand>>();
         _handler = new Mock<ICommandHandler<TestCommand, TestCommandResult>>();
 

@@ -15,7 +15,7 @@ internal sealed class TestIntegrationEventHandler : IIntegrationEventHandler<Tes
     {
         @event.Should().NotBeNull();
         @event.Should().BeOfType<TestIntegrationEvent>();
-        @event.MessageId.Should().Be(TestIntegrationEventDataSamples.Sample.MessageId);
-        @event.Payload.Should().Be(TestIntegrationEventDataSamples.Sample.Payload);
+        @event.MessageId.Should().Be(TestIntegrationEventDataSamples.SampleId);
+        @event.Payload.Should().Be(TestIntegrationEventDataSamples.SampleName);
     }
 }

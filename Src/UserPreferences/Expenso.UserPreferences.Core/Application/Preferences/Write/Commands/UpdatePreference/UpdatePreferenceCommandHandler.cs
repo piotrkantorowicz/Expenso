@@ -1,6 +1,7 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
@@ -14,17 +15,22 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 
 internal sealed class UpdatePreferenceCommandHandler(
     IPreferencesRepository preferencesRepository,
-    IMessageBroker messageBroker) : ICommandHandler<UpdatePreferenceCommand>
+    IMessageBroker messageBroker,
+    IMessageContextFactory messageContextFactory) : ICommandHandler<UpdatePreferenceCommand>
 {
     private readonly IMessageBroker _messageBroker =
         messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
+
+    private readonly IMessageContextFactory _messageContextFactory =
+        messageContextFactory ?? throw new ArgumentNullException(nameof(messageContextFactory));
 
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken = default)
     {
-        (Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) = command;
+        (IMessageContext messageContext, Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) =
+            command;
 
         (UpdateFinancePreferenceRequest? financePreferenceRequest,
             UpdateNotificationPreferenceRequest? notificationPreferenceRequest,
@@ -78,8 +84,8 @@ internal sealed class UpdatePreferenceCommandHandler(
                 UseDarkMode = generalPreference.UseDarkMode
             };
 
-            tasks.Add(_messageBroker.PublishAsync(
-                new GeneralPreferenceUpdatedIntegrationEvent(preference.UserId,
+            tasks.Add(_messageBroker.PublishAsync(new GeneralPreferenceUpdatedIntegrationEvent(
+                _messageContextFactory.Current(), preference.UserId,
                     UpdatePreferenceInternalContractMap.MapTo(generalPreference)), cancellationToken));
         }
 
@@ -93,8 +99,8 @@ internal sealed class UpdatePreferenceCommandHandler(
                 MaxNumberOfFinancePlanReviewers = financePreference.MaxNumberOfFinancePlanReviewers
             };
 
-            tasks.Add(_messageBroker.PublishAsync(
-                new FinancePreferenceUpdatedIntegrationEvent(preference.UserId,
+            tasks.Add(_messageBroker.PublishAsync(new FinancePreferenceUpdatedIntegrationEvent(
+                _messageContextFactory.Current(), preference.UserId,
                     UpdatePreferenceInternalContractMap.MapTo(financePreference)), cancellationToken));
         }
 
@@ -107,8 +113,8 @@ internal sealed class UpdatePreferenceCommandHandler(
                 SendFinanceReportInterval = notificationPreference.SendFinanceReportInterval
             };
 
-            tasks.Add(_messageBroker.PublishAsync(
-                new NotificationPreferenceUpdatedIntegrationEvent(preference.UserId,
+            tasks.Add(_messageBroker.PublishAsync(new NotificationPreferenceUpdatedIntegrationEvent(
+                _messageContextFactory.Current(), preference.UserId,
                     UpdatePreferenceInternalContractMap.MapTo(notificationPreference)), cancellationToken));
         }
 

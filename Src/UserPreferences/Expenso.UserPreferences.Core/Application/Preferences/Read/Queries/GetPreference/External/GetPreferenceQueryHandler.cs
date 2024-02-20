@@ -17,7 +17,7 @@ internal sealed class GetPreferenceQueryHandler(IPreferencesRepository preferenc
     public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query,
         CancellationToken cancellationToken = default)
     {
-        (Guid? userId, bool? includeFinancePreferences, bool? includeNotificationPreferences,
+        (_, Guid? userId, bool? includeFinancePreferences, bool? includeNotificationPreferences,
             bool? includeGeneralPreferences) = query;
 
         PreferenceFilter filter = new()

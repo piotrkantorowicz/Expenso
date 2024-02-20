@@ -13,7 +13,7 @@ internal sealed class GetUserInternalQueryHandler(IUserService userService)
     public async Task<GetUserInternalResponse?> HandleAsync(GetUserQuery query,
         CancellationToken cancellationToken = default)
     {
-        (string? userId, string? email) = query;
+        (_, string? userId, string? email) = query;
 
         if (!string.IsNullOrEmpty(userId))
         {

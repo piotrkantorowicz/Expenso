@@ -16,7 +16,7 @@ internal sealed class RemovePermissionCommandHandler(IBudgetPermissionRepository
 
     public async Task HandleAsync(RemovePermissionCommand command, CancellationToken cancellationToken = default)
     {
-        (Guid budgetPermissionId, Guid participantId) = command;
+        (_, Guid budgetPermissionId, Guid participantId) = command;
 
         BudgetPermission? budgetPermission =
             await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),
