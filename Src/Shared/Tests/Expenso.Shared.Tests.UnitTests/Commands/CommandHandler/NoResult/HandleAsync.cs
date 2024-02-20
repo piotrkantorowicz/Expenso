@@ -21,4 +21,17 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
             x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => true),
                 It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
     }
+
+    [Test]
+    public void Should_TrackMessageContext()
+    {
+        // Arrange
+        // Act
+        // Assert
+        _testCommand.MessageContext.Should().NotBeNull();
+        _testCommand.MessageContext.CorrelationId.Should().Be(_messageContext.CorrelationId);
+        _testCommand.MessageContext.MessageId.Should().Be(_messageContext.MessageId);
+        _testCommand.MessageContext.RequestedBy.Should().Be(_messageContext.RequestedBy);
+        _testCommand.MessageContext.Timestamp.Should().Be(_messageContext.Timestamp);
+    }
 }

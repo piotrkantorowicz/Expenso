@@ -20,9 +20,4 @@ internal sealed class MessageContextFactory(IServiceProvider serviceProvider) : 
 
         return new MessageContext(executionContextAccessor.Get(), clock, messageId);
     }
-
-    public IMessageContext Custom(Guid messageId, Guid correlationId, Guid requestedBy, DateTimeOffset timestamp)
-    {
-        return new MessageContext(messageId, correlationId, requestedBy, timestamp);
-    }
 }
