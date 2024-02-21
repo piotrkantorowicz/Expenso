@@ -17,6 +17,7 @@ using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.UserPreferences.Api;
@@ -79,7 +80,9 @@ internal sealed class AppBuilder : IAppBuilder
             .AddCommandsTransactions()
             .AddQueries(assemblies)
             .AddDomainEvents(assemblies)
-            .AddMessageBroker(assemblies)
+            .AddMessageBroker()
+            .AddIntegrationEvents(assemblies)
+            .AddDefaultSerializer()
             .AddClock()
             .AddMessageContext();
 
