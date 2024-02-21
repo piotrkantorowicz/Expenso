@@ -11,13 +11,18 @@ namespace Expenso.Shared.Integration.MessageBroker;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddMessageBroker(this IServiceCollection services,
-        IEnumerable<Assembly> assemblies)
+    public static IServiceCollection AddMessageBroker(this IServiceCollection services)
     {
         services.AddSingleton<IMessageBroker, InMemoryMessageBroker>();
         services.AddSingleton<IMessageChannel, MessageChannel>();
         services.AddSingleton(typeof(BackgroundMessageProcessor));
 
+        return services;
+    }
+
+    public static IServiceCollection AddIntegrationEvents(this IServiceCollection services,
+        IEnumerable<Assembly> assemblies)
+    {
         services.Scan(selector =>
             selector
                 .FromAssemblies(assemblies)
