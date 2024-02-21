@@ -5,7 +5,7 @@ using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.Result;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
 
 internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
 {

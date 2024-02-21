@@ -4,9 +4,10 @@ using Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.NoResult;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
 
-internal abstract class CommandHandlerDecoratorTestBase : TestBase<CommandHandlerValidationDecorator<TestCommand>>
+internal abstract class
+    CommandHandlerValidationDecoratorTestBase : TestBase<CommandHandlerValidationDecorator<TestCommand>>
 {
     protected TestCommand _testCommand = null!;
     protected Mock<ICommandValidator<TestCommand>> _validator = null!;

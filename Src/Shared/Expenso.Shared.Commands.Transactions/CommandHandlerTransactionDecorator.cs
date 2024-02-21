@@ -15,7 +15,7 @@ internal class CommandHandlerTransactionDecorator<TCommand>(IUnitOfWork unitOfWo
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            await decorated.HandleAsync(command, cancellationToken);
+            await _decorated.HandleAsync(command, cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
         }
         catch
@@ -42,7 +42,7 @@ internal class CommandHandlerTransactionDecorator<TCommand, TResult>(
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            TResult? commandResult = await decorated.HandleAsync(command, cancellationToken);
+            TResult? commandResult = await _decorated.HandleAsync(command, cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
             return commandResult;
