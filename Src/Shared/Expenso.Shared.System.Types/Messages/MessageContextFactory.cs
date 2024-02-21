@@ -13,10 +13,12 @@ internal sealed class MessageContextFactory(IServiceProvider serviceProvider) : 
 
     public IMessageContext Current(Guid? messageId = null)
     {
-        IExecutionContextAccessor executionContextAccessor =
-            _serviceProvider.GetRequiredService<IExecutionContextAccessor>();
+        using IServiceScope scope = _serviceProvider.CreateScope();
 
-        IClock clock = _serviceProvider.GetRequiredService<IClock>();
+        IExecutionContextAccessor executionContextAccessor =
+            scope.ServiceProvider.GetRequiredService<IExecutionContextAccessor>();
+
+        IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
         return new MessageContext(executionContextAccessor.Get(), clock, messageId);
     }

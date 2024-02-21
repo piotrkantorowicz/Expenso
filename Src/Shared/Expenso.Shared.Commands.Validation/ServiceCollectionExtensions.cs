@@ -16,8 +16,8 @@ public static class ServiceCollectionExtensions
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-        services.Decorate(typeof(ICommandHandler<>), typeof(CommandHandlerValidationDecorator<>));
-        services.Decorate(typeof(ICommandHandler<,>), typeof(CommandHandlerValidationDecorator<,>));
+        services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerValidationDecorator<>));
+        services.TryDecorate(typeof(ICommandHandler<,>), typeof(CommandHandlerValidationDecorator<,>));
 
         return services;
     }
