@@ -1,3 +1,5 @@
+using Expenso.Shared.System.Logging;
+
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -15,12 +17,12 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
 
         // Assert
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, 2000, It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            x => x.Log(LogLevel.Information, LoggingUtils.CommandExecuting, It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
 
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, 2001, It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            x => x.Log(LogLevel.Information, LoggingUtils.CommandExecuted, It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
     }
 
     [Test]
@@ -40,11 +42,11 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
         exception?.Message.Should().Be("Intentional thrown to test error logging");
 
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, 2000, It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            x => x.Log(LogLevel.Information, LoggingUtils.CommandExecuting, It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
 
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Error, 2100, It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            x => x.Log(LogLevel.Error, LoggingUtils.UnexpectedException, It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
     }
 }

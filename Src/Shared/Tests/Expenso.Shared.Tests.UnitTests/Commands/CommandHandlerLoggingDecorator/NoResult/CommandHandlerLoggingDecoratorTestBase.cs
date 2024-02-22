@@ -11,10 +11,10 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerLoggingDecorator
 
 internal abstract class CommandHandlerLoggingDecoratorTestBase : TestBase<CommandHandlerLoggingDecorator<TestCommand>>
 {
-    protected TestCommand _testCommand = null!;
     protected Mock<ICommandHandler<TestCommand>> _commandHandlerMock = null!;
     protected Mock<ILogger<CommandHandlerLoggingDecorator<TestCommand>>> _loggerMock = null!;
-    protected Mock<ISerializer> _serializerMock = null!;
+    private Mock<ISerializer> _serializerMock = null!;
+    protected TestCommand _testCommand = null!;
 
     [SetUp]
     protected void Setup()

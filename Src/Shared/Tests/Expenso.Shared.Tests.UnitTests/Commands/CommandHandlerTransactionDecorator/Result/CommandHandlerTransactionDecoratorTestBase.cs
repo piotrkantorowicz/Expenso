@@ -11,8 +11,8 @@ internal abstract class
     CommandHandlerTransactionDecoratorTestBase : TestBase<
     CommandHandlerTransactionDecorator<TestCommand, TestCommandResult>>
 {
-    protected TestCommand _testCommand = null!;
     protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _commandHandlerMock = null!;
+    protected TestCommand _testCommand = null!;
     protected Mock<IUnitOfWork> _unitOfWorkMock = null!;
 
     [SetUp]

@@ -10,8 +10,8 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerTransactionDecor
 internal abstract class
     CommandHandlerTransactionDecoratorTestBase : TestBase<CommandHandlerTransactionDecorator<TestCommand>>
 {
-    protected TestCommand _testCommand = null!;
     protected Mock<ICommandHandler<TestCommand>> _commandHandlerMock = null!;
+    protected TestCommand _testCommand = null!;
     protected Mock<IUnitOfWork> _unitOfWorkMock = null!;
 
     [SetUp]

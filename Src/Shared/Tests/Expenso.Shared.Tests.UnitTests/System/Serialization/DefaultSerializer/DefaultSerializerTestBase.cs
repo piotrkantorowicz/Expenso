@@ -13,14 +13,6 @@ namespace Expenso.Shared.Tests.UnitTests.System.Serialization.DefaultSerializer;
 
 internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
 {
-    private readonly Mock<ILogger<TestCandidate>> _loggerMock = new();
-
-    protected JsonSerializerOptions _serializerOptions = new()
-    {
-        WriteIndented = true,
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-    };
-
     protected static readonly BasicTestObject BasicObject = new()
     {
         PrimaryId = new Guid("dd37661a-dc23-45ca-9a33-e92568536a73"),
@@ -47,6 +39,14 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
             ComplexObject
         }
     ];
+
+    private readonly Mock<ILogger<TestCandidate>> _loggerMock = new();
+
+    protected JsonSerializerOptions _serializerOptions = new()
+    {
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
 
     [SetUp]
     public void SetUp()
