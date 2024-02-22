@@ -19,8 +19,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Expenso.Shared.Commands.Logging\Expenso.Shared.Commands.Logging.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Domain.Events.Logging\Expenso.Shared.Domain.Events.Logging.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
@@ -38,10 +44,6 @@
     <ItemGroup>
         <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Integration\"/>
     </ItemGroup>
 
 </Project>

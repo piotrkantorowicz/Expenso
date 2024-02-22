@@ -2,9 +2,9 @@ using System.Text;
 
 using Expenso.Shared.System.Types.Exceptions;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerDecorator.NoResult;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
 
-internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
+internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 {
     [Test]
     public void Should_ThrowValidationException_When_ValidationErrorsOccurred()

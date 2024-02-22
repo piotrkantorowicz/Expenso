@@ -7,12 +7,16 @@ using Expenso.Api.Configuration.Execution;
 using Expenso.BudgetSharing.Api;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
+using Expenso.Shared.Commands.Logging;
 using Expenso.Shared.Commands.Transactions;
 using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.Domain.Events;
+using Expenso.Shared.Domain.Events.Logging;
+using Expenso.Shared.Integration.Events.Logging;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Queries;
+using Expenso.Shared.Queries.Logging;
 using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings;
@@ -78,13 +82,17 @@ internal sealed class AppBuilder : IAppBuilder
             .AddCommands(assemblies)
             .AddCommandsValidations(assemblies)
             .AddCommandsTransactions()
+            .AddCommandsLogging()
             .AddQueries(assemblies)
+            .AddQueryLogging()
             .AddDomainEvents(assemblies)
-            .AddMessageBroker()
+            .AddDomainEventsLogging()
             .AddIntegrationEvents(assemblies)
-            .AddDefaultSerializer()
+            .AddIntegrationEventsLogging()
+            .AddMessageBroker()
             .AddClock()
-            .AddMessageContext();
+            .AddMessageContext()
+            .AddDefaultSerializer();
 
         return this;
     }
