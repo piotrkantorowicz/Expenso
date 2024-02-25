@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.IAM.Core.Users.DTO.GetUser;
 using Expenso.IAM.Core.Users.Queries.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
@@ -16,7 +14,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByIdAsync(_userId)).ReturnsAsync(_getUserResponse);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
@@ -31,7 +29,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByEmailAsync(_userEmail)).ReturnsAsync(_getUserResponse);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
@@ -46,7 +44,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByIdAsync(_userId))!.ReturnsAsync((GetUserResponse?)null);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().BeNull();
@@ -60,7 +58,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByEmailAsync(_userEmail))!.ReturnsAsync((GetUserResponse?)null);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().BeNull();
@@ -74,15 +72,11 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
 
         // Act
         // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.HandleAsync(query));
+        NotFoundException? exception =
+            Assert.ThrowsAsync<NotFoundException>(() =>
+                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append(nameof(query.UserId))
-            .Append(" or ")
-            .Append(nameof(query.Email))
-            .Append(" must be provided.")
-            .ToString();
-
+        const string expectedExceptionMessage = $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

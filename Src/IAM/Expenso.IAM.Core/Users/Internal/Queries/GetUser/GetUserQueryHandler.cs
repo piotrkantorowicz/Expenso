@@ -10,8 +10,7 @@ internal sealed class GetUserInternalQueryHandler(IUserService userService)
 {
     private readonly IUserService _userService = userService ?? throw new ArgumentNullException(nameof(userService));
 
-    public async Task<GetUserInternalResponse?> HandleAsync(GetUserQuery query,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserInternalResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken)
     {
         (_, string? userId, string? email) = query;
 

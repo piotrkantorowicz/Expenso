@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Text;
 
 using Expenso.Shared.System.Modules.Extensions;
 
@@ -40,10 +39,7 @@ public static class Modules
         {
             foreach (EndpointRegistration endpoint in module.CreateEndpoints())
             {
-                string endpointRoute = new StringBuilder()
-                    .Append(module.GetModulePrefixSanitized())
-                    .Append(endpoint.WithLeadingSlash().Pattern)
-                    .ToString();
+                string endpointRoute = $"{module.GetModulePrefixSanitized()}{endpoint.WithLeadingSlash().Pattern}";
 
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(endpointRoute, new[]
                 {
@@ -65,7 +61,7 @@ public static class Modules
                 }
 
                 routeHandlerBuilder.WithName(endpoint.Name);
-                string tag = new StringBuilder().Append(rootTag).Append('.').Append(module.ModuleName).ToString();
+                string tag = $"{rootTag}.{module.ModuleName}";
                 routeHandlerBuilder.WithOpenApi().WithTags(tag);
             }
         }

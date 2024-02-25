@@ -13,19 +13,19 @@ internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetS
     private readonly IBudgetSharingDbContext _budgetSharingDbContext =
         budgetSharingDbContext ?? throw new ArgumentNullException(nameof(budgetSharingDbContext));
 
-    public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id,
-        CancellationToken cancellationToken = default)
+    public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
-            .BudgetPermissions.Include(x => x.Permissions)
+            .BudgetPermissions.IgnoreQueryFilters()
+            .Include(x => x.Permissions)
             .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId,
-        CancellationToken cancellationToken = default)
+    public async Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
-            .BudgetPermissions.Include(x => x.Permissions)
+            .BudgetPermissions.IgnoreQueryFilters()
+            .Include(x => x.Permissions)
             .SingleOrDefaultAsync(x => x.BudgetId == budgetId, cancellationToken);
     }
 
@@ -53,12 +53,5 @@ internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetS
         await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
 
         return budgetPermission;
-    }
-
-    public async Task<int> RemoveAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)
-    {
-        _budgetSharingDbContext.BudgetPermissions.Remove(budgetPermission);
-
-        return await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
     }
 }

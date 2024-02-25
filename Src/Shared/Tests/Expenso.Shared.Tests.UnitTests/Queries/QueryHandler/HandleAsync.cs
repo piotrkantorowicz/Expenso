@@ -1,5 +1,7 @@
 using Expenso.Shared.Tests.UnitTests.Queries.TestData;
 
+using Moq;
+
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryHandler;
 
 internal sealed class HandleAsync : QueryHandlerResultTestBase
@@ -9,7 +11,7 @@ internal sealed class HandleAsync : QueryHandlerResultTestBase
     {
         // Arrange
         // Act
-        TestResponse? queryResult = await TestCandidate.HandleAsync(_testQuery);
+        TestResponse? queryResult = await TestCandidate.HandleAsync(_testQuery, It.IsAny<CancellationToken>());
 
         // Assert
         queryResult?.Should().NotBeNull();

@@ -16,7 +16,7 @@ internal sealed class CreatePreferenceCommandHandler(IPreferencesRepository pref
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
     public async Task<CreatePreferenceResponse?> HandleAsync(CreatePreferenceCommand command,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         PreferenceFilter filter = new()
         {

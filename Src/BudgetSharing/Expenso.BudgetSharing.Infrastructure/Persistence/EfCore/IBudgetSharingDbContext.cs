@@ -15,11 +15,11 @@ public interface IBudgetSharingDbContext : IDbContext
 
     EntityState GetEntryState(object entity);
 
-    Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+    Task BeginTransactionAsync(CancellationToken cancellationToken);
 
-    Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
+    Task RollbackTransactionAsync(CancellationToken cancellationToken);
 
-    Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+    Task CommitTransactionAsync(CancellationToken cancellationToken);
 
     IReadOnlyCollection<IDomainEvent> GetUncommittedChanges();
 }

@@ -19,13 +19,12 @@ internal sealed class GetPreferenceQueryHandler(
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
-    public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query,
-        CancellationToken cancellationToken = default)
+    public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query, CancellationToken cancellationToken)
     {
         PreferenceFilter filter = GetFilter(query);
 
         Preference preference = await _preferencesRepository.GetAsync(filter, cancellationToken) ??
-                                throw new NotFoundException("Preferences not found");
+                                throw new NotFoundException("Preferences not found.");
 
         return GetPreferenceResponseMap.MapTo(preference);
     }

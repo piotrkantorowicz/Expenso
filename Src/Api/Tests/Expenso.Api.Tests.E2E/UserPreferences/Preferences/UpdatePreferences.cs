@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Api.Tests.E2E.TestData;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 
@@ -13,7 +11,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
         // Arrange
         Guid? preferenceId = PreferencesDataProvider.PreferenceIds[1];
         _httpClient.SetFakeBearerToken(_claims);
-        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
+        string request = $"user-preferences/preferences/{preferenceId}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(request,
@@ -31,8 +29,8 @@ internal sealed class UpdatePreferences : PreferencesTestBase
         Guid? preferenceId = PreferencesDataProvider.PreferenceIds[1];
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PutAsync(
-            new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString(), null);
+        HttpResponseMessage testResult =
+            await _httpClient.PutAsync($"user-preferences/preferences/{preferenceId}", null);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

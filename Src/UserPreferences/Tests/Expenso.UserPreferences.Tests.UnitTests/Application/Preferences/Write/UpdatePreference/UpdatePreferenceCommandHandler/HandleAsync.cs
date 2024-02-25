@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
@@ -30,7 +28,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         _preferenceRepositoryMock.Setup(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()));
 
         // Act
-        await TestCandidate.HandleAsync(command);
+        await TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>());
 
         // Assert
         _preferenceRepositoryMock.Verify(
@@ -67,15 +65,12 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(() => TestCandidate.HandleAsync(command));
+        ConflictException? exception =
+            Assert.ThrowsAsync<ConflictException>(() =>
+                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append("User preferences for user with id ")
-            .Append(command.PreferenceOrUserId)
-            .Append(" or with own id: ")
-            .Append(command.PreferenceOrUserId)
-            .Append(" haven't been found")
-            .ToString();
+        string expectedExceptionMessage =
+            $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.";
 
         exception?.Message.Should().Be(expectedExceptionMessage);
 

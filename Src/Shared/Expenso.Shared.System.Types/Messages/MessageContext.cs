@@ -14,7 +14,7 @@ public sealed record MessageContext : IMessageContext
         Timestamp = timestamp;
     }
 
-    internal MessageContext(IExecutionContext? executionContext, IClock clock, Guid? messageId = default)
+    internal MessageContext(IExecutionContext? executionContext, IClock clock, Guid? messageId)
     {
         MessageId = messageId ?? Guid.NewGuid();
         CorrelationId = executionContext?.CorrelationId ?? Guid.Empty;

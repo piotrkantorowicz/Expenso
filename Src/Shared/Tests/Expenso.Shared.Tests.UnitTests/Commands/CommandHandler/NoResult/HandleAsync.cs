@@ -14,7 +14,7 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
             It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!));
 
         // Act
-        await TestCandidate.HandleAsync(_testCommand);
+        await TestCandidate.HandleAsync(_testCommand, It.IsAny<CancellationToken>());
 
         // Assert
         _loggerMock.Verify(

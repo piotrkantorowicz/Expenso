@@ -13,7 +13,7 @@ internal sealed class BudgetPermissionRequestRepository(IBudgetSharingDbContext 
         budgetSharingDbContext ?? throw new ArgumentNullException(nameof(budgetSharingDbContext));
 
     public async Task<BudgetPermissionRequest?> GetByIdAsync(BudgetPermissionRequestId permissionId,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext.BudgetPermissionRequests.SingleOrDefaultAsync(x => x.Id == permissionId,
             cancellationToken);

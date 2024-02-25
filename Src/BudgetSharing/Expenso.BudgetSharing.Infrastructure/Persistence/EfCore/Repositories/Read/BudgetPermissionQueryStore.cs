@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
-using Expenso.BudgetSharing.Application.Read.Shared.QueryStore.Filters;
+using Expenso.BudgetSharing.Application.Shared.QueryStore;
+using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Extensions;
 using Expenso.Shared.Database.EfCore.Extensions;
@@ -11,26 +11,23 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.R
 internal sealed class BudgetPermissionQueryStore : IBudgetPermissionQueryStore
 {
     private readonly IQueryable<BudgetPermission> _budgetPermissionsQueryable;
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext;
 
     public BudgetPermissionQueryStore(IBudgetSharingDbContext budgetSharingDbContext)
     {
         ArgumentNullException.ThrowIfNull(budgetSharingDbContext);
         _budgetPermissionsQueryable = budgetSharingDbContext.BudgetPermissions.Tracking(false);
-        _budgetSharingDbContext = budgetSharingDbContext;
     }
 
-    public async Task<BudgetPermission?> SingleAsync(BudgetPermissionFilter filter,
-        CancellationToken cancellationToken = default)
+    public async Task<BudgetPermission?> SingleAsync(BudgetPermissionFilter filter, CancellationToken cancellationToken)
     {
-        return await _budgetSharingDbContext
-            .BudgetPermissions.Where(filter.ToFilterExpression())
+        return await _budgetPermissionsQueryable
+            .Where(filter.ToFilterExpression())
             .SingleOrDefaultAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<BudgetPermission>> BrowseAsync(BudgetPermissionFilter filter,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
-        return await _budgetPermissionsQueryable.ToListAsync(cancellationToken);
+        return await _budgetPermissionsQueryable.Where(filter.ToFilterExpression()).ToListAsync(cancellationToken);
     }
 }

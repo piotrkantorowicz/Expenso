@@ -5,7 +5,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 public interface IBudgetPermissionRequestRepository
 {
     Task<BudgetPermissionRequest?> GetByIdAsync(BudgetPermissionRequestId permissionId,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken);
 
     Task<BudgetPermissionRequest> AddAsync(BudgetPermissionRequest permission, CancellationToken cancellationToken);
 

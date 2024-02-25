@@ -19,7 +19,7 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
         builder
             .Property(x => x.ExpirationDate)
             .HasConversion(x => x == null ? (DateTimeOffset?)null : x.Value,
-                x => x.HasValue ? DateAndTime.Create(x.Value) : null)
+                x => x.HasValue ? DateAndTime.New(x.Value) : null)
             .IsRequired(false);
 
         builder.Property(x => x.ParticipantId).HasConversion(x => x.Value, x => PersonId.New(x)).IsRequired();

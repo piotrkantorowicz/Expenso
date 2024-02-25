@@ -12,7 +12,7 @@ internal class CommandHandlerValidationDecorator<TCommand>(
     private readonly IEnumerable<ICommandValidator<TCommand>> _validators =
         validators ?? throw new ArgumentNullException(nameof(validators));
 
-    public async Task HandleAsync(TCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         Dictionary<string, string> errors = _validators
             .Select(x => x.Validate(command))
@@ -39,7 +39,7 @@ internal class CommandHandlerValidationDecorator<TCommand, TResult>(
     private readonly IEnumerable<ICommandValidator<TCommand>> _validators =
         validators ?? throw new ArgumentNullException(nameof(validators));
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
+    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         Dictionary<string, string> errors = _validators
             .Select(x => x.Validate(command))

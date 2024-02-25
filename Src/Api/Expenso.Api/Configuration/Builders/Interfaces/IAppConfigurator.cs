@@ -12,6 +12,8 @@ internal interface IAppConfigurator
 
     IAppConfigurator UseErrorHandler();
 
+    IAppConfigurator UseResolvers();
+
     IAppConfigurator CreateEndpoints();
 
     IAppConfigurator MigrateDatabase();

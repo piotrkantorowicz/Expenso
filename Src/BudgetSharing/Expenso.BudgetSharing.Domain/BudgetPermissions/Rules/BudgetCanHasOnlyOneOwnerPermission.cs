@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -13,11 +11,7 @@ internal sealed class BudgetCanHasOnlyOneOwnerPermission(BudgetId budgetId, IEnu
     private readonly IEnumerable<Permission> _permissions =
         permissions ?? throw new ArgumentNullException(nameof(permissions));
 
-    public string Message => new StringBuilder()
-        .Append("Budget ")
-        .Append(_budgetId)
-        .Append(" can have only one owner permission")
-        .ToString();
+    public string Message => $"Budget {_budgetId} can have only one owner permission.";
 
     public bool IsBroken()
     {

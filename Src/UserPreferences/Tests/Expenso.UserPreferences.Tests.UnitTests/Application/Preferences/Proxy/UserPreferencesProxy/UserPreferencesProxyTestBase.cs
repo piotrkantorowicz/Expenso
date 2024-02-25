@@ -28,9 +28,7 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
         _getPreferenceResponse = new GetPreferenceResponse(new GetFinancePreferenceResponse(false, 0, false, 0),
             new GetNotificationPreferenceResponse(true, 7), new GetGeneralPreferenceResponse(false));
 
-        _createPreferenceResponse = new CreatePreferenceResponse(_id, _userId,
-            new CreateFinancePreferenceResponse(false, 0, false, 0), new CreateNotificationPreferenceResponse(true, 7),
-            new CreateGeneralPreferenceResponse(false));
+        _createPreferenceResponse = new CreatePreferenceResponse(_id);
 
         TestCandidate = new TestCandidate(_commandDispatcherMock.Object, _queryDispatcherMock.Object,
             MessageContextFactoryMock.Object);

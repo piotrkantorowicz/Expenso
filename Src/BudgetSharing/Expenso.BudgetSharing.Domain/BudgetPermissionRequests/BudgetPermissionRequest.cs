@@ -7,6 +7,7 @@ using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
+using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
@@ -16,9 +17,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 public sealed class BudgetPermissionRequest : IAggregateRoot
 {
     private readonly DomainEventsSource _domainEventsSource = new();
-
-    private readonly IMessageContextFactory _messageContextFactory =
-        DependencyResolver.Resolve<IMessageContextFactory>();
+    private readonly IMessageContextFactory _messageContextFactory = MessageContextFactoryResolver.Resolve();
 
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core   
@@ -35,7 +34,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
         PermissionType permissionType, BudgetPermissionRequestStatus status, int expirationDays, IClock clock)
     {
-        DateAndTime expirationDate = DateAndTime.Create(clock.UtcNow.AddDays(expirationDays));
+        DateAndTime expirationDate = DateAndTime.New(clock.UtcNow.AddDays(expirationDays));
 
         DomainModelState.CheckBusinessRules([
             new UnknownPermissionTypeCannotBeProcessed(permissionType),

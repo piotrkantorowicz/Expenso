@@ -14,8 +14,7 @@ internal sealed class GetPreferenceQueryHandler(IPreferencesRepository preferenc
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
-    public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query,
-        CancellationToken cancellationToken = default)
+    public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query, CancellationToken cancellationToken)
     {
         (_, Guid? userId, bool? includeFinancePreferences, bool? includeNotificationPreferences,
             bool? includeGeneralPreferences) = query;
@@ -30,7 +29,7 @@ internal sealed class GetPreferenceQueryHandler(IPreferencesRepository preferenc
         };
 
         Preference preference = await _preferencesRepository.GetAsync(filter, cancellationToken) ??
-                                throw new NotFoundException($"Preferences for user with id {userId} not found");
+                                throw new NotFoundException($"Preferences for user with id {userId} not found.");
 
         return GetPreferenceResponseMap.MapTo(preference);
     }

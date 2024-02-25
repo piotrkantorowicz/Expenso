@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Request;
@@ -29,7 +27,7 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             .ReturnsAsync(_preference);
 
         // Act
-        CreatePreferenceResponse? result = await TestCandidate.HandleAsync(command);
+        CreatePreferenceResponse? result = await TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
@@ -53,14 +51,11 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(() => TestCandidate.HandleAsync(command));
+        ConflictException? exception =
+            Assert.ThrowsAsync<ConflictException>(() =>
+                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append("Preferences for user with id ")
-            .Append(command.Preference.UserId)
-            .Append(" already exists")
-            .ToString();
-
+        string expectedExceptionMessage = $"Preferences for user with id {command.Preference.UserId} already exists";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

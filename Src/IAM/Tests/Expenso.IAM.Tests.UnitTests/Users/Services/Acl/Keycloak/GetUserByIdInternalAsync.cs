@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -36,9 +34,7 @@ internal sealed class GetUserByIdInternalAsync : UserServiceTestBase
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByIdAsync(userId));
 
-        string expectedExceptionMessage =
-            new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString();
-
+        string expectedExceptionMessage = $"User with id {userId} not found.";
         exception?.Message.Should().Be(expectedExceptionMessage);
         _keycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), userId), Times.Once);
     }

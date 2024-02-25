@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.NpsqlDbContextFactory;
 
 internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
@@ -13,11 +11,8 @@ internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
         ArgumentException? exception =
             Assert.Throws<ArgumentException>(() => TestCandidate.CreateDbContext([projectPath]));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append(
-                "Startup project path parameter must be provided and must exists on current machine. Actual value: ")
-            .Append(projectPath)
-            .ToString();
+        string expectedExceptionMessage =
+            $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}";
 
         exception?.Message.Should().Be(expectedExceptionMessage);
     }

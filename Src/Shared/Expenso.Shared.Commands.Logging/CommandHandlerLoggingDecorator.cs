@@ -20,7 +20,7 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand>(
 
     private readonly ISerializer _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
-    public async Task HandleAsync(TCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         EventId executing = LoggingUtils.CommandExecuting;
         EventId executed = LoggingUtils.CommandExecuted;
@@ -66,7 +66,7 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult>(
 
     private readonly ISerializer _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
+    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         EventId executing = LoggingUtils.CommandExecuting;
         EventId executed = LoggingUtils.CommandExecuted;

@@ -1,3 +1,6 @@
+using Expenso.Shared.Domain.Types.Model;
+using Expenso.Shared.Domain.Types.Rules;
+
 namespace Expenso.Shared.Domain.Types.ValueObjects;
 
 public sealed record DateAndTime
@@ -9,9 +12,18 @@ public sealed record DateAndTime
 
     public DateTimeOffset Value { get; }
 
-    public static DateAndTime Create(DateTimeOffset value)
+    public static DateAndTime New(DateTimeOffset value)
     {
+        DomainModelState.CheckBusinessRules([new EmptyDateTimeCannotBeProcessed(value, typeof(DateAndTime))]);
+
         return new DateAndTime(value);
+    }
+
+    public static DateAndTime? Nullable(DateTimeOffset? value)
+    {
+        return value is null || value == DateTimeOffset.MinValue || value == DateTimeOffset.MaxValue
+            ? null
+            : new DateAndTime(value.Value);
     }
 
     public static bool operator >(DateTimeOffset left, DateAndTime right)

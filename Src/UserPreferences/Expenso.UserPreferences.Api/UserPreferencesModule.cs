@@ -100,14 +100,14 @@ public sealed class UserPreferencesModule : ModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CreatePreferenceRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                CreatePreferenceResponse? getPreference = await handler.HandleAsync(
+                CreatePreferenceResponse? createPreferenceResponse = await handler.HandleAsync(
                     new CreatePreferenceCommand(messageContextFactory.Current(),
                         new CreatePreferenceRequest(model.UserId)), cancellationToken);
 
                 return Results.CreatedAtRoute(getPreferencesEndpointRegistration.Name, new
                 {
-                    id = getPreference?.Id
-                }, getPreference?.Id);
+                    id = createPreferenceResponse?.PreferenceId
+                }, createPreferenceResponse);
             });
 
         EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{id}", "UpdatePreferences",

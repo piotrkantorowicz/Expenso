@@ -130,7 +130,7 @@ internal sealed class AppBuilder : IAppBuilder
                 break;
             default:
                 throw new ArgumentOutOfRangeException(_applicationSettings?.AuthServer.GetType().Name,
-                    _applicationSettings?.AuthServer, "Invalid auth server type.");
+                    _applicationSettings?.AuthServer, "Invalid auth server type");
         }
 
         return this;

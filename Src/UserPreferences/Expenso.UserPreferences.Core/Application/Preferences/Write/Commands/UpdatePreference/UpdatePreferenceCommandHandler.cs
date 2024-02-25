@@ -27,7 +27,7 @@ internal sealed class UpdatePreferenceCommandHandler(
     private readonly IPreferencesRepository _preferencesRepository =
         preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
 
-    public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken)
     {
         (IMessageContext messageContext, Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) =
             command;
@@ -55,7 +55,7 @@ internal sealed class UpdatePreferenceCommandHandler(
         if (dbPreference is null)
         {
             throw new ConflictException(
-                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found");
+                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found.");
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(dbPreference, generalPreferenceRequest!,

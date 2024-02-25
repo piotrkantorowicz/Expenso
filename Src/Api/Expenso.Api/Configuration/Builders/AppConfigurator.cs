@@ -1,9 +1,9 @@
 using System.Reflection;
-using System.Text;
 
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
+using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.Database.EfCore.NpSql.Migrations;
 using Expenso.Shared.System.Modules;
@@ -58,6 +58,13 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
         return this;
     }
 
+    public IAppConfigurator UseResolvers()
+    {
+        MessageContextFactoryResolver.BindResolver(app.Services);
+
+        return this;
+    }
+
     public IAppConfigurator CreateEndpoints()
     {
         app.MapModulesEndpoints(BaseTag);
@@ -79,13 +86,7 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
                     httpContext.RequestServices.GetService(typeof(IExecutionContextAccessor))!;
 
                 IUserContext? userContext = executionContextAccessor.Get()?.UserContext;
-
-                string response = new StringBuilder()
-                    .Append("Hello ")
-                    .Append(userContext?.Username)
-                    .Append(", I'm Expenso API.")
-                    .ToString();
-
+                string response = $"Hello {userContext?.Username}, I'm Expenso API.";
                 httpContext.Response.WriteAsJsonAsync(response);
             })
             .WithOpenApi()

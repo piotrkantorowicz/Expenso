@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -9,11 +7,7 @@ internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant(Guid user
     : IBusinessRule
 {
     public string Message =>
-        new StringBuilder()
-            .Append("Budget participant must be the existing system user, but provided user with id ")
-            .Append(userId)
-            .Append(" hasn't been found in the system")
-            .ToString();
+        $"Budget participant must be the existing system user, but provided user with id {userId} hasn't been found in the system";
 
     public bool IsBroken()
     {

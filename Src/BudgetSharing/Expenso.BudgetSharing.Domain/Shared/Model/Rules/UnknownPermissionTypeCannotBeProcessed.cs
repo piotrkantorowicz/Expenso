@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -10,11 +8,7 @@ internal sealed class UnknownPermissionTypeCannotBeProcessed(PermissionType perm
     private readonly PermissionType _permissionType =
         permissionType ?? throw new ArgumentNullException(nameof(permissionType));
 
-    public string Message => new StringBuilder()
-        .Append("Unknown permission type - ")
-        .Append(_permissionType)
-        .Append(" cannot be processed")
-        .ToString();
+    public string Message => $"Unknown permission type {_permissionType} cannot be processed.";
 
     public bool IsBroken()
     {

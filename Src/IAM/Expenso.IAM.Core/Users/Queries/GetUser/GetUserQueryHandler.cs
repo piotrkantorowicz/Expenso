@@ -9,7 +9,7 @@ internal sealed class GetUserQueryHandler(IUserService userService) : IQueryHand
 {
     private readonly IUserService _userService = userService ?? throw new ArgumentNullException(nameof(userService));
 
-    public async Task<GetUserResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken = default)
+    public async Task<GetUserResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken)
     {
         (_, string? userId, string? email) = query;
 

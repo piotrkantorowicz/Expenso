@@ -16,7 +16,7 @@ internal static class PreferencesDataProvider
 
             if (preference is not null)
             {
-                PreferenceIds?.Add(preference.Id);
+                PreferenceIds?.Add(preference.PreferenceId);
             }
         }
     }

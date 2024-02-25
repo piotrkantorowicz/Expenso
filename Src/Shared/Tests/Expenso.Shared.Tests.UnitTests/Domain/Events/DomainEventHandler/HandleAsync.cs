@@ -14,7 +14,7 @@ internal sealed class HandleAsync : DomainEventHandlerTestBase
             It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!));
 
         // Act
-        await TestCandidate.HandleAsync(_testDomainEvent);
+        await TestCandidate.HandleAsync(_testDomainEvent, It.IsAny<CancellationToken>());
 
         // Assert
         _loggerMock.Verify(

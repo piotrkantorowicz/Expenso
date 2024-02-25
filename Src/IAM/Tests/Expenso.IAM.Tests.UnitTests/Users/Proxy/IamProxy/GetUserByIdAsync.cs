@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
+﻿using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -17,7 +15,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
             .ReturnsAsync(_getUserInternalResponse);
 
         // Act
-        GetUserInternalResponse? getUserInternal = await TestCandidate.GetUserByIdAsync(_userId);
+        GetUserInternalResponse? getUserInternal =
+            await TestCandidate.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>());
 
         // Assert
         getUserInternal.Should().NotBeNull();
@@ -40,12 +39,10 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByIdAsync(userId));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() =>
+            TestCandidate.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage =
-            new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString();
-
+        string expectedExceptionMessage = $"User with id {userId} not found.";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

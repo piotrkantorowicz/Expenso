@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.External;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
@@ -23,7 +21,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
             .ReturnsAsync(_preference);
 
         // Act
-        GetPreferenceResponse? result = await TestCandidate.HandleAsync(query);
+        GetPreferenceResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
@@ -43,14 +41,11 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
 
         // Act
         // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.HandleAsync(query));
+        NotFoundException? exception =
+            Assert.ThrowsAsync<NotFoundException>(() =>
+                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append("Preferences for user with id ")
-            .Append(_userId)
-            .Append(" not found")
-            .ToString();
-
+        string expectedExceptionMessage = $"Preferences for user with id {_userId} not found.";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

@@ -1,6 +1,5 @@
-using System.Text;
-
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Request;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
@@ -12,25 +11,29 @@ internal sealed class CreatePreferences : PreferencesTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(_claims);
         Guid userId = Guid.NewGuid();
-        string request = new StringBuilder().Append("user-preferences/preferences").ToString();
+        const string requestPath = "user-preferences/preferences";
 
         // Act
         HttpResponseMessage testResult =
-            await _httpClient.PostAsJsonAsync(request, new CreatePreferenceRequest(userId));
+            await _httpClient.PostAsJsonAsync(requestPath, new CreatePreferenceRequest(userId));
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Created);
-        Guid? testResultContent = await testResult.Content.ReadFromJsonAsync<Guid>();
-        testResultContent.Should().NotBeEmpty();
+
+        CreatePreferenceResponse? testResultContent =
+            await testResult.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
+
+        testResultContent.Should().NotBeNull();
     }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
+        const string requestPath = "user-preferences/preferences";
+
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(
-            new StringBuilder().Append("user-preferences/preferences").ToString(), null);
+        HttpResponseMessage testResult = await _httpClient.PostAsync(requestPath, null);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

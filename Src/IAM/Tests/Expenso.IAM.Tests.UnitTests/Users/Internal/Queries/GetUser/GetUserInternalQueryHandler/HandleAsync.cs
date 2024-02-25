@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
@@ -16,7 +14,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByIdInternalAsync(_userId)).ReturnsAsync(_getUserInternalResponse);
 
         // Act
-        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
@@ -31,7 +29,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByEmailInternalAsync(_userEmail)).ReturnsAsync(_getUserInternalResponse);
 
         // Act
-        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
@@ -46,7 +44,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
         _userServiceMock.Setup(x => x.GetUserByIdInternalAsync(_userId))!.ReturnsAsync((GetUserInternalResponse?)null);
 
         // Act
-        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().BeNull();
@@ -62,7 +60,7 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
             (GetUserInternalResponse?)null);
 
         // Act
-        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query);
+        GetUserInternalResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().BeNull();
@@ -76,15 +74,11 @@ internal sealed class HandleAsync : GetUserInternalQueryHandlerTestBase
 
         // Act
         // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.HandleAsync(query));
+        NotFoundException? exception =
+            Assert.ThrowsAsync<NotFoundException>(() =>
+                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append(nameof(query.UserId))
-            .Append(" or ")
-            .Append(nameof(query.Email))
-            .Append(" must be provided.")
-            .ToString();
-
+        const string expectedExceptionMessage = $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

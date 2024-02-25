@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
+﻿using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -17,7 +15,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
             .ReturnsAsync(_getUserInternalResponse);
 
         // Act
-        GetUserInternalResponse? getUserInternal = await TestCandidate.GetUserByEmailAsync(_userEmail);
+        GetUserInternalResponse? getUserInternal =
+            await TestCandidate.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>());
 
         // Assert
         getUserInternal.Should().NotBeNull();
@@ -40,12 +39,10 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByEmailAsync(email));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() =>
+            TestCandidate.GetUserByEmailAsync(email, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage =
-            new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString();
-
+        string expectedExceptionMessage = $"User with email {email} not found.";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

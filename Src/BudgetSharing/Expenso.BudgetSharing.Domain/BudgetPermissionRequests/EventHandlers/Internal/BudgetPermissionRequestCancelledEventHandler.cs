@@ -6,8 +6,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.In
 internal sealed class
     BudgetPermissionRequestCancelledEventHandler : IDomainEventHandler<BudgetPermissionRequestCancelledEvent>
 {
-    public async Task HandleAsync(BudgetPermissionRequestCancelledEvent @event,
-        CancellationToken cancellationToken = default)
+    public async Task HandleAsync(BudgetPermissionRequestCancelledEvent @event, CancellationToken cancellationToken)
     {
         // TODO: Implement the BudgetPermissionRequestCancelledEventHandler
         await Task.CompletedTask;

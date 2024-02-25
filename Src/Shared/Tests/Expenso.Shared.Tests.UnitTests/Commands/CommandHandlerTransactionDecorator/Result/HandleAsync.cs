@@ -13,7 +13,9 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
 
         // Assert
         _unitOfWorkMock.Verify(x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
+
+        _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(It.IsAny<CancellationToken>(), It.IsAny<bool>()),
+            Times.Once);
     }
 
     [Test]

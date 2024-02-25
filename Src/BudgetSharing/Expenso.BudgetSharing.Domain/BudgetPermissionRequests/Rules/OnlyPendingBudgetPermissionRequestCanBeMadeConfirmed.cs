@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -14,11 +12,8 @@ internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(
 
     private readonly BudgetPermissionRequestStatus _status = status ?? throw new ArgumentNullException(nameof(status));
 
-    public string Message => new StringBuilder()
-        .Append("Only pending budget permission request - ")
-        .Append(_budgetPermissionRequestId)
-        .Append(" can be made confirmed")
-        .ToString();
+    public string Message =>
+        $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.";
 
     public bool IsBroken()
     {

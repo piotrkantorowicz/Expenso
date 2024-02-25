@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Api.Tests.E2E.TestData;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
 
@@ -13,7 +11,7 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
         _httpClient.SetFakeBearerToken(_claims);
-        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
+        string request = $"user-preferences/preferences/{preferenceId}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.GetAsync(request);
@@ -29,7 +27,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
-        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
+        string request = $"user-preferences/preferences/{preferenceId}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.GetAsync(request);

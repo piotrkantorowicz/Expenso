@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
+using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
