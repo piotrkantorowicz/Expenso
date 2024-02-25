@@ -12,7 +12,7 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
 {
     public void Configure(EntityTypeBuilder<BudgetPermissionRequest> builder)
     {
-        builder.ToTable("BudgetPermissions_Requests");
+        builder.ToTable("BudgetPermissionRequests");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionRequestId.New(x)).IsRequired();
         builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.New(x)).IsRequired();

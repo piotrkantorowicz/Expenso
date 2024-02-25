@@ -48,7 +48,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                     b.HasIndex("PreferenceId")
                         .IsUnique();
 
-                    b.ToTable("Preferences_FinancePreferences", "UserPreferences");
+                    b.ToTable("FinancePreferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", b =>
@@ -67,7 +67,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                     b.HasIndex("PreferenceId")
                         .IsUnique();
 
-                    b.ToTable("Preferences_GeneralPreferences", "UserPreferences");
+                    b.ToTable("GeneralPreferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", b =>
@@ -89,7 +89,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                     b.HasIndex("PreferenceId")
                         .IsUnique();
 
-                    b.ToTable("Preferences_NotificationPreferences", "UserPreferences");
+                    b.ToTable("NotificationPreferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>

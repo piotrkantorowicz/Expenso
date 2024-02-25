@@ -46,7 +46,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BudgetPermissions_Requests", "BudgetSharing");
+                    b.ToTable("BudgetPermissionRequests", "BudgetSharing");
                 });
 
             modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissions.BudgetPermission", b =>
@@ -89,7 +89,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 
                             b1.HasKey("BudgetPermissionId", "Id");
 
-                            b1.ToTable("BudgetPermissions_Permissions", "BudgetSharing");
+                            b1.ToTable("Permissions", "BudgetSharing");
 
                             b1.WithOwner()
                                 .HasForeignKey("BudgetPermissionId");
