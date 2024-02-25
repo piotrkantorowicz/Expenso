@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Core.Users.DTO.GetUser;
+﻿using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;

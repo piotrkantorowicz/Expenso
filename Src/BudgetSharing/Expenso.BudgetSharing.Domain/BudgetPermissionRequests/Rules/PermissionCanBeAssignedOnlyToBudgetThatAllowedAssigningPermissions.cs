@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
@@ -9,7 +9,7 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     BudgetId budgetId,
     PersonId ownerId,
     PermissionType permissionTypeFromRequest,
-    GetFinancePreferenceResponse financePreference,
+    GetPreferenceResponse_FinancePreference preferenceResponseFinancePreference,
     IReadOnlyCollection<Permission> currentPermissions) : IBusinessRule
 {
     private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
@@ -17,8 +17,11 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     private readonly IReadOnlyCollection<Permission> _currentPermissions =
         currentPermissions ?? throw new ArgumentNullException(nameof(currentPermissions));
 
-    private readonly GetFinancePreferenceResponse _financePreference =
-        financePreference ?? throw new ArgumentNullException(nameof(financePreference));
+    private readonly GetPreferenceResponse_FinancePreference
+        _preferenceExternalPreferenceResponseFinancePreferenceExternal = preferenceResponseFinancePreference ??
+                                                                         throw new ArgumentNullException(
+                                                                             nameof(
+                                                                                 preferenceResponseFinancePreference));
 
     private readonly PersonId _ownerId = ownerId ?? throw new ArgumentNullException(nameof(ownerId));
 
@@ -45,14 +48,16 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
 
         if (_permissionTypeFromRequest == PermissionType.SubOwner)
         {
-            return !_financePreference.AllowAddFinancePlanSubOwners ||
-                   _financePreference.MaxNumberOfSubFinancePlanSubOwners <= permissionsCountForTypeFromRequest;
+            return !_preferenceExternalPreferenceResponseFinancePreferenceExternal.AllowAddFinancePlanSubOwners ||
+                   _preferenceExternalPreferenceResponseFinancePreferenceExternal.MaxNumberOfSubFinancePlanSubOwners <=
+                   permissionsCountForTypeFromRequest;
         }
 
         if (_permissionTypeFromRequest == PermissionType.Reviewer)
         {
-            return !_financePreference.AllowAddFinancePlanReviewers ||
-                   _financePreference.MaxNumberOfFinancePlanReviewers <= permissionsCountForTypeFromRequest;
+            return !_preferenceExternalPreferenceResponseFinancePreferenceExternal.AllowAddFinancePlanReviewers ||
+                   _preferenceExternalPreferenceResponseFinancePreferenceExternal.MaxNumberOfFinancePlanReviewers <=
+                   permissionsCountForTypeFromRequest;
         }
 
         return false;

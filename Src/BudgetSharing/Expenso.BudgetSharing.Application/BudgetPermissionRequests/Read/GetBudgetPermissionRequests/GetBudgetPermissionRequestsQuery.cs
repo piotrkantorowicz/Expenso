@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Requests;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Responses;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -10,6 +10,6 @@ public sealed record GetBudgetPermissionRequestsQuery(
     Guid? BudgetId = null,
     Guid? ParticipantId = null,
     bool? ForCurrentUser = null,
-    GetBudgetPermissionRequestsRequestStatus? Status = null,
-    GetBudgetPermissionRequestsRequestPermissionType? PermissionType = null)
+    GetBudgetPermissionRequestsRequest_Status? Status = null,
+    GetBudgetPermissionRequestsRequest_PermissionType? PermissionType = null)
     : IQuery<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>>;

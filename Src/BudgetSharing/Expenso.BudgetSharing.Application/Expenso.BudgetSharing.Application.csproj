@@ -22,8 +22,6 @@
 
     <ItemGroup>
         <Folder Include="BudgetPermissionRequests\Write\"/>
-        <Folder Include="BudgetPermissions\Read\External\"/>
-        <Folder Include="BudgetPermissions\Read\Internal\"/>
     </ItemGroup>
 
 </Project>

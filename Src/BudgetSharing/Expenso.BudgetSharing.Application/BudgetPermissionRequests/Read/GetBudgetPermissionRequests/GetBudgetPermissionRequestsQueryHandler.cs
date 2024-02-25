@@ -1,7 +1,7 @@
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Requests;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Requests.Maps;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Responses;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Responses.Maps;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Request.Maps;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response.Maps;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
@@ -25,8 +25,9 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler(
     public async Task<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>?> HandleAsync(
         GetBudgetPermissionRequestsQuery query, CancellationToken cancellationToken)
     {
-        (_, Guid? budgetId, Guid? participantId, bool? forCurrentUser, GetBudgetPermissionRequestsRequestStatus? status,
-            GetBudgetPermissionRequestsRequestPermissionType? permissionType) = query;
+        (_, Guid? budgetId, Guid? participantId, bool? forCurrentUser,
+            GetBudgetPermissionRequestsRequest_Status? status,
+            GetBudgetPermissionRequestsRequest_PermissionType? permissionType) = query;
 
         if (forCurrentUser is true)
         {

@@ -16,8 +16,9 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
     {
         _updatePreferenceCommand = new UpdatePreferenceCommand(MessageContextFactoryMock.Object.Current(),
             Guid.NewGuid(),
-            new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(true, 2, true, 5),
-                new UpdateNotificationPreferenceRequest(true, 3), new UpdateGeneralPreferenceRequest(false)));
+            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 2, true, 5),
+                new UpdatePreferenceRequest_NotificationPreference(true, 3),
+                new UpdatePreferenceRequest_GeneralPreference(false)));
 
         TestCandidate = new TestCandidate();
     }

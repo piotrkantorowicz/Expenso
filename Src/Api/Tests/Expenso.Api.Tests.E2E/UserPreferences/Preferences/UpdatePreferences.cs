@@ -15,8 +15,9 @@ internal sealed class UpdatePreferences : PreferencesTestBase
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(request,
-            new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(true, 5, true, 10),
-                new UpdateNotificationPreferenceRequest(true, 1), new UpdateGeneralPreferenceRequest(true)));
+            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 5, true, 10),
+                new UpdatePreferenceRequest_NotificationPreference(true, 1),
+                new UpdatePreferenceRequest_GeneralPreference(true)));
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.NoContent);

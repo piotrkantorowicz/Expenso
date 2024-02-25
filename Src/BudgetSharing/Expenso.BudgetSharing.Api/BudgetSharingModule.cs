@@ -1,29 +1,29 @@
 using System.Reflection;
 
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Responses;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Requests;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Responses;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Requests;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Responses;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.CancelAssigningParticipant;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.ConfirmAssigningParticipant;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Read.Internal.GetBudgetPermission;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Read.Internal.GetBudgetPermission.DTO.Responses;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Read.Internal.GetBudgetPermissions;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Read.Internal.GetBudgetPermissions.DTO.Requests;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Read.Internal.GetBudgetPermissions.DTO.Responses;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.Internal.AddPermission;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.Internal.AddPermission.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.Internal.CreateBudgetPermission;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.Internal.CreateBudgetPermission.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.Internal.RemovePermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission.DTO.Response;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RemovePermission;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Domain;
 using Expenso.BudgetSharing.Infrastructure;
 using Expenso.BudgetSharing.Proxy;
+using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Request;
+using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
@@ -93,8 +93,8 @@ public sealed class BudgetSharingModule : ModuleDefinition
                     IReadOnlyCollection<GetBudgetPermissionRequestsResponse>> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
                 [FromQuery] Guid? participantId = null, [FromQuery] bool? forCurrentUser = null,
-                [FromQuery] GetBudgetPermissionRequestsRequestStatus? status = null,
-                [FromQuery] GetBudgetPermissionRequestsRequestPermissionType? permissionType = null,
+                [FromQuery] GetBudgetPermissionRequestsRequest_Status? status = null,
+                [FromQuery] GetBudgetPermissionRequestsRequest_PermissionType? permissionType = null,
                 CancellationToken cancellationToken = default) =>
             {
                 IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? getPreferences = await handler.HandleAsync(

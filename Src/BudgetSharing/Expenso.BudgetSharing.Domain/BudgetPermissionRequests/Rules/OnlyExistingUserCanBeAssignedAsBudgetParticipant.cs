@@ -3,7 +3,7 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
-internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant(Guid userId, GetUserInternalResponse? user)
+internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant(Guid userId, GetUserExternalResponse? user)
     : IBusinessRule
 {
     public string Message =>

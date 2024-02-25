@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Responses;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Responses.Maps;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response.Maps;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;

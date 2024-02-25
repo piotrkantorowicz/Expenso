@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Responses;
-using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Responses;
+using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
 
 namespace Expenso.BudgetSharing.Proxy;
 

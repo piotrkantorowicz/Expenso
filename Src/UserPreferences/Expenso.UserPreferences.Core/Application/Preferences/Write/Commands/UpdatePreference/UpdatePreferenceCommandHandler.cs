@@ -7,9 +7,9 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 
@@ -29,12 +29,11 @@ internal sealed class UpdatePreferenceCommandHandler(
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken)
     {
-        (IMessageContext messageContext, Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) =
-            command;
+        (_, Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) = command;
 
-        (UpdateFinancePreferenceRequest? financePreferenceRequest,
-            UpdateNotificationPreferenceRequest? notificationPreferenceRequest,
-            UpdateGeneralPreferenceRequest? generalPreferenceRequest) = updatePreferenceRequest!;
+        (UpdatePreferenceRequest_FinancePreference? financePreferenceRequest,
+            UpdatePreferenceRequest_NotificationPreference? notificationPreferenceRequest,
+            UpdatePreferenceRequest_GeneralPreference? generalPreferenceRequest) = updatePreferenceRequest!;
 
         PreferenceFilter preferenceFilter = new(UseTracking: true, IncludeFinancePreferences: true,
             IncludeGeneralPreferences: true, IncludeNotificationPreferences: true);
@@ -65,9 +64,11 @@ internal sealed class UpdatePreferenceCommandHandler(
         await Task.WhenAll(integrationMessagesTasks);
     }
 
-    private IEnumerable<Task> Update(Preference preference, UpdateGeneralPreferenceRequest updateGeneralPreference,
-        UpdateFinancePreferenceRequest updateFinancePreference,
-        UpdateNotificationPreferenceRequest updateNotificationPreference, CancellationToken cancellationToken)
+    private IEnumerable<Task> Update(Preference preference,
+        UpdatePreferenceRequest_GeneralPreference updateGeneralPreference,
+        UpdatePreferenceRequest_FinancePreference updateFinancePreference,
+        UpdatePreferenceRequest_NotificationPreference updateNotificationPreference,
+        CancellationToken cancellationToken)
     {
         GeneralPreference generalPreference = UpdatePreferenceRequestMap.MapFrom(updateGeneralPreference);
         FinancePreference financePreference = UpdatePreferenceRequestMap.MapFrom(updateFinancePreference);
@@ -84,9 +85,9 @@ internal sealed class UpdatePreferenceCommandHandler(
                 UseDarkMode = generalPreference.UseDarkMode
             };
 
-            tasks.Add(_messageBroker.PublishAsync(new GeneralPreferenceUpdatedIntegrationEvent(
-                _messageContextFactory.Current(), preference.UserId,
-                    UpdatePreferenceInternalContractMap.MapTo(generalPreference)), cancellationToken));
+            tasks.Add(_messageBroker.PublishAsync(
+                new GeneralPreferenceUpdatedIntegrationEvent(_messageContextFactory.Current(), preference.UserId,
+                    UpdatePreferenceContractMap.MapTo(generalPreference)), cancellationToken));
         }
 
         if (preference.FinancePreference is not null && preference.FinancePreference != financePreference)
@@ -99,9 +100,9 @@ internal sealed class UpdatePreferenceCommandHandler(
                 MaxNumberOfFinancePlanReviewers = financePreference.MaxNumberOfFinancePlanReviewers
             };
 
-            tasks.Add(_messageBroker.PublishAsync(new FinancePreferenceUpdatedIntegrationEvent(
-                _messageContextFactory.Current(), preference.UserId,
-                    UpdatePreferenceInternalContractMap.MapTo(financePreference)), cancellationToken));
+            tasks.Add(_messageBroker.PublishAsync(
+                new FinancePreferenceUpdatedIntegrationEvent(_messageContextFactory.Current(), preference.UserId,
+                    UpdatePreferenceContractMap.MapTo(financePreference)), cancellationToken));
         }
 
         if (preference.NotificationPreference is not null &&
@@ -113,9 +114,9 @@ internal sealed class UpdatePreferenceCommandHandler(
                 SendFinanceReportInterval = notificationPreference.SendFinanceReportInterval
             };
 
-            tasks.Add(_messageBroker.PublishAsync(new NotificationPreferenceUpdatedIntegrationEvent(
-                _messageContextFactory.Current(), preference.UserId,
-                    UpdatePreferenceInternalContractMap.MapTo(notificationPreference)), cancellationToken));
+            tasks.Add(_messageBroker.PublishAsync(
+                new NotificationPreferenceUpdatedIntegrationEvent(_messageContextFactory.Current(), preference.UserId,
+                    UpdatePreferenceContractMap.MapTo(notificationPreference)), cancellationToken));
         }
 
         return tasks;

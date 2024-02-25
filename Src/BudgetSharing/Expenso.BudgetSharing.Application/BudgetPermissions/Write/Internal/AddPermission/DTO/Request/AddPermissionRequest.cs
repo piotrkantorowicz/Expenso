@@ -1,3 +1,0 @@
-namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.Internal.AddPermission.DTO.Request;
-
-public sealed record AddPermissionRequest(AddPermissionRequestPermissionType PermissionType);

@@ -7,7 +7,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 

@@ -10,7 +10,7 @@ internal static class Assemblies
 {
     private static readonly Assembly Api = typeof(IamModule).Assembly;
     private static readonly Assembly Core = typeof(UserService).Assembly;
-    private static readonly Assembly Proxy = typeof(GetUserInternalResponse).Assembly;
+    private static readonly Assembly Proxy = typeof(GetUserExternalResponse).Assembly;
     private static readonly Assembly UnitTests = typeof(UserServiceTestBase).Assembly;
     private static readonly Assembly ArchTests = typeof(AccessModifierTests).Assembly;
 

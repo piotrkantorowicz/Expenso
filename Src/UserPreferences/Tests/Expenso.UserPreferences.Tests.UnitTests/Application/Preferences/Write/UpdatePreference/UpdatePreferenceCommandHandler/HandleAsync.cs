@@ -3,9 +3,9 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;
@@ -17,8 +17,9 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(), _userId,
-            new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
-                new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(true)));
+            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(false, 0, true, 2),
+                new UpdatePreferenceRequest_NotificationPreference(true, 5),
+                new UpdatePreferenceRequest_GeneralPreference(true)));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
@@ -55,8 +56,9 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(), _userId,
-            new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
-                new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(true)));
+            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(false, 0, true, 2),
+                new UpdatePreferenceRequest_NotificationPreference(true, 5),
+                new UpdatePreferenceRequest_GeneralPreference(true)));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),

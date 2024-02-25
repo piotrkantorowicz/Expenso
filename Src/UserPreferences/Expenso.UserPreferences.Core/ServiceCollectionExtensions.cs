@@ -1,5 +1,5 @@
 using Expenso.Shared.Database.EfCore.NpSql;
-using Expenso.UserPreferences.Core.Application.Preferences.Proxy;
+using Expenso.UserPreferences.Core.Application.Proxy;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Persistence.EfCore;
 using Expenso.UserPreferences.Core.Persistence.EfCore.Repositories;

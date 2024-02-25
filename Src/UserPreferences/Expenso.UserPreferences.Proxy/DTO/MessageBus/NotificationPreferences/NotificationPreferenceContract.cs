@@ -1,3 +1,0 @@
-namespace Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
-
-public sealed record NotificationPreferenceContract(bool SendFinanceReportEnabled, int SendFinanceReportInterval);

@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Shared.Factories;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;

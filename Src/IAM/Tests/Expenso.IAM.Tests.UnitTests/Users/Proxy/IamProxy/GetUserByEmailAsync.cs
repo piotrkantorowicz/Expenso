@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
+﻿using Expenso.IAM.Core.Users.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -12,15 +12,15 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getUserInternalResponse);
+            .ReturnsAsync(_getUserResponse);
 
         // Act
-        GetUserInternalResponse? getUserInternal =
+        GetUserExternalResponse? getUserInternal =
             await TestCandidate.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>());
 
         // Assert
         getUserInternal.Should().NotBeNull();
-        getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
+        getUserInternal.Should().BeEquivalentTo(_getUserExternalInternalResponse);
 
         _queryDispatcherMock.Verify(
             x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),

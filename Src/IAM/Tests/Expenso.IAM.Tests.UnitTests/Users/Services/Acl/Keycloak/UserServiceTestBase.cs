@@ -1,5 +1,5 @@
-﻿using Expenso.IAM.Core.Users.DTO.GetUser;
-using Expenso.IAM.Core.Users.Mappings;
+﻿using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response.Maps;
 using Expenso.IAM.Core.Users.Services;
 using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
 
@@ -33,7 +33,7 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
             Email = _userEmail
         };
 
-        _getUserResponse = UserMap.MapToDto(_user);
+        _getUserResponse = GetUserResponseMap.MapTo(_user);
         TestCandidate = new UserService(_keycloakUserClientMock.Object, new KeycloakProtectionClientOptions());
     }
 }
