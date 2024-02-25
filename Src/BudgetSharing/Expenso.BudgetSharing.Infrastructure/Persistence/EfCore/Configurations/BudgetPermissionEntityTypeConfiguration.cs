@@ -12,6 +12,7 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
 {
     public void Configure(EntityTypeBuilder<BudgetPermission> builder)
     {
+        builder.ToTable("BudgetPermissions");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionId.New(x)).IsRequired();
         builder.HasIndex(x => x.BudgetId).IsUnique();
@@ -26,7 +27,7 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
 
         builder.OwnsMany(x => x.Permissions, permissionsBuilder =>
         {
-            permissionsBuilder.ToTable(nameof(BudgetPermission.Permissions));
+            permissionsBuilder.ToTable("BudgetPermissions_Permissions");
 
             permissionsBuilder
                 .Property(x => x.ParticipantId)

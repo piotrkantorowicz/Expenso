@@ -11,6 +11,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<FinancePreference> builder)
     {
+        builder.ToTable("Preferences_FinancePreferences");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.Property(x => x.AllowAddFinancePlanReviewers).IsRequired();
@@ -21,6 +22,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 
     public void Configure(EntityTypeBuilder<GeneralPreference> builder)
     {
+        builder.ToTable("Preferences_GeneralPreferences");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.Property(x => x.UseDarkMode).IsRequired();
@@ -28,6 +30,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 
     public void Configure(EntityTypeBuilder<NotificationPreference> builder)
     {
+        builder.ToTable("Preferences_NotificationPreferences");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.Property(x => x.SendFinanceReportEnabled).IsRequired();
@@ -36,6 +39,7 @@ internal sealed class UserPreferencesEntityConfiguration : IEntityTypeConfigurat
 
     public void Configure(EntityTypeBuilder<Preference> builder)
     {
+        builder.ToTable("Preferences");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.HasIndex(x => x.UserId).IsUnique();

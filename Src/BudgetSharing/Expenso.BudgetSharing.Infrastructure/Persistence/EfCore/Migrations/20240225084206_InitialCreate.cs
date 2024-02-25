@@ -16,7 +16,23 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                 name: "BudgetSharing");
 
             migrationBuilder.CreateTable(
-                name: "BudgetPermissionRequests",
+                name: "BudgetPermissions",
+                schema: "BudgetSharing",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    BudgetId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: true),
+                    RemovalDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BudgetPermissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BudgetPermissions_Requests",
                 schema: "BudgetSharing",
                 columns: table => new
                 {
@@ -29,25 +45,11 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BudgetPermissionRequests", x => x.Id);
+                    table.PrimaryKey("PK_BudgetPermissions_Requests", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BudgetPermissions",
-                schema: "BudgetSharing",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    BudgetId = table.Column<Guid>(type: "uuid", nullable: false),
-                    OwnerId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BudgetPermissions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Permission",
+                name: "BudgetPermissions_Permissions",
                 schema: "BudgetSharing",
                 columns: table => new
                 {
@@ -59,9 +61,9 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permission", x => new { x.BudgetPermissionId, x.Id });
+                    table.PrimaryKey("PK_BudgetPermissions_Permissions", x => new { x.BudgetPermissionId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Permission_BudgetPermissions_BudgetPermissionId",
+                        name: "FK_BudgetPermissions_Permissions_BudgetPermissions_BudgetPermi~",
                         column: x => x.BudgetPermissionId,
                         principalSchema: "BudgetSharing",
                         principalTable: "BudgetPermissions",
@@ -81,11 +83,11 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BudgetPermissionRequests",
+                name: "BudgetPermissions_Permissions",
                 schema: "BudgetSharing");
 
             migrationBuilder.DropTable(
-                name: "Permission",
+                name: "BudgetPermissions_Requests",
                 schema: "BudgetSharing");
 
             migrationBuilder.DropTable(

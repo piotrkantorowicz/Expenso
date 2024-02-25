@@ -28,7 +28,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FinancePreference",
+                name: "Preferences_FinancePreferences",
                 schema: "UserPreferences",
                 columns: table => new
                 {
@@ -41,9 +41,9 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FinancePreference", x => x.Id);
+                    table.PrimaryKey("PK_Preferences_FinancePreferences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FinancePreference_Preferences_PreferenceId",
+                        name: "FK_Preferences_FinancePreferences_Preferences_PreferenceId",
                         column: x => x.PreferenceId,
                         principalSchema: "UserPreferences",
                         principalTable: "Preferences",
@@ -52,7 +52,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GeneralPreference",
+                name: "Preferences_GeneralPreferences",
                 schema: "UserPreferences",
                 columns: table => new
                 {
@@ -62,9 +62,9 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GeneralPreference", x => x.Id);
+                    table.PrimaryKey("PK_Preferences_GeneralPreferences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GeneralPreference_Preferences_PreferenceId",
+                        name: "FK_Preferences_GeneralPreferences_Preferences_PreferenceId",
                         column: x => x.PreferenceId,
                         principalSchema: "UserPreferences",
                         principalTable: "Preferences",
@@ -73,7 +73,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NotificationPreference",
+                name: "Preferences_NotificationPreferences",
                 schema: "UserPreferences",
                 columns: table => new
                 {
@@ -84,9 +84,9 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NotificationPreference", x => x.Id);
+                    table.PrimaryKey("PK_Preferences_NotificationPreferences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NotificationPreference_Preferences_PreferenceId",
+                        name: "FK_Preferences_NotificationPreferences_Preferences_PreferenceId",
                         column: x => x.PreferenceId,
                         principalSchema: "UserPreferences",
                         principalTable: "Preferences",
@@ -95,31 +95,31 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinancePreference_PreferenceId",
-                schema: "UserPreferences",
-                table: "FinancePreference",
-                column: "PreferenceId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GeneralPreference_PreferenceId",
-                schema: "UserPreferences",
-                table: "GeneralPreference",
-                column: "PreferenceId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_NotificationPreference_PreferenceId",
-                schema: "UserPreferences",
-                table: "NotificationPreference",
-                column: "PreferenceId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Preferences_UserId",
                 schema: "UserPreferences",
                 table: "Preferences",
                 column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Preferences_FinancePreferences_PreferenceId",
+                schema: "UserPreferences",
+                table: "Preferences_FinancePreferences",
+                column: "PreferenceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Preferences_GeneralPreferences_PreferenceId",
+                schema: "UserPreferences",
+                table: "Preferences_GeneralPreferences",
+                column: "PreferenceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Preferences_NotificationPreferences_PreferenceId",
+                schema: "UserPreferences",
+                table: "Preferences_NotificationPreferences",
+                column: "PreferenceId",
                 unique: true);
         }
 
@@ -127,15 +127,15 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "FinancePreference",
+                name: "Preferences_FinancePreferences",
                 schema: "UserPreferences");
 
             migrationBuilder.DropTable(
-                name: "GeneralPreference",
+                name: "Preferences_GeneralPreferences",
                 schema: "UserPreferences");
 
             migrationBuilder.DropTable(
-                name: "NotificationPreference",
+                name: "Preferences_NotificationPreferences",
                 schema: "UserPreferences");
 
             migrationBuilder.DropTable(

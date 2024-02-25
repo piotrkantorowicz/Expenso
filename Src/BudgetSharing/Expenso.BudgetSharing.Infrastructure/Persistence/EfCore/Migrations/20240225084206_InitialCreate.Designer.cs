@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(BudgetSharingDbContext))]
-    [Migration("20240207121958_InitialCreate")]
+    [Migration("20240225084206_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("BudgetSharing")
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -49,7 +49,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BudgetPermissionRequests", "BudgetSharing");
+                    b.ToTable("BudgetPermissions_Requests", "BudgetSharing");
                 });
 
             modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissions.BudgetPermission", b =>
@@ -92,11 +92,34 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 
                             b1.HasKey("BudgetPermissionId", "Id");
 
-                            b1.ToTable("Permission", "BudgetSharing");
+                            b1.ToTable("BudgetPermissions_Permissions", "BudgetSharing");
 
                             b1.WithOwner()
                                 .HasForeignKey("BudgetPermissionId");
                         });
+
+                    b.OwnsOne("Expenso.Shared.Domain.Types.ValueObjects.SafeDeletion", "Deletion", b1 =>
+                        {
+                            b1.Property<Guid>("BudgetPermissionId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<bool>("IsDeleted")
+                                .HasColumnType("boolean")
+                                .HasColumnName("IsDeleted");
+
+                            b1.Property<DateTimeOffset?>("RemovalDate")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("RemovalDate");
+
+                            b1.HasKey("BudgetPermissionId");
+
+                            b1.ToTable("BudgetPermissions", "BudgetSharing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BudgetPermissionId");
+                        });
+
+                    b.Navigation("Deletion");
 
                     b.Navigation("Permissions");
                 });

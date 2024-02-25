@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(UserPreferencesDbContext))]
-    [Migration("20240215050903_InitialCreate")]
+    [Migration("20240225084151_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("UserPreferences")
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -29,7 +29,6 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<bool>("AllowAddFinancePlanReviewers")
@@ -52,13 +51,12 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                     b.HasIndex("PreferenceId")
                         .IsUnique();
 
-                    b.ToTable("FinancePreference", "UserPreferences");
+                    b.ToTable("Preferences_FinancePreferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("PreferenceId")
@@ -72,13 +70,12 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                     b.HasIndex("PreferenceId")
                         .IsUnique();
 
-                    b.ToTable("GeneralPreference", "UserPreferences");
+                    b.ToTable("Preferences_GeneralPreferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("PreferenceId")
@@ -95,13 +92,12 @@ namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
                     b.HasIndex("PreferenceId")
                         .IsUnique();
 
-                    b.ToTable("NotificationPreference", "UserPreferences");
+                    b.ToTable("Preferences_NotificationPreferences", "UserPreferences");
                 });
 
             modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
