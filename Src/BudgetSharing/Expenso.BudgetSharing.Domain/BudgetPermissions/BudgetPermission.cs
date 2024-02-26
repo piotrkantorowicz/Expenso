@@ -13,7 +13,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions;
 
-public class BudgetPermission : IAggregateRoot
+public sealed class BudgetPermission : IAggregateRoot
 {
     private readonly DomainEventsSource _domainEventsSource = new();
     private readonly IMessageContextFactory _messageContextFactory = MessageContextFactoryResolver.Resolve();

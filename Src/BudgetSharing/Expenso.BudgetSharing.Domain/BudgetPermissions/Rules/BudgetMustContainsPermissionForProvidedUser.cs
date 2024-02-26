@@ -3,7 +3,7 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-public class BudgetMustContainsPermissionForProvidedUser(
+internal sealed class BudgetMustContainsPermissionForProvidedUser(
     BudgetId budgetId,
     PersonId participantId,
     Permission? permission) : IBusinessRule

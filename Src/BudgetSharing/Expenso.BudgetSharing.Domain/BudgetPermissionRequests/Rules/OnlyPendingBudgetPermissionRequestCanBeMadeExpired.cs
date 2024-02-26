@@ -3,7 +3,7 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
-public class OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
+internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
     BudgetPermissionRequestId budgetPermissionRequestId,
     BudgetPermissionRequestStatus status) : IBusinessRule
 {

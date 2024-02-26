@@ -8,7 +8,7 @@ internal sealed class UnknownPermissionTypeCannotBeProcessed(PermissionType perm
     private readonly PermissionType _permissionType =
         permissionType ?? throw new ArgumentNullException(nameof(permissionType));
 
-    public string Message => $"Unknown permission type {_permissionType} cannot be processed.";
+    public string Message => $"Unknown permission type {_permissionType.Value} cannot be processed.";
 
     public bool IsBroken()
     {

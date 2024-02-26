@@ -4,7 +4,7 @@ using Expenso.Shared.Domain.Types.Model;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions;
 
-public class Permission
+public sealed class Permission
 {
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core   

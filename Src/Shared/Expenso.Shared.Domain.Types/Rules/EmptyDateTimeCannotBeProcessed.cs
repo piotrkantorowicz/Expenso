@@ -2,7 +2,8 @@ using System.Reflection;
 
 namespace Expenso.Shared.Domain.Types.Rules;
 
-public class EmptyDateTimeCannotBeProcessed(DateTimeOffset? dateTimeOffset, MemberInfo? type = null) : IBusinessRule
+internal sealed class EmptyDateTimeCannotBeProcessed(DateTimeOffset? dateTimeOffset, MemberInfo? type = null)
+    : IBusinessRule
 {
     public string Message => $"Empty date and time {type?.Name} cannot be processed";
 
