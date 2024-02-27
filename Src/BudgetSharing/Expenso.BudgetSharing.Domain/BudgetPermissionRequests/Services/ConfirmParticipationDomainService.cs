@@ -26,15 +26,16 @@ internal sealed class ConfirmParticipationDomainService(
     private readonly IUserPreferencesProxy _userPreferencesProxy =
         userPreferencesProxy ?? throw new ArgumentNullException(nameof(userPreferencesProxy));
 
-    public async Task ConfirmParticipationAsync(Guid budgetPermissionId, CancellationToken cancellationToken)
+    public async Task ConfirmParticipationAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
     {
-        BudgetPermissionRequest? permissionRequest =
-            await _budgetPermissionRequestRepository.GetByIdAsync(BudgetPermissionRequestId.New(budgetPermissionId),
+        BudgetPermissionRequest? permissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
+            BudgetPermissionRequestId.New(budgetPermissionRequestId),
                 cancellationToken);
 
         if (permissionRequest is null)
         {
-            throw new NotFoundException($"Budget permission request with id {budgetPermissionId} hasn't been found.");
+            throw new NotFoundException(
+                $"Budget permission request with id {budgetPermissionRequestId} hasn't been found.");
         }
 
         BudgetPermission? budgetPermission =

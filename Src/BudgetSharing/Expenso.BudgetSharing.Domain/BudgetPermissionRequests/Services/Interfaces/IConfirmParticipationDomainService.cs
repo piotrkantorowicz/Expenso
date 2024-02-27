@@ -2,5 +2,5 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfa
 
 public interface IConfirmParticipationDomainService
 {
-    Task ConfirmParticipationAsync(Guid budgetPermissionId, CancellationToken cancellationToken);
+    Task ConfirmParticipationAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken);
 }

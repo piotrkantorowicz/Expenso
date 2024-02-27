@@ -20,7 +20,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         // Assert
         TestCandidate.Status.Should().Be(BudgetPermissionRequestStatus.Expired);
 
-        AssertDomainEventPublished([
+        AssertDomainEventPublished(TestCandidate, [
             new BudgetPermissionRequestExpiredEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.BudgetId,
                 TestCandidate.ParticipantId, TestCandidate.PermissionType, TestCandidate.ExpirationDate)
         ]);
@@ -34,12 +34,13 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         TestCandidate.Expire();
 
         // Act
-        Action act = () => TestCandidate.Expire();
+        DomainRuleValidationException? exception =
+            Assert.Throws<DomainRuleValidationException>(() => TestCandidate.Expire());
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage($"Only pending budget permission request {TestCandidate.Id} can be made expired.");
+        string expectedExceptionMessage =
+            $"Only pending budget permission request {TestCandidate.Id} can be made expired.";
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

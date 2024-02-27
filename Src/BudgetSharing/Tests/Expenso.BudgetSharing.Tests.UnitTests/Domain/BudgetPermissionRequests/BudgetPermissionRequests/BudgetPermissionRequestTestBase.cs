@@ -2,15 +2,12 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Clock;
-using Expenso.Shared.Tests.Utils.UnitTests;
-
-using FluentAssertions;
 
 using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.BudgetPermissionRequests;
 
-internal abstract class BudgetPermissionRequestTestBase : TestBase<BudgetPermissionRequest>
+internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetPermissionRequest>
 {
     protected readonly Mock<IClock> _clockMock = new();
     protected readonly BudgetId _defaultBudgetId = BudgetId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
@@ -20,8 +17,7 @@ internal abstract class BudgetPermissionRequestTestBase : TestBase<BudgetPermiss
 
     [SetUp]
     public void SetUp()
-    {
-        MessageContextFactoryResolverInitializer.Initialize(MessageContextFactoryMock.Object);
+    {   
     }
 
     protected BudgetPermissionRequest CreateTestCandidate(bool emitDomainEvents = false)
@@ -37,12 +33,5 @@ internal abstract class BudgetPermissionRequestTestBase : TestBase<BudgetPermiss
         }
 
         return testCandidate;
-    }
-
-    protected void AssertDomainEventPublished(IEnumerable<IDomainEvent> domainEvents)
-    {
-        IReadOnlyCollection<IDomainEvent> existingDomainEvents = TestCandidate.GetUncommittedChanges();
-        bool matchingDomainEvents = domainEvents.SequenceEqual(existingDomainEvents);
-        matchingDomainEvents.Should().BeTrue();
     }
 }

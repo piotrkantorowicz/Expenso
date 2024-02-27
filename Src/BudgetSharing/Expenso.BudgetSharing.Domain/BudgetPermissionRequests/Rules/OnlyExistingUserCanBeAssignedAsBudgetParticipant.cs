@@ -1,16 +1,16 @@
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
-internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant(Guid userId, GetUserExternalResponse? user)
+internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant(string email, GetUserResponse? user)
     : IBusinessRule
 {
     public string Message =>
-        $"Budget participant must be the existing system user, but provided user with id {userId} hasn't been found in the system";
+        $"Budget participant must be the existing system user, but provided user with id {email} hasn't been found in the system";
 
     public bool IsBroken()
     {
-        return user is null;
+        return !Guid.TryParse(user?.UserId, out _);
     }
 }

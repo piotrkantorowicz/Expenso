@@ -2,6 +2,6 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Assig
 
 public sealed record AssignParticipantRequest(
     Guid BudgetId,
-    Guid ParticipantId,
+    string Email,
     AssignParticipantRequest_PermissionType PermissionType,
     int ExpirationDays);

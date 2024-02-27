@@ -1,10 +1,9 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
 using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.System.Types.Clock;
 
@@ -21,19 +20,18 @@ internal sealed class AssignParticipantDomainService(
     private readonly IClock _clock = clock ?? throw new ArgumentNullException(nameof(clock));
     private readonly IIamProxy _iamProxy = iamProxy ?? throw new ArgumentNullException(nameof(iamProxy));
 
-    public async Task<BudgetPermissionRequestId> AssignParticipantAsync(Guid budgetId, Guid participantId,
+    public async Task<BudgetPermissionRequest> AssignParticipantAsync(Guid budgetId, string email,
         PermissionType permissionType, int expirationDays, CancellationToken cancellationToken)
     {
-        GetUserExternalResponse? user = await _iamProxy.GetUserByIdAsync(participantId.ToString(), cancellationToken);
-
-        DomainModelState.CheckBusinessRules([new OnlyExistingUserCanBeAssignedAsBudgetParticipant(participantId, user)],
-            false);
+        GetUserResponse? user = await _iamProxy.GetUserByEmailAsync(email, cancellationToken);
+        DomainModelState.CheckBusinessRules([new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email, user)]);
+        PersonId participantId = PersonId.New(Guid.Parse(user!.UserId));
 
         BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(BudgetId.New(budgetId),
-            PersonId.New(participantId), permissionType, expirationDays, _clock);
+            participantId, permissionType, expirationDays, _clock);
 
         await _budgetPermissionRequestRepository.AddAsync(budgetPermissionRequest, cancellationToken);
 
-        return budgetPermissionRequest.Id;
+        return budgetPermissionRequest;
     }
 }

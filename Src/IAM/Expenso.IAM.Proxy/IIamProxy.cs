@@ -1,10 +1,12 @@
-using Expenso.IAM.Proxy.DTO.GetUser;
+
+
+using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
 
 namespace Expenso.IAM.Proxy;
 
 public interface IIamProxy
 {
-    Task<GetUserExternalResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken);
+    Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken);
 
-    Task<GetUserExternalResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
+    Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken);
 }

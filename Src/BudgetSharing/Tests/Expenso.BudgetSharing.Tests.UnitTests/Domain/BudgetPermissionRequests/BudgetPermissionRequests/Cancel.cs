@@ -20,7 +20,7 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         // Assert
         TestCandidate.Status.Should().Be(BudgetPermissionRequestStatus.Cancelled);
 
-        AssertDomainEventPublished([
+        AssertDomainEventPublished(TestCandidate, [
             new BudgetPermissionRequestCancelledEvent(MessageContextFactoryMock.Object.Current(),
                 TestCandidate.BudgetId, TestCandidate.ParticipantId, TestCandidate.PermissionType)
         ]);
@@ -34,12 +34,13 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         TestCandidate.Cancel();
 
         // Act
-        Action act = () => TestCandidate.Cancel();
+        DomainRuleValidationException? exception =
+            Assert.Throws<DomainRuleValidationException>(() => TestCandidate.Cancel());
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage($"Only pending budget permission request {TestCandidate.Id} can be made cancelled.");
+        string expectedExceptionMessage =
+            $"Only pending budget permission request {TestCandidate.Id} can be made cancelled.";
+
+        exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }
