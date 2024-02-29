@@ -1,6 +1,6 @@
 using Expenso.Shared.Domain.Types.ValueObjects;
 
-namespace Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+namespace Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 
 public sealed record PermissionType : Enumeration<PermissionType>
 {

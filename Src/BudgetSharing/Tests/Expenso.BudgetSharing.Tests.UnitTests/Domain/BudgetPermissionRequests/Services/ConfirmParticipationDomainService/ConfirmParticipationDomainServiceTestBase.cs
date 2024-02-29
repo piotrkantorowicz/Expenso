@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;

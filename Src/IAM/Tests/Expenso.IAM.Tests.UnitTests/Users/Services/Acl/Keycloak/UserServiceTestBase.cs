@@ -1,7 +1,7 @@
-﻿using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response.Maps;
+﻿using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response.Maps;
 using Expenso.IAM.Core.Users.Services;
 using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
+using Expenso.IAM.Proxy.DTO.GetUser;
 
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk.Admin;

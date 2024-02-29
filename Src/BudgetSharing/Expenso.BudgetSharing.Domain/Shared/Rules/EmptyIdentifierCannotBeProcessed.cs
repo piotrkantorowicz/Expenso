@@ -2,7 +2,7 @@ using System.Reflection;
 
 using Expenso.Shared.Domain.Types.Rules;
 
-namespace Expenso.BudgetSharing.Domain.Shared.Model.Rules;
+namespace Expenso.BudgetSharing.Domain.Shared.Rules;
 
 internal sealed class EmptyIdentifierCannotBeProcessed(Guid? identifier, MemberInfo? type = null) : IBusinessRule
 {

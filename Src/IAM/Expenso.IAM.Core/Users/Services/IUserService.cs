@@ -1,4 +1,4 @@
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+using Expenso.IAM.Proxy.DTO.GetUser;
 
 namespace Expenso.IAM.Core.Users.Services;
 

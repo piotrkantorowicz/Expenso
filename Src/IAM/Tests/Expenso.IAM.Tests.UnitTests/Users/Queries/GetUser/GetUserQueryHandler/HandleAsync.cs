@@ -1,5 +1,5 @@
 using Expenso.IAM.Core.Users.Queries.GetUser;
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserQueryHandler;

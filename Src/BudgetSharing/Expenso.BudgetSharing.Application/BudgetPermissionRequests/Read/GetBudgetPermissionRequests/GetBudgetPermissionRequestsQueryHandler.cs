@@ -5,7 +5,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetP
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.ExecutionContext;
 

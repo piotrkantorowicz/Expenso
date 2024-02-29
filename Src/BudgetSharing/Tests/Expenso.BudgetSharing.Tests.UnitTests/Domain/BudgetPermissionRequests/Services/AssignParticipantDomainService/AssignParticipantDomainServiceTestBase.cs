@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Proxy;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Clock;
 
 using Moq;

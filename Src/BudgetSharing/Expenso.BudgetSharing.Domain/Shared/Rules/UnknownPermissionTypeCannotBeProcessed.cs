@@ -1,7 +1,7 @@
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
-namespace Expenso.BudgetSharing.Domain.Shared.Model.Rules;
+namespace Expenso.BudgetSharing.Domain.Shared.Rules;
 
 internal sealed class UnknownPermissionTypeCannotBeProcessed(PermissionType permissionType) : IBusinessRule
 {

@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
+using Expenso.BudgetSharing.Domain.Shared.Rules;
 using Expenso.Shared.Domain.Types.Model;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
@@ -14,7 +14,9 @@ public sealed record BudgetPermissionId
 
     public static BudgetPermissionId New(Guid value)
     {
-        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, typeof(BudgetPermissionId))]);
+        DomainModelState.CheckBusinessRules([
+            (new EmptyIdentifierCannotBeProcessed(value, typeof(BudgetPermissionId)), false)
+        ]);
 
         return new BudgetPermissionId(value);
     }

@@ -29,8 +29,7 @@ internal sealed class ConfirmParticipationDomainService(
     public async Task ConfirmParticipationAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
     {
         BudgetPermissionRequest? permissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
-            BudgetPermissionRequestId.New(budgetPermissionRequestId),
-                cancellationToken);
+            BudgetPermissionRequestId.New(budgetPermissionRequestId), cancellationToken);
 
         if (permissionRequest is null)
         {
@@ -55,9 +54,8 @@ internal sealed class ConfirmParticipationDomainService(
         }
 
         DomainModelState.CheckBusinessRules([
-            new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(budgetPermission.BudgetId,
-                budgetPermission.OwnerId, permissionRequest.PermissionType, preference.FinancePreference,
-                budgetPermission.Permissions.ToList().AsReadOnly())
+            (new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(budgetPermission.BudgetId, budgetPermission.OwnerId, permissionRequest.PermissionType, preference.FinancePreference, budgetPermission.Permissions.ToList().AsReadOnly()),
+                false)
         ]);
 
         permissionRequest.Confirm();

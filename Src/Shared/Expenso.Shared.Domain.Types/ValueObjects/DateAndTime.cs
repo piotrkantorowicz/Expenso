@@ -14,7 +14,7 @@ public sealed record DateAndTime
 
     public static DateAndTime New(DateTimeOffset value)
     {
-        DomainModelState.CheckBusinessRules([new EmptyDateTimeCannotBeProcessed(value, typeof(DateAndTime))]);
+        DomainModelState.CheckBusinessRules([(new EmptyDateTimeCannotBeProcessed(value, typeof(DateAndTime)), false)]);
 
         return new DateAndTime(value);
     }

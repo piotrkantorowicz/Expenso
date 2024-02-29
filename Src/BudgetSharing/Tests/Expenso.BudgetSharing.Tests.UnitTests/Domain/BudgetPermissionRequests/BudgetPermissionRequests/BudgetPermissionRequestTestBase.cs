@@ -1,6 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
-using Expenso.Shared.Domain.Types.Events;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 
 using Moq;
@@ -17,7 +16,7 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
 
     [SetUp]
     public void SetUp()
-    {   
+    {
     }
 
     protected BudgetPermissionRequest CreateTestCandidate(bool emitDomainEvents = false)
@@ -28,8 +27,7 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
         if (!emitDomainEvents)
         {
             // Get uncommitted changes before assertions to clear domain events created during aggregate creation
-            // ReSharper disable once UnusedVariable
-            IReadOnlyCollection<IDomainEvent> domainEvents = testCandidate.GetUncommittedChanges();
+            testCandidate.GetUncommittedChanges();
         }
 
         return testCandidate;

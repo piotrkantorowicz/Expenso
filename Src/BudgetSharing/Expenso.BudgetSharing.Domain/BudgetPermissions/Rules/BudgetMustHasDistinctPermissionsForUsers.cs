@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;

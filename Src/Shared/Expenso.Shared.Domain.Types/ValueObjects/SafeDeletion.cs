@@ -6,9 +6,4 @@ public sealed record SafeDeletion(bool IsDeleted, DateTimeOffset? RemovalDate)
     {
         return new SafeDeletion(true, dateTime);
     }
-
-    public static SafeDeletion Restore()
-    {
-        return new SafeDeletion(false, null);
-    }
 }

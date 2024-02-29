@@ -1,3 +1,5 @@
+using Expenso.IAM.Proxy.DTO.GetUser;
+
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
 namespace Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response.Maps;

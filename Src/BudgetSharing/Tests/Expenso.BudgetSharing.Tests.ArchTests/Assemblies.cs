@@ -12,7 +12,7 @@ internal static class Assemblies
     private static readonly Assembly Api = typeof(BudgetSharingModule).Assembly;
     private static readonly Assembly Core = typeof(BudgetPermission).Assembly;
     private static readonly Assembly Proxy = typeof(IBudgetSharingProxy).Assembly;
-    private static readonly Assembly UnitTests = typeof(MessageContextFactoryResolverInitializer).Assembly;
+    private static readonly Assembly UnitTests = typeof(DomainTestBase<>).Assembly;
     private static readonly Assembly ArchTests = typeof(Assemblies).Assembly;
 
     public static IReadOnlyCollection<Assembly> ToArray()

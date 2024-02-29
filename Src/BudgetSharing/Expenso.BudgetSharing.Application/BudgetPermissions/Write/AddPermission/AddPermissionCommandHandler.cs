@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DT
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
 

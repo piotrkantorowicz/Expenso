@@ -1,5 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 
 namespace Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 

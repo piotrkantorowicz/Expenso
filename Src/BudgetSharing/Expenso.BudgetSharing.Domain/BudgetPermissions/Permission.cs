@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.Rules;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Model;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions;
@@ -17,7 +17,7 @@ public sealed class Permission
     private Permission(PersonId participantId, PermissionType permissionType)
     {
         DomainModelState.CheckBusinessRules([
-            new UnknownPermissionTypeCannotBeProcessed(permissionType)
+            (new UnknownPermissionTypeCannotBeProcessed(permissionType), false)
         ]);
 
         ParticipantId = participantId;

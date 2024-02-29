@@ -7,23 +7,39 @@ public static class DomainModelState
 {
     private static readonly List<IBusinessRule> BrokenRules = [];
 
-    public static void CheckBusinessRules(IEnumerable<IBusinessRule> rules, bool throwException = true)
+    public static void CheckBusinessRules(IEnumerable<(IBusinessRule rule, bool throwException)> businessRules,
+        bool throwAfterAll = true)
     {
-        foreach (IBusinessRule rule in rules)
-        {
-            if (rule.IsBroken())
-            {
-                BrokenRules.Add(rule);
-            }
-        }
+        IBusinessRule[] brokenRules;
 
-        if (BrokenRules.Count != 0 && throwException)
+        foreach ((IBusinessRule? rule, bool throwException) in businessRules)
         {
-            IBusinessRule[] brokenRules = BrokenRules.ToArray();
-            DomainRuleValidationException exception = new(brokenRules);
+            if (!rule.IsBroken())
+            {
+                continue;
+            }
+
+            BrokenRules.Add(rule);
+
+            if (!throwException)
+            {
+                continue;
+            }
+
+            brokenRules = BrokenRules.ToArray();
             BrokenRules.Clear();
 
-            throw exception;
+            throw new DomainRuleValidationException(brokenRules);
         }
+
+        if (!throwAfterAll || BrokenRules.Count == 0)
+        {
+            return;
+        }
+
+        brokenRules = BrokenRules.ToArray();
+        BrokenRules.Clear();
+
+        throw new DomainRuleValidationException(brokenRules);
     }
 }

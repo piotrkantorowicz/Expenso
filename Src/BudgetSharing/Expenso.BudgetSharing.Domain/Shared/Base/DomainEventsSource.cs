@@ -1,6 +1,6 @@
 using Expenso.Shared.Domain.Types.Events;
 
-namespace Expenso.BudgetSharing.Domain.Shared.Model.Base;
+namespace Expenso.BudgetSharing.Domain.Shared.Base;
 
 internal sealed class DomainEventsSource
 {
@@ -10,10 +10,10 @@ internal sealed class DomainEventsSource
     {
         get
         {
-            List<IDomainEvent> result = _domainEvents.ToList();
+            IReadOnlyCollection<IDomainEvent> domainEvents = _domainEvents.ToList().AsReadOnly();
             _domainEvents.Clear();
 
-            return result;
+            return domainEvents;
         }
     }
 

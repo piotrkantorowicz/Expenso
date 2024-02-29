@@ -56,7 +56,7 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
             .SelectMany(x => x.Entity.GetUncommittedChanges())
             .ToList();
 
-        return domainEvents;
+        return domainEvents.AsReadOnly();
     }
 
     public async Task MigrateAsync()

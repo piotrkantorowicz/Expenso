@@ -1,5 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

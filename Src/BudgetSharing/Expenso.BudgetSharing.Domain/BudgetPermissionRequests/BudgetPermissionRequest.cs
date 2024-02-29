@@ -2,9 +2,9 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared;
-using Expenso.BudgetSharing.Domain.Shared.Model.Base;
-using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.Base;
+using Expenso.BudgetSharing.Domain.Shared.Rules;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Model;
@@ -16,8 +16,8 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 
 public sealed class BudgetPermissionRequest : IAggregateRoot
 {
-    private readonly DomainEventsSource _domainEventsSource = new();
-    private readonly IMessageContextFactory _messageContextFactory = MessageContextFactoryResolver.Resolve();
+    private readonly DomainEventsSource _domainEventsSource;
+    private readonly IMessageContextFactory _messageContextFactory;
 
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core   
@@ -29,6 +29,8 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         PermissionType = default!;
         Status = default!;
         ExpirationDate = default!;
+        _domainEventsSource = default!;
+        _messageContextFactory = default!;
     }
 
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
@@ -37,9 +39,9 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         DateAndTime expirationDate = DateAndTime.New(clock.UtcNow.AddDays(expirationDays));
 
         DomainModelState.CheckBusinessRules([
-            new UnknownPermissionTypeCannotBeProcessed(permissionType),
-            new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status),
-            new ExpirationDateMustBeGreaterThanOneDay(expirationDate, clock)
+            (new UnknownPermissionTypeCannotBeProcessed(permissionType), false),
+            (new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status), false),
+            (new ExpirationDateMustBeGreaterThanOneDay(expirationDate, clock), false)
         ]);
 
         Id = id;
@@ -48,6 +50,8 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         PermissionType = permissionType;
         Status = status;
         ExpirationDate = expirationDate;
+        _domainEventsSource = new DomainEventsSource();
+        _messageContextFactory = MessageContextFactoryResolver.Resolve();
 
         _domainEventsSource.AddDomainEvent(new BudgetPermissionRequestedEvent(_messageContextFactory.Current(),
             budgetId, participantId, permissionType));
@@ -80,7 +84,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     public void Confirm()
     {
         DomainModelState.CheckBusinessRules([
-            new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(Id, Status)
+            (new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(Id, Status), false)
         ]);
 
         Status = BudgetPermissionRequestStatus.Confirmed;
@@ -92,7 +96,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     public void Cancel()
     {
         DomainModelState.CheckBusinessRules([
-            new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(Id, Status)
+            (new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(Id, Status), false)
         ]);
 
         Status = BudgetPermissionRequestStatus.Cancelled;
@@ -104,7 +108,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     public void Expire()
     {
         DomainModelState.CheckBusinessRules([
-            new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(Id, Status)
+            (new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(Id, Status), false)
         ]);
 
         Status = BudgetPermissionRequestStatus.Expired;

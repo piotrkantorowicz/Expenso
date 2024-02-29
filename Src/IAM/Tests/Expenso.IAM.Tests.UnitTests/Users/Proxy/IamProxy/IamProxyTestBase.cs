@@ -1,5 +1,5 @@
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
 using Expenso.IAM.Proxy;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Queries.Dispatchers;
 
 using TestCandidate = Expenso.IAM.Core.Users.Proxy.IamProxy;

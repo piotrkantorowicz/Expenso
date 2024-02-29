@@ -1,12 +1,17 @@
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-internal sealed class BudgetCanHasOnlyOneOwnerPermission(BudgetId budgetId, IEnumerable<Permission> permissions)
-    : IBusinessRule
+internal sealed class BudgetCanHasOnlyOneOwnerPermission(
+    BudgetId budgetId,
+    PermissionType permissionType,
+    IEnumerable<Permission> permissions) : IBusinessRule
 {
     private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
+
+    private readonly PermissionType _permissionType =
+        permissionType ?? throw new ArgumentNullException(nameof(permissionType));
 
     private readonly IEnumerable<Permission> _permissions =
         permissions ?? throw new ArgumentNullException(nameof(permissions));
@@ -15,6 +20,7 @@ internal sealed class BudgetCanHasOnlyOneOwnerPermission(BudgetId budgetId, IEnu
 
     public bool IsBroken()
     {
-        return _permissions.Count(p => p.PermissionType == PermissionType.Owner) > 1;
+        return _permissions.Any(p => p.PermissionType == PermissionType.Owner) &&
+               _permissionType == PermissionType.Owner;
     }
 }

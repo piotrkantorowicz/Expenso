@@ -1,4 +1,4 @@
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;

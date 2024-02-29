@@ -1,5 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Response.Maps;

@@ -1,3 +1,3 @@
-namespace Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+namespace Expenso.IAM.Proxy.DTO.GetUser;
 
 public sealed record GetUserResponse(string UserId, string? Firstname, string? Lastname, string Username, string Email);

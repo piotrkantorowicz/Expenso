@@ -1,9 +1,9 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
-using Expenso.IAM.Core.Users.Queries.GetUser.DTO.Response;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Proxy;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.System.Types.Clock;
 
@@ -24,7 +24,11 @@ internal sealed class AssignParticipantDomainService(
         PermissionType permissionType, int expirationDays, CancellationToken cancellationToken)
     {
         GetUserResponse? user = await _iamProxy.GetUserByEmailAsync(email, cancellationToken);
-        DomainModelState.CheckBusinessRules([new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email, user)]);
+
+        DomainModelState.CheckBusinessRules([
+            (new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email, user), false)
+        ]);
+
         PersonId participantId = PersonId.New(Guid.Parse(user!.UserId));
 
         BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(BudgetId.New(budgetId),

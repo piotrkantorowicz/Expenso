@@ -2,8 +2,8 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared;
-using Expenso.BudgetSharing.Domain.Shared.Model.Base;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.Base;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Model;
@@ -15,8 +15,8 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissions;
 
 public sealed class BudgetPermission : IAggregateRoot
 {
-    private readonly DomainEventsSource _domainEventsSource = new();
-    private readonly IMessageContextFactory _messageContextFactory = MessageContextFactoryResolver.Resolve();
+    private readonly DomainEventsSource _domainEventsSource;
+    private readonly IMessageContextFactory _messageContextFactory;
 
     // ReSharper disable once UnusedMember.Local
     // Required by EF Core   
@@ -25,6 +25,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Id = default!;
         BudgetId = default!;
         OwnerId = default!;
+        _domainEventsSource = default!;
+        _messageContextFactory = default!;
         Permissions = new List<Permission>();
     }
 
@@ -33,6 +35,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Id = id;
         BudgetId = budgetId;
         OwnerId = ownerId;
+        _domainEventsSource = new DomainEventsSource();
+        _messageContextFactory = MessageContextFactoryResolver.Resolve();
         Permissions = new List<Permission>();
     }
 
@@ -64,9 +68,9 @@ public sealed class BudgetPermission : IAggregateRoot
     public void AddPermission(PersonId participantId, PermissionType permissionType)
     {
         DomainModelState.CheckBusinessRules([
-            new BudgetMustHasDistinctPermissionsForUsers(BudgetId, participantId, Permissions),
-            new BudgetCanHasOnlyOneOwnerPermission(BudgetId, Permissions),
-            new BudgetCanHasOnlyOwnerPermissionForItsOwner(BudgetId, participantId, OwnerId, permissionType)
+            (new BudgetMustHasDistinctPermissionsForUsers(BudgetId, participantId, Permissions), false),
+            (new BudgetCanHasOnlyOneOwnerPermission(BudgetId, permissionType, Permissions), true),
+            (new BudgetCanHasOnlyOwnerPermissionForItsOwner(BudgetId, participantId, OwnerId, permissionType), true)
         ]);
 
         Permissions.Add(Permission.Create(participantId, permissionType));
@@ -80,7 +84,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Permission? permission = Permissions.SingleOrDefault(x => x.ParticipantId == participantId);
 
         DomainModelState.CheckBusinessRules([
-            new BudgetMustContainsPermissionForProvidedUser(BudgetId, participantId, permission)
+            (new BudgetMustContainsPermissionForProvidedUser(BudgetId, participantId, permission), true),
+            (new OwnerPermissionCannotBeRemoved(BudgetId, permission?.PermissionType), true)
         ]);
 
         Permissions.Remove(permission ?? throw new ArgumentException(nameof(permission)));
@@ -92,22 +97,22 @@ public sealed class BudgetPermission : IAggregateRoot
     public void Delete(IClock? clock = null)
     {
         DomainModelState.CheckBusinessRules([
-            new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(Deletion)
+            (new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(Id, Deletion), false)
         ]);
 
         Deletion = SafeDeletion.Delete(clock?.UtcNow ?? DateTimeOffset.UtcNow);
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionRemovedEvent(_messageContextFactory.Current(), Id,
+        _domainEventsSource.AddDomainEvent(new BudgetPermissionDeletedEvent(_messageContextFactory.Current(), Id,
             BudgetId, Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly()));
     }
 
     public void Restore()
     {
         DomainModelState.CheckBusinessRules([
-            new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(Deletion)
+            (new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(Id, Deletion), false)
         ]);
 
-        Deletion = SafeDeletion.Restore();
+        Deletion = null;
 
         _domainEventsSource.AddDomainEvent(new BudgetPermissionRestoredEvent(_messageContextFactory.Current(), Id,
             BudgetId, Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly()));

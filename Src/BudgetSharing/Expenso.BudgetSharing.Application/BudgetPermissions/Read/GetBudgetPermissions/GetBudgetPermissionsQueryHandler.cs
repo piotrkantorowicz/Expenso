@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissi
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Request;
 using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
 using Expenso.Shared.Queries;

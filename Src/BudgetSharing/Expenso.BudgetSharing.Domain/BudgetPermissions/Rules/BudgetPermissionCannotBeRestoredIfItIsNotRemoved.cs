@@ -1,14 +1,20 @@
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-internal sealed class BudgetPermissionCannotBeRestoredIfItIsNotRemoved(SafeDeletion? removalInfo) : IBusinessRule
+internal sealed class BudgetPermissionCannotBeRestoredIfItIsNotRemoved(
+    BudgetPermissionId budgetPermissionId,
+    SafeDeletion? removalInfo) : IBusinessRule
 {
-    public string Message => "Budget permission cannot be restored if it is not removed";
+    private readonly BudgetPermissionId _budgetPermissionId =
+        budgetPermissionId ?? throw new ArgumentNullException(nameof(budgetPermissionId));
+
+    public string Message => $"Budget permission with id: {_budgetPermissionId} is not deleted.";
 
     public bool IsBroken()
     {
-        return removalInfo?.IsDeleted == false;
+        return removalInfo?.IsDeleted is not true;
     }
 }

@@ -1,7 +1,7 @@
-using Expenso.BudgetSharing.Domain.Shared.Model.Rules;
+using Expenso.BudgetSharing.Domain.Shared.Rules;
 using Expenso.Shared.Domain.Types.Model;
 
-namespace Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+namespace Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 
 public sealed record PersonId
 {
@@ -14,7 +14,7 @@ public sealed record PersonId
 
     public static PersonId New(Guid value)
     {
-        DomainModelState.CheckBusinessRules([new EmptyIdentifierCannotBeProcessed(value, typeof(PersonId))]);
+        DomainModelState.CheckBusinessRules([(new EmptyIdentifierCannotBeProcessed(value, typeof(PersonId)), false)]);
 
         return new PersonId(value);
     }
