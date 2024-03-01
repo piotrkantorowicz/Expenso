@@ -40,6 +40,6 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
                 .IsRequired();
         });
 
-        builder.HasQueryFilter(x => x.Deletion != null && x.Deletion.IsDeleted == false);
+        builder.HasQueryFilter(x => x.Deletion == null || x.Deletion.IsDeleted == false);
     }
 }

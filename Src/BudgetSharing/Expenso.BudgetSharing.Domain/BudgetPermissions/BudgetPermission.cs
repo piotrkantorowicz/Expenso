@@ -25,8 +25,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Id = default!;
         BudgetId = default!;
         OwnerId = default!;
-        _domainEventsSource = default!;
-        _messageContextFactory = default!;
+        _domainEventsSource = new DomainEventsSource();
+        _messageContextFactory = MessageContextFactoryResolver.Resolve();
         Permissions = new List<Permission>();
     }
 

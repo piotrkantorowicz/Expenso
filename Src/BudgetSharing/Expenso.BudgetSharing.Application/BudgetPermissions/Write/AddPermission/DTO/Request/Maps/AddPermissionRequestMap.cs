@@ -4,14 +4,15 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermissio
 
 internal sealed class AddPermissionRequestMap
 {
-    public static PermissionType ToPermissionType(AddPermissionRequestPermissionType addPermissionRequestPermissionType)
+    public static PermissionType ToPermissionType(
+        AddPermissionRequest_PermissionType addPermissionRequestPermissionType)
     {
         return addPermissionRequestPermissionType switch
         {
-            AddPermissionRequestPermissionType.Unknown => PermissionType.Unknown,
-            AddPermissionRequestPermissionType.Owner => PermissionType.Owner,
-            AddPermissionRequestPermissionType.SubOwner => PermissionType.SubOwner,
-            AddPermissionRequestPermissionType.Reviewer => PermissionType.Reviewer,
+            AddPermissionRequest_PermissionType.Unknown => PermissionType.Unknown,
+            AddPermissionRequest_PermissionType.Owner => PermissionType.Owner,
+            AddPermissionRequest_PermissionType.SubOwner => PermissionType.SubOwner,
+            AddPermissionRequest_PermissionType.Reviewer => PermissionType.Reviewer,
             _ => throw new ArgumentOutOfRangeException(nameof(addPermissionRequestPermissionType),
                 addPermissionRequestPermissionType, null)
         };

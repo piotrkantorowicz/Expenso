@@ -22,11 +22,16 @@ Authorization: Bearer {{apiAccessToken}}
 }
 
 ### ConfirmAssigningParticipant
-PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/76dc97e0-dc2d-4cab-9c0c-6ebd2077c117/confirm
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06/confirm
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### ExpireAssigningParticipant
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06/expire
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### CancelAssigningParticipant
-PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/5589bb34-44a2-4319-bed9-21eaa9ec4702/cancel
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06/cancel
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}

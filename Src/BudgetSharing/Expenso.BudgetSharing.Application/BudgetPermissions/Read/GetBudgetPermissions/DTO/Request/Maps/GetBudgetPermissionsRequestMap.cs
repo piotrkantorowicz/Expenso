@@ -5,14 +5,14 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPerm
 
 public sealed class GetBudgetPermissionsRequestMap
 {
-    public static PermissionType MapTo(GetBudgetPermissionsRequestPermissionType permissionType)
+    public static PermissionType MapTo(GetBudgetPermissionsRequest_PermissionType permissionType)
     {
         return permissionType switch
         {
-            GetBudgetPermissionsRequestPermissionType.Unknown => PermissionType.Unknown,
-            GetBudgetPermissionsRequestPermissionType.Owner => PermissionType.Owner,
-            GetBudgetPermissionsRequestPermissionType.SubOwner => PermissionType.SubOwner,
-            GetBudgetPermissionsRequestPermissionType.Reviewer => PermissionType.Reviewer,
+            GetBudgetPermissionsRequest_PermissionType.Unknown => PermissionType.Unknown,
+            GetBudgetPermissionsRequest_PermissionType.Owner => PermissionType.Owner,
+            GetBudgetPermissionsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
+            GetBudgetPermissionsRequest_PermissionType.Reviewer => PermissionType.Reviewer,
             _ => throw new ArgumentOutOfRangeException(nameof(permissionType), permissionType, null)
         };
     }

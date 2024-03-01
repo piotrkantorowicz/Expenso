@@ -1,4 +1,4 @@
-using Expenso.Api.Tests.E2E.TestData;
+using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
@@ -11,10 +11,10 @@ internal sealed class UpdatePreferences : PreferencesTestBase
         // Arrange
         Guid? preferenceId = PreferencesDataProvider.PreferenceIds[1];
         _httpClient.SetFakeBearerToken(_claims);
-        string request = $"user-preferences/preferences/{preferenceId}";
+        string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(request,
+        HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(requestPath,
             new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 5, true, 10),
                 new UpdatePreferenceRequest_NotificationPreference(true, 1),
                 new UpdatePreferenceRequest_GeneralPreference(true)));

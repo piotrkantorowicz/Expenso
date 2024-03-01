@@ -23,7 +23,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetPermissionRequest", b =>
+            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetSharing", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");

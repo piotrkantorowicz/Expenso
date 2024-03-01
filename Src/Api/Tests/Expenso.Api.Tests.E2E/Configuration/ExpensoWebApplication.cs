@@ -1,5 +1,7 @@
 using Expenso.Api.Configuration.Extensions.Environment.Const;
 using Expenso.Api.Tests.E2E.BudgetSharing.Persistence;
+using Expenso.Api.Tests.E2E.IAM;
+using Expenso.IAM.Proxy;
 using Expenso.Shared.Database;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.System.Configuration.Extensions;
@@ -25,6 +27,8 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
 
         builder.ConfigureTestServices(services =>
         {
+            UseFakeIIamProxy(services);
+
             if (GetEfCoreSettings().InMemory == true)
             {
                 UseFakeUnitOfWork(services);
@@ -47,6 +51,13 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
         ServiceDescriptor unitOfWork = services.Single(d => d.ServiceType == typeof(IUnitOfWork));
         services.Remove(unitOfWork);
         services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
+    }
+
+    private static void UseFakeIIamProxy(IServiceCollection services)
+    {
+        ServiceDescriptor iamProxy = services.Single(d => d.ServiceType == typeof(IIamProxy));
+        services.Remove(iamProxy);
+        services.AddScoped<IIamProxy, FakeIamProxy>();
     }
 
     private EfCoreSettings GetEfCoreSettings()

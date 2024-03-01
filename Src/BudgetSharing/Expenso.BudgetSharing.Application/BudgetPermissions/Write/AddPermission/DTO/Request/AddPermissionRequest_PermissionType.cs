@@ -1,6 +1,6 @@
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
 
-public enum AddPermissionRequestPermissionType
+public enum AddPermissionRequest_PermissionType
 {
     Unknown = 0,
     Owner = 1,

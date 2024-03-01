@@ -27,7 +27,7 @@ internal sealed class GetBudgetPermissionsQueryHandler(
         CancellationToken cancellationToken)
     {
         (_, Guid? budgetId, Guid? ownerId, Guid? participantId, bool? forCurrentUser,
-            GetBudgetPermissionsRequestPermissionType? permissionType) = query;
+            GetBudgetPermissionsRequest_PermissionType? permissionType) = query;
 
         if (forCurrentUser is true)
         {

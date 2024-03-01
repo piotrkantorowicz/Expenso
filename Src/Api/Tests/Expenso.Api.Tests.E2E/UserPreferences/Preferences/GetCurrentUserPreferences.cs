@@ -1,4 +1,4 @@
-using Expenso.Api.Tests.E2E.TestData;
+using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;

@@ -6,4 +6,4 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudget
 
 public sealed record CreateBudgetPermissionCommand(
     IMessageContext MessageContext,
-    CreateBudgetPermissionRequest AddPermissionRequest) : ICommand;
+    CreateBudgetPermissionRequest CreateBudgetPermissionRequest) : ICommand;

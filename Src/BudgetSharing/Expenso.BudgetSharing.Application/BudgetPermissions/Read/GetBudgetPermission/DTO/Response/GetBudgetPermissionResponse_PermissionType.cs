@@ -1,6 +1,6 @@
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission.DTO.Response;
 
-public enum GetBudgetPermissionResponsePermissionType
+public enum GetBudgetPermissionResponse_PermissionType
 {
     Unknown = 0,
     Owner = 1,

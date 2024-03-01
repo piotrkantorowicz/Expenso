@@ -20,7 +20,7 @@ internal sealed class Delete : BudgetPermissionTestBase
         TestCandidate.Deletion?.IsDeleted.Should().BeTrue();
         TestCandidate.Deletion?.RemovalDate.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMilliseconds(500));
 
-        // Commented out because the test is not working as expected
+        // TODO: Commented out because the test is not working as expected
         // AssertDomainEventPublished(TestCandidate, new[]
         // {
         //     new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,

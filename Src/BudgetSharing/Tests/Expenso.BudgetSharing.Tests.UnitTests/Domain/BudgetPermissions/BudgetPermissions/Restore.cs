@@ -20,7 +20,7 @@ internal sealed class Restore : BudgetPermissionTestBase
         // Assert
         TestCandidate.Deletion?.Should().BeNull();
 
-        // Commented out because the test is not working as expected
+        // TODO: Commented out because the test is not working as expected
         // AssertDomainEventPublished(TestCandidate, new[]
         // {
         //     new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,

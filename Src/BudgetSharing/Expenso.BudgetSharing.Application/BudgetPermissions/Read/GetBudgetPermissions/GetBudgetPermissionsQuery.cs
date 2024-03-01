@@ -11,5 +11,5 @@ public sealed record GetBudgetPermissionsQuery(
     Guid? OwnerId = null,
     Guid? ParticipantId = null,
     bool? ForCurrentUser = null,
-    GetBudgetPermissionsRequestPermissionType? PermissionType = null)
+    GetBudgetPermissionsRequest_PermissionType? PermissionType = null)
     : IQuery<IReadOnlyCollection<GetBudgetPermissionsResponse>>;
