@@ -10,4 +10,10 @@
         <ProjectReference Include="..\Expenso.DocumentManagement.Proxy\Expenso.DocumentManagement.Proxy.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
 </Project>

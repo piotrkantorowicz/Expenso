@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
 </Project>

@@ -22,4 +22,9 @@
         <ProjectReference Include="..\..\Expenso.TimeManagement.Api\Expenso.TimeManagement.Api.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
 </Project>
