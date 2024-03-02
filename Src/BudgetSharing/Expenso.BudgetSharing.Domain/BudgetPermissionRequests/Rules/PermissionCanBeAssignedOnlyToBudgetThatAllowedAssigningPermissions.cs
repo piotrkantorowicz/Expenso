@@ -19,17 +19,17 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     private readonly IReadOnlyCollection<Permission> _currentPermissions =
         currentPermissions ?? throw new ArgumentNullException(nameof(currentPermissions));
 
-    private readonly GetPreferenceResponse_FinancePreference
-        _preferenceExternalPreferenceResponseFinancePreferenceExternal = preferenceResponseFinancePreference ??
-                                                                         throw new ArgumentNullException(
-                                                                             nameof(
-                                                                                 preferenceResponseFinancePreference));
-
     private readonly PersonId _ownerId = ownerId ?? throw new ArgumentNullException(nameof(ownerId));
 
     private readonly PermissionType _permissionTypeFromRequest = permissionTypeFromRequest ??
                                                                  throw new ArgumentNullException(
                                                                      nameof(permissionTypeFromRequest));
+
+    private readonly GetPreferenceResponse_FinancePreference
+        _preferenceExternalPreferenceResponseFinancePreferenceExternal = preferenceResponseFinancePreference ??
+                                                                         throw new ArgumentNullException(
+                                                                             nameof(
+                                                                                 preferenceResponseFinancePreference));
 
     public string Message => new StringBuilder()
         .Append("Permission of type ")

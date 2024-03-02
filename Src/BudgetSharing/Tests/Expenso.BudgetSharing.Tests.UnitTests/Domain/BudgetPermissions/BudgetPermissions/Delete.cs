@@ -1,3 +1,4 @@
+using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
 
 using FluentAssertions;
@@ -20,12 +21,11 @@ internal sealed class Delete : BudgetPermissionTestBase
         TestCandidate.Deletion?.IsDeleted.Should().BeTrue();
         TestCandidate.Deletion?.RemovalDate.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMilliseconds(500));
 
-        // TODO: Commented out because the test is not working as expected
-        // AssertDomainEventPublished(TestCandidate, new[]
-        // {
-        //     new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-        //         TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
-        // });
+        AssertDomainEventPublished(TestCandidate, new[]
+        {
+            new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
+                TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
+        });
     }
 
     [Test]
@@ -45,12 +45,11 @@ internal sealed class Delete : BudgetPermissionTestBase
             .Deletion?.RemovalDate.Should()
             .BeCloseTo(_clockMock.Object.UtcNow, TimeSpan.FromMilliseconds(500));
 
-        // Commented out because the test is not working as expected
-        // AssertDomainEventPublished(TestCandidate, new[]
-        // {
-        //     new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-        //         TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
-        // });
+        AssertDomainEventPublished(TestCandidate, new[]
+        {
+            new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
+                TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
+        });
     }
 
     [Test]

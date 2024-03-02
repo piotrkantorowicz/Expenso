@@ -1,5 +1,3 @@
-
-
 using Expenso.IAM.Proxy.DTO.GetUser;
 
 namespace Expenso.IAM.Proxy;

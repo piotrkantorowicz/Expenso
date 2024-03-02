@@ -20,8 +20,8 @@ internal sealed class AssignParticipantCommandHandler(IAssignParticipantDomainSe
                 int expirationDays)) = command;
 
         BudgetPermissionRequest budgetPermissionRequest = await _assignParticipantDomainService.AssignParticipantAsync(
-            budgetId, email,
-                AssignParticipantRequestMap.ToPermissionType(permissionTypeRequest), expirationDays, cancellationToken);
+            budgetId, email, AssignParticipantRequestMap.ToPermissionType(permissionTypeRequest), expirationDays,
+            cancellationToken);
 
         return new AssignParticipantResponse(budgetPermissionRequest.Id.Value);
     }

@@ -15,8 +15,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
             .ReturnsAsync(_getUserResponse);
 
         // Act
-        GetUserResponse? getUserResponse =
-            await TestCandidate.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>());
+        GetUserResponse? getUserResponse = await TestCandidate.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();

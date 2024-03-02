@@ -20,7 +20,7 @@ internal sealed class WebAppTestSetup
             scope.ServiceProvider.GetRequiredService<IMessageContextFactory>();
 
         await PreferencesDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
-        await BudgetPermissionRequestsDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
+        await BudgetPermissionDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
     }
 
     [OneTimeTearDown]

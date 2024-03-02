@@ -8,11 +8,11 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
 
 internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetPermissionRequest>
 {
+    protected const int Expiration = 3;
     protected readonly Mock<IClock> _clockMock = new();
     protected readonly BudgetId _defaultBudgetId = BudgetId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
-    protected readonly PersonId _defaultPersonId = PersonId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
     protected readonly PermissionType _defaultPermissionType = PermissionType.Reviewer;
-    protected const int Expiration = 3;
+    protected readonly PersonId _defaultPersonId = PersonId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
     [SetUp]
     public void SetUp()

@@ -31,7 +31,7 @@ internal sealed class BudgetSharingProxy(
     public async Task<IReadOnlyCollection<GetBudgetPermissionsResponse>?> GetBudgetPermissionsAsync(Guid budgetId,
         CancellationToken cancellationToken = default)
     {
-        GetBudgetPermissionsQuery query = new(_messageContextFactory.Current(), BudgetId: budgetId);
+        GetBudgetPermissionsQuery query = new(_messageContextFactory.Current(), budgetId);
 
         IReadOnlyCollection<GetBudgetPermissionsResponse>? getBudgetPermissionsResponse =
             await _queryDispatcher.QueryAsync(query, cancellationToken);

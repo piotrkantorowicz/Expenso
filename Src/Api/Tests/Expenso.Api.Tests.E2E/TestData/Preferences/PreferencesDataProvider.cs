@@ -9,7 +9,6 @@ using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 namespace Expenso.Api.Tests.E2E.TestData.Preferences;
 
 internal static class PreferencesDataProvider
-
 {
     public static readonly IList<Guid> UserIds =
     [

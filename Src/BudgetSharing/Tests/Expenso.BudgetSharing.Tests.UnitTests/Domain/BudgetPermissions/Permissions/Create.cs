@@ -8,6 +8,22 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.Permiss
 
 internal sealed class Create : PermissionTestBase
 {
+    public static object[] PermissionTypes =
+    {
+        new object[]
+        {
+            PermissionType.Owner
+        },
+        new object[]
+        {
+            PermissionType.SubOwner
+        },
+        new object[]
+        {
+            PermissionType.Reviewer
+        }
+    };
+
     [Test, TestCaseSource(nameof(PermissionTypes))]
     public void Should_ReturnPermission_When_Created(PermissionType permissionType)
     {
@@ -39,20 +55,4 @@ internal sealed class Create : PermissionTestBase
             .Throw<DomainRuleValidationException>()
             .WithMessage($"Unknown permission type {permissionType.Value} cannot be processed.");
     }
-
-    public static object[] PermissionTypes =
-    {
-        new object[]
-        {
-            PermissionType.Owner
-        },
-        new object[]
-        {
-            PermissionType.SubOwner
-        },
-        new object[]
-        {
-            PermissionType.Reviewer
-        }
-    };
 }

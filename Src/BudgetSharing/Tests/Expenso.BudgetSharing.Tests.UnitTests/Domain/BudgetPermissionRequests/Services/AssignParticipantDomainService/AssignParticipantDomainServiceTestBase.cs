@@ -12,15 +12,15 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
 
 internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<TestCandidate>
 {
-    protected Mock<IClock> _clockMock = null!;
     protected const int ExpirationDays = 3;
     protected readonly PermissionType _permissionType = PermissionType.SubOwner;
-    protected Mock<IIamProxy> _iamProxyMock = null!;
-    protected PersonId _participantId = null!;
-    private Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     protected BudgetId _budgetId = null!;
+    private Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
+    protected Mock<IClock> _clockMock = null!;
     protected string _email = null!;
     protected GetUserResponse _getUserResponse = null!;
+    protected Mock<IIamProxy> _iamProxyMock = null!;
+    protected PersonId _participantId = null!;
 
     [SetUp]
     public void SetUp()

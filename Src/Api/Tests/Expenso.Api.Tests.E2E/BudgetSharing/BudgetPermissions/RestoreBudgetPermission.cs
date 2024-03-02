@@ -1,17 +1,15 @@
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 
-namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
+namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 
-internal sealed class ConfirmAssigningParticipant : BudgetPermissionRequestTestBase
+internal sealed class RestoreBudgetPermission : BudgetPermissionTestBase
 {
     [Test]
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
         _httpClient.SetFakeBearerToken(_claims);
-
-        string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[1]}/confirm";
+        string requestPath = $"budget-sharing/budget-permissions/{BudgetPermissionDataProvider.BudgetPermissionIds[2]}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
@@ -24,8 +22,7 @@ internal sealed class ConfirmAssigningParticipant : BudgetPermissionRequestTestB
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[1]}/confirm";
+        string requestPath = $"budget-sharing/budget-permissions/{BudgetPermissionDataProvider.BudgetPermissionIds[2]}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);

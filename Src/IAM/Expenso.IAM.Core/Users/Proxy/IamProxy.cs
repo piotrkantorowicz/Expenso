@@ -15,19 +15,15 @@ internal sealed class IamProxy(IQueryDispatcher queryDispatcher, IMessageContext
     private readonly IQueryDispatcher _queryDispatcher =
         queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
 
-    public async Task<GetUserResponse?> GetUserByIdAsync(string userId,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
-        return
-            await _queryDispatcher.QueryAsync(new GetUserQuery(_messageContextFactory.Current(), userId),
-                cancellationToken);
+        return await _queryDispatcher.QueryAsync(new GetUserQuery(_messageContextFactory.Current(), userId),
+            cancellationToken);
     }
 
-    public async Task<GetUserResponse?> GetUserByEmailAsync(string email,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return 
-            await _queryDispatcher.QueryAsync(new GetUserQuery(_messageContextFactory.Current(), Email: email),
-                cancellationToken);
+        return await _queryDispatcher.QueryAsync(new GetUserQuery(_messageContextFactory.Current(), Email: email),
+            cancellationToken);
     }
 }

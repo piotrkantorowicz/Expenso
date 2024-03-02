@@ -1,3 +1,5 @@
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
+
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
 internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestBase
@@ -17,11 +19,10 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        // TODO: Fix this test
-        // GetBudgetPermissionRequestResponse? testResultContent =
-        //     await testResult.Content.ReadFromJsonAsync<GetBudgetPermissionRequestResponse>();
+        IEnumerable<GetBudgetPermissionRequestsResponse>? testResultContent =
+            await testResult.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionRequestsResponse>>();
 
-        // testResultContent?.Id.Should().Be(budgetPermissionRequestId);
+        testResultContent?.Should().NotBeNull();
     }
 
     [Test]

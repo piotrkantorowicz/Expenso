@@ -7,6 +7,6 @@ internal abstract class BudgetPermissionRequestStatusTestBase : DomainTestBase<T
 {
     [SetUp]
     public void SetUp()
-    {      
+    {
     }
 }

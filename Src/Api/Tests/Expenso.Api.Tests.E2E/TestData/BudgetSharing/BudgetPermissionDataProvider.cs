@@ -3,7 +3,10 @@ using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
 using Expenso.Shared.Commands.Dispatchers;
@@ -11,7 +14,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 
-internal static class BudgetPermissionRequestsDataProvider
+internal static class BudgetPermissionDataProvider
 {
     public static readonly List<Guid> BudgetPermissionRequestIds = [];
     public static readonly List<Guid> BudgetPermissionIds = [];
@@ -50,5 +53,14 @@ internal static class BudgetPermissionRequestsDataProvider
             BudgetPermissionIds.Add(createBudgetPermissionResponse!.BudgetPermissionId);
             BudgetPermissionRequestIds.Add(assignParticipantResponse!.BudgetPermissionRequestId);
         }
+
+        await commandDispatcher.SendAsync(
+            new AddPermissionCommand(messageContextFactory.Current(), BudgetPermissionIds[0],
+                PreferencesDataProvider.UserIds[3],
+                new AddPermissionRequest(AddPermissionRequest_PermissionType.Reviewer)), cancellationToken);
+
+        await commandDispatcher.SendAsync(
+            new DeleteBudgetPermissionCommand(messageContextFactory.Current(), BudgetPermissionIds[2]),
+            cancellationToken);
     }
 }

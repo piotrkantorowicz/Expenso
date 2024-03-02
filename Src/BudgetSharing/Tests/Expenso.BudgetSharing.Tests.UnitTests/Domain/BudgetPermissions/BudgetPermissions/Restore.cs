@@ -1,3 +1,4 @@
+using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
 
 using FluentAssertions;
@@ -20,12 +21,11 @@ internal sealed class Restore : BudgetPermissionTestBase
         // Assert
         TestCandidate.Deletion?.Should().BeNull();
 
-        // TODO: Commented out because the test is not working as expected
-        // AssertDomainEventPublished(TestCandidate, new[]
-        // {
-        //     new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-        //         TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
-        // });
+        AssertDomainEventPublished(TestCandidate, new[]
+        {
+            new BudgetPermissionRestoredEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
+                TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
+        });
     }
 
     [Test]

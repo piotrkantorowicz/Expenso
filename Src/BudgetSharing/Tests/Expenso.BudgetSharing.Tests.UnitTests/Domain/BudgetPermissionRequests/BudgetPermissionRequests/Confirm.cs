@@ -32,7 +32,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         // Arrange
         TestCandidate = CreateTestCandidate();
         TestCandidate.Confirm();
-        
+
         // Act
         DomainRuleValidationException? exception =
             Assert.Throws<DomainRuleValidationException>(() => TestCandidate.Confirm());

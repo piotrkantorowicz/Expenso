@@ -28,8 +28,9 @@ internal abstract class DomainTestBase<TTestCandidate> : TestBase<TTestCandidate
     protected static void AssertDomainEventPublished(IAggregateRoot aggregateRoot,
         IEnumerable<IDomainEvent> expectedDomainEvents)
     {
-        IReadOnlyCollection<IDomainEvent> existingDomainEvents = aggregateRoot.GetUncommittedChanges();
-        bool matchingDomainEvents = expectedDomainEvents.SequenceEqual(existingDomainEvents);
-        matchingDomainEvents.Should().BeTrue();
+        expectedDomainEvents
+            .Should()
+            .BeEquivalentTo(aggregateRoot.GetUncommittedChanges(),
+                options => options.IncludingNestedObjects().WithStrictOrdering().RespectingRuntimeTypes());
     }
 }

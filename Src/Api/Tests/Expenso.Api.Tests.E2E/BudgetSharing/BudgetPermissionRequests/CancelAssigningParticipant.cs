@@ -11,7 +11,7 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
         _httpClient.SetFakeBearerToken(_claims);
 
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionRequestsDataProvider.BudgetPermissionRequestIds[0]}/cancel";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[0]}/cancel";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
@@ -25,7 +25,7 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionRequestsDataProvider.BudgetPermissionRequestIds[0]}/cancel";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[0]}/cancel";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
