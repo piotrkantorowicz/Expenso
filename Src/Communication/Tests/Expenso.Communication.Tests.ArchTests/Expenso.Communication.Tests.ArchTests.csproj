@@ -16,19 +16,15 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
-        <PackageReference Include="NUnit" Version="3.13.3"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="4.2.1"/>
-        <PackageReference Include="NUnit.Analyzers" Version="4.0.1">
+        <PackageReference Include="coverlet.collector" Version="6.0.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="coverlet.collector" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
         <ProjectReference Include="..\..\Expenso.Communication.Api\Expenso.Communication.Api.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Communication.Core\Expenso.Communication.Core.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Communication.Proxy\Expenso.Communication.Proxy.csproj"/>
         <ProjectReference Include="..\Expenso.Communication.Tests.UnitTests\Expenso.Communication.Tests.UnitTests.csproj"/>
     </ItemGroup>
 
