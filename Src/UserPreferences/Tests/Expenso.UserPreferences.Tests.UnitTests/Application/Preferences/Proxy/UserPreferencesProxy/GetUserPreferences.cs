@@ -1,5 +1,5 @@
-using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.External;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
@@ -11,9 +11,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getPreferenceResponse);
+                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
+                    It.IsAny<bool>()), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_getPreferenceExternalResponse);
 
         // Act
         GetPreferenceResponse? preference = await TestCandidate.GetUserPreferencesAsync(_userId, It.IsAny<bool>(),
@@ -21,11 +21,12 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
 
         // Assert
         preference.Should().NotBeNull();
-        preference.Should().BeEquivalentTo(_getPreferenceResponse);
+        preference.Should().BeEquivalentTo(_getPreferenceExternalResponse);
 
-        _queryDispatcherMock.Verify(x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()), Times.Once);
+        _queryDispatcherMock.Verify(
+            x => x.QueryAsync(
+                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
+                    It.IsAny<bool>()), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -34,8 +35,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()))
+                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
+                    It.IsAny<bool>()), It.IsAny<CancellationToken>()))
             .ReturnsAsync((GetPreferenceResponse?)null);
 
         // Act
@@ -45,8 +46,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Assert
         preference.Should().BeNull();
 
-        _queryDispatcherMock.Verify(x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, _userId, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()), Times.Once);
+        _queryDispatcherMock.Verify(
+            x => x.QueryAsync(
+                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
+                    It.IsAny<bool>()), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

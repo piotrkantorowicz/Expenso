@@ -16,6 +16,7 @@ appBuilder
     .UseHttpsRedirection()
     .UseRequestsCorrelation()
     .UseErrorHandler()
+    .UseResolvers()
     .UseSwagger()
     .MigrateDatabase()
     .Run();

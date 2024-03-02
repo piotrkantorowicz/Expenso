@@ -1,5 +1,7 @@
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
 
+using Moq;
+
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 
 internal sealed class SendAsync : CommandDispatcherTestBase
@@ -13,6 +15,6 @@ internal sealed class SendAsync : CommandDispatcherTestBase
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => TestCandidate.SendAsync(testCommand));
+        Assert.DoesNotThrowAsync(() => TestCandidate.SendAsync(testCommand, It.IsAny<CancellationToken>()));
     }
 }

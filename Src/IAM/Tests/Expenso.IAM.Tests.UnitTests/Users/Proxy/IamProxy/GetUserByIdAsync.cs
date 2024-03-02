@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
+﻿using Expenso.IAM.Core.Users.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -14,14 +12,14 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getUserInternalResponse);
+            .ReturnsAsync(_getUserResponse);
 
         // Act
-        GetUserInternalResponse? getUserInternal = await TestCandidate.GetUserByIdAsync(_userId);
+        GetUserResponse? getUserResponse = await TestCandidate.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>());
 
         // Assert
-        getUserInternal.Should().NotBeNull();
-        getUserInternal.Should().BeEquivalentTo(_getUserInternalResponse);
+        getUserResponse.Should().NotBeNull();
+        getUserResponse.Should().BeEquivalentTo(_getUserResponse);
 
         _queryDispatcherMock.Verify(
             x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()),
@@ -40,12 +38,10 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByIdAsync(userId));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() =>
+            TestCandidate.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage =
-            new StringBuilder().Append("User with id ").Append(userId).Append(" not found.").ToString();
-
+        string expectedExceptionMessage = $"User with id {userId} not found.";
         exception?.Message.Should().Be(expectedExceptionMessage);
     }
 }

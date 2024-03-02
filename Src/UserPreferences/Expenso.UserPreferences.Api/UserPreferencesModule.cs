@@ -5,14 +5,14 @@ using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core;
-using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal;
-using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Request;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Internal.DTO.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Proxy;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -100,14 +100,14 @@ public sealed class UserPreferencesModule : ModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CreatePreferenceRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                CreatePreferenceResponse? getPreference = await handler.HandleAsync(
+                CreatePreferenceResponse? createPreferenceResponse = await handler.HandleAsync(
                     new CreatePreferenceCommand(messageContextFactory.Current(),
                         new CreatePreferenceRequest(model.UserId)), cancellationToken);
 
                 return Results.CreatedAtRoute(getPreferencesEndpointRegistration.Name, new
                 {
-                    id = getPreference?.Id
-                }, getPreference?.Id);
+                    id = createPreferenceResponse?.PreferenceId
+                }, createPreferenceResponse);
             });
 
         EndpointRegistration updatePreferencesEndpointRegistration = new("preferences/{id}", "UpdatePreferences",

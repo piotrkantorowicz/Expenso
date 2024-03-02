@@ -22,12 +22,12 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
         return Entry(entity).State;
     }
 
-    public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task BeginTransactionAsync(CancellationToken cancellationToken)
     {
         _currentTransaction = await Database.BeginTransactionAsync(cancellationToken);
     }
 
-    public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task RollbackTransactionAsync(CancellationToken cancellationToken)
     {
         if (_currentTransaction is null)
         {
@@ -38,7 +38,7 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
         DisposeTransaction();
     }
 
-    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task CommitTransactionAsync(CancellationToken cancellationToken)
     {
         if (_currentTransaction is null)
         {
@@ -56,7 +56,7 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
             .SelectMany(x => x.Entity.GetUncommittedChanges())
             .ToList();
 
-        return domainEvents;
+        return domainEvents.AsReadOnly();
     }
 
     public async Task MigrateAsync()
@@ -72,7 +72,7 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
 
     private void DisposeTransaction()
     {
-        _currentTransaction?.Dispose();
+        // _currentTransaction?.Dispose();
         _currentTransaction = null!;
     }
 }

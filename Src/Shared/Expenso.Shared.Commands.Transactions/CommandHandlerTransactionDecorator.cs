@@ -10,7 +10,7 @@ internal class CommandHandlerTransactionDecorator<TCommand>(IUnitOfWork unitOfWo
 
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-    public async Task HandleAsync(TCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         try
         {
@@ -37,7 +37,7 @@ internal class CommandHandlerTransactionDecorator<TCommand, TResult>(
 
     private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
+    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         try
         {

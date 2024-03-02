@@ -1,6 +1,4 @@
-using System.Text;
-
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
@@ -19,14 +17,7 @@ internal sealed class BudgetCanHasOnlyOwnerPermissionForItsOwner(
         permissionType ?? throw new ArgumentNullException(nameof(permissionType));
 
     public string Message =>
-        new StringBuilder()
-            .Append("Budget ")
-            .Append(_budgetId)
-            .Append(" cannot have owner permission for other user ")
-            .Append(_participantId)
-            .Append(" that its owner ")
-            .Append(_ownerId)
-            .ToString();
+        $"Budget {_budgetId} cannot have owner permission for other user {_participantId} that its owner {_ownerId}.";
 
     public bool IsBroken()
     {

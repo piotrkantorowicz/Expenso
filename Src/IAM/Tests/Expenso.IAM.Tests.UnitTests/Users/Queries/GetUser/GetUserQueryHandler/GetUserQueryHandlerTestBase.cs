@@ -1,5 +1,5 @@
-using Expenso.IAM.Core.Users.DTO.GetUser;
 using Expenso.IAM.Core.Users.Services;
+using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using TestCandidate = Expenso.IAM.Core.Users.Queries.GetUser.GetUserQueryHandler;

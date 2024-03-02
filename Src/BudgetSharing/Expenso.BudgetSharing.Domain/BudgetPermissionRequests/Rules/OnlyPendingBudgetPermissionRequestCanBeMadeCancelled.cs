@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -15,11 +13,7 @@ internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(
     private readonly BudgetPermissionRequestStatus _status = status ?? throw new ArgumentNullException(nameof(status));
 
     public string Message =>
-        new StringBuilder()
-            .Append("Only pending budget permission request - ")
-            .Append(_budgetPermissionRequestId)
-            .Append(" can be made cancelled")
-            .ToString();
+        $"Only pending budget permission request {_budgetPermissionRequestId} can be made cancelled.";
 
     public bool IsBroken()
     {

@@ -78,7 +78,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdateFinancePreferenceRequest(true, 5, true, -1)
+                FinancePreference = new UpdatePreferenceRequest_FinancePreference(true, 5, true, -1)
             }
         });
 
@@ -101,7 +101,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdateFinancePreferenceRequest(true, 5, true, 11)
+                FinancePreference = new UpdatePreferenceRequest_FinancePreference(true, 5, true, 11)
             }
         });
 
@@ -124,7 +124,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdateFinancePreferenceRequest(true, -1, true, 5)
+                FinancePreference = new UpdatePreferenceRequest_FinancePreference(true, -1, true, 5)
             }
         });
 
@@ -147,7 +147,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdateFinancePreferenceRequest(true, 6, true, 5)
+                FinancePreference = new UpdatePreferenceRequest_FinancePreference(true, 6, true, 5)
             }
         });
 
@@ -190,7 +190,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                NotificationPreference = new UpdateNotificationPreferenceRequest(true, -1)
+                NotificationPreference = new UpdatePreferenceRequest_NotificationPreference(true, -1)
             }
         });
 
@@ -213,7 +213,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                NotificationPreference = new UpdateNotificationPreferenceRequest(true, 32)
+                NotificationPreference = new UpdatePreferenceRequest_NotificationPreference(true, 32)
             }
         });
 

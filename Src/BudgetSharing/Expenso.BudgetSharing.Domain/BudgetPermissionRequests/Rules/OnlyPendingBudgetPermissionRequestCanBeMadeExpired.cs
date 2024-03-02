@@ -1,11 +1,9 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
-public class OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
+internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
     BudgetPermissionRequestId budgetPermissionRequestId,
     BudgetPermissionRequestStatus status) : IBusinessRule
 {
@@ -14,11 +12,8 @@ public class OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
 
     private readonly BudgetPermissionRequestStatus _status = status ?? throw new ArgumentNullException(nameof(status));
 
-    public string Message => new StringBuilder()
-        .Append("Only pending budget permission request - ")
-        .Append(_budgetPermissionRequestId)
-        .Append(" can be made expired")
-        .ToString();
+    public string Message =>
+        $"Only pending budget permission request {_budgetPermissionRequestId} can be made expired.";
 
     public bool IsBroken()
     {

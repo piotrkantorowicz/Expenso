@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -10,11 +8,7 @@ internal sealed class UnknownBudgetPermissionRequestStatusCannotBeProcessed(Budg
 {
     private readonly BudgetPermissionRequestStatus _status = status ?? throw new ArgumentNullException(nameof(status));
 
-    public string Message => new StringBuilder()
-        .Append("Unknown budget permission request status - ")
-        .Append(_status)
-        .Append(" cannot be processed")
-        .ToString();
+    public string Message => $"Unknown budget permission request status {_status} cannot be processed.";
 
     public bool IsBroken()
     {

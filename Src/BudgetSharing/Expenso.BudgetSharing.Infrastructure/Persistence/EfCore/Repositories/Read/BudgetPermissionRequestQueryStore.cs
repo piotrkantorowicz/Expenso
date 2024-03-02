@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Application.Read.Shared.QueryStore;
-using Expenso.BudgetSharing.Application.Read.Shared.QueryStore.Filters;
+using Expenso.BudgetSharing.Application.Shared.QueryStore;
+using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Extensions;
 using Expenso.Shared.Database.EfCore.Extensions;
@@ -19,7 +19,7 @@ internal sealed class BudgetPermissionRequestQueryStore : IBudgetPermissionReque
     }
 
     public async Task<BudgetPermissionRequest?> SingleAsync(BudgetPermissionRequestFilter filter,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         return await _budgetPermissionRequestsQueryable
             .Where(filter.ToFilterExpression())
@@ -27,7 +27,7 @@ internal sealed class BudgetPermissionRequestQueryStore : IBudgetPermissionReque
     }
 
     public async Task<IReadOnlyCollection<BudgetPermissionRequest>> Browse(BudgetPermissionRequestFilter filter,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         return await _budgetPermissionRequestsQueryable
             .Where(filter.ToFilterExpression())

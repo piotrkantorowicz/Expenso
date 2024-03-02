@@ -4,6 +4,6 @@ namespace Expenso.Shared.Integration.MessageBroker;
 
 public interface IMessageBroker
 {
-    Task PublishAsync<TIntegrationEvent>(TIntegrationEvent @event, CancellationToken cancellationToken = default)
+    Task PublishAsync<TIntegrationEvent>(TIntegrationEvent @event, CancellationToken cancellationToken)
         where TIntegrationEvent : IIntegrationEvent;
 }

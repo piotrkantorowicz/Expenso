@@ -10,7 +10,7 @@ internal sealed class TestDomainEventHandler(ILogger<TestDomainEventHandler> log
     private readonly ILogger<TestDomainEventHandler>
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-    public async Task HandleAsync(TestDomainEvent @event, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TestDomainEvent @event, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Successfully handled @event with id: {EventId} and name: {EventName}", @event.Id,
             @event.Name);

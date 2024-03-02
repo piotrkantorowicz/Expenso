@@ -1,15 +1,44 @@
 ### GetBudgetPermission
-GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731?
-    IncludePermissions=true
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetBudgetPermissions
-GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions?IncludePermissions=true
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
+### CreateBudgetPermission
+POST {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+{
+  "BudgetPermissionId": "57d3e8f7-2ff0-48e4-9684-93e893f10731",
+  "BudgetId": "fab3cf10-e0da-4bcb-b41c-dfbba1382215",
+  "OwnerId": "4c7a9020-398f-4d42-8cb4-cac1477a49ac"
+}
+
+### RestoreBudgetPermission
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### DeleteBudgetPermission
+DELETE {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### AddPermission
+POST {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731/participants/607c8c93-de84-445a-967d-3596fa618b0f
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+{
+  "PermissionType": 3
+}
+
 ### RemovePermission
-DELETE {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/fab3cf10-e0da-4bcb-b41c-dfbba1382215/permissions/607c8c93-de84-445a-967d-3596fa618b0f
+DELETE {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permissions/57d3e8f7-2ff0-48e4-9684-93e893f10731/participants/607c8c93-de84-445a-967d-3596fa618b0f
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}

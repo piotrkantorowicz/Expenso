@@ -1,13 +1,11 @@
-using System.Text;
-
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.FinancePreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.GeneralPreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.NotificationPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinancePreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
+using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;
@@ -19,8 +17,9 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(), _userId,
-            new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
-                new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(true)));
+            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(false, 0, true, 2),
+                new UpdatePreferenceRequest_NotificationPreference(true, 5),
+                new UpdatePreferenceRequest_GeneralPreference(true)));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
@@ -30,7 +29,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         _preferenceRepositoryMock.Setup(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()));
 
         // Act
-        await TestCandidate.HandleAsync(command);
+        await TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>());
 
         // Assert
         _preferenceRepositoryMock.Verify(
@@ -57,8 +56,9 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(), _userId,
-            new UpdatePreferenceRequest(new UpdateFinancePreferenceRequest(false, 0, true, 2),
-                new UpdateNotificationPreferenceRequest(true, 5), new UpdateGeneralPreferenceRequest(true)));
+            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(false, 0, true, 2),
+                new UpdatePreferenceRequest_NotificationPreference(true, 5),
+                new UpdatePreferenceRequest_GeneralPreference(true)));
 
         _preferenceRepositoryMock
             .Setup(x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
@@ -67,15 +67,12 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(() => TestCandidate.HandleAsync(command));
+        ConflictException? exception =
+            Assert.ThrowsAsync<ConflictException>(() =>
+                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = new StringBuilder()
-            .Append("User preferences for user with id ")
-            .Append(command.PreferenceOrUserId)
-            .Append(" or with own id: ")
-            .Append(command.PreferenceOrUserId)
-            .Append(" haven't been found")
-            .ToString();
+        string expectedExceptionMessage =
+            $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.";
 
         exception?.Message.Should().Be(expectedExceptionMessage);
 

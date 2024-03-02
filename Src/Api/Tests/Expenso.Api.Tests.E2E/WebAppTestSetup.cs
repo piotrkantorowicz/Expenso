@@ -1,5 +1,7 @@
-using Expenso.Api.Tests.E2E.TestData;
-using Expenso.UserPreferences.Proxy;
+using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
+using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Shared.Commands.Dispatchers;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,8 +14,13 @@ internal sealed class WebAppTestSetup
     public async Task OneTimeSetup()
     {
         using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
-        IUserPreferencesProxy preferencesProxy = scope.ServiceProvider.GetRequiredService<IUserPreferencesProxy>();
-        await PreferencesDataProvider.Initialize(preferencesProxy, default);
+        ICommandDispatcher commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
+
+        IMessageContextFactory messageContextFactory =
+            scope.ServiceProvider.GetRequiredService<IMessageContextFactory>();
+
+        await PreferencesDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
+        await BudgetPermissionDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
     }
 
     [OneTimeTearDown]

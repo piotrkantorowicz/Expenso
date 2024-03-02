@@ -5,32 +5,31 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 
 internal static class UpdatePreferenceRequestMap
 {
-    public static FinancePreference MapFrom(UpdateFinancePreferenceRequest updateFinancePreference)
+    public static FinancePreference MapFrom(UpdatePreferenceRequest_FinancePreference financePreference)
     {
         return new FinancePreference
         {
-            AllowAddFinancePlanReviewers = updateFinancePreference.AllowAddFinancePlanReviewers,
-            MaxNumberOfFinancePlanReviewers = updateFinancePreference.MaxNumberOfFinancePlanReviewers,
-            AllowAddFinancePlanSubOwners = updateFinancePreference.AllowAddFinancePlanSubOwners,
-            MaxNumberOfSubFinancePlanSubOwners = updateFinancePreference.MaxNumberOfSubFinancePlanSubOwners
+            AllowAddFinancePlanReviewers = financePreference.AllowAddFinancePlanReviewers,
+            MaxNumberOfFinancePlanReviewers = financePreference.MaxNumberOfFinancePlanReviewers,
+            AllowAddFinancePlanSubOwners = financePreference.AllowAddFinancePlanSubOwners,
+            MaxNumberOfSubFinancePlanSubOwners = financePreference.MaxNumberOfSubFinancePlanSubOwners
         };
     }
 
-    public static GeneralPreference MapFrom(UpdateGeneralPreferenceRequest updateGeneralPreferenceRequest)
+    public static GeneralPreference MapFrom(UpdatePreferenceRequest_GeneralPreference generalGeneralPreference)
     {
         return new GeneralPreference
         {
-            UseDarkMode = updateGeneralPreferenceRequest.UseDarkMode
+            UseDarkMode = generalGeneralPreference.UseDarkMode
         };
     }
 
-    public static NotificationPreference MapFrom(
-        UpdateNotificationPreferenceRequest updateNotificationPreferenceRequest)
+    public static NotificationPreference MapFrom(UpdatePreferenceRequest_NotificationPreference updatePreferenceRequest)
     {
         return new NotificationPreference
         {
-            SendFinanceReportEnabled = updateNotificationPreferenceRequest.SendFinanceReportEnabled,
-            SendFinanceReportInterval = updateNotificationPreferenceRequest.SendFinanceReportInterval
+            SendFinanceReportEnabled = updatePreferenceRequest.SendFinanceReportEnabled,
+            SendFinanceReportInterval = updatePreferenceRequest.SendFinanceReportInterval
         };
     }
 }

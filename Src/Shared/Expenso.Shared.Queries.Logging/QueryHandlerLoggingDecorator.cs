@@ -20,7 +20,7 @@ internal sealed class QueryHandlerLoggingDecorator<TQuery, TResult>(
 
     private readonly ISerializer _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
-    public async Task<TResult?> HandleAsync(TQuery query, CancellationToken cancellationToken = default)
+    public async Task<TResult?> HandleAsync(TQuery query, CancellationToken cancellationToken)
     {
         EventId executing = LoggingUtils.QueryExecuting;
         EventId executed = LoggingUtils.QueryExecuted;

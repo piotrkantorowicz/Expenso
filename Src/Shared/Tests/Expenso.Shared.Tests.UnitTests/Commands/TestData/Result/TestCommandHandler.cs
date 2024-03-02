@@ -1,18 +1,12 @@
-using System.Text;
-
 using Expenso.Shared.Commands;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
 internal sealed class TestCommandHandler : ICommandHandler<TestCommand, TestCommandResult>
 {
-    public async Task<TestCommandResult?> HandleAsync(TestCommand command,
-        CancellationToken cancellationToken = default)
+    public async Task<TestCommandResult?> HandleAsync(TestCommand command, CancellationToken cancellationToken)
     {
-        string message = new StringBuilder()
-            .Append("Successfully processed command with id: ")
-            .Append(command.Id)
-            .ToString();
+        string message = $"Successfully processed command with id: {command.Id}";
 
         return await Task.FromResult(new TestCommandResult(message));
     }

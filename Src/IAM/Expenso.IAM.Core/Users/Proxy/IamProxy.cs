@@ -1,4 +1,4 @@
-using Expenso.IAM.Core.Users.Internal.Queries.GetUser;
+using Expenso.IAM.Core.Users.Queries.GetUser;
 using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Queries.Dispatchers;
@@ -15,15 +15,13 @@ internal sealed class IamProxy(IQueryDispatcher queryDispatcher, IMessageContext
     private readonly IQueryDispatcher _queryDispatcher =
         queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
 
-    public async Task<GetUserInternalResponse?> GetUserByIdAsync(string userId,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(new GetUserQuery(_messageContextFactory.Current(), userId),
             cancellationToken);
     }
 
-    public async Task<GetUserInternalResponse?> GetUserByEmailAsync(string email,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(new GetUserQuery(_messageContextFactory.Current(), Email: email),
             cancellationToken);

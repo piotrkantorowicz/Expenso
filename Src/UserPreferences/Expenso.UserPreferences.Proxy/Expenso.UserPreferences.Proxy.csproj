@@ -16,4 +16,10 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="DTO\API\CreatePreference\"/>
+        <Folder Include="DTO\API\GetPreference\"/>
+        <Folder Include="DTO\MessageBus\UpdatePreference\"/>
+    </ItemGroup>
+
 </Project>

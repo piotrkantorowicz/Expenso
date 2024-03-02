@@ -38,7 +38,10 @@ internal sealed class BackgroundMessageProcessor(
 
                 foreach (object? handler in handlers)
                 {
-                    MethodInfo? handleAsyncMethod = handler?.GetType().GetMethod("HandleAsync");
+                    MethodInfo? handleAsyncMethod = handler
+                        ?.GetType()
+                        .GetMethod(nameof(IIntegrationEventHandler<IIntegrationEvent>.HandleAsync));
+
                     handlerTasks.Add(HandlerFunc);
 
                     continue;

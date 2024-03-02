@@ -1,10 +1,11 @@
 ### GetBudgetPermissionRequest
-GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/607c8c93-de84-445a-967d-3596fa618b0f
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetBudgetPermissionRequests
-GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests?status=1&
+    budgetId=fab3cf10-e0da-4bcb-b41c-dfbba1382215
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
@@ -14,18 +15,23 @@ Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 {
-  "BudgetPermissionId": "607c8c93-de84-445a-967d-3596fa618b0f",
-  "ParticipantId": "607c8c93-de84-445a-967d-3596fa618b0f",
-  "AssignParticipantRequestPermissionType": 2,
+  "BudgetId": "fab3cf10-e0da-4bcb-b41c-dfbba1382215",
+  "ParticipantId": "4c7a9020-398f-4d42-8cb4-cac1477a49ac",
+  "PermissionType": 2,
   "ExpirationDays": 3
 }
 
 ### ConfirmAssigningParticipant
-PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/607c8c93-de84-445a-967d-3596fa618b0f/confirm
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06/confirm
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+### ExpireAssigningParticipant
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06/expire
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### CancelAssigningParticipant
-PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/607c8c93-de84-445a-967d-3596fa618b0f/cancel
+PATCH {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests/118c69a3-379b-45d0-ba83-9e5610083c06/cancel
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}

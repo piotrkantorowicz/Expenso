@@ -11,31 +11,48 @@ internal sealed class DomainEventBroker(IServiceProvider serviceProvider) : IDom
     private readonly IServiceProvider _serviceProvider =
         serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
-    public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
+    public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken)
         where TEvent : class, IDomainEvent
     {
         using IServiceScope scope = _serviceProvider.CreateScope();
-        IDomainEventHandler<TEvent> handler = scope.ServiceProvider.GetRequiredService<IDomainEventHandler<TEvent>>();
-        await handler.HandleAsync(@event, cancellationToken);
+
+        // Simulates a delay to avoid handling these event as part of the same transaction as incoming command handling.
+        // It will be solved in future using a outbox pattern.
+        await Task.Delay(1500, cancellationToken);
+        await PublishInternal(@event, scope, cancellationToken);
     }
 
-    public async Task PublishMultipleAsync(IEnumerable<IDomainEvent> events,
-        CancellationToken cancellationToken = default)
+    public async Task PublishMultipleAsync(IEnumerable<IDomainEvent> events, CancellationToken cancellationToken)
     {
         using IServiceScope scope = _serviceProvider.CreateScope();
 
+        // Simulates a delay to avoid handling these event as part of the same transaction as incoming command handling.
+        // It will be solved in future using a outbox pattern.
+        await Task.Delay(1500, cancellationToken);
+
         foreach (IDomainEvent @event in events)
         {
-            Type handlerType = typeof(IDomainEventHandler<>).MakeGenericType(@event.GetType());
-            object handler = scope.ServiceProvider.GetRequiredService(handlerType);
-            MethodInfo? handleAsyncMethod = handler.GetType().GetMethod("HandleAsync");
+            await PublishInternal(@event, scope, cancellationToken);
+        }
+    }
 
-            handleAsyncMethod?.Invoke(handler, [
-                @event,
-                cancellationToken
-            ]);
+    private static async Task PublishInternal(IDomainEvent @event, IServiceScope scope,
+        CancellationToken cancellationToken)
+    {
+        Type? handlerType = typeof(IDomainEventHandler<>).MakeGenericType(@event.GetType());
+        IEnumerable<object?>? handlers = scope.ServiceProvider.GetServices(handlerType);
+        MethodInfo? method = handlerType.GetMethod(nameof(IDomainEventHandler<IDomainEvent>.HandleAsync));
+
+        if (method is null)
+        {
+            throw new InvalidOperationException($"Event handler for '{@event.GetType().Name}' is invalid.");
         }
 
-        await Task.CompletedTask;
+        IEnumerable<Task>? tasks = handlers.Select(x => (Task)method.Invoke(x, [
+            @event,
+            cancellationToken
+        ])!);
+
+        await Task.WhenAll(tasks);
     }
 }

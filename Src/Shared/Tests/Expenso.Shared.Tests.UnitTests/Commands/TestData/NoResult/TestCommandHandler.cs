@@ -8,7 +8,7 @@ internal sealed class TestCommandHandler(ILogger<TestCommandHandler> logger) : I
 {
     private readonly ILogger<TestCommandHandler> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-    public async Task HandleAsync(TestCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TestCommand command, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Successfully processed command with id: {CommandId}", command.Id);
         await Task.CompletedTask;

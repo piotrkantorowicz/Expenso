@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 
@@ -22,11 +20,8 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
 
         if (string.IsNullOrEmpty(startupProjectPath) || !Path.Exists(startupProjectPath))
         {
-            string errorMessage = new StringBuilder()
-                .Append(
-                    "Startup project path parameter must be provided and must exists on current machine. Actual value: ")
-                .Append(startupProjectPath)
-                .ToString();
+            string errorMessage =
+                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {startupProjectPath}";
 
             throw new ArgumentException(errorMessage);
         }

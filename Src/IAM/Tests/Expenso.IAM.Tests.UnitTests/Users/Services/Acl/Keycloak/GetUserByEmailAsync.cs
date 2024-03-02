@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.IAM.Core.Users.DTO.GetUser;
+﻿using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -48,9 +46,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
         NotFoundException? exception =
             Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByEmailAsync(email));
 
-        string expectedExceptionMessage =
-            new StringBuilder().Append("User with email ").Append(email).Append(" not found.").ToString();
-
+        const string expectedExceptionMessage = $"User with email {email} not found.";
         exception?.Message.Should().Be(expectedExceptionMessage);
 
         _keycloakUserClientMock.Verify(

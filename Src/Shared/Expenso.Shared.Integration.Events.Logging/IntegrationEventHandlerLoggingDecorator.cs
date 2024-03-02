@@ -20,7 +20,7 @@ internal sealed class IntegrationEventHandlerLoggingDecorator<TEvent>(
 
     private readonly ISerializer _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
 
-    public async Task HandleAsync(TEvent @event, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
     {
         EventId executing = LoggingUtils.IntegrationEventExecuting;
         EventId executed = LoggingUtils.IntegrationEventExecuted;

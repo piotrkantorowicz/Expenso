@@ -1,7 +1,5 @@
-using System.Text;
-
-using Expenso.Api.Tests.E2E.TestData;
-using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.Internal.DTO.Response;
+using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
@@ -13,10 +11,10 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
         _httpClient.SetFakeBearerToken(_claims);
-        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
+        string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(request);
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -29,10 +27,10 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
-        string request = new StringBuilder().Append("user-preferences/preferences/").Append(preferenceId).ToString();
+        string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(request);
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
 
         // Assert
         testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

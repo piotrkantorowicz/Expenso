@@ -1,6 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +12,7 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
 {
     public void Configure(EntityTypeBuilder<BudgetPermissionRequest> builder)
     {
+        builder.ToTable("BudgetPermissionRequests");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionRequestId.New(x)).IsRequired();
         builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.New(x)).IsRequired();
@@ -19,7 +20,7 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
         builder
             .Property(x => x.ExpirationDate)
             .HasConversion(x => x == null ? (DateTimeOffset?)null : x.Value,
-                x => x.HasValue ? DateAndTime.Create(x.Value) : null)
+                x => x.HasValue ? DateAndTime.New(x.Value) : null)
             .IsRequired(false);
 
         builder.Property(x => x.ParticipantId).HasConversion(x => x.Value, x => PersonId.New(x)).IsRequired();

@@ -1,11 +1,9 @@
-using System.Text;
-
-using Expenso.BudgetSharing.Domain.Shared.Model.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-public class BudgetMustContainsPermissionForProvidedUser(
+internal sealed class BudgetMustContainsPermissionForProvidedUser(
     BudgetId budgetId,
     PersonId participantId,
     Permission? permission) : IBusinessRule
@@ -14,12 +12,7 @@ public class BudgetMustContainsPermissionForProvidedUser(
     private readonly PersonId _participantId = participantId ?? throw new ArgumentNullException(nameof(participantId));
 
     public string Message =>
-        new StringBuilder()
-            .Append("Budget with id: ")
-            .Append(_budgetId)
-            .Append(" does not have permission for provided user with id: ")
-            .Append(_participantId)
-            .ToString();
+        $"Budget with id: {_budgetId} does not have permission for provided user with id: {_participantId}";
 
     public bool IsBroken()
     {

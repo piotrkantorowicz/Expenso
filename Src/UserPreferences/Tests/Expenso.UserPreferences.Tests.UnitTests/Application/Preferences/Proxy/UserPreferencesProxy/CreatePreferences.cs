@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.External;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 

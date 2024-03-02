@@ -22,6 +22,6 @@ internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => TestCandidate.PublishMultipleAsync(domainEvents));
+        Assert.DoesNotThrowAsync(() => TestCandidate.PublishMultipleAsync(domainEvents, default));
     }
 }

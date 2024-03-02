@@ -15,6 +15,6 @@ internal sealed class PublishAsync : DomainEventBrokerTestBase
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => TestCandidate.PublishAsync(testDomainEvent));
+        Assert.DoesNotThrowAsync(() => TestCandidate.PublishAsync(testDomainEvent, default));
     }
 }

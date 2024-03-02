@@ -1,5 +1,7 @@
 using Expenso.Shared.Tests.UnitTests.Queries.TestData;
 
+using Moq;
+
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryDispatcher;
 
 internal sealed class QueryAsync : QueryDispatcherTestBase
@@ -11,7 +13,7 @@ internal sealed class QueryAsync : QueryDispatcherTestBase
         TestQuery testQuery = new(MessageContextFactoryMock.Object.Current(), Guid.NewGuid());
 
         // Act
-        TestResponse? queryResult = await TestCandidate.QueryAsync(testQuery);
+        TestResponse? queryResult = await TestCandidate.QueryAsync(testQuery, It.IsAny<CancellationToken>());
 
         // Assert
         queryResult?.Should().NotBeNull();

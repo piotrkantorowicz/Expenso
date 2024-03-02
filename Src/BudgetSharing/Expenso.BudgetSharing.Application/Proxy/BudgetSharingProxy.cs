@@ -1,9 +1,12 @@
-using Expenso.BudgetSharing.Application.Proxy.Read.GetBudgetPermissions;
-using Expenso.BudgetSharing.Application.Proxy.Write.AssignOwnerPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Request.Maps;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RestoreBudgetPermission;
 using Expenso.BudgetSharing.Proxy;
-using Expenso.BudgetSharing.Proxy.DTO.API.AssignOwnerPermission.Requests;
-using Expenso.BudgetSharing.Proxy.DTO.API.AssignOwnerPermission.Responses;
-using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Responses;
+using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
@@ -28,21 +31,38 @@ internal sealed class BudgetSharingProxy(
     public async Task<IReadOnlyCollection<GetBudgetPermissionsResponse>?> GetBudgetPermissionsAsync(Guid budgetId,
         CancellationToken cancellationToken = default)
     {
-        GetBudgetPermissionsQuery query = new(_messageContextFactory.Current(), BudgetId: budgetId);
+        GetBudgetPermissionsQuery query = new(_messageContextFactory.Current(), budgetId);
 
-        IReadOnlyCollection<GetBudgetPermissionsResponse>? budgetPermissions =
+        IReadOnlyCollection<GetBudgetPermissionsResponse>? getBudgetPermissionsResponse =
             await _queryDispatcher.QueryAsync(query, cancellationToken);
 
-        return budgetPermissions;
+        return GetBudgetPermissionsExternalResponseMap.MapTo(getBudgetPermissionsResponse);
     }
 
-    public async Task<AssignOwnerPermissionResponse?> AssignOwnerPermission(Guid budgetPermissionId, Guid budgetId,
+    public async Task<CreateBudgetPermissionResponse?> CreateBudgetPermission(Guid? budgetPermissionId, Guid budgetId,
         Guid ownerId, CancellationToken cancellationToken = default)
     {
-        AssignOwnerPermissionCommand command = new(_messageContextFactory.Current(), budgetPermissionId,
-            new AssignOwnerPermissionRequest(budgetId, ownerId));
+        CreateBudgetPermissionCommand command = new(_messageContextFactory.Current(),
+            new CreateBudgetPermissionRequest(budgetPermissionId, budgetId, ownerId));
 
-        return await _commandDispatcher.SendAsync<AssignOwnerPermissionCommand, AssignOwnerPermissionResponse>(command,
-            cancellationToken);
+        CreateBudgetPermissionResponse? createBudgetPermissionResponse =
+            await _commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(command,
+                cancellationToken);
+
+        return createBudgetPermissionResponse is null
+            ? null
+            : new CreateBudgetPermissionResponse(createBudgetPermissionResponse.BudgetPermissionId);
+    }
+
+    public async Task DeleteBudgetPermission(Guid budgetPermissionId, CancellationToken cancellationToken = default)
+    {
+        DeleteBudgetPermissionCommand command = new(_messageContextFactory.Current(), budgetPermissionId);
+        await _commandDispatcher.SendAsync(command, cancellationToken);
+    }
+
+    public async Task RestoreBudgetPermission(Guid budgetPermissionId, CancellationToken cancellationToken = default)
+    {
+        RestoreBudgetPermissionCommand command = new(_messageContextFactory.Current(), budgetPermissionId);
+        await _commandDispatcher.SendAsync(command, cancellationToken);
     }
 }

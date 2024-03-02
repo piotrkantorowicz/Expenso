@@ -1,0 +1,3 @@
+namespace Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
+
+public sealed record GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference(bool UseDarkMode);
