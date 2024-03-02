@@ -19,4 +19,9 @@
         <ProjectReference Include="..\..\Expenso.DocumentManagement.Api\Expenso.DocumentManagement.Api.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
 </Project>
