@@ -18,6 +18,10 @@
                         [Expenso.BudgetSharing.Tests.UnitTests]*,
                         [Expenso.Communication.Tests.ArchTests]*,
                         [Expenso.Communication.Tests.UnitTests]*,
+                        [Expenso.DocumentManagement.Tests.ArchTests]*,
+                        [Expenso.DocumentManagement.Tests.UnitTests]*,
+                        [Expenso.TimeManegement.Tests.ArchTests]*,
+                        [Expenso.TimeManegement.Tests.UnitTests]*,
                         [Expenso.Api.Tests.ArchTests]*,
                         [Expenso.Api.Tests.E2E]*,
                         [Expenso.Api.Tests.UnitTests]*
