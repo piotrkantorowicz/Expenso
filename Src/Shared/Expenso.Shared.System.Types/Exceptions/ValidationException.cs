@@ -4,7 +4,7 @@ using Humanizer;
 
 namespace Expenso.Shared.System.Types.Exceptions;
 
-public sealed class ValidationException : Exception
+public class ValidationException : Exception
 {
     private const string DefaultMessage = "One or more validation failures have occurred.";
 
