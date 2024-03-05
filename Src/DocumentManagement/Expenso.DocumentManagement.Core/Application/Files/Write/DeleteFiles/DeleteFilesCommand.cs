@@ -1,4 +1,4 @@
-using Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles.DTO.Request;
+using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

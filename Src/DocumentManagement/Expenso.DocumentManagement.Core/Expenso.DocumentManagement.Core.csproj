@@ -10,6 +10,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\Expenso.DocumentManagement.Proxy\Expenso.DocumentManagement.Proxy.csproj"/>
     </ItemGroup>
@@ -22,11 +23,8 @@
 
     <ItemGroup>
         <PackageReference Include="FileSignatures" Version="4.4.1"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
         <PackageReference Include="System.IO.Abstractions" Version="20.0.15"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Application\Files\Read\GetFiles\DTO\"/>
     </ItemGroup>
 
 </Project>

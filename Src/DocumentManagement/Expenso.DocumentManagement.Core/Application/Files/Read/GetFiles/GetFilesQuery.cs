@@ -1,5 +1,5 @@
-using Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles.DTO.Request;
-using Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles.DTO.Response;
+using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Request;
+using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Response;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

@@ -1,10 +1,10 @@
-﻿using Expenso.IAM.Core.Users.Proxy;
-using Expenso.IAM.Core.Users.Services;
-using Expenso.IAM.Core.Users.Services.Acl.Keycloak;
+﻿using Expenso.IAM.Core.Application.Proxy;
+using Expenso.IAM.Core.Application.Users.Read.Services;
+using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
 using Expenso.IAM.Proxy;
 using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
-using Expenso.Shared.System.Configuration.Settings;
+using Expenso.Shared.System.Configuration.Settings.Auth;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,17 +21,17 @@ public static class ServiceCollectionExtensions
 
     private static void RegisterAclUserServices(IServiceCollection services, IConfiguration configuration)
     {
-        configuration.TryBindOptions(SectionNames.ApplicationSection, out ApplicationSettings? applicationSettings);
+        configuration.TryBindOptions(SectionNames.Auth, out AuthSettings? authSettings);
 
-        switch (applicationSettings?.AuthServer)
+        switch (authSettings?.AuthServer)
         {
             case AuthServer.Keycloak:
                 services.AddScoped<IUserService, UserService>();
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException(applicationSettings?.AuthServer.GetType().Name,
-                    applicationSettings?.AuthServer, "Invalid auth server type.");
+                throw new ArgumentOutOfRangeException(authSettings?.AuthServer.GetType().Name, authSettings?.AuthServer,
+                    "Invalid auth server type.");
         }
     }
 }

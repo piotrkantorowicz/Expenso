@@ -5,6 +5,7 @@ using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
 using Expenso.BudgetSharing.Api;
+using Expenso.DocumentManagement.Api;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
@@ -20,6 +21,8 @@ using Expenso.Shared.Queries.Logging;
 using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings;
+using Expenso.Shared.System.Configuration.Settings.Auth;
+using Expenso.Shared.System.Configuration.Settings.Files;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
@@ -45,7 +48,9 @@ internal sealed class AppBuilder : IAppBuilder
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
     private ApplicationSettings? _applicationSettings;
+    private AuthSettings? _authSettings;
     private EfCoreSettings? _efCoreSettings;
+    private FilesSettings? _filesSettings;
     private KeycloakProtectionClientOptions? _keycloakProtectionClientOptions;
 
     public AppBuilder(string[] args)
@@ -69,6 +74,7 @@ internal sealed class AppBuilder : IAppBuilder
         Modules.RegisterModule<IamModule>();
         Modules.RegisterModule<UserPreferencesModule>();
         Modules.RegisterModule<BudgetSharingModule>();
+        Modules.RegisterModule<DocumentManagementModule>();
         _services.AddModules(_configuration);
 
         return this;
@@ -122,15 +128,15 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddAuthorization();
         _services.AddAuthentication();
 
-        switch (_applicationSettings?.AuthServer)
+        switch (_authSettings?.AuthServer)
         {
             case AuthServer.Keycloak:
                 ConfigureKeycloak();
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException(_applicationSettings?.AuthServer.GetType().Name,
-                    _applicationSettings?.AuthServer, "Invalid auth server type.");
+                throw new ArgumentOutOfRangeException(_authSettings?.AuthServer.GetType().Name,
+                    _authSettings?.AuthServer, "Invalid auth server type.");
         }
 
         return this;
@@ -178,9 +184,13 @@ internal sealed class AppBuilder : IAppBuilder
         _configuration.TryBindOptions(KeycloakProtectionClientOptions.Section, out _keycloakProtectionClientOptions);
         _configuration.TryBindOptions(SectionNames.EfCoreSection, out _efCoreSettings);
         _configuration.TryBindOptions(SectionNames.ApplicationSection, out _applicationSettings);
+        _configuration.TryBindOptions(SectionNames.Auth, out _authSettings);
+        _configuration.TryBindOptions(SectionNames.Files, out _filesSettings);
         _services.AddSingleton(_efCoreSettings!);
         _services.AddSingleton(_applicationSettings!);
         _services.AddSingleton(_keycloakProtectionClientOptions!);
+        _services.AddSingleton(_authSettings!);
+        _services.AddSingleton(_filesSettings!);
     }
 
     private void ConfigureKeycloak()

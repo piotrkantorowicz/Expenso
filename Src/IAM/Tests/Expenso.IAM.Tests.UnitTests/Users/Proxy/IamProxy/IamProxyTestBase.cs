@@ -2,7 +2,7 @@ using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Queries.Dispatchers;
 
-using TestCandidate = Expenso.IAM.Core.Users.Proxy.IamProxy;
+using TestCandidate = Expenso.IAM.Core.Application.Proxy.IamProxy;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 

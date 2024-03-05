@@ -1,4 +1,4 @@
-using Expenso.IAM.Core.Users.Queries.GetUser;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 

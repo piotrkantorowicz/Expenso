@@ -2,7 +2,8 @@ using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
 
-internal class DirectoryPathResolver(IDirectoryInfoService directoryInfoService, IClock clock) : IDirectoryPathResolver
+internal sealed class DirectoryPathResolver(IDirectoryInfoService directoryInfoService, IClock clock)
+    : IDirectoryPathResolver
 {
     private readonly IDirectoryInfoService _directoryInfoService =
         directoryInfoService ?? throw new ArgumentNullException(nameof(directoryInfoService));
