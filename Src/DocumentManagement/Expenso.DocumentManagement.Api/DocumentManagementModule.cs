@@ -32,21 +32,6 @@ public sealed class DocumentManagementModule : ModuleDefinition
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
-        EndpointRegistration getFilesEndpointRegistration = new(string.Empty, "GetFiles", AccessControl.User,
-            HttpVerb.Get, () =>
-            {
-            });
-
-        EndpointRegistration uploadFilesEndpointRegistration = new(string.Empty, "UploadFiles", AccessControl.User,
-            HttpVerb.Post, () =>
-            {
-            });
-
-        EndpointRegistration deleteFilesEndpointRegistration = new(string.Empty, "DeleteFiles", AccessControl.User,
-            HttpVerb.Delete, () =>
-            {
-            });
-
-        return [getFilesEndpointRegistration, uploadFilesEndpointRegistration, deleteFilesEndpointRegistration];
+        return Array.Empty<EndpointRegistration>();
     }
 }
