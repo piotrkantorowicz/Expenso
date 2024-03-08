@@ -10,6 +10,7 @@ internal static class DocumentManagementDataInitializer
 {
     private const string Addresses = "addresses";
     private const string Snakes = "snakes";
+    private const string SnakesV2 = "snakes_v2";
 
     public static async Task Initialize(ICommandDispatcher commandDispatcher,
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
@@ -17,7 +18,8 @@ internal static class DocumentManagementDataInitializer
         UploadFilesCommand command = new(messageContextFactory.Current(), new UploadFilesRequest(
             UserDataInitializer.UserIds[4].ToString(), null, [
                 new UploadFilesRequest_File("Import-1", await GetFile(Addresses)),
-                new UploadFilesRequest_File("Import-2", await GetFile(Snakes))
+                new UploadFilesRequest_File("Import-2", await GetFile(Snakes)),
+                new UploadFilesRequest_File("Import-2", await GetFile(SnakesV2))
             ], UploadFilesRequest_FileType.Import));
 
         await commandDispatcher.SendAsync(command, cancellationToken);

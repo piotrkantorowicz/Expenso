@@ -11,7 +11,7 @@ internal sealed class DeleteFiles : DocumentManagementTestBase
         // Arrange
         // Act
         Action deleteFilesAction = () => _documentManagementProxy.DeleteFiles(UserDataInitializer.UserIds[4], null,
-            ["Import-2"], DeleteFilesRequest_FileType.Import);
+            ["Import-3"], DeleteFilesRequest_FileType.Import);
 
         // Assert
         deleteFilesAction.Should().NotThrow();

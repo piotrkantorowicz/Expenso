@@ -40,6 +40,9 @@
         <None Update="TestData\DocumentManagement\Files\snakes.xlsx">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="TestData\DocumentManagement\Files\snakes_v2.xlsx">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
