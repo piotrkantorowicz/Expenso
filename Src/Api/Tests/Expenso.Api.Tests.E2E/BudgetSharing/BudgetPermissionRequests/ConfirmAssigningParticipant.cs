@@ -11,7 +11,7 @@ internal sealed class ConfirmAssigningParticipant : BudgetPermissionRequestTestB
         _httpClient.SetFakeBearerToken(_claims);
 
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[1]}/confirm";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[1]}/confirm";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
@@ -25,7 +25,7 @@ internal sealed class ConfirmAssigningParticipant : BudgetPermissionRequestTestB
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[1]}/confirm";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[1]}/confirm";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);

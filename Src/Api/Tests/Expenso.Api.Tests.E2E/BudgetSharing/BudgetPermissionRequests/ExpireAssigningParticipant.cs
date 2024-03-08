@@ -11,7 +11,7 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
         _httpClient.SetFakeBearerToken(_claims);
 
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[2]}/expire";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[2]}/expire";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
@@ -25,7 +25,7 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataProvider.BudgetPermissionRequestIds[2]}/expire";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[2]}/expire";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);

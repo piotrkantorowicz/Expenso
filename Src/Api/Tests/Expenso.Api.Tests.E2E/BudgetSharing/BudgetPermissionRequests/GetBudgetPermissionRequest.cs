@@ -9,7 +9,7 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid budgetPermissionRequestId = BudgetPermissionDataProvider.BudgetPermissionRequestIds[2];
+        Guid budgetPermissionRequestId = BudgetPermissionDataInitializer.BudgetPermissionRequestIds[2];
         _httpClient.SetFakeBearerToken(_claims);
         string requestPath = $"budget-sharing/budget-permission-requests/{budgetPermissionRequestId}";
 
@@ -29,7 +29,7 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        Guid budgetPermissionRequestId = BudgetPermissionDataProvider.BudgetPermissionRequestIds[2];
+        Guid budgetPermissionRequestId = BudgetPermissionDataInitializer.BudgetPermissionRequestIds[2];
         string requestPath = $"budget-sharing/budget-permission-requests/{budgetPermissionRequestId}";
 
         // Act

@@ -1,5 +1,3 @@
 namespace Expenso.Api.Tests.E2E.Greetings;
 
-internal abstract class GreetingsTestBase : TestBase
-{
-}
+internal abstract class GreetingsTestBase : TestBase;

@@ -1,4 +1,6 @@
-﻿using Expenso.DocumentManagement.Core.Application.Proxy;
+﻿using System.IO.Abstractions;
+
+using Expenso.DocumentManagement.Core.Application.Proxy;
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
 using Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
 using Expenso.DocumentManagement.Proxy;
@@ -29,6 +31,7 @@ public static class ServiceCollectionExtensions
                 services.AddScoped<IFileStorage, FileStorage>();
                 services.AddScoped<IDirectoryPathResolver, DirectoryPathResolver>();
                 services.AddScoped<IDirectoryInfoService, DirectoryInfoService>();
+                services.AddScoped<IFileSystem, FileSystem>();
 
                 break;
             default:

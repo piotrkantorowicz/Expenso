@@ -9,7 +9,9 @@ internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(_claims);
-        string requestPath = $"budget-sharing/budget-permissions/{BudgetPermissionDataProvider.BudgetPermissionIds[1]}";
+
+        string requestPath =
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[1]}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestPath);
@@ -22,7 +24,8 @@ internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath = $"budget-sharing/budget-permissions/{BudgetPermissionDataProvider.BudgetPermissionIds[1]}";
+        string requestPath =
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[1]}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestPath);

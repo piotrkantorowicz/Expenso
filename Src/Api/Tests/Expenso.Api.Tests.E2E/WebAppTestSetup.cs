@@ -1,4 +1,5 @@
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
+using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
@@ -19,8 +20,9 @@ internal sealed class WebAppTestSetup
         IMessageContextFactory messageContextFactory =
             scope.ServiceProvider.GetRequiredService<IMessageContextFactory>();
 
-        await PreferencesDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
-        await BudgetPermissionDataProvider.Initialize(commandDispatcher, messageContextFactory, default);
+        await PreferencesDataInitializer.Initialize(commandDispatcher, messageContextFactory, default);
+        await BudgetPermissionDataInitializer.Initialize(commandDispatcher, messageContextFactory, default);
+        await DocumentManagementDataInitializer.Initialize(commandDispatcher, messageContextFactory, default);
     }
 
     [OneTimeTearDown]

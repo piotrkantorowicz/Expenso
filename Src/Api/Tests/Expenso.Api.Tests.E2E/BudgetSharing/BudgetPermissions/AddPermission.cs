@@ -1,5 +1,5 @@
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
-using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
@@ -13,7 +13,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         _httpClient.SetFakeBearerToken(_claims);
 
         string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataProvider.BudgetPermissionIds[0]}/participants/{PreferencesDataProvider.UserIds[4]}";
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[0]}/participants/{UserDataInitializer.UserIds[4]}";
 
         AddPermissionRequest addPermissionRequest = new(AddPermissionRequest_PermissionType.Reviewer);
 
@@ -29,7 +29,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataProvider.BudgetPermissionIds[0]}/participants/{PreferencesDataProvider.UserIds[3]}";
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[0]}/participants/{UserDataInitializer.UserIds[3]}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PostAsync(requestPath, null);

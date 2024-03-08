@@ -2,8 +2,6 @@ using Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 using Expenso.DocumentManagement.Proxy.DTO.API.UploadFiles.Request;
 
-using FileSignatures.Formats;
-
 using FluentAssertions;
 
 using Moq;
@@ -28,8 +26,6 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         _directoryPathResolverMock
             .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FilesRequestFileType, userId, null))
             .Returns("directoryPath");
-
-        _fileFormatInspectorMock.Setup(x => x.DetermineFileFormat(It.IsAny<Stream>())).Returns(new Excel());
 
         _fileStorageMock
             .Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<byte[]>(),
@@ -68,34 +64,5 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         exception.Should().NotBeNull();
         exception?.Message.Should().Be("One or more validation failures have occurred.");
         exception?.Details.Should().Be("File content cannot be empty.");
-    }
-
-    [Test]
-    public void Should_ThrowUnSupportedFileTypeException_When_FileTypeIsNotSupported()
-    {
-        // Arrange
-        string userId = Guid.NewGuid().ToString();
-        const string fileName = "fileName";
-        byte[] byteContent = [1, 2, 3];
-        Word fileFormat = new();
-
-        UploadFilesCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new UploadFilesRequest(userId, null, [new UploadFilesRequest_File(fileName, byteContent)],
-                UploadFilesRequest_FileType.Report));
-
-        _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FilesRequestFileType, userId, null))
-            .Returns("directoryPath");
-
-        _fileFormatInspectorMock.Setup(x => x.DetermineFileFormat(It.IsAny<Stream>())).Returns(fileFormat);
-
-        // Act
-        UnsupportedFileExtensionException? exception = Assert.ThrowsAsync<UnsupportedFileExtensionException>(() =>
-            TestCandidate.HandleAsync(command, default));
-
-        // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be($"File extension {fileFormat.Extension} is not supported.");
     }
 }

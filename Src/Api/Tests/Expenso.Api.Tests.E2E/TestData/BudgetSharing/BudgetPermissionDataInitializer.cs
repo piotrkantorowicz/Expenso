@@ -1,5 +1,5 @@
 using Expenso.Api.Tests.E2E.IAM;
-using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
@@ -14,7 +14,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 
-internal static class BudgetPermissionDataProvider
+internal static class BudgetPermissionDataInitializer
 {
     public static readonly List<Guid> BudgetPermissionRequestIds = [];
     public static readonly List<Guid> BudgetPermissionIds = [];
@@ -42,7 +42,7 @@ internal static class BudgetPermissionDataProvider
             CreateBudgetPermissionResponse? createBudgetPermissionResponse =
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
                     new CreateBudgetPermissionCommand(messageContextFactory.Current(),
-                        new CreateBudgetPermissionRequest(null, budgetId, PreferencesDataProvider.UserIds[0])),
+                        new CreateBudgetPermissionRequest(null, budgetId, UserDataInitializer.UserIds[0])),
                     cancellationToken);
 
             AssignParticipantResponse? assignParticipantResponse =
@@ -56,8 +56,8 @@ internal static class BudgetPermissionDataProvider
 
         await commandDispatcher.SendAsync(
             new AddPermissionCommand(messageContextFactory.Current(), BudgetPermissionIds[0],
-                PreferencesDataProvider.UserIds[3],
-                new AddPermissionRequest(AddPermissionRequest_PermissionType.Reviewer)), cancellationToken);
+                UserDataInitializer.UserIds[3], new AddPermissionRequest(AddPermissionRequest_PermissionType.Reviewer)),
+            cancellationToken);
 
         await commandDispatcher.SendAsync(
             new DeleteBudgetPermissionCommand(messageContextFactory.Current(), BudgetPermissionIds[2]),

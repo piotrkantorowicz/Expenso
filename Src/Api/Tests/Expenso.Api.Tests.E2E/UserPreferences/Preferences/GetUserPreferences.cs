@@ -1,4 +1,4 @@
-using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
@@ -9,7 +9,7 @@ internal sealed class GetUserPreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid userId = PreferencesDataProvider.UserIds[2];
+        Guid userId = UserDataInitializer.UserIds[2];
         _httpClient.SetFakeBearerToken(_claims);
         string requestPath = $"user-preferences/preferences?userId={userId}";
 
@@ -26,7 +26,7 @@ internal sealed class GetUserPreferences : PreferencesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath = $"user-preferences/preferences?userId={PreferencesDataProvider.UserIds[0]}";
+        string requestPath = $"user-preferences/preferences?userId={UserDataInitializer.UserIds[0]}";
 
         // Act
         HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
