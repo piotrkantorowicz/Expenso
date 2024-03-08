@@ -11,12 +11,14 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     [
         "TestBase",
         "Program",
+        "Exception",
         "RichTestObject"
     ];
 
     private static readonly string[] NotAbstract =
     [
         "Program",
+        "Exception",
         "RichTestObject"
     ];
 

@@ -9,7 +9,7 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
+        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[3];
         _httpClient.SetFakeBearerToken(_claims);
 
         // Act

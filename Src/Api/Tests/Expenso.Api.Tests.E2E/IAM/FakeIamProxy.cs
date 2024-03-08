@@ -1,4 +1,4 @@
-using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
@@ -20,7 +20,7 @@ internal sealed class FakeIamProxy : IIamProxy
         return email switch
         {
             "MatthewSoto@email.com" => Task.FromResult<GetUserResponse?>(new GetUserResponse(
-                PreferencesDataProvider.UserIds[0].ToString(), "Sergio", "Huang", "SHuang", ExistingEmails[0])),
+                UserDataInitializer.UserIds[0].ToString(), "Sergio", "Huang", "SHuang", ExistingEmails[0])),
             "JorgePandey@email.com" => Task.FromResult<GetUserResponse?>(new GetUserResponse(
                 new Guid("32b61237-4859-4281-8702-6fa3e4c72d67").ToString(), "Krishna", "Le", "KLeee",
                 ExistingEmails[1])),

@@ -29,9 +29,9 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
         // Act
         // Assert
         _testCommand.MessageContext.Should().NotBeNull();
-        _testCommand.MessageContext.CorrelationId.Should().Be(_messageContext.CorrelationId);
-        _testCommand.MessageContext.MessageId.Should().Be(_messageContext.MessageId);
-        _testCommand.MessageContext.RequestedBy.Should().Be(_messageContext.RequestedBy);
-        _testCommand.MessageContext.Timestamp.Should().Be(_messageContext.Timestamp);
+        _testCommand.MessageContext.CorrelationId.Should().Be(MessageContextFactoryMock.Object.Current().CorrelationId);
+        _testCommand.MessageContext.MessageId.Should().Be(MessageContextFactoryMock.Object.Current().MessageId);
+        _testCommand.MessageContext.RequestedBy.Should().Be(MessageContextFactoryMock.Object.Current().RequestedBy);
+        _testCommand.MessageContext.Timestamp.Should().Be(MessageContextFactoryMock.Object.Current().Timestamp);
     }
 }

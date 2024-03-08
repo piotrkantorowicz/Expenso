@@ -1,5 +1,5 @@
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
-using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
 
@@ -16,7 +16,7 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         Guid budgetPermissionId = Guid.NewGuid();
 
         CreateBudgetPermissionRequest createBudgetPermissionRequest = new(budgetPermissionId,
-            BudgetPermissionDataProvider.BudgetIds[0], PreferencesDataProvider.UserIds[3]);
+            BudgetPermissionDataInitializer.BudgetIds[0], UserDataInitializer.UserIds[3]);
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestPath, createBudgetPermissionRequest);

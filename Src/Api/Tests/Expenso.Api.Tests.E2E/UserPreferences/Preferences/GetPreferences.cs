@@ -9,7 +9,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
+        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[3];
         _httpClient.SetFakeBearerToken(_claims);
         string requestPath = $"user-preferences/preferences/{preferenceId}";
 
@@ -26,7 +26,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        Guid preferenceId = PreferencesDataProvider.PreferenceIds[3];
+        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[3];
         string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
