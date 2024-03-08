@@ -7,7 +7,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using FileSignatures;
 
-namespace Expenso.DocumentManagement.Core.Application.Files.Write.AddFiles;
+namespace Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 
 internal sealed class UploadFilesCommandHandler(
     IFileStorage fileStorage,
@@ -45,7 +45,7 @@ internal sealed class UploadFilesCommandHandler(
                 fileFormat = _fileFormatInspector.DetermineFileFormat(steam);
             }
 
-            if (FileExtensions.SupportedExtensions.Contains(fileFormat?.Extension))
+            if (!FileExtensions.SupportedExtensions.Select(x => x.ToLower()).Contains(fileFormat?.Extension.ToLower()))
             {
                 throw new UnsupportedFileExtensionException(fileFormat?.Extension);
             }

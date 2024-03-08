@@ -11,8 +11,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
-                    It.IsAny<bool>()), It.IsAny<CancellationToken>()))
+                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+                    It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_getPreferenceExternalResponse);
 
         // Act
@@ -25,8 +25,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
 
         _queryDispatcherMock.Verify(
             x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
-                    It.IsAny<bool>()), It.IsAny<CancellationToken>()), Times.Once);
+                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+                    It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -35,8 +35,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
-                    It.IsAny<bool>()), It.IsAny<CancellationToken>()))
+                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+                    It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()))
             .ReturnsAsync((GetPreferenceResponse?)null);
 
         // Act
@@ -48,7 +48,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
 
         _queryDispatcherMock.Verify(
             x => x.QueryAsync(
-                new GetPreferenceQuery(_messageContext, null, _userId, null, It.IsAny<bool>(), It.IsAny<bool>(),
-                    It.IsAny<bool>()), It.IsAny<CancellationToken>()), Times.Once);
+                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+                    It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

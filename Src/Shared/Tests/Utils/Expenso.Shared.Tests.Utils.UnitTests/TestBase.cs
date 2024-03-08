@@ -7,7 +7,7 @@ namespace Expenso.Shared.Tests.Utils.UnitTests;
 
 public abstract class TestBase<T> where T : class
 {
-    protected readonly MessageContext _messageContext =
+    private readonly MessageContext _messageContext =
         new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), DateTimeOffset.Now);
 
     protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;

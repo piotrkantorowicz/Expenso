@@ -28,7 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Application\Files\"/>
         <Folder Include="Application\Proxy\"/>
     </ItemGroup>
 

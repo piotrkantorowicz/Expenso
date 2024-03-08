@@ -1,6 +1,6 @@
 using Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
-using Expenso.DocumentManagement.Core.Application.Files.Write.AddFiles;
 using Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
+using Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 using Expenso.DocumentManagement.Proxy;
 using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
 using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Request;
