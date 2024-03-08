@@ -19,7 +19,7 @@ internal static class DocumentManagementDataInitializer
             UserDataInitializer.UserIds[4].ToString(), null, [
                 new UploadFilesRequest_File("Import-1", await GetFile(Addresses)),
                 new UploadFilesRequest_File("Import-2", await GetFile(Snakes)),
-                new UploadFilesRequest_File("Import-2", await GetFile(SnakesV2))
+                new UploadFilesRequest_File("Import-3", await GetFile(SnakesV2))
             ], UploadFilesRequest_FileType.Import));
 
         await commandDispatcher.SendAsync(command, cancellationToken);
