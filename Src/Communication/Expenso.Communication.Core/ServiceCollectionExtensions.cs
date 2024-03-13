@@ -1,9 +1,10 @@
-﻿using Expenso.Communication.Core.Application.Notifications.Factories;
+﻿using System.Reflection;
+
+using Expenso.Communication.Core.Application.Notifications.Factories;
 using Expenso.Communication.Core.Application.Notifications.Factories.Interfaces;
 using Expenso.Communication.Core.Application.Notifications.Services;
-using Expenso.Communication.Core.Application.Notifications.Services.Emails.Acl.Fake;
-using Expenso.Communication.Core.Application.Notifications.Services.InApp.Acl.Fake;
-using Expenso.Communication.Core.Application.Notifications.Services.Push.Acl.Fake;
+using Expenso.Communication.Core.Application.Proxy;
+using Expenso.Communication.Proxy;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,11 +12,14 @@ namespace Expenso.Communication.Core;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCommunicationCore(this IServiceCollection services)
+    public static void AddCommunicationCore(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        services.AddScoped<INotificationService, FakeEmailService>();
-        services.AddScoped<INotificationService, FakePushService>();
-        services.AddScoped<INotificationService, FakeInAppService>();
+        services.Scan(selector =>
+            selector
+                .FromAssemblies(assemblies)
+                .AddClasses(c => c.AssignableTo(typeof(INotificationService)))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
 
         services.AddScoped<INotificationServiceFactory>(sp =>
         {
@@ -23,9 +27,15 @@ public static class ServiceCollectionExtensions
                 sp.GetServices(typeof(INotificationService)).Select(x => (INotificationService)x!);
 
             Dictionary<string, INotificationService> servicesDictionary =
-                notificationServices.ToDictionary(service => service.GetType().Name, service => service);
+                notificationServices.ToDictionary(
+                    service => service
+                        .GetType()
+                        .GetInterfaces()
+                        .FirstOrDefault(x => x != typeof(INotificationService)) !.Name, service => service);
 
             return new NotificationServiceFactory(servicesDictionary);
         });
+
+        services.AddScoped<ICommunicationProxy, CommunicationProxy>();
     }
 }

@@ -27,7 +27,7 @@ public sealed class CommunicationModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCommunicationCore();
+        services.AddCommunicationCore(GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

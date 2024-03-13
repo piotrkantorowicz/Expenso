@@ -4,7 +4,7 @@ using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Response;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement;
 
-internal sealed class GetFiles : DocumentManagementTestBase
+internal sealed class GetFilesAsync : DocumentManagementTestBase
 {
     [Test]
     public async Task Should_ReturnsFiles()
@@ -12,8 +12,8 @@ internal sealed class GetFiles : DocumentManagementTestBase
         // Arrange
         // Act
         IEnumerable<GetFilesResponse>? response =
-            (await _documentManagementProxy.GetFiles(UserDataInitializer.UserIds[4], null, ["Import-1", "Import-2"],
-                GetFilesRequest_FileType.Import))?.ToList();
+            (await _documentManagementProxy.GetFilesAsync(UserDataInitializer.UserIds[4], null,
+                ["Import-1", "Import-2"], GetFilesRequest_FileType.Import))?.ToList();
 
         // Assert
         response?.Should().NotBeNull();

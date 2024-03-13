@@ -3,14 +3,14 @@ using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement;
 
-internal sealed class DeleteFiles : DocumentManagementTestBase
+internal sealed class DeleteFilesAsync : DocumentManagementTestBase
 {
     [Test]
     public void Should_DeleteFiles()
     {
         // Arrange
         // Act
-        Action deleteFilesAction = () => _documentManagementProxy.DeleteFiles(UserDataInitializer.UserIds[4], null,
+        Action deleteFilesAction = () => _documentManagementProxy.DeleteFilesAsync(UserDataInitializer.UserIds[4], null,
             ["Import-3"], DeleteFilesRequest_FileType.Import);
 
         // Assert

@@ -12,8 +12,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_SendNotificationRequestIsNull()
     {
         // Arrange
-        SendNotificationCommand command =
-            new SendNotificationCommand(MessageContextFactoryMock.Object.Current(), null!);
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(), null!);
 
         // Act
         IDictionary<string, string> result = TestCandidate.Validate(command);
@@ -27,7 +26,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_NotificationContextIsNull()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content", null,
                 new SendNotificationRequest_NotificationType(true, false, false)));
 
@@ -46,7 +45,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_NotificationTypeIsNull()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", "To"), null!));
 
@@ -62,7 +61,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_ToIsNull()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", string.Empty),
                 new SendNotificationRequest_NotificationType(true, false, false)));
@@ -79,7 +78,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_FromIsNull()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext(string.Empty, "To"),
                 new SendNotificationRequest_NotificationType(true, false, false)));
@@ -96,7 +95,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_ContentIsNull()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", string.Empty,
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(true, false, false)));
@@ -116,7 +115,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_ContentLengthIsGreaterThan2500()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", new string('a', 2501),
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(true, false, false)));
@@ -136,7 +135,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     public void Should_ReturnError_When_NotificationTypeIsNotSet()
     {
         // Arrange
-        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(false, false, false)));
