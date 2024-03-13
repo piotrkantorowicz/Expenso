@@ -6,7 +6,7 @@ internal sealed class SendNotificationCommandValidator : ICommandValidator<SendN
 {
     public IDictionary<string, string> Validate(SendNotificationCommand command)
     {
-        var errors = new Dictionary<string, string>();
+        Dictionary<string, string> errors = new Dictionary<string, string>();
 
         if (command.SendNotificationRequest is null)
         {

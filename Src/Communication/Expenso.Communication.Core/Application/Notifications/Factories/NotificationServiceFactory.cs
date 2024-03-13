@@ -11,7 +11,7 @@ internal sealed class NotificationServiceFactory(IDictionary<string, INotificati
 
     public T GetService<T>() where T : INotificationService
     {
-        if (!_servicesDictionary.TryGetValue(typeof(T).Name, out var service))
+        if (!_servicesDictionary.TryGetValue(typeof(T).Name, out INotificationService? service))
         {
             throw new InvalidOperationException($"Notification service {typeof(T).FullName} hasn't been found.");
         }

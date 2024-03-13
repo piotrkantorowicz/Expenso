@@ -1,6 +1,4 @@
-﻿using Expenso.Communication.Core.Application.Notifications.Services.Push.Acl.Fake;
-
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Expenso.Communication.Core.Application.Notifications.Services.Emails.Acl.Fake;
 

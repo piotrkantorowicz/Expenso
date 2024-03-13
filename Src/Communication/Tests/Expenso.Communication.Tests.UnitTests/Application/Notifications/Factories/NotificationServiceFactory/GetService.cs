@@ -15,7 +15,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
     {
         // Arrange
         // Act
-        var result = TestCandidate.GetService<IInAppService>();
+        IInAppService result = TestCandidate.GetService<IInAppService>();
 
         // Assert
         result.Should().NotBeNull();
@@ -27,7 +27,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
     {
         // Arrange
         // Act
-        var result = TestCandidate.GetService<IEmailService>();
+        IEmailService result = TestCandidate.GetService<IEmailService>();
 
         // Assert
         result.Should().NotBeNull();
@@ -39,7 +39,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
     {
         // Arrange
         // Act
-        var result = TestCandidate.GetService<IPushService>();
+        IPushService result = TestCandidate.GetService<IPushService>();
 
         // Assert
         result.Should().NotBeNull();

@@ -12,8 +12,8 @@ namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.Director
 
 internal abstract class DirectoryInfoServiceTestBase : TestBase<IDirectoryInfoService>
 {
-    protected Mock<IFileSystem>? _fileSystemMock;
     private FilesSettings? _filesSettings;
+    protected Mock<IFileSystem>? _fileSystemMock;
 
     [SetUp]
     public void Setup()

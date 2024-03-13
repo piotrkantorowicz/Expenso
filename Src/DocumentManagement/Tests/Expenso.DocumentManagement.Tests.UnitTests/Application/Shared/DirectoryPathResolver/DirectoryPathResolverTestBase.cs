@@ -10,8 +10,8 @@ namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.Director
 
 internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathResolver>
 {
-    protected Mock<IDirectoryInfoService> _directoryInfoServiceMock = null!;
     protected Mock<IClock> _clockMock = null!;
+    protected Mock<IDirectoryInfoService> _directoryInfoServiceMock = null!;
 
     [SetUp]
     public void Setup()

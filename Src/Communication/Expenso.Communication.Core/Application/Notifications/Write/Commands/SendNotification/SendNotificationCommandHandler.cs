@@ -1,5 +1,4 @@
 ﻿using Expenso.Communication.Core.Application.Notifications.Factories.Interfaces;
-using Expenso.Communication.Core.Application.Notifications.Services;
 using Expenso.Communication.Core.Application.Notifications.Services.Emails;
 using Expenso.Communication.Core.Application.Notifications.Services.InApp;
 using Expenso.Communication.Core.Application.Notifications.Services.Push;
@@ -26,19 +25,19 @@ internal sealed class SendNotificationCommandHandler(INotificationServiceFactory
 
         if (type?.Email == true)
         {
-            var emailService = _notificationServiceFactory.GetService<IEmailService>();
+            IEmailService emailService = _notificationServiceFactory.GetService<IEmailService>();
             await emailService.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
         }
 
         if (type?.Push == true)
         {
-            var pushService = _notificationServiceFactory.GetService<IPushService>();
+            IPushService pushService = _notificationServiceFactory.GetService<IPushService>();
             await pushService.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
         }
 
         if (type?.InApp == true)
         {
-            var inAppService = _notificationServiceFactory.GetService<IInAppService>();
+            IInAppService inAppService = _notificationServiceFactory.GetService<IInAppService>();
             await inAppService.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
         }
     }

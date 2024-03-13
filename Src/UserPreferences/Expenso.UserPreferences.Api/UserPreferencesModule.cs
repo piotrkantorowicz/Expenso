@@ -52,8 +52,9 @@ public sealed class UserPreferencesModule : ModuleDefinition
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences = await handler.HandleAsync(new GetPreferenceQuery(
-                    messageContextFactory.Current(), id, IncludeFinancePreferences: includeFinancePreferences,
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                    new GetPreferenceQuery(messageContextFactory.Current(), id,
+                        IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
 
@@ -68,9 +69,9 @@ public sealed class UserPreferencesModule : ModuleDefinition
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences = await handler.HandleAsync(new GetPreferenceQuery(
-                    messageContextFactory.Current(), ForCurrentUser: true,
-                    IncludeFinancePreferences: includeFinancePreferences,
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                    new GetPreferenceQuery(messageContextFactory.Current(), ForCurrentUser: true,
+                        IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
 
@@ -85,9 +86,9 @@ public sealed class UserPreferencesModule : ModuleDefinition
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences = await handler.HandleAsync(new GetPreferenceQuery(
-                    messageContextFactory.Current(), UserId: userId,
-                    IncludeFinancePreferences: includeFinancePreferences,
+                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                    new GetPreferenceQuery(messageContextFactory.Current(), UserId: userId,
+                        IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
 

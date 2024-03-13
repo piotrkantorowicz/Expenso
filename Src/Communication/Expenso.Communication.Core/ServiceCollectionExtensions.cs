@@ -19,10 +19,10 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<INotificationServiceFactory>(sp =>
         {
-            var notificationServices =
+            IEnumerable<INotificationService> notificationServices =
                 sp.GetServices(typeof(INotificationService)).Select(x => (INotificationService)x!);
 
-            var servicesDictionary =
+            Dictionary<string, INotificationService> servicesDictionary =
                 notificationServices.ToDictionary(service => service.GetType().Name, service => service);
 
             return new NotificationServiceFactory(servicesDictionary);

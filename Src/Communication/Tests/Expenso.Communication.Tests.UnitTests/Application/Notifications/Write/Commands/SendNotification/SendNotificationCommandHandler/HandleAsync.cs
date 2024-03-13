@@ -15,7 +15,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
     public async Task Should_SendEmail_When_NotificationTypeIsEmail()
     {
         // Arrange
-        var command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(true, false, false)));
@@ -31,7 +31,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
     public async Task Should_SendPush_When_NotificationTypeIsPush()
     {
         // Arrange
-        var command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(false, true, false)));
@@ -47,7 +47,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
     public async Task Should_SendInApp_When_NotificationTypeIsInApp()
     {
         // Arrange
-        var command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(false, false, true)));
@@ -63,7 +63,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
     public async Task Should_SendAll_When_NotificationTypeIsAll()
     {
         // Arrange
-        var command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
+        SendNotificationCommand command = new SendNotificationCommand(MessageContextFactoryMock.Object.Current(),
             new SendNotificationRequest("Subject", "Content",
                 new SendNotificationRequest_NotificationContext("From", "To"),
                 new SendNotificationRequest_NotificationType(true, true, true)));

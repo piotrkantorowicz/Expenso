@@ -33,5 +33,5 @@
         <InternalsVisibleTo Include="Expenso.UserPreferences.Tests.ArchTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
-    
+
 </Project>
