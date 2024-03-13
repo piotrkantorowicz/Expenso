@@ -16,7 +16,8 @@ internal sealed class AssignParticipantCommandHandler(IAssignParticipantDomainSe
     public async Task<AssignParticipantResponse?> HandleAsync(AssignParticipantCommand command,
         CancellationToken cancellationToken)
     {
-        (_, (Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionTypeRequest,
+        (_,
+            (Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionTypeRequest,
                 int expirationDays)) = command;
 
         BudgetPermissionRequest budgetPermissionRequest = await _assignParticipantDomainService.AssignParticipantAsync(

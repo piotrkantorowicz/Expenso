@@ -26,7 +26,7 @@ internal sealed class DocumentManagementProxy(
     private readonly IQueryDispatcher _queryDispatcher =
         queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
 
-    public async Task<IEnumerable<GetFilesResponse>?> GetFiles(Guid? userId, string[]? groups, string[] fileNames,
+    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(Guid? userId, string[]? groups, string[] fileNames,
         GetFilesRequest_FileType fileType, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
@@ -34,7 +34,7 @@ internal sealed class DocumentManagementProxy(
             cancellationToken);
     }
 
-    public async Task UploadFiles(Guid? userId, string[]? groups, UploadFilesRequest_File[] files,
+    public async Task UploadFilesAsync(Guid? userId, string[]? groups, UploadFilesRequest_File[] files,
         UploadFilesRequest_FileType fileType, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(
@@ -42,7 +42,7 @@ internal sealed class DocumentManagementProxy(
                 new UploadFilesRequest(userId?.ToString(), groups, files, fileType)), cancellationToken);
     }
 
-    public async Task DeleteFiles(Guid? userId, string[]? groups, string[] fileNames,
+    public async Task DeleteFilesAsync(Guid? userId, string[]? groups, string[] fileNames,
         DeleteFilesRequest_FileType fileType, CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(

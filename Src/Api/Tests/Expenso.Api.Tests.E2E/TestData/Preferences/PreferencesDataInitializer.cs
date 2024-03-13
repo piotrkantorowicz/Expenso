@@ -29,8 +29,8 @@ internal static class PreferencesDataInitializer
             }
         }
 
-        await commandDispatcher.SendAsync(new UpdatePreferenceCommand(messageContextFactory.Current(),
-            UserDataInitializer.UserIds[0],
+        await commandDispatcher.SendAsync(
+            new UpdatePreferenceCommand(messageContextFactory.Current(), UserDataInitializer.UserIds[0],
                 new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 3, true, 5),
                     new UpdatePreferenceRequest_NotificationPreference(true, 7),
                     new UpdatePreferenceRequest_GeneralPreference(true))), cancellationToken);
