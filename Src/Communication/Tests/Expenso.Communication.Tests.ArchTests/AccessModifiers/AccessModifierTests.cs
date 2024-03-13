@@ -1,38 +1,42 @@
-namespace Expenso.Shared.Tests.ArchTests.AccessModifiers;
+using Expenso.Shared.Tests.Utils.ArchTests;
 
-internal sealed class AccessModifierTests : ArchTestTestBase
+using NetArchTest.Rules;
+
+namespace Expenso.Communication.Tests.ArchTests.AccessModifiers;
+
+internal sealed class AccessModifierTests : TestBase
 {
+    private static readonly string[] PublicTypes =
+    [
+        "DTO"
+    ];
+
     private static readonly string[] NotInternal =
     [
-        "TestBase",
-        "InMemoryFakeLogger"
+        "Module"
     ];
 
     private static readonly string[] NotSealed =
     [
         "TestBase",
-        "Program",
-        "Exception",
-        "RichTestObject"
+        "Program"
     ];
 
     private static readonly string[] NotAbstract =
     [
-        "Program",
-        "Exception",
-        "RichTestObject"
+        "Program"
     ];
 
     [Test]
-    public void Should_Passed_When_AllExpectedTypesAreInternalInTestAssemblies()
+    public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
-        ConditionList? types = NetArchTypes
-            .InAssemblies(Assemblies.ToArray().Where(x => x.FullName?.Contains("Tests") == true))
-            .Should()
-            .BePublic();
+        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().BePublic();
 
         types = NotInternal.Aggregate(types,
             (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+
+        types = PublicTypes.Aggregate(types,
+            (current, skippedTypeName) => current.And().ResideInNamespaceEndingWith(skippedTypeName));
 
         AssertArchTestResult(types);
     }
@@ -40,7 +44,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     [Test]
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
-        ConditionList? types = NetArchTypes
+        ConditionList? types = Types
             .InAssemblies(Assemblies.ToArray())
             .Should()
             .BeClasses()
@@ -60,9 +64,11 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     [Test]
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
-        ConditionList? types = NetArchTypes
+        ConditionList? types = Types
             .InAssemblies(Assemblies.ToArray())
             .Should()
+            .BeClasses()
+            .And()
             .NotBeSealed()
             .And()
             .NotBeAbstract();

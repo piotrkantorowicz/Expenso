@@ -5,6 +5,7 @@ using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
 using Expenso.BudgetSharing.Api;
+using Expenso.Communication.Api;
 using Expenso.DocumentManagement.Api;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
@@ -75,6 +76,7 @@ internal sealed class AppBuilder : IAppBuilder
         Modules.RegisterModule<UserPreferencesModule>();
         Modules.RegisterModule<BudgetSharingModule>();
         Modules.RegisterModule<DocumentManagementModule>();
+        Modules.RegisterModule<CommunicationModule>();
         _services.AddModules(_configuration);
 
         return this;
