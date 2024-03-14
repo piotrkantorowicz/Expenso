@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.DocumentManagement.Core;
 
-public static class ServiceCollectionExtensions
+public static class Extensions
 {
     public static void AddDocumentManagementCore(this IServiceCollection services, IConfiguration configuration)
     {

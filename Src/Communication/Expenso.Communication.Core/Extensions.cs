@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Communication.Core;
 
-public static class ServiceCollectionExtensions
+public static class Extensions
 {
     public static void AddCommunicationCore(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {

@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.BudgetSharing.Infrastructure;
 
-public static class ServiceCollectionExtensions
+public static class Extensions
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration,
         string moduleName)
