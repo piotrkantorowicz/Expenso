@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Queries;
 
-public static class ServiceCollectionExtensions
+public static class Extensions
 {
     public static IServiceCollection AddQueries(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {

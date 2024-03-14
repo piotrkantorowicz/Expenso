@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Domain.Events;
 
-public static class ServiceCollectionExtensions
+public static class Extensions
 {
     public static IServiceCollection AddDomainEvents(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {

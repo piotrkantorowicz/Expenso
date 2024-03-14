@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Integration.MessageBroker;
 
-public static class ServiceCollectionExtensions
+public static class Extensions
 {
     public static IServiceCollection AddMessageBroker(this IServiceCollection services)
     {

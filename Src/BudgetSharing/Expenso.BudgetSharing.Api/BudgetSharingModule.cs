@@ -38,8 +38,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using DomainServiceCollectionExtensions = Expenso.BudgetSharing.Domain.ServiceCollectionExtensions;
-using InfrastructureServiceCollectionExtensions = Expenso.BudgetSharing.Infrastructure.ServiceCollectionExtensions;
+using Extensions = Expenso.BudgetSharing.Infrastructure.Extensions;
 
 namespace Expenso.BudgetSharing.Api;
 
@@ -53,8 +52,8 @@ public sealed class BudgetSharingModule : ModuleDefinition
         [
             typeof(BudgetSharingModule).Assembly,
             typeof(IBudgetPermissionQueryStore).Assembly,
-            typeof(InfrastructureServiceCollectionExtensions).Assembly,
-            typeof(DomainServiceCollectionExtensions).Assembly,
+            typeof(Extensions).Assembly,
+            typeof(Domain.Extensions).Assembly,
             typeof(IBudgetSharingProxy).Assembly
         ];
     }

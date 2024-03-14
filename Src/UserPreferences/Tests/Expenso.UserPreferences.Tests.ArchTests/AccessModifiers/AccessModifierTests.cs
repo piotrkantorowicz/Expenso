@@ -7,7 +7,7 @@ internal sealed class AccessModifierTests : TestBase
     private static readonly string[] NotInternal =
     [
         "Module",
-        "ServiceCollectionExtensions",
+        "Extensions",
         "Request",
         "Response",
         "Query",
