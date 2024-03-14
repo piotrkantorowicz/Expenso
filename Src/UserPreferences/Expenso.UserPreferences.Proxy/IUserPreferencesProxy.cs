@@ -1,3 +1,4 @@
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
@@ -9,5 +10,6 @@ public interface IUserPreferencesProxy
         bool includeNotificationPreferences, bool includeGeneralPreferences,
         CancellationToken cancellationToken = default);
 
-    Task<CreatePreferenceResponse?> CreatePreferencesAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest createPreferenceRequest,
+        CancellationToken cancellationToken = default);
 }

@@ -18,11 +18,12 @@ internal sealed class UploadFilesCommandHandler(IFileStorage fileStorage, IDirec
     public async Task HandleAsync(UploadFilesCommand command, CancellationToken cancellationToken)
     {
         (IMessageContext messageContext,
-            (string? userId, string[]? groups, UploadFilesRequest_File[] fileContents,
+            (Guid? userId, string[]? groups, UploadFilesRequest_File[] fileContents,
                 UploadFilesRequest_FileType fileType)) = command;
 
         string directoryPath =
-            _directoryPathResolver.ResolvePath((int)fileType, userId ?? messageContext.RequestedBy.ToString(), groups);
+            _directoryPathResolver.ResolvePath((int)fileType, (userId ?? messageContext.RequestedBy).ToString(),
+                groups);
 
         foreach (UploadFilesRequest_File file in fileContents)
         {

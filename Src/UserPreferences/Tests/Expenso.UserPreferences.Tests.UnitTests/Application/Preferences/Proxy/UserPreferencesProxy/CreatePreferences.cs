@@ -10,15 +10,17 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
     public async Task Should_CallCreatePreference()
     {
         // Arrange
+        CreatePreferenceRequest createPreferenceRequest = new CreatePreferenceRequest(_userId);
+
         _commandDispatcherMock
             .Setup(x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-                new CreatePreferenceCommand(MessageContextFactoryMock.Object.Current(null),
-                    new CreatePreferenceRequest(_userId)), It.IsAny<CancellationToken>()))
+                new CreatePreferenceCommand(MessageContextFactoryMock.Object.Current(null), createPreferenceRequest),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(_createPreferenceResponse);
 
         // Act
         CreatePreferenceResponse? preference =
-            await TestCandidate.CreatePreferencesAsync(_userId, It.IsAny<CancellationToken>());
+            await TestCandidate.CreatePreferencesAsync(createPreferenceRequest, It.IsAny<CancellationToken>());
 
         // Assert
         preference.Should().NotBeNull();

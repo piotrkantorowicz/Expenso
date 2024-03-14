@@ -21,10 +21,11 @@ internal sealed class DeleteFilesCommandHandler(
     public async Task HandleAsync(DeleteFilesCommand command, CancellationToken cancellationToken)
     {
         (IMessageContext messageContext,
-            (string? userId, string[]? groups, string[] fileNames, DeleteFilesRequest_FileType fileType)) = command;
+            (Guid? userId, string[]? groups, string[] fileNames, DeleteFilesRequest_FileType fileType)) = command;
 
         string directoryPath =
-            _directoryPathResolver.ResolvePath((int)fileType, userId ?? messageContext.RequestedBy.ToString(), groups);
+            _directoryPathResolver.ResolvePath((int)fileType, (userId ?? messageContext.RequestedBy).ToString(),
+                groups);
 
         foreach (string fileName in fileNames)
         {

@@ -16,7 +16,7 @@ internal static class DocumentManagementDataInitializer
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
         UploadFilesCommand command = new(messageContextFactory.Current(), new UploadFilesRequest(
-            UserDataInitializer.UserIds[4].ToString(), null, [
+            UserDataInitializer.UserIds[4], null, [
                 new UploadFilesRequest_File("Import-1", await GetFile(Addresses)),
                 new UploadFilesRequest_File("Import-2", await GetFile(Snakes)),
                 new UploadFilesRequest_File("Import-3", await GetFile(SnakesV2))

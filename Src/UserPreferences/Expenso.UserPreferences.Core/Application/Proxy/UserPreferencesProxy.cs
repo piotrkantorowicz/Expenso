@@ -35,11 +35,10 @@ internal sealed class UserPreferencesProxy(
                 IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
     }
 
-    public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(Guid userId,
+    public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest createPreferenceRequest,
         CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-            new CreatePreferenceCommand(_messageContextFactory.Current(), new CreatePreferenceRequest(userId)),
-            cancellationToken);
+            new CreatePreferenceCommand(_messageContextFactory.Current(), createPreferenceRequest), cancellationToken);
     }
 }

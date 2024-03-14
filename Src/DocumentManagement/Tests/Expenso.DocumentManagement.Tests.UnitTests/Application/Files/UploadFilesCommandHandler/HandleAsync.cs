@@ -14,7 +14,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
     public async Task Should_SaveFile()
     {
         // Arrange
-        string userId = Guid.NewGuid().ToString();
+        Guid userId = Guid.NewGuid();
         const string fileName = "fileName";
         const string directoryPath = "directoryPath";
         byte[] byteContent = [1, 2, 3];
@@ -24,7 +24,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
                 UploadFilesRequest_FileType.Report));
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FilesRequestFileType, userId, null))
+            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
             .Returns("directoryPath");
 
         _fileStorageMock
@@ -44,7 +44,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
     public void Should_ThrowEmptyFileContentException_When_FileContentIsEmpty()
     {
         // Arrange
-        string userId = Guid.NewGuid().ToString();
+        Guid userId = Guid.NewGuid();
         const string fileName = "fileName";
         byte[] byteContent = Array.Empty<byte>();
 
@@ -53,7 +53,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
                 UploadFilesRequest_FileType.Report));
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FilesRequestFileType, userId, null))
+            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
             .Returns("directoryPath");
 
         // Act

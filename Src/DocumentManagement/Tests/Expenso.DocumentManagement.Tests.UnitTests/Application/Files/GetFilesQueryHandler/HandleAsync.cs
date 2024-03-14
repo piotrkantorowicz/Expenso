@@ -34,11 +34,12 @@ internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
             "aFQbTdyxnb96YIn6"u8.ToArray()
         ];
 
-        GetFilesQuery query = new(MessageContextFactoryMock.Object.Current(), null, null, files,
-            GetFilesRequest_FileType.Import);
+        GetFilesQuery query = new(MessageContextFactoryMock.Object.Current(),
+            new GetFileRequest(null, null, files, GetFilesRequest_FileType.Import));
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)query.FileType, query.MessageContext.RequestedBy.ToString(), query.Groups))
+            .Setup(x => x.ResolvePath((int)query.GetFileRequest.FileType, query.MessageContext.RequestedBy.ToString(),
+                query.GetFileRequest.Groups))
             .Returns(directoryPath);
 
         _fileSystemMock.Setup(x => x.Path.Combine(directoryPath, files[0])).Returns(filePaths[0]);
@@ -59,9 +60,9 @@ internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
         result
             .Should()
             .BeEquivalentTo([
-                new GetFilesResponse(query.MessageContext.RequestedBy.ToString(), files[0], byteContents[0],
+                new GetFilesResponse(query.MessageContext.RequestedBy, files[0], byteContents[0],
                     GetFilesResponse_FileType.Import),
-                new GetFilesResponse(query.MessageContext.RequestedBy.ToString(), files[1], byteContents[1],
+                new GetFilesResponse(query.MessageContext.RequestedBy, files[1], byteContents[1],
                     GetFilesResponse_FileType.Import)
             ]);
     }
