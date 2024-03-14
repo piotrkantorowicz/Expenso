@@ -7,6 +7,8 @@ using Expenso.Shared.System.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using CoreExtensions = Expenso.Communication.Core.Extensions;
+
 namespace Expenso.Communication.Api;
 
 public sealed class CommunicationModule : ModuleDefinition
@@ -18,7 +20,7 @@ public sealed class CommunicationModule : ModuleDefinition
         return new List<Assembly>
         {
             typeof(CommunicationModule).Assembly,
-            typeof(Extensions).Assembly,
+            typeof(CoreExtensions).Assembly,
             typeof(ICommunicationProxy).Assembly
         };
     }
@@ -26,6 +28,7 @@ public sealed class CommunicationModule : ModuleDefinition
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddCommunicationCore(GetModuleAssemblies());
+        services.AddCommunicationProxy(GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

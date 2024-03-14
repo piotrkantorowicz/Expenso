@@ -46,7 +46,7 @@ public sealed class BudgetSharingModule : ModuleDefinition
 {
     public override string ModulePrefix => "/budget-sharing";
 
-    public override Assembly[] GetModuleAssemblies()
+    public override IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return
         [
@@ -62,6 +62,7 @@ public sealed class BudgetSharingModule : ModuleDefinition
     {
         services.AddDomain();
         services.AddInfrastructure(configuration, ModuleName);
+        services.AddBudgetSharingProxy(GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

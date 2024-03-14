@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using Extensions = Expenso.UserPreferences.Core.Extensions;
+using CoreExtensions = Expenso.UserPreferences.Core.Extensions;
 
 namespace Expenso.UserPreferences.Api;
 
@@ -32,7 +32,7 @@ public sealed class UserPreferencesModule : ModuleDefinition
         return
         [
             typeof(UserPreferencesModule).Assembly,
-            typeof(Extensions).Assembly,
+            typeof(CoreExtensions).Assembly,
             typeof(IUserPreferencesProxy).Assembly
         ];
     }
@@ -40,6 +40,7 @@ public sealed class UserPreferencesModule : ModuleDefinition
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddUserPreferencesModulesDependencies(configuration, ModuleName);
+        services.AddUserPreferencesProxy(GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

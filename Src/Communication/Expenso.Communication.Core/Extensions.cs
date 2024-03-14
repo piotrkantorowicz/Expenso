@@ -3,8 +3,6 @@
 using Expenso.Communication.Core.Application.Notifications.Factories;
 using Expenso.Communication.Core.Application.Notifications.Factories.Interfaces;
 using Expenso.Communication.Core.Application.Notifications.Services;
-using Expenso.Communication.Core.Application.Proxy;
-using Expenso.Communication.Proxy;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -35,7 +33,5 @@ public static class Extensions
 
             return new NotificationServiceFactory(servicesDictionary);
         });
-
-        services.AddScoped<ICommunicationProxy, CommunicationProxy>();
     }
 }

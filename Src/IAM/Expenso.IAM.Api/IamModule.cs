@@ -7,6 +7,8 @@ using Expenso.Shared.System.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using CoreExtensions = Expenso.IAM.Core.Extensions;
+
 namespace Expenso.IAM.Api;
 
 public sealed class IamModule : ModuleDefinition
@@ -18,7 +20,7 @@ public sealed class IamModule : ModuleDefinition
         return
         [
             typeof(IamModule).Assembly,
-            typeof(Extensions).Assembly,
+            typeof(CoreExtensions).Assembly,
             typeof(IIamProxy).Assembly
         ];
     }
@@ -26,6 +28,7 @@ public sealed class IamModule : ModuleDefinition
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddIamCore(configuration);
+        services.AddIamProxy(GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
