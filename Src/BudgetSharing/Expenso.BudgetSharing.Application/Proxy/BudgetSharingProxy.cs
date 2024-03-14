@@ -39,11 +39,10 @@ internal sealed class BudgetSharingProxy(
         return GetBudgetPermissionsExternalResponseMap.MapTo(getBudgetPermissionsResponse);
     }
 
-    public async Task<CreateBudgetPermissionResponse?> CreateBudgetPermission(Guid? budgetPermissionId, Guid budgetId,
-        Guid ownerId, CancellationToken cancellationToken = default)
+    public async Task<CreateBudgetPermissionResponse?> CreateBudgetPermission(
+        CreateBudgetPermissionRequest createBudgetPermissionRequest, CancellationToken cancellationToken = default)
     {
-        CreateBudgetPermissionCommand command = new(_messageContextFactory.Current(),
-            new CreateBudgetPermissionRequest(budgetPermissionId, budgetId, ownerId));
+        CreateBudgetPermissionCommand command = new(_messageContextFactory.Current(), createBudgetPermissionRequest);
 
         CreateBudgetPermissionResponse? createBudgetPermissionResponse =
             await _commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(command,

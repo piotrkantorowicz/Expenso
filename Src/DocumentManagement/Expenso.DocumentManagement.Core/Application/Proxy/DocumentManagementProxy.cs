@@ -26,27 +26,24 @@ internal sealed class DocumentManagementProxy(
     private readonly IQueryDispatcher _queryDispatcher =
         queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
 
-    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(Guid? userId, string[]? groups, string[] fileNames,
-        GetFilesRequest_FileType fileType, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest getFileRequest,
+        CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(
-            new GetFilesQuery(_messageContextFactory.Current(), userId?.ToString(), groups, fileNames, fileType),
+        return await _queryDispatcher.QueryAsync(new GetFilesQuery(_messageContextFactory.Current(), getFileRequest),
             cancellationToken);
     }
 
-    public async Task UploadFilesAsync(Guid? userId, string[]? groups, UploadFilesRequest_File[] files,
-        UploadFilesRequest_FileType fileType, CancellationToken cancellationToken = default)
+    public async Task UploadFilesAsync(UploadFilesRequest uploadFilesRequest,
+        CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(
-            new UploadFilesCommand(_messageContextFactory.Current(),
-                new UploadFilesRequest(userId?.ToString(), groups, files, fileType)), cancellationToken);
+        await _commandDispatcher.SendAsync(new UploadFilesCommand(_messageContextFactory.Current(), uploadFilesRequest),
+            cancellationToken);
     }
 
-    public async Task DeleteFilesAsync(Guid? userId, string[]? groups, string[] fileNames,
-        DeleteFilesRequest_FileType fileType, CancellationToken cancellationToken = default)
+    public async Task DeleteFilesAsync(DeleteFilesRequest deleteFilesRequest,
+        CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(
-            new DeleteFilesCommand(_messageContextFactory.Current(),
-                new DeleteFilesRequest(userId?.ToString(), groups, fileNames, fileType)), cancellationToken);
+        await _commandDispatcher.SendAsync(new DeleteFilesCommand(_messageContextFactory.Current(), deleteFilesRequest),
+            cancellationToken);
     }
 }

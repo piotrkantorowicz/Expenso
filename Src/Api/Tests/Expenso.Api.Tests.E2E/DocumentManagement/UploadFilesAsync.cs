@@ -10,10 +10,10 @@ internal sealed class UploadFilesAsync : DocumentManagementTestBase
     {
         // Arrange
         // Act
-        Action uploadFilesAction = () => _documentManagementProxy.UploadFilesAsync(UserDataInitializer.UserIds[4], null,
-        [
-            new UploadFilesRequest_File("Import-4", [0x00, 0x01, 0x02, 0x03, 0x04])
-        ], UploadFilesRequest_FileType.Import);
+        Action uploadFilesAction = () => _documentManagementProxy.UploadFilesAsync(new UploadFilesRequest(
+            UserDataInitializer.UserIds[4], null, [
+                new UploadFilesRequest_File("Import-4", [0x00, 0x01, 0x02, 0x03, 0x04])
+            ], UploadFilesRequest_FileType.Import));
 
         // Assert
         uploadFilesAction.Should().NotThrow();

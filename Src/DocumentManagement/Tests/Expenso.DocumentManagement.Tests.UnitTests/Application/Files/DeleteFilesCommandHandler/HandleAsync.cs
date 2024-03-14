@@ -19,7 +19,7 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
             "fileName2"
         ];
 
-        string userId = Guid.NewGuid().ToString();
+        Guid userId = Guid.NewGuid();
 
         DeleteFilesCommand command = new(MessageContextFactoryMock.Object.Current(),
             new DeleteFilesRequest(userId, null, fileNames, DeleteFilesRequest_FileType.Import));
@@ -29,7 +29,7 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
             .Returns(Task.CompletedTask);
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)DeleteFilesRequest_FileType.Import, userId,
+            .Setup(x => x.ResolvePath((int)DeleteFilesRequest_FileType.Import, userId.ToString(),
                 command.DeleteFilesRequest.Groups))
             .Returns(directoryPath);
 

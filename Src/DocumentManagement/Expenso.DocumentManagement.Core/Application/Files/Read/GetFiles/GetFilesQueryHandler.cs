@@ -22,11 +22,11 @@ internal sealed class GetFilesQueryHandler(
     public async Task<IEnumerable<GetFilesResponse>?> HandleAsync(GetFilesQuery query,
         CancellationToken cancellationToken)
     {
-        (IMessageContext messageContext, string? userId, string[]? groups, string[] fileNames,
-            GetFilesRequest_FileType fileType) = query;
+        (IMessageContext messageContext,
+            (Guid? userId, string[]? groups, string[] fileNames, GetFilesRequest_FileType fileType)) = query;
 
-        userId ??= messageContext.RequestedBy.ToString();
-        string directoryPath = _directoryPathResolver.ResolvePath((int)fileType, userId, groups);
+        userId ??= messageContext.RequestedBy;
+        string directoryPath = _directoryPathResolver.ResolvePath((int)fileType, userId.ToString()!, groups);
         List<GetFilesResponse> filesResponses = [];
 
         foreach (string fileName in fileNames)
@@ -34,7 +34,7 @@ internal sealed class GetFilesQueryHandler(
             string filePath = _fileSystem.Path.Combine(directoryPath, fileName);
             byte[] fileContent = await _fileStorage.ReadAsync(filePath, cancellationToken);
 
-            filesResponses.Add(new GetFilesResponse(userId, fileName, fileContent,
+            filesResponses.Add(new GetFilesResponse(userId.Value, fileName, fileContent,
                 (GetFilesResponse_FileType)fileType));
         }
 

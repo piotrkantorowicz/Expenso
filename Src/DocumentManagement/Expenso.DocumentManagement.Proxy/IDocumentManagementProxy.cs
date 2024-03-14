@@ -7,12 +7,10 @@ namespace Expenso.DocumentManagement.Proxy;
 
 public interface IDocumentManagementProxy
 {
-    Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(Guid? userId, string[]? groups, string[] fileNames,
-        GetFilesRequest_FileType fileType, CancellationToken cancellationToken = default);
-
-    Task UploadFilesAsync(Guid? userId, string[]? groups, UploadFilesRequest_File[] files,
-        UploadFilesRequest_FileType fileType, CancellationToken cancellationToken = default);
-
-    Task DeleteFilesAsync(Guid? userId, string[]? groups, string[] fileNames, DeleteFilesRequest_FileType fileType,
+    Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest getFileRequest,
         CancellationToken cancellationToken = default);
+
+    Task UploadFilesAsync(UploadFilesRequest uploadFilesRequest, CancellationToken cancellationToken = default);
+
+    Task DeleteFilesAsync(DeleteFilesRequest deleteFilesRequest, CancellationToken cancellationToken = default);
 }
