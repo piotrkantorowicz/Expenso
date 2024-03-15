@@ -1,9 +1,7 @@
 using Expenso.Shared.Database.EfCore.NpSql;
-using Expenso.UserPreferences.Core.Application.Proxy;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Persistence.EfCore;
 using Expenso.UserPreferences.Core.Persistence.EfCore.Repositories;
-using Expenso.UserPreferences.Proxy;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +19,5 @@ public static class Extensions
             x.GetRequiredService<UserPreferencesDbContext>());
 
         services.AddScoped<IPreferencesRepository, PreferencesRepository>();
-        services.AddScoped<IUserPreferencesProxy, UserPreferencesProxy>();
     }
 }

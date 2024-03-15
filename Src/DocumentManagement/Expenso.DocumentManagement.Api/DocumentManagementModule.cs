@@ -7,6 +7,8 @@ using Expenso.Shared.System.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using CoreExtensions = Expenso.DocumentManagement.Core.Extensions;
+
 namespace Expenso.DocumentManagement.Api;
 
 public sealed class DocumentManagementModule : ModuleDefinition
@@ -18,7 +20,7 @@ public sealed class DocumentManagementModule : ModuleDefinition
         return
         [
             typeof(DocumentManagementModule).Assembly,
-            typeof(Extensions).Assembly,
+            typeof(CoreExtensions).Assembly,
             typeof(IDocumentManagementProxy).Assembly
         ];
     }
@@ -26,6 +28,7 @@ public sealed class DocumentManagementModule : ModuleDefinition
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDocumentManagementCore(configuration);
+        services.AddDocumentManagementProxy(GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
