@@ -7,7 +7,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissions;
 public sealed class Permission
 {
     // ReSharper disable once UnusedMember.Local
-    // Required by EF Core   
+    // Required for EF Core
     private Permission()
     {
         ParticipantId = default!;

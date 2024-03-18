@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\Expenso.TimeManagement.Proxy\Expenso.TimeManagement.Proxy.csproj"/>
     </ItemGroup>
 
@@ -14,6 +15,14 @@
         <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Application\Jobs\Shared\Jobs\"/>
+        <Folder Include="Application\Jobs\Write\RegisterJob\DTO\Maps\"/>
+        <Folder Include="Application\Jobs\Write\RegisterJob\DTO\Request\"/>
+        <Folder Include="Application\Jobs\Write\RegisterJob\DTO\Response\"/>
+        <Folder Include="Domain\Jobs\"/>
     </ItemGroup>
 
 </Project>

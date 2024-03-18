@@ -19,7 +19,7 @@ public sealed class BudgetPermission : IAggregateRoot
     private readonly IMessageContextFactory _messageContextFactory;
 
     // ReSharper disable once UnusedMember.Local
-    // Required by EF Core   
+    // Required for EF Core
     private BudgetPermission()
     {
         Id = default!;
