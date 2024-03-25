@@ -4,5 +4,5 @@ namespace Expenso.TimeManagement.Proxy;
 
 public interface ITimeManagementProxy
 {
-    Task RegisterJobEntry(AddJobEntryRequest jobEntryRequest);
+    Task RegisterJobEntry(AddJobEntryRequest jobEntryRequest, CancellationToken cancellationToken = default);
 }

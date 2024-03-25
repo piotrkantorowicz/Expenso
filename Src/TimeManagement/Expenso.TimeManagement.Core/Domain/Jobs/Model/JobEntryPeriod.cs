@@ -1,8 +1,14 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-internal sealed record JobEntryPeriod(JobEntryPeriodInterval Interval, ICollection<TimeSpan> Times)
+internal sealed class JobEntryPeriod
 {
-    // Required for EF Core
-    // ReSharper disable once UnusedMember.Local
-    private JobEntryPeriod() : this(default, new List<TimeSpan>()) { }
+    public Guid Id { get; init; }
+
+    public JobEntryPeriodInterval Interval { get; init; }
+
+    public DateTimeOffset RunAt { get; init; }
+
+    public DateTimeOffset? LastRun { get; set; }
+
+    public bool? IsCompleted { get; set; }
 }

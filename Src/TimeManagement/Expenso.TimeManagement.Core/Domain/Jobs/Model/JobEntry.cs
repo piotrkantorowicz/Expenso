@@ -1,13 +1,18 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-internal record JobEntry(
-    Guid Id,
-    int JobTypeId,
-    int JobStatusId,
-    ICollection<JobEntryPeriod> Periods,
-    ICollection<JobEntryTrigger> Triggers)
+internal sealed class JobEntry
 {
-    // Required for EF Core
-    // ReSharper disable once UnusedMember.Local
-    private JobEntry() : this(default, default, default, new List<JobEntryPeriod>(), new List<JobEntryTrigger>()) { }
+    public Guid Id { get; init; }
+
+    public Guid JobEntryTypeId { get; init; }
+
+    public Guid JobEntryStatusId { get; init; }
+
+    public JobEntryType? JobEntryType { get; init; }
+
+    public JobEntryStatus? JobStatus { get; set; }
+
+    public ICollection<JobEntryPeriod> Periods { get; init; } = new List<JobEntryPeriod>();
+
+    public ICollection<JobEntryTrigger> Triggers { get; init; } = new List<JobEntryTrigger>();
 }

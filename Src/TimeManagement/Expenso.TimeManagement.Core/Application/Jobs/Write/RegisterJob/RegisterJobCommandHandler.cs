@@ -10,17 +10,17 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
 internal sealed class RegisterJobCommandHandler(
     IJobEntryRepository jobEntryRepository,
-    IJobTypeRepository jobTypeRepository,
-    IJobStatusRepository jobStatusRepository) : ICommandHandler<RegisterJobCommand>
+    IJobEntryTypeRepository jobEntryTypeRepository,
+    IJobEntryStatusRepository jobEntryStatusRepository) : ICommandHandler<RegisterJobCommand>
 {
     private readonly IJobEntryRepository _jobEntryRepository =
         jobEntryRepository ?? throw new ArgumentNullException(nameof(jobEntryRepository));
 
-    private readonly IJobStatusRepository _jobStatusRepository =
-        jobStatusRepository ?? throw new ArgumentNullException(nameof(jobStatusRepository));
+    private readonly IJobEntryStatusRepository _jobEntryStatusRepository =
+        jobEntryStatusRepository ?? throw new ArgumentNullException(nameof(jobEntryStatusRepository));
 
-    private readonly IJobTypeRepository _jobTypeRepository =
-        jobTypeRepository ?? throw new ArgumentNullException(nameof(jobTypeRepository));
+    private readonly IJobEntryTypeRepository _jobEntryTypeRepository =
+        jobEntryTypeRepository ?? throw new ArgumentNullException(nameof(jobEntryTypeRepository));
 
     public async Task HandleAsync(RegisterJobCommand command, CancellationToken cancellationToken)
     {
@@ -28,7 +28,8 @@ internal sealed class RegisterJobCommandHandler(
             (string jobTypeName, ICollection<AddJobEntryRequest_JobEntryPeriod> _,
                 ICollection<AddJobEntryRequest_JobEntryTrigger> _)) = command;
 
-        JobType? jobType = await _jobTypeRepository.GetAsync(command.AddJobEntryRequest.JobTypeName, cancellationToken);
+        JobEntryType? jobType =
+            await _jobEntryTypeRepository.GetAsync(command.AddJobEntryRequest.JobTypeNameCode, cancellationToken);
 
         if (jobType is null)
         {
@@ -36,14 +37,14 @@ internal sealed class RegisterJobCommandHandler(
         }
 
         JobEntryStatus? jobEntryStatus =
-            await _jobStatusRepository.GetAsync(JobEntryStatuses.Active, cancellationToken);
+            await _jobEntryStatusRepository.GetAsync(JobEntryStatuses.Active, cancellationToken);
 
         if (jobEntryStatus is null)
         {
             throw new NotFoundException($"Job status {JobEntryStatuses.Active} not found.");
         }
 
-        JobEntry jobEntry = command.AddJobEntryRequest.MapToJobEntry(jobType.Id, jobEntryStatus.Id);
+        JobEntry jobEntry = command.AddJobEntryRequest.MapToJobEntry(jobType, jobEntryStatus);
         await _jobEntryRepository.SaveAsync(jobEntry, cancellationToken);
     }
 }

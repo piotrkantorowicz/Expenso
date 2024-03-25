@@ -9,6 +9,10 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj"/>
         <ProjectReference Include="..\Expenso.TimeManagement.Proxy\Expenso.TimeManagement.Proxy.csproj"/>
     </ItemGroup>
 
@@ -19,7 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Domain\Jobs\"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.2"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -4,7 +4,8 @@ namespace Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
 internal interface IJobEntryRepository
 {
-    Task<JobEntry?> GetJobEntry(Guid id, CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<JobEntry>?> GetActiveJobEntries(CancellationToken cancellationToken,
+        bool useTracking = false);
 
     Task SaveAsync(JobEntry jobEntry, CancellationToken cancellationToken);
 }

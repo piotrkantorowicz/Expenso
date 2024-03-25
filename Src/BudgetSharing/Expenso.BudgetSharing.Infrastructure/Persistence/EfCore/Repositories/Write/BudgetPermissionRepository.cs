@@ -29,29 +29,23 @@ internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetS
             .SingleOrDefaultAsync(x => x.BudgetId == budgetId, cancellationToken);
     }
 
-    public async Task<BudgetPermission> AddOrUpdateAsync(BudgetPermission permission,
-        CancellationToken cancellationToken)
+    public async Task AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)
     {
-        if (_budgetSharingDbContext.GetEntryState(permission) == EntityState.Detached)
+        if (_budgetSharingDbContext.GetEntryState(budgetPermission) == EntityState.Detached)
         {
-            await _budgetSharingDbContext.BudgetPermissions.AddAsync(permission, cancellationToken);
+            await _budgetSharingDbContext.BudgetPermissions.AddAsync(budgetPermission, cancellationToken);
         }
         else
         {
-            _budgetSharingDbContext.BudgetPermissions.Update(permission);
+            _budgetSharingDbContext.BudgetPermissions.Update(budgetPermission);
         }
 
         await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
-
-        return permission;
     }
 
-    public async Task<BudgetPermission> UpdateAsync(BudgetPermission budgetPermission,
-        CancellationToken cancellationToken)
+    public async Task UpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)
     {
         _budgetSharingDbContext.BudgetPermissions.Update(budgetPermission);
         await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
-
-        return budgetPermission;
     }
 }

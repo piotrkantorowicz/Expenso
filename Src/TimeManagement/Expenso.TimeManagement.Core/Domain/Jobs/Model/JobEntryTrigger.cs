@@ -1,8 +1,10 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-internal record JobEntryTrigger(string? EventType, object? EventData)
+internal sealed class JobEntryTrigger
 {
-    // Required for EF Core
-    // ReSharper disable once UnusedMember.Local
-    private JobEntryTrigger() : this(default, default) { }
+    public Guid Id { get; init; }
+
+    public string? EventType { get; init; }
+
+    public string? EventData { get; init; }
 }
