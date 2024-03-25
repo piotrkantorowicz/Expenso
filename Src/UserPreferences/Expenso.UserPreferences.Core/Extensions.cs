@@ -10,8 +10,8 @@ namespace Expenso.UserPreferences.Core;
 
 public static class Extensions
 {
-    public static void AddUserPreferencesModulesDependencies(this IServiceCollection services,
-        IConfiguration configuration, string moduleName)
+    public static void AddUserPreferencesCore(this IServiceCollection services, IConfiguration configuration,
+        string moduleName)
     {
         services.AddPostgres<UserPreferencesDbContext>(configuration, moduleName);
 

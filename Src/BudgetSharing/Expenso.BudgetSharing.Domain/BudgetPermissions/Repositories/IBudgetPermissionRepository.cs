@@ -9,7 +9,7 @@ public interface IBudgetPermissionRepository
 
     Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken);
 
-    Task<BudgetPermission> AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);
+    Task AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);
 
-    Task<BudgetPermission> UpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);
+    Task UpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);
 }

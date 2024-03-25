@@ -36,6 +36,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\..\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
         <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj"/>
+        <ProjectReference Include="..\..\TimeManagement\Expenso.TimeManagement.Api\Expenso.TimeManagement.Api.csproj"/>
         <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj"/>
     </ItemGroup>
 

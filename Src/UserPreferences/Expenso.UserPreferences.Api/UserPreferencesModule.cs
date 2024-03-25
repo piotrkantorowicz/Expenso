@@ -39,7 +39,7 @@ public sealed class UserPreferencesModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddUserPreferencesModulesDependencies(configuration, ModuleName);
+        services.AddUserPreferencesCore(configuration, ModuleName);
         services.AddUserPreferencesProxy(GetModuleAssemblies());
     }
 
