@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Expenso.Shared.Database.EfCore.Extensions;
+namespace Expenso.Shared.Database.EfCore.Queryable;
 
 public static class QueryableExtensions
 {

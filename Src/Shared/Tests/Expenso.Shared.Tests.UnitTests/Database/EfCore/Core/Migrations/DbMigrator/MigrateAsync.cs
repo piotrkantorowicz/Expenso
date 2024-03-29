@@ -2,9 +2,9 @@ using System.Reflection;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.Migrations.DbMigrator;
+namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Core.Migrations.DbMigrator;
 
-internal sealed class EnsureDatabaseCreated : DbMigratorTestBase
+internal sealed class MigrateAsync : DbMigratorTestBase
 {
     [Test]
     public async Task Should_RunMigrations_When_DbContextIsMigratable()
@@ -20,10 +20,11 @@ internal sealed class EnsureDatabaseCreated : DbMigratorTestBase
             .Returns(_testDbContextMigrateMock.Object);
 
         // Act
-        await TestCandidate.EnsureDatabaseCreatedAsync(_serviceScopeMock.Object, assemblies);
+        await TestCandidate.MigrateAsync(_serviceScopeMock.Object, assemblies,
+            It.IsAny<CancellationToken>());
 
         // Assert
-        _testDbContextMigrateMock.Verify(x => x.MigrateAsync(), Times.Once);
+        _testDbContextMigrateMock.Verify(x => x.MigrateAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Test]
@@ -40,9 +41,10 @@ internal sealed class EnsureDatabaseCreated : DbMigratorTestBase
             .Returns(_testDbContextNoMigrateMock.Object);
 
         // Act
-        await TestCandidate.EnsureDatabaseCreatedAsync(_serviceScopeMock.Object, assemblies);
+        await TestCandidate.MigrateAsync(_serviceScopeMock.Object, assemblies,
+            It.IsAny<CancellationToken>());
 
         // Assert
-        _testDbContextNoMigrateMock.Verify(x => x.MigrateAsync(), Times.Never);
+        _testDbContextNoMigrateMock.Verify(x => x.MigrateAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 }

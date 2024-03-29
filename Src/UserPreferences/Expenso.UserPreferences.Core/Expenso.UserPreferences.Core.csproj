@@ -9,6 +9,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj" />
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>

@@ -18,9 +18,21 @@ internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbC
         return Entry(entity).State;
     }
 
-    public async Task MigrateAsync()
+    public async Task MigrateAsync(CancellationToken cancellationToken)
     {
-        await Database.MigrateAsync();
+        await Database.MigrateAsync(cancellationToken);
+    }
+
+    public async Task SeedAsync(CancellationToken cancellationToken)
+    {
+        await JobEntryTypes.AddAsync(JobEntryType.BudgetSharingRequestExpiration, cancellationToken);
+
+        await JobEntryStatuses.AddRangeAsync([
+            JobEntryStatus.Running, JobEntryStatus.Completed, JobEntryStatus.Failed, JobEntryStatus.Cancelled,
+            JobEntryStatus.Retrying
+        ], cancellationToken);
+
+        await SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

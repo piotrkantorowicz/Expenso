@@ -15,6 +15,5 @@ internal sealed class JobEntryTypeEntityTypeConfiguration : IEntityTypeConfigura
         builder.Property(x => x.Code).IsRequired().HasMaxLength(5);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
         builder.Property(x => x.Interval).IsRequired();
-        builder.HasData(JobEntryType.BudgetSharingRequestExpiration);
     }
 }

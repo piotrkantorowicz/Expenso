@@ -14,8 +14,5 @@ internal sealed class JobEntryStatusEntityTypeConfiguration : IEntityTypeConfigu
         builder.Property(x => x.Id).IsRequired();
         builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
         builder.Property(x => x.Description).IsRequired(false).HasMaxLength(500);
-
-        builder.HasData(JobEntryStatus.Running, JobEntryStatus.Completed, JobEntryStatus.Failed,
-            JobEntryStatus.Retrying, JobEntryStatus.Cancelled);
     }
 }

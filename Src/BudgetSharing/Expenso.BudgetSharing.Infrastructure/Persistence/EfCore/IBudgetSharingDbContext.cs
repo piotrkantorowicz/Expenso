@@ -1,13 +1,14 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
-using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+using Expenso.Shared.Database.EfCore.DbContexts;
+using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.Domain.Types.Events;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 
-public interface IBudgetSharingDbContext : IDbContext
+public interface IBudgetSharingDbContext : IDbContext, IDoNotSeed
 {
     DbSet<BudgetPermission> BudgetPermissions { get; }
 

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 
-internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options)
+internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options)
     : DbContext(options), IBudgetSharingDbContext
 {
     private IDbContextTransaction? _currentTransaction;
@@ -59,9 +59,14 @@ internal sealed class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbCon
         return domainEvents.AsReadOnly();
     }
 
-    public async Task MigrateAsync()
+    public async Task MigrateAsync(CancellationToken cancellationToken)
     {
-        await Database.MigrateAsync();
+        await Database.MigrateAsync(cancellationToken);
+    }
+
+    public Task SeedAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

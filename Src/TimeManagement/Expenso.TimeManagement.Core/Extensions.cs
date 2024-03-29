@@ -1,4 +1,8 @@
+using Expenso.Shared.Database.EfCore;
+using Expenso.Shared.Database.EfCore.Memory;
 using Expenso.Shared.Database.EfCore.NpSql;
+using Expenso.Shared.System.Configuration.Extensions;
+using Expenso.Shared.System.Configuration.Sections;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers.Interfaces;
@@ -16,7 +20,13 @@ public static class Extensions
     public static void AddTimeManagementCore(this IServiceCollection services, IConfiguration configuration,
         string moduleName)
     {
-        services.AddPostgres<TimeManagementDbContext>(configuration, moduleName);
+        services.AddDbMigrator();
+        configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
+
+        if (databaseSettings.InMemory is true)
+            services.AddMemoryDatabase<TimeManagementDbContext>(moduleName);
+        else
+            services.AddPostgres<TimeManagementDbContext>(databaseSettings);
 
         services.AddScoped<ITimeManagementDbContext, TimeManagementDbContext>(x =>
             x.GetRequiredService<TimeManagementDbContext>());

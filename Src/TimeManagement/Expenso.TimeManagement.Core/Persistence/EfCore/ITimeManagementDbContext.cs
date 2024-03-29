@@ -1,4 +1,4 @@
-using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+using Expenso.Shared.Database.EfCore.DbContexts;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
 using Microsoft.EntityFrameworkCore;
