@@ -4,9 +4,7 @@ internal sealed class JobEntryPeriod
 {
     public Guid Id { get; init; }
 
-    public JobEntryPeriodInterval Interval { get; init; }
-
-    public DateTimeOffset RunAt { get; init; }
+    public string? CronExpression { get; init; }
 
     public DateTimeOffset? LastRun { get; set; }
 

@@ -1,3 +1,5 @@
+using System.Text;
+
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Proxy.DTO.Request;
 
@@ -19,8 +21,7 @@ internal static class RegisterJobRequestMap
                 .JobEntryPeriods.Select(x => new JobEntryPeriod
                 {
                     Id = Guid.NewGuid(),
-                    Interval = (JobEntryPeriodInterval)x.Interval,
-                    RunAt = x.RunAt
+                    CronExpression = ToCronExpression(x.Interval),
                 })
                 .ToList(),
             Triggers = request
@@ -32,5 +33,23 @@ internal static class RegisterJobRequestMap
                 })
                 .ToList()
         };
+    }
+    
+    private static string ToCronExpression(this AddJobEntryRequest_JobEntryPeriodInterval interval)
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(interval.DayOfWeek ?? "*");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(interval.Month ?? "*");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(interval.DayofMonth ?? "*");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(interval.Hour ?? "*");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(interval.Minute ?? "*");
+        stringBuilder.Append(' ');
+        stringBuilder.Append(interval.Second ?? "*");
+        
+        return stringBuilder.ToString();
     }
 }

@@ -2,7 +2,7 @@ using Expenso.DocumentManagement.Proxy;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expenso.Api.Tests.E2E.DocumentManagement;
+namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
 internal abstract class DocumentManagementTestBase : TestBase
 {

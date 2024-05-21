@@ -20,8 +20,7 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
             jobEntryPeriodsBuilder.ToTable("JobEntryPeriods");
             jobEntryPeriodsBuilder.HasKey(x => x.Id);
             jobEntryPeriodsBuilder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-            jobEntryPeriodsBuilder.Property(x => x.Interval).IsRequired();
-            jobEntryPeriodsBuilder.Property(x => x.RunAt).IsRequired();
+            jobEntryPeriodsBuilder.Property(x => x.CronExpression).IsRequired();
             jobEntryPeriodsBuilder.Property(x => x.LastRun).IsRequired(false);
             jobEntryPeriodsBuilder.Property(x => x.IsCompleted).IsRequired(false);
         });

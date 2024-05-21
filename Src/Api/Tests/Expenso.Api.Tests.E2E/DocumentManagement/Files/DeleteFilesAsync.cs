@@ -1,7 +1,7 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
 
-namespace Expenso.Api.Tests.E2E.DocumentManagement;
+namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
 internal sealed class DeleteFilesAsync : DocumentManagementTestBase
 {

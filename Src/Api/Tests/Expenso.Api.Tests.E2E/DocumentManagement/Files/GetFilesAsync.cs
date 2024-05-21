@@ -2,7 +2,7 @@ using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Request;
 using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Response;
 
-namespace Expenso.Api.Tests.E2E.DocumentManagement;
+namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
 internal sealed class GetFilesAsync : DocumentManagementTestBase
 {

@@ -6,6 +6,7 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
 {
     public IDictionary<string, string> Validate(RegisterJobCommand command)
     {
-        throw new NotImplementedException();
+      //  throw new NotImplementedException();
+      return null;
     }
 }

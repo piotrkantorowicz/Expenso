@@ -114,8 +114,8 @@ internal sealed class BudgetSharingRequestsExpirationJob(
                     if (intervalPrediction.ShouldRun)
                     {
                         logger.LogDebug(
-                            "Running {JobTypeName} job entry with Id {JobEntryId} and period {JobEntryPeriodTime}",
-                            JobTypeCode, jobEntryId, jobEntryPeriod.RunAt.ToString("g"));
+                            "Running {JobTypeName} job entry with Id {JobEntryId} and cron {JobEntryPeriodTime}",
+                            JobTypeCode, jobEntryId, jobEntryPeriod.CronExpression);
 
                         List<IIntegrationEvent?>? events = jobEntry
                             .Triggers?.Select(x =>
@@ -124,8 +124,8 @@ internal sealed class BudgetSharingRequestsExpirationJob(
                                     Type.GetType(x.EventType) is null)
                                 {
                                     logger.LogWarning(
-                                        "Skipping event trigger for {JobTypeName} job entry with Id {JobEntryId} and period {JobEntryPeriodTime} because it is invalid",
-                                        JobTypeCode, jobEntryId, jobEntryPeriod.RunAt.ToString("g"));
+                                        "Skipping event trigger for {JobTypeName} job entry with Id {JobEntryId} and cron {JobEntryPeriodTime} because it is invalid",
+                                        JobTypeCode, jobEntryId, jobEntryPeriod.CronExpression);
 
                                     return null;
                                 }
@@ -138,8 +138,8 @@ internal sealed class BudgetSharingRequestsExpirationJob(
                                 }
 
                                 logger.LogWarning(
-                                    "Failed to deserialize event trigger for {JobTypeName} job entry with Id {JobEntryId} and period {JobEntryPeriodTime}",
-                                    JobTypeCode, jobEntryId, jobEntryPeriod.RunAt.ToString("g"));
+                                    "Failed to deserialize event trigger for {JobTypeName} job entry with Id {JobEntryId} and cron {JobEntryPeriodTime}",
+                                    JobTypeCode, jobEntryId, jobEntryPeriod.CronExpression);
 
                                 return null;
                             })
@@ -154,15 +154,10 @@ internal sealed class BudgetSharingRequestsExpirationJob(
                             }
 
                             logger.LogDebug(
-                                "Published {EventsCount} events for {JobTypeName} job entry with Id {JobEntryId} and period {JobEntryPeriodTime}",
-                                events.Count, JobTypeCode, jobEntryId, jobEntryPeriod.RunAt.ToString("g"));
+                                "Published {EventsCount} events for {JobTypeName} job entry with Id {JobEntryId} and cron {JobEntryPeriodTime}",
+                                events.Count, JobTypeCode, jobEntryId, jobEntryPeriod.CronExpression);
 
                             jobEntryPeriod.LastRun = intervalPrediction.LastRun;
-
-                            if (jobEntryPeriod.Interval == JobEntryPeriodInterval.Once)
-                            {
-                                jobEntryPeriod.IsCompleted = true;
-                            }
                         }
                     }
 
