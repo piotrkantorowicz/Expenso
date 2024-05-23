@@ -12,9 +12,11 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         // Arrange
         var jobEntryRequest = new AddJobEntryRequest(JobTypeNameCode, [
             new AddJobEntryRequest_JobEntryPeriod(
-                new AddJobEntryRequest_JobEntryPeriodInterval(Minute: "0", Hour: "0", DayofMonth: "12", DayOfWeek: "Mon"),
-                _clockMock.Object.UtcNow)
-        ], new List<AddJobEntryRequest_JobEntryTrigger>());
+                new AddJobEntryRequest_JobEntryPeriodInterval(Minute: "0", Hour: "0", DayofMonth: "12",
+                    DayOfWeek: "Mon"), 3, false)
+        ], [
+            new AddJobEntryRequest_JobEntryTrigger("TestEvent", "TestEvent")
+        ]);
         
         // Act
         // Assert

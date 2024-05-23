@@ -11,7 +11,7 @@ internal sealed class JobEntryPeriodIntervalHelper : IJobEntryPeriodIntervalHelp
     public IntervalPrediction PredictInterval(JobEntryPeriod jobEntryPeriod, IClock clock)
     {
         var schedule = CrontabSchedule.Parse(jobEntryPeriod.CronExpression);
-        var nextOccurrence = schedule.GetNextOccurrence(clock.UtcNow.DateTime);
+        var nextOccurrence = schedule?.GetNextOccurrence(clock.UtcNow.DateTime);
         bool shouldRun = nextOccurrence == clock.UtcNow;
         
         return new IntervalPrediction(shouldRun, shouldRun ? clock.UtcNow : null);

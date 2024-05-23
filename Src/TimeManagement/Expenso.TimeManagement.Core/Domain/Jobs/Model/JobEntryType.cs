@@ -1,13 +1,13 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-internal sealed record JobEntryType
+public sealed record JobEntryType
 {
     public static JobEntryType BudgetSharingRequestExpiration => new()
     {
         Id = Guid.NewGuid(),
         Code = "BS-REQ-EXP",
         Name = "Budget Sharing Requests Expiration",
-        Interval = 10
+        RunningDelay = 10
     };
 
     public Guid Id { get; init; }
@@ -16,5 +16,5 @@ internal sealed record JobEntryType
 
     public string? Name { get; init; }
 
-    public int Interval { get; init; }
+    public int RunningDelay { get; init; }
 }

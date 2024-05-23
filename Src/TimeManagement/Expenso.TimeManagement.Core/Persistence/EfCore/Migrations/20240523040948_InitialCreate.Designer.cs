@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(TimeManagementDbContext))]
-    [Migration("20240325211742_InitialCreate")]
+    [Migration("20240523040948_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,15 +31,13 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("JobEntryStatusId")
-                        .HasColumnType("uuid");
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("JobEntryTypeId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JobEntryStatusId");
 
                     b.HasIndex("JobEntryTypeId");
 
@@ -64,38 +62,6 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("JobEntryStatuses", "TimeManagement");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f156ddcf-5889-4d8e-8299-4d54971fe74e"),
-                            Description = "The job entry is currently running.",
-                            Name = "Running"
-                        },
-                        new
-                        {
-                            Id = new Guid("dc2678d1-3858-4740-aaa2-80cbfb4b69bc"),
-                            Description = "The job entry has completed successfully.",
-                            Name = "Completed"
-                        },
-                        new
-                        {
-                            Id = new Guid("214909c9-e0e2-4e93-a51c-cf1aae83a3ae"),
-                            Description = "The job entry has failed.",
-                            Name = "Failed"
-                        },
-                        new
-                        {
-                            Id = new Guid("b9532f23-22df-433c-8603-bb79068eeb40"),
-                            Description = "The job entry is being retried.",
-                            Name = "Retrying"
-                        },
-                        new
-                        {
-                            Id = new Guid("b465800e-dfeb-4596-9f13-77f15b17acee"),
-                            Description = "The job entry has been cancelled.",
-                            Name = "Cancelled"
-                        });
                 });
 
             modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryType", b =>
@@ -106,39 +72,24 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<int>("Interval")
-                        .HasColumnType("integer");
+                        .HasMaxLength(5)
+                        .HasColumnType("character varying(5)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
+                    b.Property<int>("RunningDelay")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("JobEntryTypes", "TimeManagement");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("0185f3ae-1a77-460a-8ade-978108d41289"),
-                            Code = "BS-REQ-EXP",
-                            Interval = 10,
-                            Name = "Budget Sharing Requests Expiration"
-                        });
                 });
 
             modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntry", b =>
                 {
-                    b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", "JobStatus")
-                        .WithMany()
-                        .HasForeignKey("JobEntryStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryType", "JobEntryType")
                         .WithMany()
                         .HasForeignKey("JobEntryTypeId")
@@ -150,29 +101,46 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                             b1.Property<Guid>("Id")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Interval")
+                            b1.Property<string>("CronExpression")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<int>("CurrentRetries")
                                 .HasColumnType("integer");
 
-                            b1.Property<bool?>("IsCompleted")
-                                .HasColumnType("boolean");
-
                             b1.Property<Guid>("JobEntryId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("JobEntryStatusId")
                                 .HasColumnType("uuid");
 
                             b1.Property<DateTimeOffset?>("LastRun")
                                 .HasColumnType("timestamp with time zone");
 
-                            b1.Property<DateTimeOffset>("RunAt")
-                                .HasColumnType("timestamp with time zone");
+                            b1.Property<int>("MaxRetries")
+                                .HasColumnType("integer");
+
+                            b1.Property<bool>("Periodic")
+                                .HasColumnType("boolean");
 
                             b1.HasKey("Id");
 
                             b1.HasIndex("JobEntryId");
 
+                            b1.HasIndex("JobEntryStatusId");
+
                             b1.ToTable("JobEntryPeriods", "TimeManagement");
 
                             b1.WithOwner()
                                 .HasForeignKey("JobEntryId");
+
+                            b1.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", "JobStatus")
+                                .WithMany()
+                                .HasForeignKey("JobEntryStatusId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.Navigation("JobStatus");
                         });
 
                     b.OwnsMany("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryTrigger", "Triggers", b1 =>
@@ -203,8 +171,6 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                         });
 
                     b.Navigation("JobEntryType");
-
-                    b.Navigation("JobStatus");
 
                     b.Navigation("Periods");
 

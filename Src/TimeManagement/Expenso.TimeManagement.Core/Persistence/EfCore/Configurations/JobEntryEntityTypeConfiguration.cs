@@ -13,8 +13,7 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
         builder.HasOne(e => e.JobEntryType).WithMany().HasForeignKey(e => e.JobEntryTypeId).IsRequired();
-        builder.HasOne(e => e.JobStatus).WithMany().HasForeignKey(e => e.JobEntryStatusId).IsRequired();
-
+        
         builder.OwnsMany(x => x.Periods, jobEntryPeriodsBuilder =>
         {
             jobEntryPeriodsBuilder.ToTable("JobEntryPeriods");
@@ -22,9 +21,14 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
             jobEntryPeriodsBuilder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
             jobEntryPeriodsBuilder.Property(x => x.CronExpression).IsRequired();
             jobEntryPeriodsBuilder.Property(x => x.LastRun).IsRequired(false);
-            jobEntryPeriodsBuilder.Property(x => x.IsCompleted).IsRequired(false);
+            
+            jobEntryPeriodsBuilder
+                .HasOne(e => e.JobStatus)
+                .WithMany()
+                .HasForeignKey(e => e.JobEntryStatusId)
+                .IsRequired();
         });
-
+        
         builder.OwnsMany(x => x.Triggers, jobEntryTriggersBuilder =>
         {
             jobEntryTriggersBuilder.ToTable("JobEntryTriggers");

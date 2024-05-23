@@ -7,36 +7,67 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Map
 
 internal static class RegisterJobRequestMap
 {
-    public static JobEntry MapToJobEntry(this AddJobEntryRequest request, JobEntryType jobEntryType,
-        JobEntryStatus jobEntryStatus)
+    private const string DefaultCronExpression = "* * * * * *";
+    
+    public static JobEntry MapToJobEntry(this AddJobEntryRequest? request, JobEntryType? jobEntryType,
+        JobEntryStatus? jobEntryStatus)
     {
         return new JobEntry
         {
             Id = Guid.NewGuid(),
-            JobEntryTypeId = jobEntryType.Id,
-            JobEntryStatusId = jobEntryStatus.Id,
+            JobEntryTypeId = jobEntryType?.Id ?? throw new ArgumentNullException(nameof(jobEntryType)),
             JobEntryType = jobEntryType,
-            JobStatus = jobEntryStatus,
-            Periods = request
-                .JobEntryPeriods.Select(x => new JobEntryPeriod
-                {
-                    Id = Guid.NewGuid(),
-                    CronExpression = ToCronExpression(x.Interval),
-                })
-                .ToList(),
-            Triggers = request
-                .JobEntryTriggers.Select(x => new JobEntryTrigger
-                {
-                    Id = Guid.NewGuid(),
-                    EventType = x.EventType,
-                    EventData = x.EventData
-                })
-                .ToList()
+            Periods = request?.JobEntryPeriods?.MapToJobEntryPeriods(jobEntryStatus) ?? new List<JobEntryPeriod>(),
+            Triggers = request?.JobEntryTriggers?.MapToJobEntryTriggers() ?? new List<JobEntryTrigger>()
         };
     }
     
-    private static string ToCronExpression(this AddJobEntryRequest_JobEntryPeriodInterval interval)
+    private static ICollection<JobEntryPeriod> MapToJobEntryPeriods(
+        this ICollection<AddJobEntryRequest_JobEntryPeriod>? periods, JobEntryStatus? jobEntryStatus)
     {
+        if (periods is null)
+        {
+            return new List<JobEntryPeriod>();
+        }
+        
+        return periods
+            .Select(x => new JobEntryPeriod
+            {
+                Id = Guid.NewGuid(),
+                CronExpression = ToCronExpression(x.Interval),
+                MaxRetries = x.MaxRetries,
+                JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(nameof(jobEntryStatus)),
+                JobStatus = jobEntryStatus,
+                Periodic = x.Periodic
+            })
+            .ToArray();
+    }
+    
+    private static ICollection<JobEntryTrigger> MapToJobEntryTriggers(
+        this ICollection<AddJobEntryRequest_JobEntryTrigger>? triggers)
+    {
+        if (triggers is null)
+        {
+            return new List<JobEntryTrigger>();
+        }
+        
+        return triggers
+            .Select(x => new JobEntryTrigger
+            {
+                Id = Guid.NewGuid(),
+                EventType = x.EventType,
+                EventData = x.EventData
+            })
+            .ToArray();
+    }
+    
+    private static string ToCronExpression(this AddJobEntryRequest_JobEntryPeriodInterval? interval)
+    {
+        if (interval is null)
+        {
+            return DefaultCronExpression;
+        }
+        
         var stringBuilder = new StringBuilder();
         stringBuilder.Append(interval.DayOfWeek ?? "*");
         stringBuilder.Append(' ');

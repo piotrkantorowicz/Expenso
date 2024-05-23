@@ -4,5 +4,5 @@ namespace Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
 internal interface IJobEntryTypeRepository
 {
-    Task<JobEntryType?> GetAsync(string code, CancellationToken cancellationToken);
+    Task<JobEntryType?> GetAsync(string? code, CancellationToken cancellationToken);
 }

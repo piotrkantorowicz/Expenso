@@ -11,7 +11,7 @@ internal sealed class JobEntryTypeRepository(ITimeManagementDbContext timeManage
     private readonly ITimeManagementDbContext _timeManagementDbContext =
         timeManagementDbContext ?? throw new ArgumentNullException(nameof(timeManagementDbContext));
 
-    public async Task<JobEntryType?> GetAsync(string code, CancellationToken cancellationToken)
+    public async Task<JobEntryType?> GetAsync(string? code, CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
             .JobEntryTypes.Tracking(false)

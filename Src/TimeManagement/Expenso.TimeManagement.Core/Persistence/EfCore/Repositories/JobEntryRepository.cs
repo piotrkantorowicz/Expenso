@@ -10,16 +10,18 @@ internal sealed class JobEntryRepository(ITimeManagementDbContext timeManagement
 {
     private readonly ITimeManagementDbContext _timeManagementDbContext =
         timeManagementDbContext ?? throw new ArgumentNullException(nameof(timeManagementDbContext));
-
-    public async Task<IReadOnlyCollection<JobEntry>?> GetActiveJobEntries(CancellationToken cancellationToken,
+    
+    public async Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(CancellationToken cancellationToken,
         bool useTracking = false)
     {
         return await _timeManagementDbContext
             .JobEntries.Tracking(useTracking)
-            .Where(x => x.JobStatus!.Name == JobEntryStatus.Completed.Name)
+            .Where(x => x.Periods.Any(y =>
+                            y.JobStatus == JobEntryStatus.Running || y.JobStatus != JobEntryStatus.Retrying) ||
+                        x.Triggers.Count != 0)
             .ToListAsync(cancellationToken);
     }
-
+    
     public async Task SaveAsync(JobEntry jobEntry, CancellationToken cancellationToken)
     {
         if (_timeManagementDbContext.GetEntryState(jobEntry) == EntityState.Detached)
@@ -30,7 +32,7 @@ internal sealed class JobEntryRepository(ITimeManagementDbContext timeManagement
         {
             _timeManagementDbContext.JobEntries.Update(jobEntry);
         }
-
+        
         await _timeManagementDbContext.SaveChangesAsync(cancellationToken);
     }
 }

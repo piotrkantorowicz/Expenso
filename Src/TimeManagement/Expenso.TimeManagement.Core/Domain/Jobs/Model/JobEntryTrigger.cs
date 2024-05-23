@@ -1,6 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-internal sealed class JobEntryTrigger
+public sealed class JobEntryTrigger
 {
     public Guid Id { get; init; }
 
