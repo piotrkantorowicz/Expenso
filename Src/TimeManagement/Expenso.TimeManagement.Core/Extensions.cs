@@ -4,6 +4,7 @@ using Expenso.Shared.Database.EfCore.NpSql;
 using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
+using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers.Interfaces;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
@@ -22,19 +23,20 @@ public static class Extensions
     {
         services.AddDbMigrator();
         configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
-
+        
         if (databaseSettings.InMemory is true)
             services.AddMemoryDatabase<TimeManagementDbContext>(moduleName);
         else
             services.AddPostgres<TimeManagementDbContext>(databaseSettings);
-
+        
         services.AddScoped<ITimeManagementDbContext, TimeManagementDbContext>(x =>
             x.GetRequiredService<TimeManagementDbContext>());
-
+        
         services.AddScoped<IJobEntryRepository, JobEntryRepository>();
         services.AddScoped<IJobEntryStatusRepository, JobEntryStatusRepository>();
         services.AddScoped<IJobEntryTypeRepository, JobEntryTypeRepository>();
         services.AddScoped<IJobEntryPeriodIntervalHelper, JobEntryPeriodIntervalHelper>();
+        services.AddScoped<IBudgetSharingRequestsExpirationJobExecution, BudgetSharingRequestsExpirationJobExecution>();
         services.AddHostedService<BudgetSharingRequestsExpirationJob>();
     }
 }
