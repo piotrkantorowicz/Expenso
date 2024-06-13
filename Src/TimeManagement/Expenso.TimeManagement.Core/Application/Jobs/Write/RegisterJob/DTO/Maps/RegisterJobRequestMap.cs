@@ -16,7 +16,6 @@ internal static class RegisterJobRequestMap
         {
             Id = Guid.NewGuid(),
             JobEntryTypeId = jobEntryType?.Id ?? throw new ArgumentNullException(nameof(jobEntryType)),
-            JobEntryType = jobEntryType,
             Periods = request?.JobEntryPeriods?.MapToJobEntryPeriods(jobEntryStatus) ?? new List<JobEntryPeriod>(),
             Triggers = request?.JobEntryTriggers?.MapToJobEntryTriggers() ?? new List<JobEntryTrigger>()
         };
@@ -37,7 +36,6 @@ internal static class RegisterJobRequestMap
                 CronExpression = ToCronExpression(x.Interval),
                 MaxRetries = x.MaxRetries,
                 JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(nameof(jobEntryStatus)),
-                JobStatus = jobEntryStatus,
                 Periodic = x.Periodic
             })
             .ToArray();

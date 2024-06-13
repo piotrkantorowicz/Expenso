@@ -7,5 +7,5 @@ public interface IJobEntryRepository
     Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(CancellationToken cancellationToken,
         bool useTracking = false);
 
-    Task SaveAsync(JobEntry jobEntry, CancellationToken cancellationToken);
+    Task AddOrUpdateAsync(JobEntry jobEntry, CancellationToken cancellationToken);
 }

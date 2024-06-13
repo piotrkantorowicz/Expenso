@@ -160,7 +160,7 @@ public sealed class BudgetSharingRequestsExpirationJobExecution(
                     }
                     finally
                     {
-                        await _jobEntryRepository.SaveAsync(jobEntry, stoppingToken);
+                        await _jobEntryRepository.AddOrUpdateAsync(jobEntry, stoppingToken);
                     }
                 }
             }

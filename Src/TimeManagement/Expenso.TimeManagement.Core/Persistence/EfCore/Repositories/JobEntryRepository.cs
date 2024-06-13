@@ -22,7 +22,7 @@ internal sealed class JobEntryRepository(ITimeManagementDbContext timeManagement
             .ToListAsync(cancellationToken);
     }
     
-    public async Task SaveAsync(JobEntry jobEntry, CancellationToken cancellationToken)
+    public async Task AddOrUpdateAsync(JobEntry jobEntry, CancellationToken cancellationToken)
     {
         if (_timeManagementDbContext.GetEntryState(jobEntry) == EntityState.Detached)
         {

@@ -1,10 +1,8 @@
 ﻿using Expenso.Shared.Commands;
-using Expenso.Shared.System.Types.Const;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Proxy.DTO.Request;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
@@ -32,21 +30,21 @@ internal sealed class RegisterJobCommandHandler(
             throw new NotFoundException($"Job type {command.AddJobEntryRequest?.JobTypeNameCode} not found.");
         }
         
-        JobEntryStatus? jobEntryStatus =
-            await _jobEntryStatusRepository.GetAsync(JobEntryStatuses.Active, cancellationToken);
+        JobEntryStatus? runningJobStatus =
+            await _jobEntryStatusRepository.GetAsync(JobEntryStatus.Running.Name, cancellationToken);
         
-        if (jobEntryStatus is null)
+        if (runningJobStatus is null)
         {
-            throw new NotFoundException($"Job status {JobEntryStatuses.Active} not found.");
+            throw new NotFoundException($"Job status {JobEntryStatus.Running.Name} not found.");
         }
         
-        JobEntry? jobEntry = command.AddJobEntryRequest?.MapToJobEntry(jobType, jobEntryStatus);
+        JobEntry? jobEntry = command.AddJobEntryRequest?.MapToJobEntry(jobType, runningJobStatus);
         
         if (jobEntry is null)
         {
             throw new NotFoundException("Unable to create job entry from request.");
         }
         
-        await _jobEntryRepository.SaveAsync(jobEntry, cancellationToken);
+        await _jobEntryRepository.AddOrUpdateAsync(jobEntry, cancellationToken);
     }
 }
