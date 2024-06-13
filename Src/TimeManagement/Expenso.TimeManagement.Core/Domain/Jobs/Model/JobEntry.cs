@@ -1,6 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-public sealed class JobEntry
+internal sealed class JobEntry
 {
     public Guid Id { get; init; }
     

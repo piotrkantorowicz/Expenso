@@ -2,7 +2,7 @@
 
 namespace Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
-public interface IJobEntryRepository
+internal interface IJobEntryRepository
 {
     Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(CancellationToken cancellationToken,
         bool useTracking = false);

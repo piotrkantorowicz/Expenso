@@ -1,6 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-public sealed record JobEntryType
+internal sealed record JobEntryType
 {
     public static JobEntryType BudgetSharingRequestExpiration => new()
     {

@@ -11,7 +11,7 @@ using CoreExtensions = Expenso.TimeManagement.Core.Extensions;
 
 namespace Expenso.TimeManagement.Api;
 
-public class TimeManagementModule : ModuleDefinition
+public sealed class TimeManagementModule : ModuleDefinition
 {
     public override string ModulePrefix => "/document-management";
 

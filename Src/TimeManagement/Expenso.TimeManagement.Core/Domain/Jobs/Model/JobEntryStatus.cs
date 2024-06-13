@@ -1,6 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
-public sealed record JobEntryStatus
+internal sealed record JobEntryStatus
 {
     public static JobEntryStatus Running => new()
     {

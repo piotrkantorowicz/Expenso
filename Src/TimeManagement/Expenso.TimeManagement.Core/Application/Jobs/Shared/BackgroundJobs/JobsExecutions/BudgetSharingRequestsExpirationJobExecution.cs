@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
 
-public sealed class BudgetSharingRequestsExpirationJobExecution(
+internal sealed class BudgetSharingRequestsExpirationJobExecution(
     ILogger<BudgetSharingRequestsExpirationJobExecution> logger,
     IJobEntryRepository jobEntryRepository,
     IJobEntryStatusRepository jobEntryStatusRepository,

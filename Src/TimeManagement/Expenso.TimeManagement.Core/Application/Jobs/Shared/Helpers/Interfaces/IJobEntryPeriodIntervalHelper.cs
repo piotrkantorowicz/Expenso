@@ -3,7 +3,7 @@ using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers.Interfaces;
 
-public interface IJobEntryPeriodIntervalHelper
+internal interface IJobEntryPeriodIntervalHelper
 {
     IntervalPrediction PredictInterval(JobEntryPeriod jobEntryPeriod, IClock clock);
 }
