@@ -22,7 +22,7 @@ internal abstract class DeleteFilesCommandHandlerTestBase : TestBase<TestCandida
         _directoryPathResolverMock = new Mock<IDirectoryPathResolver>();
         _fileSystemMock = new Mock<IFileSystem>();
 
-        TestCandidate = new TestCandidate(_fileStorageMock.Object, _directoryPathResolverMock.Object,
-            _fileSystemMock.Object);
+        TestCandidate = new TestCandidate(fileStorage: _fileStorageMock.Object,
+            directoryPathResolver: _directoryPathResolverMock.Object, fileSystem: _fileSystemMock.Object);
     }
 }

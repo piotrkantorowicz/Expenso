@@ -57,64 +57,78 @@ public sealed class BudgetPermission : IAggregateRoot
 
     public static BudgetPermission Create(BudgetPermissionId budgetPermissionId, BudgetId budgetId, PersonId ownerId)
     {
-        return new BudgetPermission(budgetPermissionId, budgetId, ownerId);
+        return new BudgetPermission(id: budgetPermissionId, budgetId: budgetId, ownerId: ownerId);
     }
 
     public static BudgetPermission Create(BudgetId budgetId, PersonId ownerId)
     {
-        return new BudgetPermission(BudgetPermissionId.New(Guid.NewGuid()), budgetId, ownerId);
+        return new BudgetPermission(id: BudgetPermissionId.New(value: Guid.NewGuid()), budgetId: budgetId,
+            ownerId: ownerId);
     }
 
     public void AddPermission(PersonId participantId, PermissionType permissionType)
     {
-        DomainModelState.CheckBusinessRules([
-            (new BudgetMustHasDistinctPermissionsForUsers(BudgetId, participantId, Permissions), false),
-            (new BudgetCanHasOnlyOneOwnerPermission(BudgetId, permissionType, Permissions), true),
-            (new BudgetCanHasOnlyOwnerPermissionForItsOwner(BudgetId, participantId, OwnerId, permissionType), true)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new BudgetMustHasDistinctPermissionsForUsers(budgetId: BudgetId, participantId: participantId, permissions: Permissions),
+                false),
+            (new BudgetCanHasOnlyOneOwnerPermission(budgetId: BudgetId, permissionType: permissionType, permissions: Permissions),
+                true),
+            (new BudgetCanHasOnlyOwnerPermissionForItsOwner(budgetId: BudgetId, participantId: participantId, ownerId: OwnerId, permissionType: permissionType),
+                true)
         ]);
 
-        Permissions.Add(Permission.Create(participantId, permissionType));
+        Permissions.Add(item: Permission.Create(participantId: participantId, permissionType: permissionType));
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionGrantedEvent(_messageContextFactory.Current(), Id,
-            BudgetId, participantId, permissionType));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionGrantedEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
+            ParticipantId: participantId, PermissionType: permissionType));
     }
 
     public void RemovePermission(PersonId participantId)
     {
-        Permission? permission = Permissions.SingleOrDefault(x => x.ParticipantId == participantId);
+        Permission? permission = Permissions.SingleOrDefault(predicate: x => x.ParticipantId == participantId);
 
-        DomainModelState.CheckBusinessRules([
-            (new BudgetMustContainsPermissionForProvidedUser(BudgetId, participantId, permission), true),
-            (new OwnerPermissionCannotBeRemoved(BudgetId, permission?.PermissionType), true)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new BudgetMustContainsPermissionForProvidedUser(budgetId: BudgetId, participantId: participantId, permission: permission),
+                true),
+            (new OwnerPermissionCannotBeRemoved(budgetId: BudgetId, permissionType: permission?.PermissionType), true)
         ]);
 
-        Permissions.Remove(permission ?? throw new ArgumentException(nameof(permission)));
+        Permissions.Remove(item: permission ?? throw new ArgumentException(message: nameof(permission)));
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionWithdrawnEvent(_messageContextFactory.Current(), Id,
-            BudgetId, permission.ParticipantId, permission.PermissionType));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionWithdrawnEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
+            ParticipantId: permission.ParticipantId, PermissionType: permission.PermissionType));
     }
 
     public void Delete(IClock? clock = null)
     {
-        DomainModelState.CheckBusinessRules([
-            (new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(Id, Deletion), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(budgetPermissionId: Id, removalInfo: Deletion),
+                false)
         ]);
 
-        Deletion = SafeDeletion.Delete(clock?.UtcNow ?? DateTimeOffset.UtcNow);
+        Deletion = SafeDeletion.Delete(dateTime: clock?.UtcNow ?? DateTimeOffset.UtcNow);
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionDeletedEvent(_messageContextFactory.Current(), Id,
-            BudgetId, Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly()));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionDeletedEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
+            ParticipantIds: Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly()));
     }
 
     public void Restore()
     {
-        DomainModelState.CheckBusinessRules([
-            (new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(Id, Deletion), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(budgetPermissionId: Id, removalInfo: Deletion), false)
         ]);
 
         Deletion = null;
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionRestoredEvent(_messageContextFactory.Current(), Id,
-            BudgetId, Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly()));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRestoredEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
+            ParticipantIds: Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly()));
     }
 }

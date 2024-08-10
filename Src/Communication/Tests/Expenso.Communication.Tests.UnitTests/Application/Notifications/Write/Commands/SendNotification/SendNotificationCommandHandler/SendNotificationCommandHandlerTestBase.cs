@@ -22,17 +22,17 @@ internal abstract class SendNotificationCommandHandlerTestBase : TestBase<TestCa
         _notificationServiceFactoryMock = new Mock<INotificationServiceFactory>();
 
         _notificationServiceFactoryMock
-            .Setup(x => x.GetService<IEmailService>())
-            .Returns(new Mock<IEmailService>().Object);
+            .Setup(expression: x => x.GetService<IEmailService>())
+            .Returns(value: new Mock<IEmailService>().Object);
 
         _notificationServiceFactoryMock
-            .Setup(x => x.GetService<IPushService>())
-            .Returns(new Mock<IPushService>().Object);
+            .Setup(expression: x => x.GetService<IPushService>())
+            .Returns(value: new Mock<IPushService>().Object);
 
         _notificationServiceFactoryMock
-            .Setup(x => x.GetService<IInAppService>())
-            .Returns(new Mock<IInAppService>().Object);
+            .Setup(expression: x => x.GetService<IInAppService>())
+            .Returns(value: new Mock<IInAppService>().Object);
 
-        TestCandidate = new TestCandidate(_notificationServiceFactoryMock.Object);
+        TestCandidate = new TestCandidate(notificationServiceFactory: _notificationServiceFactoryMock.Object);
     }
 }

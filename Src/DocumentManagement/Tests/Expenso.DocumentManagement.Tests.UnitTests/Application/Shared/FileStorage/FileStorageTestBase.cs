@@ -17,6 +17,6 @@ internal abstract class FileStorageTestBase : TestBase<IFileStorage>
     public void Setup()
     {
         _fileSystemMock = new Mock<IFileSystem>();
-        TestCandidate = new TestCandidate(_fileSystemMock.Object);
+        TestCandidate = new TestCandidate(fileSystem: _fileSystemMock.Object);
     }
 }

@@ -17,14 +17,15 @@ internal sealed class SendNotificationAsync : FakeEmailServiceTestBase
         string[] bcc = ["bcc", "bcc2", "bcc3"];
 
         //Act
-        TestCandidate.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
+        TestCandidate.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc, bcc: bcc,
+            replyTo: replyTo);
 
         //Assert
         _fakeLogger.Ex.Should().BeNull();
 
         _fakeLogger
             .Message.Should()
-            .Be(
-                $"Email notification from {from} to {to} with cc {string.Join(",", cc)} and bcc {string.Join(",", bcc)} and replyTo {replyTo} with subject {subject} and content {content} sent successfully");
+            .Be(expected:
+                $"Email notification from {from} to {to} with cc {string.Join(separator: ",", value: cc)} and bcc {string.Join(separator: ",", value: bcc)} and replyTo {replyTo} with subject {subject} and content {content} sent successfully");
     }
 }

@@ -13,7 +13,8 @@ public sealed class GetBudgetPermissionsRequestMap
             GetBudgetPermissionsRequest_PermissionType.Owner => PermissionType.Owner,
             GetBudgetPermissionsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             GetBudgetPermissionsRequest_PermissionType.Reviewer => PermissionType.Reviewer,
-            _ => throw new ArgumentOutOfRangeException(nameof(permissionType), permissionType, null)
+            _ => throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,
+                message: null)
         };
     }
 }

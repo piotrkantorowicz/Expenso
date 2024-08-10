@@ -69,7 +69,8 @@ internal static class StaticProblemDetailsSelector
 
     public static ProblemDetails Select(int statusCode, string? detail = null, ModelStateDictionary? modelState = null)
     {
-        return ToDetailedResponse(ProblemDetailsMap[statusCode], detail, modelState);
+        return ToDetailedResponse(problemDetails: ProblemDetailsMap[key: statusCode], detail: detail,
+            modelState: modelState);
     }
 
     private static ProblemDetails ToDetailedResponse(ProblemDetails problemDetails, string? detail,
@@ -77,7 +78,7 @@ internal static class StaticProblemDetailsSelector
     {
         if (modelState is not null)
         {
-            return new ValidationProblemDetails(modelState)
+            return new ValidationProblemDetails(modelState: modelState)
             {
                 Status = problemDetails.Status,
                 Title = problemDetails.Title,

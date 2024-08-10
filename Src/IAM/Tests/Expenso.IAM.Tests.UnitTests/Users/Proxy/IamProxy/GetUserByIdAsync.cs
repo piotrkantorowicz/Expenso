@@ -11,19 +11,21 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getUserResponse);
+            .Setup(expression: x =>
+                x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _getUserResponse);
 
         // Act
-        GetUserResponse? getUserResponse = await TestCandidate.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>());
+        GetUserResponse? getUserResponse =
+            await TestCandidate.GetUserByIdAsync(userId: _userId, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();
-        getUserResponse.Should().BeEquivalentTo(_getUserResponse);
+        getUserResponse.Should().BeEquivalentTo(expectation: _getUserResponse);
 
         _queryDispatcherMock.Verify(
-            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()),
-            Times.Once);
+            expression: x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -33,15 +35,16 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         string userId = Guid.NewGuid().ToString();
 
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == userId), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new NotFoundException($"User with id {userId} not found."));
+            .Setup(expression: x =>
+                x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == userId), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception: new NotFoundException(message: $"User with id {userId} not found."));
 
         // Act
         // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() =>
-            TestCandidate.GetUserByIdAsync(userId, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"User with id {userId} not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

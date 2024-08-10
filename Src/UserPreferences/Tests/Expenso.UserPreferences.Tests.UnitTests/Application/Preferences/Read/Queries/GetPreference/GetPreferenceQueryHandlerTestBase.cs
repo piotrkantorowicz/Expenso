@@ -27,14 +27,16 @@ internal abstract class GetPreferenceQueryHandlerTestBase : TestBase<TestCandida
     {
         _id = Guid.NewGuid();
         _userId = Guid.NewGuid();
-        _preference = PreferenceFactory.Create(_userId);
-        _getPreferenceResponse = GetPreferenceResponseMap.MapTo(_preference);
+        _preference = PreferenceFactory.Create(userId: _userId);
+        _getPreferenceResponse = GetPreferenceResponseMap.MapTo(preference: _preference);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _userContextAccessorMock = new Mock<IExecutionContextAccessor>();
         _userContextMock = new Mock<IUserContext>();
         _executionContextMock = new Mock<IExecutionContext>();
-        _userContextMock.SetupGet(x => x.UserId).Returns(_userId.ToString());
-        _executionContextMock.SetupGet(x => x.UserContext).Returns(_userContextMock.Object);
-        TestCandidate = new TestCandidate(_preferenceRepositoryMock.Object, _userContextAccessorMock.Object);
+        _userContextMock.SetupGet(expression: x => x.UserId).Returns(value: _userId.ToString());
+        _executionContextMock.SetupGet(expression: x => x.UserContext).Returns(value: _userContextMock.Object);
+
+        TestCandidate = new TestCandidate(preferencesRepository: _preferenceRepositoryMock.Object,
+            executionContextAccessor: _userContextAccessorMock.Object);
     }
 }

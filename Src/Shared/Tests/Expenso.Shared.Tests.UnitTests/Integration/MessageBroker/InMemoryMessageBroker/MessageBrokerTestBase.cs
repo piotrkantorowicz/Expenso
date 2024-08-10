@@ -20,33 +20,33 @@ internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
     [SetUp]
     public async Task SetUp()
     {
-        TestCandidate = new TestCandidate(_messageChannel);
-        await StartMessageProcessor(_stoppingTokenSource.Token);
+        TestCandidate = new TestCandidate(channel: _messageChannel);
+        await StartMessageProcessor(cancellationToken: _stoppingTokenSource.Token);
     }
 
     [TearDown]
     public async Task TearDown()
     {
         _messageChannel.Writer.Complete();
-        await _backgroundMessageProcessor?.StopAsync(_stoppingTokenSource.Token)!;
+        await _backgroundMessageProcessor?.StopAsync(cancellationToken: _stoppingTokenSource.Token)!;
         _backgroundMessageProcessor?.Dispose();
     }
 
     private async Task StartMessageProcessor(CancellationToken cancellationToken)
     {
         ServiceProvider serviceProvider = new ServiceCollection()
-            .Scan(s => s
-                .FromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
-                .AddClasses(c => c.AssignableTo(typeof(IIntegrationEventHandler<>)))
+            .Scan(action: s => s
+                .FromAssemblies(assemblies: AppDomain.CurrentDomain.GetAssemblies())
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IIntegrationEventHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime())
             .BuildServiceProvider();
 
         NullLoggerFactory loggerFactory = new();
 
-        _backgroundMessageProcessor = new BackgroundMessageProcessor(_messageChannel, serviceProvider,
-            loggerFactory.CreateLogger<BackgroundMessageProcessor>());
+        _backgroundMessageProcessor = new BackgroundMessageProcessor(messageChannel: _messageChannel,
+            serviceProvider: serviceProvider, logger: loggerFactory.CreateLogger<BackgroundMessageProcessor>());
 
-        await _backgroundMessageProcessor.StartAsync(cancellationToken);
+        await _backgroundMessageProcessor.StartAsync(cancellationToken: cancellationToken);
     }
 }

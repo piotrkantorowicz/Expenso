@@ -10,16 +10,16 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permission-requests";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestPath,
-            new AssignParticipantRequest(Guid.NewGuid(), FakeIamProxy.ExistingEmails[1],
-                AssignParticipantRequest_PermissionType.Reviewer, 3));
+        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+            value: new AssignParticipantRequest(BudgetId: Guid.NewGuid(), Email: FakeIamProxy.ExistingEmails[1],
+                PermissionType: AssignParticipantRequest_PermissionType.Reviewer, ExpirationDays: 3));
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Created);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Created);
 
         AssignParticipantResponse? testResultContent =
             await testResult.Content.ReadFromJsonAsync<AssignParticipantResponse>();
@@ -34,9 +34,9 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         const string requestPath = "budget-sharing/budget-permission-requests";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestPath, null);
+        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

@@ -10,19 +10,23 @@ internal static class UpdatePreferenceContractMap
     public static FinancePreferenceUpdatedIntegrationEvent_FinancePreference MapTo(FinancePreference financePreference)
     {
         return new FinancePreferenceUpdatedIntegrationEvent_FinancePreference(
-            financePreference.AllowAddFinancePlanSubOwners, financePreference.MaxNumberOfSubFinancePlanSubOwners,
-            financePreference.AllowAddFinancePlanReviewers, financePreference.MaxNumberOfFinancePlanReviewers);
+            AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
+            MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
+            AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
+            MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
     public static NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference MapTo(
         NotificationPreference notificationPreference)
     {
         return new NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference(
-            notificationPreference.SendFinanceReportEnabled, notificationPreference.SendFinanceReportInterval);
+            SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
+            SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
     public static GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference MapTo(GeneralPreference generalPreference)
     {
-        return new GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference(generalPreference.UseDarkMode);
+        return new GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference(
+            UseDarkMode: generalPreference.UseDarkMode);
     }
 }

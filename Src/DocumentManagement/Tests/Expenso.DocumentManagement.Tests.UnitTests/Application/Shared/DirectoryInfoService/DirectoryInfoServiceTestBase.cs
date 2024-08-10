@@ -28,6 +28,6 @@ internal abstract class DirectoryInfoServiceTestBase : TestBase<IDirectoryInfoSe
             ReportsDirectory = "Reports"
         };
 
-        TestCandidate = new TestCandidate(_fileSystemMock.Object, _filesSettings);
+        TestCandidate = new TestCandidate(fileSystem: _fileSystemMock.Object, filesSettings: _filesSettings);
     }
 }

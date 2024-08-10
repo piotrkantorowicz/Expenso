@@ -14,31 +14,31 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     GetPreferenceResponse_FinancePreference preferenceResponseFinancePreference,
     IReadOnlyCollection<Permission> currentPermissions) : IBusinessRule
 {
-    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
+    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
 
     private readonly IReadOnlyCollection<Permission> _currentPermissions =
-        currentPermissions ?? throw new ArgumentNullException(nameof(currentPermissions));
+        currentPermissions ?? throw new ArgumentNullException(paramName: nameof(currentPermissions));
 
-    private readonly PersonId _ownerId = ownerId ?? throw new ArgumentNullException(nameof(ownerId));
+    private readonly PersonId _ownerId = ownerId ?? throw new ArgumentNullException(paramName: nameof(ownerId));
 
     private readonly PermissionType _permissionTypeFromRequest = permissionTypeFromRequest ??
                                                                  throw new ArgumentNullException(
-                                                                     nameof(permissionTypeFromRequest));
+                                                                     paramName: nameof(permissionTypeFromRequest));
 
     private readonly GetPreferenceResponse_FinancePreference
         _preferenceExternalPreferenceResponseFinancePreferenceExternal = preferenceResponseFinancePreference ??
                                                                          throw new ArgumentNullException(
-                                                                             nameof(
+                                                                             paramName: nameof(
                                                                                  preferenceResponseFinancePreference));
 
     public string Message => new StringBuilder()
-        .Append("Permission of type ")
-        .Append(_permissionTypeFromRequest)
-        .Append(" can't be assigned to budget with id ")
-        .Append(_budgetId)
-        .Append(", because permission type is not valid or budget owner with id: ")
-        .Append(_ownerId)
-        .Append(" don't allow any or more participants.")
+        .Append(value: "Permission of type ")
+        .Append(value: _permissionTypeFromRequest)
+        .Append(value: " can't be assigned to budget with id ")
+        .Append(value: _budgetId)
+        .Append(value: ", because permission type is not valid or budget owner with id: ")
+        .Append(value: _ownerId)
+        .Append(value: " don't allow any or more participants.")
         .ToString();
 
     public bool IsBroken()
@@ -52,7 +52,7 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
         }
 
         int permissionsCountForTypeFromRequest =
-            _currentPermissions.Count(x => x.PermissionType == _permissionTypeFromRequest);
+            _currentPermissions.Count(predicate: x => x.PermissionType == _permissionTypeFromRequest);
 
         if (_permissionTypeFromRequest == PermissionType.SubOwner)
         {

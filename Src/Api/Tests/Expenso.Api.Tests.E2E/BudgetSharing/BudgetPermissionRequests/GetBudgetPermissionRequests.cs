@@ -8,16 +8,16 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
 
         const string requestPath =
             "budget-sharing/budget-permission-requests?status=1&budgetId=527336da-3371-45a9-9b9f-bbd42d01ffc2";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
 
         IEnumerable<GetBudgetPermissionRequestsResponse>? testResultContent =
             await testResult.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionRequestsResponse>>();
@@ -32,9 +32,9 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
         const string requestPath = "budget-sharing/budget-permission-requests";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

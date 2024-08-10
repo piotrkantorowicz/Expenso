@@ -15,14 +15,16 @@ internal static class DocumentManagementDataInitializer
     public static async Task Initialize(ICommandDispatcher commandDispatcher,
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
-        UploadFilesCommand command = new(messageContextFactory.Current(), new UploadFilesRequest(
-            UserDataInitializer.UserIds[4], null, [
-                new UploadFilesRequest_File("Import-1", await GetFile(Addresses)),
-                new UploadFilesRequest_File("Import-2", await GetFile(Snakes)),
-                new UploadFilesRequest_File("Import-3", await GetFile(SnakesV2))
-            ], UploadFilesRequest_FileType.Import));
+        UploadFilesCommand command = new(MessageContext: messageContextFactory.Current(),
+            UploadFilesRequest: new UploadFilesRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null,
+                Files:
+                [
+                    new UploadFilesRequest_File(Name: "Import-1", Content: await GetFile(fileName: Addresses)),
+                    new UploadFilesRequest_File(Name: "Import-2", Content: await GetFile(fileName: Snakes)),
+                    new UploadFilesRequest_File(Name: "Import-3", Content: await GetFile(fileName: SnakesV2))
+                ], FileType: UploadFilesRequest_FileType.Import));
 
-        await commandDispatcher.SendAsync(command, cancellationToken);
+        await commandDispatcher.SendAsync(command: command, cancellationToken: cancellationToken);
     }
 
     private static async Task<byte[]> GetFile(string fileName)
@@ -30,6 +32,6 @@ internal static class DocumentManagementDataInitializer
         string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestData", "DocumentManagement", "Files",
             $"{fileName}.xlsx");
 
-        return await File.ReadAllBytesAsync(filePath);
+        return await File.ReadAllBytesAsync(path: filePath);
     }
 }

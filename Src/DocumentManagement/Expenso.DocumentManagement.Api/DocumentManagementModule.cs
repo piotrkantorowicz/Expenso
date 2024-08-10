@@ -27,8 +27,8 @@ public sealed class DocumentManagementModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDocumentManagementCore(configuration);
-        services.AddDocumentManagementProxy(GetModuleAssemblies());
+        services.AddDocumentManagementCore(configuration: configuration);
+        services.AddDocumentManagementProxy(assemblies: GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

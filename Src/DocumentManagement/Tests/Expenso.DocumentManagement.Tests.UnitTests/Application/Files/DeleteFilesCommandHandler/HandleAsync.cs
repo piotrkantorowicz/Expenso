@@ -21,26 +21,27 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
 
         Guid userId = Guid.NewGuid();
 
-        DeleteFilesCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new DeleteFilesRequest(userId, null, fileNames, DeleteFilesRequest_FileType.Import));
+        DeleteFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            DeleteFilesRequest: new DeleteFilesRequest(UserId: userId, Groups: null, FileNames: fileNames,
+                FileType: DeleteFilesRequest_FileType.Import));
 
         _fileStorageMock
-            .Setup(x => x.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
+            .Setup(expression: x => x.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .Returns(value: Task.CompletedTask);
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)DeleteFilesRequest_FileType.Import, userId.ToString(),
+            .Setup(expression: x => x.ResolvePath((int)DeleteFilesRequest_FileType.Import, userId.ToString(),
                 command.DeleteFilesRequest.Groups))
-            .Returns(directoryPath);
+            .Returns(value: directoryPath);
 
-        _fileSystemMock.Setup(x => x.Path.Combine(directoryPath, fileNames[0])).Returns("filePath1");
-        _fileSystemMock.Setup(x => x.Path.Combine(directoryPath, fileNames[1])).Returns("filePath2");
+        _fileSystemMock.Setup(expression: x => x.Path.Combine(directoryPath, fileNames[0])).Returns(value: "filePath1");
+        _fileSystemMock.Setup(expression: x => x.Path.Combine(directoryPath, fileNames[1])).Returns(value: "filePath2");
 
         // Act
-        await TestCandidate.HandleAsync(command, default);
+        await TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
-        _fileStorageMock.Verify(x => x.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
-            Times.Exactly(2));
+        _fileStorageMock.Verify(expression: x => x.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            times: Times.Exactly(callCount: 2));
     }
 }

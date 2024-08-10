@@ -11,7 +11,7 @@ public static class MessageContextFactoryResolver
 
     public static void BindResolver(IServiceProvider? serviceProvider)
     {
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
         _isInitialized = true;
     }
 
@@ -19,7 +19,7 @@ public static class MessageContextFactoryResolver
     {
         if (!_isInitialized)
         {
-            throw new InvalidOperationException("MessageContextFactoryResolver is not initialized.");
+            throw new InvalidOperationException(message: "MessageContextFactoryResolver is not initialized.");
         }
 
         return _serviceProvider!.GetRequiredService<IMessageContextFactory>();

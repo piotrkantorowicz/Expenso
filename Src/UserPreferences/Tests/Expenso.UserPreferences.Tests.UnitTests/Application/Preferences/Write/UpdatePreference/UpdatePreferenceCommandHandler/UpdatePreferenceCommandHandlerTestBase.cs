@@ -20,11 +20,11 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<TestCa
     public void SetUp()
     {
         _userId = Guid.NewGuid();
-        _preference = PreferenceFactory.Create(_userId);
+        _preference = PreferenceFactory.Create(userId: _userId);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _messageBrokerMock = new Mock<IMessageBroker>();
 
-        TestCandidate = new TestCandidate(_preferenceRepositoryMock.Object, _messageBrokerMock.Object,
-            MessageContextFactoryMock.Object);
+        TestCandidate = new TestCandidate(preferencesRepository: _preferenceRepositoryMock.Object,
+            messageBroker: _messageBrokerMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
 }

@@ -36,12 +36,13 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
         PermissionType permissionType, BudgetPermissionRequestStatus status, int expirationDays, IClock clock)
     {
-        DateAndTime expirationDate = DateAndTime.New(clock.UtcNow.AddDays(expirationDays));
+        DateAndTime expirationDate = DateAndTime.New(value: clock.UtcNow.AddDays(days: expirationDays));
 
-        DomainModelState.CheckBusinessRules([
-            (new UnknownPermissionTypeCannotBeProcessed(permissionType), false),
-            (new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status), false),
-            (new ExpirationDateMustBeGreaterThanOneDay(expirationDate, clock), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new UnknownPermissionTypeCannotBeProcessed(permissionType: permissionType), false),
+            (new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status: status), false),
+            (new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: clock), false)
         ]);
 
         Id = id;
@@ -53,8 +54,9 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionRequestedEvent(_messageContextFactory.Current(),
-            budgetId, participantId, permissionType));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestedEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetId: budgetId, ParticipantId: participantId,
+            PermissionType: permissionType));
     }
 
     public BudgetPermissionRequestId Id { get; }
@@ -77,43 +79,53 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId personId, PermissionType permissionType,
         int expirationDays, IClock clock)
     {
-        return new BudgetPermissionRequest(BudgetPermissionRequestId.New(Guid.NewGuid()), budgetId, personId,
-            permissionType, BudgetPermissionRequestStatus.Pending, expirationDays, clock);
+        return new BudgetPermissionRequest(id: BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
+            participantId: personId, permissionType: permissionType, status: BudgetPermissionRequestStatus.Pending,
+            expirationDays: expirationDays, clock: clock);
     }
 
     public void Confirm()
     {
-        DomainModelState.CheckBusinessRules([
-            (new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(Id, Status), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(budgetPermissionRequestId: Id, status: Status),
+                false)
         ]);
 
         Status = BudgetPermissionRequestStatus.Confirmed;
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionRequestConfirmedEvent(_messageContextFactory.Current(),
-            BudgetId, ParticipantId, PermissionType));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestConfirmedEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetId: BudgetId, ParticipantId: ParticipantId,
+            PermissionType: PermissionType));
     }
 
     public void Cancel()
     {
-        DomainModelState.CheckBusinessRules([
-            (new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(Id, Status), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(budgetPermissionRequestId: Id, status: Status),
+                false)
         ]);
 
         Status = BudgetPermissionRequestStatus.Cancelled;
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionRequestCancelledEvent(_messageContextFactory.Current(),
-            BudgetId, ParticipantId, PermissionType));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestCancelledEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetId: BudgetId, ParticipantId: ParticipantId,
+            PermissionType: PermissionType));
     }
 
     public void Expire()
     {
-        DomainModelState.CheckBusinessRules([
-            (new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(Id, Status), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(budgetPermissionRequestId: Id, status: Status),
+                false)
         ]);
 
         Status = BudgetPermissionRequestStatus.Expired;
 
-        _domainEventsSource.AddDomainEvent(new BudgetPermissionRequestExpiredEvent(_messageContextFactory.Current(),
-            BudgetId, ParticipantId, PermissionType, ExpirationDate));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestExpiredEvent(
+            MessageContext: _messageContextFactory.Current(), BudgetId: BudgetId, ParticipantId: ParticipantId,
+            PermissionType: PermissionType, ExpirationDate: ExpirationDate));
     }
 }

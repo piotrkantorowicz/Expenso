@@ -14,20 +14,22 @@ internal sealed class BudgetPermissionQueryStore : IBudgetPermissionQueryStore
 
     public BudgetPermissionQueryStore(IBudgetSharingDbContext budgetSharingDbContext)
     {
-        ArgumentNullException.ThrowIfNull(budgetSharingDbContext);
-        _budgetPermissionsQueryable = budgetSharingDbContext.BudgetPermissions.Tracking(false);
+        ArgumentNullException.ThrowIfNull(argument: budgetSharingDbContext);
+        _budgetPermissionsQueryable = budgetSharingDbContext.BudgetPermissions.Tracking(useTracking: false);
     }
 
     public async Task<BudgetPermission?> SingleAsync(BudgetPermissionFilter filter, CancellationToken cancellationToken)
     {
         return await _budgetPermissionsQueryable
-            .Where(filter.ToFilterExpression())
-            .SingleOrDefaultAsync(cancellationToken);
+            .Where(predicate: filter.ToFilterExpression())
+            .SingleOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<IReadOnlyList<BudgetPermission>> BrowseAsync(BudgetPermissionFilter filter,
         CancellationToken cancellationToken)
     {
-        return await _budgetPermissionsQueryable.Where(filter.ToFilterExpression()).ToListAsync(cancellationToken);
+        return await _budgetPermissionsQueryable
+            .Where(predicate: filter.ToFilterExpression())
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

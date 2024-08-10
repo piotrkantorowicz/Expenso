@@ -12,8 +12,9 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Cr
 internal sealed class CreatePreferenceCommandHandler(IPreferencesRepository preferencesRepository)
     : ICommandHandler<CreatePreferenceCommand, CreatePreferenceResponse>
 {
-    private readonly IPreferencesRepository _preferencesRepository =
-        preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
+    private readonly IPreferencesRepository _preferencesRepository = preferencesRepository ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(preferencesRepository));
 
     public async Task<CreatePreferenceResponse?> HandleAsync(CreatePreferenceCommand command,
         CancellationToken cancellationToken)
@@ -24,16 +25,21 @@ internal sealed class CreatePreferenceCommandHandler(IPreferencesRepository pref
             UseTracking = false
         };
 
-        bool dbUserPreferencesExists = await _preferencesRepository.ExistsAsync(filter, cancellationToken);
+        bool dbUserPreferencesExists =
+            await _preferencesRepository.ExistsAsync(preferenceFilter: filter, cancellationToken: cancellationToken);
 
         if (dbUserPreferencesExists)
         {
-            throw new ConflictException($"Preferences for user with id {command.Preference.UserId} already exists");
+            throw new ConflictException(
+                message: $"Preferences for user with id {command.Preference.UserId} already exists");
         }
 
-        Preference preferenceToCreate = PreferenceFactory.Create(command.Preference.UserId);
-        Preference preference = await _preferencesRepository.CreateAsync(preferenceToCreate, cancellationToken);
+        Preference preferenceToCreate = PreferenceFactory.Create(userId: command.Preference.UserId);
 
-        return CreatePreferenceResponseMap.MapTo(preference);
+        Preference preference =
+            await _preferencesRepository.CreateAsync(preference: preferenceToCreate,
+                cancellationToken: cancellationToken);
+
+        return CreatePreferenceResponseMap.MapTo(preference: preference);
     }
 }

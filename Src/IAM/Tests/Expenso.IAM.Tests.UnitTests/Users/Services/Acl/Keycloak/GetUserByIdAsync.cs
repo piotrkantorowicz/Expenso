@@ -11,15 +11,17 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
     public async Task Should_ReturnUser_When_UserExists()
     {
         // Arrange
-        _keycloakUserClientMock.Setup(x => x.GetUser(It.IsAny<string>(), _userId)).ReturnsAsync(_user);
+        _keycloakUserClientMock
+            .Setup(expression: x => x.GetUser(It.IsAny<string>(), _userId))
+            .ReturnsAsync(value: _user);
 
         // Act
-        GetUserResponse getUser = await TestCandidate.GetUserByIdAsync(_userId);
+        GetUserResponse getUser = await TestCandidate.GetUserByIdAsync(userId: _userId);
 
         // Assert
         getUser.Should().NotBeNull();
-        getUser.Should().BeEquivalentTo(_getUserResponse);
-        _keycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), _userId), Times.Once);
+        getUser.Should().BeEquivalentTo(expectation: _getUserResponse);
+        _keycloakUserClientMock.Verify(expression: x => x.GetUser(It.IsAny<string>(), _userId), times: Times.Once);
     }
 
     [Test]
@@ -27,15 +29,17 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();
-        _keycloakUserClientMock.Setup(x => x.GetUser(It.IsAny<string>(), userId))!.ReturnsAsync((User?)null);
+
+        _keycloakUserClientMock.Setup(expression: x => x.GetUser(It.IsAny<string>(), userId))!.ReturnsAsync(
+            value: (User?)null);
 
         // Act
         // Assert
         NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByIdAsync(userId));
+            Assert.ThrowsAsync<NotFoundException>(code: () => TestCandidate.GetUserByIdAsync(userId: userId));
 
         string expectedExceptionMessage = $"User with id {userId} not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
-        _keycloakUserClientMock.Verify(x => x.GetUser(It.IsAny<string>(), userId), Times.Once);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        _keycloakUserClientMock.Verify(expression: x => x.GetUser(It.IsAny<string>(), userId), times: Times.Once);
     }
 }

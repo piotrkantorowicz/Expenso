@@ -12,7 +12,7 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
 
     public RegisterJobCommandValidator(ISerializer serializer)
     {
-        _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+        _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
     }
 
     public IDictionary<string, string> Validate(RegisterJobCommand? command)
@@ -21,40 +21,41 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
 
         if (command is null)
         {
-            errors.Add(nameof(command), "Command is required");
+            errors.Add(key: nameof(command), value: "Command is required");
 
             return errors;
         }
 
         if (command.AddJobEntryRequest is null)
         {
-            errors.Add(nameof(command.AddJobEntryRequest), "Add job entry request is required");
+            errors.Add(key: nameof(command.AddJobEntryRequest), value: "Add job entry request is required");
         }
 
         if (command.AddJobEntryRequest?.MaxRetries is not null && command.AddJobEntryRequest?.MaxRetries <= 0)
         {
-            errors.Add(nameof(command.AddJobEntryRequest.MaxRetries), "MaxRetries must be a positive value");
+            errors.Add(key: nameof(command.AddJobEntryRequest.MaxRetries),
+                value: "MaxRetries must be a positive value");
         }
 
         if (command.AddJobEntryRequest?.Interval is null && command.AddJobEntryRequest?.RunAt is null)
         {
             errors.Add(
-                new StringBuilder()
-                    .Append(nameof(command.AddJobEntryRequest.Interval))
-                    .Append('|')
-                    .Append(nameof(command.AddJobEntryRequest.RunAt))
+                key: new StringBuilder()
+                    .Append(value: nameof(command.AddJobEntryRequest.Interval))
+                    .Append(value: '|')
+                    .Append(value: nameof(command.AddJobEntryRequest.RunAt))
                     .ToString(),
-                "At least one value must be provide Interval for periodic jobs or RunAt for single run jobs");
+                value: "At least one value must be provide Interval for periodic jobs or RunAt for single run jobs");
         }
 
         if (command.AddJobEntryRequest?.Interval is not null && command.AddJobEntryRequest?.RunAt is not null)
         {
             errors.Add(
-                new StringBuilder()
-                    .Append(nameof(command.AddJobEntryRequest.Interval))
-                    .Append('|')
-                    .Append(nameof(command.AddJobEntryRequest.RunAt))
-                    .ToString(), "RunAt and Interval cannot be used together");
+                key: new StringBuilder()
+                    .Append(value: nameof(command.AddJobEntryRequest.Interval))
+                    .Append(value: '|')
+                    .Append(value: nameof(command.AddJobEntryRequest.RunAt))
+                    .ToString(), value: "RunAt and Interval cannot be used together");
         }
 
         ICollection<AddJobEntryRequest_JobEntryTrigger>?
@@ -62,33 +63,36 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
 
         if (jobEntryTriggers is null || jobEntryTriggers.Count is 0)
         {
-            errors.Add(nameof(command.AddJobEntryRequest.JobEntryTriggers), "Job entry triggers are required");
+            errors.Add(key: nameof(command.AddJobEntryRequest.JobEntryTriggers),
+                value: "Job entry triggers are required");
         }
 
         if (errors.Count > 0)
+        {
             return errors;
+        }
 
         foreach (AddJobEntryRequest_JobEntryTrigger jobEntryTrigger in jobEntryTriggers!)
         {
-            if (string.IsNullOrEmpty(jobEntryTrigger.EventType))
+            if (string.IsNullOrEmpty(value: jobEntryTrigger.EventType))
             {
-                errors.Add(nameof(jobEntryTrigger.EventType), "Event type is required");
+                errors.Add(key: nameof(jobEntryTrigger.EventType), value: "Event type is required");
             }
 
-            if (string.IsNullOrEmpty(jobEntryTrigger.EventData))
+            if (string.IsNullOrEmpty(value: jobEntryTrigger.EventData))
             {
-                errors.Add(nameof(jobEntryTrigger.EventData), "Event data is required");
+                errors.Add(key: nameof(jobEntryTrigger.EventData), value: "Event data is required");
             }
 
-            if (jobEntryTrigger.EventType is not null &&
-                _serializer.Deserialize(jobEntryTrigger.EventData!, Type.GetType(jobEntryTrigger.EventType)) is null)
+            if (jobEntryTrigger.EventType is not null && _serializer.Deserialize(value: jobEntryTrigger.EventData!,
+                    type: Type.GetType(typeName: jobEntryTrigger.EventType)) is null)
             {
                 errors.Add(
-                    new StringBuilder()
-                        .Append(nameof(jobEntryTrigger.EventType))
-                        .Append('|')
-                        .Append(nameof(jobEntryTrigger.EventData))
-                        .ToString(), "EventData must be serializable to provided EventType");
+                    key: new StringBuilder()
+                        .Append(value: nameof(jobEntryTrigger.EventType))
+                        .Append(value: '|')
+                        .Append(value: nameof(jobEntryTrigger.EventData))
+                        .ToString(), value: "EventData must be serializable to provided EventType");
             }
         }
 

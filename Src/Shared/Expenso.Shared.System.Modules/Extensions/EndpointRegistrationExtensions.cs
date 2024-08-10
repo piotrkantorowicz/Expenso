@@ -9,7 +9,7 @@ public static class EndpointRegistrationExtensions
             return endpointRegistration;
         }
 
-        if (endpointRegistration.Pattern[0] != '/')
+        if (endpointRegistration.Pattern[index: 0] != '/')
         {
             endpointRegistration = endpointRegistration with
             {

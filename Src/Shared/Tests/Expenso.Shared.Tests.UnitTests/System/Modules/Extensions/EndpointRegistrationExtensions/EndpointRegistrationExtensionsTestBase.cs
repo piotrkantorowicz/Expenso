@@ -9,8 +9,8 @@ internal abstract class EndpointRegistrationExtensionsTestBase : TestBase<Endpoi
     [SetUp]
     public void SetUp()
     {
-        _endpointRegistration =
-            new EndpointRegistration("/pattern", "GET", AccessControl.Anonymous, HttpVerb.Get, null);
+        _endpointRegistration = new EndpointRegistration(Pattern: "/pattern", Name: "GET",
+            AccessControl: AccessControl.Anonymous, HttpVerb: HttpVerb.Get, Handler: null);
     }
 
     protected void CustomizeEndpointRegistration(string pattern)

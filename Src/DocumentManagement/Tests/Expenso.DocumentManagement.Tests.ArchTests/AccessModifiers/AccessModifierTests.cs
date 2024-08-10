@@ -30,22 +30,22 @@ internal sealed class AccessModifierTests : TestBase
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
-        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().BePublic();
+        ConditionList? types = Types.InAssemblies(assemblies: Assemblies.ToArray()).Should().BePublic();
 
-        types = NotInternal.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        types = NotInternal.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = PublicTypes.Aggregate(types,
-            (current, skippedTypeName) => current.And().ResideInNamespaceEndingWith(skippedTypeName));
+        types = PublicTypes.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().ResideInNamespaceEndingWith(name: skippedTypeName));
 
-        AssertArchTestResult(types);
+        AssertArchTestResult(result: types);
     }
 
     [Test]
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
         ConditionList? types = Types
-            .InAssemblies(Assemblies.ToArray())
+            .InAssemblies(assemblies: Assemblies.ToArray())
             .Should()
             .BeClasses()
             .And()
@@ -55,17 +55,17 @@ internal sealed class AccessModifierTests : TestBase
             .And()
             .NotBeSealed();
 
-        types = NotSealed.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        types = NotSealed.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(types);
+        AssertArchTestResult(result: types);
     }
 
     [Test]
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
         ConditionList? types = Types
-            .InAssemblies(Assemblies.ToArray())
+            .InAssemblies(assemblies: Assemblies.ToArray())
             .Should()
             .BeClasses()
             .And()
@@ -73,9 +73,9 @@ internal sealed class AccessModifierTests : TestBase
             .And()
             .NotBeAbstract();
 
-        types = NotAbstract.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        types = NotAbstract.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(types);
+        AssertArchTestResult(result: types);
     }
 }

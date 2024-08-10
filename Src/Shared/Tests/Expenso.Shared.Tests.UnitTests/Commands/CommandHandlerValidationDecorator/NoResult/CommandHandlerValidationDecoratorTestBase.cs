@@ -15,9 +15,14 @@ internal abstract class
     [SetUp]
     protected void Setup()
     {
-        _testCommand = new TestCommand(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "JYi9R7e7v2Qor");
+        _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
+            Name: "JYi9R7e7v2Qor");
+
         _validator = new Mock<ICommandValidator<TestCommand>>();
         Mock<ICommandHandler<TestCommand>> handler = new();
-        TestCandidate = new CommandHandlerValidationDecorator<TestCommand>([_validator.Object], handler.Object);
+
+        TestCandidate =
+            new CommandHandlerValidationDecorator<TestCommand>(validators: [_validator.Object],
+                decorated: handler.Object);
     }
 }

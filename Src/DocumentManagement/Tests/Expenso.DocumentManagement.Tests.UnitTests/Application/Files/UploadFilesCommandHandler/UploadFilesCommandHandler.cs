@@ -17,6 +17,8 @@ internal abstract class UploadFilesCommandHandler : TestBase<TestCandidate>
     {
         _fileStorageMock = new Mock<IFileStorage>();
         _directoryPathResolverMock = new Mock<IDirectoryPathResolver>();
-        TestCandidate = new TestCandidate(_fileStorageMock.Object, _directoryPathResolverMock.Object);
+
+        TestCandidate = new TestCandidate(fileStorage: _fileStorageMock.Object,
+            directoryPathResolver: _directoryPathResolverMock.Object);
     }
 }

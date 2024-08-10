@@ -9,30 +9,40 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<JobEntry> builder)
     {
-        builder.ToTable("JobEntries");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-        builder.HasOne(e => e.JobInstance).WithMany().HasForeignKey(e => e.JobInstanceId).IsRequired();
-        
-        builder.Property(x => x.CronExpression).IsRequired();
-        builder.Property(x => x.IsCompleted).IsRequired(false);
-        builder.Property(x => x.CurrentRetries).IsRequired(false);
-        builder.Property(x => x.MaxRetries).IsRequired();
-        builder.Property(x => x.LastRun).IsRequired(false);
-        
+        builder.ToTable(name: "JobEntries");
+        builder.HasKey(keyExpression: x => x.Id);
+        builder.Property(propertyExpression: x => x.Id).IsRequired().ValueGeneratedNever();
+
         builder
-            .HasOne(e => e.JobStatus)
+            .HasOne(navigationExpression: e => e.JobInstance)
             .WithMany()
-            .HasForeignKey(e => e.JobEntryStatusId)
+            .HasForeignKey(foreignKeyExpression: e => e.JobInstanceId)
             .IsRequired();
-        
-        builder.OwnsMany(x => x.Triggers, jobEntryTriggersBuilder =>
+
+        builder.Property(propertyExpression: x => x.CronExpression).IsRequired();
+        builder.Property(propertyExpression: x => x.IsCompleted).IsRequired(required: false);
+        builder.Property(propertyExpression: x => x.CurrentRetries).IsRequired(required: false);
+        builder.Property(propertyExpression: x => x.MaxRetries).IsRequired();
+        builder.Property(propertyExpression: x => x.LastRun).IsRequired(required: false);
+
+        builder
+            .HasOne(navigationExpression: e => e.JobStatus)
+            .WithMany()
+            .HasForeignKey(foreignKeyExpression: e => e.JobEntryStatusId)
+            .IsRequired();
+
+        builder.OwnsMany(navigationExpression: x => x.Triggers, buildAction: jobEntryTriggersBuilder =>
         {
-            jobEntryTriggersBuilder.ToTable("JobEntryTriggers");
-            jobEntryTriggersBuilder.HasKey(x => x.Id);
-            jobEntryTriggersBuilder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-            jobEntryTriggersBuilder.Property(x => x.EventType).IsRequired().HasMaxLength(150);
-            jobEntryTriggersBuilder.Property(x => x.EventData).IsRequired();
+            jobEntryTriggersBuilder.ToTable(name: "JobEntryTriggers");
+            jobEntryTriggersBuilder.HasKey(keyExpression: x => x.Id);
+            jobEntryTriggersBuilder.Property(propertyExpression: x => x.Id).IsRequired().ValueGeneratedNever();
+
+            jobEntryTriggersBuilder
+                .Property(propertyExpression: x => x.EventType)
+                .IsRequired()
+                .HasMaxLength(maxLength: 150);
+
+            jobEntryTriggersBuilder.Property(propertyExpression: x => x.EventData).IsRequired();
         });
     }
 }

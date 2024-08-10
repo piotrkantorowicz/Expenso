@@ -20,16 +20,22 @@ public static class Extensions
         string moduleName)
     {
         services.AddDbMigrator();
-        configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
-        
+
+        configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection,
+            options: out EfCoreSettings databaseSettings);
+
         if (databaseSettings.InMemory is true)
-            services.AddMemoryDatabase<TimeManagementDbContext>(moduleName);
+        {
+            services.AddMemoryDatabase<TimeManagementDbContext>(moduleName: moduleName);
+        }
         else
-            services.AddPostgres<TimeManagementDbContext>(databaseSettings);
-        
-        services.AddScoped<ITimeManagementDbContext, TimeManagementDbContext>(x =>
+        {
+            services.AddPostgres<TimeManagementDbContext>(databaseSettings: databaseSettings);
+        }
+
+        services.AddScoped<ITimeManagementDbContext, TimeManagementDbContext>(implementationFactory: x =>
             x.GetRequiredService<TimeManagementDbContext>());
-        
+
         services.AddScoped<IJobEntryRepository, JobEntryRepository>();
         services.AddScoped<IJobEntryStatusRepository, JobEntryStatusRepository>();
         services.AddScoped<IJobInstanceRepository, JobInstanceRepository>();

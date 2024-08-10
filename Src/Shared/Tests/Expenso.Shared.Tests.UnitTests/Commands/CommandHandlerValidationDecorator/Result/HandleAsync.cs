@@ -13,19 +13,20 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
     public async Task Should_ReturnCorrectResult_When_NoValidationErrorsOccurred()
     {
         // Arrange
-        TestCommandResult expectedCommandResult = new("Test message");
-        _validator.Setup(x => x.Validate(_testCommand)).Returns(new Dictionary<string, string>());
+        TestCommandResult expectedCommandResult = new(Message: "Test message");
+        _validator.Setup(expression: x => x.Validate(_testCommand)).Returns(value: new Dictionary<string, string>());
 
         _handler
-            .Setup(x => x.HandleAsync(_testCommand, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedCommandResult);
+            .Setup(expression: x => x.HandleAsync(_testCommand, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: expectedCommandResult);
 
         // Act
-        TestCommandResult? commandResult = await TestCandidate.HandleAsync(_testCommand, CancellationToken.None);
+        TestCommandResult? commandResult =
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
 
         // Assert
         commandResult.Should().NotBeNull();
-        commandResult.Should().Be(expectedCommandResult);
+        commandResult.Should().Be(expected: expectedCommandResult);
     }
 
     [Test]
@@ -38,24 +39,23 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
             { "Name", "Name is required" }
         };
 
-        _validator.Setup(x => x.Validate(_testCommand)).Returns(errors);
+        _validator.Setup(expression: x => x.Validate(_testCommand)).Returns(value: errors);
 
         // Act
         // Assert
-        ValidationException? exception =
-            Assert.ThrowsAsync<ValidationException>(() =>
-                TestCandidate.HandleAsync(_testCommand, CancellationToken.None));
+        ValidationException? exception = Assert.ThrowsAsync<ValidationException>(code: () =>
+            TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None));
 
         exception.Should().NotBeNull();
         exception?.ErrorDictionary.Should().NotBeNull();
-        exception?.ErrorDictionary.Should().BeEquivalentTo(errors);
+        exception?.ErrorDictionary.Should().BeEquivalentTo(expectation: errors);
 
         string details = new StringBuilder()
-            .AppendLine("Id: Id is required")
-            .AppendLine("Name: Name is required")
+            .AppendLine(value: "Id: Id is required")
+            .AppendLine(value: "Name: Name is required")
             .ToString();
 
         exception?.Details.Should().NotBeNull();
-        exception?.Details.Should().Be(details);
+        exception?.Details.Should().Be(expected: details);
     }
 }

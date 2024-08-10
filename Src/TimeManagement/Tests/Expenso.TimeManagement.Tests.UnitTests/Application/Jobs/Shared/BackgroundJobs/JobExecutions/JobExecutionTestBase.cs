@@ -14,13 +14,13 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.Backgro
 
 internal abstract class JobExecutionTestBase : TestBase<JobExecution>
 {
-    protected Mock<ILogger<JobExecution>> _loggerMock = null!;
+    protected Mock<IClock> _clockMock = null!;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusRepositoryMock = null!;
     protected Mock<IJobInstanceRepository> _jobInstanceRepositoryMock = null!;
-    protected Mock<ISerializer> _serializerMock = null!;
+    protected Mock<ILogger<JobExecution>> _loggerMock = null!;
     protected Mock<IMessageBroker> _messageBrokerMock = null!;
-    protected Mock<IClock> _clockMock = null!;
+    protected Mock<ISerializer> _serializerMock = null!;
 
     [SetUp]
     public void Setup()
@@ -31,22 +31,23 @@ internal abstract class JobExecutionTestBase : TestBase<JobExecution>
         _jobInstanceRepositoryMock = new Mock<IJobInstanceRepository>();
 
         _jobEntryStatusRepositoryMock
-            .Setup(x => x.GetAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<JobEntryStatus>
+            .Setup(expression: x => x.GetAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: new List<JobEntryStatus>
             {
                 JobEntryStatus.Running,
                 JobEntryStatus.Retrying,
                 JobEntryStatus.Cancelled,
                 JobEntryStatus.Completed,
-                JobEntryStatus.Failed,
+                JobEntryStatus.Failed
             });
 
         _serializerMock = new Mock<ISerializer>();
         _messageBrokerMock = new Mock<IMessageBroker>();
         _clockMock = new Mock<IClock>();
 
-        TestCandidate = new JobExecution(_loggerMock.Object, _jobEntryRepositoryMock.Object,
-            _jobEntryStatusRepositoryMock.Object, _serializerMock.Object, _messageBrokerMock.Object, _clockMock.Object,
-            _jobInstanceRepositoryMock.Object);
+        TestCandidate = new JobExecution(logger: _loggerMock.Object, jobEntryRepository: _jobEntryRepositoryMock.Object,
+            jobEntryStatusRepository: _jobEntryStatusRepositoryMock.Object, serializer: _serializerMock.Object,
+            messageBroker: _messageBrokerMock.Object, clock: _clockMock.Object,
+            jobInstanceRepository: _jobInstanceRepositoryMock.Object);
     }
 }

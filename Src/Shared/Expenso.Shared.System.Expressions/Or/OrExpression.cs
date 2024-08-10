@@ -7,12 +7,15 @@ public static class OrExpression<T>
     public static Expression<Func<T, bool>> Or(Expression<Func<T, bool>> leftExpression,
         Expression<Func<T, bool>> rightExpression)
     {
-        ParameterExpression parameter = Expression.Parameter(typeof(T));
-        ReplaceExpressionVisitor leftVisitor = new(leftExpression.Parameters[0], parameter);
-        Expression left = leftVisitor.Visit(leftExpression.Body)!;
-        ReplaceExpressionVisitor rightVisitor = new(rightExpression.Parameters[0], parameter);
-        Expression right = rightVisitor.Visit(rightExpression.Body)!;
+        ParameterExpression parameter = Expression.Parameter(type: typeof(T));
+        ReplaceExpressionVisitor leftVisitor = new(oldValue: leftExpression.Parameters[index: 0], newValue: parameter);
+        Expression left = leftVisitor.Visit(node: leftExpression.Body)!;
 
-        return Expression.Lambda<Func<T, bool>>(Expression.Or(left, right), parameter);
+        ReplaceExpressionVisitor rightVisitor =
+            new(oldValue: rightExpression.Parameters[index: 0], newValue: parameter);
+
+        Expression right = rightVisitor.Visit(node: rightExpression.Body)!;
+
+        return Expression.Lambda<Func<T, bool>>(body: Expression.Or(left: left, right: right), parameter);
     }
 }

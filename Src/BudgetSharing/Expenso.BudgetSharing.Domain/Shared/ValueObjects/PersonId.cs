@@ -14,14 +14,15 @@ public sealed record PersonId
 
     public static PersonId New(Guid value)
     {
-        DomainModelState.CheckBusinessRules([(new EmptyIdentifierCannotBeProcessed(value, typeof(PersonId)), false)]);
+        DomainModelState.CheckBusinessRules(businessRules:
+            [(new EmptyIdentifierCannotBeProcessed(identifier: value, type: typeof(PersonId)), false)]);
 
-        return new PersonId(value);
+        return new PersonId(value: value);
     }
 
     public static PersonId? Nullable(Guid? value)
     {
-        return value is null || value == Guid.Empty ? null : new PersonId(value.Value);
+        return value is null || value == Guid.Empty ? null : new PersonId(value: value.Value);
     }
 
     public override string ToString()

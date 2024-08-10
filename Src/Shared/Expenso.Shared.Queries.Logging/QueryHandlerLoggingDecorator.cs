@@ -13,29 +13,33 @@ internal sealed class QueryHandlerLoggingDecorator<TQuery, TResult>(
     ISerializer serializer) : IQueryHandler<TQuery, TResult> where TQuery : class, IQuery<TResult> where TResult : class
 {
     private readonly IQueryHandler<TQuery, TResult> _decorated =
-        decorated ?? throw new ArgumentNullException(nameof(decorated));
+        decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
 
     private readonly ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> _logger =
-        logger ?? throw new ArgumentNullException(nameof(logger));
+        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
 
-    private readonly ISerializer _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+    private readonly ISerializer _serializer =
+        serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
 
     public async Task<TResult?> HandleAsync(TQuery query, CancellationToken cancellationToken)
     {
         EventId executing = LoggingUtils.QueryExecuting;
         EventId executed = LoggingUtils.QueryExecuted;
         string? queryName = query.GetType().FullName;
-        string serializedQuery = _serializer.Serialize(query);
-        _logger.LogInformation(executing, "[START] {QueryName}. Params: {SerializedQuery}", queryName, serializedQuery);
+        string serializedQuery = _serializer.Serialize(value: query);
+
+        _logger.LogInformation(eventId: executing, message: "[START] {QueryName}. Params: {SerializedQuery}", queryName,
+            serializedQuery);
+
         Stopwatch stopwatch = new();
 
         try
         {
             stopwatch.Start();
-            TResult? result = await _decorated.HandleAsync(query, cancellationToken);
+            TResult? result = await _decorated.HandleAsync(query: query, cancellationToken: cancellationToken);
             stopwatch.Stop();
 
-            _logger.LogInformation(executed, "[END] {QueryName}: {ExecutionTime}[ms]", queryName,
+            _logger.LogInformation(eventId: executed, message: "[END] {QueryName}: {ExecutionTime}[ms]", queryName,
                 stopwatch.ElapsedMilliseconds);
 
             return result;
@@ -44,8 +48,8 @@ internal sealed class QueryHandlerLoggingDecorator<TQuery, TResult>(
         {
             stopwatch.Stop();
 
-            _logger.LogError(LoggingUtils.UnexpectedException, ex, "[END] {QueryName}: {ExecutionTime}[ms]", queryName,
-                stopwatch.ElapsedMilliseconds);
+            _logger.LogError(eventId: LoggingUtils.UnexpectedException, exception: ex,
+                message: "[END] {QueryName}: {ExecutionTime}[ms]", queryName, stopwatch.ElapsedMilliseconds);
 
             throw;
         }

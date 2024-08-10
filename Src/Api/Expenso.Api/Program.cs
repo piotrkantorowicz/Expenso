@@ -1,6 +1,6 @@
 using Expenso.Api.Configuration.Builders;
 
-AppBuilder appBuilder = new(args);
+AppBuilder appBuilder = new(args: args);
 
 appBuilder
     .ConfigureApiDependencies()

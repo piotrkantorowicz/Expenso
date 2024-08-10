@@ -11,20 +11,23 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getUserResponse);
+            .Setup(expression: x =>
+                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _getUserResponse);
 
         // Act
         GetUserResponse? getUserResponse =
-            await TestCandidate.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>());
+            await TestCandidate.GetUserByEmailAsync(email: _userEmail,
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();
-        getUserResponse.Should().BeEquivalentTo(_getUserResponse);
+        getUserResponse.Should().BeEquivalentTo(expectation: _getUserResponse);
 
         _queryDispatcherMock.Verify(
-            x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
-            Times.Once);
+            expression: x =>
+                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -34,15 +37,16 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         const string email = "email1@email.com";
 
         _queryDispatcherMock
-            .Setup(x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new NotFoundException($"User with email {email} not found."));
+            .Setup(expression: x =>
+                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found."));
 
         // Act
         // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() =>
-            TestCandidate.GetUserByEmailAsync(email, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"User with email {email} not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

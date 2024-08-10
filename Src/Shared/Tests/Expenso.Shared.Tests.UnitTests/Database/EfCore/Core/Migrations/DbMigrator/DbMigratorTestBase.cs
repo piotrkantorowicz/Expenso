@@ -35,11 +35,11 @@ internal interface ITestDbContextNoMigrate : IDbContext, IDoNotMigrate;
 internal interface ITestDbContextNoSeed : IDbContext, IDoNotSeed;
 
 internal sealed class TestDbContextMigrate(DbContextOptions<TestDbContextMigrate> options)
-    : DbContext(options), ITestDbContextMigrate
+    : DbContext(options: options), ITestDbContextMigrate
 {
     public Task MigrateAsync(CancellationToken cancellationToken)
     {
-        return Database.MigrateAsync(cancellationToken);
+        return Database.MigrateAsync(cancellationToken: cancellationToken);
     }
 
     public Task SeedAsync(CancellationToken cancellationToken)
@@ -49,11 +49,11 @@ internal sealed class TestDbContextMigrate(DbContextOptions<TestDbContextMigrate
 }
 
 internal sealed class TestDbContextNoMigrate(DbContextOptions<TestDbContextNoMigrate> options)
-    : DbContext(options), ITestDbContextNoMigrate
+    : DbContext(options: options), ITestDbContextNoMigrate
 {
     public Task MigrateAsync(CancellationToken cancellationToken)
     {
-        return Database.MigrateAsync(cancellationToken);
+        return Database.MigrateAsync(cancellationToken: cancellationToken);
     }
 
     public Task SeedAsync(CancellationToken cancellationToken)
@@ -63,11 +63,11 @@ internal sealed class TestDbContextNoMigrate(DbContextOptions<TestDbContextNoMig
 }
 
 internal sealed class TestDbContextNoSeed(DbContextOptions<TestDbContextNoSeed> options)
-    : DbContext(options), ITestDbContextNoSeed
+    : DbContext(options: options), ITestDbContextNoSeed
 {
     public Task MigrateAsync(CancellationToken cancellationToken)
     {
-        return Database.MigrateAsync(cancellationToken);
+        return Database.MigrateAsync(cancellationToken: cancellationToken);
     }
 
     public Task SeedAsync(CancellationToken cancellationToken)

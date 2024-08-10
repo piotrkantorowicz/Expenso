@@ -9,10 +9,10 @@ internal sealed class NotificationEntityTypeConfiguration : IEntityTypeConfigura
 {
     public void Configure(EntityTypeBuilder<NotificationPreference> builder)
     {
-        builder.ToTable("NotificationPreferences");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-        builder.Property(x => x.SendFinanceReportEnabled).IsRequired();
-        builder.Property(x => x.SendFinanceReportInterval).IsRequired();
+        builder.ToTable(name: "NotificationPreferences");
+        builder.HasKey(keyExpression: x => x.Id);
+        builder.Property(propertyExpression: x => x.Id).IsRequired().ValueGeneratedNever();
+        builder.Property(propertyExpression: x => x.SendFinanceReportEnabled).IsRequired();
+        builder.Property(propertyExpression: x => x.SendFinanceReportInterval).IsRequired();
     }
 }

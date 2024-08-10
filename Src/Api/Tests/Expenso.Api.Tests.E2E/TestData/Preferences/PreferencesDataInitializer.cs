@@ -20,19 +20,25 @@ internal static class PreferencesDataInitializer
         {
             CreatePreferenceResponse? preference =
                 await commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-                    new CreatePreferenceCommand(messageContextFactory.Current(), new CreatePreferenceRequest(userId)),
-                    cancellationToken);
+                    command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
+                        Preference: new CreatePreferenceRequest(UserId: userId)), cancellationToken: cancellationToken);
 
             if (preference is not null)
             {
-                PreferenceIds?.Add(preference.PreferenceId);
+                PreferenceIds?.Add(item: preference.PreferenceId);
             }
         }
 
         await commandDispatcher.SendAsync(
-            new UpdatePreferenceCommand(messageContextFactory.Current(), UserDataInitializer.UserIds[0],
-                new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 3, true, 5),
-                    new UpdatePreferenceRequest_NotificationPreference(true, 7),
-                    new UpdatePreferenceRequest_GeneralPreference(true))), cancellationToken);
+            command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
+                PreferenceOrUserId: UserDataInitializer.UserIds[index: 0],
+                Preference: new UpdatePreferenceRequest(
+                    FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                        MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,
+                        MaxNumberOfFinancePlanReviewers: 5),
+                    NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                        SendFinanceReportEnabled: true, SendFinanceReportInterval: 7),
+                    GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true))),
+            cancellationToken: cancellationToken);
     }
 }

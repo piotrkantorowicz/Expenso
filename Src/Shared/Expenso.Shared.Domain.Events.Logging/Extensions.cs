@@ -6,7 +6,8 @@ public static class Extensions
 {
     public static IServiceCollection AddDomainEventsLogging(this IServiceCollection services)
     {
-        services.TryDecorate(typeof(IDomainEventHandler<>), typeof(DomainEventHandlerLoggingDecorator<>));
+        services.TryDecorate(serviceType: typeof(IDomainEventHandler<>),
+            decoratorType: typeof(DomainEventHandlerLoggingDecorator<>));
 
         return services;
     }

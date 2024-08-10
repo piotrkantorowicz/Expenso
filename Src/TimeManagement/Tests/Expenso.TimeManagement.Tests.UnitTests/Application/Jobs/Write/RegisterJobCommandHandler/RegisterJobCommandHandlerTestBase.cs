@@ -16,13 +16,13 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.Register
 
 internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandidate>
 {
+    protected Mock<IClock> _clockMock = null!;
+    protected BudgetPermissionRequestExpiredIntergrationEvent _eventTrigger = null!;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
     protected Mock<IJobInstanceRepository> _jobInstanceRepository = null!;
-    protected Mock<IClock> _clockMock = null!;
-    protected Mock<ISerializer> _serializer = null!;
-    protected BudgetPermissionRequestExpiredIntergrationEvent _eventTrigger = null!;
     protected RegisterJobCommand _registerJobCommand = null!;
+    protected Mock<ISerializer> _serializer = null!;
 
     [SetUp]
     public void SetUp()
@@ -30,21 +30,27 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
         _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
         _jobEntryStatusReposiotry = new Mock<IJobEntryStatusRepository>();
         _jobInstanceRepository = new Mock<IJobInstanceRepository>();
-        _eventTrigger = new(null!, Guid.NewGuid());
-        string eventTriggerPayload = JsonSerializer.Serialize(_eventTrigger);
+
+        _eventTrigger =
+            new BudgetPermissionRequestExpiredIntergrationEvent(MessageContext: null!,
+                BudgetPermissionRequestId: Guid.NewGuid());
+
+        string eventTriggerPayload = JsonSerializer.Serialize(value: _eventTrigger);
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(x => x.UtcNow).Returns(DateTimeOffset.UtcNow);
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
         _serializer = new Mock<ISerializer>();
-        _serializer.Setup(x => x.Serialize(_eventTrigger, null)).Returns(eventTriggerPayload);
+        _serializer.Setup(expression: x => x.Serialize(_eventTrigger, null)).Returns(value: eventTriggerPayload);
 
-        _registerJobCommand = new RegisterJobCommand(MessageContextFactoryMock.Object.Current(), new AddJobEntryRequest(
-            5, [
+        _registerJobCommand = new RegisterJobCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
+            AddJobEntryRequest: new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            [
                 new AddJobEntryRequest_JobEntryTrigger(
-                    typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
-                    _serializer.Object.Serialize(_eventTrigger))
-            ], null, _clockMock.Object.UtcNow));
+                    EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                    EventData: _serializer.Object.Serialize(value: _eventTrigger))
+            ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
-        TestCandidate = new TestCandidate(_jobEntryRepositoryMock.Object, _jobInstanceRepository.Object,
-            _jobEntryStatusReposiotry.Object);
+        TestCandidate = new TestCandidate(jobEntryRepository: _jobEntryRepositoryMock.Object,
+            jobInstanceRepository: _jobInstanceRepository.Object,
+            jobEntryStatusRepository: _jobEntryStatusReposiotry.Object);
     }
 }

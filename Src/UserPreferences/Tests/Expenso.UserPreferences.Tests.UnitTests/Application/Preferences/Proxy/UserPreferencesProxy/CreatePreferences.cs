@@ -10,25 +10,25 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
     public async Task Should_CallCreatePreference()
     {
         // Arrange
-        CreatePreferenceRequest createPreferenceRequest = new CreatePreferenceRequest(_userId);
+        CreatePreferenceRequest createPreferenceRequest = new(UserId: _userId);
 
         _commandDispatcherMock
-            .Setup(x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
+            .Setup(expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
                 new CreatePreferenceCommand(MessageContextFactoryMock.Object.Current(null), createPreferenceRequest),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_createPreferenceResponse);
+            .ReturnsAsync(value: _createPreferenceResponse);
 
         // Act
-        CreatePreferenceResponse? preference =
-            await TestCandidate.CreatePreferencesAsync(createPreferenceRequest, It.IsAny<CancellationToken>());
+        CreatePreferenceResponse? preference = await TestCandidate.CreatePreferencesAsync(
+            createPreferenceRequest: createPreferenceRequest, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         preference.Should().NotBeNull();
-        preference.Should().BeEquivalentTo(_createPreferenceResponse);
+        preference.Should().BeEquivalentTo(expectation: _createPreferenceResponse);
 
         _commandDispatcherMock.Verify(
-            x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
+            expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
                 new CreatePreferenceCommand(MessageContextFactoryMock.Object.Current(null),
-                    new CreatePreferenceRequest(_userId)), It.IsAny<CancellationToken>()), Times.Once);
+                    new CreatePreferenceRequest(_userId)), It.IsAny<CancellationToken>()), times: Times.Once);
     }
 }

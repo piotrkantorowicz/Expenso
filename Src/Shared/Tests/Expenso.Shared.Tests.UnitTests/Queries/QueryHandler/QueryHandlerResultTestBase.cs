@@ -9,7 +9,7 @@ internal abstract class QueryHandlerResultTestBase : TestBase<TestQueryHandler>
     [SetUp]
     protected void Setup()
     {
-        _testQuery = new TestQuery(MessageContextFactoryMock.Object.Current(), Guid.NewGuid());
+        _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid());
         TestCandidate = new TestQueryHandler();
     }
 }

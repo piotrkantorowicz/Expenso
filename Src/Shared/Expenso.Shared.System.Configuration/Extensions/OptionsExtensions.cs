@@ -12,8 +12,8 @@ public static class OptionsExtensions
         try
         {
             configuration
-                .GetSection(sectionName)
-                .Bind(options, opt =>
+                .GetSection(key: sectionName)
+                .Bind(instance: options, configureOptions: opt =>
                 {
                     if (bindNonPublicProperties)
                     {

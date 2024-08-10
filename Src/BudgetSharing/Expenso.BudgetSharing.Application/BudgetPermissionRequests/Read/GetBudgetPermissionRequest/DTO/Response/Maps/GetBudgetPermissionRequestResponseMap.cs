@@ -8,10 +8,12 @@ internal static class GetBudgetPermissionRequestResponseMap
 {
     public static GetBudgetPermissionRequestResponse MapTo(BudgetPermissionRequest budgetPermissionRequest)
     {
-        return new GetBudgetPermissionRequestResponse(budgetPermissionRequest.Id.Value,
-            budgetPermissionRequest.BudgetId.Value, budgetPermissionRequest.ParticipantId.Value,
-            MapTo(budgetPermissionRequest.PermissionType), MapTo(budgetPermissionRequest.Status),
-            budgetPermissionRequest.ExpirationDate?.Value);
+        return new GetBudgetPermissionRequestResponse(Id: budgetPermissionRequest.Id.Value,
+            BudgetId: budgetPermissionRequest.BudgetId.Value,
+            ParticipantId: budgetPermissionRequest.ParticipantId.Value,
+            PermissionType: MapTo(permissionType: budgetPermissionRequest.PermissionType),
+            Status: MapTo(budgetPermissionRequestStatus: budgetPermissionRequest.Status),
+            ExpirationDate: budgetPermissionRequest.ExpirationDate?.Value);
     }
 
     private static GetBudgetPermissionRequestResponse_Status MapTo(
@@ -42,8 +44,8 @@ internal static class GetBudgetPermissionRequestResponseMap
             return GetBudgetPermissionRequestResponse_Status.Expired;
         }
 
-        throw new ArgumentOutOfRangeException(nameof(budgetPermissionRequestStatus), budgetPermissionRequestStatus,
-            null);
+        throw new ArgumentOutOfRangeException(paramName: nameof(budgetPermissionRequestStatus),
+            actualValue: budgetPermissionRequestStatus, message: null);
     }
 
     private static GetBudgetPermissionRequestResponse_PermissionType MapTo(PermissionType permissionType)
@@ -68,6 +70,7 @@ internal static class GetBudgetPermissionRequestResponseMap
             return GetBudgetPermissionRequestResponse_PermissionType.Reviewer;
         }
 
-        throw new ArgumentOutOfRangeException(nameof(permissionType), permissionType, null);
+        throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,
+            message: null);
     }
 }

@@ -15,12 +15,12 @@ public static class Extensions
 {
     public static void AddDocumentManagementCore(this IServiceCollection services, IConfiguration configuration)
     {
-        RegisterAclUserServices(services, configuration);
+        RegisterAclUserServices(services: services, configuration: configuration);
     }
 
     private static void RegisterAclUserServices(IServiceCollection services, IConfiguration configuration)
     {
-        configuration.TryBindOptions(SectionNames.Files, out FilesSettings? filesSettings);
+        configuration.TryBindOptions(sectionName: SectionNames.Files, options: out FilesSettings? filesSettings);
 
         switch (filesSettings?.StorageType)
         {
@@ -32,8 +32,8 @@ public static class Extensions
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException(filesSettings?.StorageType.GetType().Name,
-                    filesSettings?.StorageType, "Invalid auth server type.");
+                throw new ArgumentOutOfRangeException(paramName: filesSettings?.StorageType.GetType().Name,
+                    actualValue: filesSettings?.StorageType, message: "Invalid auth server type.");
         }
     }
 }

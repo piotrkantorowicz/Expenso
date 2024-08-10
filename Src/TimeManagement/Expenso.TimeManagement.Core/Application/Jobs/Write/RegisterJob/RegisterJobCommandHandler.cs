@@ -12,39 +12,47 @@ internal sealed class RegisterJobCommandHandler(
     IJobEntryStatusRepository jobEntryStatusRepository) : ICommandHandler<RegisterJobCommand>
 {
     private readonly IJobEntryRepository _jobEntryRepository =
-        jobEntryRepository ?? throw new ArgumentNullException(nameof(jobEntryRepository));
+        jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
 
-    private readonly IJobEntryStatusRepository _jobEntryStatusRepository =
-        jobEntryStatusRepository ?? throw new ArgumentNullException(nameof(jobEntryStatusRepository));
+    private readonly IJobEntryStatusRepository _jobEntryStatusRepository = jobEntryStatusRepository ??
+                                                                           throw new ArgumentNullException(
+                                                                               paramName: nameof(
+                                                                                   jobEntryStatusRepository));
 
-    private readonly IJobInstanceRepository _jobInstanceRepository =
-        jobInstanceRepository ?? throw new ArgumentNullException(nameof(jobInstanceRepository));
+    private readonly IJobInstanceRepository _jobInstanceRepository = jobInstanceRepository ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(jobInstanceRepository));
 
     public async Task HandleAsync(RegisterJobCommand command, CancellationToken cancellationToken)
     {
         Guid jobInstanceId = JobInstance.Default.Id;
-        JobInstance? jobType = await _jobInstanceRepository.GetAsync(jobInstanceId, cancellationToken);
+
+        JobInstance? jobType =
+            await _jobInstanceRepository.GetAsync(id: jobInstanceId, cancellationToken: cancellationToken);
 
         if (jobType is null)
         {
-            throw new NotFoundException($"Job instance with id {jobInstanceId} not found.");
+            throw new NotFoundException(message: $"Job instance with id {jobInstanceId} not found.");
         }
 
         Guid jobStatusId = JobEntryStatus.Running.Id;
-        JobEntryStatus? runningJobStatus = await _jobEntryStatusRepository.GetAsync(jobStatusId, cancellationToken);
+
+        JobEntryStatus? runningJobStatus =
+            await _jobEntryStatusRepository.GetAsync(id: jobStatusId, cancellationToken: cancellationToken);
 
         if (runningJobStatus is null)
         {
-            throw new NotFoundException($"Job status with id {jobStatusId} not found.");
+            throw new NotFoundException(message: $"Job status with id {jobStatusId} not found.");
         }
 
-        JobEntry? jobEntry = command.AddJobEntryRequest?.MapToJobEntry(jobType, runningJobStatus);
+        JobEntry? jobEntry =
+            command.AddJobEntryRequest?.MapToJobEntry(jobInstance: jobType, jobEntryStatus: runningJobStatus);
 
         if (jobEntry is null)
         {
-            throw new NotFoundException("Unable to create job entry from request.");
+            throw new NotFoundException(message: "Unable to create job entry from request.");
         }
 
-        await _jobEntryRepository.AddOrUpdateAsync(jobEntry, cancellationToken);
+        await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);
     }
 }

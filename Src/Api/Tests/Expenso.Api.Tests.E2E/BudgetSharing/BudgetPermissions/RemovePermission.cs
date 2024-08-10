@@ -9,16 +9,16 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
 
         string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[0]}/participants/{UserDataInitializer.UserIds[3]}";
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestPath);
+        HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -26,12 +26,12 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[0]}/participants/{UserDataInitializer.UserIds[3]}";
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestPath);
+        HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

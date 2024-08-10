@@ -19,7 +19,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeOfType(_servicesDictionary[nameof(IInAppService)].GetType());
+        result.Should().BeOfType(expectedType: _servicesDictionary[key: nameof(IInAppService)].GetType());
     }
 
     [Test]
@@ -31,7 +31,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeOfType(_servicesDictionary[nameof(IEmailService)].GetType());
+        result.Should().BeOfType(expectedType: _servicesDictionary[key: nameof(IEmailService)].GetType());
     }
 
     [Test]
@@ -43,7 +43,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeOfType(_servicesDictionary[nameof(IPushService)].GetType());
+        result.Should().BeOfType(expectedType: _servicesDictionary[key: nameof(IPushService)].GetType());
     }
 
     [Test]
@@ -54,14 +54,14 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
 
         // Act
         InvalidOperationException? exception =
-            Assert.Throws<InvalidOperationException>(() => TestCandidate.GetService<IPushService>());
+            Assert.Throws<InvalidOperationException>(code: () => TestCandidate.GetService<IPushService>());
 
         // Assert
         exception.Should().NotBeNull();
 
         exception
             ?.Message.Should()
-            .Be(
+            .Be(expected:
                 "Notification service Expenso.Communication.Core.Application.Notifications.Services.Push.IPushService hasn't been found.");
     }
 
@@ -70,18 +70,18 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
     {
         // Arrange
         _servicesDictionary.Clear();
-        _servicesDictionary.Add(nameof(IEmailService), new Mock<IPushService>().Object);
+        _servicesDictionary.Add(key: nameof(IEmailService), value: new Mock<IPushService>().Object);
 
         // Act
         InvalidOperationException? exception =
-            Assert.Throws<InvalidOperationException>(() => TestCandidate.GetService<IEmailService>());
+            Assert.Throws<InvalidOperationException>(code: () => TestCandidate.GetService<IEmailService>());
 
         // Assert
         exception.Should().NotBeNull();
 
         exception
             ?.Message.Should()
-            .Be(
+            .Be(expected:
                 "Notification service is not of requested type Expenso.Communication.Core.Application.Notifications.Services.Emails.IEmailService.");
     }
 }

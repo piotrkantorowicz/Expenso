@@ -6,38 +6,41 @@ namespace Expenso.Shared.System.Serialization.Default;
 
 internal sealed class DefaultSerializer(ILogger<DefaultSerializer> logger) : ISerializer
 {
-    private readonly ILogger<DefaultSerializer> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ILogger<DefaultSerializer> _logger =
+        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
 
     public T? Deserialize<T>(string value, object? settings = null)
     {
         switch (settings)
         {
             case null:
-                return JsonSerializer.Deserialize<T>(value);
+                return JsonSerializer.Deserialize<T>(json: value);
             case JsonSerializerOptions serializerOptions:
-                return JsonSerializer.Deserialize<T>(value, serializerOptions);
+                return JsonSerializer.Deserialize<T>(json: value, options: serializerOptions);
             default:
-                _logger.LogWarning("Unknown serializer options provided. Using default options");
+                _logger.LogWarning(message: "Unknown serializer options provided. Using default options");
 
-                return JsonSerializer.Deserialize<T>(value);
+                return JsonSerializer.Deserialize<T>(json: value);
         }
     }
 
     public object? Deserialize(string value, Type? type, object? settings = null)
     {
         if (type is null)
+        {
             return null;
-        
+        }
+
         switch (settings)
         {
             case null:
-                return JsonSerializer.Deserialize(value, type);
+                return JsonSerializer.Deserialize(json: value, returnType: type);
             case JsonSerializerOptions serializerOptions:
-                return JsonSerializer.Deserialize(value, type, serializerOptions);
+                return JsonSerializer.Deserialize(json: value, returnType: type, options: serializerOptions);
             default:
-                _logger.LogWarning("Unknown serializer options provided. Using default options");
+                _logger.LogWarning(message: "Unknown serializer options provided. Using default options");
 
-                return JsonSerializer.Deserialize(value, type);
+                return JsonSerializer.Deserialize(json: value, returnType: type);
         }
     }
 
@@ -46,13 +49,13 @@ internal sealed class DefaultSerializer(ILogger<DefaultSerializer> logger) : ISe
         switch (settings)
         {
             case null:
-                return JsonSerializer.Serialize(value);
+                return JsonSerializer.Serialize(value: value);
             case JsonSerializerOptions serializerOptions:
-                return JsonSerializer.Serialize(value, serializerOptions);
+                return JsonSerializer.Serialize(value: value, options: serializerOptions);
             default:
-                _logger.LogWarning("Unknown serializer options provided. Using default options");
+                _logger.LogWarning(message: "Unknown serializer options provided. Using default options");
 
-                return JsonSerializer.Serialize(value);
+                return JsonSerializer.Serialize(value: value);
         }
     }
 }

@@ -9,15 +9,18 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
 internal abstract class JobEntriesTestBase : TestBase
 {
-    protected ITimeManagementProxy _timeManagementProxy = null!;
     protected Mock<IClock> _clockMock = null!;
+    protected ITimeManagementProxy _timeManagementProxy = null!;
 
     [SetUp]
     public override Task SetUp()
     {
         _timeManagementProxy = WebApp.Instance.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(x => x.UtcNow).Returns(DateTimeOffset.UtcNow.AddMilliseconds(500));
+
+        _clockMock
+            .Setup(expression: x => x.UtcNow)
+            .Returns(value: DateTimeOffset.UtcNow.AddMilliseconds(milliseconds: 500));
 
         return base.SetUp();
     }

@@ -13,12 +13,12 @@ public static class Extensions
 {
     public static void AddIamCore(this IServiceCollection services, IConfiguration configuration)
     {
-        RegisterAclUserServices(services, configuration);
+        RegisterAclUserServices(services: services, configuration: configuration);
     }
 
     private static void RegisterAclUserServices(IServiceCollection services, IConfiguration configuration)
     {
-        configuration.TryBindOptions(SectionNames.Auth, out AuthSettings? authSettings);
+        configuration.TryBindOptions(sectionName: SectionNames.Auth, options: out AuthSettings? authSettings);
 
         switch (authSettings?.AuthServer)
         {
@@ -27,8 +27,8 @@ public static class Extensions
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException(authSettings?.AuthServer.GetType().Name, authSettings?.AuthServer,
-                    "Invalid auth server type.");
+                throw new ArgumentOutOfRangeException(paramName: authSettings?.AuthServer.GetType().Name,
+                    actualValue: authSettings?.AuthServer, message: "Invalid auth server type.");
         }
     }
 }

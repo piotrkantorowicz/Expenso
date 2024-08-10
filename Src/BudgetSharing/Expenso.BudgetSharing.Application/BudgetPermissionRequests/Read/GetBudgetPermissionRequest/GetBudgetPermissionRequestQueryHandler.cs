@@ -14,27 +14,27 @@ internal sealed class GetBudgetPermissionRequestQueryHandler(
     : IQueryHandler<GetBudgetPermissionRequestQuery, GetBudgetPermissionRequestResponse>
 {
     private readonly IBudgetPermissionRequestQueryStore _budgetPermissionRequestStore = budgetPermissionRequestStore ??
-        throw new ArgumentNullException(nameof(budgetPermissionRequestStore));
+        throw new ArgumentNullException(paramName: nameof(budgetPermissionRequestStore));
 
     public async Task<GetBudgetPermissionRequestResponse?> HandleAsync(GetBudgetPermissionRequestQuery query,
         CancellationToken cancellationToken)
     {
         BudgetPermissionRequestFilter filter = new()
         {
-            Id = BudgetPermissionRequestId.Nullable(query.BudgetPermissionRequestId)
+            Id = BudgetPermissionRequestId.Nullable(value: query.BudgetPermissionRequestId)
         };
 
         BudgetPermissionRequest? budgetPermissionRequest =
-            await _budgetPermissionRequestStore.SingleAsync(filter, cancellationToken);
+            await _budgetPermissionRequestStore.SingleAsync(filter: filter, cancellationToken: cancellationToken);
 
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                $"Budget permission request with id {query.BudgetPermissionRequestId} hasn't been found.");
+                message: $"Budget permission request with id {query.BudgetPermissionRequestId} hasn't been found.");
         }
 
         GetBudgetPermissionRequestResponse budgetPermissionRequestResponse =
-            GetBudgetPermissionRequestResponseMap.MapTo(budgetPermissionRequest);
+            GetBudgetPermissionRequestResponseMap.MapTo(budgetPermissionRequest: budgetPermissionRequest);
 
         return budgetPermissionRequestResponse;
     }

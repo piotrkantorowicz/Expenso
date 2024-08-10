@@ -10,6 +10,6 @@ internal sealed class ExpirationDateMustBeGreaterThanOneDay(DateAndTime expirati
 
     public bool IsBroken()
     {
-        return expirationDate < clock.UtcNow.AddDays(1);
+        return expirationDate < clock.UtcNow.AddDays(days: 1);
     }
 }

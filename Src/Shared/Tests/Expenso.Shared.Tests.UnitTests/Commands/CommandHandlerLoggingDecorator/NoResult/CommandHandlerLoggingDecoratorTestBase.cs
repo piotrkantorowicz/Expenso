@@ -19,12 +19,14 @@ internal abstract class CommandHandlerLoggingDecoratorTestBase : TestBase<Comman
     [SetUp]
     protected void Setup()
     {
-        _testCommand = new TestCommand(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "JYi9R7e7v2Qor");
+        _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
+            Name: "JYi9R7e7v2Qor");
+
         _loggerMock = new Mock<ILogger<CommandHandlerLoggingDecorator<TestCommand>>>();
         _commandHandlerMock = new Mock<ICommandHandler<TestCommand>>();
         _serializerMock = new Mock<ISerializer>();
 
-        TestCandidate = new CommandHandlerLoggingDecorator<TestCommand>(_loggerMock.Object, _commandHandlerMock.Object,
-            _serializerMock.Object);
+        TestCandidate = new CommandHandlerLoggingDecorator<TestCommand>(logger: _loggerMock.Object,
+            decorated: _commandHandlerMock.Object, serializer: _serializerMock.Object);
     }
 }

@@ -13,7 +13,8 @@ public sealed class GetBudgetPermissionRequestsRequestMap
             GetBudgetPermissionRequestsRequest_PermissionType.Owner => PermissionType.Owner,
             GetBudgetPermissionRequestsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             GetBudgetPermissionRequestsRequest_PermissionType.Reviewer => PermissionType.Reviewer,
-            _ => throw new ArgumentOutOfRangeException(nameof(permissionType), permissionType, null)
+            _ => throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,
+                message: null)
         };
     }
 
@@ -26,7 +27,7 @@ public sealed class GetBudgetPermissionRequestsRequestMap
             GetBudgetPermissionRequestsRequest_Status.Cancelled => BudgetPermissionRequestStatus.Cancelled,
             GetBudgetPermissionRequestsRequest_Status.Confirmed => BudgetPermissionRequestStatus.Confirmed,
             GetBudgetPermissionRequestsRequest_Status.Expired => BudgetPermissionRequestStatus.Expired,
-            _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+            _ => throw new ArgumentOutOfRangeException(paramName: nameof(status), actualValue: status, message: null)
         };
     }
 }

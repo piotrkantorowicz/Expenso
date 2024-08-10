@@ -12,10 +12,10 @@ public static class Extensions
     {
         services.AddSingleton<IQueryDispatcher, QueryDispatcher>();
 
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(IQueryHandler<,>)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IQueryHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

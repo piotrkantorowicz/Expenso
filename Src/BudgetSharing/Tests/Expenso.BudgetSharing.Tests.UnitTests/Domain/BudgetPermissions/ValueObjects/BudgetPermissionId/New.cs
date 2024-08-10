@@ -15,7 +15,7 @@ internal sealed class New : BudgetPermissionIdTestBase
         Guid value = Guid.NewGuid();
 
         // Act
-        TestCandidate result = TestCandidate.New(value);
+        TestCandidate result = TestCandidate.New(value: value);
 
         // Assert
         result.Should().NotBeNull();
@@ -28,13 +28,14 @@ internal sealed class New : BudgetPermissionIdTestBase
         Guid value = Guid.Empty;
 
         // Act
-        Action act = () => TestCandidate.New(value);
+        Action act = () => TestCandidate.New(value: value);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(
+                expectedWildcardPattern:
                 $"Empty identifier {nameof(BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId)} cannot be processed");
     }
 }

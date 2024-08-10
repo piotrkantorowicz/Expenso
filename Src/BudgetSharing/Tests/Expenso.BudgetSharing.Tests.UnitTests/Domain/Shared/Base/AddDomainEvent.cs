@@ -15,10 +15,10 @@ internal sealed class AddDomainEvent : DomainEventsSourceTestBase
         IDomainEvent domainEvent = new Mock<IDomainEvent>().Object;
 
         // Act
-        TestCandidate.AddDomainEvent(domainEvent);
+        TestCandidate.AddDomainEvent(domainEvent: domainEvent);
 
         // Assert
-        TestCandidate.DomainEvents.Should().Contain(domainEvent);
+        TestCandidate.DomainEvents.Should().Contain(expected: domainEvent);
     }
 
     [Test]
@@ -29,8 +29,8 @@ internal sealed class AddDomainEvent : DomainEventsSourceTestBase
         IDomainEvent domainEvent2 = new Mock<IDomainEvent>().Object;
 
         // Act
-        TestCandidate.AddDomainEvent(domainEvent1);
-        TestCandidate.AddDomainEvent(domainEvent2);
+        TestCandidate.AddDomainEvent(domainEvent: domainEvent1);
+        TestCandidate.AddDomainEvent(domainEvent: domainEvent2);
 
         // Assert
         TestCandidate.DomainEvents.Should().ContainInOrder(domainEvent1, domainEvent2);

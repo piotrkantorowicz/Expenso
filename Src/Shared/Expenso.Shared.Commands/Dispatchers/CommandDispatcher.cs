@@ -5,7 +5,7 @@ namespace Expenso.Shared.Commands.Dispatchers;
 internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICommandDispatcher
 {
     private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
 
     public async Task SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
         where TCommand : class, ICommand
@@ -15,10 +15,10 @@ internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICom
 
         if (handler is null)
         {
-            throw new InvalidOperationException($"Handler for {typeof(TCommand).Name} not found.");
+            throw new InvalidOperationException(message: $"Handler for {typeof(TCommand).Name} not found.");
         }
 
-        await handler.HandleAsync(command, cancellationToken);
+        await handler.HandleAsync(command: command, cancellationToken: cancellationToken);
     }
 
     public async Task<TResult?> SendAsync<TCommand, TResult>(TCommand command, CancellationToken cancellationToken)
@@ -31,9 +31,9 @@ internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICom
 
         if (handler is null)
         {
-            throw new InvalidOperationException($"Handler for {typeof(TCommand).Name} not found.");
+            throw new InvalidOperationException(message: $"Handler for {typeof(TCommand).Name} not found.");
         }
 
-        return await handler.HandleAsync(command, cancellationToken);
+        return await handler.HandleAsync(command: command, cancellationToken: cancellationToken);
     }
 }

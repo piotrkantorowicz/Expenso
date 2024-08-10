@@ -8,8 +8,10 @@ internal sealed class BudgetMustContainsPermissionForProvidedUser(
     PersonId participantId,
     Permission? permission) : IBusinessRule
 {
-    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
-    private readonly PersonId _participantId = participantId ?? throw new ArgumentNullException(nameof(participantId));
+    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
+
+    private readonly PersonId _participantId =
+        participantId ?? throw new ArgumentNullException(paramName: nameof(participantId));
 
     public string Message =>
         $"Budget with id: {_budgetId} does not have permission for provided user with id: {_participantId}";

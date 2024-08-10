@@ -24,35 +24,36 @@ internal sealed class Create : PermissionTestBase
         }
     };
 
-    [Test, TestCaseSource(nameof(PermissionTypes))]
+    [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]
     public void Should_ReturnPermission_When_Created(PermissionType permissionType)
     {
         // Arrange
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Permission result = Permission.Create(participantId, permissionType);
+        Permission result = Permission.Create(participantId: participantId, permissionType: permissionType);
 
         // Assert
         result.Should().NotBeNull();
-        result.ParticipantId.Should().Be(participantId);
-        result.PermissionType.Should().Be(permissionType);
+        result.ParticipantId.Should().Be(expected: participantId);
+        result.PermissionType.Should().Be(expected: permissionType);
     }
 
     [Test]
     public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsUnknown()
     {
         // Arrange
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
         PermissionType permissionType = PermissionType.Unknown;
 
         // Act
-        Action act = () => Permission.Create(participantId, permissionType);
+        Action act = () => Permission.Create(participantId: participantId, permissionType: permissionType);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage($"Unknown permission type {permissionType.Value} cannot be processed.");
+            .WithMessage(
+                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed.");
     }
 }

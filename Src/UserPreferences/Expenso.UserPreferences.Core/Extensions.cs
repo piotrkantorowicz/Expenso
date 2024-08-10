@@ -18,14 +18,20 @@ public static class Extensions
         string moduleName)
     {
         services.AddDbMigrator();
-        configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
+
+        configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection,
+            options: out EfCoreSettings databaseSettings);
 
         if (databaseSettings.InMemory is true)
-            services.AddMemoryDatabase<UserPreferencesDbContext>(moduleName);
+        {
+            services.AddMemoryDatabase<UserPreferencesDbContext>(moduleName: moduleName);
+        }
         else
-            services.AddPostgres<UserPreferencesDbContext>(databaseSettings);
+        {
+            services.AddPostgres<UserPreferencesDbContext>(databaseSettings: databaseSettings);
+        }
 
-        services.AddScoped<IUserPreferencesDbContext, UserPreferencesDbContext>(x =>
+        services.AddScoped<IUserPreferencesDbContext, UserPreferencesDbContext>(implementationFactory: x =>
             x.GetRequiredService<UserPreferencesDbContext>());
 
         services.AddScoped<IPreferencesRepository, PreferencesRepository>();

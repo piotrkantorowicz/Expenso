@@ -12,7 +12,8 @@ internal sealed class SendNotificationCommandHandler(INotificationServiceFactory
 {
     private readonly INotificationServiceFactory _notificationServiceFactory = notificationServiceFactory ??
                                                                                throw new ArgumentNullException(
-                                                                                   nameof(notificationServiceFactory));
+                                                                                   paramName: nameof(
+                                                                                       notificationServiceFactory));
 
     public async Task HandleAsync(SendNotificationCommand command, CancellationToken cancellationToken)
     {
@@ -26,19 +27,25 @@ internal sealed class SendNotificationCommandHandler(INotificationServiceFactory
         if (type?.Email == true)
         {
             IEmailService emailService = _notificationServiceFactory.GetService<IEmailService>();
-            await emailService.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
+
+            await emailService.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc,
+                bcc: bcc, replyTo: replyTo);
         }
 
         if (type?.Push == true)
         {
             IPushService pushService = _notificationServiceFactory.GetService<IPushService>();
-            await pushService.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
+
+            await pushService.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc,
+                bcc: bcc, replyTo: replyTo);
         }
 
         if (type?.InApp == true)
         {
             IInAppService inAppService = _notificationServiceFactory.GetService<IInAppService>();
-            await inAppService.SendNotificationAsync(from, to, subject, content, cc, bcc, replyTo);
+
+            await inAppService.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc,
+                bcc: bcc, replyTo: replyTo);
         }
     }
 }

@@ -11,15 +11,17 @@ internal sealed class CommunicationProxy(
     IMessageContextFactory messageContextFactory) : ICommunicationProxy
 {
     private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
+        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
-    private readonly IMessageContextFactory _messageContextFactory =
-        messageContextFactory ?? throw new ArgumentNullException(nameof(messageContextFactory));
+    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(messageContextFactory));
 
     public async Task SendNotificationAsync(SendNotificationRequest request,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(new SendNotificationCommand(_messageContextFactory.Current(), request),
-            cancellationToken);
+        await _commandDispatcher.SendAsync(
+            command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(),
+                SendNotificationRequest: request), cancellationToken: cancellationToken);
     }
 }

@@ -15,22 +15,27 @@ internal sealed class Create : BudgetPermissionRequestTestBase
     public void Should_CreateBudgetPermissionRequest()
     {
         // Arrange
-        _clockMock.Setup(x => x.UtcNow).Returns(new DateTime(2021, 1, 1));
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: new DateTime(year: 2021, month: 1, day: 1));
 
         // Act
-        TestCandidate = CreateTestCandidate(true);
+        TestCandidate = CreateTestCandidate(emitDomainEvents: true);
 
         // Assert
         TestCandidate.Id.Should().NotBeNull();
-        TestCandidate.BudgetId.Should().Be(_defaultBudgetId);
-        TestCandidate.ParticipantId.Should().Be(_defaultPersonId);
-        TestCandidate.PermissionType.Should().Be(_defaultPermissionType);
-        TestCandidate.Status.Should().Be(BudgetPermissionRequestStatus.Pending);
-        TestCandidate.ExpirationDate.Should().Be(DateAndTime.New(_clockMock.Object.UtcNow.AddDays(Expiration)));
+        TestCandidate.BudgetId.Should().Be(expected: _defaultBudgetId);
+        TestCandidate.ParticipantId.Should().Be(expected: _defaultPersonId);
+        TestCandidate.PermissionType.Should().Be(expected: _defaultPermissionType);
+        TestCandidate.Status.Should().Be(expected: BudgetPermissionRequestStatus.Pending);
 
-        AssertDomainEventPublished(TestCandidate, [
-            new BudgetPermissionRequestedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.BudgetId,
-                TestCandidate.ParticipantId, TestCandidate.PermissionType)
+        TestCandidate
+            .ExpirationDate.Should()
+            .Be(expected: DateAndTime.New(value: _clockMock.Object.UtcNow.AddDays(days: Expiration)));
+
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
+            new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetId: TestCandidate.BudgetId, ParticipantId: TestCandidate.ParticipantId,
+                PermissionType: TestCandidate.PermissionType)
         ]);
     }
 
@@ -39,30 +44,30 @@ internal sealed class Create : BudgetPermissionRequestTestBase
     {
         // Arrange
         // Act
-        DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(() =>
-            BudgetPermissionRequest.Create(_defaultBudgetId, _defaultPersonId, PermissionType.Unknown, Expiration,
-                _clockMock.Object));
+        DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(code: () =>
+            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, personId: _defaultPersonId,
+                permissionType: PermissionType.Unknown, expirationDays: Expiration, clock: _clockMock.Object));
 
         // Assert
         string expectedExceptionMessage =
             $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed.";
 
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
     [Test]
     public void Should_ThrowDomainRuleValidationException_When_ExpirationDateIsLessThanOneDay()
     {
         // Arrange
-        _clockMock.Setup(x => x.UtcNow).Returns(new DateTime(2021, 1, 1));
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: new DateTime(year: 2021, month: 1, day: 1));
 
         // Act
-        DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(() =>
-            BudgetPermissionRequest.Create(_defaultBudgetId, _defaultPersonId, _defaultPermissionType, 0,
-                _clockMock.Object));
+        DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(code: () =>
+            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, personId: _defaultPersonId,
+                permissionType: _defaultPermissionType, expirationDays: 0, clock: _clockMock.Object));
 
         // Assert
         string expectedExceptionMessage = $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

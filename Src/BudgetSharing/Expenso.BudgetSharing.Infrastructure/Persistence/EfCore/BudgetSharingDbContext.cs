@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 
 internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options)
-    : DbContext(options), IBudgetSharingDbContext
+    : DbContext(options: options), IBudgetSharingDbContext
 {
     private IDbContextTransaction? _currentTransaction;
 
@@ -19,22 +19,22 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
 
     public EntityState GetEntryState(object entity)
     {
-        return Entry(entity).State;
+        return Entry(entity: entity).State;
     }
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken)
     {
-        _currentTransaction = await Database.BeginTransactionAsync(cancellationToken);
+        _currentTransaction = await Database.BeginTransactionAsync(cancellationToken: cancellationToken);
     }
 
     public async Task RollbackTransactionAsync(CancellationToken cancellationToken)
     {
         if (_currentTransaction is null)
         {
-            throw new InvalidOperationException("Transaction has not been started.");
+            throw new InvalidOperationException(message: "Transaction has not been started.");
         }
 
-        await _currentTransaction.RollbackAsync(cancellationToken);
+        await _currentTransaction.RollbackAsync(cancellationToken: cancellationToken);
         DisposeTransaction();
     }
 
@@ -42,10 +42,10 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
     {
         if (_currentTransaction is null)
         {
-            throw new InvalidOperationException("Transaction has not been started.");
+            throw new InvalidOperationException(message: "Transaction has not been started.");
         }
 
-        await _currentTransaction.CommitAsync(cancellationToken);
+        await _currentTransaction.CommitAsync(cancellationToken: cancellationToken);
         DisposeTransaction();
     }
 
@@ -53,7 +53,7 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
     {
         List<IDomainEvent> domainEvents = ChangeTracker
             .Entries<IAggregateRoot>()
-            .SelectMany(x => x.Entity.GetUncommittedChanges())
+            .SelectMany(selector: x => x.Entity.GetUncommittedChanges())
             .ToList();
 
         return domainEvents.AsReadOnly();
@@ -61,7 +61,7 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
 
     public async Task MigrateAsync(CancellationToken cancellationToken)
     {
-        await Database.MigrateAsync(cancellationToken);
+        await Database.MigrateAsync(cancellationToken: cancellationToken);
     }
 
     public Task SeedAsync(CancellationToken cancellationToken)
@@ -71,8 +71,8 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("BudgetSharing");
-        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.HasDefaultSchema(schema: "BudgetSharing");
+        modelBuilder.ApplyConfigurationsFromAssembly(assembly: GetType().Assembly);
     }
 
     private void DisposeTransaction()

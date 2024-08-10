@@ -11,6 +11,6 @@ internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant(string em
 
     public bool IsBroken()
     {
-        return !Guid.TryParse(user?.UserId, out _);
+        return !Guid.TryParse(input: user?.UserId, result: out _);
     }
 }

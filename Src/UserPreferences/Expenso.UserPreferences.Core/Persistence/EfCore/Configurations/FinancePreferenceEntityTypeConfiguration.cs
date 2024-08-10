@@ -9,12 +9,12 @@ internal sealed class FinancePreferenceEntityTypeConfiguration : IEntityTypeConf
 {
     public void Configure(EntityTypeBuilder<FinancePreference> builder)
     {
-        builder.ToTable("FinancePreferences");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-        builder.Property(x => x.AllowAddFinancePlanReviewers).IsRequired();
-        builder.Property(x => x.AllowAddFinancePlanSubOwners).IsRequired();
-        builder.Property(x => x.MaxNumberOfFinancePlanReviewers).IsRequired();
-        builder.Property(x => x.MaxNumberOfSubFinancePlanSubOwners).IsRequired();
+        builder.ToTable(name: "FinancePreferences");
+        builder.HasKey(keyExpression: x => x.Id);
+        builder.Property(propertyExpression: x => x.Id).IsRequired().ValueGeneratedNever();
+        builder.Property(propertyExpression: x => x.AllowAddFinancePlanReviewers).IsRequired();
+        builder.Property(propertyExpression: x => x.AllowAddFinancePlanSubOwners).IsRequired();
+        builder.Property(propertyExpression: x => x.MaxNumberOfFinancePlanReviewers).IsRequired();
+        builder.Property(propertyExpression: x => x.MaxNumberOfSubFinancePlanSubOwners).IsRequired();
     }
 }

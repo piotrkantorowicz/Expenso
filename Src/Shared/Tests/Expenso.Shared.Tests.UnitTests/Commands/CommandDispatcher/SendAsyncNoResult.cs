@@ -11,10 +11,13 @@ internal sealed class SendAsync : CommandDispatcherTestBase
     {
         // Arrange
         Guid testCommandId = Guid.NewGuid();
-        TestCommand testCommand = new(MessageContextFactoryMock.Object.Current(), testCommandId, "UsWNuYtfQTtvYR");
+
+        TestCommand testCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(), Id: testCommandId,
+            Name: "UsWNuYtfQTtvYR");
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => TestCandidate.SendAsync(testCommand, It.IsAny<CancellationToken>()));
+        Assert.DoesNotThrowAsync(code: () =>
+            TestCandidate.SendAsync(command: testCommand, cancellationToken: It.IsAny<CancellationToken>()));
     }
 }

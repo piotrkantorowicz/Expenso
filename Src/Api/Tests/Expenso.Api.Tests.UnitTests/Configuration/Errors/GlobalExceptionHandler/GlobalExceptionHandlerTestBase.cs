@@ -16,6 +16,6 @@ internal abstract class GlobalExceptionHandlerTestBase : TestBase<TestCandidate>
     [SetUp]
     public void SetUp()
     {
-        TestCandidate = new TestCandidate(_loggerFactory.CreateLogger<TestCandidate>());
+        TestCandidate = new TestCandidate(logger: _loggerFactory.CreateLogger<TestCandidate>());
     }
 }

@@ -20,12 +20,12 @@ internal abstract class
     [SetUp]
     protected void Setup()
     {
-        _testQuery = new TestQuery(MessageContextFactoryMock.Object.Current(), Guid.NewGuid());
+        _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid());
         _loggerMock = new Mock<ILogger<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>>();
         _queryHandlerMock = new Mock<IQueryHandler<TestQuery, TestResponse>>();
         _serializerMock = new Mock<ISerializer>();
 
-        TestCandidate = new QueryHandlerLoggingDecorator<TestQuery, TestResponse>(_loggerMock.Object,
-            _queryHandlerMock.Object, _serializerMock.Object);
+        TestCandidate = new QueryHandlerLoggingDecorator<TestQuery, TestResponse>(logger: _loggerMock.Object,
+            decorated: _queryHandlerMock.Object, serializer: _serializerMock.Object);
     }
 }

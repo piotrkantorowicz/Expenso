@@ -10,9 +10,14 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
 {
     protected const int Expiration = 3;
     protected readonly Mock<IClock> _clockMock = new();
-    protected readonly BudgetId _defaultBudgetId = BudgetId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
+    protected readonly BudgetId _defaultBudgetId =
+        BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
     protected readonly PermissionType _defaultPermissionType = PermissionType.Reviewer;
-    protected readonly PersonId _defaultPersonId = PersonId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
+    protected readonly PersonId _defaultPersonId =
+        PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
     [SetUp]
     public void SetUp()
@@ -21,8 +26,9 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
 
     protected BudgetPermissionRequest CreateTestCandidate(bool emitDomainEvents = false)
     {
-        BudgetPermissionRequest testCandidate = BudgetPermissionRequest.Create(_defaultBudgetId, _defaultPersonId,
-            _defaultPermissionType, Expiration, _clockMock.Object);
+        BudgetPermissionRequest testCandidate = BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
+            personId: _defaultPersonId, permissionType: _defaultPermissionType, expirationDays: Expiration,
+            clock: _clockMock.Object);
 
         if (!emitDomainEvents)
         {

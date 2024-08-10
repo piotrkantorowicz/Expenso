@@ -17,10 +17,10 @@ internal abstract class DomainEventBrokerTestBase : TestBase<IDomainEventBroker>
         Assembly[] assemblies = [typeof(DomainEventBrokerTestBase).Assembly];
 
         ServiceProvider serviceProvider = new ServiceCollection()
-            .AddDomainEvents(assemblies)
+            .AddDomainEvents(assemblies: assemblies)
             .AddLogging()
             .BuildServiceProvider();
 
-        TestCandidate = new TestCandidate(serviceProvider);
+        TestCandidate = new TestCandidate(serviceProvider: serviceProvider);
     }
 }

@@ -9,31 +9,35 @@ internal sealed class UpdatePreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[1];
-        _httpClient.SetFakeBearerToken(_claims);
+        Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[index: 1];
+        _httpClient.SetFakeBearerToken(token: _claims);
         string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(requestPath,
-            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 5, true, 10),
-                new UpdatePreferenceRequest_NotificationPreference(true, 1),
-                new UpdatePreferenceRequest_GeneralPreference(true)));
+        HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(requestUri: requestPath,
+            value: new UpdatePreferenceRequest(
+                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                    MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
+                    MaxNumberOfFinancePlanReviewers: 10),
+                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                    SendFinanceReportEnabled: true, SendFinanceReportInterval: 1),
+                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
     }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[1];
+        Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[index: 1];
 
         // Act
         HttpResponseMessage testResult =
-            await _httpClient.PutAsync($"user-preferences/preferences/{preferenceId}", null);
+            await _httpClient.PutAsync(requestUri: $"user-preferences/preferences/{preferenceId}", content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

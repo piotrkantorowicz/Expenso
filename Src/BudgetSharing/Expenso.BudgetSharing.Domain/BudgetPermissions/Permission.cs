@@ -16,8 +16,9 @@ public sealed class Permission
 
     private Permission(PersonId participantId, PermissionType permissionType)
     {
-        DomainModelState.CheckBusinessRules([
-            (new UnknownPermissionTypeCannotBeProcessed(permissionType), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new UnknownPermissionTypeCannotBeProcessed(permissionType: permissionType), false)
         ]);
 
         ParticipantId = participantId;
@@ -30,6 +31,6 @@ public sealed class Permission
 
     internal static Permission Create(PersonId participantId, PermissionType permissionType)
     {
-        return new Permission(participantId, permissionType);
+        return new Permission(participantId: participantId, permissionType: permissionType);
     }
 }

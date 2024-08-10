@@ -21,17 +21,17 @@ internal sealed class ReadAsync : FileStorageTestBase
             3
         ];
 
-        _fileSystemMock.Setup(x => x.File.Exists(path)).Returns(true);
+        _fileSystemMock.Setup(expression: x => x.File.Exists(path)).Returns(value: true);
 
         _fileSystemMock
-            .Setup(x => x.File.ReadAllBytesAsync(path, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expected);
+            .Setup(expression: x => x.File.ReadAllBytesAsync(path, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: expected);
 
         // Act
-        byte[] result = await TestCandidate.ReadAsync(path, default);
+        byte[] result = await TestCandidate.ReadAsync(path: path, cancellationToken: default);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().BeEquivalentTo(expectation: expected);
     }
 
     [Test]
@@ -39,15 +39,16 @@ internal sealed class ReadAsync : FileStorageTestBase
     {
         // Arrange
         const string path = "path";
-        _fileSystemMock.Setup(x => x.File.Exists(path)).Returns(false);
+        _fileSystemMock.Setup(expression: x => x.File.Exists(path)).Returns(value: false);
 
         // Act
         FileHasNotBeenFoundException? exception =
-            Assert.ThrowsAsync<FileHasNotBeenFoundException>(() => TestCandidate.ReadAsync(path, default));
+            Assert.ThrowsAsync<FileHasNotBeenFoundException>(code: () =>
+                TestCandidate.ReadAsync(path: path, cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("File not found.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "File not found.");
     }
 }

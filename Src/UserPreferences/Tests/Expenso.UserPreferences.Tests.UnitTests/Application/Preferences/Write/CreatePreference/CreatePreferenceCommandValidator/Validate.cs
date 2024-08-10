@@ -11,13 +11,13 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(null!);
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: null!);
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "Command is required";
-        string error = validationResult["command"];
-        error.Should().Be(expectedValidationMessage);
+        string error = validationResult[key: "command"];
+        error.Should().Be(expected: expectedValidationMessage);
     }
 
     [Test]
@@ -25,7 +25,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(_createPreferenceCommand);
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _createPreferenceCommand);
 
         // Assert
         validationResult.Should().BeNullOrEmpty();
@@ -37,16 +37,16 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         // Arrange
         Guid userId = Guid.Empty;
 
-        CreatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new CreatePreferenceRequest(userId));
+        CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Preference: new CreatePreferenceRequest(UserId: userId));
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command);
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: command);
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "User id cannot be empty";
-        string error = validationResult[nameof(command.Preference.UserId)];
-        error.Should().Be(expectedValidationMessage);
+        string error = validationResult[key: nameof(command.Preference.UserId)];
+        error.Should().Be(expected: expectedValidationMessage);
     }
 }

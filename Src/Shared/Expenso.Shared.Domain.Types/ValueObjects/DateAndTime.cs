@@ -14,16 +14,17 @@ public sealed record DateAndTime
 
     public static DateAndTime New(DateTimeOffset value)
     {
-        DomainModelState.CheckBusinessRules([(new EmptyDateTimeCannotBeProcessed(value, typeof(DateAndTime)), false)]);
+        DomainModelState.CheckBusinessRules(businessRules:
+            [(new EmptyDateTimeCannotBeProcessed(dateTimeOffset: value, type: typeof(DateAndTime)), false)]);
 
-        return new DateAndTime(value);
+        return new DateAndTime(value: value);
     }
 
     public static DateAndTime? Nullable(DateTimeOffset? value)
     {
         return value is null || value == DateTimeOffset.MinValue || value == DateTimeOffset.MaxValue
             ? null
-            : new DateAndTime(value.Value);
+            : new DateAndTime(value: value.Value);
     }
 
     public static bool operator >(DateTimeOffset left, DateAndTime right)

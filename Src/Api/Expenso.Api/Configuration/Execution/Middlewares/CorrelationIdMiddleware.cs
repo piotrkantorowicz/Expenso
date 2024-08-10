@@ -7,7 +7,7 @@ internal sealed class CorrelationIdMiddleware(RequestDelegate next)
     public async Task Invoke(HttpContext context)
     {
         Guid correlationId = Guid.NewGuid();
-        context.Request.Headers.Append(CorrelationHeaderKey, correlationId.ToString());
-        await next.Invoke(context);
+        context.Request.Headers.Append(key: CorrelationHeaderKey, value: correlationId.ToString());
+        await next.Invoke(context: context);
     }
 }

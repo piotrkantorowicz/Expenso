@@ -15,29 +15,33 @@ public static class BudgetPermissionFilterExtensions
 
         if (filter.Id is not null)
         {
-            predicate = AndExpression<BudgetPermission>.And(predicate, x => x.Id == filter.Id);
+            predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
+                rightExpression: x => x.Id == filter.Id);
         }
 
         if (filter.BudgetId is not null)
         {
-            predicate = AndExpression<BudgetPermission>.And(predicate, x => x.BudgetId == filter.BudgetId);
+            predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
+                rightExpression: x => x.BudgetId == filter.BudgetId);
         }
 
         if (filter.OwnerId is not null)
         {
-            predicate = AndExpression<BudgetPermission>.And(predicate, x => x.OwnerId == filter.OwnerId);
+            predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
+                rightExpression: x => x.OwnerId == filter.OwnerId);
         }
 
         if (filter.ParticipantId is not null)
         {
-            predicate = AndExpression<BudgetPermission>.And(predicate,
-                x => x.Permissions.Select(y => y.ParticipantId).Contains(PersonId.New(filter.ParticipantId.Value)));
+            predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
+                rightExpression: x =>
+                    x.Permissions.Select(y => y.ParticipantId).Contains(PersonId.New(filter.ParticipantId.Value)));
         }
 
         if (filter.PermissionType != null)
         {
-            predicate = AndExpression<BudgetPermission>.And(predicate,
-                x => x.Permissions.Select(y => y.PermissionType).Contains(filter.PermissionType));
+            predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
+                rightExpression: x => x.Permissions.Select(y => y.PermissionType).Contains(filter.PermissionType));
         }
 
         return predicate;

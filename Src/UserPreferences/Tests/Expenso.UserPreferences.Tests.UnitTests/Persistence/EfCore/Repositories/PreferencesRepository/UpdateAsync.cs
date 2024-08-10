@@ -19,10 +19,11 @@ internal sealed class UpdateAsync : PreferenceRepositoryTestBase
         };
 
         // Act
-        Preference updatedPreference = await TestCandidate.UpdateAsync(dbPreference, default);
+        Preference updatedPreference =
+            await TestCandidate.UpdateAsync(preference: dbPreference, cancellationToken: default);
 
         // Assert
         updatedPreference.Should().NotBeNull();
-        _preferenceDbSetMock.Object.Should().Contain(updatedPreference);
+        _preferenceDbSetMock.Object.Should().Contain(expected: updatedPreference);
     }
 }

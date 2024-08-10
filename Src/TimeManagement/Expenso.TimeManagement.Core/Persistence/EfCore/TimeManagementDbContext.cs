@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Expenso.TimeManagement.Core.Persistence.EfCore;
 
 internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbContext> options)
-    : DbContext(options), ITimeManagementDbContext
+    : DbContext(options: options), ITimeManagementDbContext
 {
     public DbSet<JobEntry> JobEntries { get; set; } = null!;
 
@@ -15,29 +15,30 @@ internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbC
 
     public EntityState GetEntryState(object entity)
     {
-        return Entry(entity).State;
+        return Entry(entity: entity).State;
     }
 
     public async Task MigrateAsync(CancellationToken cancellationToken)
     {
-        await Database.MigrateAsync(cancellationToken);
+        await Database.MigrateAsync(cancellationToken: cancellationToken);
     }
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        await JobInstances.AddAsync(JobInstance.Default, cancellationToken);
+        await JobInstances.AddAsync(entity: JobInstance.Default, cancellationToken: cancellationToken);
 
-        await JobEntryStatuses.AddRangeAsync([
+        await JobEntryStatuses.AddRangeAsync(entities:
+        [
             JobEntryStatus.Running, JobEntryStatus.Completed, JobEntryStatus.Failed, JobEntryStatus.Cancelled,
             JobEntryStatus.Retrying
-        ], cancellationToken);
+        ], cancellationToken: cancellationToken);
 
-        await SaveChangesAsync(cancellationToken);
+        await SaveChangesAsync(cancellationToken: cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("TimeManagement");
-        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.HasDefaultSchema(schema: "TimeManagement");
+        modelBuilder.ApplyConfigurationsFromAssembly(assembly: GetType().Assembly);
     }
 }

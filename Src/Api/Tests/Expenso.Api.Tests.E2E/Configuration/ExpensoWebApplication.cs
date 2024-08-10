@@ -26,59 +26,60 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment(Environment);
+        builder.UseEnvironment(environment: Environment);
 
-        builder.ConfigureTestServices(services =>
+        builder.ConfigureTestServices(servicesConfiguration: services =>
         {
-            ConfigureTestSerializer(services);
-            UseFakeIIamProxy(services);
+            ConfigureTestSerializer(services: services);
+            UseFakeIIamProxy(services: services);
 
             if (GetEfCoreSettings().InMemory == true)
             {
-                UseFakeUnitOfWork(services);
+                UseFakeUnitOfWork(services: services);
             }
 
-            services.AddAuthentication(FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
+            services.AddAuthentication(defaultScheme: FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
         });
     }
 
     private static IConfiguration GetConfiguration()
     {
         return new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddJsonFile($"appsettings.{Environment}.json")
+            .AddJsonFile(path: "appsettings.json")
+            .AddJsonFile(path: $"appsettings.{Environment}.json")
             .Build();
     }
 
     private static void UseFakeUnitOfWork(IServiceCollection services)
     {
-        ServiceDescriptor unitOfWork = services.Single(d => d.ServiceType == typeof(IUnitOfWork));
-        services.Remove(unitOfWork);
+        ServiceDescriptor unitOfWork = services.Single(predicate: d => d.ServiceType == typeof(IUnitOfWork));
+        services.Remove(item: unitOfWork);
         services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
     }
 
     private static void UseFakeIIamProxy(IServiceCollection services)
     {
-        ServiceDescriptor iamProxy = services.Single(d => d.ServiceType == typeof(IIamProxy));
-        services.Remove(iamProxy);
+        ServiceDescriptor iamProxy = services.Single(predicate: d => d.ServiceType == typeof(IIamProxy));
+        services.Remove(item: iamProxy);
         services.AddScoped<IIamProxy, FakeIamProxy>();
     }
 
     private static void ConfigureTestSerializer(IServiceCollection services)
     {
-        services.Configure<JsonOptions>(options =>
+        services.Configure<JsonOptions>(configureOptions: options =>
         {
             // Remove JsonStringEnumConverter to avoid serialization issues with enums
-            options.SerializerOptions.Converters.Remove(options.SerializerOptions.Converters.Single(c =>
-                c.GetType() == typeof(JsonStringEnumConverter)));
+            options.SerializerOptions.Converters.Remove(
+                item: options.SerializerOptions.Converters.Single(predicate: c =>
+                    c.GetType() == typeof(JsonStringEnumConverter)));
         });
     }
 
     private EfCoreSettings GetEfCoreSettings()
     {
-        if (!_configuration.TryBindOptions("EfCore", out EfCoreSettings efCoreSettings))
+        if (!_configuration.TryBindOptions(sectionName: "EfCore", options: out EfCoreSettings efCoreSettings))
         {
-            throw new InvalidOperationException("EfCore settings not found.");
+            throw new InvalidOperationException(message: "EfCore settings not found.");
         }
 
         return efCoreSettings;

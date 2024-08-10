@@ -12,17 +12,17 @@ public static class Extensions
     {
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
 
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<>)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(ICommandHandler<,>)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandHandler<,>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

@@ -9,7 +9,7 @@ internal sealed class BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(
     SafeDeletion? removalInfo) : IBusinessRule
 {
     private readonly BudgetPermissionId _budgetPermissionId =
-        budgetPermissionId ?? throw new ArgumentNullException(nameof(budgetPermissionId));
+        budgetPermissionId ?? throw new ArgumentNullException(paramName: nameof(budgetPermissionId));
 
     public string Message => $"Budget permission with id: {_budgetPermissionId} is already deleted.";
 

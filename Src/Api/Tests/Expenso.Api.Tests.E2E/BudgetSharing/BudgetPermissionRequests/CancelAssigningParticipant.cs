@@ -8,16 +8,16 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
 
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[0]}/cancel";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
+        HttpResponseMessage testResult = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -25,12 +25,12 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[0]}/cancel";
+            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PatchAsync(requestPath, null);
+        HttpResponseMessage testResult = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

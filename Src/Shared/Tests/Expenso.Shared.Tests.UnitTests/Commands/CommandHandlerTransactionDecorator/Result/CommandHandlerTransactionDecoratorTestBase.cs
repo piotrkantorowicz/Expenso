@@ -18,12 +18,14 @@ internal abstract class
     [SetUp]
     protected void Setup()
     {
-        _testCommand = new TestCommand(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "JYi9R7e7v2Qor");
+        _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
+            Name: "JYi9R7e7v2Qor");
+
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _commandHandlerMock = new Mock<ICommandHandler<TestCommand, TestCommandResult>>();
 
         TestCandidate =
-            new CommandHandlerTransactionDecorator<TestCommand, TestCommandResult>(_unitOfWorkMock.Object,
-                _commandHandlerMock.Object);
+            new CommandHandlerTransactionDecorator<TestCommand, TestCommandResult>(unitOfWork: _unitOfWorkMock.Object,
+                decorated: _commandHandlerMock.Object);
     }
 }

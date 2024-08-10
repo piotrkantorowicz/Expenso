@@ -60,37 +60,37 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
     public IAppConfigurator UseResolvers()
     {
-        MessageContextFactoryResolver.BindResolver(app.Services);
+        MessageContextFactoryResolver.BindResolver(serviceProvider: app.Services);
 
         return this;
     }
 
     public IAppConfigurator CreateEndpoints()
     {
-        app.MapModulesEndpoints(BaseTag);
+        app.MapModulesEndpoints(rootTag: BaseTag);
 
         app
-            .MapGet("/greetings/hello", (HttpContext httpContext) =>
+            .MapGet(pattern: "/greetings/hello", handler: (HttpContext httpContext) =>
             {
-                httpContext.Response.WriteAsJsonAsync("Hello, I'm Expenso API.");
+                httpContext.Response.WriteAsJsonAsync(value: "Hello, I'm Expenso API.");
             })
             .WithOpenApi()
-            .WithName("Hello")
+            .WithName(endpointName: "Hello")
             .WithTags(BaseTag);
 
         app
-            .MapGet("/greetings/hello-user", (HttpContext httpContext) =>
+            .MapGet(pattern: "/greetings/hello-user", handler: (HttpContext httpContext) =>
             {
                 IExecutionContextAccessor executionContextAccessor =
-                    (IExecutionContextAccessor)
-                    httpContext.RequestServices.GetService(typeof(IExecutionContextAccessor))!;
+                    (IExecutionContextAccessor)httpContext.RequestServices.GetService(
+                        serviceType: typeof(IExecutionContextAccessor))!;
 
                 IUserContext? userContext = executionContextAccessor.Get()?.UserContext;
                 string response = $"Hello {userContext?.Username}, I'm Expenso API.";
-                httpContext.Response.WriteAsJsonAsync(response);
+                httpContext.Response.WriteAsJsonAsync(value: response);
             })
             .WithOpenApi()
-            .WithName("HelloUser")
+            .WithName(endpointName: "HelloUser")
             .WithTags(BaseTag)
             .RequireAuthorization();
 
@@ -105,7 +105,8 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
             if (efCoreSettings is null)
             {
-                throw new InvalidOperationException("EfCoreSettings is not registered in the service collection.");
+                throw new InvalidOperationException(
+                    message: "EfCoreSettings is not registered in the service collection.");
             }
 
             IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
@@ -113,10 +114,16 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
             if (efCoreSettings.InMemory is not true)
             {
-                dbMigrator.MigrateAsync(scope, assemblies, default).GetAwaiter().GetResult();
+                dbMigrator
+                    .MigrateAsync(scope: scope, assemblies: assemblies, cancellationToken: default)
+                    .GetAwaiter()
+                    .GetResult();
             }
 
-            dbMigrator.SeedAsync(scope, assemblies, default).GetAwaiter().GetResult();
+            dbMigrator
+                .SeedAsync(scope: scope, assemblies: assemblies, cancellationToken: default)
+                .GetAwaiter()
+                .GetResult();
         }
 
         return this;

@@ -24,42 +24,44 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
     {
         // Arrange
         _budgetPermissionRequestRepositoryMock
-            .Setup(x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermissionRequest);
+            .Setup(expression: x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermissionRequest);
 
         _budgetPermissionRepositoryMock
-            .Setup(x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermission);
+            .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
+            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getPreferenceResponse);
+            .ReturnsAsync(value: _getPreferenceResponse);
 
         // Act
-        await TestCandidate.ConfirmParticipationAsync(_budgetPermissionRequestId.Value, It.IsAny<CancellationToken>());
+        await TestCandidate.ConfirmParticipationAsync(budgetPermissionRequestId: _budgetPermissionRequestId.Value,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _budgetPermissionRequest.Status.Should().Be(BudgetPermissionRequestStatus.Confirmed);
+        _budgetPermissionRequest.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
 
         _budgetPermission
             .Permissions.Should()
-            .ContainSingle(x =>
+            .ContainSingle(predicate: x =>
                 x.ParticipantId == _budgetPermissionRequest.ParticipantId &&
                 x.PermissionType == _budgetPermissionRequest.PermissionType);
 
-        AssertDomainEventPublished(_budgetPermissionRequest, new IDomainEvent[]
+        AssertDomainEventPublished(aggregateRoot: _budgetPermissionRequest, expectedDomainEvents: new IDomainEvent[]
         {
-            new BudgetPermissionRequestConfirmedEvent(MessageContextFactoryMock.Object.Current(),
-                _budgetPermissionRequest.BudgetId, _budgetPermissionRequest.ParticipantId,
-                _budgetPermissionRequest.PermissionType)
+            new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetId: _budgetPermissionRequest.BudgetId, ParticipantId: _budgetPermissionRequest.ParticipantId,
+                PermissionType: _budgetPermissionRequest.PermissionType)
         });
 
-        AssertDomainEventPublished(_budgetPermission, new IDomainEvent[]
+        AssertDomainEventPublished(aggregateRoot: _budgetPermission, expectedDomainEvents: new IDomainEvent[]
         {
-            new BudgetPermissionGrantedEvent(MessageContextFactoryMock.Object.Current(), _budgetPermission.Id,
-                _budgetPermission.BudgetId, _budgetPermissionRequest.ParticipantId,
-                _budgetPermissionRequest.PermissionType)
+            new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: _budgetPermission.Id, BudgetId: _budgetPermission.BudgetId,
+                ParticipantId: _budgetPermissionRequest.ParticipantId,
+                PermissionType: _budgetPermissionRequest.PermissionType)
         });
     }
 
@@ -68,19 +70,21 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
     {
         // Arrange
         _budgetPermissionRequestRepositoryMock
-            .Setup(x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((BudgetPermissionRequest?)null);
+            .Setup(expression: x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: (BudgetPermissionRequest?)null);
 
         // Act
-        Func<Task> act = async () =>
-            await TestCandidate.ConfirmParticipationAsync(_budgetPermissionRequestId.Value,
-                It.IsAny<CancellationToken>());
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId.Value,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         await act
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage($"Budget permission request with id {_budgetPermissionRequestId} hasn't been found.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Budget permission request with id {_budgetPermissionRequestId} hasn't been found.");
     }
 
     [Test]
@@ -88,23 +92,25 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
     {
         // Arrange
         _budgetPermissionRequestRepositoryMock
-            .Setup(x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermissionRequest);
+            .Setup(expression: x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermissionRequest);
 
         _budgetPermissionRepositoryMock
-            .Setup(x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync((BudgetPermission?)null);
+            .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: (BudgetPermission?)null);
 
         // Act
-        Func<Task> act = async () =>
-            await TestCandidate.ConfirmParticipationAsync(_budgetPermissionRequestId.Value,
-                It.IsAny<CancellationToken>());
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId.Value,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         await act
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage($"Budget permission with id {_budgetPermissionRequest.BudgetId} hasn't been found.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Budget permission with id {_budgetPermissionRequest.BudgetId} hasn't been found.");
     }
 
     [Test]
@@ -112,28 +118,30 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
     {
         // Arrange
         _budgetPermissionRequestRepositoryMock
-            .Setup(x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermissionRequest);
+            .Setup(expression: x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermissionRequest);
 
         _budgetPermissionRepositoryMock
-            .Setup(x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermission);
+            .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
+            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((GetPreferenceResponse?)null);
+            .ReturnsAsync(value: (GetPreferenceResponse?)null);
 
         // Act
-        Func<Task> act = async () =>
-            await TestCandidate.ConfirmParticipationAsync(_budgetPermissionRequestId.Value,
-                It.IsAny<CancellationToken>());
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId.Value,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         await act
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage($"Finance preferences for user {_budgetPermission.OwnerId} haven't been found.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Finance preferences for user {_budgetPermission.OwnerId} haven't been found.");
     }
 
     [Test]
@@ -141,38 +149,40 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
     {
         // Arrange
         _budgetPermissionRequestRepositoryMock
-            .Setup(x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermissionRequest);
+            .Setup(expression: x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermissionRequest);
 
         _budgetPermissionRepositoryMock
-            .Setup(x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_budgetPermission);
+            .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
+            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_getPreferenceResponse with
+            .ReturnsAsync(value: _getPreferenceResponse with
             {
-                FinancePreference = new GetPreferenceResponse_FinancePreference(false, 0, false, 0)
+                FinancePreference = new GetPreferenceResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
+                    MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: false,
+                    MaxNumberOfFinancePlanReviewers: 0)
             });
 
         // Act
-        Func<Task> act = async () =>
-            await TestCandidate.ConfirmParticipationAsync(_budgetPermissionRequestId.Value,
-                It.IsAny<CancellationToken>());
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId.Value,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         await act
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(new StringBuilder()
-                .Append("Permission of type ")
-                .Append(_budgetPermissionRequest.PermissionType)
-                .Append(" can't be assigned to budget with id ")
-                .Append(_budgetPermission.BudgetId)
-                .Append(", because permission type is not valid or budget owner with id: ")
-                .Append(_budgetPermission.OwnerId)
-                .Append(" don't allow any or more participants.")
+            .WithMessage(expectedWildcardPattern: new StringBuilder()
+                .Append(value: "Permission of type ")
+                .Append(value: _budgetPermissionRequest.PermissionType)
+                .Append(value: " can't be assigned to budget with id ")
+                .Append(value: _budgetPermission.BudgetId)
+                .Append(value: ", because permission type is not valid or budget owner with id: ")
+                .Append(value: _budgetPermission.OwnerId)
+                .Append(value: " don't allow any or more participants.")
                 .ToString());
     }
 }

@@ -19,12 +19,16 @@ internal sealed class Delete : BudgetPermissionTestBase
         // Assert
         TestCandidate.Deletion?.Should().NotBeNull();
         TestCandidate.Deletion?.IsDeleted.Should().BeTrue();
-        TestCandidate.Deletion?.RemovalDate.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromMilliseconds(500));
 
-        AssertDomainEventPublished(TestCandidate, new[]
+        TestCandidate
+            .Deletion?.RemovalDate.Should()
+            .BeCloseTo(nearbyTime: DateTimeOffset.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
+
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-                TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
+            new BudgetPermissionDeletedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
+                ParticipantIds: TestCandidate.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly())
         });
     }
 
@@ -35,7 +39,7 @@ internal sealed class Delete : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Delete(_clockMock.Object);
+        TestCandidate.Delete(clock: _clockMock.Object);
 
         // Assert
         TestCandidate.Deletion?.Should().NotBeNull();
@@ -43,12 +47,13 @@ internal sealed class Delete : BudgetPermissionTestBase
 
         TestCandidate
             .Deletion?.RemovalDate.Should()
-            .BeCloseTo(_clockMock.Object.UtcNow, TimeSpan.FromMilliseconds(500));
+            .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
 
-        AssertDomainEventPublished(TestCandidate, new[]
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionDeletedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-                TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
+            new BudgetPermissionDeletedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
+                ParticipantIds: TestCandidate.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly())
         });
     }
 
@@ -67,6 +72,6 @@ internal sealed class Delete : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage($"Budget permission with id: {TestCandidate.Id} is already deleted.");
+            .WithMessage(expectedWildcardPattern: $"Budget permission with id: {TestCandidate.Id} is already deleted.");
     }
 }

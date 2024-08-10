@@ -18,10 +18,12 @@ internal sealed class GetBudgetPermissionsQueryHandler(
 {
     private readonly IBudgetPermissionQueryStore _budgetPermissionStore = budgetPermissionStore ??
                                                                           throw new ArgumentNullException(
-                                                                              nameof(budgetPermissionStore));
+                                                                              paramName: nameof(budgetPermissionStore));
 
-    private readonly IExecutionContextAccessor _executionContextAccessor =
-        executionContextAccessor ?? throw new ArgumentNullException(nameof(executionContextAccessor));
+    private readonly IExecutionContextAccessor _executionContextAccessor = executionContextAccessor ??
+                                                                           throw new ArgumentNullException(
+                                                                               paramName: nameof(
+                                                                                   executionContextAccessor));
 
     public async Task<IReadOnlyCollection<GetBudgetPermissionsResponse>?> HandleAsync(GetBudgetPermissionsQuery query,
         CancellationToken cancellationToken)
@@ -31,24 +33,27 @@ internal sealed class GetBudgetPermissionsQueryHandler(
 
         if (forCurrentUser is true)
         {
-            participantId = Guid.TryParse(_executionContextAccessor.Get()?.UserContext?.UserId, out Guid userId)
-                ? userId
-                : null;
+            participantId =
+                Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId, result: out Guid userId)
+                    ? userId
+                    : null;
         }
 
         BudgetPermissionFilter filter = new()
         {
-            BudgetId = BudgetId.Nullable(budgetId),
-            OwnerId = PersonId.Nullable(ownerId),
-            ParticipantId = PersonId.Nullable(participantId),
-            PermissionType = permissionType.HasValue ? GetBudgetPermissionsRequestMap.MapTo(permissionType.Value) : null
+            BudgetId = BudgetId.Nullable(value: budgetId),
+            OwnerId = PersonId.Nullable(value: ownerId),
+            ParticipantId = PersonId.Nullable(value: participantId),
+            PermissionType = permissionType.HasValue
+                ? GetBudgetPermissionsRequestMap.MapTo(permissionType: permissionType.Value)
+                : null
         };
 
         IReadOnlyList<BudgetPermission> budgetPermissions =
-            await _budgetPermissionStore.BrowseAsync(filter, cancellationToken);
+            await _budgetPermissionStore.BrowseAsync(filter: filter, cancellationToken: cancellationToken);
 
         IReadOnlyCollection<GetBudgetPermissionsResponse> budgetPermissionsResponse =
-            GetBudgetPermissionsResponseMap.MapTo(budgetPermissions);
+            GetBudgetPermissionsResponseMap.MapTo(budgetPermissions: budgetPermissions);
 
         return budgetPermissionsResponse;
     }

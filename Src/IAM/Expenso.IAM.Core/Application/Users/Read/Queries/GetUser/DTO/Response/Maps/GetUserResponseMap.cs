@@ -8,6 +8,7 @@ internal static class GetUserResponseMap
 {
     public static GetUserResponse MapTo(User user)
     {
-        return new GetUserResponse(user.Id!, user.FirstName, user.LastName, user.Username!, user.Email!);
+        return new GetUserResponse(UserId: user.Id!, Firstname: user.FirstName, Lastname: user.LastName,
+            Username: user.Username!, Email: user.Email!);
     }
 }

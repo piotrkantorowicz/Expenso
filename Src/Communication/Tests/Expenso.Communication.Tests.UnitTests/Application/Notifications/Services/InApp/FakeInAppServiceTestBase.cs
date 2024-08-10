@@ -11,6 +11,6 @@ internal abstract class FakeInAppServiceTestBase : TestBase<FakeInAppService>
     public void SetUp()
     {
         _fakeLogger = new InMemoryFakeLogger<FakeInAppService>();
-        TestCandidate = new FakeInAppService(_fakeLogger);
+        TestCandidate = new FakeInAppService(logger: _fakeLogger);
     }
 }

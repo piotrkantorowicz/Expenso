@@ -15,15 +15,16 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
 {
     protected static readonly BasicTestObject BasicObject = new()
     {
-        PrimaryId = new Guid("dd37661a-dc23-45ca-9a33-e92568536a73"),
+        PrimaryId = new Guid(g: "dd37661a-dc23-45ca-9a33-e92568536a73"),
         SecondaryId = 211,
         Name = "Purusnulla",
         Number = 947.38m,
-        CreatedAt = DateTimeOffset.Parse("2009-03-09 09:08:17")
+        CreatedAt = DateTimeOffset.Parse(input: "2009-03-09 09:08:17")
     };
 
-    protected static readonly RichTestObject ComplexObject = new(new Guid("c6dcead1-a50d-48ea-b249-95d2e93700ac"), 119,
-        "Portamaecenas", 17.38m, DateTimeOffset.Parse("2013-03-09 09:08:17"), new List<BasicTestObject>
+    protected static readonly RichTestObject ComplexObject = new(
+        primaryId: new Guid(g: "c6dcead1-a50d-48ea-b249-95d2e93700ac"), secondaryId: 119, name: "Portamaecenas",
+        number: 17.38m, createdAt: DateTimeOffset.Parse(input: "2013-03-09 09:08:17"), items: new List<BasicTestObject>
         {
             BasicObject
         });
@@ -51,6 +52,6 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
     [SetUp]
     public void SetUp()
     {
-        TestCandidate = new TestCandidate(_loggerMock.Object);
+        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
     }
 }

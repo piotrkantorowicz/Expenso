@@ -13,22 +13,24 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
     {
         // Arrange
         _keycloakUserClientMock
-            .Setup(x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)))
-            .ReturnsAsync(new[]
+            .Setup(expression: x =>
+                x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)))
+            .ReturnsAsync(value: new[]
             {
                 _user
             });
 
         // Act
-        GetUserResponse getUser = await TestCandidate.GetUserByEmailAsync(_userEmail);
+        GetUserResponse getUser = await TestCandidate.GetUserByEmailAsync(email: _userEmail);
 
         // Assert
         getUser.Should().NotBeNull();
-        getUser.Should().BeEquivalentTo(_getUserResponse);
+        getUser.Should().BeEquivalentTo(expectation: _getUserResponse);
 
         _keycloakUserClientMock.Verify(
-            x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)),
-            Times.Once);
+            expression: x =>
+                x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail)),
+            times: Times.Once);
     }
 
     [Test]
@@ -38,18 +40,20 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
         const string email = "email@email.com";
 
         _keycloakUserClientMock
-            .Setup(x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)))
-            .ReturnsAsync(ArraySegment<User>.Empty);
+            .Setup(expression: x =>
+                x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)))
+            .ReturnsAsync(value: ArraySegment<User>.Empty);
 
         // Act
         // Assert
         NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() => TestCandidate.GetUserByEmailAsync(email));
+            Assert.ThrowsAsync<NotFoundException>(code: () => TestCandidate.GetUserByEmailAsync(email: email));
 
         const string expectedExceptionMessage = $"User with email {email} not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
 
         _keycloakUserClientMock.Verify(
-            x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)), Times.Once);
+            expression: x => x.GetUsers(It.IsAny<string>(), It.Is<GetUsersRequestParameters>(y => y.Email == email)),
+            times: Times.Once);
     }
 }

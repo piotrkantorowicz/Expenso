@@ -7,8 +7,8 @@ namespace Expenso.Shared.Tests.Utils.UnitTests;
 
 public abstract class TestBase<T> where T : class
 {
-    private readonly MessageContext _messageContext =
-        new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), DateTimeOffset.Now);
+    private readonly MessageContext _messageContext = new(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+        requestedBy: Guid.NewGuid(), timestamp: DateTimeOffset.Now);
 
     protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;
 
@@ -18,6 +18,6 @@ public abstract class TestBase<T> where T : class
     public virtual void OneTimeSetUp()
     {
         MessageContextFactoryMock = new Mock<IMessageContextFactory>();
-        MessageContextFactoryMock.Setup(x => x.Current(It.IsAny<Guid?>())).Returns(_messageContext);
+        MessageContextFactoryMock.Setup(expression: x => x.Current(It.IsAny<Guid?>())).Returns(value: _messageContext);
     }
 }

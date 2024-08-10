@@ -9,16 +9,16 @@ internal sealed class CreatePreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
         Guid userId = Guid.NewGuid();
         const string requestPath = "user-preferences/preferences";
 
         // Act
-        HttpResponseMessage testResult =
-            await _httpClient.PostAsJsonAsync(requestPath, new CreatePreferenceRequest(userId));
+        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+            value: new CreatePreferenceRequest(UserId: userId));
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Created);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Created);
 
         CreatePreferenceResponse? testResultContent =
             await testResult.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
@@ -33,9 +33,9 @@ internal sealed class CreatePreferences : PreferencesTestBase
         const string requestPath = "user-preferences/preferences";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestPath, null);
+        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

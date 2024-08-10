@@ -9,7 +9,7 @@ internal sealed class JobEntry
     public Guid JobEntryStatusId { get; init; }
 
     public string? CronExpression { get; init; }
-    
+
     public DateTimeOffset? RunAt { get; init; }
 
     public int? CurrentRetries { get; set; }
@@ -17,7 +17,7 @@ internal sealed class JobEntry
     public int? MaxRetries { get; init; }
 
     public bool? IsCompleted { get; set; }
-    
+
     public DateTimeOffset? LastRun { get; set; }
 
     public JobEntryStatus? JobStatus { get; set; }

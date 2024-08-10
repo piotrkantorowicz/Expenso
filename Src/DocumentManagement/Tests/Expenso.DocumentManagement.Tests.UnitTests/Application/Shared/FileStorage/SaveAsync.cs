@@ -22,19 +22,23 @@ internal sealed class SaveAsync : FileStorageTestBase
             3
         ];
 
-        _fileSystemMock.Setup(x => x.Directory.Exists(directoryPath)).Returns(false);
-        _fileSystemMock.Setup(x => x.Directory.CreateDirectory(directoryPath));
-        _fileSystemMock.Setup(x => x.Path.Combine(directoryPath, fileName)).Returns("filePath");
-        _fileSystemMock.Setup(x => x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()));
+        _fileSystemMock.Setup(expression: x => x.Directory.Exists(directoryPath)).Returns(value: false);
+        _fileSystemMock.Setup(expression: x => x.Directory.CreateDirectory(directoryPath));
+        _fileSystemMock.Setup(expression: x => x.Path.Combine(directoryPath, fileName)).Returns(value: "filePath");
+
+        _fileSystemMock.Setup(expression: x =>
+            x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()));
 
         // Act
-        await TestCandidate.SaveAsync(directoryPath, fileName, byteContent, default);
+        await TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName, byteContent: byteContent,
+            cancellationToken: default);
 
         // Assert
-        _fileSystemMock.Verify(x => x.Directory.CreateDirectory(directoryPath), Times.Once);
+        _fileSystemMock.Verify(expression: x => x.Directory.CreateDirectory(directoryPath), times: Times.Once);
 
-        _fileSystemMock.Verify(x => x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()),
-            Times.Once);
+        _fileSystemMock.Verify(
+            expression: x => x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -51,16 +55,20 @@ internal sealed class SaveAsync : FileStorageTestBase
             3
         ];
 
-        _fileSystemMock.Setup(x => x.Directory.Exists(directoryPath)).Returns(true);
-        _fileSystemMock.Setup(x => x.Path.Combine(directoryPath, fileName)).Returns("filePath");
-        _fileSystemMock.Setup(x => x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()));
+        _fileSystemMock.Setup(expression: x => x.Directory.Exists(directoryPath)).Returns(value: true);
+        _fileSystemMock.Setup(expression: x => x.Path.Combine(directoryPath, fileName)).Returns(value: "filePath");
+
+        _fileSystemMock.Setup(expression: x =>
+            x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()));
 
         // Act
-        await TestCandidate.SaveAsync(directoryPath, fileName, byteContent, default);
+        await TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName, byteContent: byteContent,
+            cancellationToken: default);
 
         // Assert
-        _fileSystemMock.Verify(x => x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()),
-            Times.Once);
+        _fileSystemMock.Verify(
+            expression: x => x.File.WriteAllBytesAsync("filePath", byteContent, It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -78,13 +86,14 @@ internal sealed class SaveAsync : FileStorageTestBase
         ];
 
         // Act
-        EmptyPathException? exception = Assert.ThrowsAsync<EmptyPathException>(() =>
-            TestCandidate.SaveAsync(directoryPath, fileName, byteContent, default));
+        EmptyPathException? exception = Assert.ThrowsAsync<EmptyPathException>(code: () =>
+            TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName, byteContent: byteContent,
+                cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("Path cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "Path cannot be empty.");
     }
 
     [Test]
@@ -102,13 +111,14 @@ internal sealed class SaveAsync : FileStorageTestBase
         ];
 
         // Act
-        EmptyFileNameException? exception = Assert.ThrowsAsync<EmptyFileNameException>(() =>
-            TestCandidate.SaveAsync(directoryPath, fileName, byteContent, default));
+        EmptyFileNameException? exception = Assert.ThrowsAsync<EmptyFileNameException>(code: () =>
+            TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName, byteContent: byteContent,
+                cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("File name cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "File name cannot be empty.");
     }
 
     [Test]
@@ -120,13 +130,14 @@ internal sealed class SaveAsync : FileStorageTestBase
         byte[]? byteContent = null;
 
         // Act
-        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(() =>
-            TestCandidate.SaveAsync(directoryPath, fileName, byteContent!, default));
+        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(code: () =>
+            TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName, byteContent: byteContent!,
+                cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("File content cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "File content cannot be empty.");
     }
 
     [Test]
@@ -138,12 +149,13 @@ internal sealed class SaveAsync : FileStorageTestBase
         byte[] byteContent = Array.Empty<byte>();
 
         // Act
-        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(() =>
-            TestCandidate.SaveAsync(directoryPath, fileName, byteContent, default));
+        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(code: () =>
+            TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName, byteContent: byteContent,
+                cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("File content cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "File content cannot be empty.");
     }
 }

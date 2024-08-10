@@ -7,8 +7,10 @@ internal static class GetPreferenceResponseMap
 {
     public static GetPreferenceResponse MapTo(Preference preference)
     {
-        return new GetPreferenceResponse(preference.Id, preference.UserId, MapTo(preference.FinancePreference),
-            MapTo(preference.NotificationPreference), MapTo(preference.GeneralPreference));
+        return new GetPreferenceResponse(Id: preference.Id, UserId: preference.UserId,
+            FinancePreference: MapTo(financePreference: preference.FinancePreference),
+            NotificationPreference: MapTo(notificationPreference: preference.NotificationPreference),
+            GeneralPreference: MapTo(generalPreference: preference.GeneralPreference));
     }
 
     private static GetPreferenceResponse_FinancePreference? MapTo(FinancePreference? financePreference)
@@ -18,9 +20,11 @@ internal static class GetPreferenceResponseMap
             return null;
         }
 
-        return new GetPreferenceResponse_FinancePreference(financePreference.AllowAddFinancePlanSubOwners,
-            financePreference.MaxNumberOfSubFinancePlanSubOwners, financePreference.AllowAddFinancePlanReviewers,
-            financePreference.MaxNumberOfFinancePlanReviewers);
+        return new GetPreferenceResponse_FinancePreference(
+            AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
+            MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
+            AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
+            MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
     private static GetPreferenceResponse_NotificationPreference? MapTo(NotificationPreference? notificationPreference)
@@ -30,8 +34,9 @@ internal static class GetPreferenceResponseMap
             return null;
         }
 
-        return new GetPreferenceResponse_NotificationPreference(notificationPreference.SendFinanceReportEnabled,
-            notificationPreference.SendFinanceReportInterval);
+        return new GetPreferenceResponse_NotificationPreference(
+            SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
+            SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
     private static GetPreferenceResponse_GeneralPreference? MapTo(GeneralPreference? generalPreference)
@@ -41,6 +46,6 @@ internal static class GetPreferenceResponseMap
             return null;
         }
 
-        return new GetPreferenceResponse_GeneralPreference(generalPreference.UseDarkMode);
+        return new GetPreferenceResponse_GeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
     }
 }

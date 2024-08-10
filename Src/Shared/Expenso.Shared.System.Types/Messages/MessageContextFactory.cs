@@ -9,7 +9,7 @@ namespace Expenso.Shared.System.Types.Messages;
 internal sealed class MessageContextFactory(IServiceProvider serviceProvider) : IMessageContextFactory
 {
     private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
 
     public IMessageContext Current(Guid? messageId = null)
     {
@@ -20,6 +20,6 @@ internal sealed class MessageContextFactory(IServiceProvider serviceProvider) : 
 
         IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
-        return new MessageContext(executionContextAccessor.Get(), clock, messageId);
+        return new MessageContext(executionContext: executionContextAccessor.Get(), clock: clock, messageId: messageId);
     }
 }

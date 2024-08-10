@@ -14,13 +14,14 @@ internal sealed class SendNotificationAsync : FakeInAppServiceTestBase
         const string content = "body";
 
         //Act
-        TestCandidate.SendNotificationAsync(from, to, subject, content);
+        TestCandidate.SendNotificationAsync(from: from, to: to, subject: subject, content: content);
 
         //Assert
         _fakeLogger.Ex.Should().BeNull();
 
         _fakeLogger
             .Message.Should()
-            .Be($"App notification from {from} to {to} with subject {subject} and content {content} sent successfully");
+            .Be(expected:
+                $"App notification from {from} to {to} with subject {subject} and content {content} sent successfully");
     }
 }

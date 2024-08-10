@@ -14,48 +14,48 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     public async Task Should_ReturnCreatePreferenceResponse_When_CreatingPreference()
     {
         // Arrange
-        CreatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new CreatePreferenceRequest(_userId));
+        CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Preference: new CreatePreferenceRequest(UserId: _userId));
 
         _preferenceRepositoryMock
-            .Setup(x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
+            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(false);
+            .ReturnsAsync(value: false);
 
         _preferenceRepositoryMock
-            .Setup(x => x.CreateAsync(It.IsAny<Preference>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_preference);
+            .Setup(expression: x => x.CreateAsync(It.IsAny<Preference>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _preference);
 
         // Act
-        CreatePreferenceResponse? result = await TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>());
+        CreatePreferenceResponse? result =
+            await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_createPreferenceResponse);
+        result.Should().BeEquivalentTo(expectation: _createPreferenceResponse);
 
-        _preferenceRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<Preference>(), It.IsAny<CancellationToken>()),
-            Times.Once);
+        _preferenceRepositoryMock.Verify(
+            expression: x => x.CreateAsync(It.IsAny<Preference>(), It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
     [Test]
     public void Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
     {
         // Arrange
-        CreatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new CreatePreferenceRequest(_userId));
+        CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Preference: new CreatePreferenceRequest(UserId: _userId));
 
         _preferenceRepositoryMock
-            .Setup(x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
+            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(true);
+            .ReturnsAsync(value: true);
 
         // Act
         // Assert
-        ConflictException? exception =
-            Assert.ThrowsAsync<ConflictException>(() =>
-                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
+        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(code: () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"Preferences for user with id {command.Preference.UserId} already exists";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

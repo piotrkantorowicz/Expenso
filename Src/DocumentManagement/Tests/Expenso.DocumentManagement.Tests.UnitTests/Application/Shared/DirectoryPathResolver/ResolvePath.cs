@@ -23,14 +23,14 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
         ];
 
         _directoryInfoServiceMock
-            .Setup(x => x.GetImportsDirectory(userId, groups, It.IsAny<string>()))
-            .Returns(expectedPath);
+            .Setup(expression: x => x.GetImportsDirectory(userId, groups, It.IsAny<string>()))
+            .Returns(value: expectedPath);
 
         // Act
-        string result = TestCandidate.ResolvePath(fileType, userId, groups);
+        string result = TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
 
         // Assert
-        result.Should().Be(expectedPath);
+        result.Should().Be(expected: expectedPath);
     }
 
     [Test]
@@ -48,13 +48,13 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
         ];
 
         _directoryInfoServiceMock
-            .Setup(x => x.GetReportsDirectory(userId, groups, It.IsAny<string>()))
-            .Returns(expectedPath);
+            .Setup(expression: x => x.GetReportsDirectory(userId, groups, It.IsAny<string>()))
+            .Returns(value: expectedPath);
 
         // Act
-        string result = TestCandidate.ResolvePath(fileType, userId, groups);
+        string result = TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
 
         // Assert
-        result.Should().Be(expectedPath);
+        result.Should().Be(expected: expectedPath);
     }
 }

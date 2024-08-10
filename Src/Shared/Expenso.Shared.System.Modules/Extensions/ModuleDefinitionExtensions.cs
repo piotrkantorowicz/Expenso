@@ -6,14 +6,14 @@ public static class ModuleDefinitionExtensions
     {
         string modulePrefix = moduleDefinition.ModulePrefix;
 
-        if (modulePrefix[0] != '/')
+        if (modulePrefix[index: 0] != '/')
         {
             modulePrefix = '/' + modulePrefix;
         }
 
         if (modulePrefix[^1] == '/')
         {
-            modulePrefix = new string(modulePrefix.AsSpan()[..^1]);
+            modulePrefix = new string(value: modulePrefix.AsSpan()[..^1]);
         }
 
         return modulePrefix;

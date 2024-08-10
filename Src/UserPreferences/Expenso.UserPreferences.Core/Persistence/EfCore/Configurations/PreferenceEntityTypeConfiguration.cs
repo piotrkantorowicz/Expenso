@@ -9,18 +9,25 @@ internal sealed class PreferenceEntityTypeConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<Preference> builder)
     {
-        builder.ToTable("Preferences");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-        builder.HasIndex(x => x.UserId).IsUnique();
-        builder.Property(x => x.UserId).IsRequired().ValueGeneratedNever();
-        builder.HasOne(x => x.FinancePreference).WithOne().HasForeignKey<FinancePreference>(x => x.PreferenceId);
+        builder.ToTable(name: "Preferences");
+        builder.HasKey(keyExpression: x => x.Id);
+        builder.Property(propertyExpression: x => x.Id).IsRequired().ValueGeneratedNever();
+        builder.HasIndex(indexExpression: x => x.UserId).IsUnique();
+        builder.Property(propertyExpression: x => x.UserId).IsRequired().ValueGeneratedNever();
 
         builder
-            .HasOne(x => x.NotificationPreference)
+            .HasOne(navigationExpression: x => x.FinancePreference)
             .WithOne()
-            .HasForeignKey<NotificationPreference>(x => x.PreferenceId);
+            .HasForeignKey<FinancePreference>(foreignKeyExpression: x => x.PreferenceId);
 
-        builder.HasOne(x => x.GeneralPreference).WithOne().HasForeignKey<GeneralPreference>(x => x.PreferenceId);
+        builder
+            .HasOne(navigationExpression: x => x.NotificationPreference)
+            .WithOne()
+            .HasForeignKey<NotificationPreference>(foreignKeyExpression: x => x.PreferenceId);
+
+        builder
+            .HasOne(navigationExpression: x => x.GeneralPreference)
+            .WithOne()
+            .HasForeignKey<GeneralPreference>(foreignKeyExpression: x => x.PreferenceId);
     }
 }

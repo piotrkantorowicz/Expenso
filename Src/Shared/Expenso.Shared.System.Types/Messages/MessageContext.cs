@@ -18,7 +18,11 @@ public sealed record MessageContext : IMessageContext
     {
         MessageId = messageId ?? Guid.NewGuid();
         CorrelationId = executionContext?.CorrelationId ?? Guid.Empty;
-        RequestedBy = Guid.TryParse(executionContext?.UserContext?.UserId, out Guid id) ? id : Guid.Empty;
+
+        RequestedBy = Guid.TryParse(input: executionContext?.UserContext?.UserId, result: out Guid id)
+            ? id
+            : Guid.Empty;
+
         Timestamp = clock.UtcNow;
     }
 

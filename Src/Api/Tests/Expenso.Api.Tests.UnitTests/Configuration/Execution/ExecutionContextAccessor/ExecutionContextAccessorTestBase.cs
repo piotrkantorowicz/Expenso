@@ -15,6 +15,6 @@ internal abstract class ExecutionContextAccessorTestBase : TestBase<IExecutionCo
     public void SetUp()
     {
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        TestCandidate = new TestCandidate(_httpContextAccessorMock.Object);
+        TestCandidate = new TestCandidate(httpContextAccessor: _httpContextAccessorMock.Object);
     }
 }

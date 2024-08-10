@@ -35,22 +35,23 @@ internal sealed class AccessModifierTests : TestBase
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
-        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().BeClasses().And().BePublic();
+        ConditionList? types =
+            Types.InAssemblies(assemblies: Assemblies.ToArray()).Should().BeClasses().And().BePublic();
 
-        types = NotInternal.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        types = NotInternal.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = NamespacesToExclude.Aggregate(types,
-            (current, skippedNamespace) => current.And().NotResideInNamespace(skippedNamespace));
+        types = NamespacesToExclude.Aggregate(seed: types,
+            func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
 
-        AssertArchTestResult(types);
+        AssertArchTestResult(result: types);
     }
 
     [Test]
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
         ConditionList? types = Types
-            .InAssemblies(Assemblies.ToArray())
+            .InAssemblies(assemblies: Assemblies.ToArray())
             .Should()
             .BeClasses()
             .And()
@@ -60,26 +61,27 @@ internal sealed class AccessModifierTests : TestBase
             .And()
             .NotBeSealed();
 
-        types = NotSealed.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        types = NotSealed.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = NamespacesToExclude.Aggregate(types,
-            (current, skippedNamespace) => current.And().NotResideInNamespace(skippedNamespace));
+        types = NamespacesToExclude.Aggregate(seed: types,
+            func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
 
-        AssertArchTestResult(types);
+        AssertArchTestResult(result: types);
     }
 
     [Test]
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
-        ConditionList? types = Types.InAssemblies(Assemblies.ToArray()).Should().NotBeSealed().And().NotBeAbstract();
+        ConditionList? types =
+            Types.InAssemblies(assemblies: Assemblies.ToArray()).Should().NotBeSealed().And().NotBeAbstract();
 
-        types = NotAbstract.Aggregate(types,
-            (current, skippedTypeName) => current.And().NotHaveNameMatching(skippedTypeName));
+        types = NotAbstract.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = NamespacesToExclude.Aggregate(types,
-            (current, skippedNamespace) => current.And().NotResideInNamespace(skippedNamespace));
+        types = NamespacesToExclude.Aggregate(seed: types,
+            func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
 
-        AssertArchTestResult(types);
+        AssertArchTestResult(result: types);
     }
 }

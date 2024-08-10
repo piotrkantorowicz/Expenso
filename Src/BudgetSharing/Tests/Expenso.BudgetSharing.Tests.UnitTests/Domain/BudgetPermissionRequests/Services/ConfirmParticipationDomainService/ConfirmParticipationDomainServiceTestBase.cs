@@ -34,22 +34,31 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermissionRequestRepositoryMock = new Mock<IBudgetPermissionRequestRepository>();
         _userPreferencesProxyMock = new Mock<IUserPreferencesProxy>();
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(x => x.UtcNow).Returns(new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero));
 
-        _budgetPermissionRequest = BudgetPermissionRequest.Create(BudgetId.New(Guid.NewGuid()),
-            PersonId.New(Guid.NewGuid()), PermissionType.SubOwner, 3, _clockMock.Object);
+        _clockMock
+            .Setup(expression: x => x.UtcNow)
+            .Returns(value: new DateTimeOffset(year: 2024, month: 1, day: 1, hour: 0, minute: 0, second: 0,
+                offset: TimeSpan.Zero));
 
-        PersonId ownerId = PersonId.New(Guid.NewGuid());
+        _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
+            personId: PersonId.New(value: Guid.NewGuid()), permissionType: PermissionType.SubOwner, expirationDays: 3,
+            clock: _clockMock.Object);
+
+        PersonId ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetPermissionRequestId = _budgetPermissionRequest.Id;
         _budgetId = _budgetPermissionRequest.BudgetId;
-        _budgetPermission = BudgetPermission.Create(_budgetPermissionRequest.BudgetId, ownerId);
-        _budgetPermission.AddPermission(ownerId, PermissionType.Owner);
+        _budgetPermission = BudgetPermission.Create(budgetId: _budgetPermissionRequest.BudgetId, ownerId: ownerId);
+        _budgetPermission.AddPermission(participantId: ownerId, permissionType: PermissionType.Owner);
 
-        _getPreferenceResponse = new GetPreferenceResponse(Guid.NewGuid(), ownerId.Value,
-            new GetPreferenceResponse_FinancePreference(true, 1, true, 3), null, null);
+        _getPreferenceResponse = new GetPreferenceResponse(Id: Guid.NewGuid(), UserId: ownerId.Value,
+            FinancePreference: new GetPreferenceResponse_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                MaxNumberOfSubFinancePlanSubOwners: 1, AllowAddFinancePlanReviewers: true,
+                MaxNumberOfFinancePlanReviewers: 3), NotificationPreference: null, GeneralPreference: null);
 
-        TestCandidate = new TestCandidate(_budgetPermissionRequestRepositoryMock.Object,
-            _budgetPermissionRepositoryMock.Object, _userPreferencesProxyMock.Object);
+        TestCandidate =
+            new TestCandidate(budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object,
+                budgetPermissionRepository: _budgetPermissionRepositoryMock.Object,
+                userPreferencesProxy: _userPreferencesProxyMock.Object);
 
         // clear uncommitted changes
         _budgetPermissionRequest.GetUncommittedChanges();

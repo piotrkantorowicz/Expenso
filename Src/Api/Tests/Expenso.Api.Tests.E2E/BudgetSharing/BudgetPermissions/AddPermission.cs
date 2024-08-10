@@ -10,18 +10,19 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
 
         string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[0]}/participants/{UserDataInitializer.UserIds[4]}";
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 4]}";
 
-        AddPermissionRequest addPermissionRequest = new(AddPermissionRequest_PermissionType.Reviewer);
+        AddPermissionRequest addPermissionRequest = new(PermissionType: AddPermissionRequest_PermissionType.Reviewer);
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestPath, addPermissionRequest);
+        HttpResponseMessage testResult =
+            await _httpClient.PostAsJsonAsync(requestUri: requestPath, value: addPermissionRequest);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -29,12 +30,12 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[0]}/participants/{UserDataInitializer.UserIds[3]}";
+            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestPath, null);
+        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

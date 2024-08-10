@@ -12,10 +12,10 @@ public static class Extensions
     {
         services.AddSingleton<IDomainEventBroker, DomainEventBroker>();
 
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(IDomainEventHandler<>)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IDomainEventHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

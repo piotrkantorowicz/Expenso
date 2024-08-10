@@ -25,14 +25,17 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
         _commandDispatcherMock = new Mock<ICommandDispatcher>();
 
-        _getPreferenceExternalResponse = new GetPreferenceResponse(_id, _userId,
-            new GetPreferenceResponse_FinancePreference(false, 0, false, 0),
-            new GetPreferenceResponse_NotificationPreference(true, 7),
-            new GetPreferenceResponse_GeneralPreference(false));
+        _getPreferenceExternalResponse = new GetPreferenceResponse(Id: _id, UserId: _userId,
+            FinancePreference: new GetPreferenceResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
+                MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: false,
+                MaxNumberOfFinancePlanReviewers: 0),
+            NotificationPreference: new GetPreferenceResponse_NotificationPreference(SendFinanceReportEnabled: true,
+                SendFinanceReportInterval: 7),
+            GeneralPreference: new GetPreferenceResponse_GeneralPreference(UseDarkMode: false));
 
-        _createPreferenceResponse = new CreatePreferenceResponse(_id);
+        _createPreferenceResponse = new CreatePreferenceResponse(PreferenceId: _id);
 
-        TestCandidate = new TestCandidate(_commandDispatcherMock.Object, _queryDispatcherMock.Object,
-            MessageContextFactoryMock.Object);
+        TestCandidate = new TestCandidate(commandDispatcher: _commandDispatcherMock.Object,
+            queryDispatcher: _queryDispatcherMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
 }
