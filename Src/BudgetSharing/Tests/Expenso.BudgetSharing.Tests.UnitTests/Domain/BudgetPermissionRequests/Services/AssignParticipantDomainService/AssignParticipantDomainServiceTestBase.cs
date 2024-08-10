@@ -28,16 +28,21 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
         _budgetPermissionRequestRepositoryMock = new Mock<IBudgetPermissionRequestRepository>();
         _iamProxyMock = new Mock<IIamProxy>();
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(x => x.UtcNow).Returns(new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero));
-        _participantId = PersonId.New(Guid.NewGuid());
-        _budgetId = BudgetId.New(Guid.NewGuid());
 
-        _getUserResponse = new GetUserResponse(_participantId.Value.ToString(), "Valentina", "Long", "vLong",
-            "email@email.com");
+        _clockMock
+            .Setup(expression: x => x.UtcNow)
+            .Returns(value: new DateTimeOffset(year: 2024, month: 1, day: 1, hour: 0, minute: 0, second: 0,
+                offset: TimeSpan.Zero));
+
+        _participantId = PersonId.New(value: Guid.NewGuid());
+        _budgetId = BudgetId.New(value: Guid.NewGuid());
+
+        _getUserResponse = new GetUserResponse(UserId: _participantId.Value.ToString(), Firstname: "Valentina",
+            Lastname: "Long", Username: "vLong", Email: "email@email.com");
 
         _email = _getUserResponse.Email;
 
-        TestCandidate = new TestCandidate(_iamProxyMock.Object, _budgetPermissionRequestRepositoryMock.Object,
-            _clockMock.Object);
+        TestCandidate = new TestCandidate(iamProxy: _iamProxyMock.Object,
+            budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object);
     }
 }

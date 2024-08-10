@@ -9,15 +9,17 @@ internal static class GetBudgetPermissionRequestsResponseMap
     public static IReadOnlyCollection<GetBudgetPermissionRequestsResponse> MapTo(
         IEnumerable<BudgetPermissionRequest> budgetPermissionRequests)
     {
-        return budgetPermissionRequests.Select(MapTo).ToList();
+        return budgetPermissionRequests.Select(selector: MapTo).ToList();
     }
 
     private static GetBudgetPermissionRequestsResponse MapTo(BudgetPermissionRequest budgetPermissionRequest)
     {
-        return new GetBudgetPermissionRequestsResponse(budgetPermissionRequest.Id.Value,
-            budgetPermissionRequest.BudgetId.Value, budgetPermissionRequest.ParticipantId.Value,
-            MapTo(budgetPermissionRequest.PermissionType), MapTo(budgetPermissionRequest.Status),
-            budgetPermissionRequest.ExpirationDate?.Value);
+        return new GetBudgetPermissionRequestsResponse(Id: budgetPermissionRequest.Id.Value,
+            BudgetId: budgetPermissionRequest.BudgetId.Value,
+            ParticipantId: budgetPermissionRequest.ParticipantId.Value,
+            PermissionType: MapTo(permissionType: budgetPermissionRequest.PermissionType),
+            Status: MapTo(budgetPermissionRequestStatus: budgetPermissionRequest.Status),
+            ExpirationDate: budgetPermissionRequest.ExpirationDate?.Value);
     }
 
     private static GetBudgetPermissionRequestsResponse_Status MapTo(
@@ -48,8 +50,8 @@ internal static class GetBudgetPermissionRequestsResponseMap
             return GetBudgetPermissionRequestsResponse_Status.Expired;
         }
 
-        throw new ArgumentOutOfRangeException(nameof(budgetPermissionRequestStatus), budgetPermissionRequestStatus,
-            null);
+        throw new ArgumentOutOfRangeException(paramName: nameof(budgetPermissionRequestStatus),
+            actualValue: budgetPermissionRequestStatus, message: null);
     }
 
     private static GetBudgetPermissionRequestsResponse_PermissionType MapTo(PermissionType permissionType)
@@ -74,6 +76,7 @@ internal static class GetBudgetPermissionRequestsResponseMap
             return GetBudgetPermissionRequestsResponse_PermissionType.Reviewer;
         }
 
-        throw new ArgumentOutOfRangeException(nameof(permissionType), permissionType, null);
+        throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,
+            message: null);
     }
 }

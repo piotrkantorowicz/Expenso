@@ -14,29 +14,31 @@ internal sealed class UserService(
     KeycloakProtectionClientOptions keycloakProtectionClientOptions) : IUserService
 {
     private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions =
-        keycloakProtectionClientOptions ?? throw new ArgumentNullException(nameof(keycloakProtectionClientOptions));
+        keycloakProtectionClientOptions ??
+        throw new ArgumentNullException(paramName: nameof(keycloakProtectionClientOptions));
 
     private readonly IKeycloakUserClient _keycloakUserClient =
-        keycloakUserClient ?? throw new ArgumentNullException(nameof(keycloakUserClient));
+        keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
 
     public async Task<GetUserResponse> GetUserByIdAsync(string userId)
     {
-        User keycloakUser = await _keycloakUserClient.GetUser(_keycloakProtectionClientOptions.Realm, userId);
+        User keycloakUser =
+            await _keycloakUserClient.GetUser(realm: _keycloakProtectionClientOptions.Realm, userId: userId);
 
         if (keycloakUser is null)
         {
-            throw new NotFoundException($"User with id {userId} not found.");
+            throw new NotFoundException(message: $"User with id {userId} not found.");
         }
 
-        GetUserResponse getUserResponse = GetUserResponseMap.MapTo(keycloakUser);
+        GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: keycloakUser);
 
         return getUserResponse;
     }
 
     public async Task<GetUserResponse> GetUserByEmailAsync(string email)
     {
-        List<User> keycloakUsers = (await _keycloakUserClient.GetUsers(_keycloakProtectionClientOptions.Realm,
-            new GetUsersRequestParameters
+        List<User> keycloakUsers = (await _keycloakUserClient.GetUsers(realm: _keycloakProtectionClientOptions.Realm,
+            parameters: new GetUsersRequestParameters
             {
                 Email = email
             })).ToList();
@@ -45,10 +47,10 @@ internal sealed class UserService(
 
         if (user is null)
         {
-            throw new NotFoundException($"User with email {email} not found.");
+            throw new NotFoundException(message: $"User with email {email} not found.");
         }
 
-        GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user);
+        GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: user);
 
         return getUserResponse;
     }

@@ -2,7 +2,7 @@ namespace Expenso.Api.Tests.E2E.Configuration;
 
 internal sealed class WebApp
 {
-    private static readonly Lazy<WebApp> Lazy = new(() => new WebApp());
+    private static readonly Lazy<WebApp> Lazy = new(valueFactory: () => new WebApp());
     private readonly ExpensoWebApplication _expensoWebApplication;
     private HttpClient? _httpClient;
 

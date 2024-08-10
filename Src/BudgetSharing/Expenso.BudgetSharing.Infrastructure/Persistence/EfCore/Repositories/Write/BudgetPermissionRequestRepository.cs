@@ -9,21 +9,24 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.W
 internal sealed class BudgetPermissionRequestRepository(IBudgetSharingDbContext budgetSharingDbContext)
     : IBudgetPermissionRequestRepository
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext =
-        budgetSharingDbContext ?? throw new ArgumentNullException(nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
+                                                                       throw new ArgumentNullException(
+                                                                           paramName: nameof(budgetSharingDbContext));
 
     public async Task<BudgetPermissionRequest?> GetByIdAsync(BudgetPermissionRequestId permissionId,
         CancellationToken cancellationToken)
     {
-        return await _budgetSharingDbContext.BudgetPermissionRequests.SingleOrDefaultAsync(x => x.Id == permissionId,
-            cancellationToken);
+        return await _budgetSharingDbContext.BudgetPermissionRequests.SingleOrDefaultAsync(
+            predicate: x => x.Id == permissionId, cancellationToken: cancellationToken);
     }
 
     public async Task<BudgetPermissionRequest> AddAsync(BudgetPermissionRequest permission,
         CancellationToken cancellationToken)
     {
-        await _budgetSharingDbContext.BudgetPermissionRequests.AddAsync(permission, cancellationToken);
-        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
+        await _budgetSharingDbContext.BudgetPermissionRequests.AddAsync(entity: permission,
+            cancellationToken: cancellationToken);
+
+        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
 
         return permission;
     }
@@ -31,8 +34,8 @@ internal sealed class BudgetPermissionRequestRepository(IBudgetSharingDbContext 
     public async Task<BudgetPermissionRequest> UpdateAsync(BudgetPermissionRequest permission,
         CancellationToken cancellationToken)
     {
-        _budgetSharingDbContext.BudgetPermissionRequests.Update(permission);
-        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
+        _budgetSharingDbContext.BudgetPermissionRequests.Update(entity: permission);
+        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
 
         return permission;
     }

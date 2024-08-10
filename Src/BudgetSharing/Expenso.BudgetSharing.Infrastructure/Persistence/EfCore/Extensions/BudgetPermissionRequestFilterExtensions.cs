@@ -15,29 +15,32 @@ public static class BudgetPermissionRequestFilterExtensions
 
         if (filter.Id is not null)
         {
-            predicate = AndExpression<BudgetPermissionRequest>.And(predicate, x => x.Id == filter.Id);
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.Id == filter.Id);
         }
 
         if (filter.BudgetId is not null)
         {
-            predicate = AndExpression<BudgetPermissionRequest>.And(predicate, x => x.BudgetId == filter.BudgetId);
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.BudgetId == filter.BudgetId);
         }
 
         if (filter.ParticipantId is not null)
         {
-            predicate = AndExpression<BudgetPermissionRequest>.And(predicate,
-                x => x.ParticipantId == filter.ParticipantId);
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.ParticipantId == filter.ParticipantId);
         }
 
         if (filter.Status != null)
         {
-            predicate = AndExpression<BudgetPermissionRequest>.And(predicate, x => x.Status == filter.Status);
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.Status == filter.Status);
         }
 
         if (filter.PermissionType != null)
         {
-            predicate = AndExpression<BudgetPermissionRequest>.And(predicate,
-                x => x.PermissionType == filter.PermissionType);
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.PermissionType == filter.PermissionType);
         }
 
         return predicate;

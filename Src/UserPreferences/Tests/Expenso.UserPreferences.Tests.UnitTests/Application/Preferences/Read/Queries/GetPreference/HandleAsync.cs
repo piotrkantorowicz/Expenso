@@ -11,132 +11,133 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContextFactoryMock.Object.Current(), _id,
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: _id,
             IncludeFinancePreferences: It.IsAny<bool>(), IncludeNotificationPreferences: It.IsAny<bool>(),
             IncludeGeneralPreferences: It.IsAny<bool>());
 
         _preferenceRepositoryMock
-            .Setup(x => x.GetAsync(
+            .Setup(expression: x => x.GetAsync(
                 new PreferenceFilter(_id, null, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_preference);
+            .ReturnsAsync(value: _preference);
 
         // Act
-        GetPreferenceResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetPreferenceResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_getPreferenceResponse);
+        result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
         _preferenceRepositoryMock.Verify(
-            x => x.GetAsync(
+            expression: x => x.GetAsync(
                 new PreferenceFilter(_id, null, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()), Times.Once);
+                It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
     [Test]
     public async Task Should_ReturnUser_When_SearchingByUserIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContextFactoryMock.Object.Current(), UserId: _userId,
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), UserId: _userId,
             IncludeFinancePreferences: It.IsAny<bool>(), IncludeNotificationPreferences: It.IsAny<bool>(),
             IncludeGeneralPreferences: It.IsAny<bool>());
 
         _preferenceRepositoryMock
-            .Setup(x => x.GetAsync(
+            .Setup(expression: x => x.GetAsync(
                 new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_preference);
+            .ReturnsAsync(value: _preference);
 
         // Act
-        GetPreferenceResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetPreferenceResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_getPreferenceResponse);
+        result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
         _preferenceRepositoryMock.Verify(
-            x => x.GetAsync(
+            expression: x => x.GetAsync(
                 new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()), Times.Once);
+                It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
     [Test]
     public async Task Should_ReturnNull_When_SearchingForCurrentUserAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContextFactoryMock.Object.Current(), ForCurrentUser: true,
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), ForCurrentUser: true,
             IncludeFinancePreferences: It.IsAny<bool>(), IncludeNotificationPreferences: It.IsAny<bool>(),
             IncludeGeneralPreferences: It.IsAny<bool>());
 
-        _userContextAccessorMock.Setup(x => x.Get()).Returns(_executionContextMock.Object);
+        _userContextAccessorMock.Setup(expression: x => x.Get()).Returns(value: _executionContextMock.Object);
 
         _preferenceRepositoryMock
-            .Setup(x => x.GetAsync(
+            .Setup(expression: x => x.GetAsync(
                 new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_preference);
+            .ReturnsAsync(value: _preference);
 
         // Act
-        GetPreferenceResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetPreferenceResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_getPreferenceResponse);
+        result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
         _preferenceRepositoryMock.Verify(
-            x => x.GetAsync(
+            expression: x => x.GetAsync(
                 new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
-                It.IsAny<CancellationToken>()), Times.Once);
+                It.IsAny<CancellationToken>()), times: Times.Once);
 
-        _userContextAccessorMock.Verify(x => x.Get(), Times.Once);
+        _userContextAccessorMock.Verify(expression: x => x.Get(), times: Times.Once);
     }
 
     [Test]
     public void Should_ThrowNotFoundException_When_SearchingByIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContextFactoryMock.Object.Current(), _id);
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: _id);
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = "Preferences not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
     [Test]
     public void Should_ThrowNotFoundException_When_SearchingByUserIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContextFactoryMock.Object.Current(), UserId: _userId);
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), UserId: _userId);
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = "Preferences not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
     [Test]
     public void Should_ThrowNotFoundException_When_SearchingForCurrentUserAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContextFactoryMock.Object.Current(), ForCurrentUser: true);
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            ForCurrentUser: true);
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = "Preferences not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

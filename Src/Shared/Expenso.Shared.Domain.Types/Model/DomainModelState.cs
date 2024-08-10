@@ -19,7 +19,7 @@ public static class DomainModelState
                 continue;
             }
 
-            BrokenRules.Add(rule);
+            BrokenRules.Add(item: rule);
 
             if (!throwException)
             {
@@ -29,7 +29,7 @@ public static class DomainModelState
             brokenRules = BrokenRules.ToArray();
             BrokenRules.Clear();
 
-            throw new DomainRuleValidationException(brokenRules);
+            throw new DomainRuleValidationException(brokenRules: brokenRules);
         }
 
         if (!throwAfterAll || BrokenRules.Count == 0)
@@ -40,6 +40,6 @@ public static class DomainModelState
         brokenRules = BrokenRules.ToArray();
         BrokenRules.Clear();
 
-        throw new DomainRuleValidationException(brokenRules);
+        throw new DomainRuleValidationException(brokenRules: brokenRules);
     }
 }

@@ -11,12 +11,12 @@ internal sealed class ToString : PersonIdTestBase
     {
         // Arrange
         Guid value = Guid.NewGuid();
-        TestCandidate sut = TestCandidate.New(value);
+        TestCandidate sut = TestCandidate.New(value: value);
 
         // Act
         string result = sut.ToString();
 
         // Assert
-        result.Should().Be(value.ToString());
+        result.Should().Be(expected: value.ToString());
     }
 }

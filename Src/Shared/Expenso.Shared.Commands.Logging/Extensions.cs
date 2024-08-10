@@ -6,8 +6,11 @@ public static class Extensions
 {
     public static IServiceCollection AddCommandsLogging(this IServiceCollection services)
     {
-        services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerLoggingDecorator<>));
-        services.TryDecorate(typeof(ICommandHandler<,>), typeof(CommandHandlerLoggingDecorator<,>));
+        services.TryDecorate(serviceType: typeof(ICommandHandler<>),
+            decoratorType: typeof(CommandHandlerLoggingDecorator<>));
+
+        services.TryDecorate(serviceType: typeof(ICommandHandler<,>),
+            decoratorType: typeof(CommandHandlerLoggingDecorator<,>));
 
         return services;
     }

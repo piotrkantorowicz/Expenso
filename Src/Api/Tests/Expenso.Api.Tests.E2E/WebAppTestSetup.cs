@@ -20,9 +20,14 @@ internal sealed class WebAppTestSetup
         IMessageContextFactory messageContextFactory =
             scope.ServiceProvider.GetRequiredService<IMessageContextFactory>();
 
-        await PreferencesDataInitializer.Initialize(commandDispatcher, messageContextFactory, default);
-        await BudgetPermissionDataInitializer.Initialize(commandDispatcher, messageContextFactory, default);
-        await DocumentManagementDataInitializer.Initialize(commandDispatcher, messageContextFactory, default);
+        await PreferencesDataInitializer.Initialize(commandDispatcher: commandDispatcher,
+            messageContextFactory: messageContextFactory, cancellationToken: default);
+
+        await BudgetPermissionDataInitializer.Initialize(commandDispatcher: commandDispatcher,
+            messageContextFactory: messageContextFactory, cancellationToken: default);
+
+        await DocumentManagementDataInitializer.Initialize(commandDispatcher: commandDispatcher,
+            messageContextFactory: messageContextFactory, cancellationToken: default);
     }
 
     [OneTimeTearDown]

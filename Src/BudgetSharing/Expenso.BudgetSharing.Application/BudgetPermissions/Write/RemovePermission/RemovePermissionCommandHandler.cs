@@ -12,22 +12,25 @@ internal sealed class RemovePermissionCommandHandler(IBudgetPermissionRepository
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
                                                                                throw new ArgumentNullException(
-                                                                                   nameof(budgetPermissionRepository));
+                                                                                   paramName: nameof(
+                                                                                       budgetPermissionRepository));
 
     public async Task HandleAsync(RemovePermissionCommand command, CancellationToken cancellationToken)
     {
         (_, Guid budgetPermissionId, Guid participantId) = command;
 
         BudgetPermission? budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),
-                cancellationToken);
+            await _budgetPermissionRepository.GetByIdAsync(id: BudgetPermissionId.New(value: budgetPermissionId),
+                cancellationToken: cancellationToken);
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException($"Budget permission with id {budgetPermissionId} hasn't been found.");
+            throw new NotFoundException(message: $"Budget permission with id {budgetPermissionId} hasn't been found.");
         }
 
-        budgetPermission.RemovePermission(PersonId.New(participantId));
-        await _budgetPermissionRepository.UpdateAsync(budgetPermission, cancellationToken);
+        budgetPermission.RemovePermission(participantId: PersonId.New(value: participantId));
+
+        await _budgetPermissionRepository.UpdateAsync(budgetPermission: budgetPermission,
+            cancellationToken: cancellationToken);
     }
 }

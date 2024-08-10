@@ -12,26 +12,29 @@ public static class Extensions
 {
     public static void AddCommunicationCore(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(INotificationService)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(INotificationService)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-        services.AddScoped<INotificationServiceFactory>(sp =>
+        services.AddScoped<INotificationServiceFactory>(implementationFactory: sp =>
         {
             IEnumerable<INotificationService> notificationServices =
-                sp.GetServices(typeof(INotificationService)).Select(x => (INotificationService)x!);
+                sp
+                    .GetServices(serviceType: typeof(INotificationService))
+                    .Select(selector: x => (INotificationService)x!);
 
             Dictionary<string, INotificationService> servicesDictionary =
                 notificationServices.ToDictionary(
-                    service => service
+                    keySelector: service => service
                         .GetType()
                         .GetInterfaces()
-                        .FirstOrDefault(x => x != typeof(INotificationService)) !.Name, service => service);
+                        .FirstOrDefault(predicate: x => x != typeof(INotificationService)) !.Name,
+                    elementSelector: service => service);
 
-            return new NotificationServiceFactory(servicesDictionary);
+            return new NotificationServiceFactory(servicesDictionary: servicesDictionary);
         });
     }
 }

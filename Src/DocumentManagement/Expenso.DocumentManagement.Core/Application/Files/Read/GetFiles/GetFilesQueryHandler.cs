@@ -13,11 +13,15 @@ internal sealed class GetFilesQueryHandler(
     IFileStorage fileStorage,
     IFileSystem fileSystem) : IQueryHandler<GetFilesQuery, IEnumerable<GetFilesResponse>>
 {
-    private readonly IDirectoryPathResolver _directoryPathResolver =
-        directoryPathResolver ?? throw new ArgumentNullException(nameof(directoryPathResolver));
+    private readonly IDirectoryPathResolver _directoryPathResolver = directoryPathResolver ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(directoryPathResolver));
 
-    private readonly IFileStorage _fileStorage = fileStorage ?? throw new ArgumentNullException(nameof(fileStorage));
-    private readonly IFileSystem _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+    private readonly IFileStorage _fileStorage =
+        fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+
+    private readonly IFileSystem _fileSystem =
+        fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
 
     public async Task<IEnumerable<GetFilesResponse>?> HandleAsync(GetFilesQuery query,
         CancellationToken cancellationToken)
@@ -26,16 +30,19 @@ internal sealed class GetFilesQueryHandler(
             (Guid? userId, string[]? groups, string[] fileNames, GetFilesRequest_FileType fileType)) = query;
 
         userId ??= messageContext.RequestedBy;
-        string directoryPath = _directoryPathResolver.ResolvePath((int)fileType, userId.ToString()!, groups);
+
+        string directoryPath =
+            _directoryPathResolver.ResolvePath(fileType: (int)fileType, userId: userId.ToString()!, groups: groups);
+
         List<GetFilesResponse> filesResponses = [];
 
         foreach (string fileName in fileNames)
         {
-            string filePath = _fileSystem.Path.Combine(directoryPath, fileName);
-            byte[] fileContent = await _fileStorage.ReadAsync(filePath, cancellationToken);
+            string filePath = _fileSystem.Path.Combine(path1: directoryPath, path2: fileName);
+            byte[] fileContent = await _fileStorage.ReadAsync(path: filePath, cancellationToken: cancellationToken);
 
-            filesResponses.Add(new GetFilesResponse(userId.Value, fileName, fileContent,
-                (GetFilesResponse_FileType)fileType));
+            filesResponses.Add(item: new GetFilesResponse(UserId: userId.Value, FileName: fileName,
+                FileContent: fileContent, FilesResponseFileType: (GetFilesResponse_FileType)fileType));
         }
 
         return filesResponses;

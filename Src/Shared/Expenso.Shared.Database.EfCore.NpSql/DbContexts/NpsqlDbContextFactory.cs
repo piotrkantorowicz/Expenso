@@ -15,27 +15,29 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
     public TDbContext CreateDbContext(string[]? args)
     {
         DbContextOptionsBuilder<TDbContext> optionsBuilder = new();
-        string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        string? environment = Environment.GetEnvironmentVariable(variable: "ASPNETCORE_ENVIRONMENT");
         string? startupProjectPath = args?[0];
 
-        if (string.IsNullOrEmpty(startupProjectPath) || !Path.Exists(startupProjectPath))
+        if (string.IsNullOrEmpty(value: startupProjectPath) || !Path.Exists(path: startupProjectPath))
         {
             string errorMessage =
                 $"Startup project path parameter must be provided and must exists on current machine. Actual value: {startupProjectPath}";
 
-            throw new ArgumentException(errorMessage);
+            throw new ArgumentException(message: errorMessage);
         }
 
         IConfiguration configuration = new ConfigurationBuilder()
-            .SetBasePath(startupProjectPath)
-            .AddJsonFile($"{SettingsFileName}.json", false, true)
-            .AddJsonFile($"{SettingsFileName}.{environment}.json", true)
+            .SetBasePath(basePath: startupProjectPath)
+            .AddJsonFile(path: $"{SettingsFileName}.json", optional: false, reloadOnChange: true)
+            .AddJsonFile(path: $"{SettingsFileName}.{environment}.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
 
-        configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
-        optionsBuilder.UseNpgsql(databaseSettings.ConnectionString);
+        configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection,
+            options: out EfCoreSettings databaseSettings);
 
-        return (TDbContext)Activator.CreateInstance(typeof(TDbContext), [optionsBuilder.Options])!;
+        optionsBuilder.UseNpgsql(connectionString: databaseSettings.ConnectionString);
+
+        return (TDbContext)Activator.CreateInstance(type: typeof(TDbContext), args: [optionsBuilder.Options])!;
     }
 }

@@ -11,9 +11,9 @@ internal abstract class QueryDispatcherTestBase : TestBase<IQueryDispatcher>
     public void Setup()
     {
         ServiceProvider serviceProvider = new ServiceCollection()
-            .AddQueries([typeof(QueryDispatcherTestBase).Assembly])
+            .AddQueries(assemblies: [typeof(QueryDispatcherTestBase).Assembly])
             .BuildServiceProvider();
 
-        TestCandidate = new Shared.Queries.Dispatchers.QueryDispatcher(serviceProvider);
+        TestCandidate = new Shared.Queries.Dispatchers.QueryDispatcher(serviceProvider: serviceProvider);
     }
 }

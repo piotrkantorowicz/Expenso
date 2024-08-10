@@ -15,26 +15,30 @@ internal sealed class AssignParticipantDomainService(
     IClock clock) : IAssignParticipantDomainService
 {
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository =
-        budgetPermissionRequestRepository ?? throw new ArgumentNullException(nameof(budgetPermissionRequestRepository));
+        budgetPermissionRequestRepository ??
+        throw new ArgumentNullException(paramName: nameof(budgetPermissionRequestRepository));
 
-    private readonly IClock _clock = clock ?? throw new ArgumentNullException(nameof(clock));
-    private readonly IIamProxy _iamProxy = iamProxy ?? throw new ArgumentNullException(nameof(iamProxy));
+    private readonly IClock _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
+    private readonly IIamProxy _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
 
     public async Task<BudgetPermissionRequest> AssignParticipantAsync(Guid budgetId, string email,
         PermissionType permissionType, int expirationDays, CancellationToken cancellationToken)
     {
-        GetUserResponse? user = await _iamProxy.GetUserByEmailAsync(email, cancellationToken);
+        GetUserResponse? user = await _iamProxy.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
 
-        DomainModelState.CheckBusinessRules([
-            (new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email, user), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email: email, user: user), false)
         ]);
 
-        PersonId participantId = PersonId.New(Guid.Parse(user!.UserId));
+        PersonId participantId = PersonId.New(value: Guid.Parse(input: user!.UserId));
 
-        BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(BudgetId.New(budgetId),
-            participantId, permissionType, expirationDays, _clock);
+        BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(
+            budgetId: BudgetId.New(value: budgetId), personId: participantId, permissionType: permissionType,
+            expirationDays: expirationDays, clock: _clock);
 
-        await _budgetPermissionRequestRepository.AddAsync(budgetPermissionRequest, cancellationToken);
+        await _budgetPermissionRequestRepository.AddAsync(permission: budgetPermissionRequest,
+            cancellationToken: cancellationToken);
 
         return budgetPermissionRequest;
     }

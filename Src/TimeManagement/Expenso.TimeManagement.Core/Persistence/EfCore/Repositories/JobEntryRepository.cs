@@ -8,31 +8,33 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
 
 internal sealed class JobEntryRepository(ITimeManagementDbContext timeManagementDbContext) : IJobEntryRepository
 {
-    private readonly ITimeManagementDbContext _timeManagementDbContext =
-        timeManagementDbContext ?? throw new ArgumentNullException(nameof(timeManagementDbContext));
+    private readonly ITimeManagementDbContext _timeManagementDbContext = timeManagementDbContext ??
+                                                                         throw new ArgumentNullException(
+                                                                             paramName: nameof(
+                                                                                 timeManagementDbContext));
 
     public async Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(Guid jobInstanceId,
         CancellationToken cancellationToken, bool useTracking = false)
     {
         return await _timeManagementDbContext
-            .JobEntries.Tracking(useTracking)
-            .Where(x => x.JobInstanceId == jobInstanceId &&
-                        (x.JobStatus == JobEntryStatus.Running || x.JobStatus == JobEntryStatus.Retrying) &&
-                        x.Triggers.Count > 0)
-            .ToListAsync(cancellationToken);
+            .JobEntries.Tracking(useTracking: useTracking)
+            .Where(predicate: x => x.JobInstanceId == jobInstanceId &&
+                                   (x.JobStatus == JobEntryStatus.Running || x.JobStatus == JobEntryStatus.Retrying) &&
+                                   x.Triggers.Count > 0)
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
     public async Task AddOrUpdateAsync(JobEntry jobEntry, CancellationToken cancellationToken)
     {
-        if (_timeManagementDbContext.GetEntryState(jobEntry) == EntityState.Detached)
+        if (_timeManagementDbContext.GetEntryState(entity: jobEntry) == EntityState.Detached)
         {
-            await _timeManagementDbContext.JobEntries.AddAsync(jobEntry, cancellationToken);
+            await _timeManagementDbContext.JobEntries.AddAsync(entity: jobEntry, cancellationToken: cancellationToken);
         }
         else
         {
-            _timeManagementDbContext.JobEntries.Update(jobEntry);
+            _timeManagementDbContext.JobEntries.Update(entity: jobEntry);
         }
 
-        await _timeManagementDbContext.SaveChangesAsync(cancellationToken);
+        await _timeManagementDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
     }
 }

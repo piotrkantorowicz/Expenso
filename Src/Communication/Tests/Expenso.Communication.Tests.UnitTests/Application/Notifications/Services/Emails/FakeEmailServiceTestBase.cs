@@ -11,6 +11,6 @@ internal abstract class FakeEmailServiceTestBase : TestBase<FakeEmailService>
     public void SetUp()
     {
         _fakeLogger = new InMemoryFakeLogger<FakeEmailService>();
-        TestCandidate = new FakeEmailService(_fakeLogger);
+        TestCandidate = new FakeEmailService(logger: _fakeLogger);
     }
 }

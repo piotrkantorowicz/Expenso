@@ -6,8 +6,8 @@ internal sealed class TestQueryHandler : IQueryHandler<TestQuery, TestResponse>
 {
     public async Task<TestResponse?> HandleAsync(TestQuery query, CancellationToken cancellationToken)
     {
-        TestResponse response = new(query.Id, "vWdGYZaiMz9cex");
+        TestResponse response = new(Id: query.Id, Name: "vWdGYZaiMz9cex");
 
-        return await Task.FromResult(response);
+        return await Task.FromResult(result: response);
     }
 }

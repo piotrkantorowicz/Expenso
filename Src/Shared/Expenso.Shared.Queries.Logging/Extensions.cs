@@ -6,7 +6,8 @@ public static class Extensions
 {
     public static IServiceCollection AddQueryLogging(this IServiceCollection services)
     {
-        services.TryDecorate(typeof(IQueryHandler<,>), typeof(QueryHandlerLoggingDecorator<,>));
+        services.TryDecorate(serviceType: typeof(IQueryHandler<,>),
+            decoratorType: typeof(QueryHandlerLoggingDecorator<,>));
 
         return services;
     }

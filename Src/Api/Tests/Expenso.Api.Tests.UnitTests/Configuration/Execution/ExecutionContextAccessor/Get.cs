@@ -19,13 +19,13 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         // Arrange
         DefaultHttpContext httpContext = new()
         {
-            User = new ClaimsPrincipal(new[]
+            User = new ClaimsPrincipal(identities: new[]
             {
                 new ClaimsIdentity()
             })
         };
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        _httpContextAccessorMock.SetupGet(expression: x => x.HttpContext).Returns(value: httpContext);
 
         // Act
         IExecutionContext? testResult = TestCandidate.Get();
@@ -41,13 +41,13 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         // Arrange
         DefaultHttpContext httpContext = new()
         {
-            User = new ClaimsPrincipal(new[]
+            User = new ClaimsPrincipal(identities: new[]
             {
-                new ClaimsIdentity("rX8hkFW")
+                new ClaimsIdentity(authenticationType: "rX8hkFW")
             })
         };
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        _httpContextAccessorMock.SetupGet(expression: x => x.HttpContext).Returns(value: httpContext);
 
         // Act
         IExecutionContext? testResult = TestCandidate.Get();
@@ -64,7 +64,7 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         // Arrange
         const string? username = "Phasellusfeugiat";
         string userId = Guid.NewGuid().ToString();
-        Context expectedUser = new(userId, username);
+        Context expectedUser = new(UserId: userId, Username: username);
         Guid expectedCorrelationId = Guid.NewGuid();
 
         DefaultHttpContext httpContext = new()
@@ -73,30 +73,30 @@ internal sealed class Get : ExecutionContextAccessorTestBase
             {
                 Headers =
                 {
-                    new KeyValuePair<string, StringValues>(CorrelationIdMiddleware.CorrelationHeaderKey,
-                        expectedCorrelationId.ToString())
+                    new KeyValuePair<string, StringValues>(key: CorrelationIdMiddleware.CorrelationHeaderKey,
+                        value: expectedCorrelationId.ToString())
                 }
             },
-            User = new ClaimsPrincipal(new[]
+            User = new ClaimsPrincipal(identities: new[]
             {
-                new ClaimsIdentity(new ClaimsIdentity("rX8hkFW"), new[]
+                new ClaimsIdentity(identity: new ClaimsIdentity(authenticationType: "rX8hkFW"), claims: new[]
                 {
-                    new Claim(ClaimNames.UserIdClaimName, userId),
-                    new Claim(ClaimNames.UsernameClaimName, username)
+                    new Claim(type: ClaimNames.UserIdClaimName, value: userId),
+                    new Claim(type: ClaimNames.UsernameClaimName, value: username)
                 })
             })
         };
 
-        _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
+        _httpContextAccessorMock.SetupGet(expression: x => x.HttpContext).Returns(value: httpContext);
 
         // Act
         IExecutionContext? testResult = TestCandidate.Get();
 
         // Assert
         testResult?.UserContext?.Should().NotBeNull();
-        testResult?.UserContext?.UserId.Should().Be(expectedUser.UserId);
-        testResult?.UserContext?.Username.Should().Be(expectedUser.Username);
+        testResult?.UserContext?.UserId.Should().Be(expected: expectedUser.UserId);
+        testResult?.UserContext?.Username.Should().Be(expected: expectedUser.Username);
         testResult?.CorrelationId.Should().NotBeNull();
-        testResult?.CorrelationId.Should().Be(expectedCorrelationId);
+        testResult?.CorrelationId.Should().Be(expected: expectedCorrelationId);
     }
 }

@@ -8,14 +8,14 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permissions";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
 
         IEnumerable<GetBudgetPermissionsResponse>? response =
             await testResult.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionsResponse>>();
@@ -30,9 +30,9 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         const string requestPath = "budget-sharing/budget-permissions";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestPath);
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

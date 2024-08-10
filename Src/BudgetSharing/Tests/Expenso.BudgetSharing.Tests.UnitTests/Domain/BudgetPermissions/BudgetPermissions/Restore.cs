@@ -21,10 +21,11 @@ internal sealed class Restore : BudgetPermissionTestBase
         // Assert
         TestCandidate.Deletion?.Should().BeNull();
 
-        AssertDomainEventPublished(TestCandidate, new[]
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionRestoredEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-                TestCandidate.BudgetId, TestCandidate.Permissions.Select(x => x.ParticipantId).ToList().AsReadOnly())
+            new BudgetPermissionRestoredEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
+                ParticipantIds: TestCandidate.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly())
         });
     }
 
@@ -41,6 +42,6 @@ internal sealed class Restore : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage($"Budget permission with id: {TestCandidate.Id} is not deleted.");
+            .WithMessage(expectedWildcardPattern: $"Budget permission with id: {TestCandidate.Id} is not deleted.");
     }
 }

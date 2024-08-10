@@ -11,6 +11,6 @@ internal abstract class FakePushServiceTestBase : TestBase<FakePushService>
     public void SetUp()
     {
         _fakeLogger = new InMemoryFakeLogger<FakePushService>();
-        TestCandidate = new FakePushService(_fakeLogger);
+        TestCandidate = new FakePushService(logger: _fakeLogger);
     }
 }

@@ -4,7 +4,7 @@ public abstract class TestBase
 {
     protected static void AssertArchTestResult(ConditionList? result)
     {
-        AssertFailingTypes(result?.GetTypes());
+        AssertFailingTypes(result: result?.GetTypes());
     }
 
     private static void AssertFailingTypes(IEnumerable<Type>? result)

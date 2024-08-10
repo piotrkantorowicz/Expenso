@@ -11,23 +11,25 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permissions";
         Guid budgetPermissionId = Guid.NewGuid();
 
-        CreateBudgetPermissionRequest createBudgetPermissionRequest = new(budgetPermissionId,
-            BudgetPermissionDataInitializer.BudgetIds[0], UserDataInitializer.UserIds[3]);
+        CreateBudgetPermissionRequest createBudgetPermissionRequest = new(BudgetPermissionId: budgetPermissionId,
+            BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 0],
+            OwnerId: UserDataInitializer.UserIds[index: 3]);
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestPath, createBudgetPermissionRequest);
+        HttpResponseMessage testResult =
+            await _httpClient.PostAsJsonAsync(requestUri: requestPath, value: createBudgetPermissionRequest);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Created);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Created);
 
         CreateBudgetPermissionResponse? createBudgetPermissionResponse =
             await testResult.Content.ReadFromJsonAsync<CreateBudgetPermissionResponse>();
 
-        createBudgetPermissionResponse?.BudgetPermissionId.Should().Be(budgetPermissionId);
+        createBudgetPermissionResponse?.BudgetPermissionId.Should().Be(expected: budgetPermissionId);
     }
 
     [Test]
@@ -37,9 +39,9 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         const string requestPath = "budget-sharing/budget-permissions";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestPath, null);
+        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

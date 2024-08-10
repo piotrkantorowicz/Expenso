@@ -21,14 +21,14 @@ internal abstract class
     [SetUp]
     protected void Setup()
     {
-        _testIntegrationEvent =
-            new TestIntegrationEvent(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "JYi9R7e7v2Qor");
+        _testIntegrationEvent = new TestIntegrationEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            MessageId: Guid.NewGuid(), Payload: "JYi9R7e7v2Qor");
 
         _loggerMock = new Mock<ILogger<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>>();
         _integrationEventHandlerMock = new Mock<IIntegrationEventHandler<TestIntegrationEvent>>();
         _serializerMock = new Mock<ISerializer>();
 
-        TestCandidate = new IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>(_loggerMock.Object,
-            _integrationEventHandlerMock.Object, _serializerMock.Object);
+        TestCandidate = new IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>(logger: _loggerMock.Object,
+            decorated: _integrationEventHandlerMock.Object, serializer: _serializerMock.Object);
     }
 }

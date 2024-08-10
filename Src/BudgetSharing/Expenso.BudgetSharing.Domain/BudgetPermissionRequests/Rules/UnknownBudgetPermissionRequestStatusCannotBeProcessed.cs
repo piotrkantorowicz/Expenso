@@ -6,7 +6,8 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 internal sealed class UnknownBudgetPermissionRequestStatusCannotBeProcessed(BudgetPermissionRequestStatus status)
     : IBusinessRule
 {
-    private readonly BudgetPermissionRequestStatus _status = status ?? throw new ArgumentNullException(nameof(status));
+    private readonly BudgetPermissionRequestStatus _status =
+        status ?? throw new ArgumentNullException(paramName: nameof(status));
 
     public string Message => $"Unknown budget permission request status {_status} cannot be processed.";
 

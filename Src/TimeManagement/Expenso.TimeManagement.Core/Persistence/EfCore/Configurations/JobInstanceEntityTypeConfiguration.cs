@@ -9,10 +9,10 @@ internal sealed class JobInstanceEntityTypeConfiguration : IEntityTypeConfigurat
 {
     public void Configure(EntityTypeBuilder<JobInstance> builder)
     {
-        builder.ToTable("JobInstances");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired();
-        builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
-        builder.Property(x => x.RunningDelay).IsRequired();
+        builder.ToTable(name: "JobInstances");
+        builder.HasKey(keyExpression: x => x.Id);
+        builder.Property(propertyExpression: x => x.Id).IsRequired();
+        builder.Property(propertyExpression: x => x.Name).IsRequired().HasMaxLength(maxLength: 150);
+        builder.Property(propertyExpression: x => x.RunningDelay).IsRequired();
     }
 }

@@ -33,7 +33,9 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
             Email = _userEmail
         };
 
-        _getUserResponse = GetUserResponseMap.MapTo(_user);
-        TestCandidate = new UserService(_keycloakUserClientMock.Object, new KeycloakProtectionClientOptions());
+        _getUserResponse = GetUserResponseMap.MapTo(user: _user);
+
+        TestCandidate = new UserService(keycloakUserClient: _keycloakUserClientMock.Object,
+            keycloakProtectionClientOptions: new KeycloakProtectionClientOptions());
     }
 }

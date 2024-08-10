@@ -16,26 +16,26 @@ internal sealed class And
 
         // Act
         Expression<Func<TestClass, bool>> resultExpression =
-            AndExpression<TestClass>.And(leftExpression, rightExpression);
+            AndExpression<TestClass>.And(leftExpression: leftExpression, rightExpression: rightExpression);
 
         // Assert
         Func<TestClass, bool> compiledExpression = resultExpression.Compile();
 
-        compiledExpression(new TestClass
+        compiledExpression(arg: new TestClass
             {
                 Value = 4
             })
             .Should()
             .BeFalse();
 
-        compiledExpression(new TestClass
+        compiledExpression(arg: new TestClass
             {
                 Value = 7
             })
             .Should()
             .BeTrue();
 
-        compiledExpression(new TestClass
+        compiledExpression(arg: new TestClass
             {
                 Value = 11
             })

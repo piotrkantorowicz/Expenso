@@ -10,41 +10,49 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new(_messageContextMock.Object, _userId);
-        _userServiceMock.Setup(x => x.GetUserByIdAsync(_userId)).ReturnsAsync(_getUserResponse);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object, UserId: _userId);
+        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId)).ReturnsAsync(value: _getUserResponse);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetUserResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_getUserResponse);
+        result.Should().BeEquivalentTo(expectation: _getUserResponse);
     }
 
     [Test]
     public async Task Should_ReturnUser_When_SearchingByEmailAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new(_messageContextMock.Object, Email: _userEmail);
-        _userServiceMock.Setup(x => x.GetUserByEmailAsync(_userEmail)).ReturnsAsync(_getUserResponse);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object, Email: _userEmail);
+
+        _userServiceMock
+            .Setup(expression: x => x.GetUserByEmailAsync(_userEmail))
+            .ReturnsAsync(value: _getUserResponse);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetUserResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_getUserResponse);
+        result.Should().BeEquivalentTo(expectation: _getUserResponse);
     }
 
     [Test]
     public async Task Should_ReturnNull_When_SearchingByIdAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new(_messageContextMock.Object, _userId);
-        _userServiceMock.Setup(x => x.GetUserByIdAsync(_userId))!.ReturnsAsync((GetUserResponse?)null);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object, UserId: _userId);
+
+        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId))!.ReturnsAsync(
+            value: (GetUserResponse?)null);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetUserResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().BeNull();
@@ -54,11 +62,14 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByEmailAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new(_messageContextMock.Object, Email: _userEmail);
-        _userServiceMock.Setup(x => x.GetUserByEmailAsync(_userEmail))!.ReturnsAsync((GetUserResponse?)null);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object, Email: _userEmail);
+
+        _userServiceMock.Setup(expression: x => x.GetUserByEmailAsync(_userEmail))!.ReturnsAsync(
+            value: (GetUserResponse?)null);
 
         // Act
-        GetUserResponse? result = await TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>());
+        GetUserResponse? result =
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().BeNull();
@@ -68,15 +79,14 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_QueryIsEmpty()
     {
         // Arrange
-        GetUserQuery query = new(_messageContextMock.Object);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object);
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.HandleAsync(query, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

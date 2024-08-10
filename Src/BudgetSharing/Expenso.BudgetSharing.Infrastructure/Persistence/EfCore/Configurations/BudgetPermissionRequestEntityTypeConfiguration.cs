@@ -12,24 +12,44 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
 {
     public void Configure(EntityTypeBuilder<BudgetPermissionRequest> builder)
     {
-        builder.ToTable("BudgetPermissionRequests");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).HasConversion(x => x.Value, x => BudgetPermissionRequestId.New(x)).IsRequired();
-        builder.Property(x => x.BudgetId).HasConversion(x => x.Value, x => BudgetId.New(x)).IsRequired();
+        builder.ToTable(name: "BudgetPermissionRequests");
+        builder.HasKey(keyExpression: x => x.Id);
 
         builder
-            .Property(x => x.ExpirationDate)
-            .HasConversion(x => x == null ? (DateTimeOffset?)null : x.Value,
-                x => x.HasValue ? DateAndTime.New(x.Value) : null)
-            .IsRequired(false);
-
-        builder.Property(x => x.ParticipantId).HasConversion(x => x.Value, x => PersonId.New(x)).IsRequired();
-        builder.Property(x => x.PermissionType).HasConversion(x => x.Value, x => PermissionType.Create(x)).IsRequired();
+            .Property(propertyExpression: x => x.Id)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => BudgetPermissionRequestId.New(x))
+            .IsRequired();
 
         builder
-            .Property(x => x.Status)
-            .HasConversion(x => x.Value, x => BudgetPermissionRequestStatus.Create(x))
-            .HasColumnName("status")
+            .Property(propertyExpression: x => x.BudgetId)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => BudgetId.New(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.ExpirationDate)
+            .HasConversion(convertToProviderExpression: x => x == null ? (DateTimeOffset?)null : x.Value,
+                convertFromProviderExpression: x => x.HasValue ? DateAndTime.New(x.Value) : null)
+            .IsRequired(required: false);
+
+        builder
+            .Property(propertyExpression: x => x.ParticipantId)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => PersonId.New(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.PermissionType)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => PermissionType.Create(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.Status)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => BudgetPermissionRequestStatus.Create(x))
+            .HasColumnName(name: "status")
             .IsRequired();
     }
 }

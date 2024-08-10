@@ -6,14 +6,14 @@ internal abstract class OptionsExtensionsTestBase : TestBase<IConfiguration>
 {
     private readonly IDictionary<string, string?> _myConfiguration = new Dictionary<string, string?>
     {
-        ["MyOptions:Option1"] = "Option1 value",
-        ["MyOptions:Option2"] = "500"
+        [key: "MyOptions:Option1"] = "Option1 value",
+        [key: "MyOptions:Option2"] = "500"
     };
 
     [SetUp]
     public void SetUp()
     {
-        TestCandidate = new ConfigurationBuilder().AddInMemoryCollection(_myConfiguration).Build();
+        TestCandidate = new ConfigurationBuilder().AddInMemoryCollection(initialData: _myConfiguration).Build();
     }
 }
 

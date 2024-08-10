@@ -13,7 +13,7 @@ internal sealed class Nullable : BudgetIdTestBase
         Guid value = Guid.NewGuid();
 
         // Act
-        TestCandidate? result = TestCandidate.Nullable(value);
+        TestCandidate? result = TestCandidate.Nullable(value: value);
 
         // Assert
         result.Should().NotBeNull();
@@ -26,7 +26,7 @@ internal sealed class Nullable : BudgetIdTestBase
         Guid? value = null;
 
         // Act
-        TestCandidate? result = TestCandidate.Nullable(value);
+        TestCandidate? result = TestCandidate.Nullable(value: value);
 
         // Assert
         result.Should().BeNull();

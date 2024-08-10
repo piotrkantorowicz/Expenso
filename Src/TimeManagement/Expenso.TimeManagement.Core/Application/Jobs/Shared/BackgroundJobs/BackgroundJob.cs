@@ -10,10 +10,10 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
 internal sealed class BackgroundJob(IServiceProvider serviceProvider) : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
 
-    private JobInstance? _jobInstance;
     private TimeSpan _interval;
+    private JobInstance? _jobInstance;
     private Guid _jobInstanceId;
 
     public override async Task StartAsync(CancellationToken cancellationToken)
@@ -22,24 +22,26 @@ internal sealed class BackgroundJob(IServiceProvider serviceProvider) : Backgrou
 
         IJobInstanceRepository jobInstanceRepository =
             scope.ServiceProvider.GetRequiredService<IJobInstanceRepository>() ??
-            throw new ArgumentException($"{nameof(jobInstanceRepository)} is null");
+            throw new ArgumentException(message: $"{nameof(jobInstanceRepository)} is null");
 
         _jobInstanceId = JobInstance.Default.Id;
-        
-        JobInstance? jobInstance = await jobInstanceRepository.GetAsync(_jobInstanceId, cancellationToken);
-        
-        _jobInstance = jobInstance ?? throw new ArgumentException($"Job entry type with id {_jobInstanceId} not found");
-        _interval = TimeSpan.FromSeconds(_jobInstance?.RunningDelay ?? 10);
-        
-        await base.StartAsync(cancellationToken);
+
+        JobInstance? jobInstance =
+            await jobInstanceRepository.GetAsync(id: _jobInstanceId, cancellationToken: cancellationToken);
+
+        _jobInstance = jobInstance ??
+                       throw new ArgumentException(message: $"Job entry type with id {_jobInstanceId} not found");
+
+        _interval = TimeSpan.FromSeconds(value: _jobInstance?.RunningDelay ?? 10);
+        await base.StartAsync(cancellationToken: cancellationToken);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            await DoWork(stoppingToken);
-            await Task.Delay(_interval, stoppingToken);
+            await DoWork(stoppingToken: stoppingToken);
+            await Task.Delay(delay: _interval, cancellationToken: stoppingToken);
         }
     }
 
@@ -48,8 +50,8 @@ internal sealed class BackgroundJob(IServiceProvider serviceProvider) : Backgrou
         using IServiceScope scope = _serviceProvider.CreateScope();
 
         IJobExecution jobExecution = scope.ServiceProvider.GetRequiredService<IJobExecution>() ??
-                                     throw new ArgumentException($"{nameof(IJobExecution)} is null");
+                                     throw new ArgumentException(message: $"{nameof(IJobExecution)} is null");
 
-        await jobExecution.Execute(_jobInstanceId, _interval, stoppingToken);
+        await jobExecution.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: stoppingToken);
     }
 }

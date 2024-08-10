@@ -10,11 +10,12 @@ internal sealed class FakeUnitOfWork(
     IBudgetSharingDbContext budgetSharingDbContext,
     IDomainEventBroker domainEventBroker) : IUnitOfWork
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext =
-        budgetSharingDbContext ?? throw new ArgumentNullException(nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
+                                                                       throw new ArgumentNullException(
+                                                                           paramName: nameof(budgetSharingDbContext));
 
     private readonly IDomainEventBroker _domainEventBroker =
-        domainEventBroker ?? throw new ArgumentNullException(nameof(domainEventBroker));
+        domainEventBroker ?? throw new ArgumentNullException(paramName: nameof(domainEventBroker));
 
     public Task BeginTransactionAsync(CancellationToken cancellationToken)
     {
@@ -32,7 +33,10 @@ internal sealed class FakeUnitOfWork(
         {
             IReadOnlyCollection<IDomainEvent> domainEvents = _budgetSharingDbContext.GetUncommittedChanges();
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Task.Run(() => _domainEventBroker.PublishMultipleAsync(domainEvents, default), default);
+            Task.Run(
+                function: () =>
+                    _domainEventBroker.PublishMultipleAsync(events: domainEvents, cancellationToken: default),
+                cancellationToken: default);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 

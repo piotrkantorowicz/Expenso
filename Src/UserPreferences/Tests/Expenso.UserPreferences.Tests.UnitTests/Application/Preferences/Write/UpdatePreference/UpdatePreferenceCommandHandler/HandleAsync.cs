@@ -16,82 +16,97 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     public async Task Should_UpdatePreference()
     {
         // Arrange
-        UpdatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(), _userId,
-            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(false, 0, true, 2),
-                new UpdatePreferenceRequest_NotificationPreference(true, 5),
-                new UpdatePreferenceRequest_GeneralPreference(true)));
+        UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceOrUserId: _userId,
+            Preference: new UpdatePreferenceRequest(
+                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
+                    MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
+                    MaxNumberOfFinancePlanReviewers: 2),
+                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                    SendFinanceReportEnabled: true, SendFinanceReportInterval: 5),
+                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
 
         _preferenceRepositoryMock
-            .Setup(x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+            .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_preference);
+            .ReturnsAsync(value: _preference);
 
-        _preferenceRepositoryMock.Setup(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()));
+        _preferenceRepositoryMock.Setup(expression: x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()));
 
         // Act
-        await TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>());
+        await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _preferenceRepositoryMock.Verify(
-            x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true), It.IsAny<CancellationToken>()),
-            Times.Once);
+            expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+                It.IsAny<CancellationToken>()), times: Times.Once);
 
-        _preferenceRepositoryMock.Verify(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()), Times.Once);
-
-        _messageBrokerMock.Verify(
-            x => x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
-            Times.Once);
+        _preferenceRepositoryMock.Verify(expression: x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()),
+            times: Times.Once);
 
         _messageBrokerMock.Verify(
-            x => x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
-            Times.Once());
+            expression: x =>
+                x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            times: Times.Once);
 
         _messageBrokerMock.Verify(
-            x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
-                It.IsAny<CancellationToken>()), Times.Once());
+            expression: x =>
+                x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            times: Times.Once());
+
+        _messageBrokerMock.Verify(
+            expression: x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
+                It.IsAny<CancellationToken>()), times: Times.Once());
     }
 
     [Test]
     public void Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
     {
         // Arrange
-        UpdatePreferenceCommand command = new(MessageContextFactoryMock.Object.Current(), _userId,
-            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(false, 0, true, 2),
-                new UpdatePreferenceRequest_NotificationPreference(true, 5),
-                new UpdatePreferenceRequest_GeneralPreference(true)));
+        UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceOrUserId: _userId,
+            Preference: new UpdatePreferenceRequest(
+                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
+                    MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
+                    MaxNumberOfFinancePlanReviewers: 2),
+                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                    SendFinanceReportEnabled: true, SendFinanceReportInterval: 5),
+                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
 
         _preferenceRepositoryMock
-            .Setup(x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+            .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Preference?)null);
+            .ReturnsAsync(value: (Preference?)null);
 
         // Act
         // Assert
-        ConflictException? exception =
-            Assert.ThrowsAsync<ConflictException>(() =>
-                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
+        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(code: () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage =
             $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.";
 
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
 
         _preferenceRepositoryMock.Verify(
-            x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true), It.IsAny<CancellationToken>()),
-            Times.Once);
+            expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+                It.IsAny<CancellationToken>()), times: Times.Once);
 
-        _preferenceRepositoryMock.Verify(x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()), Times.Never);
-
-        _messageBrokerMock.Verify(
-            x => x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
-            Times.Never);
+        _preferenceRepositoryMock.Verify(expression: x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()),
+            times: Times.Never);
 
         _messageBrokerMock.Verify(
-            x => x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
-            Times.Never());
+            expression: x =>
+                x.PublishAsync(It.IsAny<GeneralPreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            times: Times.Never);
 
         _messageBrokerMock.Verify(
-            x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
-                It.IsAny<CancellationToken>()), Times.Never());
+            expression: x =>
+                x.PublishAsync(It.IsAny<FinancePreferenceUpdatedIntegrationEvent>(), It.IsAny<CancellationToken>()),
+            times: Times.Never());
+
+        _messageBrokerMock.Verify(
+            expression: x => x.PublishAsync(It.IsAny<NotificationPreferenceUpdatedIntegrationEvent>(),
+                It.IsAny<CancellationToken>()), times: Times.Never());
     }
 }

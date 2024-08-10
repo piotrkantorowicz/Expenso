@@ -7,18 +7,20 @@ internal static class GetBudgetPermissionsExternalResponseMap
     public static IReadOnlyCollection<GetBudgetPermissionsResponse>? MapTo(
         IEnumerable<GetBudgetPermissionsResponse>? budgetPermissions)
     {
-        return budgetPermissions?.Select(MapTo).ToList();
+        return budgetPermissions?.Select(selector: MapTo).ToList();
     }
 
     private static GetBudgetPermissionsResponse MapTo(GetBudgetPermissionsResponse budgetPermission)
     {
-        return new GetBudgetPermissionsResponse(budgetPermission.Id, budgetPermission.BudgetId,
-            budgetPermission.OwnerId, budgetPermission.Permissions.Select(MapTo).ToList());
+        return new GetBudgetPermissionsResponse(Id: budgetPermission.Id, BudgetId: budgetPermission.BudgetId,
+            OwnerId: budgetPermission.OwnerId,
+            Permissions: budgetPermission.Permissions.Select(selector: MapTo).ToList());
     }
 
     private static GetBudgetPermissionsResponse_Permission MapTo(GetBudgetPermissionsResponse_Permission permission)
     {
-        return new GetBudgetPermissionsResponse_Permission(permission.ParticipantId, MapTo(permission.PermissionType));
+        return new GetBudgetPermissionsResponse_Permission(ParticipantId: permission.ParticipantId,
+            PermissionType: MapTo(permissionType: permission.PermissionType));
     }
 
     private static GetBudgetPermissionsResponse_PermissionType MapTo(

@@ -7,11 +7,11 @@ internal sealed class Hello : GreetingsTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync("/greetings/hello");
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: "/greetings/hello");
 
         // Assert
         string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();
-        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
-        testResultContent.Should().Be("Hello, I'm Expenso API.");
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        testResultContent.Should().Be(expected: "Hello, I'm Expenso API.");
     }
 }

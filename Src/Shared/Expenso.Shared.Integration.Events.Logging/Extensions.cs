@@ -6,7 +6,8 @@ public static class Extensions
 {
     public static IServiceCollection AddIntegrationEventsLogging(this IServiceCollection services)
     {
-        services.TryDecorate(typeof(IIntegrationEventHandler<>), typeof(IntegrationEventHandlerLoggingDecorator<>));
+        services.TryDecorate(serviceType: typeof(IIntegrationEventHandler<>),
+            decoratorType: typeof(IntegrationEventHandlerLoggingDecorator<>));
 
         return services;
     }

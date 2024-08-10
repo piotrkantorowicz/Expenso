@@ -6,15 +6,15 @@ internal sealed class HelloUser : GreetingsTestBase
     public async Task Should_ReturnExpectedValue_Always()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(_claims);
+        _httpClient.SetFakeBearerToken(token: _claims);
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync("/greetings/hello-user");
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
         string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();
-        testResultContent.Should().Be($"Hello {Username}, I'm Expenso API.");
+        testResultContent.Should().Be(expected: $"Hello {Username}, I'm Expenso API.");
     }
 
     [Test]
@@ -22,9 +22,9 @@ internal sealed class HelloUser : GreetingsTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync("/greetings/hello-user");
+        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

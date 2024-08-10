@@ -16,14 +16,16 @@ internal sealed class SeedAsync : DbMigratorTestBase
         };
 
         _serviceScopeMock
-            .Setup(x => x.ServiceProvider.GetService(typeof(TestDbContextMigrate)))
-            .Returns(_testDbContextMigrateMock.Object);
+            .Setup(expression: x => x.ServiceProvider.GetService(typeof(TestDbContextMigrate)))
+            .Returns(value: _testDbContextMigrateMock.Object);
 
         // Act
-        await TestCandidate.SeedAsync(_serviceScopeMock.Object, assemblies, It.IsAny<CancellationToken>());
+        await TestCandidate.SeedAsync(scope: _serviceScopeMock.Object, assemblies: assemblies,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _testDbContextMigrateMock.Verify(x => x.SeedAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _testDbContextMigrateMock.Verify(expression: x => x.SeedAsync(It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -36,13 +38,15 @@ internal sealed class SeedAsync : DbMigratorTestBase
         };
 
         _serviceScopeMock
-            .Setup(x => x.ServiceProvider.GetService(typeof(TestDbContextNoSeed)))
-            .Returns(_testDbContextNoSeedMock.Object);
+            .Setup(expression: x => x.ServiceProvider.GetService(typeof(TestDbContextNoSeed)))
+            .Returns(value: _testDbContextNoSeedMock.Object);
 
         // Act
-        await TestCandidate.SeedAsync(_serviceScopeMock.Object, assemblies, It.IsAny<CancellationToken>());
+        await TestCandidate.SeedAsync(scope: _serviceScopeMock.Object, assemblies: assemblies,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _testDbContextNoMigrateMock.Verify(x => x.SeedAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _testDbContextNoMigrateMock.Verify(expression: x => x.SeedAsync(It.IsAny<CancellationToken>()),
+            times: Times.Never);
     }
 }

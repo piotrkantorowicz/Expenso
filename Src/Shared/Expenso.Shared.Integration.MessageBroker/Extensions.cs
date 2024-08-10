@@ -15,7 +15,7 @@ public static class Extensions
     {
         services.AddSingleton<IMessageBroker, InMemoryMessageBroker>();
         services.AddSingleton<IMessageChannel, MessageChannel>();
-        services.AddSingleton(typeof(BackgroundMessageProcessor));
+        services.AddSingleton(serviceType: typeof(BackgroundMessageProcessor));
 
         return services;
     }
@@ -23,10 +23,10 @@ public static class Extensions
     public static IServiceCollection AddIntegrationEvents(this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(IIntegrationEventHandler<>)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IIntegrationEventHandler<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

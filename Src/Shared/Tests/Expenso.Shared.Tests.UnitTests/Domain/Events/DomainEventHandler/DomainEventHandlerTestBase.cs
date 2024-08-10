@@ -14,8 +14,10 @@ internal abstract class DomainEventHandlerTestBase : TestBase<TestDomainEventHan
     [SetUp]
     protected void Setup()
     {
-        _testDomainEvent = new TestDomainEvent(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "GiKyb3G");
+        _testDomainEvent = new TestDomainEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Id: Guid.NewGuid(), Name: "GiKyb3G");
+
         _loggerMock = new Mock<ILogger<TestDomainEventHandler>>();
-        TestCandidate = new TestDomainEventHandler(_loggerMock.Object);
+        TestCandidate = new TestDomainEventHandler(logger: _loggerMock.Object);
     }
 }

@@ -24,6 +24,6 @@ internal abstract class NotificationServiceFactoryTestBase : TestBase<INotificat
     [SetUp]
     public void Setup()
     {
-        TestCandidate = new TestCandidate(_servicesDictionary);
+        TestCandidate = new TestCandidate(servicesDictionary: _servicesDictionary);
     }
 }

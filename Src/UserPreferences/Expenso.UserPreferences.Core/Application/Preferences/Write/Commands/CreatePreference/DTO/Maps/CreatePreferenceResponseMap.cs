@@ -7,6 +7,6 @@ internal static class CreatePreferenceResponseMap
 {
     public static CreatePreferenceResponse MapTo(Preference preference)
     {
-        return new CreatePreferenceResponse(preference.Id);
+        return new CreatePreferenceResponse(PreferenceId: preference.Id);
     }
 }

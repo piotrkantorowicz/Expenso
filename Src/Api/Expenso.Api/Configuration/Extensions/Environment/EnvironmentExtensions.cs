@@ -6,6 +6,6 @@ internal static class EnvironmentExtensions
 {
     public static bool IsTest(this IWebHostEnvironment environment)
     {
-        return environment.IsEnvironment(CustomEnvironments.Test);
+        return environment.IsEnvironment(environmentName: CustomEnvironments.Test);
     }
 }

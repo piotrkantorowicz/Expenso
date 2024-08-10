@@ -13,20 +13,24 @@ internal sealed class GetPreferenceQueryHandler(
     IPreferencesRepository preferencesRepository,
     IExecutionContextAccessor executionContextAccessor) : IQueryHandler<GetPreferenceQuery, GetPreferenceResponse>
 {
-    private readonly IExecutionContextAccessor _executionContextAccessor =
-        executionContextAccessor ?? throw new ArgumentNullException(nameof(executionContextAccessor));
+    private readonly IExecutionContextAccessor _executionContextAccessor = executionContextAccessor ??
+                                                                           throw new ArgumentNullException(
+                                                                               paramName: nameof(
+                                                                                   executionContextAccessor));
 
-    private readonly IPreferencesRepository _preferencesRepository =
-        preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
+    private readonly IPreferencesRepository _preferencesRepository = preferencesRepository ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(preferencesRepository));
 
     public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query, CancellationToken cancellationToken)
     {
-        PreferenceFilter filter = GetFilter(query);
+        PreferenceFilter filter = GetFilter(query: query);
 
-        Preference preference = await _preferencesRepository.GetAsync(filter, cancellationToken) ??
-                                throw new NotFoundException("Preferences not found.");
+        Preference preference =
+            await _preferencesRepository.GetAsync(preferenceFilter: filter, cancellationToken: cancellationToken) ??
+            throw new NotFoundException(message: "Preferences not found.");
 
-        return GetPreferenceResponseMap.MapTo(preference);
+        return GetPreferenceResponseMap.MapTo(preference: preference);
     }
 
     private PreferenceFilter GetFilter(GetPreferenceQuery query)
@@ -36,7 +40,9 @@ internal sealed class GetPreferenceQueryHandler(
 
         if (forCurrentUser == true)
         {
-            userId = Guid.TryParse(_executionContextAccessor.Get()?.UserContext?.UserId, out Guid id) ? id : Guid.Empty;
+            userId = Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId, result: out Guid id)
+                ? id
+                : Guid.Empty;
         }
 
         return new PreferenceFilter

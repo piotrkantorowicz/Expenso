@@ -14,16 +14,17 @@ public sealed record BudgetPermissionRequestId
 
     public static BudgetPermissionRequestId New(Guid value)
     {
-        DomainModelState.CheckBusinessRules([
-            (new EmptyIdentifierCannotBeProcessed(value, typeof(BudgetPermissionRequestId)), false)
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new EmptyIdentifierCannotBeProcessed(identifier: value, type: typeof(BudgetPermissionRequestId)), false)
         ]);
 
-        return new BudgetPermissionRequestId(value);
+        return new BudgetPermissionRequestId(value: value);
     }
 
     public static BudgetPermissionRequestId? Nullable(Guid? value)
     {
-        return value is null || value == Guid.Empty ? null : new BudgetPermissionRequestId(value.Value);
+        return value is null || value == Guid.Empty ? null : new BudgetPermissionRequestId(value: value.Value);
     }
 
     public override string ToString()

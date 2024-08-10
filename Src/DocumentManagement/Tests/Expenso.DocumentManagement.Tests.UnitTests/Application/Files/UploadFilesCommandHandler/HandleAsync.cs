@@ -19,25 +19,27 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         const string directoryPath = "directoryPath";
         byte[] byteContent = [1, 2, 3];
 
-        UploadFilesCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new UploadFilesRequest(userId, null, [new UploadFilesRequest_File(fileName, byteContent)],
-                UploadFilesRequest_FileType.Report));
+        UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            UploadFilesRequest: new UploadFilesRequest(UserId: userId, Groups: null,
+                Files: [new UploadFilesRequest_File(Name: fileName, Content: byteContent)],
+                FileType: UploadFilesRequest_FileType.Report));
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
-            .Returns("directoryPath");
+            .Setup(expression: x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
+            .Returns(value: "directoryPath");
 
         _fileStorageMock
-            .Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<byte[]>(),
+            .Setup(expression: x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<byte[]>(),
                 It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
+            .Returns(value: Task.CompletedTask);
 
         // Act
-        await TestCandidate.HandleAsync(command, default);
+        await TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
-        _fileStorageMock.Verify(x => x.SaveAsync(directoryPath, fileName, byteContent, It.IsAny<CancellationToken>()),
-            Times.Once);
+        _fileStorageMock.Verify(
+            expression: x => x.SaveAsync(directoryPath, fileName, byteContent, It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -48,21 +50,22 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         const string fileName = "fileName";
         byte[] byteContent = Array.Empty<byte>();
 
-        UploadFilesCommand command = new(MessageContextFactoryMock.Object.Current(),
-            new UploadFilesRequest(userId, null, [new UploadFilesRequest_File(fileName, byteContent)],
-                UploadFilesRequest_FileType.Report));
+        UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            UploadFilesRequest: new UploadFilesRequest(UserId: userId, Groups: null,
+                Files: [new UploadFilesRequest_File(Name: fileName, Content: byteContent)],
+                FileType: UploadFilesRequest_FileType.Report));
 
         _directoryPathResolverMock
-            .Setup(x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
-            .Returns("directoryPath");
+            .Setup(expression: x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
+            .Returns(value: "directoryPath");
 
         // Act
-        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(() =>
-            TestCandidate.HandleAsync(command, default));
+        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(code: () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("File content cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "File content cannot be empty.");
     }
 }

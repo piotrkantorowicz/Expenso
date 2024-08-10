@@ -11,7 +11,7 @@ internal sealed class AssignParticipantCommandHandler(IAssignParticipantDomainSe
     : ICommandHandler<AssignParticipantCommand, AssignParticipantResponse>
 {
     private readonly IAssignParticipantDomainService _assignParticipantDomainService = assignParticipantDomainService ??
-        throw new ArgumentNullException(nameof(assignParticipantDomainService));
+        throw new ArgumentNullException(paramName: nameof(assignParticipantDomainService));
 
     public async Task<AssignParticipantResponse?> HandleAsync(AssignParticipantCommand command,
         CancellationToken cancellationToken)
@@ -21,9 +21,11 @@ internal sealed class AssignParticipantCommandHandler(IAssignParticipantDomainSe
                 int expirationDays)) = command;
 
         BudgetPermissionRequest budgetPermissionRequest = await _assignParticipantDomainService.AssignParticipantAsync(
-            budgetId, email, AssignParticipantRequestMap.ToPermissionType(permissionTypeRequest), expirationDays,
-            cancellationToken);
+            budgetId: budgetId, email: email,
+            permissionType: AssignParticipantRequestMap.ToPermissionType(
+                assignParticipantRequestPermissionType: permissionTypeRequest), expirationDays: expirationDays,
+            cancellationToken: cancellationToken);
 
-        return new AssignParticipantResponse(budgetPermissionRequest.Id.Value);
+        return new AssignParticipantResponse(BudgetPermissionRequestId: budgetPermissionRequest.Id.Value);
     }
 }

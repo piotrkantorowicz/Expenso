@@ -20,12 +20,14 @@ internal sealed class GetImportsDirectory : DirectoryInfoServiceTestBase
             "group2"
         ];
 
-        _fileSystemMock?.Setup(x => x.Path.Combine(It.IsAny<string[]>())).Returns<string[]>(x => string.Join("/", x));
+        _fileSystemMock
+            ?.Setup(expression: x => x.Path.Combine(It.IsAny<string[]>()))
+            .Returns<string[]>(valueFunction: x => string.Join(separator: "/", value: x));
 
         // Act
-        string result = TestCandidate.GetImportsDirectory(userId, groups, date);
+        string result = TestCandidate.GetImportsDirectory(userId: userId, groups: groups, date: date);
 
         // Assert
-        result.Should().Be(expectedPath);
+        result.Should().Be(expected: expectedPath);
     }
 }

@@ -14,12 +14,14 @@ internal static class PreferenceFilterExtensions
 
         if (filter.Id.HasValue)
         {
-            predicate = AndExpression<Preference>.And(predicate, p => p.Id == filter.Id.Value);
+            predicate = AndExpression<Preference>.And(leftExpression: predicate,
+                rightExpression: p => p.Id == filter.Id.Value);
         }
 
         if (filter.UserId.HasValue)
         {
-            predicate = AndExpression<Preference>.And(predicate, p => p.UserId == filter.UserId.Value);
+            predicate = AndExpression<Preference>.And(leftExpression: predicate,
+                rightExpression: p => p.UserId == filter.UserId.Value);
         }
 
         return predicate;
@@ -31,17 +33,17 @@ internal static class PreferenceFilterExtensions
 
         if (filter.IncludeFinancePreferences.HasValue && filter.IncludeFinancePreferences.Value)
         {
-            includes.Add(x => x.FinancePreference!);
+            includes.Add(item: x => x.FinancePreference!);
         }
 
         if (filter.IncludeNotificationPreferences.HasValue && filter.IncludeNotificationPreferences.Value)
         {
-            includes.Add(x => x.NotificationPreference!);
+            includes.Add(item: x => x.NotificationPreference!);
         }
 
         if (filter.IncludeGeneralPreferences.HasValue && filter.IncludeGeneralPreferences.Value)
         {
-            includes.Add(x => x.GeneralPreference!);
+            includes.Add(item: x => x.GeneralPreference!);
         }
 
         return includes.ToArray();

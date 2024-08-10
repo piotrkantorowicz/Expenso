@@ -19,6 +19,6 @@ internal sealed class DomainEventsSource
 
     public void AddDomainEvent(IDomainEvent domainEvent)
     {
-        _domainEvents.Enqueue(domainEvent);
+        _domainEvents.Enqueue(item: domainEvent);
     }
 }

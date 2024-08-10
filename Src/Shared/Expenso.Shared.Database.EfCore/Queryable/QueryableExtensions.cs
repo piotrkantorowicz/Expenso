@@ -14,12 +14,13 @@ public static class QueryableExtensions
     public static IQueryable<T> IncludeMany<T>(this IQueryable<T> queryable,
         IEnumerable<Expression<Func<T, object>>> includeExpression) where T : class
     {
-        return includeExpression.Aggregate(queryable, (current, include) => current.IncludeIfNotNull(include));
+        return includeExpression.Aggregate(seed: queryable,
+            func: (current, include) => current.IncludeIfNotNull(includeExpression: include));
     }
 
     private static IQueryable<T> IncludeIfNotNull<T>(this IQueryable<T> queryable,
         Expression<Func<T, object>>? includeExpression) where T : class
     {
-        return includeExpression != null ? queryable.Include(includeExpression) : queryable;
+        return includeExpression != null ? queryable.Include(navigationPropertyPath: includeExpression) : queryable;
     }
 }

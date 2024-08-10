@@ -22,7 +22,7 @@ internal abstract class GetFilesQueryHandlerTestBase : TestBase<TestCandidate>
         _directoryPathResolverMock = new Mock<IDirectoryPathResolver>();
         _fileSystemMock = new Mock<IFileSystem>();
 
-        TestCandidate = new TestCandidate(_directoryPathResolverMock.Object, _fileStorageMock.Object,
-            _fileSystemMock.Object);
+        TestCandidate = new TestCandidate(directoryPathResolver: _directoryPathResolverMock.Object,
+            fileStorage: _fileStorageMock.Object, fileSystem: _fileSystemMock.Object);
     }
 }

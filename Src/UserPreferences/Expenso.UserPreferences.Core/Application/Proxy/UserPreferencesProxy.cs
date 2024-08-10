@@ -16,29 +16,31 @@ internal sealed class UserPreferencesProxy(
     IMessageContextFactory messageContextFactory) : IUserPreferencesProxy
 {
     private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
+        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
-    private readonly IMessageContextFactory _messageContextFactory =
-        messageContextFactory ?? throw new ArgumentNullException(nameof(messageContextFactory));
+    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(messageContextFactory));
 
     private readonly IQueryDispatcher _queryDispatcher =
-        queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
+        queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
 
     public async Task<GetPreferenceResponse?> GetUserPreferencesAsync(Guid userId, bool includeFinancePreferences,
         bool includeNotificationPreferences, bool includeGeneralPreferences,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            new GetPreferenceQuery(_messageContextFactory.Current(), UserId: userId,
+            query: new GetPreferenceQuery(MessageContext: _messageContextFactory.Current(), UserId: userId,
                 IncludeFinancePreferences: includeFinancePreferences,
                 IncludeNotificationPreferences: includeNotificationPreferences,
-                IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken);
+                IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
     }
 
     public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest createPreferenceRequest,
         CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-            new CreatePreferenceCommand(_messageContextFactory.Current(), createPreferenceRequest), cancellationToken);
+            command: new CreatePreferenceCommand(MessageContext: _messageContextFactory.Current(),
+                Preference: createPreferenceRequest), cancellationToken: cancellationToken);
     }
 }

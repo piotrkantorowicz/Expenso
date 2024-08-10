@@ -14,14 +14,15 @@ internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
         {
             Guid testDomainEventId = Guid.NewGuid();
 
-            TestDomainEvent testDomainEvent = new(MessageContextFactoryMock.Object.Current(), testDomainEventId,
-                "UsWNuYtfQTtvYR");
+            TestDomainEvent testDomainEvent = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+                Id: testDomainEventId, Name: "UsWNuYtfQTtvYR");
 
-            domainEvents.Add(testDomainEvent);
+            domainEvents.Add(item: testDomainEvent);
         }
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => TestCandidate.PublishMultipleAsync(domainEvents, default));
+        Assert.DoesNotThrowAsync(code: () =>
+            TestCandidate.PublishMultipleAsync(events: domainEvents, cancellationToken: default));
     }
 }

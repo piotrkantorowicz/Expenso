@@ -14,24 +14,27 @@ internal sealed class AddPermissionCommandHandler(IBudgetPermissionRepository bu
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
                                                                                throw new ArgumentNullException(
-                                                                                   nameof(budgetPermissionRepository));
+                                                                                   paramName: nameof(
+                                                                                       budgetPermissionRepository));
 
     public async Task HandleAsync(AddPermissionCommand command, CancellationToken cancellationToken)
     {
         (_, Guid budgetPermissionId, Guid participantId, AddPermissionRequest addPermissionRequest) = command;
 
         BudgetPermission? budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(BudgetPermissionId.New(budgetPermissionId),
-                cancellationToken);
+            await _budgetPermissionRepository.GetByIdAsync(id: BudgetPermissionId.New(value: budgetPermissionId),
+                cancellationToken: cancellationToken);
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException($"Budget permission with id {budgetPermissionId} hasn't been found.");
+            throw new NotFoundException(message: $"Budget permission with id {budgetPermissionId} hasn't been found.");
         }
 
-        budgetPermission.AddPermission(PersonId.New(participantId),
-            AddPermissionRequestMap.ToPermissionType(addPermissionRequest.PermissionType));
+        budgetPermission.AddPermission(participantId: PersonId.New(value: participantId),
+            permissionType: AddPermissionRequestMap.ToPermissionType(
+                addPermissionRequestPermissionType: addPermissionRequest.PermissionType));
 
-        await _budgetPermissionRepository.UpdateAsync(budgetPermission, cancellationToken);
+        await _budgetPermissionRepository.UpdateAsync(budgetPermission: budgetPermission,
+            cancellationToken: cancellationToken);
     }
 }

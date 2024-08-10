@@ -10,14 +10,14 @@ internal sealed class CreatePreferenceCommandValidator : ICommandValidator<Creat
 
         if (command is null)
         {
-            errors.Add(nameof(command), "Command is required");
+            errors.Add(key: nameof(command), value: "Command is required");
 
             return errors;
         }
-        
+
         if (command.Preference.UserId == Guid.Empty)
         {
-            errors.Add(nameof(command.Preference.UserId), "User id cannot be empty");
+            errors.Add(key: nameof(command.Preference.UserId), value: "User id cannot be empty");
         }
 
         return errors;

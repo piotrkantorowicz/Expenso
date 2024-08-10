@@ -9,15 +9,18 @@ public static class Extensions
     public static IServiceCollection AddCommandsValidations(this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
-        services.Scan(selector =>
+        services.Scan(action: selector =>
             selector
-                .FromAssemblies(assemblies)
-                .AddClasses(c => c.AssignableTo(typeof(ICommandValidator<>)))
+                .FromAssemblies(assemblies: assemblies)
+                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandValidator<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-        services.TryDecorate(typeof(ICommandHandler<>), typeof(CommandHandlerValidationDecorator<>));
-        services.TryDecorate(typeof(ICommandHandler<,>), typeof(CommandHandlerValidationDecorator<,>));
+        services.TryDecorate(serviceType: typeof(ICommandHandler<>),
+            decoratorType: typeof(CommandHandlerValidationDecorator<>));
+
+        services.TryDecorate(serviceType: typeof(ICommandHandler<,>),
+            decoratorType: typeof(CommandHandlerValidationDecorator<,>));
 
         return services;
     }

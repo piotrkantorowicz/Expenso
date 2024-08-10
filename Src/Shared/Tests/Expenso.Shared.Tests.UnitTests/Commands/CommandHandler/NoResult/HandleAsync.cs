@@ -10,16 +10,16 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
     public async Task Should_HandleCommand()
     {
         // Arrange
-        _loggerMock.Setup(x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
+        _loggerMock.Setup(expression: x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
             It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!));
 
         // Act
-        await TestCandidate.HandleAsync(_testCommand, It.IsAny<CancellationToken>());
+        await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => true),
-                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            expression: x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => true),
+                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
     }
 
     [Test]
@@ -29,9 +29,21 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
         // Act
         // Assert
         _testCommand.MessageContext.Should().NotBeNull();
-        _testCommand.MessageContext.CorrelationId.Should().Be(MessageContextFactoryMock.Object.Current().CorrelationId);
-        _testCommand.MessageContext.MessageId.Should().Be(MessageContextFactoryMock.Object.Current().MessageId);
-        _testCommand.MessageContext.RequestedBy.Should().Be(MessageContextFactoryMock.Object.Current().RequestedBy);
-        _testCommand.MessageContext.Timestamp.Should().Be(MessageContextFactoryMock.Object.Current().Timestamp);
+
+        _testCommand
+            .MessageContext.CorrelationId.Should()
+            .Be(expected: MessageContextFactoryMock.Object.Current().CorrelationId);
+
+        _testCommand
+            .MessageContext.MessageId.Should()
+            .Be(expected: MessageContextFactoryMock.Object.Current().MessageId);
+
+        _testCommand
+            .MessageContext.RequestedBy.Should()
+            .Be(expected: MessageContextFactoryMock.Object.Current().RequestedBy);
+
+        _testCommand
+            .MessageContext.Timestamp.Should()
+            .Be(expected: MessageContextFactoryMock.Object.Current().Timestamp);
     }
 }

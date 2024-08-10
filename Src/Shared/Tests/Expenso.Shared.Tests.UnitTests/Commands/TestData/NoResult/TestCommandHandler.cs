@@ -6,11 +6,12 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
 
 internal sealed class TestCommandHandler(ILogger<TestCommandHandler> logger) : ICommandHandler<TestCommand>
 {
-    private readonly ILogger<TestCommandHandler> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    private readonly ILogger<TestCommandHandler> _logger =
+        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
 
     public async Task HandleAsync(TestCommand command, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Successfully processed command with id: {CommandId}", command.Id);
+        _logger.LogInformation(message: "Successfully processed command with id: {CommandId}", command.Id);
         await Task.CompletedTask;
     }
 }

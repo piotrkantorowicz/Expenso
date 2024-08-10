@@ -9,13 +9,15 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
     {
         // Arrange
         // Act
-        await TestCandidate.HandleAsync(_testCommand, It.IsAny<CancellationToken>());
+        await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _unitOfWorkMock.Verify(x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWorkMock.Verify(expression: x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()),
+            times: Times.Once);
 
-        _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(It.IsAny<CancellationToken>(), It.IsAny<bool>()),
-            Times.Once);
+        _unitOfWorkMock.Verify(
+            expression: x => x.CommitTransactionAsync(It.IsAny<CancellationToken>(), It.IsAny<bool>()),
+            times: Times.Once);
     }
 
     [Test]
@@ -23,17 +25,21 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
     {
         // Arrange
         _commandHandlerMock
-            .Setup(x => x.HandleAsync(_testCommand, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception("Intentional thrown to test rollback"));
+            .Setup(expression: x => x.HandleAsync(_testCommand, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test rollback"));
 
         // Act
-        Exception? exception =
-            Assert.ThrowsAsync<Exception>(() => TestCandidate.HandleAsync(_testCommand, CancellationToken.None));
+        Exception? exception = Assert.ThrowsAsync<Exception>(code: () =>
+            TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("Intentional thrown to test rollback");
-        _unitOfWorkMock.Verify(x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWorkMock.Verify(x => x.RollbackTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
+        exception?.Message.Should().Be(expected: "Intentional thrown to test rollback");
+
+        _unitOfWorkMock.Verify(expression: x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()),
+            times: Times.Once);
+
+        _unitOfWorkMock.Verify(expression: x => x.RollbackTransactionAsync(It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 }

@@ -8,11 +8,12 @@ internal sealed class ConfirmAssigningParticipantCommandHandler(
     : ICommandHandler<ConfirmAssigningParticipantCommand>
 {
     private readonly IConfirmParticipationDomainService _confirmParticipationDomainService =
-        confirmParticipationDomainService ?? throw new ArgumentNullException(nameof(confirmParticipationDomainService));
+        confirmParticipationDomainService ??
+        throw new ArgumentNullException(paramName: nameof(confirmParticipationDomainService));
 
     public async Task HandleAsync(ConfirmAssigningParticipantCommand command, CancellationToken cancellationToken)
     {
-        await _confirmParticipationDomainService.ConfirmParticipationAsync(command.BudgetPermissionRequestId,
-            cancellationToken);
+        await _confirmParticipationDomainService.ConfirmParticipationAsync(
+            budgetPermissionRequestId: command.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

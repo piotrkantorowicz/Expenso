@@ -8,6 +8,6 @@ internal sealed class TestCommandHandler : ICommandHandler<TestCommand, TestComm
     {
         string message = $"Successfully processed command with id: {command.Id}";
 
-        return await Task.FromResult(new TestCommandResult(message));
+        return await Task.FromResult(result: new TestCommandResult(Message: message));
     }
 }

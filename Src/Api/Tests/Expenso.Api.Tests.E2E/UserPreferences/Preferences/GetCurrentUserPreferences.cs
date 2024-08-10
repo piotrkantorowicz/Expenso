@@ -9,16 +9,17 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[3];
-        _httpClient.SetFakeBearerToken(_claims);
+        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
+        _httpClient.SetFakeBearerToken(token: _claims);
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync("user-preferences/preferences/current-user");
+        HttpResponseMessage testResult =
+            await _httpClient.GetAsync(requestUri: "user-preferences/preferences/current-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
         GetPreferenceResponse? testResultContent = await testResult.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        testResultContent?.Id.Should().Be(preferenceId);
+        testResultContent?.Id.Should().Be(expected: preferenceId);
     }
 
     [Test]
@@ -26,9 +27,10 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync("user-preferences/preferences/current-user");
+        HttpResponseMessage testResult =
+            await _httpClient.GetAsync(requestUri: "user-preferences/preferences/current-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

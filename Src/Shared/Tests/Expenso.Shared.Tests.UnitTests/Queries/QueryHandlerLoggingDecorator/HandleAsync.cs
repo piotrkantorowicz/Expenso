@@ -13,16 +13,18 @@ internal sealed class HandleAsync : QueryHandlerLoggingDecoratorTestBase
     {
         // Arrange
         // Act
-        await TestCandidate.HandleAsync(_testQuery, It.IsAny<CancellationToken>());
+        await TestCandidate.HandleAsync(query: _testQuery, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, LoggingUtils.QueryExecuting, It.Is<It.IsAnyType>((v, t) => true),
-                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            expression: x => x.Log(LogLevel.Information, LoggingUtils.QueryExecuting,
+                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
 
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, LoggingUtils.QueryExecuted, It.Is<It.IsAnyType>((v, t) => true),
-                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            expression: x => x.Log(LogLevel.Information, LoggingUtils.QueryExecuted,
+                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
     }
 
     [Test]
@@ -30,23 +32,25 @@ internal sealed class HandleAsync : QueryHandlerLoggingDecoratorTestBase
     {
         // Arrange
         _queryHandlerMock
-            .Setup(x => x.HandleAsync(_testQuery, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(new Exception("Intentional thrown to test error logging"));
+            .Setup(expression: x => x.HandleAsync(_testQuery, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging"));
 
         // Act
-        Exception? exception =
-            Assert.ThrowsAsync<Exception>(() => TestCandidate.HandleAsync(_testQuery, CancellationToken.None));
+        Exception? exception = Assert.ThrowsAsync<Exception>(code: () =>
+            TestCandidate.HandleAsync(query: _testQuery, cancellationToken: CancellationToken.None));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("Intentional thrown to test error logging");
+        exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
 
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Information, LoggingUtils.QueryExecuting, It.Is<It.IsAnyType>((v, t) => true),
-                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            expression: x => x.Log(LogLevel.Information, LoggingUtils.QueryExecuting,
+                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
 
         _loggerMock.Verify(
-            x => x.Log(LogLevel.Error, LoggingUtils.UnexpectedException, It.Is<It.IsAnyType>((v, t) => true),
-                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), Times.Once);
+            expression: x => x.Log(LogLevel.Error, LoggingUtils.UnexpectedException,
+                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
     }
 }

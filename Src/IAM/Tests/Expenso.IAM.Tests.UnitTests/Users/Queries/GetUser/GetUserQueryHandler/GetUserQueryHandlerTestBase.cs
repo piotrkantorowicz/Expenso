@@ -19,9 +19,12 @@ internal abstract class GetUserQueryHandlerTestBase : TestBase<TestCandidate>
     {
         _userId = Guid.NewGuid().ToString();
         _userEmail = "email@email.com";
-        _getUserResponse = new GetUserResponse(_userId, "Valentina", "Long", "vLong", _userEmail);
+
+        _getUserResponse = new GetUserResponse(UserId: _userId, Firstname: "Valentina", Lastname: "Long",
+            Username: "vLong", Email: _userEmail);
+
         _userServiceMock = new Mock<IUserService>();
         _messageContextMock = new Mock<IMessageContext>();
-        TestCandidate = new TestCandidate(_userServiceMock.Object);
+        TestCandidate = new TestCandidate(userService: _userServiceMock.Object);
     }
 }

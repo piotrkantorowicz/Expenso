@@ -15,11 +15,15 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
     [SetUp]
     public void SetUp()
     {
-        _updatePreferenceCommand = new UpdatePreferenceCommand(MessageContextFactoryMock.Object.Current(),
-            Guid.NewGuid(),
-            new UpdatePreferenceRequest(new UpdatePreferenceRequest_FinancePreference(true, 2, true, 5),
-                new UpdatePreferenceRequest_NotificationPreference(true, 3),
-                new UpdatePreferenceRequest_GeneralPreference(false)));
+        _updatePreferenceCommand = new UpdatePreferenceCommand(
+            MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceOrUserId: Guid.NewGuid(),
+            Preference: new UpdatePreferenceRequest(
+                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                    MaxNumberOfSubFinancePlanSubOwners: 2, AllowAddFinancePlanReviewers: true,
+                    MaxNumberOfFinancePlanReviewers: 5),
+                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                    SendFinanceReportEnabled: true, SendFinanceReportInterval: 3),
+                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: false)));
 
         TestCandidate = new TestCandidate();
     }

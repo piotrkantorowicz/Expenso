@@ -11,15 +11,17 @@ internal sealed class TimeManagementProxy(
     IMessageContextFactory messageContextFactory) : ITimeManagementProxy
 {
     private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
+        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
-    private readonly IMessageContextFactory _messageContextFactory =
-        messageContextFactory ?? throw new ArgumentNullException(nameof(messageContextFactory));
+    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(messageContextFactory));
 
     public async Task RegisterJobEntry(AddJobEntryRequest jobEntryRequest,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(new RegisterJobCommand(_messageContextFactory.Current(), jobEntryRequest),
-            cancellationToken);
+        await _commandDispatcher.SendAsync(
+            command: new RegisterJobCommand(MessageContext: _messageContextFactory.Current(),
+                AddJobEntryRequest: jobEntryRequest), cancellationToken: cancellationToken);
     }
 }

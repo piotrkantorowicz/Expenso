@@ -17,20 +17,20 @@ public static class Modules
     public static void RegisterModule<TModule>(Func<TModule>? moduleFactory = default) where TModule : ModuleDefinition
     {
         TModule moduleDefinition = moduleFactory is not null ? moduleFactory() : Activator.CreateInstance<TModule>();
-        RegisteredModules.Add(moduleDefinition.ModuleName, moduleDefinition);
+        RegisteredModules.Add(key: moduleDefinition.ModuleName, value: moduleDefinition);
     }
 
     public static void AddModules(this IServiceCollection services, IConfiguration configuration)
     {
         foreach (ModuleDefinition module in RegisteredModules.Values)
         {
-            module.AddDependencies(services, configuration);
+            module.AddDependencies(services: services, configuration: configuration);
         }
     }
 
     public static IReadOnlyCollection<Assembly> GetRequiredModulesAssemblies()
     {
-        return RegisteredModules.Values.SelectMany(module => module.GetModuleAssemblies()).ToArray();
+        return RegisteredModules.Values.SelectMany(selector: module => module.GetModuleAssemblies()).ToArray();
     }
 
     public static void MapModulesEndpoints(this IEndpointRouteBuilder endpointRouteBuilder, string rootTag)
@@ -41,10 +41,11 @@ public static class Modules
             {
                 string endpointRoute = $"{module.GetModulePrefixSanitized()}{endpoint.WithLeadingSlash().Pattern}";
 
-                RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(endpointRoute, new[]
-                {
-                    endpoint.HttpVerb.ToString().ToUpper()
-                }, endpoint.Handler!);
+                RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(pattern: endpointRoute,
+                    httpMethods: new[]
+                    {
+                        endpoint.HttpVerb.ToString().ToUpper()
+                    }, handler: endpoint.Handler!);
 
                 switch (endpoint.AccessControl)
                 {
@@ -56,11 +57,11 @@ public static class Modules
                     case AccessControl.Unknown:
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(endpoint.AccessControl.GetType().Name,
-                            endpoint.AccessControl, "Unknown access control type.");
+                        throw new ArgumentOutOfRangeException(paramName: endpoint.AccessControl.GetType().Name,
+                            actualValue: endpoint.AccessControl, message: "Unknown access control type.");
                 }
 
-                routeHandlerBuilder.WithName(endpoint.Name);
+                routeHandlerBuilder.WithName(endpointName: endpoint.Name);
                 string tag = $"{rootTag}.{module.ModuleName}";
                 routeHandlerBuilder.WithOpenApi().WithTags(tag);
             }

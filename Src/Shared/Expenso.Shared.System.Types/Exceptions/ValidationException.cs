@@ -8,14 +8,14 @@ public class ValidationException : Exception
 {
     private const string DefaultMessage = "One or more validation failures have occurred.";
 
-    public ValidationException(string details) : base(DefaultMessage)
+    public ValidationException(string details) : base(message: DefaultMessage)
     {
         Details = details;
     }
 
-    public ValidationException(IDictionary<string, string> errorDictionary) : base(DefaultMessage)
+    public ValidationException(IDictionary<string, string> errorDictionary) : base(message: DefaultMessage)
     {
-        CreateErrorDictionary(errorDictionary);
+        CreateErrorDictionary(errorDictionary: errorDictionary);
     }
 
     public string? Details { get; private set; }
@@ -28,12 +28,12 @@ public class ValidationException : Exception
 
         if (details is not null)
         {
-            stringBuilder.AppendLine(details);
+            stringBuilder.AppendLine(value: details);
         }
 
         foreach ((string key, string value) in errorDictionary)
         {
-            stringBuilder.AppendLine($"{key.Pascalize()}: {value}");
+            stringBuilder.AppendLine(handler: $"{key.Pascalize()}: {value}");
         }
 
         Details = stringBuilder.ToString();

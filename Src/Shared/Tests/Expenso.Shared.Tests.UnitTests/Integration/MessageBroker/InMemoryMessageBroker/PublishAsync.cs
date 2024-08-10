@@ -12,9 +12,9 @@ internal sealed class PublishAsync : MessageBrokerTestBase
         // Arrange
         // Act
         await TestCandidate.PublishAsync(
-            new TestIntegrationEvent(MessageContextFactoryMock.Object.Current(),
-                TestIntegrationEventDataSamples.SampleId, TestIntegrationEventDataSamples.SampleName),
-            It.IsAny<CancellationToken>());
+            @event: new TestIntegrationEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                MessageId: TestIntegrationEventDataSamples.SampleId,
+                Payload: TestIntegrationEventDataSamples.SampleName), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert - See TestIntegrationEventHandler.cs
     }

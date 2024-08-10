@@ -9,18 +9,22 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
 internal sealed class JobEntryStatusRepository(ITimeManagementDbContext timeManagementDbContext)
     : IJobEntryStatusRepository
 {
-    private readonly ITimeManagementDbContext _timeManagementDbContext =
-        timeManagementDbContext ?? throw new ArgumentNullException(nameof(timeManagementDbContext));
+    private readonly ITimeManagementDbContext _timeManagementDbContext = timeManagementDbContext ??
+                                                                         throw new ArgumentNullException(
+                                                                             paramName: nameof(
+                                                                                 timeManagementDbContext));
 
     public async Task<JobEntryStatus?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
-            .JobEntryStatuses.Tracking(false)
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            .JobEntryStatuses.Tracking(useTracking: false)
+            .FirstOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken)
     {
-        return await _timeManagementDbContext.JobEntryStatuses.Tracking(false).ToListAsync(cancellationToken);
+        return await _timeManagementDbContext
+            .JobEntryStatuses.Tracking(useTracking: false)
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 }

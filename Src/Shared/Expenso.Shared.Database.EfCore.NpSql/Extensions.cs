@@ -8,6 +8,6 @@ public static class Extensions
     public static void AddPostgres<T>(this IServiceCollection services, EfCoreSettings databaseSettings)
         where T : DbContext
     {
-        services.AddDbContext<T>(x => x.UseNpgsql(databaseSettings.ConnectionString));
+        services.AddDbContext<T>(optionsAction: x => x.UseNpgsql(connectionString: databaseSettings.ConnectionString));
     }
 }

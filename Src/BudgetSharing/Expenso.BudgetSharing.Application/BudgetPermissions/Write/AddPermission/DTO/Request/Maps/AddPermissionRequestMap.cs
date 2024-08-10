@@ -13,8 +13,8 @@ internal sealed class AddPermissionRequestMap
             AddPermissionRequest_PermissionType.Owner => PermissionType.Owner,
             AddPermissionRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             AddPermissionRequest_PermissionType.Reviewer => PermissionType.Reviewer,
-            _ => throw new ArgumentOutOfRangeException(nameof(addPermissionRequestPermissionType),
-                addPermissionRequestPermissionType, null)
+            _ => throw new ArgumentOutOfRangeException(paramName: nameof(addPermissionRequestPermissionType),
+                actualValue: addPermissionRequestPermissionType, message: null)
         };
     }
 }

@@ -13,14 +13,14 @@ internal sealed class DeleteAsync : FileStorageTestBase
     {
         // Arrange
         const string path = "path";
-        _fileSystemMock.Setup(x => x.File.Exists(path)).Returns(true);
-        _fileSystemMock.Setup(x => x.File.Delete(path));
+        _fileSystemMock.Setup(expression: x => x.File.Exists(path)).Returns(value: true);
+        _fileSystemMock.Setup(expression: x => x.File.Delete(path));
 
         // Act
-        await TestCandidate.DeleteAsync(path, default);
+        await TestCandidate.DeleteAsync(path: path, cancellationToken: default);
 
         // Assert
-        _fileSystemMock.Verify(x => x.File.Delete(path), Times.Once);
+        _fileSystemMock.Verify(expression: x => x.File.Delete(path), times: Times.Once);
     }
 
     [Test]
@@ -28,15 +28,16 @@ internal sealed class DeleteAsync : FileStorageTestBase
     {
         // Arrange
         const string path = "path";
-        _fileSystemMock.Setup(x => x.File.Exists(path)).Returns(false);
+        _fileSystemMock.Setup(expression: x => x.File.Exists(path)).Returns(value: false);
 
         // Act
         FileHasNotBeenFoundException? exception =
-            Assert.ThrowsAsync<FileHasNotBeenFoundException>(() => TestCandidate.DeleteAsync(path, default));
+            Assert.ThrowsAsync<FileHasNotBeenFoundException>(code: () =>
+                TestCandidate.DeleteAsync(path: path, cancellationToken: default));
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be("One or more validation failures have occurred.");
-        exception?.Details.Should().Be("File not found.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
+        exception?.Details.Should().Be(expected: "File not found.");
     }
 }

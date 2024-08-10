@@ -27,8 +27,8 @@ public sealed class TimeManagementModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTimeManagementCore(configuration, ModuleName);
-        services.AddTimeManagementProxy(GetModuleAssemblies());
+        services.AddTimeManagementCore(configuration: configuration, moduleName: ModuleName);
+        services.AddTimeManagementProxy(assemblies: GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

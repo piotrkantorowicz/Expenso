@@ -9,29 +9,36 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetP
 
 internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermission>
 {
-    protected readonly BudgetId _defaultBudgetId = BudgetId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+    protected readonly BudgetId _defaultBudgetId =
+        BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
     protected readonly BudgetPermissionId _defaultBudgetPermissionId =
-        BudgetPermissionId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+        BudgetPermissionId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
-    protected readonly PersonId _defaultPersonId = PersonId.New(new Guid("c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+    protected readonly PersonId _defaultPersonId =
+        PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
     protected Mock<IClock> _clockMock = null!;
 
     [SetUp]
     public void SetUp()
     {
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(x => x.UtcNow).Returns(new DateTimeOffset(2021, 1, 1, 0, 0, 0, TimeSpan.Zero));
+
+        _clockMock
+            .Setup(expression: x => x.UtcNow)
+            .Returns(value: new DateTimeOffset(year: 2021, month: 1, day: 1, hour: 0, minute: 0, second: 0,
+                offset: TimeSpan.Zero));
     }
 
     protected BudgetPermission CreateTestCandidate(bool createDefaultPermission = true, bool emitDomainEvents = false)
     {
-        BudgetPermission testCandidate =
-            BudgetPermission.Create(_defaultBudgetPermissionId, _defaultBudgetId, _defaultPersonId);
+        BudgetPermission testCandidate = BudgetPermission.Create(budgetPermissionId: _defaultBudgetPermissionId,
+            budgetId: _defaultBudgetId, ownerId: _defaultPersonId);
 
         if (createDefaultPermission)
         {
-            testCandidate.AddPermission(_defaultPersonId, PermissionType.Owner);
+            testCandidate.AddPermission(participantId: _defaultPersonId, permissionType: PermissionType.Owner);
         }
 
         if (!emitDomainEvents)

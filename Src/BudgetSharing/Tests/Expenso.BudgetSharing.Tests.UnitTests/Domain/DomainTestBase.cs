@@ -19,10 +19,10 @@ internal abstract class DomainTestBase<TTestCandidate> : TestBase<TTestCandidate
         Mock<IServiceProvider> serviceProviderMock = new();
 
         serviceProviderMock
-            .Setup(x => x.GetService(typeof(IMessageContextFactory)))
-            .Returns(MessageContextFactoryMock.Object);
+            .Setup(expression: x => x.GetService(typeof(IMessageContextFactory)))
+            .Returns(value: MessageContextFactoryMock.Object);
 
-        MessageContextFactoryResolver.BindResolver(serviceProviderMock.Object);
+        MessageContextFactoryResolver.BindResolver(serviceProvider: serviceProviderMock.Object);
     }
 
     protected static void AssertDomainEventPublished(IAggregateRoot aggregateRoot,
@@ -30,7 +30,7 @@ internal abstract class DomainTestBase<TTestCandidate> : TestBase<TTestCandidate
     {
         expectedDomainEvents
             .Should()
-            .BeEquivalentTo(aggregateRoot.GetUncommittedChanges(),
-                options => options.IncludingNestedObjects().WithStrictOrdering().RespectingRuntimeTypes());
+            .BeEquivalentTo(expectation: aggregateRoot.GetUncommittedChanges(),
+                config: options => options.IncludingNestedObjects().WithStrictOrdering().RespectingRuntimeTypes());
     }
 }

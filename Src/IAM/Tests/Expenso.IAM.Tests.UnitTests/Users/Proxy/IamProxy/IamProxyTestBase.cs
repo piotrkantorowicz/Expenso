@@ -18,8 +18,13 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
     {
         _userId = Guid.NewGuid().ToString();
         _userEmail = "email@email.com";
-        _getUserResponse = new GetUserResponse(_userId, "Valentina", "Long", "vLong", _userEmail);
+
+        _getUserResponse = new GetUserResponse(UserId: _userId, Firstname: "Valentina", Lastname: "Long",
+            Username: "vLong", Email: _userEmail);
+
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
-        TestCandidate = new TestCandidate(_queryDispatcherMock.Object, MessageContextFactoryMock.Object);
+
+        TestCandidate = new TestCandidate(queryDispatcher: _queryDispatcherMock.Object,
+            messageContextFactory: MessageContextFactoryMock.Object);
     }
 }

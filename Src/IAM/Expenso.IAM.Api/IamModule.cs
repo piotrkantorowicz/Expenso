@@ -27,8 +27,8 @@ public sealed class IamModule : ModuleDefinition
 
     public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIamCore(configuration);
-        services.AddIamProxy(GetModuleAssemblies());
+        services.AddIamCore(configuration: configuration);
+        services.AddIamProxy(assemblies: GetModuleAssemblies());
     }
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()

@@ -15,20 +15,22 @@ internal sealed class Create : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate(emitDomainEvents: true);
 
         // Assert
-        TestCandidate.Id.Should().Be(_defaultBudgetPermissionId);
-        TestCandidate.BudgetId.Should().Be(_defaultBudgetId);
-        TestCandidate.OwnerId.Should().Be(_defaultPersonId);
+        TestCandidate.Id.Should().Be(expected: _defaultBudgetPermissionId);
+        TestCandidate.BudgetId.Should().Be(expected: _defaultBudgetId);
+        TestCandidate.OwnerId.Should().Be(expected: _defaultPersonId);
 
         TestCandidate
             .Permissions.Should()
-            .ContainSingle(x => x.ParticipantId == _defaultPersonId && x.PermissionType == PermissionType.Owner);
+            .ContainSingle(predicate: x =>
+                x.ParticipantId == _defaultPersonId && x.PermissionType == PermissionType.Owner);
 
         TestCandidate.Deletion.Should().BeNull();
 
-        AssertDomainEventPublished(TestCandidate, new[]
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionGrantedEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-                TestCandidate.BudgetId, TestCandidate.OwnerId, PermissionType.Owner)
+            new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
+                ParticipantId: TestCandidate.OwnerId, PermissionType: PermissionType.Owner)
         });
     }
 }

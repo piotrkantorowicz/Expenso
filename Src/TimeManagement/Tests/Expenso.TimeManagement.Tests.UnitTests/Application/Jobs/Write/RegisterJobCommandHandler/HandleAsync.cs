@@ -17,18 +17,19 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     {
         // Arrange
         _jobInstanceRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(JobInstance.Default);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(JobEntryStatus.Running);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act
-        await TestCandidate.HandleAsync(_registerJobCommand, It.IsAny<CancellationToken>());
+        await TestCandidate.HandleAsync(command: _registerJobCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _jobEntryRepositoryMock.Verify(x => x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
+        _jobEntryRepositoryMock.Verify(expression: x =>
+            x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
     }
 
     [Test]
@@ -36,44 +37,45 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     {
         // Arrange
         _jobInstanceRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((JobInstance?)null);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: (JobInstance?)null);
 
         // Act
         // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(() =>
-            TestCandidate.HandleAsync(_registerJobCommand, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(command: _registerJobCommand, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"Job instance with id {JobInstance.Default.Id} not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
     [Test]
     public void Should_ThrowNoFoundException_When_JobRunningStatusNotFound()
     {
         // Arrange
-        RegisterJobCommand command = new(MessageContextFactoryMock.Object.Current(), new AddJobEntryRequest(5, [
-            new AddJobEntryRequest_JobEntryTrigger(
-                typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
-                _serializer.Object.Serialize(_eventTrigger))
-        ], null, _clockMock.Object.UtcNow));
+        RegisterJobCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            AddJobEntryRequest: new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            [
+                new AddJobEntryRequest_JobEntryTrigger(
+                    EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                    EventData: _serializer.Object.Serialize(value: _eventTrigger))
+            ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
         _jobInstanceRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(JobInstance.Default);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((JobEntryStatus?)null);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: (JobEntryStatus?)null);
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"Job status with id {JobEntryStatus.Running.Id} not found.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
     [Test]
@@ -86,20 +88,19 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         };
 
         _jobInstanceRepository
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(JobInstance.Default);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(JobEntryStatus.Running);
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act
         // Assert
-        NotFoundException? exception =
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                TestCandidate.HandleAsync(command, It.IsAny<CancellationToken>()));
+        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = "Unable to create job entry from request.";
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

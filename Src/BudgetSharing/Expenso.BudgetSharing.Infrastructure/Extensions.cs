@@ -23,14 +23,20 @@ public static class Extensions
         string moduleName)
     {
         services.AddDbMigrator();
-        configuration.TryBindOptions(SectionNames.EfCoreSection, out EfCoreSettings databaseSettings);
+
+        configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection,
+            options: out EfCoreSettings databaseSettings);
 
         if (databaseSettings.InMemory is true)
-            services.AddMemoryDatabase<BudgetSharingDbContext>(moduleName);
+        {
+            services.AddMemoryDatabase<BudgetSharingDbContext>(moduleName: moduleName);
+        }
         else
-            services.AddPostgres<BudgetSharingDbContext>(databaseSettings);
+        {
+            services.AddPostgres<BudgetSharingDbContext>(databaseSettings: databaseSettings);
+        }
 
-        services.AddScoped<IBudgetSharingDbContext, BudgetSharingDbContext>(x =>
+        services.AddScoped<IBudgetSharingDbContext, BudgetSharingDbContext>(implementationFactory: x =>
             x.GetRequiredService<BudgetSharingDbContext>());
 
         services.AddScoped<IBudgetPermissionRequestRepository, BudgetPermissionRequestRepository>();

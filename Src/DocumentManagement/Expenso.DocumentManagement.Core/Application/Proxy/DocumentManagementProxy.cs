@@ -18,32 +18,36 @@ internal sealed class DocumentManagementProxy(
     IMessageContextFactory messageContextFactory) : IDocumentManagementProxy
 {
     private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
+        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
-    private readonly IMessageContextFactory _messageContextFactory =
-        messageContextFactory ?? throw new ArgumentNullException(nameof(messageContextFactory));
+    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(messageContextFactory));
 
     private readonly IQueryDispatcher _queryDispatcher =
-        queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
+        queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
 
     public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest getFileRequest,
         CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(new GetFilesQuery(_messageContextFactory.Current(), getFileRequest),
-            cancellationToken);
+        return await _queryDispatcher.QueryAsync(
+            query: new GetFilesQuery(MessageContext: _messageContextFactory.Current(), GetFileRequest: getFileRequest),
+            cancellationToken: cancellationToken);
     }
 
     public async Task UploadFilesAsync(UploadFilesRequest uploadFilesRequest,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(new UploadFilesCommand(_messageContextFactory.Current(), uploadFilesRequest),
-            cancellationToken);
+        await _commandDispatcher.SendAsync(
+            command: new UploadFilesCommand(MessageContext: _messageContextFactory.Current(),
+                UploadFilesRequest: uploadFilesRequest), cancellationToken: cancellationToken);
     }
 
     public async Task DeleteFilesAsync(DeleteFilesRequest deleteFilesRequest,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(new DeleteFilesCommand(_messageContextFactory.Current(), deleteFilesRequest),
-            cancellationToken);
+        await _commandDispatcher.SendAsync(
+            command: new DeleteFilesCommand(MessageContext: _messageContextFactory.Current(),
+                DeleteFilesRequest: deleteFilesRequest), cancellationToken: cancellationToken);
     }
 }

@@ -19,15 +19,16 @@ internal sealed class FakeIamProxy : IIamProxy
     {
         return email switch
         {
-            "MatthewSoto@email.com" => Task.FromResult<GetUserResponse?>(new GetUserResponse(
-                UserDataInitializer.UserIds[0].ToString(), "Sergio", "Huang", "SHuang", ExistingEmails[0])),
-            "JorgePandey@email.com" => Task.FromResult<GetUserResponse?>(new GetUserResponse(
-                new Guid("32b61237-4859-4281-8702-6fa3e4c72d67").ToString(), "Krishna", "Le", "KLeee",
-                ExistingEmails[1])),
-            "EiIbrahim@email.com" => Task.FromResult<GetUserResponse?>(new GetUserResponse(
-                new Guid("0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(), "Vincent", "Ashraf", "VAshraf",
-                ExistingEmails[2])),
-            _ => throw new NotFoundException($"User with email {email} not found")
+            "MatthewSoto@email.com" => Task.FromResult<GetUserResponse?>(result: new GetUserResponse(
+                UserId: UserDataInitializer.UserIds[index: 0].ToString(), Firstname: "Sergio", Lastname: "Huang",
+                Username: "SHuang", Email: ExistingEmails[0])),
+            "JorgePandey@email.com" => Task.FromResult<GetUserResponse?>(result: new GetUserResponse(
+                UserId: new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(), Firstname: "Krishna",
+                Lastname: "Le", Username: "KLeee", Email: ExistingEmails[1])),
+            "EiIbrahim@email.com" => Task.FromResult<GetUserResponse?>(result: new GetUserResponse(
+                UserId: new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(), Firstname: "Vincent",
+                Lastname: "Ashraf", Username: "VAshraf", Email: ExistingEmails[2])),
+            _ => throw new NotFoundException(message: $"User with email {email} not found")
         };
     }
 }

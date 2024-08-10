@@ -15,21 +15,22 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
         PermissionType permissionType = PermissionType.SubOwner;
 
         // Act
-        TestCandidate.AddPermission(participantId, permissionType);
+        TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
 
         // Assert
         TestCandidate
             .Permissions.Should()
-            .ContainSingle(x => x.ParticipantId == participantId && x.PermissionType == permissionType);
+            .ContainSingle(predicate: x => x.ParticipantId == participantId && x.PermissionType == permissionType);
 
-        AssertDomainEventPublished(TestCandidate, new[]
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionGrantedEvent(MessageContextFactoryMock.Object.Current(), _defaultBudgetPermissionId,
-                _defaultBudgetId, participantId, permissionType)
+            new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: _defaultBudgetPermissionId, BudgetId: _defaultBudgetId,
+                ParticipantId: participantId, PermissionType: permissionType)
         });
     }
 
@@ -40,13 +41,16 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () => TestCandidate.AddPermission(_defaultPersonId, PermissionType.SubOwner);
+        Action act = () =>
+            TestCandidate.AddPermission(participantId: _defaultPersonId, permissionType: PermissionType.SubOwner);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage($"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultPersonId}.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultPersonId}.");
     }
 
     [Test]
@@ -54,17 +58,18 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
         PermissionType permissionType = PermissionType.Unknown;
 
         // Act
-        Action act = () => TestCandidate.AddPermission(participantId, permissionType);
+        Action act = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage($"Unknown permission type {permissionType.Value} cannot be processed.");
+            .WithMessage(
+                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed.");
     }
 
     [Test]
@@ -72,19 +77,20 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Action act = () => TestCandidate.AddPermission(participantId, PermissionType.Owner);
+        Action act = () =>
+            TestCandidate.AddPermission(participantId: participantId, permissionType: PermissionType.Owner);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(new StringBuilder()
-                .Append("Budget ")
-                .Append(TestCandidate.BudgetId)
-                .Append(" can have only one owner permission.")
+            .WithMessage(expectedWildcardPattern: new StringBuilder()
+                .Append(value: "Budget ")
+                .Append(value: TestCandidate.BudgetId)
+                .Append(value: " can have only one owner permission.")
                 .ToString());
     }
 
@@ -92,24 +98,25 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     public void Should_ThrowDomainRuleValidationException_When_TryAssignOtherUserAsOwner()
     {
         // Arrange
-        TestCandidate = CreateTestCandidate(false);
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        TestCandidate = CreateTestCandidate(createDefaultPermission: false);
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Action act = () => TestCandidate.AddPermission(participantId, PermissionType.Owner);
+        Action act = () =>
+            TestCandidate.AddPermission(participantId: participantId, permissionType: PermissionType.Owner);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(new StringBuilder()
-                .Append("Budget ")
-                .Append(TestCandidate.BudgetId)
-                .Append(" cannot have owner permission for other user ")
-                .Append(participantId)
-                .Append(" that its owner ")
-                .Append(_defaultPersonId)
-                .Append('.')
+            .WithMessage(expectedWildcardPattern: new StringBuilder()
+                .Append(value: "Budget ")
+                .Append(value: TestCandidate.BudgetId)
+                .Append(value: " cannot have owner permission for other user ")
+                .Append(value: participantId)
+                .Append(value: " that its owner ")
+                .Append(value: _defaultPersonId)
+                .Append(value: '.')
                 .ToString());
     }
 }

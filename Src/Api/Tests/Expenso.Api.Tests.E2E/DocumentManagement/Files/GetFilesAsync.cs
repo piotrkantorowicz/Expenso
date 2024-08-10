@@ -11,12 +11,12 @@ internal sealed class GetFilesAsync : DocumentManagementTestBase
     {
         // Arrange
         // Act
-        IEnumerable<GetFilesResponse>? response =
-            (await _documentManagementProxy.GetFilesAsync(new GetFileRequest(UserDataInitializer.UserIds[4], null,
-                ["Import-1", "Import-2"], GetFilesRequest_FileType.Import)))?.ToList();
+        IEnumerable<GetFilesResponse>? response = (await _documentManagementProxy.GetFilesAsync(
+            getFileRequest: new GetFileRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null,
+                FileNames: ["Import-1", "Import-2"], FileType: GetFilesRequest_FileType.Import)))?.ToList();
 
         // Assert
         response?.Should().NotBeNull();
-        response?.Should().HaveCount(2);
+        response?.Should().HaveCount(expected: 2);
     }
 }

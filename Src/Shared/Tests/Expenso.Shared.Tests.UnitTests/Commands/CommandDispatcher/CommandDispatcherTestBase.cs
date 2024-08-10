@@ -18,11 +18,11 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
         Assembly[] assemblies = [typeof(CommandDispatcherTestBase).Assembly];
 
         ServiceProvider serviceProvider = new ServiceCollection()
-            .AddCommands(assemblies)
-            .AddCommandsValidations(assemblies)
+            .AddCommands(assemblies: assemblies)
+            .AddCommandsValidations(assemblies: assemblies)
             .AddLogging()
             .BuildServiceProvider();
 
-        TestCandidate = new TestCandidate(serviceProvider);
+        TestCandidate = new TestCandidate(serviceProvider: serviceProvider);
     }
 }

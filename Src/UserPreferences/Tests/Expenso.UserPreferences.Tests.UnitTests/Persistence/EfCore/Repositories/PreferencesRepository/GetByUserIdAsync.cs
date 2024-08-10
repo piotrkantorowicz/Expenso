@@ -5,7 +5,7 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositorie
 
 internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
 {
-    [Test, TestCaseSource(nameof(_userIds))]
+    [Test, TestCaseSource(sourceName: nameof(_userIds))]
     public async Task Should_ReturnPreference_When_PreferenceExists(Guid userId)
     {
         // Arrange
@@ -16,10 +16,10 @@ internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
         };
 
         // Act
-        Preference? preference = await TestCandidate.GetAsync(filter, default);
+        Preference? preference = await TestCandidate.GetAsync(preferenceFilter: filter, cancellationToken: default);
 
         // Assert
         preference.Should().NotBeNull();
-        preference.Should().Be(_preferenceDbSetMock.Object.Single(x => x.UserId == userId));
+        preference.Should().Be(expected: _preferenceDbSetMock.Object.Single(predicate: x => x.UserId == userId));
     }
 }

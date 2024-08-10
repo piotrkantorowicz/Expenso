@@ -12,7 +12,8 @@ internal sealed class CreateBudgetPermissionCommandHandler(IBudgetPermissionRepo
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
                                                                                throw new ArgumentNullException(
-                                                                                   nameof(budgetPermissionRepository));
+                                                                                   paramName: nameof(
+                                                                                       budgetPermissionRepository));
 
     public async Task<CreateBudgetPermissionResponse?> HandleAsync(CreateBudgetPermissionCommand command,
         CancellationToken cancellationToken)
@@ -22,20 +23,26 @@ internal sealed class CreateBudgetPermissionCommandHandler(IBudgetPermissionRepo
 
         if (budgetPermissionId.HasValue)
         {
-            BudgetPermissionId typedBudgetPermissionId = BudgetPermissionId.New(budgetPermissionId.Value);
+            BudgetPermissionId typedBudgetPermissionId = BudgetPermissionId.New(value: budgetPermissionId.Value);
 
             budgetPermission =
-                await _budgetPermissionRepository.GetByIdAsync(typedBudgetPermissionId, cancellationToken) ??
-                BudgetPermission.Create(typedBudgetPermissionId, BudgetId.New(budgetId), PersonId.New(ownerId));
+                await _budgetPermissionRepository.GetByIdAsync(id: typedBudgetPermissionId,
+                    cancellationToken: cancellationToken) ?? BudgetPermission.Create(
+                    budgetPermissionId: typedBudgetPermissionId, budgetId: BudgetId.New(value: budgetId),
+                    ownerId: PersonId.New(value: ownerId));
         }
         else
         {
-            budgetPermission = BudgetPermission.Create(BudgetId.New(budgetId), PersonId.New(ownerId));
+            budgetPermission = BudgetPermission.Create(budgetId: BudgetId.New(value: budgetId),
+                ownerId: PersonId.New(value: ownerId));
         }
 
-        budgetPermission.AddPermission(PersonId.New(ownerId), PermissionType.Owner);
-        await _budgetPermissionRepository.AddOrUpdateAsync(budgetPermission, cancellationToken);
+        budgetPermission.AddPermission(participantId: PersonId.New(value: ownerId),
+            permissionType: PermissionType.Owner);
 
-        return new CreateBudgetPermissionResponse(budgetPermission.Id.Value);
+        await _budgetPermissionRepository.AddOrUpdateAsync(budgetPermission: budgetPermission,
+            cancellationToken: cancellationToken);
+
+        return new CreateBudgetPermissionResponse(BudgetPermissionId: budgetPermission.Id.Value);
     }
 }

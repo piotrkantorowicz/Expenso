@@ -11,14 +11,17 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     public void Should_RegisterJobEntry()
     {
         // Arrange
-        var jobEntryRequest = new AddJobEntryRequest(5, [
+        AddJobEntryRequest jobEntryRequest = new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+        [
             new AddJobEntryRequest_JobEntryTrigger(
-                typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
-                JsonSerializer.Serialize(new BudgetPermissionRequestExpiredIntergrationEvent(null!, Guid.NewGuid())))
-        ], null, _clockMock.Object.UtcNow.AddSeconds(5));
+                EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                EventData: JsonSerializer.Serialize(
+                    value: new BudgetPermissionRequestExpiredIntergrationEvent(MessageContext: null!,
+                        BudgetPermissionRequestId: Guid.NewGuid())))
+        ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => _timeManagementProxy.RegisterJobEntry(jobEntryRequest));
+        Assert.DoesNotThrowAsync(code: () => _timeManagementProxy.RegisterJobEntry(jobEntryRequest: jobEntryRequest));
     }
 }

@@ -18,7 +18,9 @@ internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathR
     {
         _directoryInfoServiceMock = new Mock<IDirectoryInfoService>();
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(x => x.UtcNow).Returns(DateTime.UtcNow);
-        TestCandidate = new TestCandidate(_directoryInfoServiceMock.Object, _clockMock.Object);
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTime.UtcNow);
+
+        TestCandidate = new TestCandidate(directoryInfoService: _directoryInfoServiceMock.Object,
+            clock: _clockMock.Object);
     }
 }

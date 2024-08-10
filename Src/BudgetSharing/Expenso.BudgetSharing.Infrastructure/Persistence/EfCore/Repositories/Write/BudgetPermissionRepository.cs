@@ -10,42 +10,44 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.W
 internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetSharingDbContext)
     : IBudgetPermissionRepository
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext =
-        budgetSharingDbContext ?? throw new ArgumentNullException(nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
+                                                                       throw new ArgumentNullException(
+                                                                           paramName: nameof(budgetSharingDbContext));
 
     public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
             .BudgetPermissions.IgnoreQueryFilters()
-            .Include(x => x.Permissions)
-            .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+            .Include(navigationPropertyPath: x => x.Permissions)
+            .SingleOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 
     public async Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
             .BudgetPermissions.IgnoreQueryFilters()
-            .Include(x => x.Permissions)
-            .SingleOrDefaultAsync(x => x.BudgetId == budgetId, cancellationToken);
+            .Include(navigationPropertyPath: x => x.Permissions)
+            .SingleOrDefaultAsync(predicate: x => x.BudgetId == budgetId, cancellationToken: cancellationToken);
     }
 
     public async Task AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)
     {
-        if (_budgetSharingDbContext.GetEntryState(budgetPermission) == EntityState.Detached)
+        if (_budgetSharingDbContext.GetEntryState(entity: budgetPermission) == EntityState.Detached)
         {
-            await _budgetSharingDbContext.BudgetPermissions.AddAsync(budgetPermission, cancellationToken);
+            await _budgetSharingDbContext.BudgetPermissions.AddAsync(entity: budgetPermission,
+                cancellationToken: cancellationToken);
         }
         else
         {
-            _budgetSharingDbContext.BudgetPermissions.Update(budgetPermission);
+            _budgetSharingDbContext.BudgetPermissions.Update(entity: budgetPermission);
         }
 
-        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
+        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
     }
 
     public async Task UpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)
     {
-        _budgetSharingDbContext.BudgetPermissions.Update(budgetPermission);
-        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken);
+        _budgetSharingDbContext.BudgetPermissions.Update(entity: budgetPermission);
+        await _budgetSharingDbContext.SaveChangesAsync(cancellationToken: cancellationToken);
     }
 }

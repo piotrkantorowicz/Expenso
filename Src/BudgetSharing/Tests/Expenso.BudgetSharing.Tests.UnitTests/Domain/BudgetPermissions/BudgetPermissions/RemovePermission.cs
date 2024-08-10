@@ -12,21 +12,22 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     public void Should_RemovePermission()
     {
         // Arrange
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
         TestCandidate = CreateTestCandidate();
-        TestCandidate.AddPermission(participantId, PermissionType.SubOwner);
+        TestCandidate.AddPermission(participantId: participantId, permissionType: PermissionType.SubOwner);
         TestCandidate.GetUncommittedChanges();
 
         // Act
-        TestCandidate.RemovePermission(participantId);
+        TestCandidate.RemovePermission(participantId: participantId);
 
         // Assert
-        TestCandidate.Permissions.Should().NotContain(x => x.ParticipantId == participantId);
+        TestCandidate.Permissions.Should().NotContain(predicate: x => x.ParticipantId == participantId);
 
-        AssertDomainEventPublished(TestCandidate, new[]
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionWithdrawnEvent(MessageContextFactoryMock.Object.Current(), TestCandidate.Id,
-                TestCandidate.BudgetId, participantId, PermissionType.SubOwner)
+            new BudgetPermissionWithdrawnEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId, ParticipantId: participantId,
+                PermissionType: PermissionType.SubOwner)
         });
     }
 
@@ -35,16 +36,17 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Action act = () => TestCandidate.RemovePermission(participantId);
+        Action act = () => TestCandidate.RemovePermission(participantId: participantId);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(
+                expectedWildcardPattern:
                 $"Budget with id: {TestCandidate.BudgetId} does not have permission for provided user with id: {participantId}");
     }
 
@@ -55,12 +57,13 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () => TestCandidate.RemovePermission(_defaultPersonId);
+        Action act = () => TestCandidate.RemovePermission(participantId: _defaultPersonId);
 
         // Assert
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage($"Owner permission cannot be removed from budget {TestCandidate.BudgetId}.");
+            .WithMessage(
+                expectedWildcardPattern: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}.");
     }
 }

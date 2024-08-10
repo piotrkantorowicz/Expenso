@@ -9,9 +9,9 @@ internal sealed class GeneralPreferenceEntityTypeConfiguration : IEntityTypeConf
 {
     public void Configure(EntityTypeBuilder<GeneralPreference> builder)
     {
-        builder.ToTable("GeneralPreferences");
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-        builder.Property(x => x.UseDarkMode).IsRequired();
+        builder.ToTable(name: "GeneralPreferences");
+        builder.HasKey(keyExpression: x => x.Id);
+        builder.Property(propertyExpression: x => x.Id).IsRequired().ValueGeneratedNever();
+        builder.Property(propertyExpression: x => x.UseDarkMode).IsRequired();
     }
 }

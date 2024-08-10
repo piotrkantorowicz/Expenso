@@ -18,11 +18,13 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         TestCandidate.Confirm();
 
         // Assert
-        TestCandidate.Status.Should().Be(BudgetPermissionRequestStatus.Confirmed);
+        TestCandidate.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
 
-        AssertDomainEventPublished(TestCandidate, [
-            new BudgetPermissionRequestConfirmedEvent(MessageContextFactoryMock.Object.Current(),
-                TestCandidate.BudgetId, TestCandidate.ParticipantId, TestCandidate.PermissionType)
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
+            new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetId: TestCandidate.BudgetId, ParticipantId: TestCandidate.ParticipantId,
+                PermissionType: TestCandidate.PermissionType)
         ]);
     }
 
@@ -35,12 +37,12 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
 
         // Act
         DomainRuleValidationException? exception =
-            Assert.Throws<DomainRuleValidationException>(() => TestCandidate.Confirm());
+            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Confirm());
 
         // Assert
         string expectedExceptionMessage =
             $"Only pending budget permission request {TestCandidate.Id} can be made confirmed.";
 
-        exception?.Message.Should().Be(expectedExceptionMessage);
+        exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

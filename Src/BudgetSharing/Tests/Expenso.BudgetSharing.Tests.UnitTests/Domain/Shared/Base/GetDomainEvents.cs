@@ -24,13 +24,13 @@ internal sealed class GetDomainEvents : DomainEventsSourceTestBase
     {
         // Arrange
         IDomainEvent domainEvent = new Mock<IDomainEvent>().Object;
-        TestCandidate.AddDomainEvent(domainEvent);
+        TestCandidate.AddDomainEvent(domainEvent: domainEvent);
 
         // Act
         IReadOnlyCollection<IDomainEvent> result = TestCandidate.DomainEvents;
 
         // Assert
-        result.Should().Contain(domainEvent);
+        result.Should().Contain(expected: domainEvent);
         TestCandidate.DomainEvents.Should().BeEmpty();
     }
 }

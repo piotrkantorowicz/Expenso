@@ -19,49 +19,54 @@ internal sealed class BudgetSharingProxy(
     IMessageContextFactory messageContextFactory) : IBudgetSharingProxy
 {
     private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
+        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
     private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
                                                                      throw new ArgumentNullException(
-                                                                         nameof(messageContextFactory));
+                                                                         paramName: nameof(messageContextFactory));
 
     private readonly IQueryDispatcher _queryDispatcher =
-        queryDispatcher ?? throw new ArgumentNullException(nameof(queryDispatcher));
+        queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
 
     public async Task<IReadOnlyCollection<GetBudgetPermissionsResponse>?> GetBudgetPermissionsAsync(Guid budgetId,
         CancellationToken cancellationToken = default)
     {
-        GetBudgetPermissionsQuery query = new(_messageContextFactory.Current(), budgetId);
+        GetBudgetPermissionsQuery query = new(MessageContext: _messageContextFactory.Current(), BudgetId: budgetId);
 
         IReadOnlyCollection<GetBudgetPermissionsResponse>? getBudgetPermissionsResponse =
-            await _queryDispatcher.QueryAsync(query, cancellationToken);
+            await _queryDispatcher.QueryAsync(query: query, cancellationToken: cancellationToken);
 
-        return GetBudgetPermissionsExternalResponseMap.MapTo(getBudgetPermissionsResponse);
+        return GetBudgetPermissionsExternalResponseMap.MapTo(budgetPermissions: getBudgetPermissionsResponse);
     }
 
     public async Task<CreateBudgetPermissionResponse?> CreateBudgetPermission(
         CreateBudgetPermissionRequest createBudgetPermissionRequest, CancellationToken cancellationToken = default)
     {
-        CreateBudgetPermissionCommand command = new(_messageContextFactory.Current(), createBudgetPermissionRequest);
+        CreateBudgetPermissionCommand command = new(MessageContext: _messageContextFactory.Current(),
+            CreateBudgetPermissionRequest: createBudgetPermissionRequest);
 
         CreateBudgetPermissionResponse? createBudgetPermissionResponse =
-            await _commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(command,
-                cancellationToken);
+            await _commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
+                command: command, cancellationToken: cancellationToken);
 
         return createBudgetPermissionResponse is null
             ? null
-            : new CreateBudgetPermissionResponse(createBudgetPermissionResponse.BudgetPermissionId);
+            : new CreateBudgetPermissionResponse(BudgetPermissionId: createBudgetPermissionResponse.BudgetPermissionId);
     }
 
     public async Task DeleteBudgetPermission(Guid budgetPermissionId, CancellationToken cancellationToken = default)
     {
-        DeleteBudgetPermissionCommand command = new(_messageContextFactory.Current(), budgetPermissionId);
-        await _commandDispatcher.SendAsync(command, cancellationToken);
+        DeleteBudgetPermissionCommand command = new(MessageContext: _messageContextFactory.Current(),
+            BudgetPermissionId: budgetPermissionId);
+
+        await _commandDispatcher.SendAsync(command: command, cancellationToken: cancellationToken);
     }
 
     public async Task RestoreBudgetPermission(Guid budgetPermissionId, CancellationToken cancellationToken = default)
     {
-        RestoreBudgetPermissionCommand command = new(_messageContextFactory.Current(), budgetPermissionId);
-        await _commandDispatcher.SendAsync(command, cancellationToken);
+        RestoreBudgetPermissionCommand command = new(MessageContext: _messageContextFactory.Current(),
+            BudgetPermissionId: budgetPermissionId);
+
+        await _commandDispatcher.SendAsync(command: command, cancellationToken: cancellationToken);
     }
 }

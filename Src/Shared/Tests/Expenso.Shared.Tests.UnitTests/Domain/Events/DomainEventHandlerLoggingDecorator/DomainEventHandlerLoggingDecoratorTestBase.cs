@@ -20,14 +20,14 @@ internal abstract class
     [SetUp]
     protected void Setup()
     {
-        _testDomainEvent =
-            new TestDomainEvent(MessageContextFactoryMock.Object.Current(), Guid.NewGuid(), "JYi9R7e7v2Qor");
+        _testDomainEvent = new TestDomainEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Id: Guid.NewGuid(), Name: "JYi9R7e7v2Qor");
 
         _loggerMock = new Mock<ILogger<DomainEventHandlerLoggingDecorator<TestDomainEvent>>>();
         _domainEventHandlerMock = new Mock<IDomainEventHandler<TestDomainEvent>>();
         _serializerMock = new Mock<ISerializer>();
 
-        TestCandidate = new DomainEventHandlerLoggingDecorator<TestDomainEvent>(_loggerMock.Object,
-            _domainEventHandlerMock.Object, _serializerMock.Object);
+        TestCandidate = new DomainEventHandlerLoggingDecorator<TestDomainEvent>(logger: _loggerMock.Object,
+            decorated: _domainEventHandlerMock.Object, serializer: _serializerMock.Object);
     }
 }

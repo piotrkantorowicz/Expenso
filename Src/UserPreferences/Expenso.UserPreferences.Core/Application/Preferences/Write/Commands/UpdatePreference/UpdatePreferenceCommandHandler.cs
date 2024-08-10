@@ -19,13 +19,15 @@ internal sealed class UpdatePreferenceCommandHandler(
     IMessageContextFactory messageContextFactory) : ICommandHandler<UpdatePreferenceCommand>
 {
     private readonly IMessageBroker _messageBroker =
-        messageBroker ?? throw new ArgumentNullException(nameof(messageBroker));
+        messageBroker ?? throw new ArgumentNullException(paramName: nameof(messageBroker));
 
-    private readonly IMessageContextFactory _messageContextFactory =
-        messageContextFactory ?? throw new ArgumentNullException(nameof(messageContextFactory));
+    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(messageContextFactory));
 
-    private readonly IPreferencesRepository _preferencesRepository =
-        preferencesRepository ?? throw new ArgumentNullException(nameof(preferencesRepository));
+    private readonly IPreferencesRepository _preferencesRepository = preferencesRepository ??
+                                                                     throw new ArgumentNullException(
+                                                                         paramName: nameof(preferencesRepository));
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken)
     {
@@ -48,20 +50,24 @@ internal sealed class UpdatePreferenceCommandHandler(
             UserId = preferenceOrUserId
         };
 
-        Preference? dbPreference = await _preferencesRepository.GetAsync(preferenceIdFilter, cancellationToken) ??
-                                   await _preferencesRepository.GetAsync(userIdFilter, cancellationToken);
+        Preference? dbPreference =
+            await _preferencesRepository.GetAsync(preferenceFilter: preferenceIdFilter,
+                cancellationToken: cancellationToken) ??
+            await _preferencesRepository.GetAsync(preferenceFilter: userIdFilter, cancellationToken: cancellationToken);
 
         if (dbPreference is null)
         {
             throw new ConflictException(
+                message:
                 $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found.");
         }
 
-        IEnumerable<Task> integrationMessagesTasks = Update(dbPreference, generalPreferenceRequest!,
-            financePreferenceRequest!, notificationPreferenceRequest!, cancellationToken);
+        IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,
+            updateGeneralPreference: generalPreferenceRequest!, updateFinancePreference: financePreferenceRequest!,
+            updateNotificationPreference: notificationPreferenceRequest!, cancellationToken: cancellationToken);
 
-        await _preferencesRepository.UpdateAsync(dbPreference, cancellationToken);
-        await Task.WhenAll(integrationMessagesTasks);
+        await _preferencesRepository.UpdateAsync(preference: dbPreference, cancellationToken: cancellationToken);
+        await Task.WhenAll(tasks: integrationMessagesTasks);
     }
 
     private IEnumerable<Task> Update(Preference preference,
@@ -70,11 +76,14 @@ internal sealed class UpdatePreferenceCommandHandler(
         UpdatePreferenceRequest_NotificationPreference updateNotificationPreference,
         CancellationToken cancellationToken)
     {
-        GeneralPreference generalPreference = UpdatePreferenceRequestMap.MapFrom(updateGeneralPreference);
-        FinancePreference financePreference = UpdatePreferenceRequestMap.MapFrom(updateFinancePreference);
+        GeneralPreference generalPreference =
+            UpdatePreferenceRequestMap.MapFrom(generalGeneralPreference: updateGeneralPreference);
+
+        FinancePreference financePreference =
+            UpdatePreferenceRequestMap.MapFrom(financePreference: updateFinancePreference);
 
         NotificationPreference notificationPreference =
-            UpdatePreferenceRequestMap.MapFrom(updateNotificationPreference);
+            UpdatePreferenceRequestMap.MapFrom(updatePreferenceRequest: updateNotificationPreference);
 
         ICollection<Task> tasks = [];
 
@@ -85,9 +94,11 @@ internal sealed class UpdatePreferenceCommandHandler(
                 UseDarkMode = generalPreference.UseDarkMode
             };
 
-            tasks.Add(_messageBroker.PublishAsync(
-                new GeneralPreferenceUpdatedIntegrationEvent(_messageContextFactory.Current(), preference.UserId,
-                    UpdatePreferenceContractMap.MapTo(generalPreference)), cancellationToken));
+            tasks.Add(item: _messageBroker.PublishAsync(
+                @event: new GeneralPreferenceUpdatedIntegrationEvent(MessageContext: _messageContextFactory.Current(),
+                    UserId: preference.UserId,
+                    GeneralPreference: UpdatePreferenceContractMap.MapTo(generalPreference: generalPreference)),
+                cancellationToken: cancellationToken));
         }
 
         if (preference.FinancePreference is not null && preference.FinancePreference != financePreference)
@@ -100,9 +111,11 @@ internal sealed class UpdatePreferenceCommandHandler(
                 MaxNumberOfFinancePlanReviewers = financePreference.MaxNumberOfFinancePlanReviewers
             };
 
-            tasks.Add(_messageBroker.PublishAsync(
-                new FinancePreferenceUpdatedIntegrationEvent(_messageContextFactory.Current(), preference.UserId,
-                    UpdatePreferenceContractMap.MapTo(financePreference)), cancellationToken));
+            tasks.Add(item: _messageBroker.PublishAsync(
+                @event: new FinancePreferenceUpdatedIntegrationEvent(MessageContext: _messageContextFactory.Current(),
+                    UserId: preference.UserId,
+                    FinancePreference: UpdatePreferenceContractMap.MapTo(financePreference: financePreference)),
+                cancellationToken: cancellationToken));
         }
 
         if (preference.NotificationPreference is not null &&
@@ -114,9 +127,11 @@ internal sealed class UpdatePreferenceCommandHandler(
                 SendFinanceReportInterval = notificationPreference.SendFinanceReportInterval
             };
 
-            tasks.Add(_messageBroker.PublishAsync(
-                new NotificationPreferenceUpdatedIntegrationEvent(_messageContextFactory.Current(), preference.UserId,
-                    UpdatePreferenceContractMap.MapTo(notificationPreference)), cancellationToken));
+            tasks.Add(item: _messageBroker.PublishAsync(
+                @event: new NotificationPreferenceUpdatedIntegrationEvent(
+                    MessageContext: _messageContextFactory.Current(), UserId: preference.UserId,
+                    NotificationPreference: UpdatePreferenceContractMap.MapTo(
+                        notificationPreference: notificationPreference)), cancellationToken: cancellationToken));
         }
 
         return tasks;

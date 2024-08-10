@@ -18,49 +18,64 @@ internal sealed class ConfirmParticipationDomainService(
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
                                                                                throw new ArgumentNullException(
-                                                                                   nameof(budgetPermissionRepository));
+                                                                                   paramName: nameof(
+                                                                                       budgetPermissionRepository));
 
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository =
-        budgetPermissionRequestRepository ?? throw new ArgumentNullException(nameof(budgetPermissionRequestRepository));
+        budgetPermissionRequestRepository ??
+        throw new ArgumentNullException(paramName: nameof(budgetPermissionRequestRepository));
 
     private readonly IUserPreferencesProxy _userPreferencesProxy =
-        userPreferencesProxy ?? throw new ArgumentNullException(nameof(userPreferencesProxy));
+        userPreferencesProxy ?? throw new ArgumentNullException(paramName: nameof(userPreferencesProxy));
 
     public async Task ConfirmParticipationAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
     {
         BudgetPermissionRequest? permissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
-            BudgetPermissionRequestId.New(budgetPermissionRequestId), cancellationToken);
+            permissionId: BudgetPermissionRequestId.New(value: budgetPermissionRequestId),
+            cancellationToken: cancellationToken);
 
         if (permissionRequest is null)
         {
             throw new NotFoundException(
-                $"Budget permission request with id {budgetPermissionRequestId} hasn't been found.");
+                message: $"Budget permission request with id {budgetPermissionRequestId} hasn't been found.");
         }
 
         BudgetPermission? budgetPermission =
-            await _budgetPermissionRepository.GetByBudgetIdAsync(permissionRequest.BudgetId, cancellationToken);
+            await _budgetPermissionRepository.GetByBudgetIdAsync(budgetId: permissionRequest.BudgetId,
+                cancellationToken: cancellationToken);
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException($"Budget permission with id {permissionRequest.BudgetId} hasn't been found.");
+            throw new NotFoundException(
+                message: $"Budget permission with id {permissionRequest.BudgetId} hasn't been found.");
         }
 
         GetPreferenceResponse? preference = await _userPreferencesProxy.GetUserPreferencesAsync(
-            budgetPermission.OwnerId.Value, true, false, false, cancellationToken);
+            userId: budgetPermission.OwnerId.Value, includeFinancePreferences: true,
+            includeNotificationPreferences: false, includeGeneralPreferences: false,
+            cancellationToken: cancellationToken);
 
         if (preference?.FinancePreference is null)
         {
-            throw new NotFoundException($"Finance preferences for user {budgetPermission.OwnerId} haven't been found.");
+            throw new NotFoundException(
+                message: $"Finance preferences for user {budgetPermission.OwnerId} haven't been found.");
         }
 
-        DomainModelState.CheckBusinessRules([
-            (new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(budgetPermission.BudgetId, budgetPermission.OwnerId, permissionRequest.PermissionType, preference.FinancePreference, budgetPermission.Permissions.ToList().AsReadOnly()),
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            (new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(budgetId: budgetPermission.BudgetId, ownerId: budgetPermission.OwnerId, permissionTypeFromRequest: permissionRequest.PermissionType, preferenceResponseFinancePreference: preference.FinancePreference, currentPermissions: budgetPermission.Permissions.ToList().AsReadOnly()),
                 false)
         ]);
 
         permissionRequest.Confirm();
-        budgetPermission.AddPermission(permissionRequest.ParticipantId, permissionRequest.PermissionType);
-        await _budgetPermissionRequestRepository.UpdateAsync(permissionRequest, cancellationToken);
-        await _budgetPermissionRepository.UpdateAsync(budgetPermission, cancellationToken);
+
+        budgetPermission.AddPermission(participantId: permissionRequest.ParticipantId,
+            permissionType: permissionRequest.PermissionType);
+
+        await _budgetPermissionRequestRepository.UpdateAsync(permission: permissionRequest,
+            cancellationToken: cancellationToken);
+
+        await _budgetPermissionRepository.UpdateAsync(budgetPermission: budgetPermission,
+            cancellationToken: cancellationToken);
     }
 }

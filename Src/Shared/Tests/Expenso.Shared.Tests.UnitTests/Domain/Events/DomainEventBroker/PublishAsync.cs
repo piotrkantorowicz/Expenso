@@ -10,11 +10,12 @@ internal sealed class PublishAsync : DomainEventBrokerTestBase
         // Arrange
         Guid testDomainEventId = Guid.NewGuid();
 
-        TestDomainEvent testDomainEvent = new(MessageContextFactoryMock.Object.Current(),
-            testDomainEventId, "UsWNuYtfQTtvYR");
+        TestDomainEvent testDomainEvent = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Id: testDomainEventId, Name: "UsWNuYtfQTtvYR");
 
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(() => TestCandidate.PublishAsync(testDomainEvent, default));
+        Assert.DoesNotThrowAsync(code: () =>
+            TestCandidate.PublishAsync(@event: testDomainEvent, cancellationToken: default));
     }
 }

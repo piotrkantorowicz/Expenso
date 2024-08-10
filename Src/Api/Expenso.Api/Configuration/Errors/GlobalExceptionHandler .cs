@@ -21,17 +21,19 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        logger.LogError(exception, "Exception occurred: {Message}", exception.Message);
+        logger.LogError(exception: exception, message: "Exception occurred: {Message}", exception.Message);
         Type type = exception.GetType();
 
-        if (_exceptionHandlers.TryGetValue(type, out Func<Exception, HttpContext, CancellationToken, Task>? handler))
+        if (_exceptionHandlers.TryGetValue(key: type,
+                value: out Func<Exception, HttpContext, CancellationToken, Task>? handler))
         {
-            await handler.Invoke(exception, httpContext, cancellationToken);
+            await handler.Invoke(arg1: exception, arg2: httpContext, arg3: cancellationToken);
 
             return true;
         }
 
-        await HandleUnknownException(exception, httpContext, cancellationToken);
+        await HandleUnknownException(exception: exception, httpContext: httpContext,
+            cancellationToken: cancellationToken);
 
         return true;
     }
@@ -39,37 +41,43 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
     private static Task HandleInvalidModelStateException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(StatusCodes.Status422UnprocessableEntity, httpContext, exception, cancellationToken);
+        return HandleException(statusCode: StatusCodes.Status422UnprocessableEntity, httpContext: httpContext,
+            exception: exception, cancellationToken: cancellationToken);
     }
 
     private static Task HandleNotFoundException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(StatusCodes.Status404NotFound, httpContext, exception, cancellationToken);
+        return HandleException(statusCode: StatusCodes.Status404NotFound, httpContext: httpContext,
+            exception: exception, cancellationToken: cancellationToken);
     }
 
     private static Task HandleConflictException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(StatusCodes.Status409Conflict, httpContext, exception, cancellationToken);
+        return HandleException(statusCode: StatusCodes.Status409Conflict, httpContext: httpContext,
+            exception: exception, cancellationToken: cancellationToken);
     }
 
     private static Task HandleUnauthorizedAccessException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(StatusCodes.Status401Unauthorized, httpContext, null, cancellationToken);
+        return HandleException(statusCode: StatusCodes.Status401Unauthorized, httpContext: httpContext, exception: null,
+            cancellationToken: cancellationToken);
     }
 
     private static Task HandleForbiddenAccessException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(StatusCodes.Status403Forbidden, httpContext, null, cancellationToken);
+        return HandleException(statusCode: StatusCodes.Status403Forbidden, httpContext: httpContext, exception: null,
+            cancellationToken: cancellationToken);
     }
 
     private static Task HandleUnknownException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(StatusCodes.Status500InternalServerError, httpContext, null, cancellationToken);
+        return HandleException(statusCode: StatusCodes.Status500InternalServerError, httpContext: httpContext,
+            exception: null, cancellationToken: cancellationToken);
     }
 
     private static Task HandleException(int statusCode, HttpContext httpContext, Exception? exception,
@@ -85,6 +93,7 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         httpContext.Response.StatusCode = statusCode;
 
         return httpContext.Response.WriteAsJsonAsync(
-            StaticProblemDetailsSelector.Select(statusCode, expectedExceptionMessage), cancellationToken);
+            value: StaticProblemDetailsSelector.Select(statusCode: statusCode, detail: expectedExceptionMessage),
+            cancellationToken: cancellationToken);
     }
 }

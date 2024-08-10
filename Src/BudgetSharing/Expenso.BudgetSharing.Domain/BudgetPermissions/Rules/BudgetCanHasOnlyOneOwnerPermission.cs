@@ -8,19 +8,19 @@ internal sealed class BudgetCanHasOnlyOneOwnerPermission(
     PermissionType permissionType,
     IEnumerable<Permission> permissions) : IBusinessRule
 {
-    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(nameof(budgetId));
+    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
 
     private readonly IEnumerable<Permission> _permissions =
-        permissions ?? throw new ArgumentNullException(nameof(permissions));
+        permissions ?? throw new ArgumentNullException(paramName: nameof(permissions));
 
     private readonly PermissionType _permissionType =
-        permissionType ?? throw new ArgumentNullException(nameof(permissionType));
+        permissionType ?? throw new ArgumentNullException(paramName: nameof(permissionType));
 
     public string Message => $"Budget {_budgetId} can have only one owner permission.";
 
     public bool IsBroken()
     {
-        return _permissions.Any(p => p.PermissionType == PermissionType.Owner) &&
+        return _permissions.Any(predicate: p => p.PermissionType == PermissionType.Owner) &&
                _permissionType == PermissionType.Owner;
     }
 }

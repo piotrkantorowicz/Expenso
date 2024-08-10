@@ -7,6 +7,6 @@ public static class Extensions
 {
     public static void AddMemoryDatabase<T>(this IServiceCollection services, string moduleName) where T : DbContext
     {
-        services.AddDbContext<T>(x => x.UseInMemoryDatabase(moduleName));
+        services.AddDbContext<T>(optionsAction: x => x.UseInMemoryDatabase(databaseName: moduleName));
     }
 }

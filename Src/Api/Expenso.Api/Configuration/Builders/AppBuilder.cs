@@ -57,7 +57,7 @@ internal sealed class AppBuilder : IAppBuilder
 
     public AppBuilder(string[] args)
     {
-        _applicationBuilder = WebApplication.CreateBuilder(args);
+        _applicationBuilder = WebApplication.CreateBuilder(args: args);
         _configuration = _applicationBuilder.Configuration;
         _services = _applicationBuilder.Services;
     }
@@ -79,7 +79,7 @@ internal sealed class AppBuilder : IAppBuilder
         Modules.RegisterModule<DocumentManagementModule>();
         Modules.RegisterModule<CommunicationModule>();
         Modules.RegisterModule<TimeManagementModule>();
-        _services.AddModules(_configuration);
+        _services.AddModules(configuration: _configuration);
 
         return this;
     }
@@ -89,15 +89,15 @@ internal sealed class AppBuilder : IAppBuilder
         IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
 
         _services
-            .AddCommands(assemblies)
-            .AddCommandsValidations(assemblies)
+            .AddCommands(assemblies: assemblies)
+            .AddCommandsValidations(assemblies: assemblies)
             .AddCommandsTransactions()
             .AddCommandsLogging()
-            .AddQueries(assemblies)
+            .AddQueries(assemblies: assemblies)
             .AddQueryLogging()
-            .AddDomainEvents(assemblies)
+            .AddDomainEvents(assemblies: assemblies)
             .AddDomainEventsLogging()
-            .AddIntegrationEvents(assemblies)
+            .AddIntegrationEvents(assemblies: assemblies)
             .AddIntegrationEventsLogging()
             .AddMessageBroker()
             .AddClock()
@@ -119,9 +119,9 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureSerializationOptions()
     {
-        _services.Configure<JsonOptions>(options =>
+        _services.Configure<JsonOptions>(configureOptions: options =>
         {
-            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            options.SerializerOptions.Converters.Add(item: new JsonStringEnumConverter());
         });
 
         return this;
@@ -139,8 +139,8 @@ internal sealed class AppBuilder : IAppBuilder
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException(_authSettings?.AuthServer.GetType().Name,
-                    _authSettings?.AuthServer, "Invalid auth server type.");
+                throw new ArgumentOutOfRangeException(paramName: _authSettings?.AuthServer.GetType().Name,
+                    actualValue: _authSettings?.AuthServer, message: "Invalid auth server type.");
         }
 
         return this;
@@ -163,11 +163,11 @@ internal sealed class AppBuilder : IAppBuilder
             }
         };
 
-        _services.AddSwaggerGen(o =>
+        _services.AddSwaggerGen(setupAction: o =>
         {
-            o.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+            o.AddSecurityDefinition(name: securityScheme.Reference.Id, securityScheme: securityScheme);
 
-            o.AddSecurityRequirement(new OpenApiSecurityRequirement
+            o.AddSecurityRequirement(securityRequirement: new OpenApiSecurityRequirement
             {
                 { securityScheme, Array.Empty<string>() }
             });
@@ -180,32 +180,34 @@ internal sealed class AppBuilder : IAppBuilder
     {
         WebApplication app = _applicationBuilder.Build();
 
-        return new AppConfigurator(app);
+        return new AppConfigurator(app: app);
     }
 
     private void ConfigureAppSettings()
     {
-        _configuration.TryBindOptions(KeycloakProtectionClientOptions.Section, out _keycloakProtectionClientOptions);
-        _configuration.TryBindOptions(SectionNames.EfCoreSection, out _efCoreSettings);
-        _configuration.TryBindOptions(SectionNames.ApplicationSection, out _applicationSettings);
-        _configuration.TryBindOptions(SectionNames.Auth, out _authSettings);
-        _configuration.TryBindOptions(SectionNames.Files, out _filesSettings);
-        _services.AddSingleton(_efCoreSettings!);
-        _services.AddSingleton(_applicationSettings!);
-        _services.AddSingleton(_keycloakProtectionClientOptions!);
-        _services.AddSingleton(_authSettings!);
-        _services.AddSingleton(_filesSettings!);
+        _configuration.TryBindOptions(sectionName: KeycloakProtectionClientOptions.Section,
+            options: out _keycloakProtectionClientOptions);
+
+        _configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection, options: out _efCoreSettings);
+        _configuration.TryBindOptions(sectionName: SectionNames.ApplicationSection, options: out _applicationSettings);
+        _configuration.TryBindOptions(sectionName: SectionNames.Auth, options: out _authSettings);
+        _configuration.TryBindOptions(sectionName: SectionNames.Files, options: out _filesSettings);
+        _services.AddSingleton(implementationInstance: _efCoreSettings!);
+        _services.AddSingleton(implementationInstance: _applicationSettings!);
+        _services.AddSingleton(implementationInstance: _keycloakProtectionClientOptions!);
+        _services.AddSingleton(implementationInstance: _authSettings!);
+        _services.AddSingleton(implementationInstance: _filesSettings!);
     }
 
     private void ConfigureKeycloak()
     {
-        if (_configuration.TryBindOptions(KeycloakProtectionClientOptions.Section,
-                out KeycloakProtectionClientOptions options))
+        if (_configuration.TryBindOptions(sectionName: KeycloakProtectionClientOptions.Section,
+                options: out KeycloakProtectionClientOptions options))
         {
-            _services.AddSingleton(options);
+            _services.AddSingleton(implementationInstance: options);
         }
 
-        _services.AddKeycloakAuthentication(_configuration, jwtOptions =>
+        _services.AddKeycloakAuthentication(configuration: _configuration, configureOptions: jwtOptions =>
         {
             jwtOptions.Events = new JwtBearerEvents
             {
@@ -215,7 +217,9 @@ internal sealed class AppBuilder : IAppBuilder
                     const int statusCode = StatusCodes.Status401Unauthorized;
                     HttpContext httpContext = context.HttpContext;
                     RouteData routeData = httpContext.GetRouteData();
-                    ActionContext actionContext = new(httpContext, routeData, new ActionDescriptor());
+
+                    ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
+                        actionDescriptor: new ActionDescriptor());
 
                     ProblemDetails problemDetails = new()
                     {
@@ -224,19 +228,21 @@ internal sealed class AppBuilder : IAppBuilder
                         Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
                     };
 
-                    ObjectResult result = new(problemDetails)
+                    ObjectResult result = new(value: problemDetails)
                     {
                         StatusCode = statusCode
                     };
 
-                    await result.ExecuteResultAsync(actionContext);
+                    await result.ExecuteResultAsync(context: actionContext);
                 },
                 OnForbidden = async context =>
                 {
                     const int statusCode = StatusCodes.Status403Forbidden;
                     HttpContext httpContext = context.HttpContext;
                     RouteData routeData = httpContext.GetRouteData();
-                    ActionContext actionContext = new(httpContext, routeData, new ActionDescriptor());
+
+                    ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
+                        actionDescriptor: new ActionDescriptor());
 
                     ProblemDetails problemDetails = new()
                     {
@@ -245,17 +251,17 @@ internal sealed class AppBuilder : IAppBuilder
                         Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
                     };
 
-                    ObjectResult result = new(problemDetails)
+                    ObjectResult result = new(value: problemDetails)
                     {
                         StatusCode = statusCode
                     };
 
-                    await result.ExecuteResultAsync(actionContext);
+                    await result.ExecuteResultAsync(context: actionContext);
                 }
             };
         });
 
-        _services.AddKeycloakAuthorization(_configuration);
-        _services.AddKeycloakAdminHttpClient(_configuration);
+        _services.AddKeycloakAuthorization(configuration: _configuration);
+        _services.AddKeycloakAdminHttpClient(configuration: _configuration);
     }
 }

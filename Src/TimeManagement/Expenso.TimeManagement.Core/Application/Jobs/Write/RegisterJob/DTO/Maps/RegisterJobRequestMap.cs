@@ -20,11 +20,11 @@ internal static class RegisterJobRequestMap
         return new JobEntry
         {
             Id = Guid.NewGuid(),
-            JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(nameof(jobInstance)),
-            CronExpression = ToCronExpression(jobEntry.Interval),
+            JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(paramName: nameof(jobInstance)),
+            CronExpression = ToCronExpression(interval: jobEntry.Interval),
             RunAt = jobEntry.RunAt,
             MaxRetries = jobEntry.MaxRetries,
-            JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(nameof(jobEntryStatus)),
+            JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(paramName: nameof(jobEntryStatus)),
             Triggers = jobEntry.JobEntryTriggers?.MapToJobEntryTriggers() ?? new List<JobEntryTrigger>()
         };
     }
@@ -38,7 +38,7 @@ internal static class RegisterJobRequestMap
         }
 
         return triggers
-            .Select(x => new JobEntryTrigger
+            .Select(selector: x => new JobEntryTrigger
             {
                 Id = Guid.NewGuid(),
                 EventType = x.EventType,
@@ -54,18 +54,18 @@ internal static class RegisterJobRequestMap
             return DefaultCronExpression;
         }
 
-        var stringBuilder = new StringBuilder();
-        stringBuilder.Append(interval.DayOfWeek ?? "*");
-        stringBuilder.Append(' ');
-        stringBuilder.Append(interval.Month ?? "*");
-        stringBuilder.Append(' ');
-        stringBuilder.Append(interval.DayofMonth ?? "*");
-        stringBuilder.Append(' ');
-        stringBuilder.Append(interval.Hour ?? "*");
-        stringBuilder.Append(' ');
-        stringBuilder.Append(interval.Minute ?? "*");
-        stringBuilder.Append(' ');
-        stringBuilder.Append(interval.Second ?? "*");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append(value: interval.DayOfWeek ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Month ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.DayofMonth ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Hour ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Minute ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Second ?? "*");
 
         return stringBuilder.ToString();
     }
