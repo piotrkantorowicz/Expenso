@@ -102,22 +102,21 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
         using (IServiceScope scope = app.Services.CreateScope())
         {
             EfCoreSettings? efCoreSettings = scope.ServiceProvider.GetService<EfCoreSettings>();
-            
+
             if (efCoreSettings is null)
             {
                 throw new InvalidOperationException("EfCoreSettings is not registered in the service collection.");
             }
-            
+
             IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
             IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
-            ICollection<Task> tasks = [dbMigrator.SeedAsync(scope, assemblies, default)];
 
             if (efCoreSettings.InMemory is not true)
             {
-                tasks.Add(dbMigrator.MigrateAsync(scope, assemblies, default));
+                dbMigrator.MigrateAsync(scope, assemblies, default).GetAwaiter().GetResult();
             }
-            
-            Task.WhenAll(tasks).Wait();
+
+            dbMigrator.SeedAsync(scope, assemblies, default).GetAwaiter().GetResult();
         }
 
         return this;

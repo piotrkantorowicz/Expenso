@@ -29,18 +29,17 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "JobEntryTypes",
+                name: "JobInstances",
                 schema: "TimeManagement",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Code = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
                     Name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     RunningDelay = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JobEntryTypes", x => x.Id);
+                    table.PrimaryKey("PK_JobInstances", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,50 +48,30 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    JobEntryTypeId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false)
+                    JobInstanceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    JobEntryStatusId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CronExpression = table.Column<string>(type: "text", nullable: false),
+                    RunAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    CurrentRetries = table.Column<int>(type: "integer", nullable: true),
+                    MaxRetries = table.Column<int>(type: "integer", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: true),
+                    LastRun = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_JobEntries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_JobEntries_JobEntryTypes_JobEntryTypeId",
-                        column: x => x.JobEntryTypeId,
-                        principalSchema: "TimeManagement",
-                        principalTable: "JobEntryTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "JobEntryPeriods",
-                schema: "TimeManagement",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    JobEntryStatusId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CronExpression = table.Column<string>(type: "text", nullable: false),
-                    Periodic = table.Column<bool>(type: "boolean", nullable: false),
-                    CurrentRetries = table.Column<int>(type: "integer", nullable: false),
-                    MaxRetries = table.Column<int>(type: "integer", nullable: false),
-                    LastRun = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    JobEntryId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JobEntryPeriods", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_JobEntryPeriods_JobEntries_JobEntryId",
-                        column: x => x.JobEntryId,
-                        principalSchema: "TimeManagement",
-                        principalTable: "JobEntries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_JobEntryPeriods_JobEntryStatuses_JobEntryStatusId",
+                        name: "FK_JobEntries_JobEntryStatuses_JobEntryStatusId",
                         column: x => x.JobEntryStatusId,
                         principalSchema: "TimeManagement",
                         principalTable: "JobEntryStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_JobEntries_JobInstances_JobInstanceId",
+                        column: x => x.JobInstanceId,
+                        principalSchema: "TimeManagement",
+                        principalTable: "JobInstances",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -120,22 +99,16 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobEntries_JobEntryTypeId",
+                name: "IX_JobEntries_JobEntryStatusId",
                 schema: "TimeManagement",
                 table: "JobEntries",
-                column: "JobEntryTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobEntryPeriods_JobEntryId",
-                schema: "TimeManagement",
-                table: "JobEntryPeriods",
-                column: "JobEntryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_JobEntryPeriods_JobEntryStatusId",
-                schema: "TimeManagement",
-                table: "JobEntryPeriods",
                 column: "JobEntryStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobEntries_JobInstanceId",
+                schema: "TimeManagement",
+                table: "JobEntries",
+                column: "JobInstanceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobEntryTriggers_JobEntryId",
@@ -148,15 +121,7 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "JobEntryPeriods",
-                schema: "TimeManagement");
-
-            migrationBuilder.DropTable(
                 name: "JobEntryTriggers",
-                schema: "TimeManagement");
-
-            migrationBuilder.DropTable(
-                name: "JobEntryStatuses",
                 schema: "TimeManagement");
 
             migrationBuilder.DropTable(
@@ -164,7 +129,11 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                 schema: "TimeManagement");
 
             migrationBuilder.DropTable(
-                name: "JobEntryTypes",
+                name: "JobEntryStatuses",
+                schema: "TimeManagement");
+
+            migrationBuilder.DropTable(
+                name: "JobInstances",
                 schema: "TimeManagement");
         }
     }

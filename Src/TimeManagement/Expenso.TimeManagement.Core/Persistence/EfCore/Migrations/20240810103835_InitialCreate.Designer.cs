@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(TimeManagementDbContext))]
-    [Migration("20240523040948_InitialCreate")]
+    [Migration("20240810103835_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,15 +31,37 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsCompleted")
+                    b.Property<string>("CronExpression")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CurrentRetries")
+                        .HasColumnType("integer");
+
+                    b.Property<bool?>("IsCompleted")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("JobEntryTypeId")
+                    b.Property<Guid>("JobEntryStatusId")
                         .HasColumnType("uuid");
+
+                    b.Property<Guid>("JobInstanceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("LastRun")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("MaxRetries")
+                        .IsRequired()
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("RunAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobEntryTypeId");
+                    b.HasIndex("JobEntryStatusId");
+
+                    b.HasIndex("JobInstanceId");
 
                     b.ToTable("JobEntries", "TimeManagement");
                 });
@@ -64,16 +86,11 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                     b.ToTable("JobEntryStatuses", "TimeManagement");
                 });
 
-            modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryType", b =>
+            modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobInstance", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("character varying(5)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -85,63 +102,22 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobEntryTypes", "TimeManagement");
+                    b.ToTable("JobInstances", "TimeManagement");
                 });
 
             modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntry", b =>
                 {
-                    b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryType", "JobEntryType")
+                    b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", "JobStatus")
                         .WithMany()
-                        .HasForeignKey("JobEntryTypeId")
+                        .HasForeignKey("JobEntryStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryPeriod", "Periods", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("CronExpression")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<int>("CurrentRetries")
-                                .HasColumnType("integer");
-
-                            b1.Property<Guid>("JobEntryId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("JobEntryStatusId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<DateTimeOffset?>("LastRun")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.Property<int>("MaxRetries")
-                                .HasColumnType("integer");
-
-                            b1.Property<bool>("Periodic")
-                                .HasColumnType("boolean");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("JobEntryId");
-
-                            b1.HasIndex("JobEntryStatusId");
-
-                            b1.ToTable("JobEntryPeriods", "TimeManagement");
-
-                            b1.WithOwner()
-                                .HasForeignKey("JobEntryId");
-
-                            b1.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", "JobStatus")
-                                .WithMany()
-                                .HasForeignKey("JobEntryStatusId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.Navigation("JobStatus");
-                        });
+                    b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobInstance", "JobInstance")
+                        .WithMany()
+                        .HasForeignKey("JobInstanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsMany("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryTrigger", "Triggers", b1 =>
                         {
@@ -170,9 +146,9 @@ namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
                                 .HasForeignKey("JobEntryId");
                         });
 
-                    b.Navigation("JobEntryType");
+                    b.Navigation("JobInstance");
 
-                    b.Navigation("Periods");
+                    b.Navigation("JobStatus");
 
                     b.Navigation("Triggers");
                 });

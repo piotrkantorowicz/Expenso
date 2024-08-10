@@ -1,6 +1,7 @@
 namespace Expenso.TimeManagement.Proxy.DTO.Request;
 
 public sealed record AddJobEntryRequest(
-    string? JobTypeNameCode,
-    ICollection<AddJobEntryRequest_JobEntryPeriod>? JobEntryPeriods,
-    ICollection<AddJobEntryRequest_JobEntryTrigger>? JobEntryTriggers);
+    int? MaxRetries,
+    ICollection<AddJobEntryRequest_JobEntryTrigger>? JobEntryTriggers,
+    AddJobEntryRequest_JobEntryPeriodInterval? Interval,
+    DateTimeOffset? RunAt);

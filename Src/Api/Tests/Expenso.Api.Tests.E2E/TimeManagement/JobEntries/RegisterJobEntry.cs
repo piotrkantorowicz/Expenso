@@ -1,23 +1,22 @@
-﻿using Expenso.TimeManagement.Proxy.DTO.Request;
+﻿using System.Text.Json;
+
+using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.TimeManagement.Proxy.DTO.Request;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
 internal sealed class RegisterJobEntry : JobEntriesTestBase
 {
-    private const string JobTypeNameCode = "BS-REQ-EXP";
-    
     [Test]
     public void Should_RegisterJobEntry()
     {
         // Arrange
-        var jobEntryRequest = new AddJobEntryRequest(JobTypeNameCode, [
-            new AddJobEntryRequest_JobEntryPeriod(
-                new AddJobEntryRequest_JobEntryPeriodInterval(Minute: "0", Hour: "0", DayofMonth: "12",
-                    DayOfWeek: "Mon"), 3, false)
-        ], [
-            new AddJobEntryRequest_JobEntryTrigger("TestEvent", "TestEvent")
-        ]);
-        
+        var jobEntryRequest = new AddJobEntryRequest(5, [
+            new AddJobEntryRequest_JobEntryTrigger(
+                typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                JsonSerializer.Serialize(new BudgetPermissionRequestExpiredIntergrationEvent(null!, Guid.NewGuid())))
+        ], null, _clockMock.Object.UtcNow.AddSeconds(5));
+
         // Act
         // Assert
         Assert.DoesNotThrowAsync(() => _timeManagementProxy.RegisterJobEntry(jobEntryRequest));

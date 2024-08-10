@@ -12,11 +12,11 @@ internal sealed class JobEntryStatusRepository(ITimeManagementDbContext timeMana
     private readonly ITimeManagementDbContext _timeManagementDbContext =
         timeManagementDbContext ?? throw new ArgumentNullException(nameof(timeManagementDbContext));
 
-    public async Task<JobEntryStatus?> GetAsync(string name, CancellationToken cancellationToken)
+    public async Task<JobEntryStatus?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
             .JobEntryStatuses.Tracking(false)
-            .FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken)

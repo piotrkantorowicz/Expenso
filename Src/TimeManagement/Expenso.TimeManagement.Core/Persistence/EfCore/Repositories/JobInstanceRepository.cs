@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
 
-internal sealed class JobEntryTypeRepository(ITimeManagementDbContext timeManagementDbContext) : IJobEntryTypeRepository
+internal sealed class JobInstanceRepository(ITimeManagementDbContext timeManagementDbContext) : IJobInstanceRepository
 {
     private readonly ITimeManagementDbContext _timeManagementDbContext =
         timeManagementDbContext ?? throw new ArgumentNullException(nameof(timeManagementDbContext));
 
-    public async Task<JobEntryType?> GetAsync(string? code, CancellationToken cancellationToken)
+    public async Task<JobInstance?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
-            .JobEntryTypes.Tracking(false)
-            .FirstOrDefaultAsync(x => x.Code == code, cancellationToken);
+            .JobInstances.Tracking(false)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }

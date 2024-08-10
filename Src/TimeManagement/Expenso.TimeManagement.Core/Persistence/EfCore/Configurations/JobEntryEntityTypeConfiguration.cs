@@ -12,22 +12,19 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
         builder.ToTable("JobEntries");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-        builder.HasOne(e => e.JobEntryType).WithMany().HasForeignKey(e => e.JobEntryTypeId).IsRequired();
+        builder.HasOne(e => e.JobInstance).WithMany().HasForeignKey(e => e.JobInstanceId).IsRequired();
         
-        builder.OwnsMany(x => x.Periods, jobEntryPeriodsBuilder =>
-        {
-            jobEntryPeriodsBuilder.ToTable("JobEntryPeriods");
-            jobEntryPeriodsBuilder.HasKey(x => x.Id);
-            jobEntryPeriodsBuilder.Property(x => x.Id).IsRequired().ValueGeneratedNever();
-            jobEntryPeriodsBuilder.Property(x => x.CronExpression).IsRequired();
-            jobEntryPeriodsBuilder.Property(x => x.LastRun).IsRequired(false);
-            
-            jobEntryPeriodsBuilder
-                .HasOne(e => e.JobStatus)
-                .WithMany()
-                .HasForeignKey(e => e.JobEntryStatusId)
-                .IsRequired();
-        });
+        builder.Property(x => x.CronExpression).IsRequired();
+        builder.Property(x => x.IsCompleted).IsRequired(false);
+        builder.Property(x => x.CurrentRetries).IsRequired(false);
+        builder.Property(x => x.MaxRetries).IsRequired();
+        builder.Property(x => x.LastRun).IsRequired(false);
+        
+        builder
+            .HasOne(e => e.JobStatus)
+            .WithMany()
+            .HasForeignKey(e => e.JobEntryStatusId)
+            .IsRequired();
         
         builder.OwnsMany(x => x.Triggers, jobEntryTriggersBuilder =>
         {

@@ -14,7 +14,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command cannot be null";
+        const string expectedValidationMessage = "Command is required";
         string error = validationResult["command"];
         error.Should().Be(expectedValidationMessage);
     }

@@ -9,7 +9,7 @@ internal interface ITimeManagementDbContext : IDbContext
 {
     DbSet<JobEntry> JobEntries { get; }
 
-    DbSet<JobEntryType> JobEntryTypes { get; }
+    DbSet<JobInstance> JobInstances { get; }
 
     DbSet<JobEntryStatus> JobEntryStatuses { get; }
 

@@ -9,7 +9,7 @@ internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbC
 {
     public DbSet<JobEntry> JobEntries { get; set; } = null!;
 
-    public DbSet<JobEntryType> JobEntryTypes { get; set; } = null!;
+    public DbSet<JobInstance> JobInstances { get; set; } = null!;
 
     public DbSet<JobEntryStatus> JobEntryStatuses { get; set; } = null!;
 
@@ -25,7 +25,7 @@ internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbC
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        await JobEntryTypes.AddAsync(JobEntryType.BudgetSharingRequestExpiration, cancellationToken);
+        await JobInstances.AddAsync(JobInstance.Default, cancellationToken);
 
         await JobEntryStatuses.AddRangeAsync([
             JobEntryStatus.Running, JobEntryStatus.Completed, JobEntryStatus.Failed, JobEntryStatus.Cancelled,

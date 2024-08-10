@@ -5,14 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Expenso.TimeManagement.Core.Persistence.EfCore.Configurations;
 
-internal sealed class JobEntryTypeEntityTypeConfiguration : IEntityTypeConfiguration<JobEntryType>
+internal sealed class JobInstanceEntityTypeConfiguration : IEntityTypeConfiguration<JobInstance>
 {
-    public void Configure(EntityTypeBuilder<JobEntryType> builder)
+    public void Configure(EntityTypeBuilder<JobInstance> builder)
     {
-        builder.ToTable("JobEntryTypes");
+        builder.ToTable("JobInstances");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).IsRequired();
-        builder.Property(x => x.Code).IsRequired().HasMaxLength(5);
         builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
         builder.Property(x => x.RunningDelay).IsRequired();
     }

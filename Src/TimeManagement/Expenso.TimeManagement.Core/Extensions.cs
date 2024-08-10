@@ -5,8 +5,6 @@ using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.Helpers.Interfaces;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 using Expenso.TimeManagement.Core.Persistence.EfCore;
 using Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
@@ -34,9 +32,8 @@ public static class Extensions
         
         services.AddScoped<IJobEntryRepository, JobEntryRepository>();
         services.AddScoped<IJobEntryStatusRepository, JobEntryStatusRepository>();
-        services.AddScoped<IJobEntryTypeRepository, JobEntryTypeRepository>();
-        services.AddScoped<IJobEntryPeriodIntervalHelper, JobEntryPeriodIntervalHelper>();
-        services.AddScoped<IBudgetSharingRequestsExpirationJobExecution, BudgetSharingRequestsExpirationJobExecution>();
-        services.AddHostedService<BudgetSharingRequestsExpirationJob>();
+        services.AddScoped<IJobInstanceRepository, JobInstanceRepository>();
+        services.AddScoped<IJobExecution, JobExecution>();
+        services.AddHostedService<BackgroundJob>();
     }
 }
