@@ -9,9 +9,14 @@ internal sealed class UserPreferencesDbContext(DbContextOptions<UserPreferencesD
 {
     public DbSet<Preference> Preferences { get; set; } = null!;
 
-    public async Task MigrateAsync()
+    public async Task MigrateAsync(CancellationToken cancellationToken)
     {
-        await Database.MigrateAsync();
+        await Database.MigrateAsync(cancellationToken);
+    }
+
+    public async Task SeedAsync(CancellationToken cancellationToken)
+    {
+       await Task.CompletedTask;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

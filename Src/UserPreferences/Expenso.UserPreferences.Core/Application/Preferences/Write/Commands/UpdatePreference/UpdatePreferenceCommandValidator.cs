@@ -10,7 +10,7 @@ internal sealed class UpdatePreferenceCommandValidator : ICommandValidator<Updat
 
         if (command is null)
         {
-            errors.Add(nameof(command), "Command cannot be null");
+            errors.Add(nameof(command), "Command is required");
         }
 
         if (command?.PreferenceOrUserId == Guid.Empty)

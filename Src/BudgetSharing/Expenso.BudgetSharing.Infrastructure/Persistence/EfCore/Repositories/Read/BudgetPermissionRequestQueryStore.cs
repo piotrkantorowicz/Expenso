@@ -2,7 +2,7 @@ using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Extensions;
-using Expenso.Shared.Database.EfCore.Extensions;
+using Expenso.Shared.Database.EfCore.Queryable;
 
 using Microsoft.EntityFrameworkCore;
 

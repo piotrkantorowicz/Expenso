@@ -5,7 +5,7 @@ using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore;
-using Expenso.Shared.Database.EfCore.NpSql.Migrations;
+using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
@@ -103,15 +103,20 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
         {
             EfCoreSettings? efCoreSettings = scope.ServiceProvider.GetService<EfCoreSettings>();
 
-            if (efCoreSettings?.InMemory == true)
+            if (efCoreSettings is null)
             {
-                return this;
+                throw new InvalidOperationException("EfCoreSettings is not registered in the service collection.");
             }
 
             IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
             IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
-            Task runMigrationsTask = dbMigrator.EnsureDatabaseCreatedAsync(scope, assemblies);
-            Task.Run(() => runMigrationsTask).Wait();
+
+            if (efCoreSettings.InMemory is not true)
+            {
+                dbMigrator.MigrateAsync(scope, assemblies, default).GetAwaiter().GetResult();
+            }
+
+            dbMigrator.SeedAsync(scope, assemblies, default).GetAwaiter().GetResult();
         }
 
         return this;

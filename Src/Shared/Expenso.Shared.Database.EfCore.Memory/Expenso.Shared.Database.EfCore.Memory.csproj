@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
+        <ProjectReference Include="..\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+</Project>

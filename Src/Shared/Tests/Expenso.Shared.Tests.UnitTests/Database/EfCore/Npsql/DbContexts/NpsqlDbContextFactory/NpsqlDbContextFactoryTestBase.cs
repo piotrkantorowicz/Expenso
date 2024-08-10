@@ -1,3 +1,4 @@
+using Expenso.Shared.Database.EfCore.DbContexts;
 using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
 
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +20,13 @@ internal interface ITestDbContext : IDbContext;
 
 internal sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options), ITestDbContext
 {
-    public Task MigrateAsync()
+    public Task MigrateAsync(CancellationToken cancellationToken)
     {
-        return Database.MigrateAsync();
+        return Database.MigrateAsync(cancellationToken);
+    }
+
+    public Task SeedAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

@@ -23,8 +23,11 @@ internal sealed class DefaultSerializer(ILogger<DefaultSerializer> logger) : ISe
         }
     }
 
-    public object? Deserialize(string value, Type type, object? settings = null)
+    public object? Deserialize(string value, Type? type, object? settings = null)
     {
+        if (type is null)
+            return null;
+        
         switch (settings)
         {
             case null:

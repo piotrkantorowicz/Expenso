@@ -7,6 +7,20 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.
 internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
 {
     [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_CommandIsNull()
+    {
+        // Arrange
+        // Act
+        IDictionary<string, string> validationResult = TestCandidate.Validate(null!);
+
+        // Assert
+        validationResult.Should().NotBeNullOrEmpty();
+        const string expectedValidationMessage = "Command is required";
+        string error = validationResult["command"];
+        error.Should().Be(expectedValidationMessage);
+    }
+
+    [Test]
     public void Should_ReturnEmptyValidationResult_When_UserIdIsNotEmpty()
     {
         // Arrange

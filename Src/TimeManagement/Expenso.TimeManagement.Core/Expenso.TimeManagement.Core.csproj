@@ -7,6 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\BudgetSharing\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj"/>
         <ProjectReference Include="..\Expenso.TimeManagement.Proxy\Expenso.TimeManagement.Proxy.csproj"/>
     </ItemGroup>
 
@@ -14,6 +22,19 @@
         <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.ArchTests"/>
         <InternalsVisibleTo Include="Expenso.TimeManagement.Tests.UnitTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.2"/>
+        <PackageReference Include="NCrontab" Version="3.3.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0"/>
     </ItemGroup>
 
 </Project>

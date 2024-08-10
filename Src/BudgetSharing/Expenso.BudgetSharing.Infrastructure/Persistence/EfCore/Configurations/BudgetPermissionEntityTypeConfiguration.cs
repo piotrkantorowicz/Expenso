@@ -21,8 +21,8 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
 
         builder.OwnsOne<SafeDeletion>(x => x.Deletion, removalBuilder =>
         {
-            removalBuilder.Property(x => x.IsDeleted).HasColumnName(nameof(SafeDeletion.IsDeleted));
-            removalBuilder.Property(x => x.RemovalDate).HasColumnName(nameof(SafeDeletion.RemovalDate));
+            removalBuilder.Property(x => x.IsDeleted);
+            removalBuilder.Property(x => x.RemovalDate);
         });
 
         builder.OwnsMany(x => x.Permissions, permissionsBuilder =>

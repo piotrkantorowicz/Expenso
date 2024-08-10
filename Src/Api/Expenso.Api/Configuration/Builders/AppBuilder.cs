@@ -28,6 +28,7 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
+using Expenso.TimeManagement.Api;
 using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
@@ -77,6 +78,7 @@ internal sealed class AppBuilder : IAppBuilder
         Modules.RegisterModule<BudgetSharingModule>();
         Modules.RegisterModule<DocumentManagementModule>();
         Modules.RegisterModule<CommunicationModule>();
+        Modules.RegisterModule<TimeManagementModule>();
         _services.AddModules(_configuration);
 
         return this;
