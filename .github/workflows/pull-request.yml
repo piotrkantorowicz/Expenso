@@ -32,7 +32,7 @@ jobs:
         with:
           filters: |
             changed:
-              - 'Src/**'
+              - 'src/**'
       - name: Print changed value
         run: echo ${{ steps.filter_changes.outputs.changed }}
     needs: sanity

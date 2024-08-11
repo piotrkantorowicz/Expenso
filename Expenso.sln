@@ -1,34 +1,34 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api", "Src\Api\Expenso.Api\Expenso.Api.csproj", "{7282BA62-2026-4B42-8A11-581AB03F589C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api", "src\Api\Expenso.Api\Expenso.Api.csproj", "{7282BA62-2026-4B42-8A11-581AB03F589C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{F3AA041E-331E-4B9B-80E6-A984C496E476}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IAM", "IAM", "{BBB20D6E-C8C9-4169-9F46-44E307B5A545}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Core", "Src\IAM\Expenso.IAM.Core\Expenso.IAM.Core.csproj", "{E2322B34-8666-4211-AA0C-967EF97D0E7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Core", "src\IAM\Expenso.IAM.Core\Expenso.IAM.Core.csproj", "{E2322B34-8666-4211-AA0C-967EF97D0E7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Api", "Src\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj", "{F6F94FB3-9F5C-4FF3-9485-E6CB7698F630}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Api", "src\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj", "{F6F94FB3-9F5C-4FF3-9485-E6CB7698F630}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{B1E958E3-FBD0-4068-BEF5-84103D0870AC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B1E958E3-FBD0-4068-BEF5-84103D0870AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Proxy", "Src\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj", "{398A363A-BE22-4ADE-9855-888A6E68EF93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Proxy", "src\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj", "{398A363A-BE22-4ADE-9855-888A6E68EF93}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{CF5195DB-3FF6-4592-9C13-9520176C8E5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Modules", "Src\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj", "{FF1D2BA4-BA71-4989-AA03-179772F12B92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Modules", "src\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj", "{FF1D2BA4-BA71-4989-AA03-179772F12B92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Tests.UnitTests", "Src\IAM\Tests\Expenso.IAM.Tests.UnitTests\Expenso.IAM.Tests.UnitTests.csproj", "{DDF64A42-1D63-4932-96D9-999CFA6C81B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Tests.UnitTests", "src\IAM\Tests\Expenso.IAM.Tests.UnitTests\Expenso.IAM.Tests.UnitTests.csproj", "{DDF64A42-1D63-4932-96D9-999CFA6C81B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.UnitTests", "Src\Shared\Tests\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj", "{26F9F020-DB9F-4CD6-AFC6-D6F5D919B228}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.UnitTests", "src\Shared\Tests\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj", "{26F9F020-DB9F-4CD6-AFC6-D6F5D919B228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.UnitTests", "Src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj", "{F3CE72DD-AF4C-4D93-B4BC-F69FA6719E8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.UnitTests", "src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj", "{F3CE72DD-AF4C-4D93-B4BC-F69FA6719E8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.UnitTests", "Src\Api\Tests\Expenso.Api.Tests.UnitTests\Expenso.Api.Tests.UnitTests.csproj", "{FBF70C6C-1F0E-435D-8215-9F9F21BAC694}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.UnitTests", "src\Api\Tests\Expenso.Api.Tests.UnitTests\Expenso.Api.Tests.UnitTests.csproj", "{FBF70C6C-1F0E-435D-8215-9F9F21BAC694}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.E2E", "Src\Api\Tests\Expenso.Api.Tests.E2E\Expenso.Api.Tests.E2E.csproj", "{59946FE9-DD3B-4993-937A-C72D5115E46A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.E2E", "src\Api\Tests\Expenso.Api.Tests.E2E\Expenso.Api.Tests.E2E.csproj", "{59946FE9-DD3B-4993-937A-C72D5115E46A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Types", "Src\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj", "{4B7494A6-E2F6-482D-8903-0BE1CE1C0BD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Types", "src\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj", "{4B7494A6-E2F6-482D-8903-0BE1CE1C0BD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0BA6D3D2-F419-4ED3-A9CB-2B83BF2EFC2D}"
 EndProject
@@ -36,13 +36,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2F75B7B1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9E8F93B9-874E-456E-849D-3370BDA7D2FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.ArchTests", "Src\Api\Tests\Expenso.Api.Tests.ArchTests\Expenso.Api.Tests.ArchTests.csproj", "{C4D321EE-FA45-49F0-B5AC-AF1433E9A471}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Api.Tests.ArchTests", "src\Api\Tests\Expenso.Api.Tests.ArchTests\Expenso.Api.Tests.ArchTests.csproj", "{C4D321EE-FA45-49F0-B5AC-AF1433E9A471}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Tests.ArchTests", "Src\IAM\Tests\Expenso.IAM.Tests.ArchTests\Expenso.IAM.Tests.ArchTests.csproj", "{AAC1814D-9D18-40E9-802B-8D6C6187CE10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Tests.ArchTests", "src\IAM\Tests\Expenso.IAM.Tests.ArchTests\Expenso.IAM.Tests.ArchTests.csproj", "{AAC1814D-9D18-40E9-802B-8D6C6187CE10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTests", "Src\Shared\Tests\Expenso.Shared.Tests.ArchTests\Expenso.Shared.Tests.ArchTests.csproj", "{B9A8FC83-CB2D-4031-AD81-4A01E10E93C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.ArchTests", "src\Shared\Tests\Expenso.Shared.Tests.ArchTests\Expenso.Shared.Tests.ArchTests.csproj", "{B9A8FC83-CB2D-4031-AD81-4A01E10E93C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.ArchTests", "Src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.ArchTests", "src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF64440-1E3C-4AB3-9A4F-4A458235610F}"
 EndProject
@@ -52,25 +52,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserPreferences", "UserPref
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B9A11BA6-E295-4937-8B7B-43F3B2F5D78F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Tests.UnitTests", "Src\UserPreferences\Tests\Expenso.UserPreferences.Tests.UnitTests\Expenso.UserPreferences.Tests.UnitTests.csproj", "{D55F5973-0460-409E-9373-DAB5E61AB5F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Tests.UnitTests", "src\UserPreferences\Tests\Expenso.UserPreferences.Tests.UnitTests\Expenso.UserPreferences.Tests.UnitTests.csproj", "{D55F5973-0460-409E-9373-DAB5E61AB5F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Tests.ArchTests", "Src\UserPreferences\Tests\Expenso.UserPreferences.Tests.ArchTests\Expenso.UserPreferences.Tests.ArchTests.csproj", "{2231CF6B-9548-4D28-9279-0DA907E8485B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Tests.ArchTests", "src\UserPreferences\Tests\Expenso.UserPreferences.Tests.ArchTests\Expenso.UserPreferences.Tests.ArchTests.csproj", "{2231CF6B-9548-4D28-9279-0DA907E8485B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Api", "Src\UserPreferences\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj", "{E562060D-92AF-4A39-9909-1211F3FAF9DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Api", "src\UserPreferences\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj", "{E562060D-92AF-4A39-9909-1211F3FAF9DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Core", "Src\UserPreferences\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj", "{9C00CE73-6238-40F7-B1FB-57EB5EA0E816}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Core", "src\UserPreferences\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj", "{9C00CE73-6238-40F7-B1FB-57EB5EA0E816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Proxy", "Src\UserPreferences\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj", "{30C8E320-20DF-49A2-BC60-83614B17A81E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Proxy", "src\UserPreferences\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj", "{30C8E320-20DF-49A2-BC60-83614B17A81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.NpSql", "Src\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj", "{CEF84525-B8D3-4D5D-B05A-6F2E2A0EF1E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.NpSql", "src\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj", "{CEF84525-B8D3-4D5D-B05A-6F2E2A0EF1E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore", "Src\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj", "{C0C3A650-5D69-4026-84E5-DF1EF9D7DC04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore", "src\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj", "{C0C3A650-5D69-4026-84E5-DF1EF9D7DC04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Configuration", "Src\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj", "{5AE2F529-4BC5-4A09-81A9-6E663A93ADC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Configuration", "src\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj", "{5AE2F529-4BC5-4A09-81A9-6E663A93ADC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Integration.Events", "Src\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj", "{FAD04A57-A5F8-4CD8-B90D-322D47DA3971}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Integration.Events", "src\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj", "{FAD04A57-A5F8-4CD8-B90D-322D47DA3971}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Integration.MessageBroker", "Src\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj", "{A258A992-25E6-46C9-ACD5-20CCBD78CD2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Integration.MessageBroker", "src\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj", "{A258A992-25E6-46C9-ACD5-20CCBD78CD2C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{267622D5-1946-41A6-8BA6-79B05B40782A}"
 	ProjectSection(SolutionItems) = preProject
@@ -81,51 +81,51 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BudgetSharing", "BudgetSharing", "{3893B48F-DD21-4168-BE31-B01BF54D0D7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Api", "Src\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj", "{320EE729-C18B-4C32-82F8-CFBE12EBBC06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Api", "src\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj", "{320EE729-C18B-4C32-82F8-CFBE12EBBC06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Proxy", "Src\BudgetSharing\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj", "{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Proxy", "src\BudgetSharing\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj", "{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{348FEC73-3B51-464D-9E0D-3E82A66D1455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Tests.ArchTests", "Src\BudgetSharing\Tests\Expenso.BudgetSharing.Tests.ArchTests\Expenso.BudgetSharing.Tests.ArchTests.csproj", "{68A44277-74EF-42C2-9274-402A4ED8713E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Tests.ArchTests", "src\BudgetSharing\Tests\Expenso.BudgetSharing.Tests.ArchTests\Expenso.BudgetSharing.Tests.ArchTests.csproj", "{68A44277-74EF-42C2-9274-402A4ED8713E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Tests.UnitTests", "Src\BudgetSharing\Tests\Expenso.BudgetSharing.Tests.UnitTests\Expenso.BudgetSharing.Tests.UnitTests.csproj", "{6B978114-9116-4778-B59B-F8B9156C9471}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Tests.UnitTests", "src\BudgetSharing\Tests\Expenso.BudgetSharing.Tests.UnitTests\Expenso.BudgetSharing.Tests.UnitTests.csproj", "{6B978114-9116-4778-B59B-F8B9156C9471}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{ADD9AB4F-6C21-4A28-A507-7F4A3F1D59E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{718EA4D8-9641-44CD-938B-164538B2A80D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Proxy", "Src\Communication\Expenso.Communication.Proxy\Expenso.Communication.Proxy.csproj", "{803F8E20-D917-491B-A324-80AD359D95D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Proxy", "src\Communication\Expenso.Communication.Proxy\Expenso.Communication.Proxy.csproj", "{803F8E20-D917-491B-A324-80AD359D95D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Core", "Src\Communication\Expenso.Communication.Core\Expenso.Communication.Core.csproj", "{023F26D9-9203-43A6-9FC9-74DD3314E2D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Core", "src\Communication\Expenso.Communication.Core\Expenso.Communication.Core.csproj", "{023F26D9-9203-43A6-9FC9-74DD3314E2D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Api", "Src\Communication\Expenso.Communication.Api\Expenso.Communication.Api.csproj", "{DD2128EE-884C-4928-82D3-D9C55287EE39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Api", "src\Communication\Expenso.Communication.Api\Expenso.Communication.Api.csproj", "{DD2128EE-884C-4928-82D3-D9C55287EE39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Tests.UnitTests", "Src\Communication\Tests\Expenso.Communication.Tests.UnitTests\Expenso.Communication.Tests.UnitTests.csproj", "{D54B4C31-0FA5-422B-BECD-B63038E29CDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Tests.UnitTests", "src\Communication\Tests\Expenso.Communication.Tests.UnitTests\Expenso.Communication.Tests.UnitTests.csproj", "{D54B4C31-0FA5-422B-BECD-B63038E29CDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Tests.ArchTests", "Src\Communication\Tests\Expenso.Communication.Tests.ArchTests\Expenso.Communication.Tests.ArchTests.csproj", "{C1185E43-C402-47E9-88E9-825A01AE72B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Tests.ArchTests", "src\Communication\Tests\Expenso.Communication.Tests.ArchTests\Expenso.Communication.Tests.ArchTests.csproj", "{C1185E43-C402-47E9-88E9-825A01AE72B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands", "Src\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj", "{996758B8-3AA8-41CF-93BD-64D86C42F6CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands", "src\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj", "{996758B8-3AA8-41CF-93BD-64D86C42F6CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Queries", "Src\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj", "{A4B06B55-92D9-487E-88B1-DC684349E497}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Queries", "src\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj", "{A4B06B55-92D9-487E-88B1-DC684349E497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Application", "Src\BudgetSharing\Expenso.BudgetSharing.Application\Expenso.BudgetSharing.Application.csproj", "{800CCD78-0911-470A-A717-3CF927FDAC3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Application", "src\BudgetSharing\Expenso.BudgetSharing.Application\Expenso.BudgetSharing.Application.csproj", "{800CCD78-0911-470A-A717-3CF927FDAC3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Domain", "Src\BudgetSharing\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj", "{FDFB600F-F143-445B-A0E3-9A16B2A722C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Domain", "src\BudgetSharing\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj", "{FDFB600F-F143-445B-A0E3-9A16B2A722C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Infrastructure", "Src\BudgetSharing\Expenso.BudgetSharing.Infrastructure\Expenso.BudgetSharing.Infrastructure.csproj", "{7C4E0D2E-862B-4D75-9F0A-93ABE7DD18C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Infrastructure", "src\BudgetSharing\Expenso.BudgetSharing.Infrastructure\Expenso.BudgetSharing.Infrastructure.csproj", "{7C4E0D2E-862B-4D75-9F0A-93ABE7DD18C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Domain.Types", "Src\Shared\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj", "{1D22A66E-38A9-4F7F-BB63-705F14E4FF80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Domain.Types", "src\Shared\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj", "{1D22A66E-38A9-4F7F-BB63-705F14E4FF80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands.Validation", "Src\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj", "{E54C3931-60BD-46AE-B9C6-A40DE47BFA27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands.Validation", "src\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj", "{E54C3931-60BD-46AE-B9C6-A40DE47BFA27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database", "Src\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj", "{82A5858A-509E-4F35-9534-415E85810402}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database", "src\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj", "{82A5858A-509E-4F35-9534-415E85810402}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Domain.Events", "Src\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj", "{550964B6-C692-47B5-9D1E-752D0847E9FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Domain.Events", "src\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj", "{550964B6-C692-47B5-9D1E-752D0847E9FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands.Transactions", "Src\Shared\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj", "{986CA205-1D94-49C4-9B4F-957D0FD9A298}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands.Transactions", "src\Shared\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj", "{986CA205-1D94-49C4-9B4F-957D0FD9A298}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Expressions", "Src\Shared\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj", "{95880CB3-C163-4DA2-97E3-633E34117893}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Expressions", "src\Shared\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj", "{95880CB3-C163-4DA2-97E3-633E34117893}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{93849F34-88B7-41C6-AD5F-CB9C6E666F0E}"
 EndProject
@@ -139,47 +139,47 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Queries", "Queries", "{F3C2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{9229B7A6-6788-42D9-B4E1-8E235258E163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands.Logging", "Src\Shared\Expenso.Shared.Commands.Logging\Expenso.Shared.Commands.Logging.csproj", "{1C3A7397-D00F-4842-BDA7-4FE85E5115C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Commands.Logging", "src\Shared\Expenso.Shared.Commands.Logging\Expenso.Shared.Commands.Logging.csproj", "{1C3A7397-D00F-4842-BDA7-4FE85E5115C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Queries.Logging", "Src\Shared\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj", "{9D401DB2-4D77-4C3B-9B94-CD5C0DF4687D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Queries.Logging", "src\Shared\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj", "{9D401DB2-4D77-4C3B-9B94-CD5C0DF4687D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Domain.Events.Logging", "Src\Shared\Expenso.Shared.Domain.Events.Logging\Expenso.Shared.Domain.Events.Logging.csproj", "{D41B320B-A4E4-437C-877B-31E7E08166A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Domain.Events.Logging", "src\Shared\Expenso.Shared.Domain.Events.Logging\Expenso.Shared.Domain.Events.Logging.csproj", "{D41B320B-A4E4-437C-877B-31E7E08166A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Integration.Events.Logging", "Src\Shared\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj", "{AEFF6060-A2D4-4D74-8F6D-A45A3C46A18A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Integration.Events.Logging", "src\Shared\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj", "{AEFF6060-A2D4-4D74-8F6D-A45A3C46A18A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Logging", "Src\Shared\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj", "{A3F8D124-BF81-4178-BE39-E31B02471CAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Logging", "src\Shared\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj", "{A3F8D124-BF81-4178-BE39-E31B02471CAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Serialization", "Src\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj", "{212AC785-0923-42C0-B226-4507CE0F1FEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Serialization", "src\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj", "{212AC785-0923-42C0-B226-4507CE0F1FEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TimeManagement", "TimeManagement", "{ACC51692-0B58-463D-8903-1CA4AAC7D092}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02226888-1AA4-49EE-BE07-EBF8662344C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Api", "Src\TimeManagement\Expenso.TimeManagement.Api\Expenso.TimeManagement.Api.csproj", "{5F685670-0856-407D-AD5E-35B7A711C29F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Api", "src\TimeManagement\Expenso.TimeManagement.Api\Expenso.TimeManagement.Api.csproj", "{5F685670-0856-407D-AD5E-35B7A711C29F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Core", "Src\TimeManagement\Expenso.TimeManagement.Core\Expenso.TimeManagement.Core.csproj", "{D7B683F4-1FAD-4CC3-95B9-A93D1772DCC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Core", "src\TimeManagement\Expenso.TimeManagement.Core\Expenso.TimeManagement.Core.csproj", "{D7B683F4-1FAD-4CC3-95B9-A93D1772DCC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Proxy", "Src\TimeManagement\Expenso.TimeManagement.Proxy\Expenso.TimeManagement.Proxy.csproj", "{C401EC5E-41A5-4E39-B8AE-8B3E51B4BE62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Proxy", "src\TimeManagement\Expenso.TimeManagement.Proxy\Expenso.TimeManagement.Proxy.csproj", "{C401EC5E-41A5-4E39-B8AE-8B3E51B4BE62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Tests.UnitTests", "Src\TimeManagement\Tests\Expenso.TimeManagement.Tests.UnitTests\Expenso.TimeManagement.Tests.UnitTests.csproj", "{48575EE3-0812-4A78-8826-E34C9F869E1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Tests.UnitTests", "src\TimeManagement\Tests\Expenso.TimeManagement.Tests.UnitTests\Expenso.TimeManagement.Tests.UnitTests.csproj", "{48575EE3-0812-4A78-8826-E34C9F869E1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Tests.ArchTests", "Src\TimeManagement\Tests\Expenso.TimeManagement.Tests.ArchTests\Expenso.TimeManagement.Tests.ArchTests.csproj", "{6DA3C174-EBB3-4CD9-90DC-2DF2C24C5BC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Tests.ArchTests", "src\TimeManagement\Tests\Expenso.TimeManagement.Tests.ArchTests\Expenso.TimeManagement.Tests.ArchTests.csproj", "{6DA3C174-EBB3-4CD9-90DC-2DF2C24C5BC8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DocumentManagement", "DocumentManagement", "{C5986178-303B-4E45-8B78-6C395CABF958}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{86136C44-6AE4-4B84-9C8D-953627D72EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Tests.ArchTests", "Src\DocumentManagement\Tests\Expenso.DocumentManagement.Tests.ArchTests\Expenso.DocumentManagement.Tests.ArchTests.csproj", "{B588DF8D-8D76-4989-B46F-614708D1AF85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Tests.ArchTests", "src\DocumentManagement\Tests\Expenso.DocumentManagement.Tests.ArchTests\Expenso.DocumentManagement.Tests.ArchTests.csproj", "{B588DF8D-8D76-4989-B46F-614708D1AF85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Tests.UnitTests", "Src\DocumentManagement\Tests\Expenso.DocumentManagement.Tests.UnitTests\Expenso.DocumentManagement.Tests.UnitTests.csproj", "{755345FF-333D-44C4-9E93-057B761C2465}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Tests.UnitTests", "src\DocumentManagement\Tests\Expenso.DocumentManagement.Tests.UnitTests\Expenso.DocumentManagement.Tests.UnitTests.csproj", "{755345FF-333D-44C4-9E93-057B761C2465}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Api", "Src\DocumentManagement\Expenso.DocumentManagement.Api\Expenso.DocumentManagement.Api.csproj", "{D3820835-0565-42A4-A445-BA4559FD385D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Api", "src\DocumentManagement\Expenso.DocumentManagement.Api\Expenso.DocumentManagement.Api.csproj", "{D3820835-0565-42A4-A445-BA4559FD385D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Core", "Src\DocumentManagement\Expenso.DocumentManagement.Core\Expenso.DocumentManagement.Core.csproj", "{18D061A7-58D3-4CC5-9536-A946AECDA7D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Core", "src\DocumentManagement\Expenso.DocumentManagement.Core\Expenso.DocumentManagement.Core.csproj", "{18D061A7-58D3-4CC5-9536-A946AECDA7D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Proxy", "Src\DocumentManagement\Expenso.DocumentManagement.Proxy\Expenso.DocumentManagement.Proxy.csproj", "{7420167C-49D8-4D01-A777-9B39C41C168C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Proxy", "src\DocumentManagement\Expenso.DocumentManagement.Proxy\Expenso.DocumentManagement.Proxy.csproj", "{7420167C-49D8-4D01-A777-9B39C41C168C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.Memory", "Src\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj", "{063E732E-FA66-4CAA-B8C0-F45EF8036FAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.Memory", "src\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj", "{063E732E-FA66-4CAA-B8C0-F45EF8036FAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

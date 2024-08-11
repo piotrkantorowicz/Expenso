@@ -30,7 +30,7 @@ internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
             "..",
             "..",
             "..",
-            "Src",
+            "src",
             "Api",
             "Expenso.Api"
         ]);
