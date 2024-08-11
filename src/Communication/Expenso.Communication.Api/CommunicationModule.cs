@@ -17,7 +17,7 @@ public sealed class CommunicationModule : ModuleDefinition
 
     public override IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
-        return new List<Assembly>
+        return new List<Assembly> 
         {
             typeof(CommunicationModule).Assembly,
             typeof(CoreExtensions).Assembly,

@@ -2,6 +2,10 @@ name: test
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      codecov_token:
+        description: "Token used to upload coverage results"
+        required: true
 env:
   DOTNET_VERSION: "8.0.x"
 
@@ -34,15 +38,11 @@ jobs:
       - name: Tests
         run: dotnet test --no-build --settings tests.runsettings --results-directory "TestResults" --collect:"XPlat Code Coverage"
 
-      - name: Check token
-        run: |
-          echo "Token: ${{ secrets.GITHUB_TOKEN }}"
-
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v4.5.0
         with:
           fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }} 
+          token: ${{ secrets.codecov_token }} 
           verbose: true 
 
       - name: Upload test results

@@ -1,8 +1,8 @@
 name: pull-request
 on:
   pull_request:
-    branches: [ main, dev ]
-    types: [ opened, synchronize, reopened ]
+    branches: [main, dev]
+    types: [opened, synchronize, reopened]
 
 permissions:
   actions: read
@@ -50,3 +50,5 @@ jobs:
   test:
     uses: ./.github/workflows/reusable-test.yml
     needs: [ trivy, code-ql ]
+    secrets:
+      codecov_token: ${{ secrets.CODECOV_TOKEN }}

@@ -23,6 +23,8 @@ jobs:
   test:
     uses: ./.github/workflows/reusable-test.yml
     needs: [ trivy, code-ql ]
+    secrets:
+      codecov_token: ${{ secrets.CODECOV_TOKEN }}
 
   buid-and-push-docker-image-to-ghcr:
     needs: test
