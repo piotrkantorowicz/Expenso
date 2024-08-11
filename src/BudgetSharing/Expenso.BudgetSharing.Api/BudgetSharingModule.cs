@@ -21,7 +21,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPerm
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RemovePermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RestoreBudgetPermission;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
-using Expenso.BudgetSharing.Domain;
+using Expenso.BudgetSharing.Domain; 
 using Expenso.BudgetSharing.Infrastructure;
 using Expenso.BudgetSharing.Proxy;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
