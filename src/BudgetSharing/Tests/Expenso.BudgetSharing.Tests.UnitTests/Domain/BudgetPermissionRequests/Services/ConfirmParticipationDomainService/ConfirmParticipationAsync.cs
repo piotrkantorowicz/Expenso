@@ -1,9 +1,7 @@
 using System.Text;
 
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
-using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
@@ -71,7 +69,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
         // Arrange
         _budgetPermissionRequestRepositoryMock
             .Setup(expression: x => x.GetByIdAsync(_budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (BudgetPermissionRequest?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
@@ -97,7 +95,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
 
         _budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (BudgetPermission?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
@@ -128,7 +126,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
         _userPreferencesProxyMock
             .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (GetPreferenceResponse?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(

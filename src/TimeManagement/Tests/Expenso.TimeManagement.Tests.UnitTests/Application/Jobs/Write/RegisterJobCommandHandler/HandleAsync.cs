@@ -38,7 +38,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         // Arrange
         _jobInstanceRepository
             .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (JobInstance?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         // Assert
@@ -67,7 +67,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
 
         _jobEntryStatusReposiotry
             .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (JobEntryStatus?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         // Assert

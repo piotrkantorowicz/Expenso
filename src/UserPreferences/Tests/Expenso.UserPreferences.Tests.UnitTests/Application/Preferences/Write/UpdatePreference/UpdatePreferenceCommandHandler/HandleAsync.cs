@@ -1,7 +1,6 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
-using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinancePreferences;
 using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
@@ -76,7 +75,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (Preference?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         // Assert

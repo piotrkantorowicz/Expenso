@@ -2,6 +2,10 @@ name: test
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      codecov_token:
+        description: "Token used to upload coverage results"
+        required: true
 env:
   DOTNET_VERSION: "8.0.x"
 
@@ -12,13 +16,13 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: https://nuget.pkg.github.com/piotrkantorowicz/index.json
@@ -35,19 +39,21 @@ jobs:
         run: dotnet test --no-build --settings tests.runsettings --results-directory "TestResults" --collect:"XPlat Code Coverage"
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v4.5.0
+        with:
+          fail_ci_if_error: false
+          token: ${{ secrets.codecov_token }} 
+          verbose: true 
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: TestResults
           path: TestResults
 
       - name: Tests report generation
-        uses: dorny/test-reporter@v1.7.0
+        uses: dorny/test-reporter@v1.9.1
         if: success() || failure()
         with:
           name: test-results (${{ env.DOTNET_VERSION }})

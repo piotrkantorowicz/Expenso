@@ -1,8 +1,6 @@
 ﻿using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
-using Keycloak.AuthServices.Sdk.Admin.Models;
-
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
 internal sealed class GetUserByIdAsync : UserServiceTestBase
@@ -30,8 +28,8 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
         // Arrange
         string userId = Guid.NewGuid().ToString();
 
-        _keycloakUserClientMock.Setup(expression: x => x.GetUser(It.IsAny<string>(), userId))!.ReturnsAsync(
-            value: (User?)null);
+        _keycloakUserClientMock.Setup(expression: x => x.GetUser(It.IsAny<string>(), userId))!
+            .ReturnsAsync(value: null);
 
         // Act
         // Assert
