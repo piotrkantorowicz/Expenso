@@ -54,7 +54,7 @@ internal static class RegisterJobRequestMap
             return DefaultCronExpression;
         }
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new();
         stringBuilder.Append(value: interval.DayOfWeek ?? "*");
         stringBuilder.Append(value: ' ');
         stringBuilder.Append(value: interval.Month ?? "*");

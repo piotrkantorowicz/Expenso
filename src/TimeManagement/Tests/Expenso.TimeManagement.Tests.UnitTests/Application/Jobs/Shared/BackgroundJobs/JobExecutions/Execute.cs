@@ -25,7 +25,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobInstanceRepositoryMock
             .Setup(expression: x => x.GetAsync(_jobInstanceId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (JobInstance?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
@@ -269,7 +269,7 @@ internal sealed class Execute : JobExecutionTestBase
     public async Task Should_LogWarning_When_SerializationFailed()
     {
         // Arrange
-        JobEntryTrigger trigger = new JobEntryTrigger
+        JobEntryTrigger trigger = new()
         {
             Id = Guid.NewGuid(),
             EventData = "7uU9Wpa",
@@ -320,7 +320,7 @@ internal sealed class Execute : JobExecutionTestBase
     public async Task Should_LogError_When_Error()
     {
         // Arrange
-        Exception error = new Exception(message: "This is test error");
+        Exception error = new(message: "This is test error");
 
         JobEntry jobEntry = new()
         {
@@ -364,7 +364,7 @@ internal sealed class Execute : JobExecutionTestBase
         BudgetPermissionRequestExpiredIntergrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
 
-        JobEntryTrigger trigger = new JobEntryTrigger
+        JobEntryTrigger trigger = new()
         {
             Id = Guid.NewGuid(),
             EventData = JsonSerializer.Serialize(value: eventData),
@@ -421,13 +421,12 @@ internal sealed class Execute : JobExecutionTestBase
     public async Task Should_MakeJobFailed_When_MaxRetriesReached()
     {
         // Arrange
-        Exception error = new Exception(message: "This is test error");
+        Exception error = new(message: "This is test error");
 
         BudgetPermissionRequestExpiredIntergrationEvent eventData =
-            new BudgetPermissionRequestExpiredIntergrationEvent(
-                MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
+            new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
 
-        JobEntryTrigger trigger = new JobEntryTrigger
+        JobEntryTrigger trigger = new()
         {
             Id = Guid.NewGuid(),
             EventData = JsonSerializer.Serialize(value: eventData),
@@ -486,13 +485,12 @@ internal sealed class Execute : JobExecutionTestBase
     public async Task Should_MakeJobRetrying_When_MaxRetriesHasNotBeenReached()
     {
         // Arrange
-        Exception error = new Exception(message: "This is test error");
+        Exception error = new(message: "This is test error");
 
         BudgetPermissionRequestExpiredIntergrationEvent eventData =
-            new BudgetPermissionRequestExpiredIntergrationEvent(
-                MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
+            new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
 
-        JobEntryTrigger trigger = new JobEntryTrigger
+        JobEntryTrigger trigger = new()
         {
             Id = Guid.NewGuid(),
             EventData = JsonSerializer.Serialize(value: eventData),

@@ -11,7 +11,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     public void Should_RegisterJobEntry()
     {
         // Arrange
-        AddJobEntryRequest jobEntryRequest = new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+        AddJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
             new AddJobEntryRequest_JobEntryTrigger(
                 EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,

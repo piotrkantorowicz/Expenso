@@ -39,7 +39,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
             .Setup(expression: x => x.QueryAsync(
                 new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
                     It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (GetPreferenceResponse?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         GetPreferenceResponse? preference = await TestCandidate.GetUserPreferencesAsync(userId: _userId,
