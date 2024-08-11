@@ -35,10 +35,10 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
-        run: dotnet restore Src/Api/Expenso.Api/Expenso.Api.csproj
+        run: dotnet restore src/Api/Expenso.Api/Expenso.Api.csproj
 
       - name: Build
-        run: dotnet build Src/Api/Expenso.Api/Expenso.Api.csproj --configuration Release --no-restore
+        run: dotnet build src/Api/Expenso.Api/Expenso.Api.csproj --configuration Release --no-restore
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
