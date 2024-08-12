@@ -3,7 +3,7 @@ using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
 using Expenso.IAM.Proxy.DTO.GetUser;
 
-using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -13,7 +13,7 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
 {
     protected GetUserResponse _getUserResponse = null!;
     protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
-    protected User _user = null!;
+    protected UserRepresentation _user = null!;
     protected string _userEmail = null!;
     protected string _userId = null!;
 
@@ -24,7 +24,7 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
         _userId = Guid.NewGuid().ToString();
         _userEmail = "email@email.com";
 
-        _user = new User
+        _user = new UserRepresentation
         {
             Id = _userId,
             FirstName = "Valentina",

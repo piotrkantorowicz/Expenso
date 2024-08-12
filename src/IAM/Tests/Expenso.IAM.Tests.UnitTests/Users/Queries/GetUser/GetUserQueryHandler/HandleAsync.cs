@@ -11,7 +11,10 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object, UserId: _userId);
-        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId)).ReturnsAsync(value: _getUserResponse);
+
+        _userServiceMock
+            .Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _getUserResponse);
 
         // Act
         GetUserResponse? result =
@@ -29,7 +32,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         GetUserQuery query = new(MessageContext: _messageContextMock.Object, Email: _userEmail);
 
         _userServiceMock
-            .Setup(expression: x => x.GetUserByEmailAsync(_userEmail))
+            .Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserResponse);
 
         // Act
@@ -46,7 +49,9 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object, UserId: _userId);
-        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId))!.ReturnsAsync(value: null);
+
+        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(value: null);
 
         // Act
         GetUserResponse? result =
@@ -61,7 +66,9 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object, Email: _userEmail);
-        _userServiceMock.Setup(expression: x => x.GetUserByEmailAsync(_userEmail))!.ReturnsAsync(value: null);
+
+        _userServiceMock.Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))!
+            .ReturnsAsync(value: null);
 
         // Act
         GetUserResponse? result =

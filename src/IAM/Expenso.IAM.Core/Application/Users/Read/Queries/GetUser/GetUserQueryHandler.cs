@@ -16,12 +16,12 @@ internal sealed class GetUserQueryHandler(IUserService userService) : IQueryHand
 
         if (!string.IsNullOrEmpty(value: userId))
         {
-            return await _userService.GetUserByIdAsync(userId: userId);
+            return await _userService.GetUserByIdAsync(userId: userId, cancellationToken: cancellationToken);
         }
 
         if (!string.IsNullOrEmpty(value: email))
         {
-            return await _userService.GetUserByEmailAsync(email: email);
+            return await _userService.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
         }
 
         throw new NotFoundException(message: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.");

@@ -33,7 +33,7 @@ using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
-using Keycloak.AuthServices.Sdk.Admin;
+using Keycloak.AuthServices.Sdk;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
@@ -207,59 +207,60 @@ internal sealed class AppBuilder : IAppBuilder
             _services.AddSingleton(implementationInstance: options);
         }
 
-        _services.AddKeycloakAuthentication(configuration: _configuration, configureOptions: jwtOptions =>
-        {
-            jwtOptions.Events = new JwtBearerEvents
+        _services.AddKeycloakWebApiAuthentication(configuration: _configuration,
+            configureJwtBearerOptions: jwtOptions =>
             {
-                OnChallenge = async context =>
+                jwtOptions.Events = new JwtBearerEvents
                 {
-                    context.HandleResponse();
-                    const int statusCode = StatusCodes.Status401Unauthorized;
-                    HttpContext httpContext = context.HttpContext;
-                    RouteData routeData = httpContext.GetRouteData();
-
-                    ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
-                        actionDescriptor: new ActionDescriptor());
-
-                    ProblemDetails problemDetails = new()
+                    OnChallenge = async context =>
                     {
-                        Status = StatusCodes.Status401Unauthorized,
-                        Title = "Unauthorized",
-                        Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-                    };
+                        context.HandleResponse();
+                        const int statusCode = StatusCodes.Status401Unauthorized;
+                        HttpContext httpContext = context.HttpContext;
+                        RouteData routeData = httpContext.GetRouteData();
 
-                    ObjectResult result = new(value: problemDetails)
+                        ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
+                            actionDescriptor: new ActionDescriptor());
+
+                        ProblemDetails problemDetails = new()
+                        {
+                            Status = StatusCodes.Status401Unauthorized,
+                            Title = "Unauthorized",
+                            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
+                        };
+
+                        ObjectResult result = new(value: problemDetails)
+                        {
+                            StatusCode = statusCode
+                        };
+
+                        await result.ExecuteResultAsync(context: actionContext);
+                    },
+                    OnForbidden = async context =>
                     {
-                        StatusCode = statusCode
-                    };
+                        const int statusCode = StatusCodes.Status403Forbidden;
+                        HttpContext httpContext = context.HttpContext;
+                        RouteData routeData = httpContext.GetRouteData();
 
-                    await result.ExecuteResultAsync(context: actionContext);
-                },
-                OnForbidden = async context =>
-                {
-                    const int statusCode = StatusCodes.Status403Forbidden;
-                    HttpContext httpContext = context.HttpContext;
-                    RouteData routeData = httpContext.GetRouteData();
+                        ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
+                            actionDescriptor: new ActionDescriptor());
 
-                    ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
-                        actionDescriptor: new ActionDescriptor());
+                        ProblemDetails problemDetails = new()
+                        {
+                            Status = StatusCodes.Status403Forbidden,
+                            Title = "Forbidden",
+                            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
+                        };
 
-                    ProblemDetails problemDetails = new()
-                    {
-                        Status = StatusCodes.Status403Forbidden,
-                        Title = "Forbidden",
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
-                    };
+                        ObjectResult result = new(value: problemDetails)
+                        {
+                            StatusCode = statusCode
+                        };
 
-                    ObjectResult result = new(value: problemDetails)
-                    {
-                        StatusCode = statusCode
-                    };
-
-                    await result.ExecuteResultAsync(context: actionContext);
-                }
-            };
-        });
+                        await result.ExecuteResultAsync(context: actionContext);
+                    }
+                };
+            });
 
         _services.AddKeycloakAuthorization(configuration: _configuration);
         _services.AddKeycloakAdminHttpClient(configuration: _configuration);
