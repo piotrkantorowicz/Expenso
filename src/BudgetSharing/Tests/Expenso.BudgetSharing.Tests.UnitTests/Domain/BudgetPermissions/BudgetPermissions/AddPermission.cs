@@ -116,7 +116,6 @@ internal sealed class AddPermission : BudgetPermissionTestBase
                 .Append(value: participantId)
                 .Append(value: " that its owner ")
                 .Append(value: _defaultPersonId)
-                .Append(value: '.')
                 .ToString());
     }
 }
