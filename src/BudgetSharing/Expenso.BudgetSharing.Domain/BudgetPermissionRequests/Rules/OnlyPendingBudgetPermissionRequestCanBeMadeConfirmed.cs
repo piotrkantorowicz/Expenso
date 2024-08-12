@@ -16,7 +16,7 @@ internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(
         status ?? throw new ArgumentNullException(paramName: nameof(status));
 
     public string Message =>
-        $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.";
+        $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed";
 
     public bool IsBroken()
     {

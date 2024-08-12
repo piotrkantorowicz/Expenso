@@ -15,7 +15,7 @@ internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICom
 
         if (handler is null)
         {
-            throw new InvalidOperationException(message: $"Handler for {typeof(TCommand).Name} not found.");
+            throw new InvalidOperationException(message: $"Handler for {typeof(TCommand).Name} not found");
         }
 
         await handler.HandleAsync(command: command, cancellationToken: cancellationToken);
@@ -31,7 +31,7 @@ internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICom
 
         if (handler is null)
         {
-            throw new InvalidOperationException(message: $"Handler for {typeof(TCommand).Name} not found.");
+            throw new InvalidOperationException(message: $"Handler for {typeof(TCommand).Name} not found");
         }
 
         return await handler.HandleAsync(command: command, cancellationToken: cancellationToken);

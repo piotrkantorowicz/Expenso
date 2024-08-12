@@ -16,7 +16,7 @@ internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
         status ?? throw new ArgumentNullException(paramName: nameof(status));
 
     public string Message =>
-        $"Only pending budget permission request {_budgetPermissionRequestId} can be made expired.";
+        $"Only pending budget permission request {_budgetPermissionRequestId} can be made expired";
 
     public bool IsBroken()
     {

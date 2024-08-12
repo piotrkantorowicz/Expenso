@@ -62,7 +62,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         exception
             ?.Message.Should()
             .Be(expected:
-                "Notification service Expenso.Communication.Core.Application.Notifications.Services.Push.IPushService hasn't been found.");
+                "Notification service Expenso.Communication.Core.Application.Notifications.Services.Push.IPushService hasn't been found");
     }
 
     [Test]
@@ -82,6 +82,6 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         exception
             ?.Message.Should()
             .Be(expected:
-                "Notification service is not of requested type Expenso.Communication.Core.Application.Notifications.Services.Emails.IEmailService.");
+                "Notification service is not of requested type Expenso.Communication.Core.Application.Notifications.Services.Emails.IEmailService");
     }
 }

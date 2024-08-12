@@ -27,7 +27,7 @@ internal sealed class AddPermissionCommandHandler(IBudgetPermissionRepository bu
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException(message: $"Budget permission with id {budgetPermissionId} hasn't been found.");
+            throw new NotFoundException(message: $"Budget permission with id {budgetPermissionId} hasn't been found");
         }
 
         budgetPermission.AddPermission(participantId: PersonId.New(value: participantId),

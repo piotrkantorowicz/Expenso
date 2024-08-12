@@ -33,7 +33,7 @@ public static class Extensions
                 break;
             default:
                 throw new ArgumentOutOfRangeException(paramName: filesSettings?.StorageType.GetType().Name,
-                    actualValue: filesSettings?.StorageType, message: "Invalid auth server type.");
+                    actualValue: filesSettings?.StorageType, message: "Invalid auth server type");
         }
     }
 }

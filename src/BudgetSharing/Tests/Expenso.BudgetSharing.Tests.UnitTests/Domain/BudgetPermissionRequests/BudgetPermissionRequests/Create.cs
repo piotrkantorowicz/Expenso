@@ -49,8 +49,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
                 permissionType: PermissionType.Unknown, expirationDays: Expiration, clock: _clockMock.Object));
 
         // Assert
-        string expectedExceptionMessage =
-            $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed.";
+        string expectedExceptionMessage = $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed";
 
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
@@ -67,7 +66,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
                 permissionType: _defaultPermissionType, expirationDays: 0, clock: _clockMock.Object));
 
         // Assert
-        string expectedExceptionMessage = $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day.";
+        string expectedExceptionMessage = $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

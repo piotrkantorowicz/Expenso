@@ -28,7 +28,7 @@ public static class Extensions
                 break;
             default:
                 throw new ArgumentOutOfRangeException(paramName: authSettings?.AuthServer.GetType().Name,
-                    actualValue: authSettings?.AuthServer, message: "Invalid auth server type.");
+                    actualValue: authSettings?.AuthServer, message: "Invalid auth server type");
         }
     }
 }

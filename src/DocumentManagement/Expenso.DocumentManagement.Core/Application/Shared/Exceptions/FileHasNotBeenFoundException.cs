@@ -2,4 +2,4 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 
-internal sealed class FileHasNotBeenFoundException() : ValidationException(details: "File not found.");
+internal sealed class FileHasNotBeenFoundException() : ValidationException(details: "File not found");

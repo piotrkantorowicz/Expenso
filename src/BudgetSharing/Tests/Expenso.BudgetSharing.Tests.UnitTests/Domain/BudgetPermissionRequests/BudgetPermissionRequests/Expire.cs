@@ -41,7 +41,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
 
         // Assert
         string expectedExceptionMessage =
-            $"Only pending budget permission request {TestCandidate.Id} can be made expired.";
+            $"Only pending budget permission request {TestCandidate.Id} can be made expired";
 
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }

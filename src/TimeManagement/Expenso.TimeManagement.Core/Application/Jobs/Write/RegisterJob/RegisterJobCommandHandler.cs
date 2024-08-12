@@ -32,7 +32,7 @@ internal sealed class RegisterJobCommandHandler(
 
         if (jobType is null)
         {
-            throw new NotFoundException(message: $"Job instance with id {jobInstanceId} not found.");
+            throw new NotFoundException(message: $"Job instance with id {jobInstanceId} not found");
         }
 
         Guid jobStatusId = JobEntryStatus.Running.Id;
@@ -42,7 +42,7 @@ internal sealed class RegisterJobCommandHandler(
 
         if (runningJobStatus is null)
         {
-            throw new NotFoundException(message: $"Job status with id {jobStatusId} not found.");
+            throw new NotFoundException(message: $"Job status with id {jobStatusId} not found");
         }
 
         JobEntry? jobEntry =
@@ -50,7 +50,7 @@ internal sealed class RegisterJobCommandHandler(
 
         if (jobEntry is null)
         {
-            throw new NotFoundException(message: "Unable to create job entry from request.");
+            throw new NotFoundException(message: "Unable to create job entry from request");
         }
 
         await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);

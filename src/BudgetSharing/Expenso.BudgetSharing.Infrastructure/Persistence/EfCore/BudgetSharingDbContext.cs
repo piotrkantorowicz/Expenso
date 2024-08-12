@@ -31,7 +31,7 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
     {
         if (_currentTransaction is null)
         {
-            throw new InvalidOperationException(message: "Transaction has not been started.");
+            throw new InvalidOperationException(message: "Transaction has not been started");
         }
 
         await _currentTransaction.RollbackAsync(cancellationToken: cancellationToken);
@@ -42,7 +42,7 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
     {
         if (_currentTransaction is null)
         {
-            throw new InvalidOperationException(message: "Transaction has not been started.");
+            throw new InvalidOperationException(message: "Transaction has not been started");
         }
 
         await _currentTransaction.CommitAsync(cancellationToken: cancellationToken);

@@ -82,7 +82,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission request with id {_budgetPermissionRequestId} hasn't been found.");
+                $"Budget permission request with id {_budgetPermissionRequestId} hasn't been found");
     }
 
     [Test]
@@ -108,7 +108,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission with id {_budgetPermissionRequest.BudgetId} hasn't been found.");
+                $"Budget permission with id {_budgetPermissionRequest.BudgetId} hasn't been found");
     }
 
     [Test]
@@ -139,7 +139,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Finance preferences for user {_budgetPermission.OwnerId} haven't been found.");
+                $"Finance preferences for user {_budgetPermission.OwnerId} haven't been found");
     }
 
     [Test]
@@ -180,7 +180,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
                 .Append(value: _budgetPermission.BudgetId)
                 .Append(value: ", because permission type is not valid or budget owner with id: ")
                 .Append(value: _budgetPermission.OwnerId)
-                .Append(value: " don't allow any or more participants.")
+                .Append(value: " don't allow any or more participants")
                 .ToString());
     }
 }

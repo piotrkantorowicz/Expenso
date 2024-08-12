@@ -64,6 +64,6 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(
-                expectedWildcardPattern: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}.");
+                expectedWildcardPattern: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}");
     }
 }

@@ -19,7 +19,7 @@ internal sealed class BudgetCanHasOnlyOwnerPermissionForItsOwner(
         permissionType ?? throw new ArgumentNullException(paramName: nameof(permissionType));
 
     public string Message =>
-        $"Budget {_budgetId} cannot have owner permission for other user {_participantId} that its owner {_ownerId}.";
+        $"Budget {_budgetId} cannot have owner permission for other user {_participantId} that its owner {_ownerId}";
 
     public bool IsBroken()
     {

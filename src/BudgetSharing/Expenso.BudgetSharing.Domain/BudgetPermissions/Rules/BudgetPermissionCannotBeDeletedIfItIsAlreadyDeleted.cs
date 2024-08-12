@@ -11,7 +11,7 @@ internal sealed class BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(
     private readonly BudgetPermissionId _budgetPermissionId =
         budgetPermissionId ?? throw new ArgumentNullException(paramName: nameof(budgetPermissionId));
 
-    public string Message => $"Budget permission with id: {_budgetPermissionId} is already deleted.";
+    public string Message => $"Budget permission with id: {_budgetPermissionId} is already deleted";
 
     public bool IsBroken()
     {

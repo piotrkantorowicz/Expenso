@@ -36,7 +36,7 @@ internal sealed class OnException : GlobalExceptionHandlerTestBase
     public async Task Should_Return404_When_NotFoundExceptionThrown()
     {
         // Arrange
-        NotFoundException exception = new(message: "Not found.");
+        NotFoundException exception = new(message: "Not found");
 
         // Act
         await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);

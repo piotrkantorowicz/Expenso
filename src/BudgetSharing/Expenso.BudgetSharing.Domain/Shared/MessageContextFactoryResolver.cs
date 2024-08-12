@@ -19,7 +19,7 @@ public static class MessageContextFactoryResolver
     {
         if (!_isInitialized)
         {
-            throw new InvalidOperationException(message: "MessageContextFactoryResolver is not initialized.");
+            throw new InvalidOperationException(message: "MessageContextFactoryResolver is not initialized");
         }
 
         return _serviceProvider!.GetRequiredService<IMessageContextFactory>();

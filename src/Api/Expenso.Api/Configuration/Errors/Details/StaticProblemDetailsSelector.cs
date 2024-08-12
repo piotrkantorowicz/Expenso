@@ -27,7 +27,7 @@ internal static class StaticProblemDetailsSelector
             StatusCodes.Status404NotFound, new ProblemDetails
             {
                 Status = StatusCodes.Status404NotFound,
-                Title = "The specified resource was not found.",
+                Title = "The specified resource was not found",
                 Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.5"
             }
         },
@@ -35,7 +35,7 @@ internal static class StaticProblemDetailsSelector
             StatusCodes.Status409Conflict, new ProblemDetails
             {
                 Status = StatusCodes.Status409Conflict,
-                Title = "Conflict occurred.",
+                Title = "Conflict occurred",
                 Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.5.10"
             }
         },

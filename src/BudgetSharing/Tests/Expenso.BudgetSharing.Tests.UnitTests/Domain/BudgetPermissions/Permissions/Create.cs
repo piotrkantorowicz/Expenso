@@ -54,6 +54,6 @@ internal sealed class Create : PermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(
-                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed.");
+                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed");
     }
 }

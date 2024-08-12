@@ -17,7 +17,7 @@ internal sealed class DirectoryPathResolver(IDirectoryInfoService directoryInfoS
             2 => _directoryInfoService.GetReportsDirectory(userId: userId, groups: groups,
                 date: clock.UtcNow.ToString(format: "yyyyMMdd")),
             _ => throw new ArgumentOutOfRangeException(paramName: nameof(fileType), actualValue: fileType,
-                message: "Unknown file type.")
+                message: "Unknown file type")
         };
 
         return directoryPath;

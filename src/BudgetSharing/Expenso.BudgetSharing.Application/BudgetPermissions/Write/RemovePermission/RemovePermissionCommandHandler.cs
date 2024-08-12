@@ -25,7 +25,7 @@ internal sealed class RemovePermissionCommandHandler(IBudgetPermissionRepository
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException(message: $"Budget permission with id {budgetPermissionId} hasn't been found.");
+            throw new NotFoundException(message: $"Budget permission with id {budgetPermissionId} hasn't been found");
         }
 
         budgetPermission.RemovePermission(participantId: PersonId.New(value: participantId));

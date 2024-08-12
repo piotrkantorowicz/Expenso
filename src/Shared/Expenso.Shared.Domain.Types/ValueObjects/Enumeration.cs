@@ -26,7 +26,7 @@ public abstract record Enumeration<T>(int Value, string DisplayName) : IComparab
                 {
                     throw new InvalidOperationException(
                         message:
-                        $"The display name '{item.Value.DisplayName}' has already been added to the enumeration.");
+                        $"The display name '{item.Value.DisplayName}' has already been added to the enumeration");
                 }
             }
 

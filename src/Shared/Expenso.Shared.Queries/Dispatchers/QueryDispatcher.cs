@@ -18,14 +18,14 @@ internal sealed class QueryDispatcher(IServiceProvider serviceProvider) : IQuery
 
         if (method is null)
         {
-            throw new InvalidOperationException(message: $"Query handler for '{typeof(TResult).Name}' is invalid.");
+            throw new InvalidOperationException(message: $"Query handler for '{typeof(TResult).Name}' is invalid");
         }
 
         object? handler = scope.ServiceProvider.GetService(serviceType: handlerType);
 
         if (handler is null)
         {
-            throw new InvalidOperationException(message: $"Query handler for '{typeof(TResult).Name}' not found.");
+            throw new InvalidOperationException(message: $"Query handler for '{typeof(TResult).Name}' not found");
         }
 
         return await (Task<TResult?>)method.Invoke(obj: handler, parameters:
