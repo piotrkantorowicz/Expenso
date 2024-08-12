@@ -33,6 +33,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Tasks\Expenso.Shared.System.Tasks.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\..\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
         <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj"/>

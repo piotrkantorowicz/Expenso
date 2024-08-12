@@ -7,6 +7,7 @@ using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore;
 using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Tasks;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 
@@ -114,16 +115,10 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
             if (efCoreSettings.InMemory is not true)
             {
-                dbMigrator
-                    .MigrateAsync(scope: scope, assemblies: assemblies, cancellationToken: default)
-                    .GetAwaiter()
-                    .GetResult();
+                dbMigrator.MigrateAsync(scope: scope, assemblies: assemblies, cancellationToken: default).RunAsSync();
             }
 
-            dbMigrator
-                .SeedAsync(scope: scope, assemblies: assemblies, cancellationToken: default)
-                .GetAwaiter()
-                .GetResult();
+            dbMigrator.SeedAsync(scope: scope, assemblies: assemblies, cancellationToken: default).RunAsSync();
         }
 
         return this;
