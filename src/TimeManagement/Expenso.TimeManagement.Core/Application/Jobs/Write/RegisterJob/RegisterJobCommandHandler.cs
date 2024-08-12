@@ -1,16 +1,22 @@
-﻿using Expenso.Shared.Commands;
+﻿using System.Text;
+
+using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
+using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Proxy.DTO.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
 internal sealed class RegisterJobCommandHandler(
     IJobEntryRepository jobEntryRepository,
     IJobInstanceRepository jobInstanceRepository,
-    IJobEntryStatusRepository jobEntryStatusRepository) : ICommandHandler<RegisterJobCommand>
+    IJobEntryStatusRepository jobEntryStatusRepository) : ICommandHandler<RegisterJobCommand, RegisterJobEntryResponse>
 {
+    private const string DefaultCronExpression = "* * * * * *";
+
     private readonly IJobEntryRepository _jobEntryRepository =
         jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
 
@@ -23,7 +29,7 @@ internal sealed class RegisterJobCommandHandler(
                                                                      throw new ArgumentNullException(
                                                                          paramName: nameof(jobInstanceRepository));
 
-    public async Task HandleAsync(RegisterJobCommand command, CancellationToken cancellationToken)
+    public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobCommand command, CancellationToken cancellationToken)
     {
         Guid jobInstanceId = JobInstance.Default.Id;
 
@@ -45,8 +51,8 @@ internal sealed class RegisterJobCommandHandler(
             throw new NotFoundException(message: $"Job status with id {jobStatusId} not found");
         }
 
-        JobEntry? jobEntry =
-            command.AddJobEntryRequest?.MapToJobEntry(jobInstance: jobType, jobEntryStatus: runningJobStatus);
+        JobEntry? jobEntry = MapToJobEntry(jobEntry: command.RegisterJobEntryRequest, jobInstance: jobType,
+            jobEntryStatus: runningJobStatus);
 
         if (jobEntry is null)
         {
@@ -54,5 +60,68 @@ internal sealed class RegisterJobCommandHandler(
         }
 
         await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);
+
+        return RegisterJobResponseMap.MapToJobEntry(jobEntry);
+    }
+
+    private static JobEntry? MapToJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,
+        JobEntryStatus? jobEntryStatus)
+    {
+        if (jobEntry is null)
+        {
+            return null;
+        }
+
+        return new JobEntry
+        {
+            Id = Guid.NewGuid(),
+            JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(paramName: nameof(jobInstance)),
+            CronExpression = ToCronExpression(interval: jobEntry.Interval),
+            RunAt = jobEntry.RunAt,
+            MaxRetries = jobEntry.MaxRetries,
+            JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(paramName: nameof(jobEntryStatus)),
+            Triggers = MapToJobEntryTriggers(triggers: jobEntry.JobEntryTriggers)
+        };
+    }
+
+    private static ICollection<JobEntryTrigger> MapToJobEntryTriggers(
+        ICollection<RegisterJobEntryRequest_JobEntryTrigger>? triggers)
+    {
+        if (triggers is null)
+        {
+            return new List<JobEntryTrigger>();
+        }
+
+        return triggers
+            .Select(selector: x => new JobEntryTrigger
+            {
+                Id = Guid.NewGuid(),
+                EventType = x.EventType,
+                EventData = x.EventData
+            })
+            .ToArray();
+    }
+
+    private static string ToCronExpression(RegisterJobEntryRequest_JobEntryPeriodInterval? interval)
+    {
+        if (interval is null)
+        {
+            return DefaultCronExpression;
+        }
+
+        StringBuilder stringBuilder = new();
+        stringBuilder.Append(value: interval.DayOfWeek ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Month ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.DayofMonth ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Hour ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Minute ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: interval.Second ?? "*");
+
+        return stringBuilder.ToString();
     }
 }

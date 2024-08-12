@@ -54,9 +54,9 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     {
         // Arrange
         RegisterJobCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            AddJobEntryRequest: new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
-                new AddJobEntryRequest_JobEntryTrigger(
+                new RegisterJobEntryRequest_JobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
@@ -79,12 +79,12 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowNoFoundException_When_AddJobEntryRequestIsNull()
+    public void Should_ThrowNoFoundException_When_RegisterJobEntryRequestIsNull()
     {
         // Arrange
         RegisterJobCommand command = _registerJobCommand with
         {
-            AddJobEntryRequest = null
+            RegisterJobEntryRequest = null
         };
 
         _jobInstanceRepository
