@@ -17,8 +17,6 @@ internal sealed class HandleAsync : DomainEventHandlerTestBase
         await TestCandidate.HandleAsync(@event: _testDomainEvent, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, It.IsAny<EventId>(), It.Is<It.IsAnyType>((v, t) => true),
-                It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information);
     }
 }

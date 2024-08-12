@@ -16,15 +16,8 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
         await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, LoggingUtils.CommandExecuting,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
-
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, LoggingUtils.CommandExecuted,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.CommandExecuting);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.CommandExecuted);
     }
 
     [Test]
@@ -42,15 +35,9 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
         // Assert
         exception.Should().NotBeNull();
         exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.CommandExecuting);
 
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, LoggingUtils.CommandExecuting,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
-
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Error, LoggingUtils.UnexpectedException,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Error, eventId: LoggingUtils.UnexpectedException,
+            exception: exception);
     }
 }
