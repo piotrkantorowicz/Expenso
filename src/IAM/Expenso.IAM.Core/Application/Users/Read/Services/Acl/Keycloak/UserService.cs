@@ -2,7 +2,7 @@ using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
-using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
@@ -20,10 +20,10 @@ internal sealed class UserService(
     private readonly IKeycloakUserClient _keycloakUserClient =
         keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
 
-    public async Task<GetUserResponse> GetUserByIdAsync(string userId)
+    public async Task<GetUserResponse> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        User keycloakUser =
-            await _keycloakUserClient.GetUser(realm: _keycloakProtectionClientOptions.Realm, userId: userId);
+        UserRepresentation keycloakUser = await _keycloakUserClient.GetUserAsync(
+            realm: _keycloakProtectionClientOptions.Realm, userId: userId, cancellationToken: cancellationToken);
 
         if (keycloakUser is null)
         {
@@ -35,15 +35,15 @@ internal sealed class UserService(
         return getUserResponse;
     }
 
-    public async Task<GetUserResponse> GetUserByEmailAsync(string email)
+    public async Task<GetUserResponse> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        List<User> keycloakUsers = (await _keycloakUserClient.GetUsers(realm: _keycloakProtectionClientOptions.Realm,
-            parameters: new GetUsersRequestParameters
+        List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(
+            realm: _keycloakProtectionClientOptions.Realm, parameters: new GetUsersRequestParameters
             {
                 Email = email
-            })).ToList();
+            }, cancellationToken: cancellationToken)).ToList();
 
-        User? user = keycloakUsers.Count == 0 ? null : keycloakUsers.Single();
+        UserRepresentation? user = keycloakUsers.Count == 0 ? null : keycloakUsers.Single();
 
         if (user is null)
         {
