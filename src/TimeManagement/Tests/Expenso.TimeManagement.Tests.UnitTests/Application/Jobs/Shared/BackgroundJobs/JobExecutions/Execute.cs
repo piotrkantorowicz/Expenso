@@ -1,5 +1,6 @@
 ﻿using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.Integration.Events;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
 using FluentAssertions;
@@ -32,10 +33,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Information, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, message: message);
     }
 
     [Test]
@@ -57,10 +55,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Information, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, message: message);
     }
 
     [Test]
@@ -89,10 +84,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Warning, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
     }
 
     [Test]
@@ -124,10 +116,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Warning, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
     }
 
     [Test]
@@ -172,11 +161,7 @@ internal sealed class Execute : JobExecutionTestBase
             times: Times.Once);
 
         jobEntry.IsCompleted.Should().BeTrue();
-
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Warning, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
     }
 
     [Test]
@@ -219,10 +204,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Debug, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Debug, message: message);
     }
 
     [Test]
@@ -259,10 +241,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Warning, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
     }
 
     [Test]
@@ -310,10 +289,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Warning, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
     }
 
     [Test]
@@ -351,10 +327,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Error, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), error,
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
     }
 
     [Test]
@@ -405,10 +378,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Debug, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Debug, message: message);
 
         _messageBrokerMock.Verify(
             expression: x => x.PublishAsync<IIntegrationEvent>(eventData, It.IsAny<CancellationToken>()),
@@ -472,10 +442,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Error, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
 
         jobEntry.CurrentRetries.Should().Be(expected: null);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Failed);
@@ -537,10 +504,7 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.Verify(
-            expression: l => l.Log(LogLevel.Error, It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
 
         jobEntry.CurrentRetries.Should().Be(expected: null);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Retrying);

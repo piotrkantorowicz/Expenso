@@ -5,7 +5,8 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     private static readonly string[] NotInternal =
     [
         "TestBase",
-        "InMemoryFakeLogger"
+        "InMemoryFakeLogger",
+        "LoggerAssertions"
     ];
 
     private static readonly string[] NotSealed =

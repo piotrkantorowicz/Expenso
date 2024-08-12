@@ -16,15 +16,8 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
         await TestCandidate.HandleAsync(@event: _testDomainEvent, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, LoggingUtils.DomainEventExecuting,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
-
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, LoggingUtils.DomainEventExecuted,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.DomainEventExecuting);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.DomainEventExecuted);
     }
 
     [Test]
@@ -42,15 +35,9 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
         // Assert
         exception.Should().NotBeNull();
         exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
+        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.DomainEventExecuting);
 
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Information, LoggingUtils.DomainEventExecuting,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
-
-        _loggerMock.Verify(
-            expression: x => x.Log(LogLevel.Error, LoggingUtils.UnexpectedException,
-                It.Is<It.IsAnyType>((v, t) => true), It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);
+        _loggerMock.VerifyLog(logLevel: LogLevel.Error, eventId: LoggingUtils.UnexpectedException,
+            exception: exception);
     }
 }
