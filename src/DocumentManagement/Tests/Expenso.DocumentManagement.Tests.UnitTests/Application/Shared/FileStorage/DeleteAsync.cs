@@ -37,7 +37,7 @@ internal sealed class DeleteAsync : FileStorageTestBase
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
-        exception?.Details.Should().Be(expected: "File not found.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
+        exception?.Details.Should().Be(expected: "File not found");
     }
 }

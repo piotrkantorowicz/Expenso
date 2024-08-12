@@ -41,7 +41,7 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
 
         // Assert
         string expectedExceptionMessage =
-            $"Only pending budget permission request {TestCandidate.Id} can be made cancelled.";
+            $"Only pending budget permission request {TestCandidate.Id} can be made cancelled";
 
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }

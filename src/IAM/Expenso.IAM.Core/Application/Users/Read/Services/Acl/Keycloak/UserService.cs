@@ -27,7 +27,7 @@ internal sealed class UserService(
 
         if (keycloakUser is null)
         {
-            throw new NotFoundException(message: $"User with id {userId} not found.");
+            throw new NotFoundException(message: $"User with id {userId} not found");
         }
 
         GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: keycloakUser);
@@ -47,7 +47,7 @@ internal sealed class UserService(
 
         if (user is null)
         {
-            throw new NotFoundException(message: $"User with email {email} not found.");
+            throw new NotFoundException(message: $"User with email {email} not found");
         }
 
         GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: user);

@@ -14,7 +14,7 @@ internal sealed class HelloUser : GreetingsTestBase
         // Assert
         testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
         string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();
-        testResultContent.Should().Be(expected: $"Hello {Username}, I'm Expenso API.");
+        testResultContent.Should().Be(expected: $"Hello {Username}, I'm Expenso API");
     }
 
     [Test]

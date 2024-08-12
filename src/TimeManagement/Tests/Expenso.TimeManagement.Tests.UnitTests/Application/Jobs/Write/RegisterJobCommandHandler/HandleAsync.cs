@@ -45,7 +45,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(command: _registerJobCommand, cancellationToken: It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = $"Job instance with id {JobInstance.Default.Id} not found.";
+        string expectedExceptionMessage = $"Job instance with id {JobInstance.Default.Id} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
@@ -74,7 +74,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = $"Job status with id {JobEntryStatus.Running.Id} not found.";
+        string expectedExceptionMessage = $"Job status with id {JobEntryStatus.Running.Id} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
@@ -100,7 +100,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
-        const string expectedExceptionMessage = "Unable to create job entry from request.";
+        const string expectedExceptionMessage = "Unable to create job entry from request";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

@@ -92,8 +92,8 @@ internal sealed class SaveAsync : FileStorageTestBase
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
-        exception?.Details.Should().Be(expected: "Path cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
+        exception?.Details.Should().Be(expected: "Path cannot be empty");
     }
 
     [Test]
@@ -117,8 +117,8 @@ internal sealed class SaveAsync : FileStorageTestBase
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
-        exception?.Details.Should().Be(expected: "File name cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
+        exception?.Details.Should().Be(expected: "File name cannot be empty");
     }
 
     [Test]
@@ -136,8 +136,8 @@ internal sealed class SaveAsync : FileStorageTestBase
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
-        exception?.Details.Should().Be(expected: "File content cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
+        exception?.Details.Should().Be(expected: "File content cannot be empty");
     }
 
     [Test]
@@ -155,7 +155,7 @@ internal sealed class SaveAsync : FileStorageTestBase
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
-        exception?.Details.Should().Be(expected: "File content cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
+        exception?.Details.Should().Be(expected: "File content cannot be empty");
     }
 }

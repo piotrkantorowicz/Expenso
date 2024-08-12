@@ -30,7 +30,7 @@ internal sealed class GetBudgetPermissionRequestQueryHandler(
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with id {query.BudgetPermissionRequestId} hasn't been found.");
+                message: $"Budget permission request with id {query.BudgetPermissionRequestId} hasn't been found");
         }
 
         GetBudgetPermissionRequestResponse budgetPermissionRequestResponse =

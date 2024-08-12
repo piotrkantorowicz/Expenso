@@ -83,7 +83,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage =
-            $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.";
+            $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found";
 
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
 

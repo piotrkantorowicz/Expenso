@@ -17,7 +17,7 @@ internal sealed class BudgetMustHasDistinctPermissionsForUsers(
         permissions ?? throw new ArgumentNullException(paramName: nameof(permissions));
 
     public string Message =>
-        $"Budget {_budgetId} already has permission for participant {_participantId}.";
+        $"Budget {_budgetId} already has permission for participant {_participantId}";
 
     public bool IsBroken()
     {

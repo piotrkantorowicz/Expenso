@@ -65,7 +65,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
 
         // Assert
         exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred.");
-        exception?.Details.Should().Be(expected: "File content cannot be empty.");
+        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
+        exception?.Details.Should().Be(expected: "File content cannot be empty");
     }
 }

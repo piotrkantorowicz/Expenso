@@ -37,14 +37,14 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         _queryDispatcherMock
             .Setup(expression: x =>
                 x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == userId), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: $"User with id {userId} not found."));
+            .ThrowsAsync(exception: new NotFoundException(message: $"User with id {userId} not found"));
 
         // Act
         // Assert
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = $"User with id {userId} not found.";
+        string expectedExceptionMessage = $"User with id {userId} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

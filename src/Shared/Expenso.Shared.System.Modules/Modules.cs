@@ -58,7 +58,7 @@ public static class Modules
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(paramName: endpoint.AccessControl.GetType().Name,
-                            actualValue: endpoint.AccessControl, message: "Unknown access control type.");
+                            actualValue: endpoint.AccessControl, message: "Unknown access control type");
                 }
 
                 routeHandlerBuilder.WithName(endpointName: endpoint.Name);

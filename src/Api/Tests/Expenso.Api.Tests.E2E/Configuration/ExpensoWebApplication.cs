@@ -79,7 +79,7 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
     {
         if (!_configuration.TryBindOptions(sectionName: "EfCore", options: out EfCoreSettings efCoreSettings))
         {
-            throw new InvalidOperationException(message: "EfCore settings not found.");
+            throw new InvalidOperationException(message: "EfCore settings not found");
         }
 
         return efCoreSettings;

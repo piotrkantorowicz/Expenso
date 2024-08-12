@@ -38,7 +38,7 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
         .Append(value: _budgetId)
         .Append(value: ", because permission type is not valid or budget owner with id: ")
         .Append(value: _ownerId)
-        .Append(value: " don't allow any or more participants.")
+        .Append(value: " don't allow any or more participants")
         .ToString();
 
     public bool IsBroken()

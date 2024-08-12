@@ -24,7 +24,7 @@ internal sealed class ExpireAssigningParticipantCommandHandler(
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with id {command.BudgetPermissionRequestId} hasn't been found.");
+                message: $"Budget permission request with id {command.BudgetPermissionRequestId} hasn't been found");
         }
 
         budgetPermissionRequest.Expire();

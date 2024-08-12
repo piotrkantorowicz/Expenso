@@ -42,6 +42,6 @@ internal sealed class Restore : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: $"Budget permission with id: {TestCandidate.Id} is not deleted.");
+            .WithMessage(expectedWildcardPattern: $"Budget permission with id: {TestCandidate.Id} is not deleted");
     }
 }

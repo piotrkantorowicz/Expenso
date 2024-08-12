@@ -45,7 +45,7 @@ internal sealed class DomainEventBroker(IServiceProvider serviceProvider) : IDom
 
         if (method is null)
         {
-            throw new InvalidOperationException(message: $"Event handler for '{@event.GetType().Name}' is invalid.");
+            throw new InvalidOperationException(message: $"Event handler for '{@event.GetType().Name}' is invalid");
         }
 
         IEnumerable<Task>? tasks = handlers.Select(selector: x => (Task)method.Invoke(obj: x, parameters:

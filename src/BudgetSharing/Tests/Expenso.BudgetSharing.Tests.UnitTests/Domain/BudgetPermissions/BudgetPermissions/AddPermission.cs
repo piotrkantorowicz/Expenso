@@ -50,7 +50,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .Throw<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultPersonId}.");
+                $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultPersonId}");
     }
 
     [Test]
@@ -69,7 +69,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(
-                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed.");
+                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed");
     }
 
     [Test]
@@ -90,7 +90,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .WithMessage(expectedWildcardPattern: new StringBuilder()
                 .Append(value: "Budget ")
                 .Append(value: TestCandidate.BudgetId)
-                .Append(value: " can have only one owner permission.")
+                .Append(value: " can have only one owner permission")
                 .ToString());
     }
 

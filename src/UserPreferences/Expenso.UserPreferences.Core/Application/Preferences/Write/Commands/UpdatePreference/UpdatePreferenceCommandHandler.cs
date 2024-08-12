@@ -59,7 +59,7 @@ internal sealed class UpdatePreferenceCommandHandler(
         {
             throw new ConflictException(
                 message:
-                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found.");
+                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found");
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,

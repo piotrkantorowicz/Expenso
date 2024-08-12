@@ -50,7 +50,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: $"User with email {_email} not found."));
+            .ThrowsAsync(exception: new NotFoundException(message: $"User with email {_email} not found"));
 
         // Act
         // Assert
@@ -59,7 +59,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
                 permissionType: _permissionType, expirationDays: ExpirationDays,
                 cancellationToken: It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = $"User with email {_email} not found.";
+        string expectedExceptionMessage = $"User with email {_email} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 

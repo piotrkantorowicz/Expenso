@@ -32,7 +32,7 @@ internal sealed class GetBudgetPermissionQueryHandler(IBudgetPermissionQueryStor
         if (budgetPermission is null)
         {
             throw new NotFoundException(
-                message: $" Budget permission with id {query.BudgetPermissionId} hasn't been found.");
+                message: $" Budget permission with id {query.BudgetPermissionId} hasn't been found");
         }
 
         GetBudgetPermissionResponse budgetPermissionResponse =

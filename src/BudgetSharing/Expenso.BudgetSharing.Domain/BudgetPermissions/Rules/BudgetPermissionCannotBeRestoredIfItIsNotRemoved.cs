@@ -11,7 +11,7 @@ internal sealed class BudgetPermissionCannotBeRestoredIfItIsNotRemoved(
     private readonly BudgetPermissionId _budgetPermissionId =
         budgetPermissionId ?? throw new ArgumentNullException(paramName: nameof(budgetPermissionId));
 
-    public string Message => $"Budget permission with id: {_budgetPermissionId} is not deleted.";
+    public string Message => $"Budget permission with id: {_budgetPermissionId} is not deleted";
 
     public bool IsBroken()
     {

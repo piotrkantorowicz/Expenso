@@ -50,7 +50,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.GetUserByEmailAsync(email: email, It.IsAny<CancellationToken>()));
 
-        const string expectedExceptionMessage = $"User with email {email} not found.";
+        const string expectedExceptionMessage = $"User with email {email} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
 
         _keycloakUserClientMock.Verify(

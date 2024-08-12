@@ -106,7 +106,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
-        const string expectedExceptionMessage = "Preferences not found.";
+        const string expectedExceptionMessage = "Preferences not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
@@ -121,7 +121,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
-        const string expectedExceptionMessage = "Preferences not found.";
+        const string expectedExceptionMessage = "Preferences not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
@@ -137,7 +137,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
-        const string expectedExceptionMessage = "Preferences not found.";
+        const string expectedExceptionMessage = "Preferences not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

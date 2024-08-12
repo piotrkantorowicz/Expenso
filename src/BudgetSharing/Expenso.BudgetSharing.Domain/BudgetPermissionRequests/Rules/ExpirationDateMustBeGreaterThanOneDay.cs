@@ -6,7 +6,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
 internal sealed class ExpirationDateMustBeGreaterThanOneDay(DateAndTime expirationDate, IClock clock) : IBusinessRule
 {
-    public string Message => $"Expiration date {expirationDate.Value} must be greater than one day.";
+    public string Message => $"Expiration date {expirationDate.Value} must be greater than one day";
 
     public bool IsBroken()
     {

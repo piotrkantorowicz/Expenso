@@ -40,7 +40,7 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.GetUserByIdAsync(userId: userId, It.IsAny<CancellationToken>()));
 
-        string expectedExceptionMessage = $"User with id {userId} not found.";
+        string expectedExceptionMessage = $"User with id {userId} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
 
         _keycloakUserClientMock.Verify(

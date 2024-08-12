@@ -16,7 +16,7 @@ internal sealed class BudgetCanHasOnlyOneOwnerPermission(
     private readonly PermissionType _permissionType =
         permissionType ?? throw new ArgumentNullException(paramName: nameof(permissionType));
 
-    public string Message => $"Budget {_budgetId} can have only one owner permission.";
+    public string Message => $"Budget {_budgetId} can have only one owner permission";
 
     public bool IsBroken()
     {

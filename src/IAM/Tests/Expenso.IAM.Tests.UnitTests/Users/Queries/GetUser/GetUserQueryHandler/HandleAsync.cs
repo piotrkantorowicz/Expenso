@@ -89,7 +89,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
             TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
 
-        const string expectedExceptionMessage = $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.";
+        const string expectedExceptionMessage = $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 }

@@ -7,7 +7,7 @@ internal sealed class OwnerPermissionCannotBeRemoved(BudgetId budgetId, Permissi
 {
     private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
 
-    public string Message => $"Owner permission cannot be removed from budget {budgetId}.";
+    public string Message => $"Owner permission cannot be removed from budget {budgetId}";
 
     public bool IsBroken()
     {

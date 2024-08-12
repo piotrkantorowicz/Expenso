@@ -24,6 +24,6 @@ internal sealed class GetUserQueryHandler(IUserService userService) : IQueryHand
             return await _userService.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
         }
 
-        throw new NotFoundException(message: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.");
+        throw new NotFoundException(message: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided");
     }
 }
