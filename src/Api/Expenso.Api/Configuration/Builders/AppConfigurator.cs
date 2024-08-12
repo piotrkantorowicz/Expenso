@@ -107,18 +107,21 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
             if (efCoreSettings is null)
             {
                 throw new InvalidOperationException(
-                    message: "EfCoreSettings is not registered in the service collection");
+                    message: "EfCoreSettings is not registered in the service collection.");
             }
 
             IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
             IDbMigrator dbMigrator = scope.ServiceProvider.GetService<IDbMigrator>()!;
 
-            if (efCoreSettings.InMemory is not true)
+            if (efCoreSettings.InMemory is not true && efCoreSettings.UseMigration is true)
             {
                 dbMigrator.MigrateAsync(scope: scope, assemblies: assemblies, cancellationToken: default).RunAsSync();
             }
 
-            dbMigrator.SeedAsync(scope: scope, assemblies: assemblies, cancellationToken: default).RunAsSync();
+            if (efCoreSettings.UseSeeding is true)
+            {
+                dbMigrator.SeedAsync(scope: scope, assemblies: assemblies, cancellationToken: default).RunAsSync();
+            }
         }
 
         return this;
