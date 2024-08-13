@@ -17,5 +17,9 @@ internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTes
     public void SetUp()
     {
         _budgetPermissionRequestExpireDomainServiceMock = new Mock<IBudgetPermissionRequestExpireDomainService>();
+
+        TestCandidate =
+            new TestCandidate(
+                budgetPermissionRequestExpireDomainService: _budgetPermissionRequestExpireDomainServiceMock.Object);
     }
 }
