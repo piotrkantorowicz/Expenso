@@ -12,6 +12,9 @@ internal static class RegisterJobResponseMap
             return null;
         }
 
-        return new RegisterJobEntryResponse(JobEntryId: jobEntry.Id);
+        return new RegisterJobEntryResponse(JobEntryId: jobEntry.Id, JobInstanceId: jobEntry.JobInstanceId,
+            JobEntryStatusId: jobEntry.JobEntryStatusId, CronExpression: jobEntry.CronExpression, RunAt: jobEntry.RunAt,
+            CurrentRetries: jobEntry.CurrentRetries, MaxRetries: jobEntry.MaxRetries, IsCompleted: jobEntry.IsCompleted,
+            LastRun: jobEntry.LastRun);
     }
 }

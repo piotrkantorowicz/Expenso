@@ -29,7 +29,8 @@ internal sealed class RegisterJobCommandHandler(
                                                                      throw new ArgumentNullException(
                                                                          paramName: nameof(jobInstanceRepository));
 
-    public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobCommand command, CancellationToken cancellationToken)
+    public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobCommand command,
+        CancellationToken cancellationToken)
     {
         Guid jobInstanceId = JobInstance.Default.Id;
 
@@ -51,7 +52,7 @@ internal sealed class RegisterJobCommandHandler(
             throw new NotFoundException(message: $"Job status with id {jobStatusId} not found");
         }
 
-        JobEntry? jobEntry = MapToJobEntry(jobEntry: command.RegisterJobEntryRequest, jobInstance: jobType,
+        JobEntry? jobEntry = CreateJobEntry(jobEntry: command.RegisterJobEntryRequest, jobInstance: jobType,
             jobEntryStatus: runningJobStatus);
 
         if (jobEntry is null)
@@ -61,10 +62,10 @@ internal sealed class RegisterJobCommandHandler(
 
         await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);
 
-        return RegisterJobResponseMap.MapToJobEntry(jobEntry);
+        return RegisterJobResponseMap.MapToJobEntry(jobEntry: jobEntry);
     }
 
-    private static JobEntry? MapToJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,
+    private static JobEntry? CreateJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,
         JobEntryStatus? jobEntryStatus)
     {
         if (jobEntry is null)
@@ -80,17 +81,14 @@ internal sealed class RegisterJobCommandHandler(
             RunAt = jobEntry.RunAt,
             MaxRetries = jobEntry.MaxRetries,
             JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(paramName: nameof(jobEntryStatus)),
-            Triggers = MapToJobEntryTriggers(triggers: jobEntry.JobEntryTriggers)
+            Triggers = CreateJobEntryTriggers(triggers: jobEntry.JobEntryTriggers)
         };
     }
 
-    private static ICollection<JobEntryTrigger> MapToJobEntryTriggers(
+    private static JobEntryTrigger[] CreateJobEntryTriggers(
         ICollection<RegisterJobEntryRequest_JobEntryTrigger>? triggers)
     {
-        if (triggers is null)
-        {
-            return new List<JobEntryTrigger>();
-        }
+        triggers ??= [];
 
         return triggers
             .Select(selector: x => new JobEntryTrigger
@@ -110,17 +108,17 @@ internal sealed class RegisterJobCommandHandler(
         }
 
         StringBuilder stringBuilder = new();
-        stringBuilder.Append(value: interval.DayOfWeek ?? "*");
+        stringBuilder.Append(value: interval.DayOfWeek.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Month ?? "*");
+        stringBuilder.Append(value: interval.Month.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.DayofMonth ?? "*");
+        stringBuilder.Append(value: interval.DayofMonth.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Hour ?? "*");
+        stringBuilder.Append(value: interval.Hour.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Minute ?? "*");
+        stringBuilder.Append(value: interval.Minute.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Second ?? "*");
+        stringBuilder.Append(value: interval.Second.ToString() ?? "*");
 
         return stringBuilder.ToString();
     }

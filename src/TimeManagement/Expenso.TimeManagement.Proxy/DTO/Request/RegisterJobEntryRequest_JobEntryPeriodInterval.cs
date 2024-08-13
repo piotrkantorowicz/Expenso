@@ -1,9 +1,9 @@
 ﻿namespace Expenso.TimeManagement.Proxy.DTO.Request;
 
 public sealed record RegisterJobEntryRequest_JobEntryPeriodInterval(
-    string? DayOfWeek = null,
-    string? Month = null,
-    string? DayofMonth = null,
-    string? Hour = null,
-    string? Minute = null,
-    string? Second = null);
+    int? DayOfWeek = null,
+    int? Month = null,
+    int? DayofMonth = null,
+    int? Hour = null,
+    int? Minute = null,
+    int? Second = null);
