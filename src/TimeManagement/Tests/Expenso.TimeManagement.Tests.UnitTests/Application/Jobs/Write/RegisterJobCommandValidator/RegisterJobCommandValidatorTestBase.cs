@@ -22,7 +22,7 @@ internal abstract class RegisterJobCommandValidatorTestBase : TestBase<TestCandi
     [SetUp]
     public void SetUp()
     {
-        BudgetPermissionRequestExpiredIntergrationEvent eventTrigger = new(MessageContext: null!,
+        BudgetPermissionRequestExpiredIntegrationEvent eventTrigger = new(MessageContext: null!,
             BudgetPermissionRequestId: Guid.NewGuid());
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: eventTrigger);
@@ -39,7 +39,7 @@ internal abstract class RegisterJobCommandValidatorTestBase : TestBase<TestCandi
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
-                    EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                    EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 

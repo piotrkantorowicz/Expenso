@@ -1,5 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
@@ -10,12 +11,10 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 using Moq;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.ConfirmParticipationDomainService;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
 
-internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<TestCandidate>
+internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<ConfirmParticipantDomainService>
 {
     protected BudgetId _budgetId = null!;
     protected BudgetPermission _budgetPermission = null!;
@@ -55,10 +54,10 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
                 MaxNumberOfSubFinancePlanSubOwners: 1, AllowAddFinancePlanReviewers: true,
                 MaxNumberOfFinancePlanReviewers: 3), NotificationPreference: null, GeneralPreference: null);
 
-        TestCandidate =
-            new TestCandidate(budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object,
-                budgetPermissionRepository: _budgetPermissionRepositoryMock.Object,
-                userPreferencesProxy: _userPreferencesProxyMock.Object);
+        TestCandidate = new ConfirmParticipantDomainService(
+            budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object,
+            budgetPermissionRepository: _budgetPermissionRepositoryMock.Object,
+            userPreferencesProxy: _userPreferencesProxyMock.Object);
 
         // clear uncommitted changes
         _budgetPermissionRequest.GetUncommittedChanges();

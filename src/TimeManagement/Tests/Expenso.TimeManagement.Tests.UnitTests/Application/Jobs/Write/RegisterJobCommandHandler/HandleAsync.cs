@@ -90,7 +90,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
-                    EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                    EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 

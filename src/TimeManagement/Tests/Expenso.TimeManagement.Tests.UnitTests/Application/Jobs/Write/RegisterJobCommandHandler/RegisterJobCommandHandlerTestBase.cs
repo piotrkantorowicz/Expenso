@@ -17,7 +17,7 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.Register
 internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandidate>
 {
     protected Mock<IClock> _clockMock = null!;
-    protected BudgetPermissionRequestExpiredIntergrationEvent _eventTrigger = null!;
+    protected BudgetPermissionRequestExpiredIntegrationEvent _eventTrigger = null!;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
     protected Mock<IJobInstanceRepository> _jobInstanceRepository = null!;
@@ -31,8 +31,7 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
         _jobEntryStatusReposiotry = new Mock<IJobEntryStatusRepository>();
         _jobInstanceRepository = new Mock<IJobInstanceRepository>();
 
-        _eventTrigger =
-            new BudgetPermissionRequestExpiredIntergrationEvent(MessageContext: null!,
+        _eventTrigger = new BudgetPermissionRequestExpiredIntegrationEvent(MessageContext: null!,
                 BudgetPermissionRequestId: Guid.NewGuid());
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: _eventTrigger);
@@ -45,7 +44,7 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
-                    EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
+                    EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
