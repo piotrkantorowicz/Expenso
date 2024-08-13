@@ -42,9 +42,9 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
         _serializer.Setup(expression: x => x.Serialize(_eventTrigger, null)).Returns(value: eventTriggerPayload);
 
         _registerJobCommand = new RegisterJobCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
-            AddJobEntryRequest: new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
-                new AddJobEntryRequest_JobEntryTrigger(
+                new RegisterJobEntryRequest_JobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));

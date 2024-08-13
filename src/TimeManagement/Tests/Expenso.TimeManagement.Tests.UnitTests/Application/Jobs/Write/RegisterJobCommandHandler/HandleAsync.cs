@@ -3,6 +3,7 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Proxy.DTO.Response;
 
 using FluentAssertions;
 
@@ -33,6 +34,38 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     }
 
     [Test]
+    public async Task Should_RegisterJobEntry_And_CorrectlySetInterval()
+    {
+        // Arrange
+        _jobInstanceRepository
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobInstance.Default);
+
+        _jobEntryStatusReposiotry
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: JobEntryStatus.Running);
+
+        RegisterJobCommand command = _registerJobCommand with
+        {
+            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            {
+                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayofMonth: 10,
+                    Hour: 12, Minute: 30, Second: 30)
+            }
+        };
+
+        // Act
+        RegisterJobEntryResponse? result =
+            await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
+
+        // Assert
+        _jobEntryRepositoryMock.Verify(expression: x =>
+            x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
+
+        result?.CronExpression.Should().Be(expected: "5 6 10 12 30 30");
+    }
+
+    [Test]
     public void Should_ThrowNoFoundException_When_JobInstanceNotFound()
     {
         // Arrange
@@ -54,9 +87,9 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     {
         // Arrange
         RegisterJobCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            AddJobEntryRequest: new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
-                new AddJobEntryRequest_JobEntryTrigger(
+                new RegisterJobEntryRequest_JobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
@@ -79,12 +112,12 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowNoFoundException_When_AddJobEntryRequestIsNull()
+    public void Should_ThrowNoFoundException_When_RegisterJobEntryRequestIsNull()
     {
         // Arrange
         RegisterJobCommand command = _registerJobCommand with
         {
-            AddJobEntryRequest = null
+            RegisterJobEntryRequest = null
         };
 
         _jobInstanceRepository

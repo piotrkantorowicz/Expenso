@@ -26,44 +26,44 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
             return errors;
         }
 
-        if (command.AddJobEntryRequest is null)
+        if (command.RegisterJobEntryRequest is null)
         {
-            errors.Add(key: nameof(command.AddJobEntryRequest), value: "Add job entry request is required");
+            errors.Add(key: nameof(command.RegisterJobEntryRequest), value: "Add job entry request is required");
         }
 
-        if (command.AddJobEntryRequest?.MaxRetries is not null && command.AddJobEntryRequest?.MaxRetries <= 0)
+        if (command.RegisterJobEntryRequest?.MaxRetries is not null && command.RegisterJobEntryRequest?.MaxRetries <= 0)
         {
-            errors.Add(key: nameof(command.AddJobEntryRequest.MaxRetries),
+            errors.Add(key: nameof(command.RegisterJobEntryRequest.MaxRetries),
                 value: "MaxRetries must be a positive value");
         }
 
-        if (command.AddJobEntryRequest?.Interval is null && command.AddJobEntryRequest?.RunAt is null)
+        if (command.RegisterJobEntryRequest?.Interval is null && command.RegisterJobEntryRequest?.RunAt is null)
         {
             errors.Add(
                 key: new StringBuilder()
-                    .Append(value: nameof(command.AddJobEntryRequest.Interval))
+                    .Append(value: nameof(command.RegisterJobEntryRequest.Interval))
                     .Append(value: '|')
-                    .Append(value: nameof(command.AddJobEntryRequest.RunAt))
+                    .Append(value: nameof(command.RegisterJobEntryRequest.RunAt))
                     .ToString(),
                 value: "At least one value must be provide Interval for periodic jobs or RunAt for single run jobs");
         }
 
-        if (command.AddJobEntryRequest?.Interval is not null && command.AddJobEntryRequest?.RunAt is not null)
+        if (command.RegisterJobEntryRequest?.Interval is not null && command.RegisterJobEntryRequest?.RunAt is not null)
         {
             errors.Add(
                 key: new StringBuilder()
-                    .Append(value: nameof(command.AddJobEntryRequest.Interval))
+                    .Append(value: nameof(command.RegisterJobEntryRequest.Interval))
                     .Append(value: '|')
-                    .Append(value: nameof(command.AddJobEntryRequest.RunAt))
+                    .Append(value: nameof(command.RegisterJobEntryRequest.RunAt))
                     .ToString(), value: "RunAt and Interval cannot be used together");
         }
 
-        ICollection<AddJobEntryRequest_JobEntryTrigger>?
-            jobEntryTriggers = command.AddJobEntryRequest?.JobEntryTriggers;
+        ICollection<RegisterJobEntryRequest_JobEntryTrigger>?
+            jobEntryTriggers = command.RegisterJobEntryRequest?.JobEntryTriggers;
 
         if (jobEntryTriggers is null || jobEntryTriggers.Count is 0)
         {
-            errors.Add(key: nameof(command.AddJobEntryRequest.JobEntryTriggers),
+            errors.Add(key: nameof(command.RegisterJobEntryRequest.JobEntryTriggers),
                 value: "Job entry triggers are required");
         }
 
@@ -72,7 +72,7 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
             return errors;
         }
 
-        foreach (AddJobEntryRequest_JobEntryTrigger jobEntryTrigger in jobEntryTriggers!)
+        foreach (RegisterJobEntryRequest_JobEntryTrigger jobEntryTrigger in jobEntryTriggers!)
         {
             if (string.IsNullOrEmpty(value: jobEntryTrigger.EventType))
             {

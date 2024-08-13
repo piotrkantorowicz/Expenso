@@ -3,6 +3,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Proxy;
 using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Proxy.DTO.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Proxy;
 
@@ -17,11 +18,11 @@ internal sealed class TimeManagementProxy(
                                                                      throw new ArgumentNullException(
                                                                          paramName: nameof(messageContextFactory));
 
-    public async Task RegisterJobEntry(AddJobEntryRequest jobEntryRequest,
+    public async Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest jobEntryRequest,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(
+        return await _commandDispatcher.SendAsync<RegisterJobCommand, RegisterJobEntryResponse>(
             command: new RegisterJobCommand(MessageContext: _messageContextFactory.Current(),
-                AddJobEntryRequest: jobEntryRequest), cancellationToken: cancellationToken);
+                RegisterJobEntryRequest: jobEntryRequest), cancellationToken: cancellationToken);
     }
 }

@@ -36,9 +36,9 @@ internal abstract class RegisterJobCommandValidatorTestBase : TestBase<TestCandi
             .Returns(value: eventTrigger);
 
         _registerJobCommand = new RegisterJobCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
-            AddJobEntryRequest: new AddJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
-                new AddJobEntryRequest_JobEntryTrigger(
+                new RegisterJobEntryRequest_JobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
