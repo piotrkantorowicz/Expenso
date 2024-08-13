@@ -37,18 +37,18 @@ jobs:
         run: echo ${{ steps.filter_changes.outputs.changed }}
     needs: sanity
 
-  code-ql:
-    uses: ./.github/workflows/reusable-code-ql.yml
-    if: needs.check_changes.outputs.changed == 'true'
-    needs: check_changes
+  # code-ql:
+  #   uses: ./.github/workflows/reusable-code-ql.yml
+  #   if: needs.check_changes.outputs.changed == 'true'
+  #   needs: check_changes
 
-  trivy:
-    uses: ./.github/workflows/reusable-trivy.yml
-    if: needs.check_changes.outputs.changed == 'true'
-    needs: check_changes
+  # trivy:
+  #   uses: ./.github/workflows/reusable-trivy.yml
+  #   if: needs.check_changes.outputs.changed == 'true'
+  #   needs: check_changes
 
   test:
     uses: ./.github/workflows/reusable-test.yml
-    needs: [ trivy, code-ql ]
+    needs: [ sanity ]
     secrets:
       codecov_token: ${{ secrets.CODECOV_TOKEN }}

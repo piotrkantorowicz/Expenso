@@ -28,7 +28,7 @@ jobs:
 
   buid-and-push-docker-image-to-ghcr:
     needs: test
-    uses: ./.github/workflows/reusable-build&push_docker_image.yml
+    uses: ./.github/workflows/reusable-docker_image.yml
     with:
       registry: ghcr.io
       image: ghcr.io/${{ github.actor }}/expenso

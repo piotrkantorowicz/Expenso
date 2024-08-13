@@ -1,4 +1,4 @@
-name: build and push docker image
+name: build, push and scan docker image
 on:
   workflow_dispatch:
     inputs:
@@ -10,6 +10,11 @@ on:
         description: "The docker image name"
         required: true
         type: string
+      push:
+        description: "Whether to push the image to the registry"
+        required: false
+        type: boolean
+        default: true
   workflow_call:
     inputs:
       registry:
@@ -20,6 +25,11 @@ on:
         description: "The docker image name"
         required: true
         type: string
+      push:
+        description: "Whether to push the image to the registry"
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   build-and-push-docker-image:
@@ -59,7 +69,7 @@ jobs:
         uses: docker/build-push-action@v6.6.1
         with:
           context: .
-          push: true
+          push: ${{ inputs.push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
@@ -73,3 +83,9 @@ jobs:
           ignore-unfixed: true
           vuln-type: "os,library"
           severity: "CRITICAL,HIGH"
+          output: "trivy-results.sarif"
+      
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results.sarif"
