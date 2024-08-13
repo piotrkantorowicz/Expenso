@@ -334,7 +334,7 @@ internal sealed class Execute : JobExecutionTestBase
     public async Task Should_PublishEvents_When_EverythingWentWell()
     {
         // Arrange
-        BudgetPermissionRequestExpiredIntergrationEvent eventData =
+        BudgetPermissionRequestExpiredIntegrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
 
         JobEntryTrigger trigger = new()
@@ -393,14 +393,14 @@ internal sealed class Execute : JobExecutionTestBase
         // Arrange
         Exception error = new(message: "This is test error");
 
-        BudgetPermissionRequestExpiredIntergrationEvent eventData =
+        BudgetPermissionRequestExpiredIntegrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
 
         JobEntryTrigger trigger = new()
         {
             Id = Guid.NewGuid(),
             EventData = JsonSerializer.Serialize(value: eventData),
-            EventType = $"{typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName}"
+            EventType = $"{typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName}"
         };
 
         JobEntry jobEntry = new()
@@ -443,7 +443,6 @@ internal sealed class Execute : JobExecutionTestBase
 
         // Assert
         _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
-
         jobEntry.CurrentRetries.Should().Be(expected: null);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Failed);
     }
@@ -454,14 +453,14 @@ internal sealed class Execute : JobExecutionTestBase
         // Arrange
         Exception error = new(message: "This is test error");
 
-        BudgetPermissionRequestExpiredIntergrationEvent eventData =
+        BudgetPermissionRequestExpiredIntegrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
 
         JobEntryTrigger trigger = new()
         {
             Id = Guid.NewGuid(),
             EventData = JsonSerializer.Serialize(value: eventData),
-            EventType = $"{typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName}"
+            EventType = $"{typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName}"
         };
 
         JobEntry jobEntry = new()
@@ -505,7 +504,6 @@ internal sealed class Execute : JobExecutionTestBase
 
         // Assert
         _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
-
         jobEntry.CurrentRetries.Should().Be(expected: null);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Retrying);
     }

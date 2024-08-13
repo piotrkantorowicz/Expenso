@@ -3,6 +3,6 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
 
-public sealed record BudgetPermissionRequestExpiredIntergrationEvent(
+public sealed record BudgetPermissionRequestExpiredIntegrationEvent(
     IMessageContext MessageContext,
     Guid BudgetPermissionRequestId) : IIntegrationEvent;

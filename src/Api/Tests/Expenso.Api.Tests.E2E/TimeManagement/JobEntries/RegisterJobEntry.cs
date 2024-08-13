@@ -18,9 +18,9 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
             new RegisterJobEntryRequest_JobEntryTrigger(
-                EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
-                EventData: JsonSerializer.Serialize(
-                    value: new BudgetPermissionRequestExpiredIntergrationEvent(MessageContext: null!,
+                EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
+                EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
+                    MessageContext: null!,
                         BudgetPermissionRequestId: Guid.NewGuid())))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
@@ -57,9 +57,9 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
             new RegisterJobEntryRequest_JobEntryTrigger(
-                EventType: typeof(BudgetPermissionRequestExpiredIntergrationEvent).AssemblyQualifiedName,
-                EventData: JsonSerializer.Serialize(
-                    value: new BudgetPermissionRequestExpiredIntergrationEvent(MessageContext: null!,
+                EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
+                EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
+                    MessageContext: null!,
                         BudgetPermissionRequestId: Guid.NewGuid())))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 

@@ -35,7 +35,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _getPreferenceResponse);
 
         // Act
-        await TestCandidate.ConfirmParticipationAsync(budgetPermissionRequestId: _budgetPermissionRequestId.Value,
+        await TestCandidate.ConfirmParticipantAsync(budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
@@ -72,7 +72,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -98,7 +98,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -129,7 +129,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -165,7 +165,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             });
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipationAsync(
+        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 

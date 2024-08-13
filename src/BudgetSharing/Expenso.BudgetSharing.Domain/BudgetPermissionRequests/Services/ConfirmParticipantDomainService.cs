@@ -11,10 +11,10 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class ConfirmParticipationDomainService(
+internal sealed class ConfirmParticipantDomainService(
     IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
     IBudgetPermissionRepository budgetPermissionRepository,
-    IUserPreferencesProxy userPreferencesProxy) : IConfirmParticipationDomainService
+    IUserPreferencesProxy userPreferencesProxy) : IConfirmParticipantDomainService
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
                                                                                throw new ArgumentNullException(
@@ -28,7 +28,7 @@ internal sealed class ConfirmParticipationDomainService(
     private readonly IUserPreferencesProxy _userPreferencesProxy =
         userPreferencesProxy ?? throw new ArgumentNullException(paramName: nameof(userPreferencesProxy));
 
-    public async Task ConfirmParticipationAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
+    public async Task ConfirmParticipantAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
     {
         BudgetPermissionRequest? permissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
             permissionId: BudgetPermissionRequestId.New(value: budgetPermissionRequestId),
