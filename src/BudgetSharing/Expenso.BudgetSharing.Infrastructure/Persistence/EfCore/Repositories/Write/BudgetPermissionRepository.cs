@@ -17,7 +17,7 @@ internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetS
     public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
-            .BudgetPermissions.IgnoreQueryFilters()
+            .BudgetPermissions
             .Include(navigationPropertyPath: x => x.Permissions)
             .SingleOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
@@ -25,7 +25,7 @@ internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetS
     public async Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
-            .BudgetPermissions.IgnoreQueryFilters()
+            .BudgetPermissions
             .Include(navigationPropertyPath: x => x.Permissions)
             .SingleOrDefaultAsync(predicate: x => x.BudgetId == budgetId, cancellationToken: cancellationToken);
     }

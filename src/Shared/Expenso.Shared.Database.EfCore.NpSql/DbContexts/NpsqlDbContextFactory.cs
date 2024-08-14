@@ -1,3 +1,4 @@
+using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration.Extensions;
 using Expenso.Shared.System.Configuration.Sections;
 
@@ -36,7 +37,7 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
         configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection,
             options: out EfCoreSettings databaseSettings);
 
-        optionsBuilder.UseNpgsql(connectionString: databaseSettings.ConnectionString);
+        optionsBuilder.UseNpgsql(connectionString: databaseSettings.ConnectionParameters?.ConnectionString);
 
         return (TDbContext)Activator.CreateInstance(type: typeof(TDbContext), args: [optionsBuilder.Options])!;
     }

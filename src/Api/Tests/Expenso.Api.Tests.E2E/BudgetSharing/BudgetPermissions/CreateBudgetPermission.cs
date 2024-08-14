@@ -1,4 +1,3 @@
-using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
@@ -14,10 +13,10 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permissions";
         Guid budgetPermissionId = Guid.NewGuid();
+        Guid budgetId = Guid.NewGuid();
 
         CreateBudgetPermissionRequest createBudgetPermissionRequest = new(BudgetPermissionId: budgetPermissionId,
-            BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 0],
-            OwnerId: UserDataInitializer.UserIds[index: 3]);
+            BudgetId: budgetId, OwnerId: UserDataInitializer.UserIds[index: 3]);
 
         // Act
         HttpResponseMessage testResult =

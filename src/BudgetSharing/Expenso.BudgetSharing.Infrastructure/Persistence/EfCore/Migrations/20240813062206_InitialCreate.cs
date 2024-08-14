@@ -40,8 +40,8 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BudgetId = table.Column<Guid>(type: "uuid", nullable: false),
                     OwnerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: true),
-                    RemovalDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                    Deletion_IsDeleted = table.Column<bool>(type: "boolean", nullable: true),
+                    Deletion_RemovalDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

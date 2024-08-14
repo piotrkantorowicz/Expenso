@@ -1,8 +1,8 @@
-namespace Expenso.Shared.Database.EfCore;
+namespace Expenso.Shared.Database.EfCore.Settings;
 
 public sealed record EfCoreSettings
 {
-    public string? ConnectionString { get; init; }
+    public ConnectionParameters? ConnectionParameters { get; init; }
 
     public bool? InMemory { get; init; }
 

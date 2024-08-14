@@ -58,6 +58,7 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
                 .IsRequired();
         });
 
-        builder.HasQueryFilter(filter: x => x.Deletion == null || x.Deletion.IsDeleted == false);
+        // TODO: Investigate what is wrong with that filter
+        // builder.HasQueryFilter(filter: x => x.Deletion == null || x.Deletion.IsDeleted == false);
     }
 }

@@ -51,4 +51,6 @@ jobs:
     uses: ./.github/workflows/reusable-test.yml
     needs: [ sanity ]
     secrets:
+      postgres_user: ${{ secrets.POSTGRES_USER }}
+      postgres_password: ${{ secrets.POSTGRES_PASSWORD }}
       codecov_token: ${{ secrets.CODECOV_TOKEN }}
