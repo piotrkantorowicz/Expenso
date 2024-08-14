@@ -3,9 +3,14 @@ using Expenso.Shared.Integration.MessageBroker.InMemory.Channels;
 
 namespace Expenso.Shared.Integration.MessageBroker.InMemory;
 
-internal sealed class InMemoryMessageBroker(IMessageChannel channel) : IMessageBroker
+internal sealed class InMemoryMessageBroker : IMessageBroker
 {
-    private readonly IMessageChannel _channel = channel ?? throw new ArgumentNullException(paramName: nameof(channel));
+    private readonly IMessageChannel _channel;
+
+    public InMemoryMessageBroker(IMessageChannel channel)
+    {
+        _channel = channel ?? throw new ArgumentNullException(paramName: nameof(channel));
+    }
 
     public async Task PublishAsync<TIntegrationEvent>(TIntegrationEvent @event, CancellationToken cancellationToken)
         where TIntegrationEvent : IIntegrationEvent

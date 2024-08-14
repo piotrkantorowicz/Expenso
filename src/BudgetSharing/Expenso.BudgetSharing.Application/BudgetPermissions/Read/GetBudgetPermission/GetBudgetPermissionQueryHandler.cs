@@ -9,12 +9,16 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission;
 
-internal sealed class GetBudgetPermissionQueryHandler(IBudgetPermissionQueryStore budgetPermissionStore)
-    : IQueryHandler<GetBudgetPermissionQuery, GetBudgetPermissionResponse>
+internal sealed class
+    GetBudgetPermissionQueryHandler : IQueryHandler<GetBudgetPermissionQuery, GetBudgetPermissionResponse>
 {
-    private readonly IBudgetPermissionQueryStore _budgetPermissionStore = budgetPermissionStore ??
-                                                                          throw new ArgumentNullException(
-                                                                              paramName: nameof(budgetPermissionStore));
+    private readonly IBudgetPermissionQueryStore _budgetPermissionStore;
+
+    public GetBudgetPermissionQueryHandler(IBudgetPermissionQueryStore budgetPermissionStore)
+    {
+        _budgetPermissionStore = budgetPermissionStore ??
+                                 throw new ArgumentNullException(paramName: nameof(budgetPermissionStore));
+    }
 
     public async Task<GetBudgetPermissionResponse?> HandleAsync(GetBudgetPermissionQuery query,
         CancellationToken cancellationToken)

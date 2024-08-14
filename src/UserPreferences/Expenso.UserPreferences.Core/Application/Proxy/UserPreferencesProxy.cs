@@ -10,20 +10,22 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Proxy;
 
-internal sealed class UserPreferencesProxy(
-    ICommandDispatcher commandDispatcher,
-    IQueryDispatcher queryDispatcher,
-    IMessageContextFactory messageContextFactory) : IUserPreferencesProxy
+internal sealed class UserPreferencesProxy : IUserPreferencesProxy
 {
-    private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IMessageContextFactory _messageContextFactory;
+    private readonly IQueryDispatcher _queryDispatcher;
 
-    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(messageContextFactory));
+    public UserPreferencesProxy(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher,
+        IMessageContextFactory messageContextFactory)
+    {
+        _commandDispatcher = commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
-    private readonly IQueryDispatcher _queryDispatcher =
-        queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
+        _messageContextFactory = messageContextFactory ??
+                                 throw new ArgumentNullException(paramName: nameof(messageContextFactory));
+
+        _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
+    }
 
     public async Task<GetPreferenceResponse?> GetUserPreferencesAsync(Guid userId, bool includeFinancePreferences,
         bool includeNotificationPreferences, bool includeGeneralPreferences,

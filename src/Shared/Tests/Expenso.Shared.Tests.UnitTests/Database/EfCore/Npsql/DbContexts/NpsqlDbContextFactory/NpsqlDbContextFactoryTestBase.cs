@@ -18,9 +18,12 @@ internal sealed class TestDbContextFactory : NpsqlDbContextFactory<TestDbContext
 
 internal interface ITestDbContext : IDbContext;
 
-internal sealed class TestDbContext(DbContextOptions<TestDbContext> options)
-    : DbContext(options: options), ITestDbContext
+internal sealed class TestDbContext : DbContext, ITestDbContext
 {
+    public TestDbContext(DbContextOptions<TestDbContext> options) : base(options: options)
+    {
+    }
+
     public Task MigrateAsync(CancellationToken cancellationToken)
     {
         return Database.MigrateAsync(cancellationToken: cancellationToken);

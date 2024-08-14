@@ -13,21 +13,23 @@ using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.Notification
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 
-internal sealed class UpdatePreferenceCommandHandler(
-    IPreferencesRepository preferencesRepository,
-    IMessageBroker messageBroker,
-    IMessageContextFactory messageContextFactory) : ICommandHandler<UpdatePreferenceCommand>
+internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePreferenceCommand>
 {
-    private readonly IMessageBroker _messageBroker =
-        messageBroker ?? throw new ArgumentNullException(paramName: nameof(messageBroker));
+    private readonly IMessageBroker _messageBroker;
+    private readonly IMessageContextFactory _messageContextFactory;
+    private readonly IPreferencesRepository _preferencesRepository;
 
-    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(messageContextFactory));
+    public UpdatePreferenceCommandHandler(IPreferencesRepository preferencesRepository, IMessageBroker messageBroker,
+        IMessageContextFactory messageContextFactory)
+    {
+        _messageBroker = messageBroker ?? throw new ArgumentNullException(paramName: nameof(messageBroker));
 
-    private readonly IPreferencesRepository _preferencesRepository = preferencesRepository ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(preferencesRepository));
+        _messageContextFactory = messageContextFactory ??
+                                 throw new ArgumentNullException(paramName: nameof(messageContextFactory));
+
+        _preferencesRepository = preferencesRepository ??
+                                 throw new ArgumentNullException(paramName: nameof(preferencesRepository));
+    }
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken)
     {

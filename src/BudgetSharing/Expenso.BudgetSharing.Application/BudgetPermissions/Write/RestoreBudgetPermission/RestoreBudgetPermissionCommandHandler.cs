@@ -6,13 +6,15 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.RestoreBudgetPermission;
 
-internal sealed class RestoreBudgetPermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository)
-    : ICommandHandler<RestoreBudgetPermissionCommand>
+internal sealed class RestoreBudgetPermissionCommandHandler : ICommandHandler<RestoreBudgetPermissionCommand>
 {
-    private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
-                                                                               throw new ArgumentNullException(
-                                                                                   paramName: nameof(
-                                                                                       budgetPermissionRepository));
+    private readonly IBudgetPermissionRepository _budgetPermissionRepository;
+
+    public RestoreBudgetPermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository)
+    {
+        _budgetPermissionRepository = budgetPermissionRepository ??
+                                      throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
+    }
 
     public async Task HandleAsync(RestoreBudgetPermissionCommand command, CancellationToken cancellationToken)
     {

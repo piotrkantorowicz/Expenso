@@ -11,19 +11,22 @@ using Expenso.Shared.System.Types.ExecutionContext;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
 
-internal sealed class GetBudgetPermissionsQueryHandler(
-    IBudgetPermissionQueryStore budgetPermissionStore,
-    IExecutionContextAccessor executionContextAccessor)
-    : IQueryHandler<GetBudgetPermissionsQuery, IReadOnlyCollection<GetBudgetPermissionsResponse>>
+internal sealed class
+    GetBudgetPermissionsQueryHandler : IQueryHandler<GetBudgetPermissionsQuery,
+    IReadOnlyCollection<GetBudgetPermissionsResponse>>
 {
-    private readonly IBudgetPermissionQueryStore _budgetPermissionStore = budgetPermissionStore ??
-                                                                          throw new ArgumentNullException(
-                                                                              paramName: nameof(budgetPermissionStore));
+    private readonly IBudgetPermissionQueryStore _budgetPermissionStore;
+    private readonly IExecutionContextAccessor _executionContextAccessor;
 
-    private readonly IExecutionContextAccessor _executionContextAccessor = executionContextAccessor ??
-                                                                           throw new ArgumentNullException(
-                                                                               paramName: nameof(
-                                                                                   executionContextAccessor));
+    public GetBudgetPermissionsQueryHandler(IBudgetPermissionQueryStore budgetPermissionStore,
+        IExecutionContextAccessor executionContextAccessor)
+    {
+        _budgetPermissionStore = budgetPermissionStore ??
+                                 throw new ArgumentNullException(paramName: nameof(budgetPermissionStore));
+
+        _executionContextAccessor = executionContextAccessor ??
+                                    throw new ArgumentNullException(paramName: nameof(executionContextAccessor));
+    }
 
     public async Task<IReadOnlyCollection<GetBudgetPermissionsResponse>?> HandleAsync(GetBudgetPermissionsQuery query,
         CancellationToken cancellationToken)

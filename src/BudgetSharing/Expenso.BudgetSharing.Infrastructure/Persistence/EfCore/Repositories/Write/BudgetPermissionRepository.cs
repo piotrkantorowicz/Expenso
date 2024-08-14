@@ -7,26 +7,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.Write;
 
-internal sealed class BudgetPermissionRepository(IBudgetSharingDbContext budgetSharingDbContext)
-    : IBudgetPermissionRepository
+internal sealed class BudgetPermissionRepository : IBudgetPermissionRepository
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
-                                                                       throw new ArgumentNullException(
-                                                                           paramName: nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext;
+
+    public BudgetPermissionRepository(IBudgetSharingDbContext budgetSharingDbContext)
+    {
+        _budgetSharingDbContext = budgetSharingDbContext ??
+                                  throw new ArgumentNullException(paramName: nameof(budgetSharingDbContext));
+    }
 
     public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
-            .BudgetPermissions
-            .Include(navigationPropertyPath: x => x.Permissions)
+            .BudgetPermissions.Include(navigationPropertyPath: x => x.Permissions)
             .SingleOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 
     public async Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
-            .BudgetPermissions
-            .Include(navigationPropertyPath: x => x.Permissions)
+            .BudgetPermissions.Include(navigationPropertyPath: x => x.Permissions)
             .SingleOrDefaultAsync(predicate: x => x.BudgetId == budgetId, cancellationToken: cancellationToken);
     }
 

@@ -6,13 +6,17 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.CancelAssigningParticipant;
 
-internal sealed class CancelAssigningParticipantCommandHandler(
-    IBudgetPermissionRequestRepository budgetPermissionRequestRepository)
-    : ICommandHandler<CancelAssigningParticipantCommand>
+internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler<CancelAssigningParticipantCommand>
 {
-    private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository =
-        budgetPermissionRequestRepository ??
-        throw new ArgumentNullException(paramName: nameof(budgetPermissionRequestRepository));
+    private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
+
+    public CancelAssigningParticipantCommandHandler(
+        IBudgetPermissionRequestRepository budgetPermissionRequestRepository)
+    {
+        _budgetPermissionRequestRepository = budgetPermissionRequestRepository ??
+                                             throw new ArgumentNullException(
+                                                 paramName: nameof(budgetPermissionRequestRepository));
+    }
 
     public async Task HandleAsync(CancelAssigningParticipantCommand command, CancellationToken cancellationToken)
     {

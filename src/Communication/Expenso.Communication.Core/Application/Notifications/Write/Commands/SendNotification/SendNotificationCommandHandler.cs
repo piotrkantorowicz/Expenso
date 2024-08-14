@@ -7,13 +7,15 @@ using Expenso.Shared.Commands;
 
 namespace Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
 
-internal sealed class SendNotificationCommandHandler(INotificationServiceFactory notificationServiceFactory)
-    : ICommandHandler<SendNotificationCommand>
+internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotificationCommand>
 {
-    private readonly INotificationServiceFactory _notificationServiceFactory = notificationServiceFactory ??
-                                                                               throw new ArgumentNullException(
-                                                                                   paramName: nameof(
-                                                                                       notificationServiceFactory));
+    private readonly INotificationServiceFactory _notificationServiceFactory;
+
+    public SendNotificationCommandHandler(INotificationServiceFactory notificationServiceFactory)
+    {
+        _notificationServiceFactory = notificationServiceFactory ??
+                                      throw new ArgumentNullException(paramName: nameof(notificationServiceFactory));
+    }
 
     public async Task HandleAsync(SendNotificationCommand command, CancellationToken cancellationToken)
     {

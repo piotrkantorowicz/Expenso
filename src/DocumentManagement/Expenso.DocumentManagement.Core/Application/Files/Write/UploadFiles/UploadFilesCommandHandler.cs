@@ -7,15 +7,18 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 
-internal sealed class UploadFilesCommandHandler(IFileStorage fileStorage, IDirectoryPathResolver directoryPathResolver)
-    : ICommandHandler<UploadFilesCommand>
+internal sealed class UploadFilesCommandHandler : ICommandHandler<UploadFilesCommand>
 {
-    private readonly IDirectoryPathResolver _directoryPathResolver = directoryPathResolver ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(directoryPathResolver));
+    private readonly IDirectoryPathResolver _directoryPathResolver;
+    private readonly IFileStorage _fileStorage;
 
-    private readonly IFileStorage _fileStorage =
-        fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+    public UploadFilesCommandHandler(IFileStorage fileStorage, IDirectoryPathResolver directoryPathResolver)
+    {
+        _directoryPathResolver = directoryPathResolver ??
+                                 throw new ArgumentNullException(paramName: nameof(directoryPathResolver));
+
+        _fileStorage = fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+    }
 
     public async Task HandleAsync(UploadFilesCommand command, CancellationToken cancellationToken)
     {

@@ -7,19 +7,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.Commands.Logging;
 
-internal sealed class CommandHandlerLoggingDecorator<TCommand>(
-    ILogger<CommandHandlerLoggingDecorator<TCommand>> logger,
-    ICommandHandler<TCommand> decorated,
-    ISerializer serializer) : ICommandHandler<TCommand> where TCommand : class, ICommand
+internal sealed class CommandHandlerLoggingDecorator<TCommand> : ICommandHandler<TCommand>
+    where TCommand : class, ICommand
 {
-    private readonly ICommandHandler<TCommand> _decorated =
-        decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+    private readonly ICommandHandler<TCommand> _decorated;
+    private readonly ILogger<CommandHandlerLoggingDecorator<TCommand>> _logger;
+    private readonly ISerializer _serializer;
 
-    private readonly ILogger<CommandHandlerLoggingDecorator<TCommand>> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-
-    private readonly ISerializer _serializer =
-        serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    public CommandHandlerLoggingDecorator(ILogger<CommandHandlerLoggingDecorator<TCommand>> logger,
+        ICommandHandler<TCommand> decorated, ISerializer serializer)
+    {
+        _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    }
 
     public async Task HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
@@ -54,19 +55,20 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand>(
     }
 }
 
-internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult>(
-    ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> logger,
-    ICommandHandler<TCommand, TResult> decorated,
-    ISerializer serializer) : ICommandHandler<TCommand, TResult> where TCommand : class, ICommand where TResult : class
+internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
+    where TCommand : class, ICommand where TResult : class
 {
-    private readonly ICommandHandler<TCommand, TResult> _decorated =
-        decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+    private readonly ICommandHandler<TCommand, TResult> _decorated;
+    private readonly ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> _logger;
+    private readonly ISerializer _serializer;
 
-    private readonly ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-
-    private readonly ISerializer _serializer =
-        serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    public CommandHandlerLoggingDecorator(ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> logger,
+        ICommandHandler<TCommand, TResult> decorated, ISerializer serializer)
+    {
+        _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    }
 
     public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {

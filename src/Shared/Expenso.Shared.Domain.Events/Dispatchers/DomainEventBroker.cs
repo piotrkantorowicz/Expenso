@@ -6,10 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Domain.Events.Dispatchers;
 
-internal sealed class DomainEventBroker(IServiceProvider serviceProvider) : IDomainEventBroker
+internal sealed class DomainEventBroker : IDomainEventBroker
 {
-    private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    private readonly IServiceProvider _serviceProvider;
+
+    public DomainEventBroker(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    }
 
     public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken)
         where TEvent : class, IDomainEvent

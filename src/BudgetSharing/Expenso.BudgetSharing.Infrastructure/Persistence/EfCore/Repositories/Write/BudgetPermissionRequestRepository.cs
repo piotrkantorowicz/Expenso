@@ -6,12 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Repositories.Write;
 
-internal sealed class BudgetPermissionRequestRepository(IBudgetSharingDbContext budgetSharingDbContext)
-    : IBudgetPermissionRequestRepository
+internal sealed class BudgetPermissionRequestRepository : IBudgetPermissionRequestRepository
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
-                                                                       throw new ArgumentNullException(
-                                                                           paramName: nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext;
+
+    public BudgetPermissionRequestRepository(IBudgetSharingDbContext budgetSharingDbContext)
+    {
+        _budgetSharingDbContext = budgetSharingDbContext ??
+                                  throw new ArgumentNullException(paramName: nameof(budgetSharingDbContext));
+    }
 
     public async Task<BudgetPermissionRequest?> GetByIdAsync(BudgetPermissionRequestId permissionId,
         CancellationToken cancellationToken)

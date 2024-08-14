@@ -7,11 +7,17 @@ using Expenso.Shared.Commands;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant;
 
-internal sealed class AssignParticipantCommandHandler(IAssignParticipantDomainService assignParticipantDomainService)
-    : ICommandHandler<AssignParticipantCommand, AssignParticipantResponse>
+internal sealed class
+    AssignParticipantCommandHandler : ICommandHandler<AssignParticipantCommand, AssignParticipantResponse>
 {
-    private readonly IAssignParticipantDomainService _assignParticipantDomainService = assignParticipantDomainService ??
-        throw new ArgumentNullException(paramName: nameof(assignParticipantDomainService));
+    private readonly IAssignParticipantDomainService _assignParticipantDomainService;
+
+    public AssignParticipantCommandHandler(IAssignParticipantDomainService assignParticipantDomainService)
+    {
+        _assignParticipantDomainService = assignParticipantDomainService ??
+                                          throw new ArgumentNullException(
+                                              paramName: nameof(assignParticipantDomainService));
+    }
 
     public async Task<AssignParticipantResponse?> HandleAsync(AssignParticipantCommand command,
         CancellationToken cancellationToken)

@@ -2,10 +2,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Commands.Dispatchers;
 
-internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICommandDispatcher
+internal sealed class CommandDispatcher : ICommandDispatcher
 {
-    private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    private readonly IServiceProvider _serviceProvider;
+
+    public CommandDispatcher(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    }
 
     public async Task SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken)
         where TCommand : class, ICommand

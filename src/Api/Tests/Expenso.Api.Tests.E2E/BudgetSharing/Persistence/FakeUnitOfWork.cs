@@ -6,16 +6,18 @@ using Expenso.Shared.Domain.Types.Events;
 namespace Expenso.Api.Tests.E2E.BudgetSharing.Persistence;
 
 // This is a mock for e2e tests with in memory database which not supports transaction scope
-internal sealed class FakeUnitOfWork(
-    IBudgetSharingDbContext budgetSharingDbContext,
-    IDomainEventBroker domainEventBroker) : IUnitOfWork
+internal sealed class FakeUnitOfWork : IUnitOfWork
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
-                                                                       throw new ArgumentNullException(
-                                                                           paramName: nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext;
+    private readonly IDomainEventBroker _domainEventBroker;
 
-    private readonly IDomainEventBroker _domainEventBroker =
-        domainEventBroker ?? throw new ArgumentNullException(paramName: nameof(domainEventBroker));
+    public FakeUnitOfWork(IBudgetSharingDbContext budgetSharingDbContext, IDomainEventBroker domainEventBroker)
+    {
+        _budgetSharingDbContext = budgetSharingDbContext ??
+                                  throw new ArgumentNullException(paramName: nameof(budgetSharingDbContext));
+
+        _domainEventBroker = domainEventBroker ?? throw new ArgumentNullException(paramName: nameof(domainEventBroker));
+    }
 
     public Task BeginTransactionAsync(CancellationToken cancellationToken)
     {

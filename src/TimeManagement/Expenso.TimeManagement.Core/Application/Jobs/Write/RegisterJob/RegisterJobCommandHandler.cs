@@ -10,24 +10,25 @@ using Expenso.TimeManagement.Proxy.DTO.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
-internal sealed class RegisterJobCommandHandler(
-    IJobEntryRepository jobEntryRepository,
-    IJobInstanceRepository jobInstanceRepository,
-    IJobEntryStatusRepository jobEntryStatusRepository) : ICommandHandler<RegisterJobCommand, RegisterJobEntryResponse>
+internal sealed class RegisterJobCommandHandler : ICommandHandler<RegisterJobCommand, RegisterJobEntryResponse>
 {
     private const string DefaultCronExpression = "* * * * * *";
+    private readonly IJobEntryRepository _jobEntryRepository;
+    private readonly IJobEntryStatusRepository _jobEntryStatusRepository;
+    private readonly IJobInstanceRepository _jobInstanceRepository;
 
-    private readonly IJobEntryRepository _jobEntryRepository =
-        jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
+    public RegisterJobCommandHandler(IJobEntryRepository jobEntryRepository,
+        IJobInstanceRepository jobInstanceRepository, IJobEntryStatusRepository jobEntryStatusRepository)
+    {
+        _jobEntryRepository =
+            jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
 
-    private readonly IJobEntryStatusRepository _jobEntryStatusRepository = jobEntryStatusRepository ??
-                                                                           throw new ArgumentNullException(
-                                                                               paramName: nameof(
-                                                                                   jobEntryStatusRepository));
+        _jobEntryStatusRepository = jobEntryStatusRepository ??
+                                    throw new ArgumentNullException(paramName: nameof(jobEntryStatusRepository));
 
-    private readonly IJobInstanceRepository _jobInstanceRepository = jobInstanceRepository ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(jobInstanceRepository));
+        _jobInstanceRepository = jobInstanceRepository ??
+                                 throw new ArgumentNullException(paramName: nameof(jobInstanceRepository));
+    }
 
     public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobCommand command,
         CancellationToken cancellationToken)

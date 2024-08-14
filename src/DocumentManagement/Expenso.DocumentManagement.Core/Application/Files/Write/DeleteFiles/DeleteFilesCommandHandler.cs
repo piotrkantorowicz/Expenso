@@ -7,20 +7,21 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
 
-internal sealed class DeleteFilesCommandHandler(
-    IFileStorage fileStorage,
-    IDirectoryPathResolver directoryPathResolver,
-    IFileSystem fileSystem) : ICommandHandler<DeleteFilesCommand>
+internal sealed class DeleteFilesCommandHandler : ICommandHandler<DeleteFilesCommand>
 {
-    private readonly IDirectoryPathResolver _directoryPathResolver = directoryPathResolver ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(directoryPathResolver));
+    private readonly IDirectoryPathResolver _directoryPathResolver;
+    private readonly IFileStorage _fileStorage;
+    private readonly IFileSystem _fileSystem;
 
-    private readonly IFileStorage _fileStorage =
-        fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+    public DeleteFilesCommandHandler(IFileStorage fileStorage, IDirectoryPathResolver directoryPathResolver,
+        IFileSystem fileSystem)
+    {
+        _directoryPathResolver = directoryPathResolver ??
+                                 throw new ArgumentNullException(paramName: nameof(directoryPathResolver));
 
-    private readonly IFileSystem _fileSystem =
-        fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+        _fileStorage = fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+        _fileSystem = fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+    }
 
     public async Task HandleAsync(DeleteFilesCommand command, CancellationToken cancellationToken)
     {

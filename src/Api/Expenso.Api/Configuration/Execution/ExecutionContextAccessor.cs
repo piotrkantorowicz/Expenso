@@ -8,10 +8,15 @@ using Microsoft.Extensions.Primitives;
 
 namespace Expenso.Api.Configuration.Execution;
 
-internal sealed class ExecutionContextAccessor(IHttpContextAccessor httpContextAccessor) : IExecutionContextAccessor
+internal sealed class ExecutionContextAccessor : IExecutionContextAccessor
 {
-    private readonly IHttpContextAccessor _httpContextAccessor =
-        httpContextAccessor ?? throw new ArgumentNullException(paramName: nameof(httpContextAccessor));
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public ExecutionContextAccessor(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor ??
+                               throw new ArgumentNullException(paramName: nameof(httpContextAccessor));
+    }
 
     public IExecutionContext Get()
     {

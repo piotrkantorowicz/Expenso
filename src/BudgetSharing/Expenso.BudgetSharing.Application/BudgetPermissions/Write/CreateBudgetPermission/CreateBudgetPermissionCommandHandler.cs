@@ -7,13 +7,17 @@ using Expenso.Shared.Commands;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
 
-internal sealed class CreateBudgetPermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository)
-    : ICommandHandler<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>
+internal sealed class
+    CreateBudgetPermissionCommandHandler : ICommandHandler<CreateBudgetPermissionCommand,
+    CreateBudgetPermissionResponse>
 {
-    private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
-                                                                               throw new ArgumentNullException(
-                                                                                   paramName: nameof(
-                                                                                       budgetPermissionRepository));
+    private readonly IBudgetPermissionRepository _budgetPermissionRepository;
+
+    public CreateBudgetPermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository)
+    {
+        _budgetPermissionRepository = budgetPermissionRepository ??
+                                      throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
+    }
 
     public async Task<CreateBudgetPermissionResponse?> HandleAsync(CreateBudgetPermissionCommand command,
         CancellationToken cancellationToken)

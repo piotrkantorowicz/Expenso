@@ -4,10 +4,14 @@ using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 
 namespace Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
 
-internal sealed class FileStorage(IFileSystem fileSystem) : IFileStorage
+internal sealed class FileStorage : IFileStorage
 {
-    private readonly IFileSystem _fileSystem =
-        fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+    private readonly IFileSystem _fileSystem;
+
+    public FileStorage(IFileSystem fileSystem)
+    {
+        _fileSystem = fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+    }
 
     public async Task<byte[]> ReadAsync(string path, CancellationToken cancellationToken)
     {

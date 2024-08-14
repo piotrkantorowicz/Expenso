@@ -1,3 +1,8 @@
 namespace Expenso.Shared.System.Types.Exceptions;
 
-public sealed class NotFoundException(string message) : Exception(message: message);
+public sealed class NotFoundException : Exception
+{
+    public NotFoundException(string message) : base(message: message)
+    {
+    }
+}

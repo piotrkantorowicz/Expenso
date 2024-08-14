@@ -4,12 +4,21 @@ using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
-internal sealed class ExpirationDateMustBeGreaterThanOneDay(DateAndTime expirationDate, IClock clock) : IBusinessRule
+internal sealed class ExpirationDateMustBeGreaterThanOneDay : IBusinessRule
 {
-    public string Message => $"Expiration date {expirationDate.Value} must be greater than one day";
+    private readonly IClock _clock;
+    private readonly DateAndTime _expirationDate;
+
+    public ExpirationDateMustBeGreaterThanOneDay(DateAndTime expirationDate, IClock clock)
+    {
+        _expirationDate = expirationDate;
+        _clock = clock;
+    }
+
+    public string Message => $"Expiration date {_expirationDate.Value} must be greater than one day";
 
     public bool IsBroken()
     {
-        return expirationDate < clock.UtcNow.AddDays(days: 1);
+        return _expirationDate < _clock.UtcNow.AddDays(days: 1);
     }
 }

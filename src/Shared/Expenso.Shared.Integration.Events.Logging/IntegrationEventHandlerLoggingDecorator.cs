@@ -7,19 +7,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.Integration.Events.Logging;
 
-internal sealed class IntegrationEventHandlerLoggingDecorator<TEvent>(
-    ILogger<IntegrationEventHandlerLoggingDecorator<TEvent>> logger,
-    IIntegrationEventHandler<TEvent> decorated,
-    ISerializer serializer) : IIntegrationEventHandler<TEvent> where TEvent : class, IIntegrationEvent
+internal sealed class IntegrationEventHandlerLoggingDecorator<TEvent> : IIntegrationEventHandler<TEvent>
+    where TEvent : class, IIntegrationEvent
 {
-    private readonly IIntegrationEventHandler<TEvent> _decorated =
-        decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+    private readonly IIntegrationEventHandler<TEvent> _decorated;
+    private readonly ILogger<IntegrationEventHandlerLoggingDecorator<TEvent>> _logger;
+    private readonly ISerializer _serializer;
 
-    private readonly ILogger<IntegrationEventHandlerLoggingDecorator<TEvent>> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-
-    private readonly ISerializer _serializer =
-        serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    public IntegrationEventHandlerLoggingDecorator(ILogger<IntegrationEventHandlerLoggingDecorator<TEvent>> logger,
+        IIntegrationEventHandler<TEvent> decorated, ISerializer serializer)
+    {
+        _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    }
 
     public async Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
     {

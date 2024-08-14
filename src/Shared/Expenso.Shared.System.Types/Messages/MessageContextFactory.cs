@@ -6,10 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.System.Types.Messages;
 
-internal sealed class MessageContextFactory(IServiceProvider serviceProvider) : IMessageContextFactory
+internal sealed class MessageContextFactory : IMessageContextFactory
 {
-    private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    private readonly IServiceProvider _serviceProvider;
+
+    public MessageContextFactory(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    }
 
     public IMessageContext Current(Guid? messageId = null)
     {

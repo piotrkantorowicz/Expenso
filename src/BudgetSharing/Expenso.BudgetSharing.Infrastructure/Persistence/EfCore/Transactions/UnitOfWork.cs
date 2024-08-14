@@ -4,15 +4,18 @@ using Expenso.Shared.Domain.Types.Events;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Transactions;
 
-internal sealed class UnitOfWork(IBudgetSharingDbContext budgetSharingDbContext, IDomainEventBroker domainEventBroker)
-    : IUnitOfWork
+internal sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly IBudgetSharingDbContext _budgetSharingDbContext = budgetSharingDbContext ??
-                                                                       throw new ArgumentNullException(
-                                                                           paramName: nameof(budgetSharingDbContext));
+    private readonly IBudgetSharingDbContext _budgetSharingDbContext;
+    private readonly IDomainEventBroker _domainEventBroker;
 
-    private readonly IDomainEventBroker _domainEventBroker =
-        domainEventBroker ?? throw new ArgumentNullException(paramName: nameof(domainEventBroker));
+    public UnitOfWork(IBudgetSharingDbContext budgetSharingDbContext, IDomainEventBroker domainEventBroker)
+    {
+        _budgetSharingDbContext = budgetSharingDbContext ??
+                                  throw new ArgumentNullException(paramName: nameof(budgetSharingDbContext));
+
+        _domainEventBroker = domainEventBroker ?? throw new ArgumentNullException(paramName: nameof(domainEventBroker));
+    }
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken)
     {

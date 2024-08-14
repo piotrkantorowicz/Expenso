@@ -8,10 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 
-internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options)
-    : DbContext(options: options), IBudgetSharingDbContext
+internal class BudgetSharingDbContext : DbContext, IBudgetSharingDbContext
 {
     private IDbContextTransaction? _currentTransaction;
+
+    public BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> options) : base(options: options)
+    {
+    }
 
     public DbSet<BudgetPermission> BudgetPermissions { get; set; } = null!;
 

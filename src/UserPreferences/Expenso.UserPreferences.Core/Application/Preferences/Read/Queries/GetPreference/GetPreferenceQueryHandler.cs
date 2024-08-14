@@ -9,18 +9,20 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 
-internal sealed class GetPreferenceQueryHandler(
-    IPreferencesRepository preferencesRepository,
-    IExecutionContextAccessor executionContextAccessor) : IQueryHandler<GetPreferenceQuery, GetPreferenceResponse>
+internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, GetPreferenceResponse>
 {
-    private readonly IExecutionContextAccessor _executionContextAccessor = executionContextAccessor ??
-                                                                           throw new ArgumentNullException(
-                                                                               paramName: nameof(
-                                                                                   executionContextAccessor));
+    private readonly IExecutionContextAccessor _executionContextAccessor;
+    private readonly IPreferencesRepository _preferencesRepository;
 
-    private readonly IPreferencesRepository _preferencesRepository = preferencesRepository ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(preferencesRepository));
+    public GetPreferenceQueryHandler(IPreferencesRepository preferencesRepository,
+        IExecutionContextAccessor executionContextAccessor)
+    {
+        _executionContextAccessor = executionContextAccessor ??
+                                    throw new ArgumentNullException(paramName: nameof(executionContextAccessor));
+
+        _preferencesRepository = preferencesRepository ??
+                                 throw new ArgumentNullException(paramName: nameof(preferencesRepository));
+    }
 
     public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query, CancellationToken cancellationToken)
     {

@@ -13,64 +13,70 @@ using Expenso.Shared.System.Types.ExecutionContext.Models;
 
 namespace Expenso.Api.Configuration.Builders;
 
-internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
+internal sealed class AppConfigurator : IAppConfigurator
 {
     private const string BaseTag = "Expenso";
+    private readonly WebApplication _app;
+
+    public AppConfigurator(WebApplication app)
+    {
+        _app = app;
+    }
 
     public IAppConfigurator UseSwagger()
     {
-        if (!(app.Environment.IsDevelopment() || app.Environment.IsTest()))
+        if (!(_app.Environment.IsDevelopment() || _app.Environment.IsTest()))
         {
             return this;
         }
 
-        app.UseSwagger();
-        app.UseSwaggerUI();
+        _app.UseSwagger();
+        _app.UseSwaggerUI();
 
         return this;
     }
 
     public IAppConfigurator UseAuth()
     {
-        app.UseAuthentication();
-        app.UseAuthorization();
+        _app.UseAuthentication();
+        _app.UseAuthorization();
 
         return this;
     }
 
     public IAppConfigurator UseHttpsRedirection()
     {
-        app.UseHttpsRedirection();
+        _app.UseHttpsRedirection();
 
         return this;
     }
 
     public IAppConfigurator UseRequestsCorrelation()
     {
-        app.UseMiddleware<CorrelationIdMiddleware>();
+        _app.UseMiddleware<CorrelationIdMiddleware>();
 
         return this;
     }
 
     public IAppConfigurator UseErrorHandler()
     {
-        app.UseExceptionHandler();
+        _app.UseExceptionHandler();
 
         return this;
     }
 
     public IAppConfigurator UseResolvers()
     {
-        MessageContextFactoryResolver.BindResolver(serviceProvider: app.Services);
+        MessageContextFactoryResolver.BindResolver(serviceProvider: _app.Services);
 
         return this;
     }
 
     public IAppConfigurator CreateEndpoints()
     {
-        app.MapModulesEndpoints(rootTag: BaseTag);
+        _app.MapModulesEndpoints(rootTag: BaseTag);
 
-        app
+        _app
             .MapGet(pattern: "/greetings/hello", handler: (HttpContext httpContext) =>
             {
                 httpContext.Response.WriteAsJsonAsync(value: "Hello, I'm Expenso API");
@@ -79,7 +85,7 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
             .WithName(endpointName: "Hello")
             .WithTags(BaseTag);
 
-        app
+        _app
             .MapGet(pattern: "/greetings/hello-user", handler: (HttpContext httpContext) =>
             {
                 IExecutionContextAccessor executionContextAccessor =
@@ -100,7 +106,7 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
     public IAppConfigurator MigrateDatabase()
     {
-        using (IServiceScope scope = app.Services.CreateScope())
+        using (IServiceScope scope = _app.Services.CreateScope())
         {
             EfCoreSettings? efCoreSettings = scope.ServiceProvider.GetService<EfCoreSettings>();
 
@@ -129,6 +135,6 @@ internal sealed class AppConfigurator(WebApplication app) : IAppConfigurator
 
     public void Run()
     {
-        app.Run();
+        _app.Run();
     }
 }

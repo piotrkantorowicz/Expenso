@@ -7,16 +7,18 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
 
-internal sealed class DeleteBudgetPermissionCommandHandler(
-    IBudgetPermissionRepository budgetPermissionRepository,
-    IClock clock) : ICommandHandler<DeleteBudgetPermissionCommand>
+internal sealed class DeleteBudgetPermissionCommandHandler : ICommandHandler<DeleteBudgetPermissionCommand>
 {
-    private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
-                                                                               throw new ArgumentNullException(
-                                                                                   paramName: nameof(
-                                                                                       budgetPermissionRepository));
+    private readonly IBudgetPermissionRepository _budgetPermissionRepository;
+    private readonly IClock _clock;
 
-    private readonly IClock _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
+    public DeleteBudgetPermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository, IClock clock)
+    {
+        _budgetPermissionRepository = budgetPermissionRepository ??
+                                      throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
+
+        _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
+    }
 
     public async Task HandleAsync(DeleteBudgetPermissionCommand command, CancellationToken cancellationToken)
     {

@@ -12,20 +12,22 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Proxy;
 
-internal sealed class DocumentManagementProxy(
-    IQueryDispatcher queryDispatcher,
-    ICommandDispatcher commandDispatcher,
-    IMessageContextFactory messageContextFactory) : IDocumentManagementProxy
+internal sealed class DocumentManagementProxy : IDocumentManagementProxy
 {
-    private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IMessageContextFactory _messageContextFactory;
+    private readonly IQueryDispatcher _queryDispatcher;
 
-    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(messageContextFactory));
+    public DocumentManagementProxy(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher,
+        IMessageContextFactory messageContextFactory)
+    {
+        _commandDispatcher = commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
 
-    private readonly IQueryDispatcher _queryDispatcher =
-        queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
+        _messageContextFactory = messageContextFactory ??
+                                 throw new ArgumentNullException(paramName: nameof(messageContextFactory));
+
+        _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
+    }
 
     public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest getFileRequest,
         CancellationToken cancellationToken = default)
