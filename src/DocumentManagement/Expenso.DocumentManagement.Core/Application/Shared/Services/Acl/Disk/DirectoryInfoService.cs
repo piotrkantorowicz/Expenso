@@ -4,18 +4,19 @@ using Expenso.Shared.System.Configuration.Settings.Files;
 
 namespace Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
 
-internal sealed class DirectoryInfoService(IFileSystem fileSystem, FilesSettings filesSettings) : IDirectoryInfoService
+internal sealed class DirectoryInfoService : IDirectoryInfoService
 {
     public const string Reports = "Reports";
     public const string Imports = "Imports";
-
-    private readonly FilesSettings _filesSettings =
-        filesSettings ?? throw new ArgumentNullException(paramName: nameof(filesSettings));
-
-    private readonly IFileSystem _fileSystem =
-        fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
-
+    private readonly FilesSettings _filesSettings;
+    private readonly IFileSystem _fileSystem;
     private readonly string _rootPath = Environment.GetFolderPath(folder: Environment.SpecialFolder.ApplicationData);
+
+    public DirectoryInfoService(IFileSystem fileSystem, FilesSettings filesSettings)
+    {
+        _filesSettings = filesSettings ?? throw new ArgumentNullException(paramName: nameof(filesSettings));
+        _fileSystem = fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+    }
 
     public string GetReportsDirectory(string userId, string[]? groups, string date)
     {

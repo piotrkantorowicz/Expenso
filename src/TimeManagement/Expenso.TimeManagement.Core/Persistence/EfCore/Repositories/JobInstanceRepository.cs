@@ -6,12 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
 
-internal sealed class JobInstanceRepository(ITimeManagementDbContext timeManagementDbContext) : IJobInstanceRepository
+internal sealed class JobInstanceRepository : IJobInstanceRepository
 {
-    private readonly ITimeManagementDbContext _timeManagementDbContext = timeManagementDbContext ??
-                                                                         throw new ArgumentNullException(
-                                                                             paramName: nameof(
-                                                                                 timeManagementDbContext));
+    private readonly ITimeManagementDbContext _timeManagementDbContext;
+
+    public JobInstanceRepository(ITimeManagementDbContext timeManagementDbContext)
+    {
+        _timeManagementDbContext = timeManagementDbContext ??
+                                   throw new ArgumentNullException(paramName: nameof(timeManagementDbContext));
+    }
 
     public async Task<JobInstance?> GetAsync(Guid id, CancellationToken cancellationToken)
     {

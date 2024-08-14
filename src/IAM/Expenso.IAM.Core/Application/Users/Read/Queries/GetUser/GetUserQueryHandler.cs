@@ -5,10 +5,14 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
 
-internal sealed class GetUserQueryHandler(IUserService userService) : IQueryHandler<GetUserQuery, GetUserResponse>
+internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, GetUserResponse>
 {
-    private readonly IUserService _userService =
-        userService ?? throw new ArgumentNullException(paramName: nameof(userService));
+    private readonly IUserService _userService;
+
+    public GetUserQueryHandler(IUserService userService)
+    {
+        _userService = userService ?? throw new ArgumentNullException(paramName: nameof(userService));
+    }
 
     public async Task<GetUserResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken)
     {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace Expenso.Api.Configuration.Errors;
 
-internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+internal sealed class GlobalExceptionHandler : IExceptionHandler
 {
     private readonly Dictionary<Type, Func<Exception, HttpContext, CancellationToken, Task>> _exceptionHandlers = new()
     {
@@ -18,10 +18,17 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
         { typeof(DomainRuleValidationException), HandleInvalidModelStateException }
     };
 
+    private readonly ILogger<GlobalExceptionHandler> _logger;
+
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    {
+        _logger = logger;
+    }
+
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        logger.LogError(exception: exception, message: "Exception occurred: {Message}", exception.Message);
+        _logger.LogError(exception: exception, message: "Exception occurred: {Message}", exception.Message);
         Type type = exception.GetType();
 
         if (_exceptionHandlers.TryGetValue(key: type,

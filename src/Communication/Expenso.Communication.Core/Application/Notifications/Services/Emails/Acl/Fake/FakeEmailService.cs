@@ -2,10 +2,14 @@
 
 namespace Expenso.Communication.Core.Application.Notifications.Services.Emails.Acl.Fake;
 
-internal sealed class FakeEmailService(ILogger<FakeEmailService> logger) : IEmailService
+internal sealed class FakeEmailService : IEmailService
 {
-    private readonly ILogger<FakeEmailService> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    private readonly ILogger<FakeEmailService> _logger;
+
+    public FakeEmailService(ILogger<FakeEmailService> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    }
 
     public Task SendNotificationAsync(string from, string to, string? subject, string content, string[]? cc = null,
         string[]? bcc = null, string? replyTo = null)

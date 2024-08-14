@@ -4,10 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.System.Serialization.Default;
 
-internal sealed class DefaultSerializer(ILogger<DefaultSerializer> logger) : ISerializer
+internal sealed class DefaultSerializer : ISerializer
 {
-    private readonly ILogger<DefaultSerializer> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    private readonly ILogger<DefaultSerializer> _logger;
+
+    public DefaultSerializer(ILogger<DefaultSerializer> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    }
 
     public T? Deserialize<T>(string value, object? settings = null)
     {

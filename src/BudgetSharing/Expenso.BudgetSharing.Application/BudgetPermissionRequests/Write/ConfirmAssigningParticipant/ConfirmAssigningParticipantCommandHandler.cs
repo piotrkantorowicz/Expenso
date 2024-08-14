@@ -3,13 +3,16 @@ using Expenso.Shared.Commands;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.ConfirmAssigningParticipant;
 
-internal sealed class ConfirmAssigningParticipantCommandHandler(
-    IConfirmParticipantDomainService confirmParticipantDomainService)
-    : ICommandHandler<ConfirmAssigningParticipantCommand>
+internal sealed class ConfirmAssigningParticipantCommandHandler : ICommandHandler<ConfirmAssigningParticipantCommand>
 {
-    private readonly IConfirmParticipantDomainService _confirmParticipantDomainService =
-        confirmParticipantDomainService ??
-        throw new ArgumentNullException(paramName: nameof(confirmParticipantDomainService));
+    private readonly IConfirmParticipantDomainService _confirmParticipantDomainService;
+
+    public ConfirmAssigningParticipantCommandHandler(IConfirmParticipantDomainService confirmParticipantDomainService)
+    {
+        _confirmParticipantDomainService = confirmParticipantDomainService ??
+                                           throw new ArgumentNullException(
+                                               paramName: nameof(confirmParticipantDomainService));
+    }
 
     public async Task HandleAsync(ConfirmAssigningParticipantCommand command, CancellationToken cancellationToken)
     {

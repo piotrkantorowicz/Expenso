@@ -9,16 +9,21 @@ using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
 namespace Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
 
-internal sealed class UserService(
-    IKeycloakUserClient keycloakUserClient,
-    KeycloakProtectionClientOptions keycloakProtectionClientOptions) : IUserService
+internal sealed class UserService : IUserService
 {
-    private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions =
-        keycloakProtectionClientOptions ??
-        throw new ArgumentNullException(paramName: nameof(keycloakProtectionClientOptions));
+    private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions;
+    private readonly IKeycloakUserClient _keycloakUserClient;
 
-    private readonly IKeycloakUserClient _keycloakUserClient =
-        keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
+    public UserService(IKeycloakUserClient keycloakUserClient,
+        KeycloakProtectionClientOptions keycloakProtectionClientOptions)
+    {
+        _keycloakProtectionClientOptions = keycloakProtectionClientOptions ??
+                                           throw new ArgumentNullException(
+                                               paramName: nameof(keycloakProtectionClientOptions));
+
+        _keycloakUserClient =
+            keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
+    }
 
     public async Task<GetUserResponse> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {

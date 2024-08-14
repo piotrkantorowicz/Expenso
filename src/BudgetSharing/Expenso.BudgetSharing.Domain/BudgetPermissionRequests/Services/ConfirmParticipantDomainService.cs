@@ -11,22 +11,25 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class ConfirmParticipantDomainService(
-    IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
-    IBudgetPermissionRepository budgetPermissionRepository,
-    IUserPreferencesProxy userPreferencesProxy) : IConfirmParticipantDomainService
+internal sealed class ConfirmParticipantDomainService : IConfirmParticipantDomainService
 {
-    private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
-                                                                               throw new ArgumentNullException(
-                                                                                   paramName: nameof(
-                                                                                       budgetPermissionRepository));
+    private readonly IBudgetPermissionRepository _budgetPermissionRepository;
+    private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
+    private readonly IUserPreferencesProxy _userPreferencesProxy;
 
-    private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository =
-        budgetPermissionRequestRepository ??
-        throw new ArgumentNullException(paramName: nameof(budgetPermissionRequestRepository));
+    public ConfirmParticipantDomainService(IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
+        IBudgetPermissionRepository budgetPermissionRepository, IUserPreferencesProxy userPreferencesProxy)
+    {
+        _budgetPermissionRepository = budgetPermissionRepository ??
+                                      throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
 
-    private readonly IUserPreferencesProxy _userPreferencesProxy =
-        userPreferencesProxy ?? throw new ArgumentNullException(paramName: nameof(userPreferencesProxy));
+        _budgetPermissionRequestRepository = budgetPermissionRequestRepository ??
+                                             throw new ArgumentNullException(
+                                                 paramName: nameof(budgetPermissionRequestRepository));
+
+        _userPreferencesProxy = userPreferencesProxy ??
+                                throw new ArgumentNullException(paramName: nameof(userPreferencesProxy));
+    }
 
     public async Task ConfirmParticipantAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
     {

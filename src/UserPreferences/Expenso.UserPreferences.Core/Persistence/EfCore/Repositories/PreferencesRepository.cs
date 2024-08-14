@@ -8,12 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.UserPreferences.Core.Persistence.EfCore.Repositories;
 
-internal sealed class PreferencesRepository(IUserPreferencesDbContext userPreferencesDbContext) : IPreferencesRepository
+internal sealed class PreferencesRepository : IPreferencesRepository
 {
-    private readonly IUserPreferencesDbContext _userPreferencesDbContext = userPreferencesDbContext ??
-                                                                           throw new ArgumentNullException(
-                                                                               paramName: nameof(
-                                                                                   userPreferencesDbContext));
+    private readonly IUserPreferencesDbContext _userPreferencesDbContext;
+
+    public PreferencesRepository(IUserPreferencesDbContext userPreferencesDbContext)
+    {
+        _userPreferencesDbContext = userPreferencesDbContext ??
+                                    throw new ArgumentNullException(paramName: nameof(userPreferencesDbContext));
+    }
 
     public async Task<Preference?> GetAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken)
     {

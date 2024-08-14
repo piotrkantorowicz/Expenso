@@ -7,19 +7,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.Queries.Logging;
 
-internal sealed class QueryHandlerLoggingDecorator<TQuery, TResult>(
-    ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> logger,
-    IQueryHandler<TQuery, TResult> decorated,
-    ISerializer serializer) : IQueryHandler<TQuery, TResult> where TQuery : class, IQuery<TResult> where TResult : class
+internal sealed class QueryHandlerLoggingDecorator<TQuery, TResult> : IQueryHandler<TQuery, TResult>
+    where TQuery : class, IQuery<TResult> where TResult : class
 {
-    private readonly IQueryHandler<TQuery, TResult> _decorated =
-        decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+    private readonly IQueryHandler<TQuery, TResult> _decorated;
+    private readonly ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> _logger;
+    private readonly ISerializer _serializer;
 
-    private readonly ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-
-    private readonly ISerializer _serializer =
-        serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    public QueryHandlerLoggingDecorator(ILogger<QueryHandlerLoggingDecorator<TQuery, TResult>> logger,
+        IQueryHandler<TQuery, TResult> decorated, ISerializer serializer)
+    {
+        _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    }
 
     public async Task<TResult?> HandleAsync(TQuery query, CancellationToken cancellationToken)
     {

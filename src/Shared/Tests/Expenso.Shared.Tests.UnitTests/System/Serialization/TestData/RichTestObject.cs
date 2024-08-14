@@ -1,22 +1,27 @@
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
-internal class RichTestObject(
-    Guid primaryId,
-    int secondaryId,
-    string name,
-    decimal number,
-    DateTimeOffset createdAt,
-    IEnumerable<BasicTestObject> items)
+internal class RichTestObject
 {
-    public Guid PrimaryId { get; } = primaryId;
+    public RichTestObject(Guid primaryId, int secondaryId, string name, decimal number, DateTimeOffset createdAt,
+        IEnumerable<BasicTestObject> items)
+    {
+        PrimaryId = primaryId;
+        SecondaryId = secondaryId;
+        Name = name;
+        Number = number;
+        CreatedAt = createdAt;
+        Items = items;
+    }
 
-    public int SecondaryId { get; init; } = secondaryId;
+    public Guid PrimaryId { get; }
 
-    public string Name { get; private set; } = name;
+    public int SecondaryId { get; init; }
 
-    public decimal Number { get; protected set; } = number;
+    public string Name { get; private set; }
 
-    public DateTimeOffset CreatedAt { get; protected internal set; } = createdAt;
+    public decimal Number { get; protected set; }
 
-    public IEnumerable<BasicTestObject> Items { get; } = items;
+    public DateTimeOffset CreatedAt { get; protected internal set; }
+
+    public IEnumerable<BasicTestObject> Items { get; }
 }

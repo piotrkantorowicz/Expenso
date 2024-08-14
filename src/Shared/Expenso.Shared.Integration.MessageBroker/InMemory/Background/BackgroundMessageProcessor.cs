@@ -9,19 +9,19 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.Integration.MessageBroker.InMemory.Background;
 
-internal sealed class BackgroundMessageProcessor(
-    IMessageChannel messageChannel,
-    IServiceProvider serviceProvider,
-    ILogger<BackgroundMessageProcessor> logger) : BackgroundService
+internal sealed class BackgroundMessageProcessor : BackgroundService
 {
-    private readonly ILogger<BackgroundMessageProcessor> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    private readonly ILogger<BackgroundMessageProcessor> _logger;
+    private readonly IMessageChannel _messageChannel;
+    private readonly IServiceProvider _serviceProvider;
 
-    private readonly IMessageChannel _messageChannel =
-        messageChannel ?? throw new ArgumentNullException(paramName: nameof(messageChannel));
-
-    private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    public BackgroundMessageProcessor(IMessageChannel messageChannel, IServiceProvider serviceProvider,
+        ILogger<BackgroundMessageProcessor> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _messageChannel = messageChannel ?? throw new ArgumentNullException(paramName: nameof(messageChannel));
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {

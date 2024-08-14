@@ -7,14 +7,17 @@ using Microsoft.Extensions.Hosting;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
 
-internal sealed class BackgroundJob(IServiceProvider serviceProvider) : BackgroundService
+internal sealed class BackgroundJob : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider =
-        serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
-
+    private readonly IServiceProvider _serviceProvider;
     private TimeSpan _interval;
     private JobInstance? _jobInstance;
     private Guid _jobInstanceId;
+
+    public BackgroundJob(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+    }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {

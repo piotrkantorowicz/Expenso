@@ -7,16 +7,18 @@ using Expenso.TimeManagement.Proxy.DTO.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Proxy;
 
-internal sealed class TimeManagementProxy(
-    ICommandDispatcher commandDispatcher,
-    IMessageContextFactory messageContextFactory) : ITimeManagementProxy
+internal sealed class TimeManagementProxy : ITimeManagementProxy
 {
-    private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IMessageContextFactory _messageContextFactory;
 
-    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(messageContextFactory));
+    public TimeManagementProxy(ICommandDispatcher commandDispatcher, IMessageContextFactory messageContextFactory)
+    {
+        _commandDispatcher = commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
+
+        _messageContextFactory = messageContextFactory ??
+                                 throw new ArgumentNullException(paramName: nameof(messageContextFactory));
+    }
 
     public async Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest jobEntryRequest,
         CancellationToken cancellationToken = default)

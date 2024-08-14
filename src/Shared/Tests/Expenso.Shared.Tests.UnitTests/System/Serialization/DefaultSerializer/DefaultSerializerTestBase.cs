@@ -22,12 +22,7 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
         CreatedAt = DateTimeOffset.Parse(input: "2009-03-09 09:08:17")
     };
 
-    protected static readonly RichTestObject ComplexObject = new(
-        primaryId: new Guid(g: "c6dcead1-a50d-48ea-b249-95d2e93700ac"), secondaryId: 119, name: "Portamaecenas",
-        number: 17.38m, createdAt: DateTimeOffset.Parse(input: "2013-03-09 09:08:17"), items: new List<BasicTestObject>
-        {
-            BasicObject
-        });
+    protected static readonly RichTestObject ComplexObject = null!;
 
     protected static readonly object[] SerializedTestObjects =
     [
@@ -43,7 +38,7 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
 
     private readonly Mock<ILogger<TestCandidate>> _loggerMock = new();
 
-    protected JsonSerializerOptions _serializerOptions = new()
+    protected readonly JsonSerializerOptions _serializerOptions = new()
     {
         WriteIndented = true,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull

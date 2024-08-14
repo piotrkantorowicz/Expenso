@@ -3,18 +3,19 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-internal sealed class BudgetMustHasDistinctPermissionsForUsers(
-    BudgetId budgetId,
-    PersonId participantId,
-    IEnumerable<Permission> permissions) : IBusinessRule
+internal sealed class BudgetMustHasDistinctPermissionsForUsers : IBusinessRule
 {
-    private readonly BudgetId _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
+    private readonly BudgetId _budgetId;
+    private readonly PersonId _participantId;
+    private readonly IEnumerable<Permission> _permissions;
 
-    private readonly PersonId _participantId =
-        participantId ?? throw new ArgumentNullException(paramName: nameof(participantId));
-
-    private readonly IEnumerable<Permission> _permissions =
-        permissions ?? throw new ArgumentNullException(paramName: nameof(permissions));
+    public BudgetMustHasDistinctPermissionsForUsers(BudgetId budgetId, PersonId participantId,
+        IEnumerable<Permission> permissions)
+    {
+        _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
+        _participantId = participantId ?? throw new ArgumentNullException(paramName: nameof(participantId));
+        _permissions = permissions ?? throw new ArgumentNullException(paramName: nameof(permissions));
+    }
 
     public string Message =>
         $"Budget {_budgetId} already has permission for participant {_participantId}";

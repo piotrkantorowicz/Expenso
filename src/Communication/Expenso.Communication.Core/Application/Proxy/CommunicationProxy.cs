@@ -6,16 +6,18 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Core.Application.Proxy;
 
-internal sealed class CommunicationProxy(
-    ICommandDispatcher commandDispatcher,
-    IMessageContextFactory messageContextFactory) : ICommunicationProxy
+internal sealed class CommunicationProxy : ICommunicationProxy
 {
-    private readonly ICommandDispatcher _commandDispatcher =
-        commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IMessageContextFactory _messageContextFactory;
 
-    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(messageContextFactory));
+    public CommunicationProxy(ICommandDispatcher commandDispatcher, IMessageContextFactory messageContextFactory)
+    {
+        _commandDispatcher = commandDispatcher ?? throw new ArgumentNullException(paramName: nameof(commandDispatcher));
+
+        _messageContextFactory = messageContextFactory ??
+                                 throw new ArgumentNullException(paramName: nameof(messageContextFactory));
+    }
 
     public async Task SendNotificationAsync(SendNotificationRequest request,
         CancellationToken cancellationToken = default)

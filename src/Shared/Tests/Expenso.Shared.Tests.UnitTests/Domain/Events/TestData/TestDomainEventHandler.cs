@@ -4,11 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
-internal sealed class TestDomainEventHandler(ILogger<TestDomainEventHandler> logger)
-    : IDomainEventHandler<TestDomainEvent>
+internal sealed class TestDomainEventHandler : IDomainEventHandler<TestDomainEvent>
 {
-    private readonly ILogger<TestDomainEventHandler> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    private readonly ILogger<TestDomainEventHandler> _logger;
+
+    public TestDomainEventHandler(ILogger<TestDomainEventHandler> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+    }
 
     public async Task HandleAsync(TestDomainEvent @event, CancellationToken cancellationToken)
     {

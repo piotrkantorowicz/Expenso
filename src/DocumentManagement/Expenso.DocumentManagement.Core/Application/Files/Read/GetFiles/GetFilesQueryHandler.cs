@@ -8,20 +8,21 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
 
-internal sealed class GetFilesQueryHandler(
-    IDirectoryPathResolver directoryPathResolver,
-    IFileStorage fileStorage,
-    IFileSystem fileSystem) : IQueryHandler<GetFilesQuery, IEnumerable<GetFilesResponse>>
+internal sealed class GetFilesQueryHandler : IQueryHandler<GetFilesQuery, IEnumerable<GetFilesResponse>>
 {
-    private readonly IDirectoryPathResolver _directoryPathResolver = directoryPathResolver ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(directoryPathResolver));
+    private readonly IDirectoryPathResolver _directoryPathResolver;
+    private readonly IFileStorage _fileStorage;
+    private readonly IFileSystem _fileSystem;
 
-    private readonly IFileStorage _fileStorage =
-        fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+    public GetFilesQueryHandler(IDirectoryPathResolver directoryPathResolver, IFileStorage fileStorage,
+        IFileSystem fileSystem)
+    {
+        _directoryPathResolver = directoryPathResolver ??
+                                 throw new ArgumentNullException(paramName: nameof(directoryPathResolver));
 
-    private readonly IFileSystem _fileSystem =
-        fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+        _fileStorage = fileStorage ?? throw new ArgumentNullException(paramName: nameof(fileStorage));
+        _fileSystem = fileSystem ?? throw new ArgumentNullException(paramName: nameof(fileSystem));
+    }
 
     public async Task<IEnumerable<GetFilesResponse>?> HandleAsync(GetFilesQuery query,
         CancellationToken cancellationToken)

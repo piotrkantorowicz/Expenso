@@ -7,13 +7,15 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.RemovePermission;
 
-internal sealed class RemovePermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository)
-    : ICommandHandler<RemovePermissionCommand>
+internal sealed class RemovePermissionCommandHandler : ICommandHandler<RemovePermissionCommand>
 {
-    private readonly IBudgetPermissionRepository _budgetPermissionRepository = budgetPermissionRepository ??
-                                                                               throw new ArgumentNullException(
-                                                                                   paramName: nameof(
-                                                                                       budgetPermissionRepository));
+    private readonly IBudgetPermissionRepository _budgetPermissionRepository;
+
+    public RemovePermissionCommandHandler(IBudgetPermissionRepository budgetPermissionRepository)
+    {
+        _budgetPermissionRepository = budgetPermissionRepository ??
+                                      throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
+    }
 
     public async Task HandleAsync(RemovePermissionCommand command, CancellationToken cancellationToken)
     {

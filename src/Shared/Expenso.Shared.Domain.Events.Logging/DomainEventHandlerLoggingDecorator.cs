@@ -8,19 +8,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.Domain.Events.Logging;
 
-internal sealed class DomainEventHandlerLoggingDecorator<TEvent>(
-    ILogger<DomainEventHandlerLoggingDecorator<TEvent>> logger,
-    IDomainEventHandler<TEvent> decorated,
-    ISerializer serializer) : IDomainEventHandler<TEvent> where TEvent : class, IDomainEvent
+internal sealed class DomainEventHandlerLoggingDecorator<TEvent> : IDomainEventHandler<TEvent>
+    where TEvent : class, IDomainEvent
 {
-    private readonly IDomainEventHandler<TEvent> _decorated =
-        decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+    private readonly IDomainEventHandler<TEvent> _decorated;
+    private readonly ILogger<DomainEventHandlerLoggingDecorator<TEvent>> _logger;
+    private readonly ISerializer _serializer;
 
-    private readonly ILogger<DomainEventHandlerLoggingDecorator<TEvent>> _logger =
-        logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-
-    private readonly ISerializer _serializer =
-        serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    public DomainEventHandlerLoggingDecorator(ILogger<DomainEventHandlerLoggingDecorator<TEvent>> logger,
+        IDomainEventHandler<TEvent> decorated, ISerializer serializer)
+    {
+        _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+    }
 
     public async Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
     {

@@ -9,17 +9,22 @@ using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class AssignParticipantDomainService(
-    IIamProxy iamProxy,
-    IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
-    IClock clock) : IAssignParticipantDomainService
+internal sealed class AssignParticipantDomainService : IAssignParticipantDomainService
 {
-    private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository =
-        budgetPermissionRequestRepository ??
-        throw new ArgumentNullException(paramName: nameof(budgetPermissionRequestRepository));
+    private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
+    private readonly IClock _clock;
+    private readonly IIamProxy _iamProxy;
 
-    private readonly IClock _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
-    private readonly IIamProxy _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
+    public AssignParticipantDomainService(IIamProxy iamProxy,
+        IBudgetPermissionRequestRepository budgetPermissionRequestRepository, IClock clock)
+    {
+        _budgetPermissionRequestRepository = budgetPermissionRequestRepository ??
+                                             throw new ArgumentNullException(
+                                                 paramName: nameof(budgetPermissionRequestRepository));
+
+        _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
+        _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
+    }
 
     public async Task<BudgetPermissionRequest> AssignParticipantAsync(Guid budgetId, string email,
         PermissionType permissionType, int expirationDays, CancellationToken cancellationToken)

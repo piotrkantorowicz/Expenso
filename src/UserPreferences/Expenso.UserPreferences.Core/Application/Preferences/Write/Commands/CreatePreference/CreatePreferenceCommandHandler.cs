@@ -9,12 +9,16 @@ using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 
-internal sealed class CreatePreferenceCommandHandler(IPreferencesRepository preferencesRepository)
-    : ICommandHandler<CreatePreferenceCommand, CreatePreferenceResponse>
+internal sealed class
+    CreatePreferenceCommandHandler : ICommandHandler<CreatePreferenceCommand, CreatePreferenceResponse>
 {
-    private readonly IPreferencesRepository _preferencesRepository = preferencesRepository ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(preferencesRepository));
+    private readonly IPreferencesRepository _preferencesRepository;
+
+    public CreatePreferenceCommandHandler(IPreferencesRepository preferencesRepository)
+    {
+        _preferencesRepository = preferencesRepository ??
+                                 throw new ArgumentNullException(paramName: nameof(preferencesRepository));
+    }
 
     public async Task<CreatePreferenceResponse?> HandleAsync(CreatePreferenceCommand command,
         CancellationToken cancellationToken)

@@ -4,9 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.TimeManagement.Core.Persistence.EfCore;
 
-internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbContext> options)
-    : DbContext(options: options), ITimeManagementDbContext
+internal sealed class TimeManagementDbContext : DbContext, ITimeManagementDbContext
 {
+    public TimeManagementDbContext(DbContextOptions<TimeManagementDbContext> options) : base(options: options)
+    {
+    }
+
     public DbSet<JobEntry> JobEntries { get; set; } = null!;
 
     public DbSet<JobInstance> JobInstances { get; set; } = null!;

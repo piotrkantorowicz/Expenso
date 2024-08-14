@@ -3,11 +3,15 @@ using Expenso.Communication.Core.Application.Notifications.Services;
 
 namespace Expenso.Communication.Core.Application.Notifications.Factories;
 
-internal sealed class NotificationServiceFactory(IDictionary<string, INotificationService> servicesDictionary)
-    : INotificationServiceFactory
+internal sealed class NotificationServiceFactory : INotificationServiceFactory
 {
-    private readonly IDictionary<string, INotificationService> _servicesDictionary =
-        servicesDictionary ?? throw new ArgumentNullException(paramName: nameof(servicesDictionary));
+    private readonly IDictionary<string, INotificationService> _servicesDictionary;
+
+    public NotificationServiceFactory(IDictionary<string, INotificationService> servicesDictionary)
+    {
+        _servicesDictionary =
+            servicesDictionary ?? throw new ArgumentNullException(paramName: nameof(servicesDictionary));
+    }
 
     public T GetService<T>() where T : INotificationService
     {

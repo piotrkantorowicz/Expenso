@@ -6,15 +6,18 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.IAM.Core.Application.Proxy;
 
-internal sealed class IamProxy(IQueryDispatcher queryDispatcher, IMessageContextFactory messageContextFactory)
-    : IIamProxy
+internal sealed class IamProxy : IIamProxy
 {
-    private readonly IMessageContextFactory _messageContextFactory = messageContextFactory ??
-                                                                     throw new ArgumentNullException(
-                                                                         paramName: nameof(messageContextFactory));
+    private readonly IMessageContextFactory _messageContextFactory;
+    private readonly IQueryDispatcher _queryDispatcher;
 
-    private readonly IQueryDispatcher _queryDispatcher =
-        queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
+    public IamProxy(IQueryDispatcher queryDispatcher, IMessageContextFactory messageContextFactory)
+    {
+        _messageContextFactory = messageContextFactory ??
+                                 throw new ArgumentNullException(paramName: nameof(messageContextFactory));
+
+        _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
+    }
 
     public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
