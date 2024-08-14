@@ -16,37 +16,6 @@ jobs:
   sanity:
     uses: ./.github/workflows/reusable-sanity.yml
 
-  check_changes:
-    runs-on: ubuntu-latest
-    outputs:
-      changed: ${{ steps.filter_changes.outputs.changed }}
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v4.1.7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
-      - name: Check for source changes
-        id: filter_changes
-        uses: dorny/paths-filter@v3.0.2
-        with:
-          filters: |
-            changed:
-              - 'src/**'
-      - name: Print changed value
-        run: echo ${{ steps.filter_changes.outputs.changed }}
-    needs: sanity
-
-  # code-ql:
-  #   uses: ./.github/workflows/reusable-code-ql.yml
-  #   if: needs.check_changes.outputs.changed == 'true'
-  #   needs: check_changes
-
-  # trivy:
-  #   uses: ./.github/workflows/reusable-trivy.yml
-  #   if: needs.check_changes.outputs.changed == 'true'
-  #   needs: check_changes
-
   test:
     uses: ./.github/workflows/reusable-test.yml
     needs: [ sanity ]
