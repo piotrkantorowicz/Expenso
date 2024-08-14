@@ -1,0 +1,22 @@
+#!/bin/sh
+
+. "$(dirname "$0")/_/husky.sh"
+
+echo 'Pre-commit check starting...'
+echo 'Checking for uncommitted changes...'
+
+if git diff --quiet; then
+  echo 'No uncommitted changes found.'
+else
+  echo 'Uncommitted changes found. Please commit or stash them before proceeding.'
+  exit 1
+fi
+
+echo 'Restoring dependencies...'
+dotnet restore
+
+echo 'Building a project...'
+dotnet build
+
+echo 'Running tests...'
+dotnet test
