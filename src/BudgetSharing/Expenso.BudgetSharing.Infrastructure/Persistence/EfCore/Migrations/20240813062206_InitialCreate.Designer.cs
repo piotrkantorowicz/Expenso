@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(BudgetSharingDbContext))]
-    [Migration("20240225084851_InitialCreate")]
+    [Migration("20240813062206_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("BudgetSharing")
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -104,12 +104,10 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<bool>("IsDeleted")
-                                .HasColumnType("boolean")
-                                .HasColumnName("IsDeleted");
+                                .HasColumnType("boolean");
 
                             b1.Property<DateTimeOffset?>("RemovalDate")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("RemovalDate");
+                                .HasColumnType("timestamp with time zone");
 
                             b1.HasKey("BudgetPermissionId");
 

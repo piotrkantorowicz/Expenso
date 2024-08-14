@@ -18,12 +18,12 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("BudgetSharing")
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetSharing", b =>
+            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetPermissionRequest", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -101,12 +101,10 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<bool>("IsDeleted")
-                                .HasColumnType("boolean")
-                                .HasColumnName("IsDeleted");
+                                .HasColumnType("boolean");
 
                             b1.Property<DateTimeOffset?>("RemovalDate")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("RemovalDate");
+                                .HasColumnType("timestamp with time zone");
 
                             b1.HasKey("BudgetPermissionId");
 

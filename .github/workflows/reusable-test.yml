@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   workflow_call:
     secrets:
+      postgres_user:
+        required: true
+      postgres_password:
+        required: true
       codecov_token:
         description: "Token used to upload coverage results"
         required: true
@@ -13,6 +17,20 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: ${{ secrets.postgres_user }}
+          POSTGRES_PASSWORD: ${{ secrets.postgres_password }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout the repository

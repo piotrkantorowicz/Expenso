@@ -25,13 +25,32 @@ internal sealed class TimeManagementDbContext(DbContextOptions<TimeManagementDbC
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        await JobInstances.AddAsync(entity: JobInstance.Default, cancellationToken: cancellationToken);
+        JobInstance? jobInstance =
+            await JobInstances.FirstOrDefaultAsync(predicate: x => x.Id == JobInstance.Default.Id,
+                cancellationToken: cancellationToken);
 
-        await JobEntryStatuses.AddRangeAsync(entities:
+        if (jobInstance is null)
+        {
+            await JobInstances.AddAsync(entity: JobInstance.Default, cancellationToken: cancellationToken);
+        }
+
+        ICollection<JobEntryStatus> jobEntryStatuses =
         [
             JobEntryStatus.Running, JobEntryStatus.Completed, JobEntryStatus.Failed, JobEntryStatus.Cancelled,
             JobEntryStatus.Retrying
-        ], cancellationToken: cancellationToken);
+        ];
+
+        foreach (JobEntryStatus jobEntryStatus in jobEntryStatuses)
+        {
+            JobEntryStatus? existingJobEntryStatus =
+                await JobEntryStatuses.FirstOrDefaultAsync(predicate: x => x.Id == jobEntryStatus.Id,
+                    cancellationToken: cancellationToken);
+
+            if (existingJobEntryStatus is null)
+            {
+                await JobEntryStatuses.AddAsync(entity: jobEntryStatus, cancellationToken: cancellationToken);
+            }
+        }
 
         await SaveChangesAsync(cancellationToken: cancellationToken);
     }

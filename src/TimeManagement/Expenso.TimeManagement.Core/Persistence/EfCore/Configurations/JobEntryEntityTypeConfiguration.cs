@@ -40,7 +40,7 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
             jobEntryTriggersBuilder
                 .Property(propertyExpression: x => x.EventType)
                 .IsRequired()
-                .HasMaxLength(maxLength: 150);
+                .HasMaxLength(maxLength: 500);
 
             jobEntryTriggersBuilder.Property(propertyExpression: x => x.EventData).IsRequired();
         });

@@ -77,7 +77,7 @@ internal class BudgetSharingDbContext(DbContextOptions<BudgetSharingDbContext> o
 
     private void DisposeTransaction()
     {
-        // _currentTransaction?.Dispose();
+        _currentTransaction?.Dispose();
         _currentTransaction = null!;
     }
 }

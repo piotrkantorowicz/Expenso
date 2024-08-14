@@ -14,8 +14,4 @@ jobs:
     uses: ./.github/workflows/reusable-code-ql.yml
 
   trivy:
-    uses: ./.github/workflows/reusable-docker_image.yml
-    with:
-      registry: ghcr.io
-      image: ghcr.io/${{ github.actor }}/expenso
-      push: false
+    uses: ./.github/workflows/reusable-trivy.yml

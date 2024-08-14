@@ -12,7 +12,7 @@ using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
 using Expenso.Shared.Commands.Transactions;
 using Expenso.Shared.Commands.Validation;
-using Expenso.Shared.Database.EfCore;
+using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Events.Logging;
 using Expenso.Shared.Integration.Events.Logging;

@@ -5,7 +5,7 @@ using Expenso.Api.Tests.E2E.BudgetSharing.Persistence;
 using Expenso.Api.Tests.E2E.IAM;
 using Expenso.IAM.Proxy;
 using Expenso.Shared.Database;
-using Expenso.Shared.Database.EfCore;
+using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration.Extensions;
 
 using Microsoft.AspNetCore.Hosting;
@@ -32,8 +32,9 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
         {
             ConfigureTestSerializer(services: services);
             UseFakeIIamProxy(services: services);
+            EfCoreSettings efCoreSettings = GetEfCoreSettings();
 
-            if (GetEfCoreSettings().InMemory == true)
+            if (efCoreSettings.InMemory == true)
             {
                 UseFakeUnitOfWork(services: services);
             }
