@@ -27,9 +27,4 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Application\"/>
-        <Folder Include="Application\Users\Read\"/>
-    </ItemGroup>
-
 </Project>
