@@ -10,18 +10,18 @@ using Expenso.TimeManagement.Proxy.DTO.Request;
 
 using Moq;
 
-using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.RegisterJobCommandHandler;
+namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler;
 
-namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJobCommandHandler;
-
-internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandidate>
+internal abstract class
+    RegisterJobEntryCommandHandlerTestBase : TestBase<
+    Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler>
 {
     protected Mock<IClock> _clockMock = null!;
     protected BudgetPermissionRequestExpiredIntegrationEvent _eventTrigger = null!;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
     protected Mock<IJobInstanceRepository> _jobInstanceRepository = null!;
-    protected RegisterJobCommand _registerJobCommand = null!;
+    protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
     protected Mock<ISerializer> _serializer = null!;
 
     [SetUp]
@@ -32,7 +32,7 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
         _jobInstanceRepository = new Mock<IJobInstanceRepository>();
 
         _eventTrigger = new BudgetPermissionRequestExpiredIntegrationEvent(MessageContext: null!,
-                BudgetPermissionRequestId: Guid.NewGuid());
+            BudgetPermissionRequestId: Guid.NewGuid());
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: _eventTrigger);
         _clockMock = new Mock<IClock>();
@@ -40,7 +40,8 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
         _serializer = new Mock<ISerializer>();
         _serializer.Setup(expression: x => x.Serialize(_eventTrigger, null)).Returns(value: eventTriggerPayload);
 
-        _registerJobCommand = new RegisterJobCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
+        _registerJobEntryCommand = new RegisterJobEntryCommand(
+            MessageContext: MessageContextFactoryMock.Object.Current(),
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
@@ -48,8 +49,8 @@ internal abstract class RegisterJobCommandHandlerTestBase : TestBase<TestCandida
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
-        TestCandidate = new TestCandidate(jobEntryRepository: _jobEntryRepositoryMock.Object,
-            jobInstanceRepository: _jobInstanceRepository.Object,
+        TestCandidate = new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler(
+            jobEntryRepository: _jobEntryRepositoryMock.Object, jobInstanceRepository: _jobInstanceRepository.Object,
             jobEntryStatusRepository: _jobEntryStatusReposiotry.Object);
     }
 }

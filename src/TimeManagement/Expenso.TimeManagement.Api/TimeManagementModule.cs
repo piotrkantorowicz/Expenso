@@ -4,6 +4,8 @@ using Expenso.Shared.Commands;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.TimeManagement.Core;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Proxy;
 using Expenso.TimeManagement.Proxy.DTO.Request;
@@ -40,19 +42,32 @@ public sealed class TimeManagementModule : ModuleDefinition
 
     public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
+        EndpointRegistration cancelJobEndpointRegistration = new(Pattern: "cancel-job", Name: "CancelJob",
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
+                [FromServices] ICommandHandler<CancelJobEntryCommand> handler,
+                [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CancelJobEntryRequest model,
+                CancellationToken cancellationToken = default) =>
+            {
+                await handler.HandleAsync(
+                    command: new CancelJobEntryCommand(MessageContext: messageContextFactory.Current(),
+                        CancelJobEntryRequest: model), cancellationToken: cancellationToken);
+
+                return Results.NoContent();
+            });
+
         EndpointRegistration registerJobEndpointRegistration = new(Pattern: "register-job", Name: "RegisterJob",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
-                [FromServices] ICommandHandler<RegisterJobCommand, RegisterJobEntryResponse> handler,
+                [FromServices] ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] RegisterJobEntryRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                RegisterJobEntryResponse? response = await handler.HandleAsync(
-                    command: new RegisterJobCommand(MessageContext: messageContextFactory.Current(),
+                RegisterJobEntryResponse? response = await handler.HandleAsync(command: new RegisterJobEntryCommand(
+                    MessageContext: messageContextFactory.Current(),
                         RegisterJobEntryRequest: model), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });
 
-        return [registerJobEndpointRegistration];
+        return [cancelJobEndpointRegistration, registerJobEndpointRegistration];
     }
 }

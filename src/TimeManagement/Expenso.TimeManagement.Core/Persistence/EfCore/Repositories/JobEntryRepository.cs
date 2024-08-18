@@ -16,7 +16,19 @@ internal sealed class JobEntryRepository : IJobEntryRepository
                                    throw new ArgumentNullException(paramName: nameof(timeManagementDbContext));
     }
 
-    public async Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(Guid jobInstanceId,
+    public async Task<JobEntry?> GetJobEntry(Guid? jobEntryId, CancellationToken cancellationToken,
+        bool useTracking = false)
+    {
+        return await _timeManagementDbContext
+            .JobEntries.Tracking(useTracking: useTracking)
+            .FirstOrDefaultAsync(
+                predicate: x =>
+                    x.Id == jobEntryId &&
+                    (x.JobStatus == JobEntryStatus.Running || x.JobStatus == JobEntryStatus.Retrying),
+                cancellationToken: cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(Guid? jobInstanceId,
         CancellationToken cancellationToken, bool useTracking = false)
     {
         return await _timeManagementDbContext

@@ -6,16 +6,16 @@ using Expenso.TimeManagement.Proxy.DTO.Request;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
-internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJobCommand>
+internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<RegisterJobEntryCommand>
 {
     private readonly ISerializer _serializer;
 
-    public RegisterJobCommandValidator(ISerializer serializer)
+    public RegisterJobEntryCommandValidator(ISerializer serializer)
     {
         _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
     }
 
-    public IDictionary<string, string> Validate(RegisterJobCommand? command)
+    public IDictionary<string, string> Validate(RegisterJobEntryCommand? command)
     {
         Dictionary<string, string> errors = new();
 
@@ -28,7 +28,7 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
 
         if (command.RegisterJobEntryRequest is null)
         {
-            errors.Add(key: nameof(command.RegisterJobEntryRequest), value: "Add job entry request is required");
+            errors.Add(key: nameof(command.RegisterJobEntryRequest), value: "Register job entry request is required");
         }
 
         if (command.RegisterJobEntryRequest?.MaxRetries is not null && command.RegisterJobEntryRequest?.MaxRetries <= 0)
@@ -58,8 +58,8 @@ internal sealed class RegisterJobCommandValidator : ICommandValidator<RegisterJo
                     .ToString(), value: "RunAt and Interval cannot be used together");
         }
 
-        ICollection<RegisterJobEntryRequest_JobEntryTrigger>?
-            jobEntryTriggers = command.RegisterJobEntryRequest?.JobEntryTriggers;
+        ICollection<RegisterJobEntryRequest_JobEntryTrigger>? jobEntryTriggers =
+            command.RegisterJobEntryRequest?.JobEntryTriggers;
 
         if (jobEntryTriggers is null || jobEntryTriggers.Count is 0)
         {

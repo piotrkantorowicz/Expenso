@@ -9,9 +9,9 @@ using FluentAssertions;
 
 using Moq;
 
-namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJobCommandHandler;
+namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler;
 
-internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
+internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
 {
     [Test]
     public async Task Should_RegisterJobEntry()
@@ -26,7 +26,8 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
             .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act
-        await TestCandidate.HandleAsync(command: _registerJobCommand, cancellationToken: It.IsAny<CancellationToken>());
+        await TestCandidate.HandleAsync(entryCommand: _registerJobEntryCommand,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _jobEntryRepositoryMock.Verify(expression: x =>
@@ -45,9 +46,9 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
             .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: JobEntryStatus.Running);
 
-        RegisterJobCommand command = _registerJobCommand with
+        RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayofMonth: 10,
                     Hour: 12, Minute: 30, Second: 30)
@@ -55,8 +56,8 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         };
 
         // Act
-        RegisterJobEntryResponse? result =
-            await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
+        RegisterJobEntryResponse? result = await TestCandidate.HandleAsync(entryCommand: entryCommand,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _jobEntryRepositoryMock.Verify(expression: x =>
@@ -76,7 +77,8 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         // Act
         // Assert
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(command: _registerJobCommand, cancellationToken: It.IsAny<CancellationToken>()));
+            TestCandidate.HandleAsync(entryCommand: _registerJobEntryCommand,
+                cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"Job instance with id {JobInstance.Default.Id} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
@@ -86,7 +88,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     public void Should_ThrowNoFoundException_When_JobRunningStatusNotFound()
     {
         // Arrange
-        RegisterJobCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+        RegisterJobEntryCommand entryCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
@@ -105,7 +107,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         // Act
         // Assert
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
+            TestCandidate.HandleAsync(entryCommand: entryCommand, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"Job status with id {JobEntryStatus.Running.Id} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
@@ -115,7 +117,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
     public void Should_ThrowNoFoundException_When_RegisterJobEntryRequestIsNull()
     {
         // Arrange
-        RegisterJobCommand command = _registerJobCommand with
+        RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
         {
             RegisterJobEntryRequest = null
         };
@@ -131,7 +133,7 @@ internal sealed class HandleAsync : RegisterJobCommandHandlerTestBase
         // Act
         // Assert
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
+            TestCandidate.HandleAsync(entryCommand: entryCommand, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = "Unable to create job entry from request";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
