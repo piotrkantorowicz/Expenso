@@ -3,7 +3,7 @@ using Expenso.TimeManagement.Proxy.DTO.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 
-internal static class RegisterJobResponseMap
+internal static class RegisterJobEntryResponseMap
 {
     public static RegisterJobEntryResponse? MapToJobEntry(JobEntry? jobEntry)
     {

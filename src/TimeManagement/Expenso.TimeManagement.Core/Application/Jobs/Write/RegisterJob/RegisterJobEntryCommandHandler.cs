@@ -10,14 +10,15 @@ using Expenso.TimeManagement.Proxy.DTO.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
-internal sealed class RegisterJobCommandHandler : ICommandHandler<RegisterJobCommand, RegisterJobEntryResponse>
+internal sealed class
+    RegisterJobEntryCommandHandler : ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse>
 {
     private const string DefaultCronExpression = "* * * * * *";
     private readonly IJobEntryRepository _jobEntryRepository;
     private readonly IJobEntryStatusRepository _jobEntryStatusRepository;
     private readonly IJobInstanceRepository _jobInstanceRepository;
 
-    public RegisterJobCommandHandler(IJobEntryRepository jobEntryRepository,
+    public RegisterJobEntryCommandHandler(IJobEntryRepository jobEntryRepository,
         IJobInstanceRepository jobInstanceRepository, IJobEntryStatusRepository jobEntryStatusRepository)
     {
         _jobEntryRepository =
@@ -30,7 +31,7 @@ internal sealed class RegisterJobCommandHandler : ICommandHandler<RegisterJobCom
                                  throw new ArgumentNullException(paramName: nameof(jobInstanceRepository));
     }
 
-    public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobCommand command,
+    public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobEntryCommand entryCommand,
         CancellationToken cancellationToken)
     {
         Guid jobInstanceId = JobInstance.Default.Id;
@@ -53,7 +54,7 @@ internal sealed class RegisterJobCommandHandler : ICommandHandler<RegisterJobCom
             throw new NotFoundException(message: $"Job status with id {jobStatusId} not found");
         }
 
-        JobEntry? jobEntry = CreateJobEntry(jobEntry: command.RegisterJobEntryRequest, jobInstance: jobType,
+        JobEntry? jobEntry = CreateJobEntry(jobEntry: entryCommand.RegisterJobEntryRequest, jobInstance: jobType,
             jobEntryStatus: runningJobStatus);
 
         if (jobEntry is null)
@@ -63,7 +64,7 @@ internal sealed class RegisterJobCommandHandler : ICommandHandler<RegisterJobCom
 
         await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);
 
-        return RegisterJobResponseMap.MapToJobEntry(jobEntry: jobEntry);
+        return RegisterJobEntryResponseMap.MapToJobEntry(jobEntry: jobEntry);
     }
 
     private static JobEntry? CreateJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,

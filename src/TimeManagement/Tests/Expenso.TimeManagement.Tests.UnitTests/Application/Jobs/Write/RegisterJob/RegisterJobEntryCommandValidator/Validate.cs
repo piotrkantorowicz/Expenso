@@ -5,9 +5,9 @@ using Expenso.TimeManagement.Proxy.DTO.Request;
 
 using FluentAssertions;
 
-namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJobCommandValidator;
+namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
-internal sealed class Validate : RegisterJobCommandValidatorTestBase
+internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 {
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_CommandIsNull()
@@ -28,14 +28,14 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
             RegisterJobEntryRequest = null
         });
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Add job entry request is required";
+        const string expectedValidationMessage = "Register job entry request is required";
         string error = validationResult[key: nameof(RegisterJobEntryRequest)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -45,7 +45,7 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand);
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand);
 
         // Assert
         validationResult.Should().BeNullOrEmpty();
@@ -56,9 +56,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 MaxRetries = maxRetries
             }
@@ -67,7 +67,7 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "MaxRetries must be a positive value";
-        string error = validationResult[key: nameof(_registerJobCommand.RegisterJobEntryRequest.MaxRetries)];
+        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.MaxRetries)];
         error.Should().Be(expected: expectedValidationMessage);
     }
 
@@ -76,9 +76,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
                 RunAt = null
@@ -94,9 +94,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
                 RunAt = null
@@ -112,9 +112,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = null,
                 RunAt = _clockMock.Object.UtcNow.AddSeconds(seconds: 15)
@@ -130,9 +130,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = null,
                 RunAt = null
@@ -148,9 +148,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
         string error =
             validationResult[
                 key: new StringBuilder()
-                    .Append(value: nameof(_registerJobCommand.RegisterJobEntryRequest.Interval))
+                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval))
                     .Append(value: '|')
-                    .Append(value: nameof(_registerJobCommand.RegisterJobEntryRequest.RunAt))
+                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt))
                     .ToString()];
 
         error.Should().Be(expected: expectedValidationMessage);
@@ -161,9 +161,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
                 RunAt = _clockMock.Object.UtcNow.AddSeconds(seconds: 15)
@@ -177,9 +177,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
         string error =
             validationResult[
                 key: new StringBuilder()
-                    .Append(value: nameof(_registerJobCommand.RegisterJobEntryRequest.Interval))
+                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval))
                     .Append(value: '|')
-                    .Append(value: nameof(_registerJobCommand.RegisterJobEntryRequest.RunAt))
+                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt))
                     .ToString()];
 
         error.Should().Be(expected: expectedValidationMessage);
@@ -190,9 +190,9 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 JobEntryTriggers = new List<RegisterJobEntryRequest_JobEntryTrigger>()
             }
@@ -201,7 +201,7 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "Job entry triggers are required";
-        string error = validationResult[key: nameof(_registerJobCommand.RegisterJobEntryRequest.JobEntryTriggers)];
+        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers)];
         error.Should().Be(expected: expectedValidationMessage);
     }
 
@@ -210,13 +210,13 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 JobEntryTriggers =
                 [
-                    _registerJobCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
+                    _registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
                     {
                         EventData = null
                     }
@@ -236,13 +236,13 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 JobEntryTriggers =
                 [
-                    _registerJobCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
+                    _registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
                     {
                         EventType = null
                     }
@@ -262,13 +262,13 @@ internal sealed class Validate : RegisterJobCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobCommand with
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobCommand.RegisterJobEntryRequest! with
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 JobEntryTriggers =
                 [
-                    _registerJobCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
+                    _registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
                     {
                         EventType = typeof(int).AssemblyQualifiedName
                     }

@@ -9,14 +9,14 @@ using Expenso.TimeManagement.Proxy.DTO.Request;
 
 using Moq;
 
-using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.RegisterJobCommandValidator;
+namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
-namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJobCommandValidator;
-
-internal abstract class RegisterJobCommandValidatorTestBase : TestBase<TestCandidate>
+internal abstract class
+    RegisterJobEntryCommandValidatorTestBase : TestBase<
+    Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator>
 {
     protected Mock<IClock> _clockMock = null!;
-    protected RegisterJobCommand _registerJobCommand = null!;
+    protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
     protected Mock<ISerializer> _serializer = null!;
 
     [SetUp]
@@ -35,7 +35,8 @@ internal abstract class RegisterJobCommandValidatorTestBase : TestBase<TestCandi
             .Setup(expression: x => x.Deserialize(eventTriggerPayload, eventTrigger.GetType(), null))
             .Returns(value: eventTrigger);
 
-        _registerJobCommand = new RegisterJobCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
+        _registerJobEntryCommand = new RegisterJobEntryCommand(
+            MessageContext: MessageContextFactoryMock.Object.Current(),
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
@@ -43,6 +44,8 @@ internal abstract class RegisterJobCommandValidatorTestBase : TestBase<TestCandi
                     EventData: _serializer.Object.Serialize(value: eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
-        TestCandidate = new TestCandidate(serializer: _serializer.Object);
+        TestCandidate =
+            new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator(
+                serializer: _serializer.Object);
     }
 }

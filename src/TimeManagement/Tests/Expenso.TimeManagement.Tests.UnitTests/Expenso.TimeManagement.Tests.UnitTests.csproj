@@ -27,4 +27,8 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Application\Jobs\Write\RegisterJob\"/>
+    </ItemGroup>
+
 </Project>
