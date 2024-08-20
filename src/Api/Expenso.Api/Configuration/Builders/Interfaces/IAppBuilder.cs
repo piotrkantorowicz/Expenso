@@ -10,6 +10,8 @@ internal interface IAppBuilder
 
     IAppBuilder ConfigureMvc();
 
+    IAppBuilder ConfigureCache();
+
     IAppBuilder ConfigureSerializationOptions();
 
     IAppBuilder ConfigureAuthorization();

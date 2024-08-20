@@ -117,6 +117,13 @@ internal sealed class AppBuilder : IAppBuilder
         return this;
     }
 
+    public IAppBuilder ConfigureCache()
+    {
+        _services.AddDistributedMemoryCache();
+
+        return this;
+    }
+
     public IAppBuilder ConfigureSerializationOptions()
     {
         _services.Configure<JsonOptions>(configureOptions: options =>
@@ -129,13 +136,23 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureAuthorization()
     {
+        const string tokenHandlerClient = "admin";
         _services.AddAuthorization();
         _services.AddAuthentication();
+
+        _services
+            .AddClientCredentialsTokenManagement()
+            .AddClient(name: tokenHandlerClient, configureOptions: client =>
+            {
+                client.ClientId = _keycloakProtectionClientOptions?.Resource;
+                client.ClientSecret = _keycloakProtectionClientOptions?.Credentials.Secret;
+                client.TokenEndpoint = _keycloakProtectionClientOptions?.KeycloakTokenEndpoint;
+            });
 
         switch (_authSettings?.AuthServer)
         {
             case AuthServer.Keycloak:
-                ConfigureKeycloak();
+                ConfigureKeycloak(tokenHandlerClient: tokenHandlerClient);
 
                 break;
             default:
@@ -199,16 +216,11 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddSingleton(implementationInstance: _filesSettings!);
     }
 
-    private void ConfigureKeycloak()
+    private void ConfigureKeycloak(string tokenHandlerClient, string? keyCloakAdminSection = null)
     {
-        if (_configuration.TryBindOptions(sectionName: KeycloakProtectionClientOptions.Section,
-                options: out KeycloakProtectionClientOptions options))
-        {
-            _services.AddSingleton(implementationInstance: options);
-        }
-
-        _services.AddKeycloakWebApiAuthentication(configuration: _configuration,
-            configureJwtBearerOptions: jwtOptions =>
+        _services
+            .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+            .AddKeycloakWebApi(configuration: _configuration, configureJwtBearerOptions: jwtOptions =>
             {
                 jwtOptions.Events = new JwtBearerEvents
                 {
@@ -262,7 +274,11 @@ internal sealed class AppBuilder : IAppBuilder
                 };
             });
 
-        _services.AddKeycloakAuthorization(configuration: _configuration);
-        _services.AddKeycloakAdminHttpClient(configuration: _configuration);
+        _services.AddKeycloakAuthorization().AddAuthorizationServer(configuration: _configuration);
+
+        _services
+            .AddKeycloakAdminHttpClient(configuration: _configuration,
+                keycloakClientSectionName: keyCloakAdminSection ?? KeycloakAdminClientOptions.Section)
+            .AddClientCredentialsTokenHandler(tokenClientName: tokenHandlerClient);
     }
 }

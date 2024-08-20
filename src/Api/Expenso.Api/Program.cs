@@ -10,6 +10,7 @@ appBuilder
     .ConfigureSerializationOptions()
     .ConfigureAuthorization()
     .ConfigureSwagger()
+    .ConfigureCache()
     .Build()
     .CreateEndpoints()
     .UseAuth()
