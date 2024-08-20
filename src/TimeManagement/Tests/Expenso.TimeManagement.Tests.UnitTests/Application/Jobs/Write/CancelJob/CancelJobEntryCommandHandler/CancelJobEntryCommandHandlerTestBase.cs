@@ -23,6 +23,7 @@ internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCand
     {
         _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
         _jobEntryStatusReposiotry = new Mock<IJobEntryStatusRepository>();
+        _jobEntryId = Guid.NewGuid();
 
         _cancelJobEntryCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
             CancelJobEntryRequest: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
