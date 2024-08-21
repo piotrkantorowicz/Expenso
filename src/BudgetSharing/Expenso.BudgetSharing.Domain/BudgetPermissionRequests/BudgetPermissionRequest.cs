@@ -8,6 +8,7 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Model;
+using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
@@ -40,9 +41,12 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new UnknownPermissionTypeCannotBeProcessed(permissionType: permissionType), false),
-            (new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status: status), false),
-            (new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: clock), false)
+            new BusinesRuleCheck(
+                BusinessRule: new UnknownPermissionTypeCannotBeProcessed(permissionType: permissionType)),
+            new BusinesRuleCheck(
+                BusinessRule: new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status: status)),
+            new BusinesRuleCheck(
+                BusinessRule: new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: clock))
         ]);
 
         Id = id;
@@ -88,8 +92,9 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(budgetPermissionRequestId: Id, status: Status),
-                false)
+            new BusinesRuleCheck(
+                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(budgetPermissionRequestId: Id,
+                    status: Status))
         ]);
 
         Status = BudgetPermissionRequestStatus.Confirmed;
@@ -103,8 +108,9 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(budgetPermissionRequestId: Id, status: Status),
-                false)
+            new BusinesRuleCheck(
+                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(budgetPermissionRequestId: Id,
+                    status: Status))
         ]);
 
         Status = BudgetPermissionRequestStatus.Cancelled;
@@ -118,8 +124,9 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(budgetPermissionRequestId: Id, status: Status),
-                false)
+            new BusinesRuleCheck(
+                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(budgetPermissionRequestId: Id,
+                    status: Status))
         ]);
 
         Status = BudgetPermissionRequestStatus.Expired;

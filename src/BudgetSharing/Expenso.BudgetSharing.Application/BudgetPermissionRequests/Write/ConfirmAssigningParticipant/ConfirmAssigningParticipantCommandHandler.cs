@@ -5,18 +5,19 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Confi
 
 internal sealed class ConfirmAssigningParticipantCommandHandler : ICommandHandler<ConfirmAssigningParticipantCommand>
 {
-    private readonly IConfirmParticipantDomainService _confirmParticipantDomainService;
+    private readonly IConfirmParticipantionDomainService _confirmParticipantionDomainService;
 
-    public ConfirmAssigningParticipantCommandHandler(IConfirmParticipantDomainService confirmParticipantDomainService)
+    public ConfirmAssigningParticipantCommandHandler(
+        IConfirmParticipantionDomainService confirmParticipantionDomainService)
     {
-        _confirmParticipantDomainService = confirmParticipantDomainService ??
-                                           throw new ArgumentNullException(
-                                               paramName: nameof(confirmParticipantDomainService));
+        _confirmParticipantionDomainService = confirmParticipantionDomainService ??
+                                              throw new ArgumentNullException(
+                                                  paramName: nameof(confirmParticipantionDomainService));
     }
 
     public async Task HandleAsync(ConfirmAssigningParticipantCommand command, CancellationToken cancellationToken)
     {
-        await _confirmParticipantDomainService.ConfirmParticipantAsync(
+        await _confirmParticipantionDomainService.ConfirmParticipantAsync(
             budgetPermissionRequestId: command.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

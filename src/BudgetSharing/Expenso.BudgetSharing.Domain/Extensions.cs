@@ -9,8 +9,11 @@ public static class Extensions
 {
     public static void AddDomain(this IServiceCollection services)
     {
-        services.AddScoped<IAssignParticipantDomainService, AssignParticipantDomainService>();
-        services.AddScoped<IConfirmParticipantDomainService, ConfirmParticipantDomainService>();
-        services.AddScoped<IBudgetPermissionRequestExpireDomainService, BudgetPermissionRequestExpireDomainService>();
+        services.AddScoped<IAssignParticipantionDomainService, AssignParticipantionDomainService>();
+        services.AddScoped<IConfirmParticipantionDomainService, ConfirmParticipantionDomainService>();
+
+        services
+            .AddScoped<IBudgetPermissionRequestExpirationDomainService,
+                BudgetPermissionRequestExpirationDomainService>();
     }
 }

@@ -5,20 +5,20 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Expir
 
 internal sealed class ExpireAssigningParticipantCommandHandler : ICommandHandler<ExpireAssigningParticipantCommand>
 {
-    private readonly IBudgetPermissionRequestExpireDomainService _budgetPermissionRequestExpireDomainService;
+    private readonly IBudgetPermissionRequestExpirationDomainService _budgetPermissionRequestExpirationDomainService;
 
     public ExpireAssigningParticipantCommandHandler(
-        IBudgetPermissionRequestExpireDomainService budgetPermissionRequestExpireDomainService)
+        IBudgetPermissionRequestExpirationDomainService budgetPermissionRequestExpirationDomainService)
     {
-        _budgetPermissionRequestExpireDomainService = budgetPermissionRequestExpireDomainService ??
-                                                      throw new ArgumentNullException(
-                                                          paramName: nameof(
-                                                              budgetPermissionRequestExpireDomainService));
+        _budgetPermissionRequestExpirationDomainService = budgetPermissionRequestExpirationDomainService ??
+                                                          throw new ArgumentNullException(
+                                                              paramName: nameof(
+                                                                  budgetPermissionRequestExpirationDomainService));
     }
 
     public async Task HandleAsync(ExpireAssigningParticipantCommand command, CancellationToken cancellationToken)
     {
-        await _budgetPermissionRequestExpireDomainService.MarkBudgetPermissionRequestAsExpire(
+        await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpire(
             budgetPermissionRequestId: command.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

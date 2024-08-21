@@ -5,19 +5,20 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.Shared.Domain.Types.Model;
+using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class ConfirmParticipantDomainService : IConfirmParticipantDomainService
+internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantionDomainService
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository;
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
     private readonly IUserPreferencesProxy _userPreferencesProxy;
 
-    public ConfirmParticipantDomainService(IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
+    public ConfirmParticipantionDomainService(IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
         IBudgetPermissionRepository budgetPermissionRepository, IUserPreferencesProxy userPreferencesProxy)
     {
         _budgetPermissionRepository = budgetPermissionRepository ??
@@ -66,8 +67,12 @@ internal sealed class ConfirmParticipantDomainService : IConfirmParticipantDomai
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(budgetId: budgetPermission.BudgetId, ownerId: budgetPermission.OwnerId, permissionTypeFromRequest: permissionRequest.PermissionType, preferenceResponseFinancePreference: preference.FinancePreference, currentPermissions: budgetPermission.Permissions.ToList().AsReadOnly()),
-                false)
+            new BusinesRuleCheck(
+                BusinessRule: new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(
+                    budgetId: budgetPermission.BudgetId, ownerId: budgetPermission.OwnerId,
+                    permissionTypeFromRequest: permissionRequest.PermissionType,
+                    preferenceResponseFinancePreference: preference.FinancePreference,
+                    currentPermissions: budgetPermission.Permissions.ToList().AsReadOnly()))
         ]);
 
         permissionRequest.Confirm();

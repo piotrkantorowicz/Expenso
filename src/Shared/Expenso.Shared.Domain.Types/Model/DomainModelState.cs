@@ -7,21 +7,20 @@ public static class DomainModelState
 {
     private static readonly List<IBusinessRule> BrokenRules = [];
 
-    public static void CheckBusinessRules(IEnumerable<(IBusinessRule rule, bool throwException)> businessRules,
-        bool throwAfterAll = true)
+    public static void CheckBusinessRules(IEnumerable<BusinesRuleCheck> businessRules, bool throwAfterAll = true)
     {
         IBusinessRule[] brokenRules;
 
-        foreach ((IBusinessRule? rule, bool throwException) in businessRules)
+        foreach (BusinesRuleCheck ruleCheck in businessRules)
         {
-            if (!rule.IsBroken())
+            if (!ruleCheck.BusinessRule.IsBroken())
             {
                 continue;
             }
 
-            BrokenRules.Add(item: rule);
+            BrokenRules.Add(item: ruleCheck.BusinessRule);
 
-            if (!throwException)
+            if (!ruleCheck.ThrowException)
             {
                 continue;
             }

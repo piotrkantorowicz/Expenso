@@ -1,4 +1,5 @@
 using Expenso.Api.Tests.E2E.IAM;
+using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
 
@@ -15,8 +16,9 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
 
         // Act
         HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
-            value: new AssignParticipantRequest(BudgetId: Guid.NewGuid(), Email: FakeIamProxy.ExistingEmails[1],
-                PermissionType: AssignParticipantRequest_PermissionType.Reviewer, ExpirationDays: 3));
+            value: new AssignParticipantRequest(BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 1],
+                Email: FakeIamProxy.ExistingEmails[2], PermissionType: AssignParticipantRequest_PermissionType.Reviewer,
+                ExpirationDays: 3));
 
         // Assert
         testResult.StatusCode.Should().Be(expected: HttpStatusCode.Created);
@@ -24,7 +26,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         AssignParticipantResponse? testResultContent =
             await testResult.Content.ReadFromJsonAsync<AssignParticipantResponse>();
 
-        testResultContent?.Should().NotBeNull();
+        testResultContent?.BudgetPermissionRequestId.Should().NotBeEmpty();
     }
 
     [Test]

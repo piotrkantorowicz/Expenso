@@ -11,15 +11,16 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
 
 internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase : TestBase<TestCandidate>
 {
-    private Mock<IBudgetPermissionRequestExpireDomainService> _budgetPermissionRequestExpireDomainServiceMock = null!;
+    private Mock<IBudgetPermissionRequestExpirationDomainService> _budgetPermissionRequestExpireDomainServiceMock =
+        null!;
 
     [SetUp]
     public void SetUp()
     {
-        _budgetPermissionRequestExpireDomainServiceMock = new Mock<IBudgetPermissionRequestExpireDomainService>();
+        _budgetPermissionRequestExpireDomainServiceMock = new Mock<IBudgetPermissionRequestExpirationDomainService>();
 
         TestCandidate =
             new TestCandidate(
-                budgetPermissionRequestExpireDomainService: _budgetPermissionRequestExpireDomainServiceMock.Object);
+                budgetPermissionRequestExpirationDomainService: _budgetPermissionRequestExpireDomainServiceMock.Object);
     }
 }
