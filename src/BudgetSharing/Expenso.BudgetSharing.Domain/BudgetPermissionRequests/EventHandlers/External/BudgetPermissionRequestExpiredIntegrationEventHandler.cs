@@ -8,21 +8,21 @@ internal sealed class
     BudgetPermissionRequestExpiredIntegrationEventHandler : IIntegrationEventHandler<
     BudgetPermissionRequestExpiredIntegrationEvent>
 {
-    private readonly IBudgetPermissionRequestExpireDomainService _budgetPermissionRequestExpireDomainService;
+    private readonly IBudgetPermissionRequestExpirationDomainService _budgetPermissionRequestExpirationDomainService;
 
     public BudgetPermissionRequestExpiredIntegrationEventHandler(
-        IBudgetPermissionRequestExpireDomainService budgetPermissionRequestExpireDomainService)
+        IBudgetPermissionRequestExpirationDomainService budgetPermissionRequestExpirationDomainService)
     {
-        _budgetPermissionRequestExpireDomainService = budgetPermissionRequestExpireDomainService ??
-                                                      throw new ArgumentNullException(
-                                                          paramName: nameof(
-                                                              budgetPermissionRequestExpireDomainService));
+        _budgetPermissionRequestExpirationDomainService = budgetPermissionRequestExpirationDomainService ??
+                                                          throw new ArgumentNullException(
+                                                              paramName: nameof(
+                                                                  budgetPermissionRequestExpirationDomainService));
     }
 
     public async Task HandleAsync(BudgetPermissionRequestExpiredIntegrationEvent @event,
         CancellationToken cancellationToken)
     {
-        await _budgetPermissionRequestExpireDomainService.MarkBudgetPermissionRequestAsExpire(
+        await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpire(
             budgetPermissionRequestId: @event.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

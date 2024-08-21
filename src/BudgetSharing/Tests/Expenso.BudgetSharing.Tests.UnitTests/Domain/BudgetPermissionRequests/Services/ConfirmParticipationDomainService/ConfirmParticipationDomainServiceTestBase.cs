@@ -14,7 +14,7 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
 
-internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<ConfirmParticipantDomainService>
+internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<ConfirmParticipantionDomainService>
 {
     protected BudgetId _budgetId = null!;
     protected BudgetPermission _budgetPermission = null!;
@@ -54,7 +54,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
                 MaxNumberOfSubFinancePlanSubOwners: 1, AllowAddFinancePlanReviewers: true,
                 MaxNumberOfFinancePlanReviewers: 3), NotificationPreference: null, GeneralPreference: null);
 
-        TestCandidate = new ConfirmParticipantDomainService(
+        TestCandidate = new ConfirmParticipantionDomainService(
             budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object,
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object,
             userPreferencesProxy: _userPreferencesProxyMock.Object);

@@ -3,6 +3,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignPar
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Commands;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant;
@@ -10,13 +11,13 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Assig
 internal sealed class
     AssignParticipantCommandHandler : ICommandHandler<AssignParticipantCommand, AssignParticipantResponse>
 {
-    private readonly IAssignParticipantDomainService _assignParticipantDomainService;
+    private readonly IAssignParticipantionDomainService _assignParticipantionDomainService;
 
-    public AssignParticipantCommandHandler(IAssignParticipantDomainService assignParticipantDomainService)
+    public AssignParticipantCommandHandler(IAssignParticipantionDomainService assignParticipantionDomainService)
     {
-        _assignParticipantDomainService = assignParticipantDomainService ??
-                                          throw new ArgumentNullException(
-                                              paramName: nameof(assignParticipantDomainService));
+        _assignParticipantionDomainService = assignParticipantionDomainService ??
+                                             throw new ArgumentNullException(
+                                                 paramName: nameof(assignParticipantionDomainService));
     }
 
     public async Task<AssignParticipantResponse?> HandleAsync(AssignParticipantCommand command,
@@ -26,11 +27,12 @@ internal sealed class
             (Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionTypeRequest,
                 int expirationDays)) = command;
 
-        BudgetPermissionRequest budgetPermissionRequest = await _assignParticipantDomainService.AssignParticipantAsync(
-            budgetId: budgetId, email: email,
-            permissionType: AssignParticipantRequestMap.ToPermissionType(
-                assignParticipantRequestPermissionType: permissionTypeRequest), expirationDays: expirationDays,
-            cancellationToken: cancellationToken);
+        BudgetPermissionRequest budgetPermissionRequest =
+            await _assignParticipantionDomainService.AssignParticipantAsync(budgetId: BudgetId.New(value: budgetId),
+                email: email,
+                permissionType: AssignParticipantRequestMap.ToPermissionType(
+                    assignParticipantRequestPermissionType: permissionTypeRequest), expirationDays: expirationDays,
+                cancellationToken: cancellationToken);
 
         return new AssignParticipantResponse(BudgetPermissionRequestId: budgetPermissionRequest.Id.Value);
     }

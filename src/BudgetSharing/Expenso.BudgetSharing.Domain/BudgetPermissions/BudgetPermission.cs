@@ -7,6 +7,7 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Model;
+using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
@@ -70,12 +71,15 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new BudgetMustHasDistinctPermissionsForUsers(budgetId: BudgetId, participantId: participantId, permissions: Permissions),
-                false),
-            (new BudgetCanHasOnlyOneOwnerPermission(budgetId: BudgetId, permissionType: permissionType, permissions: Permissions),
-                true),
-            (new BudgetCanHasOnlyOwnerPermissionForItsOwner(budgetId: BudgetId, participantId: participantId, ownerId: OwnerId, permissionType: permissionType),
-                true)
+            new BusinesRuleCheck(BusinessRule: new BudgetMustHasDistinctPermissionsForUsers(budgetId: BudgetId,
+                participantId: participantId, permissions: Permissions)),
+            new BusinesRuleCheck(
+                BusinessRule: new BudgetCanHasOnlyOneOwnerPermission(budgetId: BudgetId, permissionType: permissionType,
+                    permissions: Permissions), ThrowException: true),
+            new BusinesRuleCheck(
+                BusinessRule: new BudgetCanHasOnlyOwnerPermissionForItsOwner(budgetId: BudgetId,
+                    participantId: participantId, ownerId: OwnerId, permissionType: permissionType),
+                ThrowException: true)
         ]);
 
         Permissions.Add(item: Permission.Create(participantId: participantId, permissionType: permissionType));
@@ -91,9 +95,12 @@ public sealed class BudgetPermission : IAggregateRoot
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new BudgetMustContainsPermissionForProvidedUser(budgetId: BudgetId, participantId: participantId, permission: permission),
-                true),
-            (new OwnerPermissionCannotBeRemoved(budgetId: BudgetId, permissionType: permission?.PermissionType), true)
+            new BusinesRuleCheck(
+                BusinessRule: new BudgetMustContainsPermissionForProvidedUser(budgetId: BudgetId,
+                    participantId: participantId, permission: permission), ThrowException: true),
+            new BusinesRuleCheck(
+                BusinessRule: new OwnerPermissionCannotBeRemoved(budgetId: BudgetId,
+                    permissionType: permission?.PermissionType), ThrowException: true)
         ]);
 
         Permissions.Remove(item: permission ?? throw new ArgumentException(message: nameof(permission)));
@@ -107,8 +114,9 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(budgetPermissionId: Id, removalInfo: Deletion),
-                false)
+            new BusinesRuleCheck(
+                BusinessRule: new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(budgetPermissionId: Id,
+                    removalInfo: Deletion))
         ]);
 
         Deletion = SafeDeletion.Delete(dateTime: clock?.UtcNow ?? DateTimeOffset.UtcNow);
@@ -122,7 +130,9 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            (new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(budgetPermissionId: Id, removalInfo: Deletion), false)
+            new BusinesRuleCheck(
+                BusinessRule: new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(budgetPermissionId: Id,
+                    removalInfo: Deletion))
         ]);
 
         Deletion = null;

@@ -1,6 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,17 @@ internal sealed class BudgetPermissionRequestRepository : IBudgetPermissionReque
     {
         return await _budgetSharingDbContext.BudgetPermissionRequests.SingleOrDefaultAsync(
             predicate: x => x.Id == permissionId, cancellationToken: cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<BudgetPermissionRequest>> GetUncompletedByPersonIdAsync(BudgetId budgetId,
+        PersonId participantId, CancellationToken cancellationToken)
+    {
+        return await _budgetSharingDbContext
+            .BudgetPermissionRequests
+            .Where(predicate: x => x.BudgetId == budgetId &&
+                                   x.ParticipantId == participantId &&
+                                   x.Status == BudgetPermissionRequestStatus.Pending)
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<BudgetPermissionRequest> AddAsync(BudgetPermissionRequest permission,

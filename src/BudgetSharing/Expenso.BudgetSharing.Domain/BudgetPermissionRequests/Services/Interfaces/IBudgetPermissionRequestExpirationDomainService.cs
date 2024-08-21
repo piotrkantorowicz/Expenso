@@ -1,6 +1,6 @@
 ﻿namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 
-public interface IBudgetPermissionRequestExpireDomainService
+public interface IBudgetPermissionRequestExpirationDomainService
 {
     Task MarkBudgetPermissionRequestAsExpire(Guid budgetPermissionRequestId, CancellationToken cancellationToken);
 }

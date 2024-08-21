@@ -1,4 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
+using Expenso.BudgetSharing.Domain.BudgetPermissions;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.DTO.GetUser;
@@ -6,26 +9,57 @@ using Expenso.Shared.System.Types.Clock;
 
 using Moq;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.AssignParticipantDomainService;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.AssignParticipantDomainService;
 
-internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<TestCandidate>
+internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<AssignParticipantionDomainService>
 {
     protected const int ExpirationDays = 3;
+
+    protected static readonly object[] PermissionTypes =
+    [
+        new object[]
+        {
+            PermissionType.SubOwner
+        },
+        new object[]
+        {
+            PermissionType.Reviewer
+        },
+        new object[]
+        {
+            PermissionType.Owner
+        }
+    ];
+
+    protected static readonly object[] NoOwnerPermissionTypes =
+    [
+        new object[]
+        {
+            PermissionType.SubOwner
+        },
+        new object[]
+        {
+            PermissionType.Reviewer
+        }
+    ];
+
     protected readonly PermissionType _permissionType = PermissionType.SubOwner;
     protected BudgetId _budgetId = null!;
-    private Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
+    protected BudgetPermission _budgetPermission = null!;
+    protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
+    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     protected Mock<IClock> _clockMock = null!;
     protected string _email = null!;
     protected GetUserResponse _getUserResponse = null!;
     protected Mock<IIamProxy> _iamProxyMock = null!;
+    protected PersonId _ownerId = null!;
     protected PersonId _participantId = null!;
 
     [SetUp]
     public void SetUp()
     {
         _budgetPermissionRequestRepositoryMock = new Mock<IBudgetPermissionRequestRepository>();
+        _budgetPermissionRepositoryMock = new Mock<IBudgetPermissionRepository>();
         _iamProxyMock = new Mock<IIamProxy>();
         _clockMock = new Mock<IClock>();
 
@@ -36,13 +70,16 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
 
         _participantId = PersonId.New(value: Guid.NewGuid());
         _budgetId = BudgetId.New(value: Guid.NewGuid());
+        _ownerId = PersonId.New(value: Guid.NewGuid());
 
         _getUserResponse = new GetUserResponse(UserId: _participantId.Value.ToString(), Firstname: "Valentina",
             Lastname: "Long", Username: "vLong", Email: "email@email.com");
 
+        _budgetPermission = BudgetPermission.Create(budgetId: _budgetId, ownerId: _ownerId);
         _email = _getUserResponse.Email;
 
-        TestCandidate = new TestCandidate(iamProxy: _iamProxyMock.Object,
-            budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object);
+        TestCandidate = new AssignParticipantionDomainService(iamProxy: _iamProxyMock.Object,
+            budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object,
+            budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
     }
 }

@@ -5,11 +5,11 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class BudgetPermissionRequestExpireDomainService : IBudgetPermissionRequestExpireDomainService
+internal sealed class BudgetPermissionRequestExpirationDomainService : IBudgetPermissionRequestExpirationDomainService
 {
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
 
-    public BudgetPermissionRequestExpireDomainService(
+    public BudgetPermissionRequestExpirationDomainService(
         IBudgetPermissionRequestRepository budgetPermissionRequestRepository)
     {
         _budgetPermissionRequestRepository = budgetPermissionRequestRepository ??
