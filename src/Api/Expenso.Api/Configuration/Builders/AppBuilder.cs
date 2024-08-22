@@ -6,6 +6,7 @@ using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
 using Expenso.BudgetSharing.Api;
 using Expenso.Communication.Api;
+using Expenso.Communication.Proxy.DTO.Settings;
 using Expenso.DocumentManagement.Api;
 using Expenso.IAM.Api;
 using Expenso.Shared.Commands;
@@ -54,6 +55,7 @@ internal sealed class AppBuilder : IAppBuilder
     private EfCoreSettings? _efCoreSettings;
     private FilesSettings? _filesSettings;
     private KeycloakProtectionClientOptions? _keycloakProtectionClientOptions;
+    private NotificationSettings? _notificationSettings;
 
     public AppBuilder(string[] args)
     {
@@ -209,11 +211,13 @@ internal sealed class AppBuilder : IAppBuilder
         _configuration.TryBindOptions(sectionName: SectionNames.ApplicationSection, options: out _applicationSettings);
         _configuration.TryBindOptions(sectionName: SectionNames.Auth, options: out _authSettings);
         _configuration.TryBindOptions(sectionName: SectionNames.Files, options: out _filesSettings);
+        _configuration.TryBindOptions(sectionName: SectionNames.Notifications, options: out _notificationSettings);
         _services.AddSingleton(implementationInstance: _efCoreSettings!);
         _services.AddSingleton(implementationInstance: _applicationSettings!);
         _services.AddSingleton(implementationInstance: _keycloakProtectionClientOptions!);
         _services.AddSingleton(implementationInstance: _authSettings!);
         _services.AddSingleton(implementationInstance: _filesSettings!);
+        _services.AddSingleton(implementationInstance: _notificationSettings!);
     }
 
     private void ConfigureKeycloak(string tokenHandlerClient, string? keyCloakAdminSection = null)

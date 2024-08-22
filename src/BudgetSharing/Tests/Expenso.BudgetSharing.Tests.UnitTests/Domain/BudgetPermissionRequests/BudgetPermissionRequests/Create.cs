@@ -34,8 +34,8 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetId: TestCandidate.BudgetId, ParticipantId: TestCandidate.ParticipantId,
-                PermissionType: TestCandidate.PermissionType)
+                OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
+                PermissionType: TestCandidate.PermissionType, SubmissionDate: TestCandidate.SubmissionDate)
         ]);
     }
 
@@ -45,12 +45,12 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         // Arrange
         // Act
         DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(code: () =>
-            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, personId: _defaultPersonId,
-                permissionType: PermissionType.Unknown, expirationDays: Expiration, clock: _clockMock.Object));
+            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, ownerId: _defaultOwnerId,
+                personId: _defaultPersonId, permissionType: PermissionType.Unknown, expirationDays: Expiration,
+                clock: _clockMock.Object));
 
         // Assert
         string expectedExceptionMessage = $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed";
-
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
     }
 
@@ -62,8 +62,9 @@ internal sealed class Create : BudgetPermissionRequestTestBase
 
         // Act
         DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(code: () =>
-            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, personId: _defaultPersonId,
-                permissionType: _defaultPermissionType, expirationDays: 0, clock: _clockMock.Object));
+            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, ownerId: _defaultOwnerId,
+                personId: _defaultPersonId, permissionType: _defaultPermissionType, expirationDays: 0,
+                clock: _clockMock.Object));
 
         // Assert
         string expectedExceptionMessage = $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day";

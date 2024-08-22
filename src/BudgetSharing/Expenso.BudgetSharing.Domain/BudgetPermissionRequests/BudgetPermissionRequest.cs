@@ -27,6 +27,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         Id = default!;
         BudgetId = default!;
         ParticipantId = default!;
+        OwnerId = default!;
         PermissionType = default!;
         Status = default!;
         ExpirationDate = default!;
@@ -35,7 +36,8 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     }
 
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
-        PermissionType permissionType, BudgetPermissionRequestStatus status, int expirationDays, IClock clock)
+        PersonId ownerId, PermissionType permissionType, BudgetPermissionRequestStatus status, int expirationDays,
+        IClock clock)
     {
         DateAndTime expirationDate = DateAndTime.New(value: clock.UtcNow.AddDays(days: expirationDays));
 
@@ -52,20 +54,24 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         Id = id;
         BudgetId = budgetId;
         ParticipantId = participantId;
+        OwnerId = ownerId;
         PermissionType = permissionType;
         Status = status;
         ExpirationDate = expirationDate;
+        SubmissionDate = DateAndTime.New(value: clock.UtcNow);
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestedEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetId: budgetId, ParticipantId: participantId,
-            PermissionType: permissionType));
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: participantId,
+            PermissionType: permissionType, SubmissionDate: SubmissionDate));
     }
 
     public BudgetPermissionRequestId Id { get; }
 
     public BudgetId BudgetId { get; }
+
+    public PersonId OwnerId { get; }
 
     public PersonId ParticipantId { get; }
 
@@ -75,17 +81,19 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
     public DateAndTime? ExpirationDate { get; }
 
+    public DateAndTime SubmissionDate { get; }
+
     public IReadOnlyCollection<IDomainEvent> GetUncommittedChanges()
     {
         return _domainEventsSource.DomainEvents;
     }
 
-    public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId personId, PermissionType permissionType,
-        int expirationDays, IClock clock)
+    public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,
+        PermissionType permissionType, int expirationDays, IClock clock)
     {
         return new BudgetPermissionRequest(id: BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
-            participantId: personId, permissionType: permissionType, status: BudgetPermissionRequestStatus.Pending,
-            expirationDays: expirationDays, clock: clock);
+            ownerId: ownerId, participantId: personId, permissionType: permissionType,
+            status: BudgetPermissionRequestStatus.Pending, expirationDays: expirationDays, clock: clock);
     }
 
     public void Confirm()
@@ -100,7 +108,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         Status = BudgetPermissionRequestStatus.Confirmed;
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestConfirmedEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetId: BudgetId, ParticipantId: ParticipantId,
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
             PermissionType: PermissionType));
     }
 
@@ -116,7 +124,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         Status = BudgetPermissionRequestStatus.Cancelled;
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestCancelledEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetId: BudgetId, ParticipantId: ParticipantId,
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
             PermissionType: PermissionType));
     }
 
@@ -132,7 +140,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         Status = BudgetPermissionRequestStatus.Expired;
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestExpiredEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetId: BudgetId, ParticipantId: ParticipantId,
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
             PermissionType: PermissionType, ExpirationDate: ExpirationDate));
     }
 }

@@ -23,7 +23,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetId: TestCandidate.BudgetId, ParticipantId: TestCandidate.ParticipantId,
+                OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
                 PermissionType: TestCandidate.PermissionType)
         ]);
     }

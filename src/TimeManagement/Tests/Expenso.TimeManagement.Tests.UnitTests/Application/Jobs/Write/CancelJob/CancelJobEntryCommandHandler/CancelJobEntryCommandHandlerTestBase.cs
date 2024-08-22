@@ -13,7 +13,7 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJo
 internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCandidate>
 {
     protected CancelJobEntryCommand _cancelJobEntryCommand = null!;
-    protected JobEntry _jobEntry;
+    protected JobEntry? _jobEntry;
     protected Guid? _jobEntryId;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;

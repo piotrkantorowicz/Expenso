@@ -26,8 +26,8 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Cancelled);
-        _jobEntryRepositoryMock.Verify(expression: x => x.AddOrUpdateAsync(_jobEntry, It.IsAny<CancellationToken>()));
+        _jobEntry?.JobStatus.Should().Be(expected: JobEntryStatus.Cancelled);
+        _jobEntryRepositoryMock.Verify(expression: x => x.AddOrUpdateAsync(_jobEntry!, It.IsAny<CancellationToken>()));
     }
 
     [Test]
