@@ -49,5 +49,5 @@
         <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
-    
+
 </Project>

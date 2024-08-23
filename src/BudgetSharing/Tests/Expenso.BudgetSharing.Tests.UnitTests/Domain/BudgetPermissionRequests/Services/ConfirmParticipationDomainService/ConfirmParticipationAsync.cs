@@ -57,8 +57,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
         AssertDomainEventPublished(aggregateRoot: _budgetPermission, expectedDomainEvents: new IDomainEvent[]
         {
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: _budgetPermission.Id, BudgetId: _budgetPermission.BudgetId,
-                ParticipantId: _budgetPermissionRequest.ParticipantId,
+                OwnerId: _budgetPermission.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
         });
     }

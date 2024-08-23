@@ -31,7 +31,7 @@ internal sealed class DeleteBudgetPermissionCommandHandler : ICommandHandler<Del
                 message: $"Budget permission with id {command.BudgetPermissionId} hasn't been found");
         }
 
-        budgetPermission.Delete(clock: _clock);
+        budgetPermission.Block(clock: _clock);
 
         await _budgetPermissionRepository.UpdateAsync(budgetPermission: budgetPermission,
             cancellationToken: cancellationToken);

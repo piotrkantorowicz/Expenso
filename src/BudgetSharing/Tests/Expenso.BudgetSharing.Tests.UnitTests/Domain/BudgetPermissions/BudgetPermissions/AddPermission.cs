@@ -29,8 +29,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: _defaultBudgetPermissionId, BudgetId: _defaultBudgetId,
-                ParticipantId: participantId, PermissionType: permissionType)
+                OwnerId: TestCandidate.OwnerId, ParticipantId: participantId, PermissionType: permissionType)
         });
     }
 
@@ -42,7 +41,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
 
         // Act
         Action act = () =>
-            TestCandidate.AddPermission(participantId: _defaultPersonId, permissionType: PermissionType.SubOwner);
+            TestCandidate.AddPermission(participantId: _defaultOwnerId, permissionType: PermissionType.SubOwner);
 
         // Assert
         act
@@ -50,7 +49,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .Throw<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultPersonId}");
+                $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultOwnerId}");
     }
 
     [Test]
@@ -115,7 +114,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
                 .Append(value: " cannot have owner permission for other user ")
                 .Append(value: participantId)
                 .Append(value: " that its owner ")
-                .Append(value: _defaultPersonId)
+                .Append(value: _defaultOwnerId)
                 .ToString());
     }
 }

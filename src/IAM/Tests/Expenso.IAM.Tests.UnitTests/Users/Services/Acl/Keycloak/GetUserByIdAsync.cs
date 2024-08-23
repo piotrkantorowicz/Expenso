@@ -14,7 +14,8 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
             .ReturnsAsync(value: _user);
 
         // Act
-        GetUserResponse getUser = await TestCandidate.GetUserByIdAsync(userId: _userId, It.IsAny<CancellationToken>());
+        GetUserResponse getUser =
+            await TestCandidate.GetUserByIdAsync(userId: _userId, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUser.Should().NotBeNull();
@@ -38,7 +39,7 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
         // Act
         // Assert
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.GetUserByIdAsync(userId: userId, It.IsAny<CancellationToken>()));
+            TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>()));
 
         string expectedExceptionMessage = $"User with id {userId} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);

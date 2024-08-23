@@ -17,20 +17,20 @@ internal sealed class Create : BudgetPermissionTestBase
         // Assert
         TestCandidate.Id.Should().Be(expected: _defaultBudgetPermissionId);
         TestCandidate.BudgetId.Should().Be(expected: _defaultBudgetId);
-        TestCandidate.OwnerId.Should().Be(expected: _defaultPersonId);
+        TestCandidate.OwnerId.Should().Be(expected: _defaultOwnerId);
 
         TestCandidate
             .Permissions.Should()
             .ContainSingle(predicate: x =>
-                x.ParticipantId == _defaultPersonId && x.PermissionType == PermissionType.Owner);
+                x.ParticipantId == _defaultOwnerId && x.PermissionType == PermissionType.Owner);
 
-        TestCandidate.Deletion.Should().BeNull();
+        TestCandidate.Blocker.Should().BeNull();
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
-                ParticipantId: TestCandidate.OwnerId, PermissionType: PermissionType.Owner)
+                OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.OwnerId,
+                PermissionType: PermissionType.Owner)
         });
     }
 }

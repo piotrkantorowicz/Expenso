@@ -31,6 +31,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         PermissionType = default!;
         Status = default!;
         ExpirationDate = default!;
+        SubmissionDate = default!;
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
     }

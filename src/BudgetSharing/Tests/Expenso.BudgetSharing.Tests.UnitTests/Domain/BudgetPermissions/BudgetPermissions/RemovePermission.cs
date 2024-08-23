@@ -26,8 +26,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
             new BudgetPermissionWithdrawnEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId, ParticipantId: participantId,
-                PermissionType: PermissionType.SubOwner)
+                OwnerId: TestCandidate.OwnerId, ParticipantId: participantId, PermissionType: PermissionType.SubOwner)
         });
     }
 
@@ -57,7 +56,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () => TestCandidate.RemovePermission(participantId: _defaultPersonId);
+        Action act = () => TestCandidate.RemovePermission(participantId: _defaultOwnerId);
 
         // Assert
         act

@@ -1,14 +1,12 @@
 using System.Text;
 
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
+using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
+using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 using Expenso.Communication.Proxy;
 using Expenso.Communication.Proxy.DTO.API.SendNotification;
 using Expenso.Communication.Proxy.DTO.Settings;
-using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Domain.Events;
-
-using Microsoft.Extensions.Logging;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal;
 
@@ -16,56 +14,36 @@ internal sealed class
     BudgetPermissionRequestConfirmedEventHandler : IDomainEventHandler<BudgetPermissionRequestConfirmedEvent>
 {
     private readonly ICommunicationProxy _communicationProxy;
-    private readonly IIamProxy _iamProxy;
-    private readonly ILogger<BudgetPermissionRequestConfirmedEventHandler> _logger;
+    private readonly IamProxyService _iamProxyService;
     private readonly NotificationSettings _notificationSettings;
 
-    public BudgetPermissionRequestConfirmedEventHandler(ICommunicationProxy communicationProxy, IIamProxy iamProxy,
-        ILogger<BudgetPermissionRequestConfirmedEventHandler> logger, NotificationSettings notificationSettings)
+    public BudgetPermissionRequestConfirmedEventHandler(ICommunicationProxy communicationProxy,
+        NotificationSettings notificationSettings, IamProxyService iamProxyService)
     {
         _communicationProxy =
             communicationProxy ?? throw new ArgumentNullException(paramName: nameof(communicationProxy));
 
-        _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
-        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-
         _notificationSettings = notificationSettings ??
                                 throw new ArgumentNullException(paramName: nameof(notificationSettings));
+
+        _iamProxyService = iamProxyService ?? throw new ArgumentNullException(paramName: nameof(iamProxyService));
     }
 
     public async Task HandleAsync(BudgetPermissionRequestConfirmedEvent @event, CancellationToken cancellationToken)
     {
-        GetUserResponse? owner =
-            await _iamProxy.GetUserByIdAsync(userId: @event.OwnerId.ToString(), cancellationToken: cancellationToken);
+        (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel> participants) =
+            await _iamProxyService.GetUserNotificationAvailability(ownerId: @event.OwnerId, participantIds: new[]
+            {
+                @event.ParticipantId
+            }, cancellationToken: cancellationToken);
 
-        GetUserResponse? participant = await _iamProxy.GetUserByIdAsync(userId: @event.ParticipantId.ToString(),
-            cancellationToken: cancellationToken);
+        PersonNotificationModel? participant =
+            participants.FirstOrDefault(predicate: x => x.Person?.UserId == @event.ParticipantId.ToString());
 
-        bool canSendEmailToOwner = true;
-        bool canSendEmailToParticipant = true;
-
-        if (owner is null)
-        {
-            _logger.LogWarning(
-                message: "Cannot send notification to owner '{OwnerId}' as their email could not be found",
-                @event.OwnerId);
-
-            canSendEmailToOwner = false;
-        }
-
-        if (participant is null)
-        {
-            _logger.LogWarning(
-                message: "Cannot send notification to participant {ParticipantId} as their email could not be found",
-                @event.ParticipantId);
-
-            canSendEmailToParticipant = false;
-        }
-
-        if (canSendEmailToOwner)
+        if (owner?.CanSendNotification is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: owner?.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: owner.Person!.Fullname).Append(value: ',');
             message.AppendLine();
 
             message.AppendLine(
@@ -74,7 +52,15 @@ internal sealed class
 
             message.AppendLine(value: "Below are the details of the request:");
             message.AppendLine();
-            message.Append(value: "- Budget participant: ").Append(value: participant?.Fullname).AppendLine();
+
+            if (participant?.Person is not null)
+            {
+                message
+                    .Append(value: "- Budget participant: ")
+                    .Append(value: participant.Person?.Fullname)
+                    .AppendLine();
+            }
+
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
             message.Append(value: "- Status: Confirmed").AppendLine();
             message.AppendLine();
@@ -92,7 +78,7 @@ internal sealed class
             SendNotificationRequest ownerNotification = new(Subject: "Budget Permission Request Confirmed",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
-                    From: _notificationSettings.Email.From, To: owner!.Email),
+                    From: _notificationSettings.Email.From, To: owner.Person!.Email),
                 NotificationType: SendNotificationRequest_NotificationType.FromSettings(
                     settings: _notificationSettings));
 
@@ -100,10 +86,10 @@ internal sealed class
                 cancellationToken: cancellationToken);
         }
 
-        if (canSendEmailToParticipant)
+        if (participant?.CanSendNotification is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: participant?.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: participant.Person?.Fullname).Append(value: ',');
             message.AppendLine();
 
             message.AppendLine(
@@ -111,7 +97,12 @@ internal sealed class
 
             message.AppendLine(value: "Below are the details of your request:");
             message.AppendLine();
-            message.Append(value: "- Budget Owner: ").Append(value: owner?.Fullname).AppendLine();
+
+            if (owner?.Person is not null)
+            {
+                message.Append(value: "- Budget Owner: ").Append(value: owner.Person?.Fullname).AppendLine();
+            }
+
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
             message.Append(value: "- Status: Confirmed").AppendLine();
             message.AppendLine();
@@ -128,7 +119,7 @@ internal sealed class
             SendNotificationRequest participantNotification = new(Subject: "Budget Permission Request Confirmed",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
-                    From: _notificationSettings.Email.From, To: participant!.Email),
+                    From: _notificationSettings.Email.From, To: participant.Person!.Email),
                 NotificationType: SendNotificationRequest_NotificationType.FromSettings(
                     settings: _notificationSettings));
 

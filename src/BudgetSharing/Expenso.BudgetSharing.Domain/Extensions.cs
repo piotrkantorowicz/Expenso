@@ -1,5 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
+using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ public static class Extensions
     {
         services.AddScoped<IAssignParticipantionDomainService, AssignParticipantionDomainService>();
         services.AddScoped<IConfirmParticipantionDomainService, ConfirmParticipantionDomainService>();
+        services.AddScoped<IIamProxyService, IamProxyService>();
 
         services
             .AddScoped<IBudgetPermissionRequestExpirationDomainService,
