@@ -13,11 +13,11 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal;
 internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandler<BudgetPermissionUnblockedEvent>
 {
     private readonly ICommunicationProxy _communicationProxy;
-    private readonly IamProxyService _iamProxyService;
+    private readonly IIamProxyService _iamProxyService;
     private readonly NotificationSettings _notificationSettings;
 
     public BudgetPermissionUnblockedEventHandler(ICommunicationProxy communicationProxy,
-        NotificationSettings notificationSettings, IamProxyService iamProxyService)
+        NotificationSettings notificationSettings, IIamProxyService iamProxyService)
     {
         _communicationProxy =
             communicationProxy ?? throw new ArgumentNullException(paramName: nameof(communicationProxy));
@@ -34,6 +34,12 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
             await _iamProxyService.GetUserNotificationAvailability(ownerId: @event.OwnerId,
                 participantIds: @event.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly(),
                 cancellationToken: cancellationToken);
+
+        IReadOnlyCollection<PersonNotificationModel?> existingParticipants = participants
+            .Where(predicate: x =>
+                @event.Permissions.Select(selector: y => y.ParticipantId.ToString()).Contains(value: x?.Person?.UserId))
+            .ToList()
+            .AsReadOnly();
 
         if (owner?.CanSendNotification is true)
         {
@@ -70,7 +76,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
                 cancellationToken: cancellationToken);
         }
 
-        foreach (PersonNotificationModel? participant in participants)
+        foreach (PersonNotificationModel? participant in existingParticipants)
         {
             if (participant?.CanSendNotification is true)
             {

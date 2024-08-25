@@ -13,11 +13,11 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal;
 internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<BudgetPermissionBlockedEvent>
 {
     private readonly ICommunicationProxy _communicationProxy;
-    private readonly IamProxyService _iamProxyService;
+    private readonly IIamProxyService _iamProxyService;
     private readonly NotificationSettings _notificationSettings;
 
     public BudgetPermissionBlockedEventHandler(ICommunicationProxy communicationProxy,
-        NotificationSettings notificationSettings, IamProxyService iamProxyService)
+        NotificationSettings notificationSettings, IIamProxyService iamProxyService)
     {
         _communicationProxy =
             communicationProxy ?? throw new ArgumentNullException(paramName: nameof(communicationProxy));
@@ -35,6 +35,12 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
                 participantIds: @event.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly(),
                 cancellationToken: cancellationToken);
 
+        IReadOnlyCollection<PersonNotificationModel?> existingParticipants = participants
+            .Where(predicate: x =>
+                @event.Permissions.Select(selector: y => y.ParticipantId.ToString()).Contains(value: x?.Person?.UserId))
+            .ToList()
+            .AsReadOnly();
+
         if (owner?.CanSendNotification is true)
         {
             StringBuilder message = new();
@@ -50,7 +56,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
 
             message
                 .Append(value: "- Blocked date: ")
-                .Append(value: @event.BlockDate?.ToString(format: "MMMM dd, yyyy"))
+                .Append(value: @event.BlockDate?.Value.ToString(format: "MMMM dd, yyyy"))
                 .AppendLine();
 
             message.AppendLine();
@@ -76,7 +82,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
                 cancellationToken: cancellationToken);
         }
 
-        foreach (PersonNotificationModel? participant in participants)
+        foreach (PersonNotificationModel? participant in existingParticipants)
         {
             if (participant?.CanSendNotification is true)
             {
@@ -94,7 +100,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
 
                 message
                     .Append(value: "- Deletion date: ")
-                    .Append(value: @event.BlockDate?.ToString(format: "MMMM dd, yyyy"))
+                    .Append(value: @event.BlockDate?.Value.ToString(format: "MMMM dd, yyyy"))
                     .AppendLine();
 
                 message.AppendLine();

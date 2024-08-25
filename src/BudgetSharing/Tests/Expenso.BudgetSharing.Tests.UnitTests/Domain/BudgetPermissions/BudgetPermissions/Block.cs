@@ -1,5 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
+using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
@@ -27,8 +28,9 @@ internal sealed class Block : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
             new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BlockDate: TestCandidate.Blocker!.BlockDate, OwnerId: TestCandidate.OwnerId,
-                Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
+                BlockDate: DateAndTime.New(
+                    value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
+                OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         });
     }
 
@@ -52,7 +54,9 @@ internal sealed class Block : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
             new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                OwnerId: TestCandidate.OwnerId, BlockDate: TestCandidate.Blocker!.BlockDate,
+                OwnerId: TestCandidate.OwnerId,
+                BlockDate: DateAndTime.New(
+                    value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
                 Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         });
     }

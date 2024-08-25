@@ -14,11 +14,11 @@ internal sealed class
     BudgetPermissionRequestConfirmedEventHandler : IDomainEventHandler<BudgetPermissionRequestConfirmedEvent>
 {
     private readonly ICommunicationProxy _communicationProxy;
-    private readonly IamProxyService _iamProxyService;
+    private readonly IIamProxyService _iamProxyService;
     private readonly NotificationSettings _notificationSettings;
 
     public BudgetPermissionRequestConfirmedEventHandler(ICommunicationProxy communicationProxy,
-        NotificationSettings notificationSettings, IamProxyService iamProxyService)
+        NotificationSettings notificationSettings, IIamProxyService iamProxyService)
     {
         _communicationProxy =
             communicationProxy ?? throw new ArgumentNullException(paramName: nameof(communicationProxy));

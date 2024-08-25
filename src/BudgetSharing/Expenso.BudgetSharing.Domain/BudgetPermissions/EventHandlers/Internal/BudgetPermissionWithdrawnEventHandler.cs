@@ -13,11 +13,11 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal;
 internal sealed class BudgetPermissionWithdrawnEventHandler : IDomainEventHandler<BudgetPermissionWithdrawnEvent>
 {
     private readonly ICommunicationProxy _communicationProxy;
-    private readonly IamProxyService _iamProxyService;
+    private readonly IIamProxyService _iamProxyService;
     private readonly NotificationSettings _notificationSettings;
 
     public BudgetPermissionWithdrawnEventHandler(ICommunicationProxy communicationProxy,
-        NotificationSettings notificationSettings, IamProxyService iamProxyService)
+        NotificationSettings notificationSettings, IIamProxyService iamProxyService)
     {
         _communicationProxy =
             communicationProxy ?? throw new ArgumentNullException(paramName: nameof(communicationProxy));

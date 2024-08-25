@@ -122,7 +122,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Blocker = Blocker.Block(dateTime: clock?.UtcNow ?? DateTimeOffset.UtcNow);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionBlockedEvent(
-            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, BlockDate: Blocker.BlockDate,
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId,
+            BlockDate: DateAndTime.New(value: Blocker.BlockDate.GetValueOrDefault(defaultValue: DateTimeOffset.UtcNow)),
             Permissions: Permissions.ToList().AsReadOnly()));
     }
 

@@ -14,11 +14,11 @@ internal sealed class
     BudgetPermissionRequestCancelledEventHandler : IDomainEventHandler<BudgetPermissionRequestCancelledEvent>
 {
     private readonly ICommunicationProxy _communicationProxy;
-    private readonly IamProxyService _iamProxyService;
+    private readonly IIamProxyService _iamProxyService;
     private readonly NotificationSettings _notificationSettings;
 
     public BudgetPermissionRequestCancelledEventHandler(ICommunicationProxy communicationProxy,
-        NotificationSettings notificationSettings, IamProxyService iamProxyService)
+        NotificationSettings notificationSettings, IIamProxyService iamProxyService)
     {
         _communicationProxy =
             communicationProxy ?? throw new ArgumentNullException(paramName: nameof(communicationProxy));
@@ -31,7 +31,7 @@ internal sealed class
 
     public async Task HandleAsync(BudgetPermissionRequestCancelledEvent @event, CancellationToken cancellationToken)
     {
-        (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel> participants) =
+        (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel>? participants) =
             await _iamProxyService.GetUserNotificationAvailability(ownerId: @event.OwnerId, participantIds: new[]
             {
                 @event.ParticipantId
