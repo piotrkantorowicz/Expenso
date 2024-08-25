@@ -23,7 +23,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionRequestExpiredEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetId: TestCandidate.BudgetId, ParticipantId: TestCandidate.ParticipantId,
+                OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
                 PermissionType: TestCandidate.PermissionType, ExpirationDate: TestCandidate.ExpirationDate)
         ]);
     }

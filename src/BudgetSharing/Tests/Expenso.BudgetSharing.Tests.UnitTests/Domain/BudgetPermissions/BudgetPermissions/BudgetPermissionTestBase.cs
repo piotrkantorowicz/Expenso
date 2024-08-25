@@ -15,7 +15,7 @@ internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermissi
     protected readonly BudgetPermissionId _defaultBudgetPermissionId =
         BudgetPermissionId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
-    protected readonly PersonId _defaultPersonId =
+    protected readonly PersonId _defaultOwnerId =
         PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
     protected Mock<IClock> _clockMock = null!;
@@ -34,11 +34,11 @@ internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermissi
     protected BudgetPermission CreateTestCandidate(bool createDefaultPermission = true, bool emitDomainEvents = false)
     {
         BudgetPermission testCandidate = BudgetPermission.Create(budgetPermissionId: _defaultBudgetPermissionId,
-            budgetId: _defaultBudgetId, ownerId: _defaultPersonId);
+            budgetId: _defaultBudgetId, ownerId: _defaultOwnerId);
 
         if (createDefaultPermission)
         {
-            testCandidate.AddPermission(participantId: _defaultPersonId, permissionType: PermissionType.Owner);
+            testCandidate.AddPermission(participantId: _defaultOwnerId, permissionType: PermissionType.Owner);
         }
 
         if (!emitDomainEvents)

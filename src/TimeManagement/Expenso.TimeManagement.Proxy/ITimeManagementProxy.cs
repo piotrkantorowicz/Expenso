@@ -5,5 +5,6 @@ namespace Expenso.TimeManagement.Proxy;
 
 public interface ITimeManagementProxy
 {
-    Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest jobEntryRequest, CancellationToken cancellationToken = default);
+    Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest jobEntryRequest,
+        CancellationToken cancellationToken = default);
 }

@@ -1,11 +1,12 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
+using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
-internal sealed class Delete : BudgetPermissionTestBase
+internal sealed class Block : BudgetPermissionTestBase
 {
     [Test]
     public void Should_Delete()
@@ -14,21 +15,22 @@ internal sealed class Delete : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Delete();
+        TestCandidate.Block();
 
         // Assert
-        TestCandidate.Deletion?.Should().NotBeNull();
-        TestCandidate.Deletion?.IsDeleted.Should().BeTrue();
+        TestCandidate.Blocker?.Should().NotBeNull();
+        TestCandidate.Blocker?.IsBlocked.Should().BeTrue();
 
         TestCandidate
-            .Deletion?.RemovalDate.Should()
+            .Blocker?.BlockDate.Should()
             .BeCloseTo(nearbyTime: DateTimeOffset.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionDeletedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
-                ParticipantIds: TestCandidate.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly())
+            new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BlockDate: DateAndTime.New(
+                    value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
+                OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         });
     }
 
@@ -39,21 +41,23 @@ internal sealed class Delete : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Delete(clock: _clockMock.Object);
+        TestCandidate.Block(clock: _clockMock.Object);
 
         // Assert
-        TestCandidate.Deletion?.Should().NotBeNull();
-        TestCandidate.Deletion?.IsDeleted.Should().BeTrue();
+        TestCandidate.Blocker?.Should().NotBeNull();
+        TestCandidate.Blocker?.IsBlocked.Should().BeTrue();
 
         TestCandidate
-            .Deletion?.RemovalDate.Should()
+            .Blocker?.BlockDate.Should()
             .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionDeletedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
-                ParticipantIds: TestCandidate.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly())
+            new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                OwnerId: TestCandidate.OwnerId,
+                BlockDate: DateAndTime.New(
+                    value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
+                Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         });
     }
 
@@ -62,11 +66,11 @@ internal sealed class Delete : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Delete();
+        TestCandidate.Block();
         TestCandidate.GetUncommittedChanges();
 
         // Act
-        Action act = () => TestCandidate.Delete();
+        Action act = () => TestCandidate.Block();
 
         // Assert
         act

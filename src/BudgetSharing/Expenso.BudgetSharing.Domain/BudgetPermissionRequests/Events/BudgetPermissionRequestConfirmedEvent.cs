@@ -6,6 +6,6 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 
 internal sealed record BudgetPermissionRequestConfirmedEvent(
     IMessageContext MessageContext,
-    BudgetId BudgetId,
+    PersonId OwnerId,
     PersonId ParticipantId,
     PermissionType PermissionType) : IDomainEvent;

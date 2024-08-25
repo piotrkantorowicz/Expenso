@@ -11,7 +11,7 @@ public static class BudgetPermissionFilterExtensions
 {
     public static Expression<Func<BudgetPermission, bool>> ToFilterExpression(this BudgetPermissionFilter filter)
     {
-        Expression<Func<BudgetPermission, bool>> predicate = p => p.Deletion == null || p.Deletion.IsDeleted == false;
+        Expression<Func<BudgetPermission, bool>> predicate = p => p.Blocker == null || p.Blocker.IsBlocked == false;
 
         if (filter.Id is not null)
         {

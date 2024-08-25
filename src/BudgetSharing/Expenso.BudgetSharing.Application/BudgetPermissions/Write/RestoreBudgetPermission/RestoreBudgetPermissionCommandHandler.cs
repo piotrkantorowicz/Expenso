@@ -27,7 +27,7 @@ internal sealed class RestoreBudgetPermissionCommandHandler : ICommandHandler<Re
                 message: $"Budget permission with id {command.BudgetPermissionId} hasn't been found");
         }
 
-        budgetPermission.Restore();
+        budgetPermission.Unblock();
 
         await _budgetPermissionRepository.UpdateAsync(budgetPermission: budgetPermission,
             cancellationToken: cancellationToken);

@@ -95,16 +95,16 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                                 .HasForeignKey("BudgetPermissionId");
                         });
 
-                    b.OwnsOne("Expenso.Shared.Domain.Types.ValueObjects.SafeDeletion", "Deletion", b1 =>
+                    b.OwnsOne("Expenso.Shared.Domain.Types.ValueObjects.Blocker", "Blocker", b1 =>
                         {
                             b1.Property<Guid>("BudgetPermissionId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<bool>("IsDeleted")
-                                .HasColumnType("boolean");
-
-                            b1.Property<DateTimeOffset?>("RemovalDate")
+                            b1.Property<DateTimeOffset?>("BlockDate")
                                 .HasColumnType("timestamp with time zone");
+
+                            b1.Property<bool>("IsBlocked")
+                                .HasColumnType("boolean");
 
                             b1.HasKey("BudgetPermissionId");
 
@@ -114,7 +114,7 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                                 .HasForeignKey("BudgetPermissionId");
                         });
 
-                    b.Navigation("Deletion");
+                    b.Navigation("Blocker");
 
                     b.Navigation("Permissions");
                 });

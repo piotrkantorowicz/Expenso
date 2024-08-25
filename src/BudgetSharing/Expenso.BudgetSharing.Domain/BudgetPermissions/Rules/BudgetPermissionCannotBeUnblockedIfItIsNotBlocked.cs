@@ -4,24 +4,23 @@ using Expenso.Shared.Domain.Types.ValueObjects;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-internal sealed class BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted : IBusinessRule
+internal sealed class BudgetPermissionCannotBeUnblockedIfItIsNotBlocked : IBusinessRule
 {
+    private readonly Blocker? _blockInfo;
     private readonly BudgetPermissionId _budgetPermissionId;
-    private readonly SafeDeletion? _removalInfo;
 
-    public BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(BudgetPermissionId budgetPermissionId,
-        SafeDeletion? removalInfo)
+    public BudgetPermissionCannotBeUnblockedIfItIsNotBlocked(BudgetPermissionId budgetPermissionId, Blocker? blockInfo)
     {
-        _removalInfo = removalInfo;
+        _blockInfo = blockInfo;
 
         _budgetPermissionId =
             budgetPermissionId ?? throw new ArgumentNullException(paramName: nameof(budgetPermissionId));
     }
 
-    public string Message => $"Budget permission with id: {_budgetPermissionId} is already deleted";
+    public string Message => $"Budget permission with id: {_budgetPermissionId} is not deleted";
 
     public bool IsBroken()
     {
-        return _removalInfo?.IsDeleted == true;
+        return _blockInfo?.IsBlocked is not true;
     }
 }

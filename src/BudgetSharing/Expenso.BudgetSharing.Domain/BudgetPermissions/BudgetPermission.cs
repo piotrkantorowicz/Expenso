@@ -49,7 +49,7 @@ public sealed class BudgetPermission : IAggregateRoot
 
     public ICollection<Permission> Permissions { get; }
 
-    public SafeDeletion? Deletion { get; private set; }
+    public Blocker? Blocker { get; private set; }
 
     public IReadOnlyCollection<IDomainEvent> GetUncommittedChanges()
     {
@@ -85,8 +85,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Permissions.Add(item: Permission.Create(participantId: participantId, permissionType: permissionType));
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionGrantedEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
-            ParticipantId: participantId, PermissionType: permissionType));
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: participantId,
+            PermissionType: permissionType));
     }
 
     public void RemovePermission(PersonId participantId)
@@ -106,39 +106,40 @@ public sealed class BudgetPermission : IAggregateRoot
         Permissions.Remove(item: permission ?? throw new ArgumentException(message: nameof(permission)));
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionWithdrawnEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
-            ParticipantId: permission.ParticipantId, PermissionType: permission.PermissionType));
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: permission.ParticipantId,
+            PermissionType: permission.PermissionType));
     }
 
-    public void Delete(IClock? clock = null)
+    public void Block(IClock? clock = null)
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinesRuleCheck(
-                BusinessRule: new BudgetPermissionCannotBeDeletedIfItIsAlreadyDeleted(budgetPermissionId: Id,
-                    removalInfo: Deletion))
+                BusinessRule: new BudgetPermissionCannotBeBlockedIfItIsAlreadyBlocked(budgetPermissionId: Id,
+                    blockInfo: Blocker))
         ]);
 
-        Deletion = SafeDeletion.Delete(dateTime: clock?.UtcNow ?? DateTimeOffset.UtcNow);
+        Blocker = Blocker.Block(dateTime: clock?.UtcNow ?? DateTimeOffset.UtcNow);
 
-        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionDeletedEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
-            ParticipantIds: Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly()));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionBlockedEvent(
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId,
+            BlockDate: DateAndTime.New(value: Blocker.BlockDate.GetValueOrDefault(defaultValue: DateTimeOffset.UtcNow)),
+            Permissions: Permissions.ToList().AsReadOnly()));
     }
 
-    public void Restore()
+    public void Unblock()
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinesRuleCheck(
-                BusinessRule: new BudgetPermissionCannotBeRestoredIfItIsNotRemoved(budgetPermissionId: Id,
-                    removalInfo: Deletion))
+                BusinessRule: new BudgetPermissionCannotBeUnblockedIfItIsNotBlocked(budgetPermissionId: Id,
+                    blockInfo: Blocker))
         ]);
 
-        Deletion = null;
+        Blocker = null;
 
-        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRestoredEvent(
-            MessageContext: _messageContextFactory.Current(), BudgetPermissionId: Id, BudgetId: BudgetId,
-            ParticipantIds: Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly()));
+        _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionUnblockedEvent(
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId,
+            Permissions: Permissions.ToList().AsReadOnly().ToList().AsReadOnly()));
     }
 }

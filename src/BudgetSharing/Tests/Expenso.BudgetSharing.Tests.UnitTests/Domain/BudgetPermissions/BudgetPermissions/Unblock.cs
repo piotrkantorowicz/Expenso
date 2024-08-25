@@ -5,27 +5,26 @@ using FluentAssertions;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
-internal sealed class Restore : BudgetPermissionTestBase
+internal sealed class Unblock : BudgetPermissionTestBase
 {
     [Test]
     public void Should_Restore()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Delete();
+        TestCandidate.Block();
         TestCandidate.GetUncommittedChanges();
 
         // Act
-        TestCandidate.Restore();
+        TestCandidate.Unblock();
 
         // Assert
-        TestCandidate.Deletion?.Should().BeNull();
+        TestCandidate.Blocker?.Should().BeNull();
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
         {
-            new BudgetPermissionRestoredEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetPermissionId: TestCandidate.Id, BudgetId: TestCandidate.BudgetId,
-                ParticipantIds: TestCandidate.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly())
+            new BudgetPermissionUnblockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         });
     }
 
@@ -36,7 +35,7 @@ internal sealed class Restore : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () => TestCandidate.Restore();
+        Action act = () => TestCandidate.Unblock();
 
         // Assert
         act

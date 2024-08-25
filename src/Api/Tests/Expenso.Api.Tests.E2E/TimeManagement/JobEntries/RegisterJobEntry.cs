@@ -20,8 +20,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
             new RegisterJobEntryRequest_JobEntryTrigger(
                 EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: null!,
-                        BudgetPermissionRequestId: Guid.NewGuid())))
+                    MessageContext: null!, BudgetPermissionRequestId: Guid.NewGuid())))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act
@@ -59,8 +58,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
             new RegisterJobEntryRequest_JobEntryTrigger(
                 EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: null!,
-                        BudgetPermissionRequestId: Guid.NewGuid())))
+                    MessageContext: null!, BudgetPermissionRequestId: Guid.NewGuid())))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act

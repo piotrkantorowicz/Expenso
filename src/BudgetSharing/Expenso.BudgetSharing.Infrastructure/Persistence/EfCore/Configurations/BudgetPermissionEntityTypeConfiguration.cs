@@ -35,10 +35,10 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
                 convertFromProviderExpression: x => PersonId.New(x))
             .IsRequired();
 
-        builder.OwnsOne<SafeDeletion>(navigationExpression: x => x.Deletion, buildAction: removalBuilder =>
+        builder.OwnsOne<Blocker>(navigationExpression: x => x.Blocker, buildAction: removalBuilder =>
         {
-            removalBuilder.Property(propertyExpression: x => x.IsDeleted);
-            removalBuilder.Property(propertyExpression: x => x.RemovalDate);
+            removalBuilder.Property(propertyExpression: x => x.IsBlocked);
+            removalBuilder.Property(propertyExpression: x => x.BlockDate);
         });
 
         builder.OwnsMany(navigationExpression: x => x.Permissions, buildAction: permissionsBuilder =>
@@ -59,6 +59,6 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
         });
 
         // TODO: Investigate what is wrong with that filter
-        // builder.HasQueryFilter(filter: x => x.Deletion == null || x.Deletion.IsDeleted == false);
+        // builder.HasQueryFilter(filter: x => x.Deletion == null || x.Deletion.IsDeleted is false);
     }
 }

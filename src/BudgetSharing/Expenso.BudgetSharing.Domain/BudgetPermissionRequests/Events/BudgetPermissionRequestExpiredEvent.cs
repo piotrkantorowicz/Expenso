@@ -7,7 +7,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 
 internal sealed record BudgetPermissionRequestExpiredEvent(
     IMessageContext MessageContext,
-    BudgetId BudgetId,
+    PersonId OwnerId,
     PersonId ParticipantId,
     PermissionType PermissionType,
     DateAndTime? ExpirationDate) : IDomainEvent;

@@ -44,8 +44,9 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         AssertDomainEventPublished(aggregateRoot: budgetPermissionRequest, expectedDomainEvents: new IDomainEvent[]
         {
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetId: budgetPermissionRequest.BudgetId, ParticipantId: budgetPermissionRequest.ParticipantId,
-                PermissionType: budgetPermissionRequest.PermissionType)
+                OwnerId: budgetPermissionRequest.OwnerId, ParticipantId: budgetPermissionRequest.ParticipantId,
+                PermissionType: budgetPermissionRequest.PermissionType,
+                SubmissionDate: budgetPermissionRequest.SubmissionDate)
         });
     }
 
@@ -159,7 +160,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
-            personId: _participantId, permissionType: permissionType, expirationDays: 10, clock: _clockMock.Object);
+            ownerId: _ownerId, personId: _participantId, permissionType: permissionType, expirationDays: 10,
+            clock: _clockMock.Object);
 
         _budgetPermissionRequestRepositoryMock
             .Setup(expression: x =>
@@ -193,9 +195,9 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
 
         IReadOnlyCollection<BudgetPermissionRequest> otherBudgetPermissionRequests =
         [
-            BudgetPermissionRequest.Create(budgetId: _budgetId, personId: _participantId,
+            BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                 permissionType: PermissionType.Reviewer, expirationDays: 4, clock: _clockMock.Object),
-            BudgetPermissionRequest.Create(budgetId: _budgetId, personId: _participantId,
+            BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                 permissionType: PermissionType.SubOwner, expirationDays: 7, clock: _clockMock.Object)
         ];
 
@@ -230,7 +232,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
                 x.GetUncompletedByPersonIdAsync(_budgetId, _participantId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value:
             [
-                BudgetPermissionRequest.Create(budgetId: _budgetId, personId: _participantId,
+                BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                     permissionType: PermissionType.Owner, expirationDays: 4, clock: _clockMock.Object)
             ]);
 

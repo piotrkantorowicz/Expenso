@@ -22,7 +22,8 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
 
         // Act
         GetUserResponse getUser =
-            await TestCandidate.GetUserByEmailAsync(email: _userEmail, It.IsAny<CancellationToken>());
+            await TestCandidate.GetUserByEmailAsync(email: _userEmail,
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUser.Should().NotBeNull();
@@ -48,7 +49,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
         // Act
         // Assert
         NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.GetUserByEmailAsync(email: email, It.IsAny<CancellationToken>()));
+            TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>()));
 
         const string expectedExceptionMessage = $"User with email {email} not found";
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
