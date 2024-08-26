@@ -18,13 +18,14 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         TestCandidate.Expire();
 
         // Assert
-        TestCandidate.Status.Should().Be(expected: BudgetPermissionRequestStatus.Expired);
+        TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Expired);
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionRequestExpiredEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
-                PermissionType: TestCandidate.PermissionType, ExpirationDate: TestCandidate.ExpirationDate)
+                PermissionType: TestCandidate.PermissionType,
+                ExpirationDate: TestCandidate.StatusTracker.ExpirationDate)
         ]);
     }
 

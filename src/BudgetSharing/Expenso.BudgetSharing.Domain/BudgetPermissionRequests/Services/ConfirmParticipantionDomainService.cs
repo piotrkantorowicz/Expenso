@@ -6,6 +6,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
+using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Proxy;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
@@ -16,10 +17,12 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository;
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
+    private readonly IClock _clock;
     private readonly IUserPreferencesProxy _userPreferencesProxy;
 
     public ConfirmParticipantionDomainService(IBudgetPermissionRequestRepository budgetPermissionRequestRepository,
-        IBudgetPermissionRepository budgetPermissionRepository, IUserPreferencesProxy userPreferencesProxy)
+        IBudgetPermissionRepository budgetPermissionRepository, IUserPreferencesProxy userPreferencesProxy,
+        IClock clock)
     {
         _budgetPermissionRepository = budgetPermissionRepository ??
                                       throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
@@ -30,6 +33,8 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         _userPreferencesProxy = userPreferencesProxy ??
                                 throw new ArgumentNullException(paramName: nameof(userPreferencesProxy));
+
+        _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
     }
 
     public async Task ConfirmParticipantAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
@@ -75,7 +80,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
                     currentPermissions: budgetPermission.Permissions.ToList().AsReadOnly()))
         ]);
 
-        permissionRequest.Confirm();
+        permissionRequest.Confirm(clock: _clock);
 
         budgetPermission.AddPermission(participantId: permissionRequest.ParticipantId,
             permissionType: permissionRequest.PermissionType);

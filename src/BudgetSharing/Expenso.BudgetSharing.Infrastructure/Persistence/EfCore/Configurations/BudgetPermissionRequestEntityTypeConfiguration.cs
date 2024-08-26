@@ -27,11 +27,40 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
                 convertFromProviderExpression: x => BudgetId.New(x))
             .IsRequired();
 
-        builder
-            .Property(propertyExpression: x => x.ExpirationDate)
-            .HasConversion(convertToProviderExpression: x => x == null ? (DateTimeOffset?)null : x.Value,
-                convertFromProviderExpression: x => x.HasValue ? DateAndTime.New(x.Value) : null)
-            .IsRequired(required: false);
+        builder.OwnsOne<BudgetPermissionRequestStatusTracker>(navigationExpression: x => x.StatusTracker,
+            buildAction: statusTrackerBuilder =>
+            {
+                statusTrackerBuilder
+                    .Property(propertyExpression: x => x.SubmissionDate)
+                    .HasConversion(convertToProviderExpression: x => x.Value,
+                        convertFromProviderExpression: x => DateAndTime.New(x))
+                    .IsRequired(required: true);
+
+                statusTrackerBuilder
+                    .Property(propertyExpression: x => x.ExpirationDate)
+                    .HasConversion(convertToProviderExpression: x => x.Value,
+                        convertFromProviderExpression: x => DateAndTime.New(x))
+                    .IsRequired(required: true);
+
+                statusTrackerBuilder
+                    .Property(propertyExpression: x => x.ConfirmationDate)
+                    .HasConversion(convertToProviderExpression: x => x == null ? (DateTimeOffset?)null : x.Value,
+                        convertFromProviderExpression: x => x.HasValue ? DateAndTime.New(x.Value) : null)
+                    .IsRequired(required: false);
+
+                statusTrackerBuilder
+                    .Property(propertyExpression: x => x.CancellationDate)
+                    .HasConversion(convertToProviderExpression: x => x == null ? (DateTimeOffset?)null : x.Value,
+                        convertFromProviderExpression: x => x.HasValue ? DateAndTime.New(x.Value) : null)
+                    .IsRequired(required: false);
+
+                statusTrackerBuilder
+                    .Property(propertyExpression: x => x.Status)
+                    .HasConversion(convertToProviderExpression: x => x.Value,
+                        convertFromProviderExpression: x => BudgetPermissionRequestStatus.Create(x))
+                    .HasColumnName(name: "status")
+                    .IsRequired();
+            });
 
         builder
             .Property(propertyExpression: x => x.ParticipantId)
@@ -43,13 +72,6 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
             .Property(propertyExpression: x => x.PermissionType)
             .HasConversion(convertToProviderExpression: x => x.Value,
                 convertFromProviderExpression: x => PermissionType.Create(x))
-            .IsRequired();
-
-        builder
-            .Property(propertyExpression: x => x.Status)
-            .HasConversion(convertToProviderExpression: x => x.Value,
-                convertFromProviderExpression: x => BudgetPermissionRequestStatus.Create(x))
-            .HasColumnName(name: "status")
             .IsRequired();
     }
 }

@@ -37,7 +37,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         budgetPermissionRequest.PermissionType.Should().Be(expected: _permissionType);
 
         budgetPermissionRequest
-            .ExpirationDate?.Value.Should()
+            .StatusTracker.ExpirationDate.Value.Should()
             .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow.AddDays(days: ExpirationDays),
                 precision: TimeSpan.FromMilliseconds(value: 500));
 
@@ -46,7 +46,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: budgetPermissionRequest.OwnerId, ParticipantId: budgetPermissionRequest.ParticipantId,
                 PermissionType: budgetPermissionRequest.PermissionType,
-                SubmissionDate: budgetPermissionRequest.SubmissionDate)
+                SubmissionDate: budgetPermissionRequest.StatusTracker.SubmissionDate)
         });
     }
 

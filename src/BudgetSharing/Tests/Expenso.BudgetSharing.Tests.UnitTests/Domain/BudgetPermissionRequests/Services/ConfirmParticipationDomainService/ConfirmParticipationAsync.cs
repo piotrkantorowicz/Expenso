@@ -39,7 +39,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _budgetPermissionRequest.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
+        _budgetPermissionRequest.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
 
         _budgetPermission
             .Permissions.Should()

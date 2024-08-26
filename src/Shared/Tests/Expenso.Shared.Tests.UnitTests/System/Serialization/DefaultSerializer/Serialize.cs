@@ -3,7 +3,7 @@ namespace Expenso.Shared.Tests.UnitTests.System.Serialization.DefaultSerializer;
 internal sealed class Serialize : DefaultSerializerTestBase
 {
     [Test, TestCaseSource(sourceName: nameof(SerializedTestObjects))]
-    public void Serialize_Always_ShouldSerializeObject(object serializedObject)
+    public void Should_SerializeObject_Always(object serializedObject)
     {
         // Arrange
         // Act
@@ -14,7 +14,7 @@ internal sealed class Serialize : DefaultSerializerTestBase
     }
 
     [Test, TestCaseSource(sourceName: nameof(SerializedTestObjects))]
-    public void SerializeWithOptions_Always_ShouldSerializeObject(object serializedObject)
+    public void Should_SerializeObject_WithOptions(object serializedObject)
     {
         // Arrange
         // Act

@@ -57,7 +57,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         TestCandidate = new ConfirmParticipantionDomainService(
             budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object,
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object,
-            userPreferencesProxy: _userPreferencesProxyMock.Object);
+            userPreferencesProxy: _userPreferencesProxyMock.Object, clock: _clockMock.Object);
 
         // clear uncommitted changes
         _budgetPermissionRequest.GetUncommittedChanges();

@@ -3,6 +3,7 @@ using System;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(BudgetSharingDbContext))]
-    partial class BudgetSharingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240826050223_AddStatusTrackerValueObject")]
+    partial class AddStatusTrackerValueObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

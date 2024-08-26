@@ -25,17 +25,18 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         TestCandidate.BudgetId.Should().Be(expected: _defaultBudgetId);
         TestCandidate.ParticipantId.Should().Be(expected: _defaultPersonId);
         TestCandidate.PermissionType.Should().Be(expected: _defaultPermissionType);
-        TestCandidate.Status.Should().Be(expected: BudgetPermissionRequestStatus.Pending);
+        TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Pending);
 
         TestCandidate
-            .ExpirationDate.Should()
+            .StatusTracker.ExpirationDate.Should()
             .Be(expected: DateAndTime.New(value: _clockMock.Object.UtcNow.AddDays(days: Expiration)));
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
-                PermissionType: TestCandidate.PermissionType, SubmissionDate: TestCandidate.SubmissionDate)
+                PermissionType: TestCandidate.PermissionType,
+                SubmissionDate: TestCandidate.StatusTracker.SubmissionDate)
         ]);
     }
 

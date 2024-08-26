@@ -19,6 +19,6 @@ internal sealed class ExpirationDateMustBeGreaterThanOneDay : IBusinessRule
 
     public bool IsBroken()
     {
-        return _expirationDate < _clock.UtcNow.AddDays(days: 1);
+        return _expirationDate.LessThanOrEqual(dateTimeOffset: _clock.UtcNow.AddDays(days: 1));
     }
 }

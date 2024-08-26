@@ -15,10 +15,10 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Confirm();
+        TestCandidate.Confirm(clock: _clockMock.Object);
 
         // Assert
-        TestCandidate.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
+        TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -33,11 +33,11 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Confirm();
+        TestCandidate.Confirm(clock: _clockMock.Object);
 
         // Act
         DomainRuleValidationException? exception =
-            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Confirm());
+            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Confirm(clock: _clockMock.Object));
 
         // Assert
         string expectedExceptionMessage =

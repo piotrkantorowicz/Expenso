@@ -12,8 +12,11 @@ internal static class GetBudgetPermissionRequestResponseMap
             BudgetId: budgetPermissionRequest.BudgetId.Value,
             ParticipantId: budgetPermissionRequest.ParticipantId.Value,
             PermissionType: MapTo(permissionType: budgetPermissionRequest.PermissionType),
-            Status: MapTo(budgetPermissionRequestStatus: budgetPermissionRequest.Status),
-            ExpirationDate: budgetPermissionRequest.ExpirationDate?.Value);
+            Status: MapTo(budgetPermissionRequestStatus: budgetPermissionRequest.StatusTracker.Status),
+            ExpirationDate: budgetPermissionRequest.StatusTracker.ExpirationDate.Value,
+            SubmissionDate: budgetPermissionRequest.StatusTracker.SubmissionDate.Value,
+            CancellationDate: budgetPermissionRequest.StatusTracker.CancellationDate?.Value,
+            ConfirmationDate: budgetPermissionRequest.StatusTracker.ConfirmationDate?.Value);
     }
 
     private static GetBudgetPermissionRequestResponse_Status MapTo(
