@@ -47,6 +47,6 @@ internal sealed class Nullable : DateAndTimeTestBase
 
         // Assert
         result.Should().NotBeNull();
-        result.Value.Should().Be(expected: dateTimeOffset);
+        result?.Value.Should().Be(expected: dateTimeOffset);
     }
 }

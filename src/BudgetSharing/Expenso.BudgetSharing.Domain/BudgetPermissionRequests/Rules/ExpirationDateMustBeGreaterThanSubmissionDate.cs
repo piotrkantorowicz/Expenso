@@ -19,6 +19,6 @@ internal sealed class ExpirationDateMustBeGreaterThanSubmissionDate : IBusinessR
 
     public bool IsBroken()
     {
-        return _expirationDate <= _submissionDate;
+        return _expirationDate.LessThanOrEqual(dateTimeOffset: _submissionDate);
     }
 }

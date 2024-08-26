@@ -12,7 +12,7 @@ internal sealed class LessThanOrEqual : DateAndTimeTestBase
         DateTimeOffset other = dateTimeOffset.Value;
 
         // Act
-        bool result = dateTimeOffset.LessThanOrEqual(dateTimeOffset: other);
+        bool result = dateTimeOffset <= other;
 
         // Assert
         result.Should().BeTrue();
