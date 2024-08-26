@@ -31,7 +31,7 @@ internal sealed class BudgetPermissionRequestRepository : IBudgetPermissionReque
             .BudgetPermissionRequests
             .Where(predicate: x => x.BudgetId == budgetId &&
                                    x.ParticipantId == participantId &&
-                                   x.Status == BudgetPermissionRequestStatus.Pending)
+                                   x.StatusTracker.Status == BudgetPermissionRequestStatus.Pending)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 

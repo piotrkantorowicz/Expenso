@@ -30,6 +30,26 @@ public sealed record DateAndTime
             : new DateAndTime(value: value.Value);
     }
 
+    public static bool operator >(DateAndTime left, DateAndTime right)
+    {
+        return left.Value > right.Value;
+    }
+
+    public static bool operator <(DateAndTime left, DateAndTime right)
+    {
+        return left.Value < right.Value;
+    }
+
+    public static bool operator >=(DateAndTime left, DateAndTime right)
+    {
+        return left.Value >= right.Value;
+    }
+
+    public static bool operator <=(DateAndTime left, DateAndTime right)
+    {
+        return left.Value <= right.Value;
+    }
+
     public static bool operator >(DateTimeOffset left, DateAndTime right)
     {
         return left > right.Value;

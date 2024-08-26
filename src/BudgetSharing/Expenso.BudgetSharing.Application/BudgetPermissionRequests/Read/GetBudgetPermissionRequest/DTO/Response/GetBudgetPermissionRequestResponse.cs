@@ -6,4 +6,7 @@ public sealed record GetBudgetPermissionRequestResponse(
     Guid ParticipantId,
     GetBudgetPermissionRequestResponse_PermissionType PermissionType,
     GetBudgetPermissionRequestResponse_Status Status,
-    DateTimeOffset? ExpirationDate);
+    DateTimeOffset ExpirationDate,
+    DateTimeOffset SubmissionDate,
+    DateTimeOffset? CancellationDate,
+    DateTimeOffset? ConfirmationDate);

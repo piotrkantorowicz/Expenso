@@ -15,10 +15,10 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Cancel();
+        TestCandidate.Cancel(clock: _clockMock.Object);
 
         // Assert
-        TestCandidate.Status.Should().Be(expected: BudgetPermissionRequestStatus.Cancelled);
+        TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Cancelled);
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -33,11 +33,11 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Cancel();
+        TestCandidate.Cancel(clock: _clockMock.Object);
 
         // Act
         DomainRuleValidationException? exception =
-            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Cancel());
+            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Cancel(clock: _clockMock.Object));
 
         // Assert
         string expectedExceptionMessage =

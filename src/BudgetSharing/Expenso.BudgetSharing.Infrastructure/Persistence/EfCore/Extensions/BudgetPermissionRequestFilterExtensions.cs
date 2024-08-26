@@ -34,7 +34,7 @@ public static class BudgetPermissionRequestFilterExtensions
         if (filter.Status != null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.Status == filter.Status);
+                rightExpression: x => x.StatusTracker.Status == filter.Status);
         }
 
         if (filter.PermissionType != null)

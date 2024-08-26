@@ -2,6 +2,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Commands;
+using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.CancelAssigningParticipant;
@@ -9,13 +10,16 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Cance
 internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler<CancelAssigningParticipantCommand>
 {
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
+    private readonly IClock _clock;
 
     public CancelAssigningParticipantCommandHandler(
-        IBudgetPermissionRequestRepository budgetPermissionRequestRepository)
+        IBudgetPermissionRequestRepository budgetPermissionRequestRepository, IClock clock)
     {
         _budgetPermissionRequestRepository = budgetPermissionRequestRepository ??
                                              throw new ArgumentNullException(
                                                  paramName: nameof(budgetPermissionRequestRepository));
+
+        _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
     }
 
     public async Task HandleAsync(CancelAssigningParticipantCommand command, CancellationToken cancellationToken)
@@ -31,7 +35,7 @@ internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler
                 message: $"Budget permission request with id {command.BudgetPermissionRequestId} hasn't been found");
         }
 
-        budgetPermissionRequest.Cancel();
+        budgetPermissionRequest.Cancel(clock: _clock);
 
         await _budgetPermissionRequestRepository.UpdateAsync(permission: budgetPermissionRequest,
             cancellationToken: cancellationToken);
