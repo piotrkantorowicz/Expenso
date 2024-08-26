@@ -30,98 +30,48 @@ public sealed record DateAndTime
             : new DateAndTime(value: value.Value);
     }
 
-    public static bool operator >(DateAndTime left, DateAndTime right)
+    public static implicit operator DateAndTime(DateTimeOffset dateTimeOffset)
     {
-        return left.Value > right.Value;
+        return New(value: dateTimeOffset);
     }
 
-    public static bool operator <(DateAndTime left, DateAndTime right)
+    public static implicit operator DateTimeOffset(DateAndTime dateAndTime)
     {
-        return left.Value < right.Value;
+        return dateAndTime.Value;
     }
 
-    public static bool operator >=(DateAndTime left, DateAndTime right)
+    public bool GreaterThan(DateAndTime dateTimeOffset)
     {
-        return left.Value >= right.Value;
+        return Value > dateTimeOffset.Value;
     }
 
-    public static bool operator <=(DateAndTime left, DateAndTime right)
+    public bool LessThan(DateAndTime dateTimeOffset)
     {
-        return left.Value <= right.Value;
+        return Value < dateTimeOffset.Value;
     }
 
-    public static bool operator >(DateTimeOffset left, DateAndTime right)
+    public bool GreaterThanOrEqual(DateAndTime dateTimeOffset)
     {
-        return left > right.Value;
+        return Value >= dateTimeOffset.Value;
     }
 
-    public static bool operator <(DateTimeOffset left, DateAndTime right)
+    public bool LessThanOrEqual(DateAndTime dateTimeOffset)
     {
-        return left < right.Value;
+        return Value <= dateTimeOffset.Value;
     }
 
-    public static bool operator >=(DateTimeOffset left, DateAndTime right)
+    public bool Between(DateAndTime start, DateAndTime end)
     {
-        return left >= right.Value;
+        return Value >= start.Value && Value <= end.Value;
     }
 
-    public static bool operator <=(DateTimeOffset left, DateAndTime right)
+    public bool InRange(DateAndTime start, DateAndTime end)
     {
-        return left <= right.Value;
+        return Value >= start.Value && Value <= end.Value;
     }
 
-    public static bool operator >(DateAndTime left, DateTimeOffset right)
+    public bool OutOfRange(DateAndTime start, DateAndTime end)
     {
-        return left.Value > right;
-    }
-
-    public static bool operator <(DateAndTime left, DateTimeOffset right)
-    {
-        return left.Value < right;
-    }
-
-    public static bool operator >=(DateAndTime left, DateTimeOffset right)
-    {
-        return left.Value >= right;
-    }
-
-    public static bool operator <=(DateAndTime left, DateTimeOffset right)
-    {
-        return left.Value <= right;
-    }
-
-    public bool GreaterThan(DateTimeOffset dateTimeOffset)
-    {
-        return Value > dateTimeOffset;
-    }
-
-    public bool LessThan(DateTimeOffset dateTimeOffset)
-    {
-        return Value < dateTimeOffset;
-    }
-
-    public bool GreaterThanOrEqual(DateTimeOffset dateTimeOffset)
-    {
-        return Value >= dateTimeOffset;
-    }
-
-    public bool LessThanOrEqual(DateTimeOffset dateTimeOffset)
-    {
-        return Value <= dateTimeOffset;
-    }
-
-    public bool Between(DateTimeOffset start, DateTimeOffset end)
-    {
-        return Value >= start && Value <= end;
-    }
-
-    public bool InRange(DateTimeOffset start, DateTimeOffset end)
-    {
-        return Value >= start && Value <= end;
-    }
-
-    public bool OutOfRange(DateTimeOffset start, DateTimeOffset end)
-    {
-        return Value < start || Value > end;
+        return Value < start.Value || Value > end.Value;
     }
 }
