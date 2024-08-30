@@ -1,11 +1,9 @@
 ﻿using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.Integration.Events;
-using Expenso.Shared.Tests.Utils.UnitTests;
+using Expenso.Shared.System.Logging;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
 using FluentAssertions;
-
-using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -22,8 +20,6 @@ internal sealed class Execute : JobExecutionTestBase
     public async Task Should_LogInformation_When_JobInstanceHasNotBeenExists()
     {
         // Arrange
-        string message = $"Job instance with id: {_jobInstanceId} hasn't been found";
-
         _jobInstanceRepositoryMock
             .Setup(expression: x => x.GetAsync(_jobInstanceId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
@@ -33,15 +29,16 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
+                "Job instance with id: {JobInstanceId} hasn't been found", null, null, _jobInstanceId),
+            times: Times.Once);
     }
 
     [Test]
     public async Task Should_LogInformation_When_NoActiveJobEntriesFound()
     {
         // Arrange
-        string message = $"No active job entries found. JobInstanceId: {_jobInstanceId}";
-
         _jobInstanceRepositoryMock
             .Setup(expression: x => x.GetAsync(_jobInstanceId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: JobInstance.Default);
@@ -55,15 +52,16 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.BackgroundJobGeneralInformation,
+                "No active job entries found. JobInstanceId: {JobInstanceId}", null, _jobInstanceId),
+            times: Times.Once);
     }
 
     [Test]
     public async Task Should_LogWarning_When_NoJobEntryStatusesFound()
     {
         // Arrange
-        const string message = "No job entry statuses found";
-
         _jobInstanceRepositoryMock
             .Setup(expression: x => x.GetAsync(_jobInstanceId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: JobInstance.Default);
@@ -84,7 +82,9 @@ internal sealed class Execute : JobExecutionTestBase
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning, "No job entry statuses found", null, null),
+            times: Times.Once);
     }
 
     [Test]
@@ -108,15 +108,16 @@ internal sealed class Execute : JobExecutionTestBase
                 jobEntry
             });
 
-        string message =
-            $"Skipping job entry with id {jobEntry.Id} because it has no triggers. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
+
+        _loggerMock.Verify(
+            expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
+                "Skipping job entry with id {JobEntryId} because it has no triggers. JobInstanceId: {JobInstanceId}",
+                null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
     [Test]
@@ -148,8 +149,6 @@ internal sealed class Execute : JobExecutionTestBase
                 jobEntry
             });
 
-        string message = $"Skipping job entry with id {jobEntry.Id} because it ended. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
@@ -161,7 +160,11 @@ internal sealed class Execute : JobExecutionTestBase
             times: Times.Once);
 
         jobEntry.IsCompleted.Should().BeTrue();
-        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
+
+        _loggerMock.Verify(
+            expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
+                "Skipping job entry with id {JobEntryId} because it ended. JobInstanceId: {JobInstanceId}", null, null,
+                jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
     [Test]
@@ -196,15 +199,15 @@ internal sealed class Execute : JobExecutionTestBase
                 jobEntry
             });
 
-        string message =
-            $"Skipping job entry with Id {jobEntry.Id} because it's out of the actual run. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Debug, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogDebug(LoggingUtils.BackgroundJobGeneralInformation,
+                "Skipping job entry with Id {JobEntryId} because it's out of the actual run. JobInstanceId: {JobInstanceId}",
+                null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
     [Test]
@@ -233,15 +236,15 @@ internal sealed class Execute : JobExecutionTestBase
                 jobEntry
             });
 
-        string message =
-            $"Skipping triggering events for job entry with Id {jobEntry.Id} because it's invalid. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
+                "Skipping triggering events for job entry with Id {JobEntryId} because it's invalid. JobInstanceId: {JobInstanceId}",
+                null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
     [Test]
@@ -281,15 +284,15 @@ internal sealed class Execute : JobExecutionTestBase
             .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType)!, null))
             .Returns(valueFunction: null!);
 
-        string message =
-            $"Failed to deserialize event trigger for job entry with Id {jobEntry.Id}. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Warning, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
+                "Failed to deserialize event trigger for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
     [Test]
@@ -320,14 +323,15 @@ internal sealed class Execute : JobExecutionTestBase
                 jobEntry
             });
 
-        string message = $"An error occurred while processing job. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
+        _loggerMock.Verify(
+            expression: x => x.LogError(LoggingUtils.BackgroundJobError,
+                "An error occurred while processing job. JobInstanceId: {JobInstanceId}", error, null, _jobInstanceId),
+            times: Times.Once);
     }
 
     [Test]
@@ -370,15 +374,15 @@ internal sealed class Execute : JobExecutionTestBase
             .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType)!, null))
             .Returns(value: eventData);
 
-        string message =
-            $"Published events: {string.Join(separator: ",", values: jobEntry.Triggers.Select(selector: x => Type.GetType(typeName: x.EventType!)?.FullName))} for job entry with Id {jobEntry.Id}. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Debug, message: message);
+        _loggerMock.Verify(
+            expression: x => x.LogDebug(LoggingUtils.BackgroundJobGeneralInformation,
+                "Published events: {Events} for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}", null,
+                It.IsAny<object?>(), jobEntry.Id, _jobInstanceId), times: Times.Once);
 
         _messageBrokerMock.Verify(
             expression: x => x.PublishAsync<IIntegrationEvent>(eventData, It.IsAny<CancellationToken>()),
@@ -434,15 +438,16 @@ internal sealed class Execute : JobExecutionTestBase
             .Setup(expression: x => x.PublishAsync<IIntegrationEvent>(eventData, It.IsAny<CancellationToken>()))
             .Throws(exception: error);
 
-        string message =
-            $"An error occurred while processing and job entry with Id {jobEntry.Id}. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
+        _loggerMock.Verify(
+            expression: x => x.LogError(LoggingUtils.BackgroundJobError,
+                "An error occurred while processing and job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
+
         jobEntry.CurrentRetries.Should().Be(expected: null);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Failed);
     }
@@ -495,15 +500,16 @@ internal sealed class Execute : JobExecutionTestBase
             .Setup(expression: x => x.PublishAsync<IIntegrationEvent>(eventData, It.IsAny<CancellationToken>()))
             .Throws(exception: error);
 
-        string message =
-            $"An error occurred while processing and job entry with Id {jobEntry.Id}. JobInstanceId: {_jobInstanceId}";
-
         // Act
         await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
             stoppingToken: CancellationToken.None);
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Error, message: message, exception: error);
+        _loggerMock.Verify(
+            expression: x => x.LogError(LoggingUtils.BackgroundJobError,
+                "An error occurred while processing and job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
+
         jobEntry.CurrentRetries.Should().Be(expected: null);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Retrying);
     }

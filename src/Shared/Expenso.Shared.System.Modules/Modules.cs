@@ -28,6 +28,11 @@ public static class Modules
         }
     }
 
+    public static IDictionary<string, ModuleDefinition> GetRegisteredModules()
+    {
+        return RegisteredModules;
+    }
+    
     public static IReadOnlyCollection<Assembly> GetRequiredModulesAssemblies()
     {
         return RegisteredModules.Values.SelectMany(selector: module => module.GetModuleAssemblies()).ToArray();

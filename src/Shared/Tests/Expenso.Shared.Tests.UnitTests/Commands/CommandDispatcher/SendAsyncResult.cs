@@ -21,7 +21,6 @@ internal sealed class SendAsyncResult : CommandDispatcherTestBase
         // Assert
         commandResult?.Should().NotBeNull();
         commandResult?.Message.Should().NotBeNullOrEmpty();
-        string message = $"Successfully processed command with id: {testCommand.Id}";
-        commandResult?.Message.Should().Be(expected: message);
+        commandResult?.Message.Should().Be(expected: $"Successfully processed command with id: {testCommand.Id}");
     }
 }

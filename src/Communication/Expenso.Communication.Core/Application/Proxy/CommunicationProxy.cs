@@ -34,9 +34,9 @@ internal sealed class CommunicationProxy : ICommunicationProxy
 
         foreach (SendNotificationRequest request in requests)
         {
-            await _commandDispatcher.SendAsync(
+            sendNotificationTasks.Add(item: _commandDispatcher.SendAsync(
                 command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(),
-                    SendNotificationRequest: request), cancellationToken: cancellationToken);
+                    SendNotificationRequest: request), cancellationToken: cancellationToken));
         }
 
         await Task.WhenAll(tasks: sendNotificationTasks);

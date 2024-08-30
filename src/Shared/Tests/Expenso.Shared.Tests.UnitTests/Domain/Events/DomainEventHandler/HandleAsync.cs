@@ -1,4 +1,5 @@
-using Microsoft.Extensions.Logging;
+using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Moq;
 
@@ -10,13 +11,12 @@ internal sealed class HandleAsync : DomainEventHandlerTestBase
     public async Task Should_HandleDomainEvent()
     {
         // Arrange
-        _loggerMock.Setup(expression: x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
-            It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!));
-
         // Act
         await TestCandidate.HandleAsync(@event: _testDomainEvent, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.GeneralInformation, It.IsAny<string>(),
+                It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
     }
 }

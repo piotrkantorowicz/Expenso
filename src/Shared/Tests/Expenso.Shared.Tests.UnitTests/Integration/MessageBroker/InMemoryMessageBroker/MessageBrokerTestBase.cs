@@ -2,10 +2,12 @@ using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Integration.MessageBroker.InMemory.Background;
 using Expenso.Shared.Integration.MessageBroker.InMemory.Channels;
+using Expenso.Shared.System.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+
+using Moq;
 
 using TestCandidate = Expenso.Shared.Integration.MessageBroker.InMemory.InMemoryMessageBroker;
 
@@ -13,6 +15,7 @@ namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.InMemoryMessa
 
 internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
 {
+    private readonly Mock<ILoggerService<BackgroundMessageProcessor>> _loggerService = new();
     private readonly IMessageChannel _messageChannel = new MessageChannel();
     private readonly CancellationTokenSource _stoppingTokenSource = new();
     private BackgroundMessageProcessor? _backgroundMessageProcessor;
@@ -45,7 +48,7 @@ internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
         NullLoggerFactory loggerFactory = new();
 
         _backgroundMessageProcessor = new BackgroundMessageProcessor(messageChannel: _messageChannel,
-            serviceProvider: serviceProvider, logger: loggerFactory.CreateLogger<BackgroundMessageProcessor>());
+            serviceProvider: serviceProvider, logger: _loggerService.Object);
 
         await _backgroundMessageProcessor.StartAsync(cancellationToken: cancellationToken);
     }

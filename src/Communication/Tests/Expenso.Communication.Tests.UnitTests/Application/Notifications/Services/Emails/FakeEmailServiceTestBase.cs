@@ -1,16 +1,19 @@
 ﻿using Expenso.Communication.Core.Application.Notifications.Services.Emails.Acl.Fake;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.Tests.Utils.UnitTests;
+
+using Moq;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.Emails;
 
 internal abstract class FakeEmailServiceTestBase : TestBase<FakeEmailService>
 {
-    protected InMemoryFakeLogger<FakeEmailService> _fakeLogger = null!;
+    protected Mock<ILoggerService<FakeEmailService>> _loggerServiceMock = null!;
 
     [SetUp]
     public void SetUp()
     {
-        _fakeLogger = new InMemoryFakeLogger<FakeEmailService>();
-        TestCandidate = new FakeEmailService(logger: _fakeLogger);
+        _loggerServiceMock = new Mock<ILoggerService<FakeEmailService>>();
+        TestCandidate = new FakeEmailService(logger: _loggerServiceMock.Object);
     }
 }

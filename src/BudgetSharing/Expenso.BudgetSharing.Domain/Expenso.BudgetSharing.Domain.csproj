@@ -12,6 +12,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
         <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>

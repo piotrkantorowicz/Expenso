@@ -54,6 +54,7 @@ internal sealed class AppConfigurator : IAppConfigurator
     public IAppConfigurator UseRequestsCorrelation()
     {
         _app.UseMiddleware<CorrelationIdMiddleware>();
+        _app.UseMiddleware<ModuleIdMiddleware>();
 
         return this;
     }

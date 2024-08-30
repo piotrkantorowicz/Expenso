@@ -1,8 +1,10 @@
 ﻿using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
+using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Communication.Proxy.DTO.API.SendNotification;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Types.Events;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Moq;
 
@@ -16,12 +18,13 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     {
         // Arrange
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(_defaultOwnerId, new[]
-                {
-                    _defaultParticipantId
-                }
-                .ToList()
-                .AsReadOnly(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
+                _defaultOwnerId, new[]
+                    {
+                        _defaultParticipantId
+                    }
+                    .ToList()
+                    .AsReadOnly(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _defaultNotificationModel);
 
         TEvent @event = CreateEvent();
@@ -35,12 +38,13 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     {
         // Arrange
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(_defaultOwnerId, new[]
-                {
-                    _defaultParticipantId
-                }
-                .ToList()
-                .AsReadOnly(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
+                _defaultOwnerId, new[]
+                    {
+                        _defaultParticipantId
+                    }
+                    .ToList()
+                    .AsReadOnly(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _defaultNotificationModel);
 
         TEvent @event = CreateEvent();
@@ -60,12 +64,13 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     {
         // Arrange
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(_defaultOwnerId, new[]
-                {
-                    _defaultParticipantId
-                }
-                .ToList()
-                .AsReadOnly(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
+                _defaultOwnerId, new[]
+                    {
+                        _defaultParticipantId
+                    }
+                    .ToList()
+                    .AsReadOnly(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _defaultNotificationModel with
             {
                 Participants = new List<PersonNotificationModel>()
@@ -88,12 +93,13 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     {
         // Arrange
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(_defaultOwnerId, new[]
-                {
-                    _defaultParticipantId
-                }
-                .ToList()
-                .AsReadOnly(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
+                _defaultOwnerId, new[]
+                    {
+                        _defaultParticipantId
+                    }
+                    .ToList()
+                    .AsReadOnly(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _defaultNotificationModel with
             {
                 Participants =
@@ -115,6 +121,34 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
             expression: x =>
                 x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(), It.IsAny<CancellationToken>()),
             times: Times.Once);
+    }
+
+    [Test]
+    public async Task Should_Call_GetUserNotificationAvailability_With_MessageContext()
+    {
+        // Arrange
+        TEvent @event = CreateEvent();
+
+        _iIamProxyServiceMock
+            .Setup(expression: x =>
+                x.GetUserNotificationAvailability(It.Is<IMessageContext>(mc => mc == @event.MessageContext),
+                    _defaultOwnerId, It.IsAny<IReadOnlyCollection<PersonId>>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _defaultNotificationModel);
+
+        // Act
+        await TestCandidate.HandleAsync(@event: @event, cancellationToken: CancellationToken.None);
+
+        // Assert
+        _iIamProxyServiceMock.Verify(
+            expression: x =>
+                x.GetUserNotificationAvailability(It.Is<IMessageContext>(mc => mc == @event.MessageContext),
+                    _defaultOwnerId, It.IsAny<IReadOnlyCollection<PersonId>>(), It.IsAny<CancellationToken>()),
+            times: Times.Once);
+
+        _communicationProxyMock.Verify(
+            expression: x =>
+                x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(), It.IsAny<CancellationToken>()),
+            times: Times.Exactly(callCount: 2));
     }
 
     protected abstract TEvent CreateEvent();

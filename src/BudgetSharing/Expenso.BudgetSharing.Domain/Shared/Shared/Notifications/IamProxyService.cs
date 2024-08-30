@@ -2,24 +2,24 @@
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Proxy;
 using Expenso.IAM.Proxy.DTO.GetUser;
-
-using Microsoft.Extensions.Logging;
+using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 
 internal sealed class IamProxyService : IIamProxyService
 {
     private readonly IIamProxy _iamProxy;
-    private readonly ILogger<IamProxyService> _logger;
+    private readonly ILoggerService<IamProxyService> _logger;
 
-    public IamProxyService(IIamProxy iamProxy, ILogger<IamProxyService> logger)
+    public IamProxyService(IIamProxy iamProxy, ILoggerService<IamProxyService> logger)
     {
         _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
     }
 
-    public async Task<UserNotificationModel> GetUserNotificationAvailability(PersonId ownerId,
-        IReadOnlyCollection<PersonId> participantIds, CancellationToken cancellationToken)
+    public async Task<UserNotificationModel> GetUserNotificationAvailability(IMessageContext messageContext,
+        PersonId ownerId, IReadOnlyCollection<PersonId> participantIds, CancellationToken cancellationToken)
     {
         GetUserResponse? owner =
             await _iamProxy.GetUserByIdAsync(userId: ownerId.ToString(), cancellationToken: cancellationToken);
@@ -28,8 +28,9 @@ internal sealed class IamProxyService : IIamProxyService
 
         if (owner is null)
         {
-            _logger.LogWarning(
-                message: "Cannot send notification to owner '{OwnerId}' as their email could not be found", ownerId);
+            _logger.LogWarning(eventId: LoggingUtils.GeneralWarning,
+                message: "Cannot send notification to owner '{OwnerId}' as their email could not be found",
+                messageContext: messageContext, args: ownerId);
 
             canSendNotificationToOwner = false;
         }
@@ -45,10 +46,10 @@ internal sealed class IamProxyService : IIamProxyService
 
             if (participant is null)
             {
-                _logger.LogWarning(
+                _logger.LogWarning(eventId: LoggingUtils.GeneralWarning,
                     message:
                     "Cannot send notification to participant {ParticipantId} as their email could not be found",
-                    participantId);
+                    messageContext: messageContext, args: participantId);
 
                 canSendNotificationToParticipant = false;
             }

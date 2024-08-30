@@ -9,6 +9,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
         <ProjectReference Include="..\Expenso.Communication.Proxy\Expenso.Communication.Proxy.csproj"/>
     </ItemGroup>
 

@@ -4,18 +4,16 @@ using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 
-using Microsoft.Extensions.Logging;
-
 namespace Expenso.Shared.Domain.Events.Logging;
 
 internal sealed class DomainEventHandlerLoggingDecorator<TEvent> : IDomainEventHandler<TEvent>
     where TEvent : class, IDomainEvent
 {
     private readonly IDomainEventHandler<TEvent> _decorated;
-    private readonly ILogger<DomainEventHandlerLoggingDecorator<TEvent>> _logger;
+    private readonly ILoggerService<DomainEventHandlerLoggingDecorator<TEvent>> _logger;
     private readonly ISerializer _serializer;
 
-    public DomainEventHandlerLoggingDecorator(ILogger<DomainEventHandlerLoggingDecorator<TEvent>> logger,
+    public DomainEventHandlerLoggingDecorator(ILoggerService<DomainEventHandlerLoggingDecorator<TEvent>> logger,
         IDomainEventHandler<TEvent> decorated, ISerializer serializer)
     {
         _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
@@ -25,12 +23,11 @@ internal sealed class DomainEventHandlerLoggingDecorator<TEvent> : IDomainEventH
 
     public async Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
     {
-        EventId executing = LoggingUtils.DomainEventExecuting;
-        EventId executed = LoggingUtils.DomainEventExecuted;
         string? eventName = @event.GetType().FullName;
         string serializedEvent = _serializer.Serialize(value: @event);
 
-        _logger.LogInformation(eventId: executing, message: "[START] {EventName}. Params: {SerializedEvent}", eventName,
+        _logger.LogInfo(eventId: LoggingUtils.DomainEventExecuting,
+            message: "[START] {EventName}. Params: {SerializedEvent}", messageContext: @event.MessageContext, eventName,
             serializedEvent);
 
         Stopwatch stopwatch = new();
@@ -41,15 +38,16 @@ internal sealed class DomainEventHandlerLoggingDecorator<TEvent> : IDomainEventH
             await _decorated.HandleAsync(@event: @event, cancellationToken: cancellationToken);
             stopwatch.Stop();
 
-            _logger.LogInformation(eventId: executed, message: "[END] {EventName}: {ExecutionTime}[ms]", eventName,
+            _logger.LogInfo(eventId: LoggingUtils.DomainEventExecuted,
+                message: "[END] {EventName}: {ExecutionTime}[ms]", messageContext: @event.MessageContext, eventName,
                 stopwatch.ElapsedMilliseconds);
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
 
-            _logger.LogError(eventId: LoggingUtils.UnexpectedException, exception: ex,
-                message: "[END] {EventName}: {ExecutionTime}[ms]", eventName, stopwatch.ElapsedMilliseconds);
+            _logger.LogError(eventId: LoggingUtils.UnexpectedError, message: "[END] {EventName}: {ExecutionTime}[ms]",
+                exception: ex, messageContext: @event.MessageContext, eventName, stopwatch.ElapsedMilliseconds);
 
             throw;
         }

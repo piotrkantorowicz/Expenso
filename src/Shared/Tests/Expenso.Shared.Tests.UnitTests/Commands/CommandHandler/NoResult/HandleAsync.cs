@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+using Expenso.Shared.System.Logging;
 
 using Moq;
 
@@ -10,14 +10,14 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
     public async Task Should_HandleCommand()
     {
         // Arrange
-        _loggerMock.Setup(expression: x => x.Log(It.IsAny<LogLevel>(), It.IsAny<EventId>(), It.IsAny<It.IsAnyType>(),
-            It.IsAny<Exception>(), It.IsAny<Func<It.IsAnyType, Exception, string>>()!));
-
         // Act
         await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.GeneralInformation,
+                "Successfully processed command with id: {CommandId}", _testCommand.MessageContext, _testCommand.Id),
+            times: Times.Once);
     }
 
     [Test]
@@ -43,5 +43,7 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
         _testCommand
             .MessageContext.Timestamp.Should()
             .Be(expected: MessageContextFactoryMock.Object.Current().Timestamp);
+
+        _testCommand.MessageContext.ModuleId.Should().Be(expected: MessageContextFactoryMock.Object.Current().ModuleId);
     }
 }

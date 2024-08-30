@@ -3,6 +3,8 @@ using System.Reflection;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Commands.Validation;
+using Expenso.Shared.System.Configuration.Settings;
+using Expenso.Shared.System.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,12 +19,14 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
     {
         Assembly[] assemblies = [typeof(CommandDispatcherTestBase).Assembly];
 
-        ServiceProvider serviceProvider = new ServiceCollection()
+        IServiceCollection serviceCollection = new ServiceCollection()
             .AddCommands(assemblies: assemblies)
             .AddCommandsValidations(assemblies: assemblies)
             .AddLogging()
-            .BuildServiceProvider();
+            .AddInternalLogging();
 
+        serviceCollection.AddSingleton<ApplicationSettings>();
+        IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         TestCandidate = new TestCandidate(serviceProvider: serviceProvider);
     }
 }

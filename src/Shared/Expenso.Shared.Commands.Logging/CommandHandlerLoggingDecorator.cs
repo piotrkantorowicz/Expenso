@@ -3,18 +3,16 @@ using System.Diagnostics;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 
-using Microsoft.Extensions.Logging;
-
 namespace Expenso.Shared.Commands.Logging;
 
 internal sealed class CommandHandlerLoggingDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : class, ICommand
 {
     private readonly ICommandHandler<TCommand> _decorated;
-    private readonly ILogger<CommandHandlerLoggingDecorator<TCommand>> _logger;
+    private readonly ILoggerService<CommandHandlerLoggingDecorator<TCommand>> _logger;
     private readonly ISerializer _serializer;
 
-    public CommandHandlerLoggingDecorator(ILogger<CommandHandlerLoggingDecorator<TCommand>> logger,
+    public CommandHandlerLoggingDecorator(ILoggerService<CommandHandlerLoggingDecorator<TCommand>> logger,
         ICommandHandler<TCommand> decorated, ISerializer serializer)
     {
         _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
@@ -24,12 +22,11 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand> : ICommandHandler
 
     public async Task HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
-        EventId executing = LoggingUtils.CommandExecuting;
-        EventId executed = LoggingUtils.CommandExecuted;
         string? commandName = command.GetType().FullName;
         string serializedCommand = _serializer.Serialize(value: command);
 
-        _logger.LogInformation(eventId: executing, message: "[START] {CommandName}. Params: {SerializedCommand}",
+        _logger.LogInfo(eventId: LoggingUtils.CommandExecuting,
+            message: "[START] {CommandName}. Params: {SerializedCommand}", messageContext: command.MessageContext,
             commandName, serializedCommand);
 
         Stopwatch stopwatch = new();
@@ -40,15 +37,15 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand> : ICommandHandler
             await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);
             stopwatch.Stop();
 
-            _logger.LogInformation(eventId: executed, message: "[END] {CommandName}: {ExecutionTime}[ms]", commandName,
-                stopwatch.ElapsedMilliseconds);
+            _logger.LogInfo(eventId: LoggingUtils.CommandExecuted, message: "[END] {CommandName}: {ExecutionTime}[ms]",
+                messageContext: command.MessageContext, commandName, stopwatch.ElapsedMilliseconds);
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
 
-            _logger.LogError(eventId: LoggingUtils.UnexpectedException, exception: ex,
-                message: "[END] {CommandName}: {ExecutionTime}[ms]", commandName, stopwatch.ElapsedMilliseconds);
+            _logger.LogError(eventId: LoggingUtils.UnexpectedError, message: "[END] {CommandName}: {ExecutionTime}[ms]",
+                exception: ex, messageContext: command.MessageContext, commandName, stopwatch.ElapsedMilliseconds);
 
             throw;
         }
@@ -59,10 +56,10 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : IComma
     where TCommand : class, ICommand where TResult : class
 {
     private readonly ICommandHandler<TCommand, TResult> _decorated;
-    private readonly ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> _logger;
+    private readonly ILoggerService<CommandHandlerLoggingDecorator<TCommand, TResult>> _logger;
     private readonly ISerializer _serializer;
 
-    public CommandHandlerLoggingDecorator(ILogger<CommandHandlerLoggingDecorator<TCommand, TResult>> logger,
+    public CommandHandlerLoggingDecorator(ILoggerService<CommandHandlerLoggingDecorator<TCommand, TResult>> logger,
         ICommandHandler<TCommand, TResult> decorated, ISerializer serializer)
     {
         _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
@@ -72,12 +69,11 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : IComma
 
     public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
-        EventId executing = LoggingUtils.CommandExecuting;
-        EventId executed = LoggingUtils.CommandExecuted;
         string? commandName = command.GetType().FullName;
         string serializedCommand = _serializer.Serialize(value: command);
 
-        _logger.LogInformation(eventId: executing, message: "[START] {CommandName}. Params: {SerializedCommand}",
+        _logger.LogInfo(eventId: LoggingUtils.CommandExecuting,
+            message: "[START] {CommandName}. Params: {SerializedCommand}", messageContext: command.MessageContext,
             commandName, serializedCommand);
 
         Stopwatch stopwatch = new();
@@ -88,8 +84,8 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : IComma
             TResult? result = await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);
             stopwatch.Stop();
 
-            _logger.LogInformation(eventId: executed, message: "[END] {CommandName}: {ExecutionTime}[ms]", commandName,
-                stopwatch.ElapsedMilliseconds);
+            _logger.LogInfo(eventId: LoggingUtils.CommandExecuted, message: "[END] {CommandName}: {ExecutionTime}[ms]",
+                messageContext: command.MessageContext, commandName, stopwatch.ElapsedMilliseconds);
 
             return result;
         }
@@ -97,8 +93,8 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : IComma
         {
             stopwatch.Stop();
 
-            _logger.LogError(eventId: LoggingUtils.UnexpectedException, exception: ex,
-                message: "[END] {CommandName}: {ExecutionTime}[ms]", commandName, stopwatch.ElapsedMilliseconds);
+            _logger.LogError(eventId: LoggingUtils.UnexpectedError, message: "[END] {CommandName}: {ExecutionTime}[ms]",
+                exception: ex, messageContext: command.MessageContext, commandName, stopwatch.ElapsedMilliseconds);
 
             throw;
         }

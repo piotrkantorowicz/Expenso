@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.InApp;
 
@@ -12,16 +13,15 @@ internal sealed class SendNotificationAsync : FakeInAppServiceTestBase
         const string to = "to";
         const string subject = "subject";
         const string content = "body";
+        IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
 
         //Act
-        TestCandidate.SendNotificationAsync(from: from, to: to, subject: subject, content: content);
+        TestCandidate.SendNotificationAsync(messageContext: messageContext, from: from, to: to, subject: subject,
+            content: content);
 
         //Assert
-        _fakeLogger.Ex.Should().BeNull();
-
-        _fakeLogger
-            .Message.Should()
-            .Be(expected:
-                $"App notification from {from} to {to} with subject {subject} and content {content} sent successfully");
+        _loggerServiceMock.Verify(expression: x => x.LogInfo(LoggingUtils.GeneralInformation,
+            "App notification from {From} to {To} with subject {Subject} and content {Content} sent successfully",
+            messageContext, from, to, subject, content));
     }
 }

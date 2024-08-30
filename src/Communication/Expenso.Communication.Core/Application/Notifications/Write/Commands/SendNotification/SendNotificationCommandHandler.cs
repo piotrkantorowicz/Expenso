@@ -4,6 +4,7 @@ using Expenso.Communication.Core.Application.Notifications.Services.InApp;
 using Expenso.Communication.Core.Application.Notifications.Services.Push;
 using Expenso.Communication.Proxy.DTO.API.SendNotification;
 using Expenso.Shared.Commands;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
 
@@ -19,7 +20,7 @@ internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotif
 
     public async Task HandleAsync(SendNotificationCommand command, CancellationToken cancellationToken)
     {
-        (_, SendNotificationRequest? request) = command;
+        (IMessageContext messageContext, SendNotificationRequest? request) = command;
 
         (string? subject, string content, SendNotificationRequest_NotificationContext? context,
             SendNotificationRequest_NotificationType? type) = request!;
@@ -30,24 +31,24 @@ internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotif
         {
             IEmailService emailService = _notificationServiceFactory.GetService<IEmailService>();
 
-            await emailService.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc,
-                bcc: bcc, replyTo: replyTo);
+            await emailService.SendNotificationAsync(messageContext: messageContext, from: from, to: to,
+                subject: subject, content: content, cc: cc, bcc: bcc, replyTo: replyTo);
         }
 
         if (type?.Push == true)
         {
             IPushService pushService = _notificationServiceFactory.GetService<IPushService>();
 
-            await pushService.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc,
-                bcc: bcc, replyTo: replyTo);
+            await pushService.SendNotificationAsync(messageContext: messageContext, from: from, to: to,
+                subject: subject, content: content, cc: cc, bcc: bcc, replyTo: replyTo);
         }
 
         if (type?.InApp == true)
         {
             IInAppService inAppService = _notificationServiceFactory.GetService<IInAppService>();
 
-            await inAppService.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc,
-                bcc: bcc, replyTo: replyTo);
+            await inAppService.SendNotificationAsync(messageContext: messageContext, from: from, to: to,
+                subject: subject, content: content, cc: cc, bcc: bcc, replyTo: replyTo);
         }
     }
 }

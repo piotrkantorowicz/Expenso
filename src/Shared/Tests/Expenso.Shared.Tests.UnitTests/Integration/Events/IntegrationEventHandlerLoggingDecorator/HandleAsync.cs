@@ -1,7 +1,5 @@
 using Expenso.Shared.System.Logging;
 
-using Microsoft.Extensions.Logging;
-
 using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.Events.IntegrationEventHandlerLoggingDecorator;
@@ -17,8 +15,13 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.IntegrationEventExecuting);
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.IntegrationEventExecuted);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.IntegrationEventExecuting, It.IsAny<string>(),
+                _testIntegrationEvent.MessageContext, It.IsAny<object?[]>()), times: Times.Once);
+
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.IntegrationEventExecuted, It.IsAny<string>(),
+                _testIntegrationEvent.MessageContext, It.IsAny<object?[]>()), times: Times.Once);
     }
 
     [Test]
@@ -36,9 +39,13 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
         // Assert
         exception.Should().NotBeNull();
         exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.IntegrationEventExecuting);
 
-        _loggerMock.VerifyLog(logLevel: LogLevel.Error, eventId: LoggingUtils.UnexpectedException,
-            exception: exception);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.IntegrationEventExecuting, It.IsAny<string>(),
+                _testIntegrationEvent.MessageContext, It.IsAny<object?[]>()), times: Times.Once);
+
+        _loggerMock.Verify(
+            expression: x => x.LogError(LoggingUtils.UnexpectedError, It.IsAny<string>(), It.IsAny<Exception>(),
+                _testIntegrationEvent.MessageContext, It.IsAny<object?[]>()), times: Times.Once);
     }
 }

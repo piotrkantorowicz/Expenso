@@ -1,9 +1,8 @@
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.Events.Logging;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.TestData;
-
-using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -14,7 +13,7 @@ internal abstract class
     IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>
 {
     protected Mock<IIntegrationEventHandler<TestIntegrationEvent>> _integrationEventHandlerMock = null!;
-    protected Mock<ILogger<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>> _loggerMock = null!;
+    protected Mock<ILoggerService<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>> _loggerMock = null!;
     private Mock<ISerializer> _serializerMock = null!;
     protected TestIntegrationEvent _testIntegrationEvent = null!;
 
@@ -24,7 +23,7 @@ internal abstract class
         _testIntegrationEvent = new TestIntegrationEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
             MessageId: Guid.NewGuid(), Payload: "JYi9R7e7v2Qor");
 
-        _loggerMock = new Mock<ILogger<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>>();
+        _loggerMock = new Mock<ILoggerService<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>>();
         _integrationEventHandlerMock = new Mock<IIntegrationEventHandler<TestIntegrationEvent>>();
         _serializerMock = new Mock<ISerializer>();
 
