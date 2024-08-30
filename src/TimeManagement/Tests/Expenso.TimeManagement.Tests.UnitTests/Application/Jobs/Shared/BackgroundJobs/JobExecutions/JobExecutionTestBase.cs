@@ -1,12 +1,11 @@
 ﻿using Expenso.Shared.Integration.MessageBroker;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-
-using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -18,14 +17,14 @@ internal abstract class JobExecutionTestBase : TestBase<JobExecution>
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusRepositoryMock = null!;
     protected Mock<IJobInstanceRepository> _jobInstanceRepositoryMock = null!;
-    protected Mock<ILogger<JobExecution>> _loggerMock = null!;
+    protected Mock<ILoggerService<JobExecution>> _loggerMock = null!;
     protected Mock<IMessageBroker> _messageBrokerMock = null!;
     protected Mock<ISerializer> _serializerMock = null!;
 
     [SetUp]
     public void Setup()
     {
-        _loggerMock = new Mock<ILogger<JobExecution>>();
+        _loggerMock = new Mock<ILoggerService<JobExecution>>();
         _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
         _jobEntryStatusRepositoryMock = new Mock<IJobEntryStatusRepository>();
         _jobInstanceRepositoryMock = new Mock<IJobInstanceRepository>();

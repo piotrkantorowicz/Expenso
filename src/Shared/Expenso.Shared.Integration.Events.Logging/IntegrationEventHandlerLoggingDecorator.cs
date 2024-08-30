@@ -3,18 +3,17 @@ using System.Diagnostics;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 
-using Microsoft.Extensions.Logging;
-
 namespace Expenso.Shared.Integration.Events.Logging;
 
 internal sealed class IntegrationEventHandlerLoggingDecorator<TEvent> : IIntegrationEventHandler<TEvent>
     where TEvent : class, IIntegrationEvent
 {
     private readonly IIntegrationEventHandler<TEvent> _decorated;
-    private readonly ILogger<IntegrationEventHandlerLoggingDecorator<TEvent>> _logger;
+    private readonly ILoggerService<IntegrationEventHandlerLoggingDecorator<TEvent>> _logger;
     private readonly ISerializer _serializer;
 
-    public IntegrationEventHandlerLoggingDecorator(ILogger<IntegrationEventHandlerLoggingDecorator<TEvent>> logger,
+    public IntegrationEventHandlerLoggingDecorator(
+        ILoggerService<IntegrationEventHandlerLoggingDecorator<TEvent>> logger,
         IIntegrationEventHandler<TEvent> decorated, ISerializer serializer)
     {
         _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
@@ -24,12 +23,11 @@ internal sealed class IntegrationEventHandlerLoggingDecorator<TEvent> : IIntegra
 
     public async Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
     {
-        EventId executing = LoggingUtils.IntegrationEventExecuting;
-        EventId executed = LoggingUtils.IntegrationEventExecuted;
         string? eventName = @event.GetType().FullName;
         string serializedEvent = _serializer.Serialize(value: @event);
 
-        _logger.LogInformation(eventId: executing, message: "[START] {EventName}. Params: {SerializedEvent}", eventName,
+        _logger.LogInfo(eventId: LoggingUtils.IntegrationEventExecuting,
+            message: "[START] {EventName}. Params: {SerializedEvent}", messageContext: @event.MessageContext, eventName,
             serializedEvent);
 
         Stopwatch stopwatch = new();
@@ -40,15 +38,16 @@ internal sealed class IntegrationEventHandlerLoggingDecorator<TEvent> : IIntegra
             await _decorated.HandleAsync(@event: @event, cancellationToken: cancellationToken);
             stopwatch.Stop();
 
-            _logger.LogInformation(eventId: executed, message: "[END] {EventName}: {ExecutionTime}[ms]", eventName,
+            _logger.LogInfo(eventId: LoggingUtils.IntegrationEventExecuted,
+                message: "[END] {EventName}: {ExecutionTime}[ms]", messageContext: @event.MessageContext, eventName,
                 stopwatch.ElapsedMilliseconds);
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
 
-            _logger.LogError(eventId: LoggingUtils.UnexpectedException, exception: ex,
-                message: "[END] {EventName}: {ExecutionTime}[ms]", eventName, stopwatch.ElapsedMilliseconds);
+            _logger.LogError(eventId: LoggingUtils.UnexpectedError, message: "[END] {EventName}: {ExecutionTime}[ms]",
+                exception: ex, messageContext: @event.MessageContext, eventName, stopwatch.ElapsedMilliseconds);
 
             throw;
         }

@@ -23,6 +23,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
+        <ProjectReference Include="..\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
     </ItemGroup>
 
 </Project>

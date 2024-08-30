@@ -1,9 +1,8 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
-
-using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -12,7 +11,7 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerLoggingDecorator
 internal abstract class CommandHandlerLoggingDecoratorTestBase : TestBase<CommandHandlerLoggingDecorator<TestCommand>>
 {
     protected Mock<ICommandHandler<TestCommand>> _commandHandlerMock = null!;
-    protected Mock<ILogger<CommandHandlerLoggingDecorator<TestCommand>>> _loggerMock = null!;
+    protected Mock<ILoggerService<CommandHandlerLoggingDecorator<TestCommand>>> _loggerMock = null!;
     private Mock<ISerializer> _serializerMock = null!;
     protected TestCommand _testCommand = null!;
 
@@ -22,7 +21,7 @@ internal abstract class CommandHandlerLoggingDecoratorTestBase : TestBase<Comman
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Name: "JYi9R7e7v2Qor");
 
-        _loggerMock = new Mock<ILogger<CommandHandlerLoggingDecorator<TestCommand>>>();
+        _loggerMock = new Mock<ILoggerService<CommandHandlerLoggingDecorator<TestCommand>>>();
         _commandHandlerMock = new Mock<ICommandHandler<TestCommand>>();
         _serializerMock = new Mock<ISerializer>();
 

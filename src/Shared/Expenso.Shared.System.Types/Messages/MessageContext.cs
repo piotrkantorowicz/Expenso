@@ -6,17 +6,20 @@ namespace Expenso.Shared.System.Types.Messages;
 
 public sealed record MessageContext : IMessageContext
 {
-    internal MessageContext(Guid messageId, Guid correlationId, Guid requestedBy, DateTimeOffset timestamp)
+    internal MessageContext(Guid messageId, Guid correlationId, Guid requestedBy, DateTimeOffset timestamp,
+        string module)
     {
         MessageId = messageId;
         CorrelationId = correlationId;
         RequestedBy = requestedBy;
         Timestamp = timestamp;
+        ModuleId = module;
     }
 
     internal MessageContext(IExecutionContext? executionContext, IClock clock, Guid? messageId)
     {
         MessageId = messageId ?? Guid.NewGuid();
+        ModuleId = executionContext?.ModuleId ?? "Unknown";
         CorrelationId = executionContext?.CorrelationId ?? Guid.Empty;
 
         RequestedBy = Guid.TryParse(input: executionContext?.UserContext?.UserId, result: out Guid id)
@@ -25,6 +28,8 @@ public sealed record MessageContext : IMessageContext
 
         Timestamp = clock.UtcNow;
     }
+
+    public string ModuleId { get; }
 
     public Guid MessageId { get; }
 

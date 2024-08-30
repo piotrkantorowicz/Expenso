@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.Emails;
 
@@ -15,17 +16,15 @@ internal sealed class SendNotificationAsync : FakeEmailServiceTestBase
         const string content = "body";
         string[] cc = ["cc", "cc2"];
         string[] bcc = ["bcc", "bcc2", "bcc3"];
+        IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
 
         //Act
-        TestCandidate.SendNotificationAsync(from: from, to: to, subject: subject, content: content, cc: cc, bcc: bcc,
-            replyTo: replyTo);
+        TestCandidate.SendNotificationAsync(messageContext: messageContext, from: from, to: to, subject: subject,
+            content: content, cc: cc, bcc: bcc, replyTo: replyTo);
 
         //Assert
-        _fakeLogger.Ex.Should().BeNull();
-
-        _fakeLogger
-            .Message.Should()
-            .Be(expected:
-                $"Email notification from {from} to {to} with cc {string.Join(separator: ",", value: cc)} and bcc {string.Join(separator: ",", value: bcc)} and replyTo {replyTo} with subject {subject} and content {content} sent successfully");
+        _loggerServiceMock.Verify(expression: x => x.LogInfo(LoggingUtils.GeneralInformation,
+            "Email notification from {From} to {To} with cc {Cc} and bcc {Bcc} and replyTo {ReplyTo} with subject {Subject} and content {Content} sent successfully",
+            messageContext, from, to, string.Join(",", cc), string.Join(",", bcc), replyTo, subject, content));
     }
 }

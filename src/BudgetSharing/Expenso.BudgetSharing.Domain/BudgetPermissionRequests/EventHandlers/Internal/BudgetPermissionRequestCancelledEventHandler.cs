@@ -32,10 +32,11 @@ internal sealed class
     public async Task HandleAsync(BudgetPermissionRequestCancelledEvent @event, CancellationToken cancellationToken)
     {
         (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel>? participants) =
-            await _iamProxyService.GetUserNotificationAvailability(ownerId: @event.OwnerId, participantIds: new[]
-            {
-                @event.ParticipantId
-            }, cancellationToken: cancellationToken);
+            await _iamProxyService.GetUserNotificationAvailability(messageContext: @event.MessageContext,
+                ownerId: @event.OwnerId, participantIds: new[]
+                {
+                    @event.ParticipantId
+                }, cancellationToken: cancellationToken);
 
         PersonNotificationModel? participant =
             participants.FirstOrDefault(predicate: x => x.Person?.UserId == @event.ParticipantId.ToString());

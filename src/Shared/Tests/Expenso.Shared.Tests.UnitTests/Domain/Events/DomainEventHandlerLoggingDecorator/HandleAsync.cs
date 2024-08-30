@@ -1,6 +1,5 @@
 using Expenso.Shared.System.Logging;
-
-using Microsoft.Extensions.Logging;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Moq;
 
@@ -16,8 +15,13 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
         await TestCandidate.HandleAsync(@event: _testDomainEvent, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.DomainEventExecuting);
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.DomainEventExecuted);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.DomainEventExecuting, It.IsAny<string>(),
+                It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
+
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.DomainEventExecuted, It.IsAny<string>(),
+                It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
     }
 
     [Test]
@@ -35,9 +39,13 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
         // Assert
         exception.Should().NotBeNull();
         exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
-        _loggerMock.VerifyLog(logLevel: LogLevel.Information, eventId: LoggingUtils.DomainEventExecuting);
 
-        _loggerMock.VerifyLog(logLevel: LogLevel.Error, eventId: LoggingUtils.UnexpectedException,
-            exception: exception);
+        _loggerMock.Verify(
+            expression: x => x.LogInfo(LoggingUtils.DomainEventExecuting, It.IsAny<string>(),
+                It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
+
+        _loggerMock.Verify(
+            expression: x => x.LogError(LoggingUtils.UnexpectedError, It.IsAny<string>(), It.IsAny<Exception>(),
+                It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
     }
 }

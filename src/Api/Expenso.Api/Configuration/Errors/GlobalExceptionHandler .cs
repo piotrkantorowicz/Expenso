@@ -1,5 +1,6 @@
 using Expenso.Api.Configuration.Errors.Details;
 using Expenso.Shared.Domain.Types.Exceptions;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Microsoft.AspNetCore.Diagnostics;
@@ -18,17 +19,19 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         { typeof(DomainRuleValidationException), HandleInvalidModelStateException }
     };
 
-    private readonly ILogger<GlobalExceptionHandler> _logger;
+    private readonly ILoggerService<GlobalExceptionHandler> _logger;
 
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    public GlobalExceptionHandler(ILoggerService<GlobalExceptionHandler> logger)
     {
-        _logger = logger;
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
     }
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        _logger.LogError(exception: exception, message: "Exception occurred: {Message}", exception.Message);
+        _logger.LogError(eventId: LoggingUtils.UnexpectedError, exception: exception,
+            message: "Exception occurred: {Message}", args: exception.Message);
+
         Type type = exception.GetType();
 
         if (_exceptionHandlers.TryGetValue(key: type,

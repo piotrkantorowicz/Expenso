@@ -2,6 +2,8 @@ using System.Reflection;
 
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Events.Dispatchers;
+using Expenso.Shared.System.Configuration.Settings;
+using Expenso.Shared.System.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,11 +18,13 @@ internal abstract class DomainEventBrokerTestBase : TestBase<IDomainEventBroker>
     {
         Assembly[] assemblies = [typeof(DomainEventBrokerTestBase).Assembly];
 
-        ServiceProvider serviceProvider = new ServiceCollection()
+        IServiceCollection serviceCollection = new ServiceCollection()
             .AddDomainEvents(assemblies: assemblies)
             .AddLogging()
-            .BuildServiceProvider();
+            .AddInternalLogging();
 
+        serviceCollection.AddSingleton<ApplicationSettings>();
+        IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         TestCandidate = new TestCandidate(serviceProvider: serviceProvider);
     }
 }

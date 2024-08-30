@@ -14,6 +14,27 @@ public static class Modules
 {
     private static readonly Dictionary<string, ModuleDefinition> RegisteredModules = new();
 
+    public static string? GuessModule(string? requestPath)
+    {
+        var modulePrefixes = RegisteredModules
+            .Select(selector: x => new
+            {
+                Prefix = x.Value.ModulePrefix,
+                Name = x.Value.ModuleName
+            })
+            .ToList();
+
+        foreach (var modulePrefix in modulePrefixes)
+        {
+            if (requestPath?.Contains(value: modulePrefix.Prefix) == true)
+            {
+                return modulePrefix.Name;
+            }
+        }
+
+        return null;
+    }
+
     public static void RegisterModule<TModule>(Func<TModule>? moduleFactory = default) where TModule : ModuleDefinition
     {
         TModule moduleDefinition = moduleFactory is not null ? moduleFactory() : Activator.CreateInstance<TModule>();

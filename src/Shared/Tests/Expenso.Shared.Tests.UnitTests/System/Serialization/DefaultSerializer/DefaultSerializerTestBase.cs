@@ -1,9 +1,8 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
-
-using Microsoft.Extensions.Logging;
 
 using Moq;
 
@@ -36,7 +35,7 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
         }
     ];
 
-    private readonly Mock<ILogger<TestCandidate>> _loggerMock = new();
+    private readonly Mock<ILoggerService<TestCandidate>> _loggerMock = new();
 
     protected readonly JsonSerializerOptions _serializerOptions = new()
     {

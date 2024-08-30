@@ -1,14 +1,14 @@
 using System.Text.Json;
 
-using Microsoft.Extensions.Logging;
+using Expenso.Shared.System.Logging;
 
 namespace Expenso.Shared.System.Serialization.Default;
 
 internal sealed class DefaultSerializer : ISerializer
 {
-    private readonly ILogger<DefaultSerializer> _logger;
+    private readonly ILoggerService<DefaultSerializer> _logger;
 
-    public DefaultSerializer(ILogger<DefaultSerializer> logger)
+    public DefaultSerializer(ILoggerService<DefaultSerializer> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
     }
@@ -22,7 +22,8 @@ internal sealed class DefaultSerializer : ISerializer
             case JsonSerializerOptions serializerOptions:
                 return JsonSerializer.Deserialize<T>(json: value, options: serializerOptions);
             default:
-                _logger.LogWarning(message: "Unknown serializer options provided. Using default options");
+                _logger.LogWarning(eventId: LoggingUtils.SerializationWarning,
+                    message: "Unknown serializer options provided. Using default options");
 
                 return JsonSerializer.Deserialize<T>(json: value);
         }
@@ -42,7 +43,8 @@ internal sealed class DefaultSerializer : ISerializer
             case JsonSerializerOptions serializerOptions:
                 return JsonSerializer.Deserialize(json: value, returnType: type, options: serializerOptions);
             default:
-                _logger.LogWarning(message: "Unknown serializer options provided. Using default options");
+                _logger.LogWarning(eventId: LoggingUtils.SerializationWarning,
+                    message: "Unknown serializer options provided. Using default options");
 
                 return JsonSerializer.Deserialize(json: value, returnType: type);
         }
@@ -57,7 +59,8 @@ internal sealed class DefaultSerializer : ISerializer
             case JsonSerializerOptions serializerOptions:
                 return JsonSerializer.Serialize(value: value, options: serializerOptions);
             default:
-                _logger.LogWarning(message: "Unknown serializer options provided. Using default options");
+                _logger.LogWarning(eventId: LoggingUtils.SerializationWarning,
+                    message: "Unknown serializer options provided. Using default options");
 
                 return JsonSerializer.Serialize(value: value);
         }

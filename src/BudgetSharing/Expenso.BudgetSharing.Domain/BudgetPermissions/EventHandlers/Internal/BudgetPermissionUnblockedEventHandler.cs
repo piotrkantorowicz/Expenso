@@ -31,7 +31,8 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
     public async Task HandleAsync(BudgetPermissionUnblockedEvent @event, CancellationToken cancellationToken)
     {
         (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel?> participants) =
-            await _iamProxyService.GetUserNotificationAvailability(ownerId: @event.OwnerId,
+            await _iamProxyService.GetUserNotificationAvailability(messageContext: @event.MessageContext,
+                ownerId: @event.OwnerId,
                 participantIds: @event.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly(),
                 cancellationToken: cancellationToken);
 

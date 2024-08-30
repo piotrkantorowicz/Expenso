@@ -25,6 +25,7 @@ using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Configuration.Settings.Files;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
@@ -104,7 +105,8 @@ internal sealed class AppBuilder : IAppBuilder
             .AddMessageBroker()
             .AddClock()
             .AddMessageContext()
-            .AddDefaultSerializer();
+            .AddDefaultSerializer()
+            .AddInternalLogging();
 
         return this;
     }

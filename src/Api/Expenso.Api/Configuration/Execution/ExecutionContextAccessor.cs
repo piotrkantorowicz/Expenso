@@ -34,6 +34,17 @@ internal sealed class ExecutionContextAccessor : IExecutionContextAccessor
             }
         }
 
+        string? moduleId = null;
+
+        if (_httpContextAccessor.HttpContext?.Request.Headers.Keys.Any(predicate: x =>
+                x == ModuleIdMiddleware.ModuleMiddlewareHeaderKey) == true)
+        {
+            StringValues moduleIdValue =
+                _httpContextAccessor.HttpContext.Request.Headers[key: ModuleIdMiddleware.ModuleMiddlewareHeaderKey];
+
+            moduleId = moduleIdValue;
+        }
+
         UserContext? userContext = null;
 
         if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
@@ -43,7 +54,7 @@ internal sealed class ExecutionContextAccessor : IExecutionContextAccessor
             userContext = new UserContext(UserId: userId, Username: username);
         }
 
-        return new ExecutionContext(CorrelationId: correlationId, UserContext: userContext);
+        return new ExecutionContext(ModuleId: moduleId, CorrelationId: correlationId, UserContext: userContext);
     }
 
     private string? GetClaim(string claimName)

@@ -1,11 +1,10 @@
 ﻿using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.MessageBroker;
+using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-
-using Microsoft.Extensions.Logging;
 
 using NCrontab;
 
@@ -17,11 +16,11 @@ internal sealed class JobExecution : IJobExecution
     private readonly IJobEntryRepository _jobEntryRepository;
     private readonly IJobEntryStatusRepository _jobEntryStatusRepository;
     private readonly IJobInstanceRepository _jobInstanceRepository;
-    private readonly ILogger<JobExecution> _logger;
+    private readonly ILoggerService<JobExecution> _logger;
     private readonly IMessageBroker _messageBroker;
     private readonly ISerializer _serializer;
 
-    public JobExecution(ILogger<JobExecution> logger, IJobEntryRepository jobEntryRepository,
+    public JobExecution(ILoggerService<JobExecution> logger, IJobEntryRepository jobEntryRepository,
         IJobEntryStatusRepository jobEntryStatusRepository, ISerializer serializer, IMessageBroker messageBroker,
         IClock clock, IJobInstanceRepository jobInstanceRepository)
     {
@@ -52,8 +51,8 @@ internal sealed class JobExecution : IJobExecution
 
             if (jobInstance is null)
             {
-                _logger.LogInformation(message: "Job instance with id: {JobInstanceId} hasn't been found",
-                    jobInstanceId);
+                _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
+                    message: "Job instance with id: {JobInstanceId} hasn't been found", args: jobInstanceId);
 
                 return;
             }
@@ -64,8 +63,8 @@ internal sealed class JobExecution : IJobExecution
 
             if (jobEntries.Count == 0)
             {
-                _logger.LogInformation(message: "No active job entries found. JobInstanceId: {JobInstanceId}",
-                    jobInstanceId);
+                _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
+                    message: "No active job entries found. JobInstanceId: {JobInstanceId}", args: jobInstanceId);
 
                 return;
             }
@@ -75,7 +74,7 @@ internal sealed class JobExecution : IJobExecution
 
             if (jobStatuses.Count == 0)
             {
-                _logger.LogWarning(message: "No job entry statuses found");
+                _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning, message: "No job entry statuses found");
 
                 return;
             }
@@ -84,10 +83,10 @@ internal sealed class JobExecution : IJobExecution
             {
                 if (jobEntry.Triggers.Count == 0)
                 {
-                    _logger.LogWarning(
+                    _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                         message:
                         "Skipping job entry with id {JobEntryId} because it has no triggers. JobInstanceId: {JobInstanceId}",
-                        jobEntry.Id, jobInstanceId);
+                        args: [jobEntry.Id, jobInstanceId]);
 
                     continue;
                 }
@@ -103,10 +102,10 @@ internal sealed class JobExecution : IJobExecution
 
                         if (shouldRun is false)
                         {
-                            _logger.LogWarning(
+                            _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
                                 "Skipping job entry with id {JobEntryId} because it ended. JobInstanceId: {JobInstanceId}",
-                                jobEntry.Id, jobInstanceId);
+                                args: [jobEntry.Id, jobInstanceId]);
 
                             SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId);
 
@@ -120,10 +119,10 @@ internal sealed class JobExecution : IJobExecution
 
                         if (occurence is null)
                         {
-                            _logger.LogWarning(
+                            _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
                                 "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
-                                jobEntry.Id, jobInstanceId);
+                                args: [jobEntry.Id, jobInstanceId]);
 
                             SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId);
 
@@ -134,17 +133,18 @@ internal sealed class JobExecution : IJobExecution
 
                         if (shouldRun is false)
                         {
-                            _logger.LogDebug(
+                            _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
                                 message:
                                 "Skipping job entry with Id {JobEntryId} because it's out of the actual run. JobInstanceId: {JobInstanceId}",
-                                jobEntry.Id, jobInstanceId);
+                                args: [jobEntry.Id, jobInstanceId]);
 
                             continue;
                         }
                     }
 
-                    _logger.LogDebug(message: "Running job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
-                        jobEntry.Id, jobInstanceId);
+                    _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
+                        message: "Running job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                        args: [jobEntry.Id, jobInstanceId]);
 
                     List<IIntegrationEvent?> events = jobEntry
                         .Triggers.Select(selector: x =>
@@ -152,10 +152,10 @@ internal sealed class JobExecution : IJobExecution
                             if (x.EventData is null || x.EventData.Length == 0 || x.EventType is null ||
                                 Type.GetType(typeName: x.EventType) is null)
                             {
-                                _logger.LogWarning(
+                                _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                     message:
                                     "Skipping triggering events for job entry with Id {JobEntryId} because it's invalid. JobInstanceId: {JobInstanceId}",
-                                    jobEntry.Id, jobInstanceId);
+                                    args: [jobEntry.Id, jobInstanceId]);
 
                                 return null;
                             }
@@ -168,10 +168,10 @@ internal sealed class JobExecution : IJobExecution
                                 return (IIntegrationEvent)@event;
                             }
 
-                            _logger.LogWarning(
+                            _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
                                 "Failed to deserialize event trigger for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
-                                jobEntry.Id, jobInstanceId);
+                                args: [jobEntry.Id, jobInstanceId]);
 
                             return null;
                         })
@@ -186,21 +186,25 @@ internal sealed class JobExecution : IJobExecution
                                 cancellationToken: stoppingToken);
                         }
 
-                        _logger.LogDebug(
+                        _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
                             message:
                             "Published events: {Events} for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
-                            string.Join(separator: ",", values: events.Select(selector: x => x!.GetType().FullName)),
-                            jobEntry.Id, jobInstanceId);
+                            args:
+                            [
+                                string.Join(separator: ",",
+                                    values: events.Select(selector: x => x!.GetType().FullName)),
+                                jobEntry.Id, jobInstanceId
+                            ]);
                     }
 
                     jobEntry.LastRun = occurence ?? jobExecutionStartTime;
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(exception: ex,
+                    _logger.LogError(eventId: LoggingUtils.BackgroundJobError, exception: ex,
                         message:
                         "An error occurred while processing and job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
-                        jobEntry.Id, jobInstanceId);
+                        args: [jobEntry.Id, jobInstanceId]);
 
                     jobEntry.JobStatus =
                         jobEntry.MaxRetries is not null && jobEntry.MaxRetries >= (jobEntry.CurrentRetries ?? 0)
@@ -220,17 +224,17 @@ internal sealed class JobExecution : IJobExecution
         }
         catch (Exception ex)
         {
-            _logger.LogError(exception: ex,
-                message: "An error occurred while processing job. JobInstanceId: {JobInstanceId}", jobInstanceId);
+            _logger.LogError(eventId: LoggingUtils.BackgroundJobError, exception: ex,
+                message: "An error occurred while processing job. JobInstanceId: {JobInstanceId}", args: jobInstanceId);
         }
     }
 
     private void SetJobAsCompleted(JobEntry currentJobEntry, Guid jobTypeInstance)
     {
-        _logger.LogDebug(
+        _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
             message:
             "All periods for job entry with Id {JobEntryId} have been completed. JobInstanceId: {JobInstanceId}",
-            currentJobEntry.Id, jobTypeInstance);
+            args: [currentJobEntry.Id, jobTypeInstance]);
 
         currentJobEntry.JobStatus = JobEntryStatus.Completed;
         currentJobEntry.IsCompleted = true;

@@ -19,4 +19,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
+    </ItemGroup>
+
 </Project>

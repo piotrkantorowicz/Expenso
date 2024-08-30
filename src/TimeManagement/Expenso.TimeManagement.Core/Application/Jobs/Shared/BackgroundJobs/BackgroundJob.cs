@@ -1,3 +1,4 @@
+using Expenso.Shared.System.Logging;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
@@ -9,18 +10,23 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
 
 internal sealed class BackgroundJob : BackgroundService
 {
+    private readonly ILoggerService<BackgroundJob> _logger;
     private readonly IServiceProvider _serviceProvider;
     private TimeSpan _interval;
     private JobInstance? _jobInstance;
     private Guid _jobInstanceId;
 
-    public BackgroundJob(IServiceProvider serviceProvider)
+    public BackgroundJob(IServiceProvider serviceProvider, ILoggerService<BackgroundJob> logger)
     {
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
     }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInfo(eventId: LoggingUtils.BackgroundJobStarting,
+            message: "Running the background job {JobInstanceId}", args: _jobInstanceId);
+
         using IServiceScope scope = _serviceProvider.CreateScope();
 
         IJobInstanceRepository jobInstanceRepository =
@@ -39,8 +45,19 @@ internal sealed class BackgroundJob : BackgroundService
         await base.StartAsync(cancellationToken: cancellationToken);
     }
 
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInfo(eventId: LoggingUtils.BackgroundJobFinished,
+            message: "Finished running the background job {JobInstanceId}", args: _jobInstanceId);
+
+        return base.StopAsync(cancellationToken: cancellationToken);
+    }
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
+            message: "Start processing entry for background job {JobInstanceId}...", args: _jobInstanceId);
+
         while (!stoppingToken.IsCancellationRequested)
         {
             await DoWork(stoppingToken: stoppingToken);

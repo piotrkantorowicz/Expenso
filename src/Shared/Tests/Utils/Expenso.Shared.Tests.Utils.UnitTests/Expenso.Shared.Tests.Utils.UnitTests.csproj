@@ -34,6 +34,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\..\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
         <ProjectReference Include="..\..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
     </ItemGroup>
 

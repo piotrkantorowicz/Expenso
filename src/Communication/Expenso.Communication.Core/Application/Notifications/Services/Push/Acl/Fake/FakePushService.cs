@@ -1,23 +1,24 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Core.Application.Notifications.Services.Push.Acl.Fake;
 
 internal sealed class FakePushService : IPushService
 {
-    private readonly ILogger<FakePushService> _logger;
+    private readonly ILoggerService<FakePushService> _logger;
 
-    public FakePushService(ILogger<FakePushService> logger)
+    public FakePushService(ILoggerService<FakePushService> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
     }
 
-    public Task SendNotificationAsync(string from, string to, string? subject, string content, string[]? cc = null,
-        string[]? bcc = null, string? replyTo = null)
+    public Task SendNotificationAsync(IMessageContext messageContext, string from, string to, string? subject,
+        string content, string[]? cc = null, string[]? bcc = null, string? replyTo = null)
     {
-        _logger.LogInformation(
+        _logger.LogInfo(eventId: LoggingUtils.GeneralInformation,
             message:
             "Push notification from {From} to {To} with subject {Subject} and content {Content} sent successfully",
-            from, to, subject, content);
+            messageContext: messageContext, from, to, subject, content);
 
         return Task.CompletedTask;
     }
