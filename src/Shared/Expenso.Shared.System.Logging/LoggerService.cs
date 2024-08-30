@@ -55,7 +55,7 @@ internal sealed class LoggerService<T> : ILoggerService<T>
     public void LogCritical(EventId eventId, string? message, Exception? exception = null,
         IMessageContext? messageContext = null, params object?[] args)
     {
-        Log(messageContext: messageContext, logLevel: LogLevel.Error, eventId: eventId, exception: exception,
+        Log(messageContext: messageContext, logLevel: LogLevel.Critical, eventId: eventId, exception: exception,
             message: message, args: args);
     }
 
@@ -63,7 +63,17 @@ internal sealed class LoggerService<T> : ILoggerService<T>
         string? message, params object?[] args)
     {
         ILogger<T> logger = _loggerFactory.CreateLogger<T>();
+        List<KeyValuePair<string, object>> parameters = GetLogParameters(messageContext: messageContext);
 
+        using (logger.BeginScope(state: parameters))
+        {
+            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
+            logger.Log(logLevel: logLevel, eventId: eventId, exception: exception, message: message, args: args);
+        }
+    }
+
+    private List<KeyValuePair<string, object>> GetLogParameters(IMessageContext? messageContext)
+    {
         List<KeyValuePair<string, object>> parameters = new()
         {
             new KeyValuePair<string, object>(key: "AppId", value: _applicationSettings.InstanceId)
@@ -91,10 +101,6 @@ internal sealed class LoggerService<T> : ILoggerService<T>
             ]);
         }
 
-        using (logger.BeginScope(state: parameters))
-        {
-            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
-            logger.Log(logLevel: logLevel, eventId: eventId, exception: exception, message: message, args: args);
-        }
+        return parameters;
     }
 }
