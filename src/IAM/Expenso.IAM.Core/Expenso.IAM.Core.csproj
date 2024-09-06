@@ -8,8 +8,8 @@
 
     <ItemGroup>
         <PackageReference Include="IdentityModel" Version="7.0.0"/>
-        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.5.2"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7"/>
+        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.5.3"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
     </ItemGroup>

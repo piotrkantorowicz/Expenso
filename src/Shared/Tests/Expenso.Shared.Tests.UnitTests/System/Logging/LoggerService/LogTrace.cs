@@ -13,14 +13,14 @@ internal sealed class LogTrace : LoggerServiceTestBase
     {
         // Arrange
         const string message = "Test trace message";
-        EventId eventId = new EventId(id: 1000, name: "TestEvent");
+        EventId eventId = new(id: 1000, name: "TestEvent");
         IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
 
         // Act
         TestCandidate.LogTrace(eventId: eventId, message: message, messageContext: messageContext);
 
         // Assert
-        _loggerMock.Verify(
+        _loggerMock?.Verify(
             expression: x => x.Log(LogLevel.Trace, eventId,
                 It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), null,
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);

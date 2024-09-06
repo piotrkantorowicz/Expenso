@@ -8,6 +8,8 @@ internal interface IAppBuilder
 
     IAppBuilder ConfigureSharedFramework();
 
+    IAppBuilder ConfigureHealthChecks();
+
     IAppBuilder ConfigureMvc();
 
     IAppBuilder ConfigureCache();

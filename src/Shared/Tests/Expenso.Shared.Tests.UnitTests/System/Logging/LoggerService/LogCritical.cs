@@ -13,16 +13,16 @@ internal sealed class LogCritical : LoggerServiceTestBase
     {
         // Arrange
         const string message = "Test critical message";
-        EventId eventId = new EventId(id: 1005, name: "TestEvent");
+        EventId eventId = new(id: 1005, name: "TestEvent");
         IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
-        Exception exception = new Exception(message: "Test exception");
+        Exception exception = new(message: "Test exception");
 
         // Act
         TestCandidate.LogCritical(eventId: eventId, message: message, exception: exception,
             messageContext: messageContext);
 
         // Assert
-        _loggerMock.Verify(
+        _loggerMock?.Verify(
             expression: x => x.Log(LogLevel.Critical, eventId,
                 It.Is<It.IsAnyType>((v, _) => v.ToString()!.StartsWith(message)), exception,
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()!), times: Times.Once);

@@ -5,7 +5,6 @@ RUN dotnet restore src/Api/Expenso.Api/Expenso.Api.csproj && dotnet publish src/
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 WORKDIR /app
 COPY --from=builder /app/out .
-ENV ASPNETCORE_URLS=http://*:8080;http://*:8081
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 5084
+ENV ASPNETCORE_URLS=http://+:5084
 ENTRYPOINT ["dotnet", "Expenso.Api.dll"]
