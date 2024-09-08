@@ -183,6 +183,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Tasks", "src\Shared\Expenso.Shared.System.Tasks\Expenso.Shared.System.Tasks.csproj", "{E4DCA7BE-7372-44D2-87AF-3FB876580671}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".husky", ".husky", "{15C2C054-2258-42DF-A4FC-3448AB83BCDF}"
+	ProjectSection(SolutionItems) = preProject
+		.husky\pre-commit = .husky\pre-commit
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
