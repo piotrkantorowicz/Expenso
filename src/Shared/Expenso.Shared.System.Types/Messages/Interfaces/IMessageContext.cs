@@ -2,7 +2,7 @@ namespace Expenso.Shared.System.Types.Messages.Interfaces;
 
 public interface IMessageContext
 {
-    string ModuleId { get; }
+    string? ModuleId { get; }
 
     Guid MessageId { get; }
 

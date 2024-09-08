@@ -20,6 +20,7 @@ internal sealed class BackgroundJob : BackgroundService
     {
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _jobInstanceId = JobInstance.Default.Id;
     }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
@@ -32,8 +33,6 @@ internal sealed class BackgroundJob : BackgroundService
         IJobInstanceRepository jobInstanceRepository =
             scope.ServiceProvider.GetRequiredService<IJobInstanceRepository>() ??
             throw new ArgumentException(message: $"{nameof(jobInstanceRepository)} is null");
-
-        _jobInstanceId = JobInstance.Default.Id;
 
         JobInstance? jobInstance =
             await jobInstanceRepository.GetAsync(id: _jobInstanceId, cancellationToken: cancellationToken);

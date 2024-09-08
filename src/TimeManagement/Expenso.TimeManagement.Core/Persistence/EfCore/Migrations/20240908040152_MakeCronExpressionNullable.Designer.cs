@@ -3,6 +3,7 @@ using System;
 using Expenso.TimeManagement.Core.Persistence.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
 {
     [DbContext(typeof(TimeManagementDbContext))]
-    partial class TimeManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240908040152_MakeCronExpressionNullable")]
+    partial class MakeCronExpressionNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

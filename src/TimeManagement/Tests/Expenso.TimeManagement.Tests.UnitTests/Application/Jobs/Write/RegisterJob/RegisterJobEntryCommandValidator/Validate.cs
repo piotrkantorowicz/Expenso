@@ -186,6 +186,63 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     }
 
     [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_WhenRunAtIsInvalid()
+    {
+        // Arrange
+        DateTimeOffset runAt = _clockMock.Object.UtcNow.AddSeconds(seconds: -1);
+
+        // Act
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        {
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            {
+                RunAt = runAt,
+                Interval = null
+            }
+        });
+
+        // Assert
+        validationResult.Should().NotBeNullOrEmpty();
+
+        string expectedValidationMessage = new StringBuilder()
+            .Append(value: "RunAt must be greater than current time. Provided: ")
+            .Append(value: runAt)
+            .Append(value: ". Current: ")
+            .Append(value: _clockMock.Object.UtcNow)
+            .ToString();
+
+        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)];
+        error.Should().Be(expected: expectedValidationMessage);
+    }
+
+    [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_WhenCronExpressionisInvalid()
+    {
+        // Arrange
+        // Act
+        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        {
+            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            {
+                RunAt = null,
+                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 8)
+            }
+        });
+
+        // Assert
+        validationResult.Should().NotBeNullOrEmpty();
+
+        string expectedValidationMessage = new StringBuilder()
+            .Append(
+                value:
+                "Unable to parse provided interval, because of 8 is higher than the maximum allowable value for the [DayOfWeek] field. Value must be between 0 and 6 (all inclusive).")
+            .ToString();
+
+        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)];
+        error.Should().Be(expected: expectedValidationMessage);
+    }
+
+    [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_WhenEventTriggerIsEmpty()
     {
         // Arrange

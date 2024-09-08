@@ -30,7 +30,7 @@ internal abstract class JobExecutionTestBase : TestBase<JobExecution>
         _jobInstanceRepositoryMock = new Mock<IJobInstanceRepository>();
 
         _jobEntryStatusRepositoryMock
-            .Setup(expression: x => x.GetAsync(It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: new List<JobEntryStatus>
             {
                 JobEntryStatus.Running,

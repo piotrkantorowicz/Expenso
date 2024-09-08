@@ -19,7 +19,8 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
             .HasForeignKey(foreignKeyExpression: e => e.JobInstanceId)
             .IsRequired();
 
-        builder.Property(propertyExpression: x => x.CronExpression).IsRequired();
+        builder.Property(propertyExpression: x => x.CronExpression).IsRequired(required: false);
+        builder.Property(propertyExpression: x => x.RunAt).IsRequired(required: false);
         builder.Property(propertyExpression: x => x.IsCompleted).IsRequired(required: false);
         builder.Property(propertyExpression: x => x.CurrentRetries).IsRequired(required: false);
         builder.Property(propertyExpression: x => x.MaxRetries).IsRequired();

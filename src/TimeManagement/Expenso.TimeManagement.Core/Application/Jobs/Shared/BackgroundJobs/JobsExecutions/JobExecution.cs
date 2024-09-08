@@ -2,6 +2,7 @@
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
+using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
@@ -88,6 +89,9 @@ internal sealed class JobExecution : IJobExecution
                         "Skipping job entry with id {JobEntryId} because it has no triggers. JobInstanceId: {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
+                    await SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId,
+                        stoppingToken: stoppingToken);
+
                     continue;
                 }
 
@@ -104,17 +108,25 @@ internal sealed class JobExecution : IJobExecution
                         {
                             _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
-                                "Skipping job entry with id {JobEntryId} because it ended. JobInstanceId: {JobInstanceId}",
+                                "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
                                 args: [jobEntry.Id, jobInstanceId]);
 
-                            SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId);
+                            await SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId,
+                                stoppingToken: stoppingToken);
 
                             continue;
                         }
                     }
                     else
                     {
-                        CrontabSchedule? schedule = CrontabSchedule.Parse(expression: jobEntry.CronExpression);
+                        CrontabSchedule.ParseOptions options = new()
+                        {
+                            IncludingSeconds = jobEntry.CronExpression.Split(separator: ' ').Length == 6
+                        };
+
+                        CrontabSchedule? schedule =
+                            CrontabSchedule.Parse(expression: jobEntry.CronExpression, options: options);
+
                         occurence = schedule?.GetNextOccurrence(baseTime: jobExecutionStartTime);
 
                         if (occurence is null)
@@ -124,7 +136,8 @@ internal sealed class JobExecution : IJobExecution
                                 "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
                                 args: [jobEntry.Id, jobInstanceId]);
 
-                            SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId);
+                            await SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId,
+                                stoppingToken: stoppingToken);
 
                             continue;
                         }
@@ -142,7 +155,7 @@ internal sealed class JobExecution : IJobExecution
                         }
                     }
 
-                    _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
+                    _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
                         message: "Running job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
@@ -161,7 +174,8 @@ internal sealed class JobExecution : IJobExecution
                             }
 
                             object? @event = _serializer.Deserialize(value: x.EventData,
-                                type: Type.GetType(typeName: x.EventType)!);
+                                type: Type.GetType(typeName: x.EventType)!,
+                                settings: DefaultSerializerOptions.DefaultSettings);
 
                             if (@event is not null)
                             {
@@ -198,6 +212,7 @@ internal sealed class JobExecution : IJobExecution
                     }
 
                     jobEntry.LastRun = occurence ?? jobExecutionStartTime;
+                    await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: stoppingToken);
                 }
                 catch (Exception ex)
                 {
@@ -215,9 +230,7 @@ internal sealed class JobExecution : IJobExecution
                     {
                         jobEntry.CurrentRetries++;
                     }
-                }
-                finally
-                {
+
                     await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: stoppingToken);
                 }
             }
@@ -229,14 +242,16 @@ internal sealed class JobExecution : IJobExecution
         }
     }
 
-    private void SetJobAsCompleted(JobEntry currentJobEntry, Guid jobTypeInstance)
+    private async Task SetJobAsCompleted(JobEntry currentJobEntry, Guid jobTypeInstance,
+        CancellationToken stoppingToken)
     {
-        _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
+        _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
             message:
             "All periods for job entry with Id {JobEntryId} have been completed. JobInstanceId: {JobInstanceId}",
             args: [currentJobEntry.Id, jobTypeInstance]);
 
         currentJobEntry.JobStatus = JobEntryStatus.Completed;
         currentJobEntry.IsCompleted = true;
+        await _jobEntryRepository.AddOrUpdateAsync(jobEntry: currentJobEntry, cancellationToken: stoppingToken);
     }
 }

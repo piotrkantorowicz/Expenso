@@ -25,7 +25,7 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
         Guid? jobEntryId = command.CancelJobEntryRequest?.JobEntryId;
 
         JobEntry? jobEntry = await _jobEntryRepository.GetJobEntry(jobEntryId: jobEntryId,
-            cancellationToken: cancellationToken, useTracking: true);
+            cancellationToken: cancellationToken);
 
         if (jobEntry is null)
         {

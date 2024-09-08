@@ -14,7 +14,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
     {
         // Arrange
         _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobEntryStatus.Cancelled);
 
         _jobEntryRepositoryMock
@@ -53,7 +53,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
     {
         // Arrange
         _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: null);
 
         _jobEntryRepositoryMock

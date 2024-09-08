@@ -2,17 +2,23 @@
 
 using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.System.Serialization;
+using Expenso.Shared.System.Serialization.Default;
+using Expenso.Shared.System.Types.Clock;
 using Expenso.TimeManagement.Proxy.DTO.Request;
+
+using NCrontab;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
 internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<RegisterJobEntryCommand>
 {
+    private readonly IClock _clock;
     private readonly ISerializer _serializer;
 
-    public RegisterJobEntryCommandValidator(ISerializer serializer)
+    public RegisterJobEntryCommandValidator(ISerializer serializer, IClock clock)
     {
         _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
+        _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
     }
 
     public IDictionary<string, string> Validate(RegisterJobEntryCommand? command)
@@ -58,6 +64,38 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
                     .ToString(), value: "RunAt and Interval cannot be used together");
         }
 
+        if (command.RegisterJobEntryRequest?.Interval is not null)
+        {
+            try
+            {
+                string cronExpression = command.RegisterJobEntryRequest.Interval.GetCronExpression();
+
+                CrontabSchedule.Parse(expression: cronExpression, options: new CrontabSchedule.ParseOptions
+                {
+                    IncludingSeconds = command.RegisterJobEntryRequest.Interval.UseSeconds
+                });
+            }
+            catch (CrontabException crontabException)
+            {
+                errors.Add(key: nameof(command.RegisterJobEntryRequest.Interval),
+                    value: new StringBuilder()
+                        .Append(value: "Unable to parse provided interval, because of ")
+                        .Append(value: crontabException.Message)
+                        .ToString());
+            }
+        }
+
+        if (command.RegisterJobEntryRequest?.RunAt is not null && command.RegisterJobEntryRequest.RunAt < _clock.UtcNow)
+        {
+            errors.Add(key: nameof(command.RegisterJobEntryRequest.RunAt),
+                value: new StringBuilder()
+                    .Append(value: "RunAt must be greater than current time. Provided: ")
+                    .Append(value: command.RegisterJobEntryRequest.RunAt)
+                    .Append(value: ". Current: ")
+                    .Append(value: _clock.UtcNow)
+                    .ToString());
+        }
+
         ICollection<RegisterJobEntryRequest_JobEntryTrigger>? jobEntryTriggers =
             command.RegisterJobEntryRequest?.JobEntryTriggers;
 
@@ -85,7 +123,8 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             }
 
             if (jobEntryTrigger.EventType is not null && _serializer.Deserialize(value: jobEntryTrigger.EventData!,
-                    type: Type.GetType(typeName: jobEntryTrigger.EventType)) is null)
+                    type: Type.GetType(typeName: jobEntryTrigger.EventType),
+                    settings: DefaultSerializerOptions.DefaultSettings) is null)
             {
                 errors.Add(
                     key: new StringBuilder()

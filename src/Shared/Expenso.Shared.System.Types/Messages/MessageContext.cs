@@ -6,6 +6,11 @@ namespace Expenso.Shared.System.Types.Messages;
 
 public sealed record MessageContext : IMessageContext
 {
+    public MessageContext()
+    {
+        // Require for serialization
+    }
+
     internal MessageContext(Guid messageId, Guid correlationId, Guid requestedBy, DateTimeOffset timestamp,
         string module)
     {
@@ -29,7 +34,7 @@ public sealed record MessageContext : IMessageContext
         Timestamp = clock.UtcNow;
     }
 
-    public string ModuleId { get; }
+    public string? ModuleId { get; }
 
     public Guid MessageId { get; }
 
