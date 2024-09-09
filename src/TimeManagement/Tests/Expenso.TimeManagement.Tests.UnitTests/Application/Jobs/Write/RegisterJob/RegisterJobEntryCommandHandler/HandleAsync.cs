@@ -63,7 +63,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         _jobEntryRepositoryMock.Verify(expression: x =>
             x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
 
-        result?.CronExpression.Should().Be(expected: "30 12 10 6 5 30");
+        result?.CronExpression.Should().Be(expected: "30 30 12 10 6 5");
     }
 
     [Test]

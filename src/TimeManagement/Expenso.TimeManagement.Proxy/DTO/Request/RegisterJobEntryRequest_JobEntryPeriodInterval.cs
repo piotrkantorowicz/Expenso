@@ -1,4 +1,6 @@
-﻿namespace Expenso.TimeManagement.Proxy.DTO.Request;
+﻿using System.Text;
+
+namespace Expenso.TimeManagement.Proxy.DTO.Request;
 
 public sealed record RegisterJobEntryRequest_JobEntryPeriodInterval(
     int? DayOfWeek = null,
@@ -9,10 +11,34 @@ public sealed record RegisterJobEntryRequest_JobEntryPeriodInterval(
     int? Second = null,
     bool UseSeconds = false)
 {
+    /*
+     * 1. Second
+     * 2. Minute
+     * 3. Hour
+     * 4. Day of month
+     * 5. Month
+     * 6. Day of week
+     */
     public string GetCronExpression()
     {
-        return UseSeconds
-            ? $"{Second} {Minute} {Hour} {DayofMonth} {Month} {DayOfWeek}"
-            : $"{Minute} {Hour} {DayofMonth} {Month} {DayOfWeek}";
+        StringBuilder stringBuilder = new();
+
+        if (UseSeconds)
+        {
+            stringBuilder.Append(value: Second?.ToString() ?? "*");
+            stringBuilder.Append(value: ' ');
+        }
+
+        stringBuilder.Append(value: Minute?.ToString() ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: Hour?.ToString() ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: DayofMonth?.ToString() ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: Month?.ToString() ?? "*");
+        stringBuilder.Append(value: ' ');
+        stringBuilder.Append(value: DayOfWeek?.ToString() ?? "*");
+
+        return stringBuilder.ToString();
     }
 }
