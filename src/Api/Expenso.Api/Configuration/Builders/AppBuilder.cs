@@ -26,6 +26,8 @@ using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Configuration.Settings.Files;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Serilog;
+using Expenso.Shared.System.Metrics;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
@@ -57,6 +59,7 @@ internal sealed class AppBuilder : IAppBuilder
     private FilesSettings? _filesSettings;
     private KeycloakProtectionClientOptions? _keycloakProtectionClientOptions;
     private NotificationSettings? _notificationSettings;
+    private OtlpSettings? _otlpSettings;
 
     public AppBuilder(string[] args)
     {
@@ -70,6 +73,7 @@ internal sealed class AppBuilder : IAppBuilder
         ConfigureAppSettings();
         _services.AddHttpContextAccessor();
         _services.AddScoped<IExecutionContextAccessor, ExecutionContextAccessor>();
+        _services.AddRouting(configureOptions: options => options.LowercaseUrls = true);
 
         return this;
     }
@@ -91,6 +95,9 @@ internal sealed class AppBuilder : IAppBuilder
     {
         IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
 
+        _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: _otlpSettings!.Endpoint,
+            otlpService: _otlpSettings!.ServiceName);
+
         _services
             .AddCommands(assemblies: assemblies)
             .AddCommandsValidations(assemblies: assemblies)
@@ -106,7 +113,15 @@ internal sealed class AppBuilder : IAppBuilder
             .AddClock()
             .AddMessageContext()
             .AddDefaultSerializer()
-            .AddInternalLogging();
+            .AddInternalLogging()
+            .AddOtlpMetrics(otlpSettings: _otlpSettings);
+
+        return this;
+    }
+
+    public IAppBuilder ConfigureHealthChecks()
+    {
+        _services.AddHealthChecks();
 
         return this;
     }
@@ -214,12 +229,14 @@ internal sealed class AppBuilder : IAppBuilder
         _configuration.TryBindOptions(sectionName: SectionNames.Auth, options: out _authSettings);
         _configuration.TryBindOptions(sectionName: SectionNames.Files, options: out _filesSettings);
         _configuration.TryBindOptions(sectionName: SectionNames.Notifications, options: out _notificationSettings);
+        _configuration.TryBindOptions(sectionName: SectionNames.Otlp, options: out _otlpSettings);
         _services.AddSingleton(implementationInstance: _efCoreSettings!);
         _services.AddSingleton(implementationInstance: _applicationSettings!);
         _services.AddSingleton(implementationInstance: _keycloakProtectionClientOptions!);
         _services.AddSingleton(implementationInstance: _authSettings!);
         _services.AddSingleton(implementationInstance: _filesSettings!);
         _services.AddSingleton(implementationInstance: _notificationSettings!);
+        _services.AddSingleton(implementationInstance: _otlpSettings!);
     }
 
     private void ConfigureKeycloak(string tokenHandlerClient, string? keyCloakAdminSection = null)

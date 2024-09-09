@@ -10,11 +10,11 @@
     <ItemGroup>
         <PackageReference Include="Duende.AccessTokenManagement" Version="3.0.0"/>
         <PackageReference Include="IdentityModel" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0"/>
-        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.5.2"/>
-        <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.5.2"/>
-        <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.5.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3"/>
+        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.5.3"/>
+        <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.5.3"/>
+        <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.5.3"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -31,6 +31,8 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging.Serilog\Expenso.Shared.System.Logging.Serilog.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Metrics\Expenso.Shared.System.Metrics.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj"/>

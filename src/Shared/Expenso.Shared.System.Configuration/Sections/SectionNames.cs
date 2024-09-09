@@ -7,4 +7,5 @@ public static class SectionNames
     public const string Auth = "Authentication";
     public const string Files = "Files";
     public const string Notifications = "Notifications";
+    public const string Otlp = "Otlp";
 }

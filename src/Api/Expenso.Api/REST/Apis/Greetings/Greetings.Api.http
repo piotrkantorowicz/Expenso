@@ -5,4 +5,4 @@ Content-Type: application/json
 ### HelloUser
 GET {{apiHostAddress}}/{{greetingsRoute}}/hello-user
 Content-Type: application/json
-Authorization: Bearer {{apiAccessToken}}
+Authorization: Bearer {{apiAccessToken}}  

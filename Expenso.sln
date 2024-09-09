@@ -188,6 +188,57 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".husky", ".husky", "{15C2C0
 		.husky\pre-commit = .husky\pre-commit
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Metrics", "src\Shared\Expenso.Shared.System.Metrics\Expenso.Shared.System.Metrics.csproj", "{C01CFF7F-F48C-4654-923B-E30EBA5C69C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Logging.Serilog", "src\Shared\Expenso.Shared.System.Logging.Serilog\Expenso.Shared.System.Logging.Serilog.csproj", "{B63AA70F-832A-45A4-9C90-EBAA33D0680A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}"
+	ProjectSection(SolutionItems) = preProject
+		docker\blackbox.yml = docker\blackbox.yml
+		docker\loki.yml = docker\loki.yml
+		docker\otel.yml = docker\otel.yml
+		docker\prometheus.yml = docker\prometheus.yml
+		docker\tempo.yml = docker\tempo.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grafana", "grafana", "{012006D8-A96A-4D31-BA7D-B3C6C12DEBD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provisioning", "provisioning", "{6CEDB2A5-8B9F-4B5D-82F2-F006AC736BCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "alerting", "alerting", "{339AA0DB-D443-4642-A9C0-64A5C4EF0D10}"
+	ProjectSection(SolutionItems) = preProject
+		docker\grafana\provisioning\alerting\alerts.yml = docker\grafana\provisioning\alerting\alerts.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", "{75B42676-9E45-4051-A4C2-A03831E99056}"
+	ProjectSection(SolutionItems) = preProject
+		docker\grafana\provisioning\dashboards\PrometheusBlackboxExporter.json = docker\grafana\provisioning\dashboards\PrometheusBlackboxExporter.json
+		docker\grafana\provisioning\dashboards\dashboards.yml = docker\grafana\provisioning\dashboards\dashboards.yml
+		docker\grafana\provisioning\dashboards\aspnetcore-endpoint.json = docker\grafana\provisioning\dashboards\aspnetcore-endpoint.json
+		docker\grafana\provisioning\dashboards\aspnetcore.json = docker\grafana\provisioning\dashboards\aspnetcore.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "datasources", "datasources", "{E4985FAB-AE7F-4DFB-9F5A-885747D373D6}"
+	ProjectSection(SolutionItems) = preProject
+		docker\grafana\provisioning\datasources\datasources.yml = docker\grafana\provisioning\datasources\datasources.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "compose", "compose", "{F4B0300E-F25D-4FBE-BF8E-0A39BB31A0C2}"
+	ProjectSection(SolutionItems) = preProject
+		docker\compose\.env = docker\compose\.env
+		docker\compose\docker-compose.yml = docker\compose\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{08B7797C-2290-40C0-839D-2D571E39ADB1}"
+	ProjectSection(SolutionItems) = preProject
+		docker\sql\init.sql = docker\sql\init.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{14CE8E46-0D8A-44C2-9444-6AA98FF8F7DC}"
+	ProjectSection(SolutionItems) = preProject
+		docker\keycloak\expenso_realm.json = docker\keycloak\expenso_realm.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -446,6 +497,14 @@ Global
 		{E4DCA7BE-7372-44D2-87AF-3FB876580671}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4DCA7BE-7372-44D2-87AF-3FB876580671}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4DCA7BE-7372-44D2-87AF-3FB876580671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C01CFF7F-F48C-4654-923B-E30EBA5C69C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C01CFF7F-F48C-4654-923B-E30EBA5C69C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C01CFF7F-F48C-4654-923B-E30EBA5C69C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C01CFF7F-F48C-4654-923B-E30EBA5C69C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7282BA62-2026-4B42-8A11-581AB03F589C} = {F3AA041E-331E-4B9B-80E6-A984C496E476}
@@ -535,5 +594,15 @@ Global
 		{7420167C-49D8-4D01-A777-9B39C41C168C} = {C5986178-303B-4E45-8B78-6C395CABF958}
 		{063E732E-FA66-4CAA-B8C0-F45EF8036FAB} = {A1EA5086-2765-405A-9D1F-B0B601185AEC}
 		{E4DCA7BE-7372-44D2-87AF-3FB876580671} = {FFA9EF65-A2AD-48AC-812B-42BFF705571C}
+		{C01CFF7F-F48C-4654-923B-E30EBA5C69C4} = {FFA9EF65-A2AD-48AC-812B-42BFF705571C}
+		{B63AA70F-832A-45A4-9C90-EBAA33D0680A} = {FFA9EF65-A2AD-48AC-812B-42BFF705571C}
+		{012006D8-A96A-4D31-BA7D-B3C6C12DEBD1} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
+		{6CEDB2A5-8B9F-4B5D-82F2-F006AC736BCD} = {012006D8-A96A-4D31-BA7D-B3C6C12DEBD1}
+		{339AA0DB-D443-4642-A9C0-64A5C4EF0D10} = {6CEDB2A5-8B9F-4B5D-82F2-F006AC736BCD}
+		{75B42676-9E45-4051-A4C2-A03831E99056} = {6CEDB2A5-8B9F-4B5D-82F2-F006AC736BCD}
+		{E4985FAB-AE7F-4DFB-9F5A-885747D373D6} = {6CEDB2A5-8B9F-4B5D-82F2-F006AC736BCD}
+		{F4B0300E-F25D-4FBE-BF8E-0A39BB31A0C2} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
+		{08B7797C-2290-40C0-839D-2D571E39ADB1} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
+		{14CE8E46-0D8A-44C2-9444-6AA98FF8F7DC} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
 	EndGlobalSection
 EndGlobal

@@ -11,6 +11,11 @@ using Expenso.Shared.System.Tasks;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+
+using Serilog;
+
 namespace Expenso.Api.Configuration.Builders;
 
 internal sealed class AppConfigurator : IAppConfigurator
@@ -40,6 +45,22 @@ internal sealed class AppConfigurator : IAppConfigurator
     {
         _app.UseAuthentication();
         _app.UseAuthorization();
+
+        return this;
+    }
+
+    public IAppConfigurator UseHealthChecks()
+    {
+        _app.MapHealthChecks(pattern: "/health", options: new HealthCheckOptions
+        {
+            AllowCachingResponses = false,
+            ResultStatusCodes =
+            {
+                [key: HealthStatus.Healthy] = StatusCodes.Status200OK,
+                [key: HealthStatus.Degraded] = StatusCodes.Status200OK,
+                [key: HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+            }
+        });
 
         return this;
     }
@@ -130,6 +151,13 @@ internal sealed class AppConfigurator : IAppConfigurator
                 dbMigrator.SeedAsync(scope: scope, assemblies: assemblies, cancellationToken: default).RunAsSync();
             }
         }
+
+        return this;
+    }
+
+    public IAppConfigurator UseRequestsLogging()
+    {
+        _app.UseSerilogRequestLogging();
 
         return this;
     }

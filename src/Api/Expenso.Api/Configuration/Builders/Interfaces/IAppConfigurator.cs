@@ -6,6 +6,8 @@ internal interface IAppConfigurator
 
     IAppConfigurator UseAuth();
 
+    IAppConfigurator UseHealthChecks();
+
     IAppConfigurator UseHttpsRedirection();
 
     IAppConfigurator UseRequestsCorrelation();
@@ -17,6 +19,8 @@ internal interface IAppConfigurator
     IAppConfigurator CreateEndpoints();
 
     IAppConfigurator MigrateDatabase();
+
+    IAppConfigurator UseRequestsLogging();
 
     void Run();
 }

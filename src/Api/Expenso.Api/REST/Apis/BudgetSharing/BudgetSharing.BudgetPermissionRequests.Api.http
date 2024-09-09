@@ -16,7 +16,7 @@ Authorization: Bearer {{apiAccessToken}}
 
 {
   "BudgetId": "fab3cf10-e0da-4bcb-b41c-dfbba1382215",
-  "ParticipantId": "4c7a9020-398f-4d42-8cb4-cac1477a49ac",
+  "Email": "admin@email.com",
   "PermissionType": 2,
   "ExpirationDays": 3
 }

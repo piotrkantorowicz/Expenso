@@ -9,9 +9,9 @@ namespace Expenso.Shared.Tests.UnitTests.System.Logging.LoggerService;
 
 internal abstract class LoggerServiceTestBase : TestBase<LoggerService<LoggerServiceTestBase>>
 {
-    private Mock<ILoggerFactory> _loggerFactoryMock = null!;
-    private ApplicationSettings _applicationSettings = null!;
-    protected Mock<ILogger<LoggerService<object>>> _loggerMock = null!;
+    private ApplicationSettings? _applicationSettings;
+    private Mock<ILoggerFactory>? _loggerFactoryMock;
+    protected Mock<ILogger<LoggerService<object>>>? _loggerMock;
 
     [SetUp]
     public void SetUp()
