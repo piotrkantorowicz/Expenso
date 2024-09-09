@@ -6,6 +6,11 @@ namespace Expenso.Shared.System.Types.Messages;
 
 public sealed record MessageContext : IMessageContext
 {
+    /* Public constructors and init setters are required by the JSON serializer. */
+    public MessageContext()
+    {
+    }
+
     internal MessageContext(Guid messageId, Guid correlationId, Guid requestedBy, DateTimeOffset timestamp,
         string module)
     {
@@ -29,13 +34,13 @@ public sealed record MessageContext : IMessageContext
         Timestamp = clock.UtcNow;
     }
 
-    public string ModuleId { get; }
+    public string? ModuleId { get; init; }
 
-    public Guid MessageId { get; }
+    public Guid MessageId { get; init; }
 
-    public Guid CorrelationId { get; }
+    public Guid CorrelationId { get; init; }
 
-    public Guid RequestedBy { get; }
+    public Guid RequestedBy { get; init; }
 
-    public DateTimeOffset Timestamp { get; }
+    public DateTimeOffset Timestamp { get; init; }
 }

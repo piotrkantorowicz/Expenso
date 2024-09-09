@@ -4,5 +4,5 @@ namespace Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
 internal interface IJobInstanceRepository
 {
-    Task<JobInstance?> GetAsync(Guid id, CancellationToken cancellationToken);
+    Task<JobInstance?> GetAsync(Guid id, CancellationToken cancellationToken, bool useTracking = true);
 }

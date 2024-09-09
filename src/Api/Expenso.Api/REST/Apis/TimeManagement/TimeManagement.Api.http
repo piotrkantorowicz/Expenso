@@ -1,0 +1,27 @@
+﻿### RegisterJob
+POST {{apiHostAddress}}/{{timeManagementRoute}}/register-job
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+{
+  "maxRetries": 5,
+  "jobEntryTriggers": [
+    {
+      "id": "d3bb3715-0b83-4540-9abf-3d1dd62d9e41",
+      "eventType": "Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests.BudgetPermissionRequestExpiredIntegrationEvent, Expenso.BudgetSharing.Proxy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "eventData": "{\"MessageContext\":{\"ModuleId\":\"BudgetSharingModule\",\"MessageId\":\"27c03f96-6434-49d9-8505-220d9b8787c2\",\"CorrelationId\":\"afc02050-4f31-4e12-8fc2-a5f496208402\",\"RequestedBy\":\"b07b57fd-ebaf-482e-a008-8ffa48df56c0\",\"Timestamp\":\"2024-09-06T17:05:06.0879277+02:00\"},\"BudgetPermissionRequestId\":\"27a6199c-cdea-43fe-b5f3-a4c4bc6ae551\"}"
+    }
+  ],
+  "interval": {
+    "minute": 15
+  }
+}
+
+### CancelJob
+POST {{apiHostAddress}}/{{timeManagementRoute}}/cancel-job
+Content-Type: application/json
+Authorization: Bearer {{apiAccessToken}}
+
+{
+  "jobEntryId": "95c37bc4-b43d-4653-8dca-718dedf37cbe"
+}

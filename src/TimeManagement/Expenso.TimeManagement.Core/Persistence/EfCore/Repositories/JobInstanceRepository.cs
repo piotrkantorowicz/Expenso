@@ -16,10 +16,10 @@ internal sealed class JobInstanceRepository : IJobInstanceRepository
                                    throw new ArgumentNullException(paramName: nameof(timeManagementDbContext));
     }
 
-    public async Task<JobInstance?> GetAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<JobInstance?> GetAsync(Guid id, CancellationToken cancellationToken, bool useTracking = true)
     {
         return await _timeManagementDbContext
-            .JobInstances.Tracking(useTracking: false)
+            .JobInstances.Tracking(useTracking: useTracking)
             .FirstOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 }

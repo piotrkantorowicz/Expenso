@@ -2,13 +2,16 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Serialization.Converters;
+using Expenso.Shared.System.Types.Messages;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
 using Moq;
 
 using TestCandidate = Expenso.Shared.System.Serialization.Default.DefaultSerializer;
 
-namespace Expenso.Shared.Tests.UnitTests.System.Serialization.DefaultSerializer;
+namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
 internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
 {
@@ -40,7 +43,11 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
     protected readonly JsonSerializerOptions _serializerOptions = new()
     {
         WriteIndented = true,
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters =
+        {
+            new InterfaceToConcreteTypeJsonConverter<IMessageContext, MessageContext>()
+        }
     };
 
     [SetUp]

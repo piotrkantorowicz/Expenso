@@ -16,17 +16,18 @@ internal sealed class JobEntryStatusRepository : IJobEntryStatusRepository
                                    throw new ArgumentNullException(paramName: nameof(timeManagementDbContext));
     }
 
-    public async Task<JobEntryStatus?> GetAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<JobEntryStatus?> GetAsync(Guid id, CancellationToken cancellationToken, bool useTracking = false)
     {
         return await _timeManagementDbContext
-            .JobEntryStatuses.Tracking(useTracking: false)
+            .JobEntryStatuses.Tracking(useTracking: useTracking)
             .FirstOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken,
+        bool useTracking = false)
     {
         return await _timeManagementDbContext
-            .JobEntryStatuses.Tracking(useTracking: false)
+            .JobEntryStatuses.Tracking(useTracking: useTracking)
             .ToListAsync(cancellationToken: cancellationToken);
     }
 }

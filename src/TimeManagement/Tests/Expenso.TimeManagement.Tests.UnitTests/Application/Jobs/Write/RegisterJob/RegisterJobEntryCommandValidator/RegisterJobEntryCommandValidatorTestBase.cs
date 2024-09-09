@@ -2,6 +2,7 @@
 
 using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.System.Serialization;
+using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
@@ -32,7 +33,8 @@ internal abstract class
         _serializer.Setup(expression: x => x.Serialize(eventTrigger, null)).Returns(value: eventTriggerPayload);
 
         _serializer
-            .Setup(expression: x => x.Deserialize(eventTriggerPayload, eventTrigger.GetType(), null))
+            .Setup(expression: x =>
+                x.Deserialize(eventTriggerPayload, eventTrigger.GetType(), DefaultSerializerOptions.DefaultSettings))
             .Returns(value: eventTrigger);
 
         _registerJobEntryCommand = new RegisterJobEntryCommand(
@@ -45,7 +47,7 @@ internal abstract class
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
         TestCandidate =
-            new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator(
-                serializer: _serializer.Object);
+            new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator(serializer: _serializer.Object,
+                clock: _clockMock.Object);
     }
 }

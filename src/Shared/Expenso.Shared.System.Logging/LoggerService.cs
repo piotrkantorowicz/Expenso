@@ -93,7 +93,7 @@ internal sealed class LoggerService<T> : ILoggerService<T>
         {
             parameters.AddRange(collection:
             [
-                new KeyValuePair<string, object>(key: "Module", value: messageContext.ModuleId),
+                new KeyValuePair<string, object>(key: "Module", value: messageContext.ModuleId ?? string.Empty),
                 new KeyValuePair<string, object>(key: "MessageId", value: messageContext.MessageId),
                 new KeyValuePair<string, object>(key: "CorrelationId", value: messageContext.CorrelationId),
                 new KeyValuePair<string, object>(key: "RequestedBy", value: messageContext.RequestedBy),

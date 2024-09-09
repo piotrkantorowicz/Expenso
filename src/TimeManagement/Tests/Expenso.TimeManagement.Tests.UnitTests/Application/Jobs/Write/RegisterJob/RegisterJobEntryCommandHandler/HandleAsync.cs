@@ -18,11 +18,11 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
     {
         // Arrange
         _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act
@@ -39,11 +39,11 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
     {
         // Arrange
         _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobEntryStatus.Running);
 
         RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
@@ -51,7 +51,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayofMonth: 10,
-                    Hour: 12, Minute: 30, Second: 30)
+                    Hour: 12, Minute: 30, Second: 30, UseSeconds: true)
             }
         };
 
@@ -63,7 +63,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         _jobEntryRepositoryMock.Verify(expression: x =>
             x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
 
-        result?.CronExpression.Should().Be(expected: "5 6 10 12 30 30");
+        result?.CronExpression.Should().Be(expected: "30 30 12 10 6 5");
     }
 
     [Test]
@@ -71,7 +71,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
     {
         // Arrange
         _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: null);
 
         // Act
@@ -97,11 +97,11 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
         _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: null);
 
         // Act
@@ -123,11 +123,11 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         };
 
         _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act

@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.Shared.Commands;
+﻿using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
@@ -13,7 +11,6 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 internal sealed class
     RegisterJobEntryCommandHandler : ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse>
 {
-    private const string DefaultCronExpression = "* * * * * *";
     private readonly IJobEntryRepository _jobEntryRepository;
     private readonly IJobEntryStatusRepository _jobEntryStatusRepository;
     private readonly IJobInstanceRepository _jobInstanceRepository;
@@ -79,7 +76,7 @@ internal sealed class
         {
             Id = Guid.NewGuid(),
             JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(paramName: nameof(jobInstance)),
-            CronExpression = ToCronExpression(interval: jobEntry.Interval),
+            CronExpression = jobEntry.Interval?.GetCronExpression(),
             RunAt = jobEntry.RunAt,
             MaxRetries = jobEntry.MaxRetries,
             JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(paramName: nameof(jobEntryStatus)),
@@ -100,28 +97,5 @@ internal sealed class
                 EventData = x.EventData
             })
             .ToArray();
-    }
-
-    private static string ToCronExpression(RegisterJobEntryRequest_JobEntryPeriodInterval? interval)
-    {
-        if (interval is null)
-        {
-            return DefaultCronExpression;
-        }
-
-        StringBuilder stringBuilder = new();
-        stringBuilder.Append(value: interval.DayOfWeek.ToString() ?? "*");
-        stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Month.ToString() ?? "*");
-        stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.DayofMonth.ToString() ?? "*");
-        stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Hour.ToString() ?? "*");
-        stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Minute.ToString() ?? "*");
-        stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: interval.Second.ToString() ?? "*");
-
-        return stringBuilder.ToString();
     }
 }
