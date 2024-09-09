@@ -13,6 +13,13 @@ public class InterfaceToConcreteTypeJsonConverter<TInterface, TConcreteType> : J
 
     public override void Write(Utf8JsonWriter writer, TInterface value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer: writer, value: (TConcreteType)value, options: options);
+        if (value is TConcreteType concrete)
+        {
+            JsonSerializer.Serialize(writer: writer, value: concrete, options: options);
+        }
+        else
+        {
+            throw new InvalidOperationException(message: "Attempted to serialize an object of incorrect type.");
+        }
     }
 }

@@ -1,6 +1,6 @@
 using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
-namespace Expenso.Shared.Tests.UnitTests.System.Serialization.DefaultSerializer;
+namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
 internal sealed class Deserialize : DefaultSerializerTestBase
 {
