@@ -18,12 +18,12 @@ internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<
         string Name { get; }
     }
 
-    protected class TestConcreteType : ITestInterface
+    protected sealed class TestConcreteType : ITestInterface
     {
         public string Name { get; set; } = "Test";
     }
 
-    protected class AnotherConcreteType : ITestInterface
+    protected sealed class AnotherConcreteType : ITestInterface
     {
         public string Name { get; set; } = "Another";
     }
