@@ -36,3 +36,4 @@ service:
       receivers: [ otlp ]
       exporters: [ loki ]
       # exporters: [debug, loki]
+      
