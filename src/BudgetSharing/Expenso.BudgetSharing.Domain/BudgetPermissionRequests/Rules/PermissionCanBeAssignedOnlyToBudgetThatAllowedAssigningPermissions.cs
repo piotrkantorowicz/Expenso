@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
@@ -38,15 +36,9 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
                                                                                  preferenceResponseFinancePreference));
     }
 
-    public string Message => new StringBuilder()
-        .Append(value: "Permission of type ")
-        .Append(value: _permissionTypeFromRequest)
-        .Append(value: " can't be assigned to budget with id ")
-        .Append(value: _budgetId)
-        .Append(value: ", because permission type is not valid or budget owner with id: ")
-        .Append(value: _ownerId)
-        .Append(value: " don't allow any or more participants")
-        .ToString();
+    public string Message =>
+        $"Permission of type {_permissionTypeFromRequest} can't be assigned to budget with id {_budgetId}, because permission type is not valid or budget owner with id: {_ownerId} don't allow any or more participants";
+
 
     public bool IsBroken()
     {

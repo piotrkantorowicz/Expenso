@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.Shared.Commands.Validation;
+﻿using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
@@ -46,22 +44,19 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
         if (command.RegisterJobEntryRequest?.Interval is null && command.RegisterJobEntryRequest?.RunAt is null)
         {
             errors.Add(
-                key: new StringBuilder()
-                    .Append(value: nameof(command.RegisterJobEntryRequest.Interval))
-                    .Append(value: '|')
-                    .Append(value: nameof(command.RegisterJobEntryRequest.RunAt))
-                    .ToString(),
-                value: "At least one value must be provide Interval for periodic jobs or RunAt for single run jobs");
+                key:
+                $"{nameof(command.RegisterJobEntryRequest.Interval)}|{nameof(command.RegisterJobEntryRequest.RunAt)}",
+                value: "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs");
+
         }
 
         if (command.RegisterJobEntryRequest?.Interval is not null && command.RegisterJobEntryRequest?.RunAt is not null)
         {
             errors.Add(
-                key: new StringBuilder()
-                    .Append(value: nameof(command.RegisterJobEntryRequest.Interval))
-                    .Append(value: '|')
-                    .Append(value: nameof(command.RegisterJobEntryRequest.RunAt))
-                    .ToString(), value: "RunAt and Interval cannot be used together");
+                key:
+                $"{nameof(command.RegisterJobEntryRequest.Interval)}|{nameof(command.RegisterJobEntryRequest.RunAt)}",
+                value: "RunAt and Interval cannot be used together");
+
         }
 
         if (command.RegisterJobEntryRequest?.Interval is not null)
@@ -78,22 +73,17 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             catch (CrontabException crontabException)
             {
                 errors.Add(key: nameof(command.RegisterJobEntryRequest.Interval),
-                    value: new StringBuilder()
-                        .Append(value: "Unable to parse provided interval, because of ")
-                        .Append(value: crontabException.Message)
-                        .ToString());
+                    value: $"Unable to parse provided interval, because of {crontabException.Message}");
+
             }
         }
 
         if (command.RegisterJobEntryRequest?.RunAt is not null && command.RegisterJobEntryRequest.RunAt < _clock.UtcNow)
         {
             errors.Add(key: nameof(command.RegisterJobEntryRequest.RunAt),
-                value: new StringBuilder()
-                    .Append(value: "RunAt must be greater than current time. Provided: ")
-                    .Append(value: command.RegisterJobEntryRequest.RunAt)
-                    .Append(value: ". Current: ")
-                    .Append(value: _clock.UtcNow)
-                    .ToString());
+                value:
+                $"RunAt must be greater than current time. Provided: {command.RegisterJobEntryRequest.RunAt}. Current: {_clock.UtcNow}");
+
         }
 
         ICollection<RegisterJobEntryRequest_JobEntryTrigger>? jobEntryTriggers =
@@ -126,12 +116,9 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
                     type: Type.GetType(typeName: jobEntryTrigger.EventType),
                     settings: DefaultSerializerOptions.DefaultSettings) is null)
             {
-                errors.Add(
-                    key: new StringBuilder()
-                        .Append(value: nameof(jobEntryTrigger.EventType))
-                        .Append(value: '|')
-                        .Append(value: nameof(jobEntryTrigger.EventData))
-                        .ToString(), value: "EventData must be serializable to provided EventType");
+                errors.Add(key: $"{nameof(jobEntryTrigger.EventType)}|{nameof(jobEntryTrigger.EventData)}",
+                    value: "EventData must be serializable to provided EventType");
+
             }
         }
 
