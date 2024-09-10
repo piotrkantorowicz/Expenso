@@ -14,10 +14,10 @@ internal sealed class RestoreBudgetPermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 2]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
+        AssertResponseNoContent(response: response);
     }
 
     [Test]
@@ -28,9 +28,9 @@ internal sealed class RestoreBudgetPermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 2]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

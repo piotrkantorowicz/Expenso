@@ -1,3 +1,4 @@
+using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response;
 
@@ -14,15 +15,16 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
         string requestPath = $"budget-sharing/budget-permission-requests/{budgetPermissionRequestId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
 
-        GetBudgetPermissionRequestResponse? testResultContent =
-            await testResult.Content.ReadFromJsonAsync<GetBudgetPermissionRequestResponse>();
+        GetBudgetPermissionRequestResponse? responseContent =
+            await response.Content.ReadFromJsonAsync<GetBudgetPermissionRequestResponse>();
 
-        testResultContent?.Id.Should().Be(expected: budgetPermissionRequestId);
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        responseContent?.Id.Should().Be(expected: budgetPermissionRequestId);
     }
 
     [Test]
@@ -33,9 +35,9 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
         string requestPath = $"budget-sharing/budget-permission-requests/{budgetPermissionRequestId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

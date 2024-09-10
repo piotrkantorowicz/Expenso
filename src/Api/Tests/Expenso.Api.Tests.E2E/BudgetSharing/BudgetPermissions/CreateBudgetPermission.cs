@@ -19,14 +19,15 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
             BudgetId: budgetId, OwnerId: UserDataInitializer.UserIds[index: 3]);
 
         // Act
-        HttpResponseMessage testResult =
+        HttpResponseMessage response =
             await _httpClient.PostAsJsonAsync(requestUri: requestPath, value: createBudgetPermissionRequest);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Created);
+        AssertResponseCreated(response: response);
+
 
         CreateBudgetPermissionResponse? createBudgetPermissionResponse =
-            await testResult.Content.ReadFromJsonAsync<CreateBudgetPermissionResponse>();
+            await response.Content.ReadFromJsonAsync<CreateBudgetPermissionResponse>();
 
         createBudgetPermissionResponse?.BudgetPermissionId.Should().Be(expected: budgetPermissionId);
     }
@@ -38,9 +39,9 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         const string requestPath = "budget-sharing/budget-permissions";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

@@ -47,7 +47,6 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
                 key:
                 $"{nameof(command.RegisterJobEntryRequest.Interval)}|{nameof(command.RegisterJobEntryRequest.RunAt)}",
                 value: "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs");
-
         }
 
         if (command.RegisterJobEntryRequest?.Interval is not null && command.RegisterJobEntryRequest?.RunAt is not null)
@@ -56,7 +55,6 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
                 key:
                 $"{nameof(command.RegisterJobEntryRequest.Interval)}|{nameof(command.RegisterJobEntryRequest.RunAt)}",
                 value: "RunAt and Interval cannot be used together");
-
         }
 
         if (command.RegisterJobEntryRequest?.Interval is not null)
@@ -74,7 +72,6 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             {
                 errors.Add(key: nameof(command.RegisterJobEntryRequest.Interval),
                     value: $"Unable to parse provided interval, because of {crontabException.Message}");
-
             }
         }
 
@@ -83,7 +80,6 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             errors.Add(key: nameof(command.RegisterJobEntryRequest.RunAt),
                 value:
                 $"RunAt must be greater than current time. Provided: {command.RegisterJobEntryRequest.RunAt}. Current: {_clock.UtcNow}");
-
         }
 
         ICollection<RegisterJobEntryRequest_JobEntryTrigger>? jobEntryTriggers =
@@ -118,7 +114,6 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             {
                 errors.Add(key: $"{nameof(jobEntryTrigger.EventType)}|{nameof(jobEntryTrigger.EventData)}",
                     value: "EventData must be serializable to provided EventType");
-
             }
         }
 

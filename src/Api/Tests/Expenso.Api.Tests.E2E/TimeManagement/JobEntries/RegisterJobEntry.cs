@@ -24,16 +24,16 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
             value: jobEntryRequest);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
 
-        RegisterJobEntryResponse? testResultContent =
-            await testResult.Content.ReadFromJsonAsync<RegisterJobEntryResponse>();
+        RegisterJobEntryResponse? responseContent =
+            await response.Content.ReadFromJsonAsync<RegisterJobEntryResponse>();
 
-        testResultContent.Should().NotBeNull();
+        responseContent.Should().NotBeNull();
     }
 
     [Test]
@@ -43,10 +43,10 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         const string requestPath = "time-management/register-job";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 
     [Test]

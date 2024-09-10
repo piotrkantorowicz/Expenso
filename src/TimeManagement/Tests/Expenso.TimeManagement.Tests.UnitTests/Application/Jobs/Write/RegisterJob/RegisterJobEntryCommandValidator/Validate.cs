@@ -172,7 +172,6 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
             key:
             $"{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)}|{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)}"];
 
-
         error.Should().Be(expected: expectedValidationMessage);
     }
 
@@ -198,7 +197,6 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         string expectedValidationMessage =
             $"RunAt must be greater than current time. Provided: {runAt}. Current: {_clockMock.Object.UtcNow}";
 
-
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -220,9 +218,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
 
-        string expectedValidationMessage =
+        const string expectedValidationMessage =
             "Unable to parse provided interval, because of 8 is higher than the maximum allowable value for the [DayOfWeek] field. Value must be between 0 and 6 (all inclusive).";
-
 
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)];
         error.Should().Be(expected: expectedValidationMessage);
@@ -325,7 +322,6 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         string error = validationResult[
             key: $"{nameof(JobEntryTrigger.EventType)}|{nameof(JobEntryTrigger.EventData)}"];
-
 
         error.Should().Be(expected: expectedValidationMessage);
     }

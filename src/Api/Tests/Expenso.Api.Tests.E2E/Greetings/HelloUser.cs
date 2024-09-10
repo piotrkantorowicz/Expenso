@@ -9,12 +9,12 @@ internal sealed class HelloUser : GreetingsTestBase
         _httpClient.SetFakeBearerToken(token: _claims);
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
-        string? testResultContent = await testResult.Content.ReadFromJsonAsync<string>();
-        testResultContent.Should().Be(expected: $"Hello {Username}, I'm Expenso API");
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        string? responseContent = await response.Content.ReadFromJsonAsync<string>();
+        responseContent.Should().Be(expected: $"Hello {Username}, I'm Expenso API");
     }
 
     [Test]
@@ -22,9 +22,9 @@ internal sealed class HelloUser : GreetingsTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }
