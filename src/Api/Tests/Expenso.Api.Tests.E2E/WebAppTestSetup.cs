@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
@@ -61,20 +59,16 @@ internal sealed class WebAppTestSetup
 
         await connection.OpenAsync(cancellationToken: cancellationToken);
 
-        string terminateConnectionsCommandText = new StringBuilder()
-            .Append(value: "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '")
-            .Append(value: databaseSettings.ConnectionParameters?.Database)
-            .Append(value: "';")
-            .ToString();
+        string terminateConnectionsCommandText =
+            $"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '{databaseSettings.ConnectionParameters?.Database}';";
+
 
         await ExecuteNonQueryCommand(connection: connection, commandText: terminateConnectionsCommandText,
             cancellationToken: cancellationToken);
 
-        string dropDatabaseCommandText = new StringBuilder()
-            .Append(value: "DROP DATABASE IF EXISTS ")
-            .Append(value: databaseSettings.ConnectionParameters?.Database)
-            .Append(value: " WITH (FORCE);")
-            .ToString();
+        string dropDatabaseCommandText =
+            $"DROP DATABASE IF EXISTS {databaseSettings.ConnectionParameters?.Database} WITH (FORCE);";
+
 
         await ExecuteNonQueryCommand(connection: connection, commandText: dropDatabaseCommandText,
             cancellationToken: cancellationToken);

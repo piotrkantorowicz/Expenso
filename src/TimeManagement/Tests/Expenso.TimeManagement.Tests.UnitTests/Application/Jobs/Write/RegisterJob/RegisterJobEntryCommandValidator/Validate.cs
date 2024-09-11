@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+﻿using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Proxy.DTO.Request;
 
 using FluentAssertions;
@@ -143,15 +141,11 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         const string expectedValidationMessage =
-            "At least one value must be provide Interval for periodic jobs or RunAt for single run jobs";
+            "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs";
 
-        string error =
-            validationResult[
-                key: new StringBuilder()
-                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval))
-                    .Append(value: '|')
-                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt))
-                    .ToString()];
+        string error = validationResult[
+            key:
+            $"{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)}|{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)}"];
 
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -174,13 +168,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "RunAt and Interval cannot be used together";
 
-        string error =
-            validationResult[
-                key: new StringBuilder()
-                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval))
-                    .Append(value: '|')
-                    .Append(value: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt))
-                    .ToString()];
+        string error = validationResult[
+            key:
+            $"{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)}|{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)}"];
 
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -204,12 +194,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
 
-        string expectedValidationMessage = new StringBuilder()
-            .Append(value: "RunAt must be greater than current time. Provided: ")
-            .Append(value: runAt)
-            .Append(value: ". Current: ")
-            .Append(value: _clockMock.Object.UtcNow)
-            .ToString();
+        string expectedValidationMessage =
+            $"RunAt must be greater than current time. Provided: {runAt}. Current: {_clockMock.Object.UtcNow}";
 
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)];
         error.Should().Be(expected: expectedValidationMessage);
@@ -232,11 +218,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
 
-        string expectedValidationMessage = new StringBuilder()
-            .Append(
-                value:
-                "Unable to parse provided interval, because of 8 is higher than the maximum allowable value for the [DayOfWeek] field. Value must be between 0 and 6 (all inclusive).")
-            .ToString();
+        const string expectedValidationMessage =
+            "Unable to parse provided interval, because of 8 is higher than the maximum allowable value for the [DayOfWeek] field. Value must be between 0 and 6 (all inclusive).";
 
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)];
         error.Should().Be(expected: expectedValidationMessage);
@@ -337,13 +320,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "EventData must be serializable to provided EventType";
 
-        string error =
-            validationResult[
-                key: new StringBuilder()
-                    .Append(value: nameof(JobEntryTrigger.EventType))
-                    .Append(value: '|')
-                    .Append(value: nameof(JobEntryTrigger.EventData))
-                    .ToString()];
+        string error = validationResult[
+            key: $"{nameof(JobEntryTrigger.EventType)}|{nameof(JobEntryTrigger.EventData)}"];
 
         error.Should().Be(expected: expectedValidationMessage);
     }

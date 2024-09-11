@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Exceptions;
@@ -86,11 +84,8 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: new StringBuilder()
-                .Append(value: "Budget ")
-                .Append(value: TestCandidate.BudgetId)
-                .Append(value: " can have only one owner permission")
-                .ToString());
+            .WithMessage(
+                expectedWildcardPattern: $"Budget {TestCandidate.BudgetId} can have only one owner permission");
     }
 
     [Test]
@@ -108,13 +103,9 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: new StringBuilder()
-                .Append(value: "Budget ")
-                .Append(value: TestCandidate.BudgetId)
-                .Append(value: " cannot have owner permission for other user ")
-                .Append(value: participantId)
-                .Append(value: " that its owner ")
-                .Append(value: _defaultOwnerId)
-                .ToString());
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Budget {TestCandidate.BudgetId} cannot have owner permission for other user {participantId} that its owner {_defaultOwnerId}");
+
     }
 }

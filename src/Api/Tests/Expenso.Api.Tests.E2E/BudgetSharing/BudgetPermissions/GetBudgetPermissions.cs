@@ -12,15 +12,15 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         const string requestPath = "budget-sharing/budget-permissions";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
 
-        IEnumerable<GetBudgetPermissionsResponse>? response =
-            await testResult.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionsResponse>>();
+        IEnumerable<GetBudgetPermissionsResponse>? responseContent =
+            await response.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionsResponse>>();
 
-        response?.Should().NotBeEmpty();
+        responseContent?.Should().NotBeEmpty();
     }
 
     [Test]
@@ -30,9 +30,9 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         const string requestPath = "budget-sharing/budget-permissions";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

@@ -14,7 +14,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
         string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PutAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PutAsJsonAsync(requestUri: requestPath,
             value: new UpdatePreferenceRequest(
                 FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
@@ -24,7 +24,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
                 GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
+        AssertResponseNoContent(response: response);
     }
 
     [Test]
@@ -34,10 +34,10 @@ internal sealed class UpdatePreferences : PreferencesTestBase
         Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[index: 1];
 
         // Act
-        HttpResponseMessage testResult =
+        HttpResponseMessage response =
             await _httpClient.PutAsync(requestUri: $"user-preferences/preferences/{preferenceId}", content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

@@ -1,4 +1,5 @@
 using Expenso.Api.Configuration.Auth.Claims;
+using Expenso.Api.Configuration.Execution.Middlewares;
 
 namespace Expenso.Api.Tests.E2E;
 
@@ -29,5 +30,22 @@ internal abstract class TestBase
         WebApp.Instance.DestroyHttpClient();
 
         return Task.CompletedTask;
+    }
+
+    protected static void AssertResponseCreated(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        response.StatusCode.Should().Be(expected: HttpStatusCode.Created);
+    }
+
+    protected static void AssertResponseNoContent(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        response.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
+    }
+
+    protected static void AssertResponseUnauthroised(HttpResponseMessage response)
+    {
+        response.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
     }
 }

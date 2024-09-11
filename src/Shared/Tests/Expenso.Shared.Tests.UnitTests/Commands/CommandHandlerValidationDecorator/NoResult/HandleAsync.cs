@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
@@ -26,12 +24,7 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
         exception.Should().NotBeNull();
         exception?.ErrorDictionary.Should().NotBeNull();
         exception?.ErrorDictionary.Should().BeEquivalentTo(expectation: errors);
-
-        string details = new StringBuilder()
-            .AppendLine(value: "Id: Id is required")
-            .AppendLine(value: "Name: Name is required")
-            .ToString();
-
+        string details = $"Id: Id is required{Environment.NewLine}Name: Name is required{Environment.NewLine}";
         exception?.Details.Should().NotBeNull();
         exception?.Details.Should().Be(expected: details);
     }

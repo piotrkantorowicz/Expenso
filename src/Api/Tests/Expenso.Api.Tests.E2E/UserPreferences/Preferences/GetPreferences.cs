@@ -1,3 +1,4 @@
+using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
@@ -14,12 +15,13 @@ internal sealed class GetPreferences : PreferencesTestBase
         string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
-        GetPreferenceResponse? testResultContent = await testResult.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        testResultContent?.Id.Should().Be(expected: preferenceId);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        responseContent?.Id.Should().Be(expected: preferenceId);
     }
 
     [Test]
@@ -30,9 +32,9 @@ internal sealed class GetPreferences : PreferencesTestBase
         string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

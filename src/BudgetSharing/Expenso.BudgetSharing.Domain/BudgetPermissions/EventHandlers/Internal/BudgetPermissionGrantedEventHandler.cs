@@ -5,6 +5,7 @@ using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 using Expenso.Communication.Proxy;
 using Expenso.Communication.Proxy.DTO.API.SendNotification;
+using Expenso.Communication.Proxy.DTO.API.SendNotification.Extensions;
 using Expenso.Communication.Proxy.DTO.Settings;
 using Expenso.Shared.Domain.Events;
 
@@ -77,8 +78,7 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
                     From: _notificationSettings.Email.From, To: owner.Person!.Email),
-                NotificationType: SendNotificationRequest_NotificationType.FromSettings(
-                    settings: _notificationSettings));
+                NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
                 cancellationToken: cancellationToken);
@@ -114,8 +114,7 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
                     From: _notificationSettings.Email.From, To: participant.Person!.Email),
-                NotificationType: SendNotificationRequest_NotificationType.FromSettings(
-                    settings: _notificationSettings));
+                NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: participantNotification,
                 cancellationToken: cancellationToken);

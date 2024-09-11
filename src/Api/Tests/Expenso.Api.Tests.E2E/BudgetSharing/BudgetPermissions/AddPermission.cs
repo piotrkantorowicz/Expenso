@@ -18,11 +18,11 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         AddPermissionRequest addPermissionRequest = new(PermissionType: AddPermissionRequest_PermissionType.Reviewer);
 
         // Act
-        HttpResponseMessage testResult =
+        HttpResponseMessage response =
             await _httpClient.PostAsJsonAsync(requestUri: requestPath, value: addPermissionRequest);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
+        AssertResponseNoContent(response: response);
     }
 
     [Test]
@@ -33,9 +33,9 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

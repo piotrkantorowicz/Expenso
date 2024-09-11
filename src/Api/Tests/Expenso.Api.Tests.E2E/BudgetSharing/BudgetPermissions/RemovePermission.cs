@@ -15,10 +15,10 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.DeleteAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
+        AssertResponseNoContent(response: response);
     }
 
     [Test]
@@ -29,9 +29,9 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.DeleteAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.DeleteAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

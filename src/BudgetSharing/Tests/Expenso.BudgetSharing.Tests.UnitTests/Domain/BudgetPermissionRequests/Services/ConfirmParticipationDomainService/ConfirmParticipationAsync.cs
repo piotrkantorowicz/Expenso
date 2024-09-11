@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
@@ -172,14 +170,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
         await act
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: new StringBuilder()
-                .Append(value: "Permission of type ")
-                .Append(value: _budgetPermissionRequest.PermissionType)
-                .Append(value: " can't be assigned to budget with id ")
-                .Append(value: _budgetPermission.BudgetId)
-                .Append(value: ", because permission type is not valid or budget owner with id: ")
-                .Append(value: _budgetPermission.OwnerId)
-                .Append(value: " don't allow any or more participants")
-                .ToString());
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Permission of type {_budgetPermissionRequest.PermissionType} can't be assigned to budget with id {_budgetPermission.BudgetId}, because permission type is not valid or budget owner with id: {_budgetPermission.OwnerId} don't allow any or more participants");
     }
 }

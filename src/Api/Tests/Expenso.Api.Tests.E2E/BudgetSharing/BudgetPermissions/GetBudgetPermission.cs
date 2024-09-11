@@ -15,15 +15,15 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
 
-        GetBudgetPermissionResponse? response =
-            await testResult.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
+        GetBudgetPermissionResponse? responseContent =
+            await response.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
 
-        response?.Id.Should().Be(expected: BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]);
+        responseContent?.Id.Should().Be(expected: BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]);
     }
 
     [Test]
@@ -34,9 +34,9 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

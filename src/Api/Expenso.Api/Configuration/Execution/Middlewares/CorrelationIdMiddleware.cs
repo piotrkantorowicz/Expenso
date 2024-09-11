@@ -12,8 +12,16 @@ internal sealed class CorrelationIdMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        Guid correlationId = Guid.NewGuid();
-        context.Request.Headers.Append(key: CorrelationHeaderKey, value: correlationId.ToString());
+        string correlationId = Guid.NewGuid().ToString();
+        context.Request.Headers.Append(key: CorrelationHeaderKey, value: correlationId);
+
+        context.Response.OnStarting(callback: () =>
+        {
+            context.Response.Headers[key: CorrelationHeaderKey] = correlationId;
+
+            return Task.CompletedTask;
+        });
+
         await _next.Invoke(context: context);
     }
 }

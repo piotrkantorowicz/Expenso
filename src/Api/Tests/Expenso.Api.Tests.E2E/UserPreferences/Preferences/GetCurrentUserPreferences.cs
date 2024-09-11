@@ -1,3 +1,4 @@
+using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
@@ -13,13 +14,14 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
         _httpClient.SetFakeBearerToken(token: _claims);
 
         // Act
-        HttpResponseMessage testResult =
+        HttpResponseMessage response =
             await _httpClient.GetAsync(requestUri: "user-preferences/preferences/current-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.OK);
-        GetPreferenceResponse? testResultContent = await testResult.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        testResultContent?.Id.Should().Be(expected: preferenceId);
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        responseContent?.Id.Should().Be(expected: preferenceId);
     }
 
     [Test]
@@ -27,10 +29,10 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage testResult =
+        HttpResponseMessage response =
             await _httpClient.GetAsync(requestUri: "user-preferences/preferences/current-user");
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }

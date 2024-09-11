@@ -135,7 +135,7 @@ internal sealed class AppConfigurator : IAppConfigurator
             if (efCoreSettings is null)
             {
                 throw new InvalidOperationException(
-                    message: "EfCoreSettings is not registered in the service collection.");
+                    message: "EfCoreSettings is not registered in the service collection");
             }
 
             IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();

@@ -14,16 +14,16 @@ internal sealed class CreatePreferences : PreferencesTestBase
         const string requestPath = "user-preferences/preferences";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
             value: new CreatePreferenceRequest(UserId: userId));
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Created);
+        AssertResponseCreated(response: response);
 
-        CreatePreferenceResponse? testResultContent =
-            await testResult.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
+        CreatePreferenceResponse? responseContent =
+            await response.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
 
-        testResultContent.Should().NotBeNull();
+        responseContent.Should().NotBeNull();
     }
 
     [Test]
@@ -33,9 +33,9 @@ internal sealed class CreatePreferences : PreferencesTestBase
         const string requestPath = "user-preferences/preferences";
 
         // Act
-        HttpResponseMessage testResult = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
 
         // Assert
-        testResult.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        AssertResponseUnauthroised(response: response);
     }
 }
