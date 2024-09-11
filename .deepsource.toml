@@ -4,12 +4,14 @@ exclude_patterns = [
     ".husky/**",
     ".github/**",
     ".docker/**",
-    ".scripts/**",
-    "Tests/**",
+    ".scripts/**"
 ]
 
 test_patterns = [
-    "Tests/**"
+    "Tests/**",
+    "**/Tests/**",
+    "**/**/Tests/**"
+    "**/**/**/Tests/**"
 ]
 
 [[analyzers]]
