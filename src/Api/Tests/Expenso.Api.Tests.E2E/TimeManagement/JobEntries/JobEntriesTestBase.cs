@@ -13,7 +13,7 @@ internal abstract class JobEntriesTestBase : TestBase
     protected ITimeManagementProxy _timeManagementProxy = null!;
 
     [SetUp]
-    public override Task SetUp()
+    public override Task SetUpAsync()
     {
         _timeManagementProxy = WebApp.Instance.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
         _clockMock = new Mock<IClock>();
@@ -22,17 +22,17 @@ internal abstract class JobEntriesTestBase : TestBase
             .Setup(expression: x => x.UtcNow)
             .Returns(value: DateTimeOffset.UtcNow.AddMilliseconds(milliseconds: 500));
 
-        return base.SetUp();
+        return base.SetUpAsync();
     }
 
     [TearDown]
-    public override Task TearDown()
+    public override Task TearDownAsync()
     {
         _timeManagementProxy = null!;
         _clockMock.Reset();
         _clockMock = null!;
 
-        return base.TearDown();
+        return base.TearDownAsync();
     }
 
     protected override void AssertResponseOk(HttpResponseMessage response)

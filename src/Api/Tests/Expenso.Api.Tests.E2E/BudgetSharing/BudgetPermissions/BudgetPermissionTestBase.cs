@@ -3,15 +3,15 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal abstract class BudgetPermissionTestBase : TestBase
 {
     [SetUp]
-    public override Task SetUp()
+    public override Task SetUpAsync()
     {
-        return base.SetUp();
+        return base.SetUpAsync();
     }
 
     [TearDown]
-    public override Task TearDown()
+    public override Task TearDownAsync()
     {
-        return base.TearDown();
+        return base.TearDownAsync();
     }
 
     protected override void AssertResponseOk(HttpResponseMessage response)

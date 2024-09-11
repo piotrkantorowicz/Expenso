@@ -9,18 +9,18 @@ internal abstract class CommunicationTestBase : TestBase
     protected ICommunicationProxy _communicationProxy = null!;
 
     [SetUp]
-    public override Task SetUp()
+    public override Task SetUpAsync()
     {
         _communicationProxy = WebApp.Instance.ServiceProvider.GetRequiredService<ICommunicationProxy>();
 
-        return base.SetUp();
+        return base.SetUpAsync();
     }
 
     [TearDown]
-    public override Task TearDown()
+    public override Task TearDownAsync()
     {
         _communicationProxy = null!;
 
-        return base.TearDown();
+        return base.TearDownAsync();
     }
 }

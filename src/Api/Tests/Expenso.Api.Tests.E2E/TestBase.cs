@@ -17,7 +17,7 @@ internal abstract class TestBase
     protected HttpClient _httpClient = null!;
 
     [SetUp]
-    public virtual Task SetUp()
+    public virtual Task SetUpAsync()
     {
         _httpClient = WebApp.Instance.GetHttpClient();
 
@@ -25,7 +25,7 @@ internal abstract class TestBase
     }
 
     [TearDown]
-    public virtual Task TearDown()
+    public virtual Task TearDownAsync()
     {
         WebApp.Instance.DestroyHttpClient();
 
