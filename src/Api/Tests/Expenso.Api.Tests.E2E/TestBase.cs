@@ -32,13 +32,19 @@ internal abstract class TestBase
         return Task.CompletedTask;
     }
 
-    protected static void AssertResponseCreated(HttpResponseMessage response)
+    protected virtual void AssertResponseOk(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+    }
+
+    protected virtual void AssertResponseCreated(HttpResponseMessage response)
     {
         response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
         response.StatusCode.Should().Be(expected: HttpStatusCode.Created);
     }
 
-    protected static void AssertResponseNoContent(HttpResponseMessage response)
+    protected virtual void AssertResponseNoContent(HttpResponseMessage response)
     {
         response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
         response.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
@@ -47,5 +53,16 @@ internal abstract class TestBase
     protected static void AssertResponseUnauthroised(HttpResponseMessage response)
     {
         response.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+    }
+
+    protected void AssertModuleHeader(HttpResponseMessage response, string moduleName)
+    {
+        response.Headers.Contains(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).Should().BeTrue();
+
+        string? moduleIdHeaderValue =
+            response.Headers.GetValues(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).FirstOrDefault();
+
+        moduleIdHeaderValue.Should().NotBeNullOrEmpty();
+        moduleIdHeaderValue.Should().Be(expected: moduleName);
     }
 }

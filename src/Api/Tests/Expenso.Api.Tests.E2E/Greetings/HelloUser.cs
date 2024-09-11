@@ -12,7 +12,7 @@ internal sealed class HelloUser : GreetingsTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        AssertResponseOk(response: response);
         string? responseContent = await response.Content.ReadFromJsonAsync<string>();
         responseContent.Should().Be(expected: $"Hello {Username}, I'm Expenso API");
     }

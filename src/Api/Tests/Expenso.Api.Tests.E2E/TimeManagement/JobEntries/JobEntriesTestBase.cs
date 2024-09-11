@@ -34,4 +34,22 @@ internal abstract class JobEntriesTestBase : TestBase
 
         return base.TearDown();
     }
+
+    protected override void AssertResponseOk(HttpResponseMessage response)
+    {
+        AssertModuleHeader(response: response, moduleName: "TimeManagementModule");
+        base.AssertResponseOk(response: response);
+    }
+
+    protected override void AssertResponseCreated(HttpResponseMessage response)
+    {
+        AssertModuleHeader(response: response, moduleName: "TimeManagementModule");
+        base.AssertResponseCreated(response: response);
+    }
+
+    protected override void AssertResponseNoContent(HttpResponseMessage response)
+    {
+        AssertModuleHeader(response: response, moduleName: "TimeManagementModule");
+        base.AssertResponseNoContent(response: response);
+    }
 }

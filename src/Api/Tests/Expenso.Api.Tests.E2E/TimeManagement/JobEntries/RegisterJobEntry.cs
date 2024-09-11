@@ -28,7 +28,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
             value: jobEntryRequest);
 
         // Assert
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        AssertResponseOk(response: response);
 
         RegisterJobEntryResponse? responseContent =
             await response.Content.ReadFromJsonAsync<RegisterJobEntryResponse>();

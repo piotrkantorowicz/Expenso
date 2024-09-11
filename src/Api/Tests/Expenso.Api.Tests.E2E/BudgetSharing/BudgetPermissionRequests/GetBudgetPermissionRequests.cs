@@ -18,7 +18,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        AssertResponseOk(response: response);
 
         IEnumerable<GetBudgetPermissionRequestsResponse>? responseContent =
             await response.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionRequestsResponse>>();
