@@ -13,7 +13,7 @@ internal sealed class ModuleIdMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
         ILoggerService<ModuleIdMiddleware>? logger =
             context.RequestServices.GetService<ILoggerService<ModuleIdMiddleware>>();
