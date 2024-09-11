@@ -10,7 +10,7 @@ exclude_patterns = [
 test_patterns = [
     "Tests/**",
     "**/Tests/**",
-    "**/**/Tests/**"
+    "**/**/Tests/**",
     "**/**/**/Tests/**"
 ]
 
