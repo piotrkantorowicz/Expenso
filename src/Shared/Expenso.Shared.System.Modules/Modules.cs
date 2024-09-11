@@ -72,4 +72,9 @@ public static class Modules
             }
         }
     }
+
+    public static void Clear()
+    {
+        RegisteredModules.Clear();
+    }
 }

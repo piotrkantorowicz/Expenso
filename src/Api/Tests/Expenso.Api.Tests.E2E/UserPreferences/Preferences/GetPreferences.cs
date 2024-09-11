@@ -1,4 +1,3 @@
-using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
@@ -18,9 +17,8 @@ internal sealed class GetPreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        AssertResponseOk(response: response);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
         responseContent?.Id.Should().Be(expected: preferenceId);
     }
 
