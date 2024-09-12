@@ -1,6 +1,6 @@
 namespace Expenso.Api.Tests.E2E.Greetings;
 
-internal sealed class HelloUser : GreetingsTestBase
+internal sealed class HelloUser : TestBase
 {
     [Test]
     public async Task Should_ReturnExpectedValue_Always()

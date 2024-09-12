@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -21,7 +22,7 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
         SecondaryId = 211,
         Name = "Purusnulla",
         Number = 947.38m,
-        CreatedAt = DateTimeOffset.Parse(input: "2009-03-09 09:08:17")
+        CreatedAt = DateTimeOffset.Parse(input: "2009-03-09 09:08:17", formatProvider: CultureInfo.InvariantCulture)
     };
 
     protected static readonly RichTestObject ComplexObject = null!;

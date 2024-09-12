@@ -6,15 +6,12 @@ internal sealed class DomainEventsSource
 {
     private readonly Queue<IDomainEvent> _domainEvents = new();
 
-    public IReadOnlyCollection<IDomainEvent> DomainEvents
+    public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
     {
-        get
-        {
-            IReadOnlyCollection<IDomainEvent> domainEvents = _domainEvents.ToList().AsReadOnly();
-            _domainEvents.Clear();
+        IReadOnlyCollection<IDomainEvent> domainEvents = _domainEvents.ToList().AsReadOnly();
+        _domainEvents.Clear();
 
-            return domainEvents;
-        }
+        return domainEvents;
     }
 
     public void AddDomainEvent(IDomainEvent domainEvent)

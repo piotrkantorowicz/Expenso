@@ -2,7 +2,7 @@ namespace Expenso.Shared.System.Modules.Extensions;
 
 public static class ModuleDefinitionExtensions
 {
-    internal static string GetModulePrefixSanitized(this ModuleDefinition moduleDefinition)
+    internal static string GetModulePrefixSanitized(this IModuleDefinition moduleDefinition)
     {
         string modulePrefix = moduleDefinition.ModulePrefix;
 

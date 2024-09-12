@@ -11,11 +11,11 @@ using CoreExtensions = Expenso.Communication.Core.Extensions;
 
 namespace Expenso.Communication.Api;
 
-public sealed class CommunicationModule : ModuleDefinition
+public sealed class CommunicationModule : IModuleDefinition
 {
-    public override string ModulePrefix => "/communication";
+    public string ModulePrefix => "/communication";
 
-    public override IReadOnlyCollection<Assembly> GetModuleAssemblies()
+    public IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return new List<Assembly>
         {
@@ -25,13 +25,13 @@ public sealed class CommunicationModule : ModuleDefinition
         };
     }
 
-    public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
+    public void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddCommunicationCore(assemblies: GetModuleAssemblies());
         services.AddCommunicationProxy(assemblies: GetModuleAssemblies());
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
+    public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         return Array.Empty<EndpointRegistration>();
     }

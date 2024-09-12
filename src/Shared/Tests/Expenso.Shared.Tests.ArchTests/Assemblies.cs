@@ -8,7 +8,7 @@ namespace Expenso.Shared.Tests.ArchTests;
 
 internal static class Assemblies
 {
-    private static readonly Assembly ModuleDefinition = typeof(ModuleDefinition).Assembly;
+    private static readonly Assembly ModuleDefinition = typeof(IModuleDefinition).Assembly;
     private static readonly Assembly Types = typeof(NotFoundException).Assembly;
     private static readonly Assembly UserContext = typeof(IUserContext).Assembly;
     private static readonly Assembly UnitTests = typeof(EndpointRegistrationExtensionsTestBase).Assembly;

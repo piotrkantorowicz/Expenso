@@ -9,150 +9,149 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations
+namespace Expenso.TimeManagement.Core.Persistence.EfCore.Migrations;
+
+[DbContext(typeof(TimeManagementDbContext))]
+[Migration("20240813062927_ExtendEventTypeColumnLength")]
+partial class ExtendEventTypeColumnLength
 {
-    [DbContext(typeof(TimeManagementDbContext))]
-    [Migration("20240813062927_ExtendEventTypeColumnLength")]
-    partial class ExtendEventTypeColumnLength
+    /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasDefaultSchema("TimeManagement")
-                .HasAnnotation("ProductVersion", "8.0.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+        modelBuilder
+            .HasDefaultSchema("TimeManagement")
+            .HasAnnotation("ProductVersion", "8.0.7")
+            .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+        NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntry", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntry", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<string>("CronExpression")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("CronExpression")
+                .IsRequired()
+                .HasColumnType("text");
 
-                    b.Property<int?>("CurrentRetries")
-                        .HasColumnType("integer");
+            b.Property<int?>("CurrentRetries")
+                .HasColumnType("integer");
 
-                    b.Property<bool?>("IsCompleted")
-                        .HasColumnType("boolean");
+            b.Property<bool?>("IsCompleted")
+                .HasColumnType("boolean");
 
-                    b.Property<Guid>("JobEntryStatusId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("JobEntryStatusId")
+                .HasColumnType("uuid");
 
-                    b.Property<Guid>("JobInstanceId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("JobInstanceId")
+                .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset?>("LastRun")
-                        .HasColumnType("timestamp with time zone");
+            b.Property<DateTimeOffset?>("LastRun")
+                .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("MaxRetries")
-                        .IsRequired()
-                        .HasColumnType("integer");
+            b.Property<int?>("MaxRetries")
+                .IsRequired()
+                .HasColumnType("integer");
 
-                    b.Property<DateTimeOffset?>("RunAt")
-                        .HasColumnType("timestamp with time zone");
+            b.Property<DateTimeOffset?>("RunAt")
+                .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("JobEntryStatusId");
+            b.HasIndex("JobEntryStatusId");
 
-                    b.HasIndex("JobInstanceId");
+            b.HasIndex("JobInstanceId");
 
-                    b.ToTable("JobEntries", "TimeManagement");
-                });
+            b.ToTable("JobEntries", "TimeManagement");
+        });
 
-            modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", b =>
+        {
+            b.Property<Guid>("Id")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("uuid");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+            b.Property<string>("Description")
+                .HasMaxLength(500)
+                .HasColumnType("character varying(500)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+            b.Property<string>("Name")
+                .IsRequired()
+                .HasMaxLength(150)
+                .HasColumnType("character varying(150)");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.ToTable("JobEntryStatuses", "TimeManagement");
-                });
+            b.ToTable("JobEntryStatuses", "TimeManagement");
+        });
 
-            modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobInstance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobInstance", b =>
+        {
+            b.Property<Guid>("Id")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("uuid");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+            b.Property<string>("Name")
+                .IsRequired()
+                .HasMaxLength(150)
+                .HasColumnType("character varying(150)");
 
-                    b.Property<int>("RunningDelay")
-                        .HasColumnType("integer");
+            b.Property<int>("RunningDelay")
+                .HasColumnType("integer");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.ToTable("JobInstances", "TimeManagement");
-                });
+            b.ToTable("JobInstances", "TimeManagement");
+        });
 
-            modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntry", b =>
-                {
-                    b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", "JobStatus")
-                        .WithMany()
-                        .HasForeignKey("JobEntryStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+        modelBuilder.Entity("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntry", b =>
+        {
+            b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryStatus", "JobStatus")
+                .WithMany()
+                .HasForeignKey("JobEntryStatusId")
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
-                    b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobInstance", "JobInstance")
-                        .WithMany()
-                        .HasForeignKey("JobInstanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            b.HasOne("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobInstance", "JobInstance")
+                .WithMany()
+                .HasForeignKey("JobInstanceId")
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
-                    b.OwnsMany("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryTrigger", "Triggers", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid");
+            b.OwnsMany("Expenso.TimeManagement.Core.Domain.Jobs.Model.JobEntryTrigger", "Triggers", b1 =>
+            {
+                b1.Property<Guid>("Id")
+                    .HasColumnType("uuid");
 
-                            b1.Property<string>("EventData")
-                                .IsRequired()
-                                .HasColumnType("text");
+                b1.Property<string>("EventData")
+                    .IsRequired()
+                    .HasColumnType("text");
 
-                            b1.Property<string>("EventType")
-                                .IsRequired()
-                                .HasMaxLength(500)
-                                .HasColumnType("character varying(500)");
+                b1.Property<string>("EventType")
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnType("character varying(500)");
 
-                            b1.Property<Guid>("JobEntryId")
-                                .HasColumnType("uuid");
+                b1.Property<Guid>("JobEntryId")
+                    .HasColumnType("uuid");
 
-                            b1.HasKey("Id");
+                b1.HasKey("Id");
 
-                            b1.HasIndex("JobEntryId");
+                b1.HasIndex("JobEntryId");
 
-                            b1.ToTable("JobEntryTriggers", "TimeManagement");
+                b1.ToTable("JobEntryTriggers", "TimeManagement");
 
-                            b1.WithOwner()
-                                .HasForeignKey("JobEntryId");
-                        });
+                b1.WithOwner()
+                    .HasForeignKey("JobEntryId");
+            });
 
-                    b.Navigation("JobInstance");
+            b.Navigation("JobInstance");
 
-                    b.Navigation("JobStatus");
+            b.Navigation("JobStatus");
 
-                    b.Navigation("Triggers");
-                });
+            b.Navigation("Triggers");
+        });
 #pragma warning restore 612, 618
-        }
     }
 }

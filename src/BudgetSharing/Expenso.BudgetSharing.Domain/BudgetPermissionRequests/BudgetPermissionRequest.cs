@@ -79,7 +79,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
     public IReadOnlyCollection<IDomainEvent> GetUncommittedChanges()
     {
-        return _domainEventsSource.DomainEvents;
+        return _domainEventsSource.GetDomainEvents();
     }
 
     public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,

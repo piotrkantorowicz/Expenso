@@ -25,7 +25,7 @@ internal static class RequestPathExtensions
             return null;
         }
 
-        IDictionary<string, ModuleDefinition> registeredModules = Modules.GetRegisteredModules();
+        IDictionary<string, IModuleDefinition> registeredModules = Modules.GetRegisteredModules();
 
         if (!registeredModules.Any())
         {

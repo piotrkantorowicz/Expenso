@@ -99,10 +99,9 @@ internal sealed class AppConfigurator : IAppConfigurator
         _app.MapModulesEndpoints(rootTag: BaseTag);
 
         _app
-            .MapGet(pattern: "/greetings/hello", handler: (HttpContext httpContext) =>
-            {
-                httpContext.Response.WriteAsJsonAsync(value: "Hello, I'm Expenso API");
-            })
+            .MapGet(pattern: "/greetings/hello",
+                handler: void (HttpContext httpContext) =>
+                    httpContext.Response.WriteAsJsonAsync(value: "Hello, I'm Expenso API"))
             .WithOpenApi()
             .WithName(endpointName: "Hello")
             .WithTags(BaseTag);

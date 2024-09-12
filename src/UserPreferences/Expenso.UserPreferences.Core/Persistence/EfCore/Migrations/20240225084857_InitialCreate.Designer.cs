@@ -9,144 +9,143 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations
+namespace Expenso.UserPreferences.Core.Persistence.EfCore.Migrations;
+
+[DbContext(typeof(UserPreferencesDbContext))]
+[Migration("20240225084857_InitialCreate")]
+partial class InitialCreate
 {
-    [DbContext(typeof(UserPreferencesDbContext))]
-    [Migration("20240225084857_InitialCreate")]
-    partial class InitialCreate
+    /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasDefaultSchema("UserPreferences")
-                .HasAnnotation("ProductVersion", "8.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+        modelBuilder
+            .HasDefaultSchema("UserPreferences")
+            .HasAnnotation("ProductVersion", "8.0.2")
+            .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+        NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<bool>("AllowAddFinancePlanReviewers")
-                        .HasColumnType("boolean");
+            b.Property<bool>("AllowAddFinancePlanReviewers")
+                .HasColumnType("boolean");
 
-                    b.Property<bool>("AllowAddFinancePlanSubOwners")
-                        .HasColumnType("boolean");
+            b.Property<bool>("AllowAddFinancePlanSubOwners")
+                .HasColumnType("boolean");
 
-                    b.Property<int>("MaxNumberOfFinancePlanReviewers")
-                        .HasColumnType("integer");
+            b.Property<int>("MaxNumberOfFinancePlanReviewers")
+                .HasColumnType("integer");
 
-                    b.Property<int>("MaxNumberOfSubFinancePlanSubOwners")
-                        .HasColumnType("integer");
+            b.Property<int>("MaxNumberOfSubFinancePlanSubOwners")
+                .HasColumnType("integer");
 
-                    b.Property<Guid>("PreferenceId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("PreferenceId")
+                .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("PreferenceId")
-                        .IsUnique();
+            b.HasIndex("PreferenceId")
+                .IsUnique();
 
-                    b.ToTable("FinancePreferences", "UserPreferences");
-                });
+            b.ToTable("FinancePreferences", "UserPreferences");
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<Guid>("PreferenceId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("PreferenceId")
+                .HasColumnType("uuid");
 
-                    b.Property<bool>("UseDarkMode")
-                        .HasColumnType("boolean");
+            b.Property<bool>("UseDarkMode")
+                .HasColumnType("boolean");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("PreferenceId")
-                        .IsUnique();
+            b.HasIndex("PreferenceId")
+                .IsUnique();
 
-                    b.ToTable("GeneralPreferences", "UserPreferences");
-                });
+            b.ToTable("GeneralPreferences", "UserPreferences");
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<Guid>("PreferenceId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("PreferenceId")
+                .HasColumnType("uuid");
 
-                    b.Property<bool>("SendFinanceReportEnabled")
-                        .HasColumnType("boolean");
+            b.Property<bool>("SendFinanceReportEnabled")
+                .HasColumnType("boolean");
 
-                    b.Property<int>("SendFinanceReportInterval")
-                        .HasColumnType("integer");
+            b.Property<int>("SendFinanceReportInterval")
+                .HasColumnType("integer");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("PreferenceId")
-                        .IsUnique();
+            b.HasIndex("PreferenceId")
+                .IsUnique();
 
-                    b.ToTable("NotificationPreferences", "UserPreferences");
-                });
+            b.ToTable("NotificationPreferences", "UserPreferences");
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("UserId")
+                .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+            b.HasIndex("UserId")
+                .IsUnique();
 
-                    b.ToTable("Preferences", "UserPreferences");
-                });
+            b.ToTable("Preferences", "UserPreferences");
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", b =>
-                {
-                    b.HasOne("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", null)
-                        .WithOne("FinancePreference")
-                        .HasForeignKey("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", "PreferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", b =>
+        {
+            b.HasOne("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", null)
+                .WithOne("FinancePreference")
+                .HasForeignKey("Expenso.UserPreferences.Core.Domain.Preferences.Model.FinancePreference", "PreferenceId")
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", b =>
-                {
-                    b.HasOne("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", null)
-                        .WithOne("GeneralPreference")
-                        .HasForeignKey("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", "PreferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", b =>
+        {
+            b.HasOne("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", null)
+                .WithOne("GeneralPreference")
+                .HasForeignKey("Expenso.UserPreferences.Core.Domain.Preferences.Model.GeneralPreference", "PreferenceId")
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", b =>
-                {
-                    b.HasOne("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", null)
-                        .WithOne("NotificationPreference")
-                        .HasForeignKey("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", "PreferenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", b =>
+        {
+            b.HasOne("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", null)
+                .WithOne("NotificationPreference")
+                .HasForeignKey("Expenso.UserPreferences.Core.Domain.Preferences.Model.NotificationPreference", "PreferenceId")
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+        });
 
-            modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
-                {
-                    b.Navigation("FinancePreference");
+        modelBuilder.Entity("Expenso.UserPreferences.Core.Domain.Preferences.Model.Preference", b =>
+        {
+            b.Navigation("FinancePreference");
 
-                    b.Navigation("GeneralPreference");
+            b.Navigation("GeneralPreference");
 
-                    b.Navigation("NotificationPreference");
-                });
+            b.Navigation("NotificationPreference");
+        });
 #pragma warning restore 612, 618
-        }
     }
 }

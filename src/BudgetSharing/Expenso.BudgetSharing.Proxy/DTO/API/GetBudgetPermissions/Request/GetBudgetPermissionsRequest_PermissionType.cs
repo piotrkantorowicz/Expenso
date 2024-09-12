@@ -1,5 +1,6 @@
 namespace Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Request;
 
+[Flags]
 public enum GetBudgetPermissionsRequest_PermissionType
 {
     Unknown = 0,
