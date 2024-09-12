@@ -44,5 +44,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
             $"Only pending budget permission request {TestCandidate.Id} can be made confirmed";
 
         exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        exception?.Details.Should().Be(expected: expectedExceptionMessage);
+        exception?.ToString().Should().Be(expected: expectedExceptionMessage);
     }
 }

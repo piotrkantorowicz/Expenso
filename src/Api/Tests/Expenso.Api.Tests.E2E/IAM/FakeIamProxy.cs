@@ -21,7 +21,7 @@ internal sealed class FakeIamProxy : IIamProxy
 
     public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return await Task.FromResult(result: _users.FirstOrDefault(predicate: x => x.Email == userId));
+        return await Task.FromResult(result: _users.FirstOrDefault(predicate: x => x.UserId == userId));
     }
 
     public async Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)

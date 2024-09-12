@@ -13,9 +13,9 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain;
 internal abstract class DomainTestBase<TTestCandidate> : TestBase<TTestCandidate> where TTestCandidate : class
 {
     [OneTimeSetUp]
-    public override void OneTimeSetUpAsync()
+    public override void OneTimeSetUp()
     {
-        base.OneTimeSetUpAsync();
+        base.OneTimeSetUp();
         Mock<IServiceProvider> serviceProviderMock = new();
 
         serviceProviderMock

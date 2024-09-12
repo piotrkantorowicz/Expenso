@@ -15,7 +15,7 @@ public abstract class TestBase<T> where T : class
     protected T TestCandidate { get; set; } = null!;
 
     [OneTimeSetUp]
-    public virtual void OneTimeSetUpAsync()
+    public virtual void OneTimeSetUp()
     {
         MessageContextFactoryMock = new Mock<IMessageContextFactory>();
         MessageContextFactoryMock.Setup(expression: x => x.Current(It.IsAny<Guid?>())).Returns(value: _messageContext);
