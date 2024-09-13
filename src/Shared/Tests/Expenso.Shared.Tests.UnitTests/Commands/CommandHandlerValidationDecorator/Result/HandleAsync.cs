@@ -28,7 +28,7 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
     }
 
     [Test]
-    public void Should_ThrowValidationException_When_ValidationErrorsOccurred()
+    public async Task Should_ThrowValidationException_When_ValidationErrorsOccurred()
     {
         // Arrange
         Dictionary<string, string> errors = new()
@@ -37,18 +37,24 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
             { "Name", "Name is required" }
         };
 
-        _validator.Setup(expression: x => x.Validate(_testCommand)).Returns(value: errors);
+        _validator
+            .Setup(expression: x => x.Validate(_testCommand))
+            .Returns(value: new Dictionary<string, string>
+            {
+                { "Id", "Id is required" },
+                { "Name", "Name is required" }
+            });
 
         // Act
-        // Assert
-        ValidationException? exception = Assert.ThrowsAsync<ValidationException>(code: () =>
-            TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
 
-        exception.Should().NotBeNull();
-        exception?.ErrorDictionary.Should().NotBeNull();
-        exception?.ErrorDictionary.Should().BeEquivalentTo(expectation: errors);
-        string details = $"Id: Id is required{Environment.NewLine}Name: Name is required{Environment.NewLine}";
-        exception?.Details.Should().NotBeNull();
-        exception?.Details.Should().Be(expected: details);
+        // Assert
+        await action
+            .Should()
+            .ThrowAsync<ValidationException>()
+            .Where(exceptionExpression: x => errors.All(y => x.ErrorDictionary.Contains(y)))
+            .Where(exceptionExpression: x => x.Details ==
+                                             $"Id: Id is required{Environment.NewLine}Name: Name is required{Environment.NewLine}");
     }
 }

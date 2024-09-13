@@ -75,13 +75,14 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(entryCommand: _registerJobEntryCommand,
-                cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () => await TestCandidate.HandleAsync(entryCommand: _registerJobEntryCommand,
+            cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"Job instance with id {JobInstance.Default.Id} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"Job instance with id {JobInstance.Default.Id} not found");
     }
 
     [Test]
@@ -105,12 +106,15 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(entryCommand: entryCommand, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(entryCommand: entryCommand,
+                cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"Job status with id {JobEntryStatus.Running.Id} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"Job status with id {JobEntryStatus.Running.Id} not found");
     }
 
     [Test]
@@ -131,11 +135,14 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(entryCommand: entryCommand, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(entryCommand: entryCommand,
+                cancellationToken: It.IsAny<CancellationToken>());
 
-        const string expectedExceptionMessage = "Unable to create job entry from request";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: "Unable to create job entry from request");
     }
 }

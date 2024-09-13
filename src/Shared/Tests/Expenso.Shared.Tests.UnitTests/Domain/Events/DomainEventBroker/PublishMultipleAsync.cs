@@ -5,7 +5,7 @@ namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
 {
     [Test]
-    public void Should_PublishEvent()
+    public async Task Should_PublishEvent()
     {
         // Arrange
         ICollection<TestDomainEvent> domainEvents = [];
@@ -21,8 +21,10 @@ internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
         }
 
         // Act
+        Func<Task> action = async () =>
+            await TestCandidate.PublishMultipleAsync(events: domainEvents, cancellationToken: default);
+
         // Assert
-        Assert.DoesNotThrowAsync(code: () =>
-            TestCandidate.PublishMultipleAsync(events: domainEvents, cancellationToken: default));
+        await action.Should().NotThrowAsync();
     }
 }

@@ -39,13 +39,14 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(command: _cancelJobEntryCommand,
-                cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () => await TestCandidate.HandleAsync(command: _cancelJobEntryCommand,
+            cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"Job entry with id {_jobEntryId} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"Job entry with id {_jobEntryId} not found");
     }
 
     [Test]
@@ -61,12 +62,13 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: _jobEntry);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(command: _cancelJobEntryCommand,
-                cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () => await TestCandidate.HandleAsync(command: _cancelJobEntryCommand,
+            cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"Job status with id {JobEntryStatus.Cancelled.Id} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert        
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"Job status with id {JobEntryStatus.Cancelled.Id} not found");
     }
 }

@@ -47,12 +47,14 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             .ReturnsAsync(value: ArraySegment<UserRepresentation>.Empty);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>());
 
-        const string expectedExceptionMessage = $"User with email {email} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"User with email {email} not found");
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(),

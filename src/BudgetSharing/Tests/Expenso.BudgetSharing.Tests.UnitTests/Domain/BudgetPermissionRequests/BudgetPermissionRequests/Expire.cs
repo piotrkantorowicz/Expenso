@@ -37,13 +37,14 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         TestCandidate.Expire();
 
         // Act
-        DomainRuleValidationException? exception =
-            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Expire());
+        Action action = () => TestCandidate.Expire();
 
         // Assert
-        string expectedExceptionMessage =
-            $"Only pending budget permission request {TestCandidate.Id} can be made expired";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made expired");
     }
 }

@@ -36,15 +36,14 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         TestCandidate.Confirm(clock: _clockMock.Object);
 
         // Act
-        DomainRuleValidationException? exception =
-            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Confirm(clock: _clockMock.Object));
+        Action action = () => TestCandidate.Confirm(clock: _clockMock.Object);
 
         // Assert
-        string expectedExceptionMessage =
-            $"Only pending budget permission request {TestCandidate.Id} can be made confirmed";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
-        exception?.Details.Should().Be(expected: expectedExceptionMessage);
-        exception?.ToString().Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made confirmed");
     }
 }

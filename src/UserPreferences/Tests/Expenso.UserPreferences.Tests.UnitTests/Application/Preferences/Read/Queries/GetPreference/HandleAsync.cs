@@ -102,12 +102,11 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: _id);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
-        const string expectedExceptionMessage = "Preferences not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found");
     }
 
     [Test]
@@ -117,12 +116,11 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), UserId: _userId);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
-        const string expectedExceptionMessage = "Preferences not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found");
     }
 
     [Test]
@@ -133,11 +131,10 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
             ForCurrentUser: true);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = () =>
+            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
-        const string expectedExceptionMessage = "Preferences not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found");
     }
 }

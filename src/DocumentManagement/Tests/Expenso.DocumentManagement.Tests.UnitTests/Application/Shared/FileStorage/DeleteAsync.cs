@@ -31,13 +31,13 @@ internal sealed class DeleteAsync : FileStorageTestBase
         _fileSystemMock.Setup(expression: x => x.File.Exists(path)).Returns(value: false);
 
         // Act
-        FileHasNotBeenFoundException? exception =
-            Assert.ThrowsAsync<FileHasNotBeenFoundException>(code: () =>
-                TestCandidate.DeleteAsync(path: path, cancellationToken: default));
+        Func<Task> action = () => TestCandidate.DeleteAsync(path: path, cancellationToken: default);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
-        exception?.Details.Should().Be(expected: "File not found");
+        action
+            .Should()
+            .ThrowAsync<FileHasNotBeenFoundException>()
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
+            .Where(exceptionExpression: ex => ex.Details == "File not found");
     }
 }

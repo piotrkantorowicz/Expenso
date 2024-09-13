@@ -53,15 +53,13 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         _servicesDictionary.Clear();
 
         // Act
-        InvalidOperationException? exception =
-            Assert.Throws<InvalidOperationException>(code: () => TestCandidate.GetService<IPushService>());
+        Func<IPushService> action = () => TestCandidate.GetService<IPushService>();
 
         // Assert
-        exception.Should().NotBeNull();
-
-        exception
-            ?.Message.Should()
-            .Be(expected:
+        action
+            .Should()
+            .Throw<InvalidOperationException>()
+            .WithMessage(expectedWildcardPattern:
                 "Notification service Expenso.Communication.Core.Application.Notifications.Services.Push.IPushService hasn't been found");
     }
 
@@ -73,15 +71,13 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         _servicesDictionary.Add(key: nameof(IEmailService), value: new Mock<IPushService>().Object);
 
         // Act
-        InvalidOperationException? exception =
-            Assert.Throws<InvalidOperationException>(code: () => TestCandidate.GetService<IEmailService>());
+        Func<IEmailService> action = () => TestCandidate.GetService<IEmailService>();
 
         // Assert
-        exception.Should().NotBeNull();
-
-        exception
-            ?.Message.Should()
-            .Be(expected:
+        action
+            .Should()
+            .Throw<InvalidOperationException>()
+            .WithMessage(expectedWildcardPattern:
                 "Notification service is not of requested type Expenso.Communication.Core.Application.Notifications.Services.Emails.IEmailService");
     }
 }

@@ -59,15 +59,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: null);
 
         // Act
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+            permissionType: _permissionType, expirationDays: ExpirationDays,
+            cancellationToken: It.IsAny<CancellationToken>());
+
         // Assert
-        DomainRuleValidationException? exception = Assert.ThrowsAsync<DomainRuleValidationException>(code: () =>
-            TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email, permissionType: _permissionType,
-                expirationDays: ExpirationDays, cancellationToken: It.IsAny<CancellationToken>()));
-
-        string expectedExceptionMessage =
-            $"Unable to create budget permission request for not existant budget permission. Budget {_budgetId}";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .ThrowAsync<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Unable to create budget permission request for not existant budget permission. Budget {_budgetId}");
     }
 
     [Test]
@@ -83,13 +85,15 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowsAsync(exception: new NotFoundException(message: $"User with email {_email} not found"));
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email, permissionType: _permissionType,
-                expirationDays: ExpirationDays, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+            permissionType: _permissionType, expirationDays: ExpirationDays,
+            cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"User with email {_email} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"User with email {_email} not found");
     }
 
     [Test]
@@ -108,15 +112,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             });
 
         // Act
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+            permissionType: _permissionType, expirationDays: ExpirationDays,
+            cancellationToken: It.IsAny<CancellationToken>());
+
         // Assert
-        DomainRuleValidationException? exception = Assert.ThrowsAsync<DomainRuleValidationException>(code: () =>
-            TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email, permissionType: _permissionType,
-                expirationDays: ExpirationDays, cancellationToken: It.IsAny<CancellationToken>()));
-
-        string expectedExceptionMessage =
-            $"Budget participant must be the existing system user, but provided user with id {_getUserResponse.Email} hasn't been found in the system";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .ThrowAsync<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Budget participant must be the existing system user, but provided user with id {_getUserResponse.Email} hasn't been found in the system");
     }
 
     [Test]
@@ -134,15 +140,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         // Act
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+            permissionType: _permissionType, expirationDays: ExpirationDays,
+            cancellationToken: It.IsAny<CancellationToken>());
+
         // Assert
-        DomainRuleValidationException? exception = Assert.ThrowsAsync<DomainRuleValidationException>(code: () =>
-            TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email, permissionType: _permissionType,
-                expirationDays: ExpirationDays, cancellationToken: It.IsAny<CancellationToken>()));
-
-        string expectedExceptionMessage =
-            $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .ThrowAsync<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}");
     }
 
     [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]
@@ -169,15 +177,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: [otherBudgetPermissionRequest]);
 
         // Act
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+            permissionType: permissionType, expirationDays: ExpirationDays,
+            cancellationToken: It.IsAny<CancellationToken>());
+
         // Assert
-        DomainRuleValidationException? exception = Assert.ThrowsAsync<DomainRuleValidationException>(code: () =>
-            TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email, permissionType: permissionType,
-                expirationDays: ExpirationDays, cancellationToken: It.IsAny<CancellationToken>()));
-
-        string expectedExceptionMessage =
-            $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .ThrowAsync<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}");
     }
 
     [Test]

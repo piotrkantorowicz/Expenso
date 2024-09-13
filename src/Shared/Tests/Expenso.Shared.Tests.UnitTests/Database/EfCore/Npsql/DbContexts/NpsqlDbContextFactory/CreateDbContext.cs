@@ -3,18 +3,20 @@ namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.NpsqlD
 internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
 {
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "Path not exists not this machine")]
-    public void Should_ThrowArgumentException_When_PathIsNotValid(string projectPath)
+    public async Task Should_ThrowArgumentException_When_PathIsNotValid(string projectPath)
     {
         // Arrange
         // Act
+        Func<Task> action = async () =>
+            await Task.FromResult(result: TestCandidate.CreateDbContext(args: [projectPath]));
+
         // Assert
-        ArgumentException? exception =
-            Assert.Throws<ArgumentException>(code: () => TestCandidate.CreateDbContext(args: [projectPath]));
-
-        string expectedExceptionMessage =
-            $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        await action
+            .Should()
+            .ThrowAsync<ArgumentException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}");
     }
 
     [Test]

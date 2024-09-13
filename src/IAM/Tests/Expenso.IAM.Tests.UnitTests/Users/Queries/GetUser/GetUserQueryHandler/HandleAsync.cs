@@ -85,11 +85,13 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         GetUserQuery query = new(MessageContext: _messageContextMock.Object);
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
-        const string expectedExceptionMessage = $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided");
     }
 }
