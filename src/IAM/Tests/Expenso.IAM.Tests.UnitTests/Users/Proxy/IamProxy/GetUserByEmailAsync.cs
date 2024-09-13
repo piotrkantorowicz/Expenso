@@ -42,11 +42,13 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
             .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found"));
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"User with email {email} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"User with email {email} not found");
     }
 }

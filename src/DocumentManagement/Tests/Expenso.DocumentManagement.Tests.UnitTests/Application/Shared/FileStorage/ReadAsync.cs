@@ -42,13 +42,13 @@ internal sealed class ReadAsync : FileStorageTestBase
         _fileSystemMock.Setup(expression: x => x.File.Exists(path)).Returns(value: false);
 
         // Act
-        FileHasNotBeenFoundException? exception =
-            Assert.ThrowsAsync<FileHasNotBeenFoundException>(code: () =>
-                TestCandidate.ReadAsync(path: path, cancellationToken: default));
+        Func<Task> action = () => TestCandidate.ReadAsync(path: path, cancellationToken: default);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
-        exception?.Details.Should().Be(expected: "File not found");
+        action
+            .Should()
+            .ThrowAsync<FileHasNotBeenFoundException>()
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
+            .Where(exceptionExpression: x => x.Details == "File not found");
     }
 }

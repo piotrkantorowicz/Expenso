@@ -79,13 +79,15 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(code: () =>
-            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> act = () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage =
-            $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        act
+            .Should()
+            .ThrowAsync<ConflictException>()
+            .WithMessage(
+                expectedWildcardPattern:
+                $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found");
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),

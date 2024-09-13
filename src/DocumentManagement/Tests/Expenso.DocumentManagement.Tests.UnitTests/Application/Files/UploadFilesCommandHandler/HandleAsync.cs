@@ -60,12 +60,13 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
             .Returns(value: "directoryPath");
 
         // Act
-        EmptyFileContentException? exception = Assert.ThrowsAsync<EmptyFileContentException>(code: () =>
-            TestCandidate.HandleAsync(command: command, cancellationToken: default));
+        Func<Task> action = () => TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "One or more validation failures have occurred");
-        exception?.Details.Should().Be(expected: "File content cannot be empty");
+        action
+            .Should()
+            .ThrowAsync<EmptyFileContentException>()
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
+            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty");
     }
 }

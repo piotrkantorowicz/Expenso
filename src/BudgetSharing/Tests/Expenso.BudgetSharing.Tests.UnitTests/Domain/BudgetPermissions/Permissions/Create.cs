@@ -53,7 +53,8 @@ internal sealed class Create : PermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
                 expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed");
     }
 }

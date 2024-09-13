@@ -45,14 +45,16 @@ internal sealed class Create : BudgetPermissionRequestTestBase
     {
         // Arrange
         // Act
-        DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(code: () =>
-            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, ownerId: _defaultOwnerId,
-                personId: _defaultPersonId, permissionType: PermissionType.Unknown, expirationDays: Expiration,
-                clock: _clockMock.Object));
+        Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
+            ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: PermissionType.Unknown,
+            expirationDays: Expiration, clock: _clockMock.Object));
 
         // Assert
-        string expectedExceptionMessage = $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .ThrowAsync<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern: $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed");
     }
 
     [Test]
@@ -62,13 +64,15 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: new DateTime(year: 2021, month: 1, day: 1));
 
         // Act
-        DomainRuleValidationException? exception = Assert.Throws<DomainRuleValidationException>(code: () =>
-            BudgetPermissionRequest.Create(budgetId: _defaultBudgetId, ownerId: _defaultOwnerId,
-                personId: _defaultPersonId, permissionType: _defaultPermissionType, expirationDays: 0,
-                clock: _clockMock.Object));
+        Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
+            ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: _defaultPermissionType,
+            expirationDays: 0, clock: _clockMock.Object));
 
         // Assert
-        string expectedExceptionMessage = $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .ThrowAsync<DomainRuleValidationException>()
+            .WithMessage(
+                expectedWildcardPattern: $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day");
     }
 }

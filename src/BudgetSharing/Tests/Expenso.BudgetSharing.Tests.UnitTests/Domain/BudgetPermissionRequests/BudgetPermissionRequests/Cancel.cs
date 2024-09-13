@@ -36,13 +36,15 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         TestCandidate.Cancel(clock: _clockMock.Object);
 
         // Act
-        DomainRuleValidationException? exception =
-            Assert.Throws<DomainRuleValidationException>(code: () => TestCandidate.Cancel(clock: _clockMock.Object));
+        Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);
 
         // Assert
-        string expectedExceptionMessage =
-            $"Only pending budget permission request {TestCandidate.Id} can be made cancelled";
-
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made cancelled");
     }
 }

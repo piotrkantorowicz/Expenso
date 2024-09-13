@@ -25,7 +25,7 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
     }
 
     [Test]
-    public void Should_LogError_When_ExceptionOccurred()
+    public async Task Should_LogError_When_ExceptionOccurred()
     {
         // Arrange
         _integrationEventHandlerMock
@@ -33,12 +33,14 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
             .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging"));
 
         // Act
-        Exception? exception = Assert.ThrowsAsync<Exception>(code: () =>
-            TestCandidate.HandleAsync(@event: _testIntegrationEvent, cancellationToken: CancellationToken.None));
+        Func<Task> action = async () => await TestCandidate.HandleAsync(
+            @event: _testIntegrationEvent, cancellationToken: CancellationToken.None);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
+        await action
+            .Should()
+            .ThrowAsync<Exception>()
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.IntegrationEventExecuting, It.IsAny<string>(),

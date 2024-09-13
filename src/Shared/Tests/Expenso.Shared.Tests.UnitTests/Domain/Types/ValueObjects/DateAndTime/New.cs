@@ -25,14 +25,15 @@ internal sealed class New : TestBase<TestCandidate>
         // Arrange
         DateTimeOffset emptyDateTimeOffset = DateTimeOffset.MinValue;
 
-        // Act & Assert
-        DomainRuleValidationException? ex = Assert.Throws<DomainRuleValidationException>(code: () =>
-            TestCandidate.New(value: emptyDateTimeOffset));
+        // Act
+        Action action = () => TestCandidate.New(value: emptyDateTimeOffset);
 
         // Assert
-        Assert.That(actual: ex?.Message,
-            expression: Is.EqualTo(
-                expected:
-                $"Empty date and time {nameof(Shared.Domain.Types.ValueObjects.DateAndTime)} cannot be processed"));
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .Where(exceptionExpression: x => x.Details ==
+                                             $"Empty date and time {nameof(Shared.Domain.Types.ValueObjects.DateAndTime)} cannot be processed");
     }
 }

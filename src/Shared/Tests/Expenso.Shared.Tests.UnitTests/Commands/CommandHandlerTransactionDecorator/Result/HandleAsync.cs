@@ -21,7 +21,7 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
     }
 
     [Test]
-    public void Should_BeginAndRollback_When_NoExceptionOccurred()
+    public async Task Should_BeginAndRollback_When_NoExceptionOccurred()
     {
         // Arrange
         _commandHandlerMock
@@ -29,12 +29,14 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
             .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test rollback"));
 
         // Act
-        Exception? exception = Assert.ThrowsAsync<Exception>(code: () =>
-            TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "Intentional thrown to test rollback");
+        await action
+            .Should()
+            .ThrowAsync<Exception>()
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test rollback");
 
         _unitOfWorkMock.Verify(expression: x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()),
             times: Times.Once);

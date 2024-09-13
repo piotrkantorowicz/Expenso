@@ -52,10 +52,13 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        ConflictException? exception = Assert.ThrowsAsync<ConflictException>(code: () =>
-            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> act = () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"Preferences for user with id {command.Preference.UserId} already exists";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        act
+            .Should()
+            .ThrowAsync<ConflictException>()
+            .WithMessage(
+                expectedWildcardPattern: $"Preferences for user with id {command.Preference.UserId} already exists");
     }
 }

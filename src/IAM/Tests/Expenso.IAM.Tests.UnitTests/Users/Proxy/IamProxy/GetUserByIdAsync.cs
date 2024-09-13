@@ -40,11 +40,13 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
             .ThrowsAsync(exception: new NotFoundException(message: $"User with id {userId} not found"));
 
         // Act
-        // Assert
-        NotFoundException? exception = Assert.ThrowsAsync<NotFoundException>(code: () =>
-            TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>()));
+        Func<Task> action = async () =>
+            await TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>());
 
-        string expectedExceptionMessage = $"User with id {userId} not found";
-        exception?.Message.Should().Be(expected: expectedExceptionMessage);
+        // Assert
+        action
+            .Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage(expectedWildcardPattern: $"User with id {userId} not found");
     }
 }

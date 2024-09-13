@@ -7,7 +7,7 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 internal sealed class SendAsync : CommandDispatcherTestBase
 {
     [Test]
-    public void Should_SendCommand()
+    public async Task Should_SendCommand()
     {
         // Arrange
         Guid testCommandId = Guid.NewGuid();
@@ -16,8 +16,10 @@ internal sealed class SendAsync : CommandDispatcherTestBase
             Name: "UsWNuYtfQTtvYR");
 
         // Act
+        Func<Task> action = async () =>
+            await TestCandidate.SendAsync(command: testCommand, cancellationToken: It.IsAny<CancellationToken>());
+
         // Assert
-        Assert.DoesNotThrowAsync(code: () =>
-            TestCandidate.SendAsync(command: testCommand, cancellationToken: It.IsAny<CancellationToken>()));
+        await action.Should().NotThrowAsync();
     }
 }

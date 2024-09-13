@@ -26,7 +26,7 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
     }
 
     [Test]
-    public void Should_LogError_When_ExceptionOccurred()
+    public async Task Should_LogError_When_ExceptionOccurred()
     {
         // Arrange
         _commandHandlerMock
@@ -34,12 +34,14 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
             .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging"));
 
         // Act
-        Exception? exception = Assert.ThrowsAsync<Exception>(code: () =>
-            TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None));
+        Func<Task> action = async () =>
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception?.Message.Should().Be(expected: "Intentional thrown to test error logging");
+        await action
+            .Should()
+            .ThrowAsync<Exception>()
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.CommandExecuting, It.IsAny<string>(), It.IsAny<IMessageContext?>(),
