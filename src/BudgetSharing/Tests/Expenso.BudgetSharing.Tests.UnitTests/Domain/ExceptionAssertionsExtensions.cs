@@ -16,7 +16,7 @@ public static class ExceptionAssertionsExtensions
         return assertion;
     }
 
-    public static Task<ExceptionAssertions<DomainRuleValidationException>> WithDetails(
+    public static Task<ExceptionAssertions<DomainRuleValidationException>> WithDetailsAsync(
         this Task<ExceptionAssertions<DomainRuleValidationException>> assertion, string expectedWildcardPattern,
         string because = "", params object[] becauseArgs)
     {

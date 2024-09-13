@@ -171,7 +171,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed")
-            .WithDetails(
+            .WithDetailsAsync(
                 expectedWildcardPattern:
                 $"Permission of type {_budgetPermissionRequest.PermissionType} can't be assigned to budget with id {_budgetPermission.BudgetId}, because permission type is not valid or budget owner with id: {_budgetPermission.OwnerId} don't allow any or more participants");
     }
