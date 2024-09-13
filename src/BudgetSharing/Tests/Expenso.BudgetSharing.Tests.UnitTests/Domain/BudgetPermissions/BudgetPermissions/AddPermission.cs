@@ -45,7 +45,8 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
                 expectedWildcardPattern:
                 $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultOwnerId}");
     }
@@ -65,7 +66,8 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
                 expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed");
     }
 
@@ -84,7 +86,8 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
                 expectedWildcardPattern: $"Budget {TestCandidate.BudgetId} can have only one owner permission");
     }
 
@@ -103,7 +106,8 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
                 expectedWildcardPattern:
                 $"Budget {TestCandidate.BudgetId} cannot have owner permission for other user {participantId} that its owner {_defaultOwnerId}");
 

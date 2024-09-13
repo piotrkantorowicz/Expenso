@@ -32,8 +32,8 @@ internal sealed class New : TestBase<TestCandidate>
         action
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"Empty date and time {nameof(Shared.Domain.Types.ValueObjects.DateAndTime)} cannot be processed");
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .Where(exceptionExpression: x => x.Details ==
+                                             $"Empty date and time {nameof(Shared.Domain.Types.ValueObjects.DateAndTime)} cannot be processed");
     }
 }

@@ -34,7 +34,8 @@ internal sealed class New : PersonIdTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithDetails(
                 expectedWildcardPattern:
                 $"Empty identifier {nameof(BudgetSharing.Domain.Shared.ValueObjects.PersonId)} cannot be processed");
     }
