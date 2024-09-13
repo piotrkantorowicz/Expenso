@@ -18,7 +18,7 @@ internal sealed class AddDomainEvent : DomainEventsSourceTestBase
         TestCandidate.AddDomainEvent(domainEvent: domainEvent);
 
         // Assert
-        TestCandidate.DomainEvents.Should().Contain(expected: domainEvent);
+        TestCandidate.GetDomainEvents().Should().Contain(expected: domainEvent);
     }
 
     [Test]
@@ -33,6 +33,6 @@ internal sealed class AddDomainEvent : DomainEventsSourceTestBase
         TestCandidate.AddDomainEvent(domainEvent: domainEvent2);
 
         // Assert
-        TestCandidate.DomainEvents.Should().ContainInOrder(domainEvent1, domainEvent2);
+        TestCandidate.GetDomainEvents().Should().ContainInOrder(domainEvent1, domainEvent2);
     }
 }

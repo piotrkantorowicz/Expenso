@@ -12,9 +12,9 @@ namespace Expenso.Shared.System.Modules;
 
 public static class Modules
 {
-    private static readonly Dictionary<string, ModuleDefinition> RegisteredModules = new();
+    private static readonly Dictionary<string, IModuleDefinition> RegisteredModules = new();
 
-    public static void RegisterModule<TModule>(Func<TModule>? moduleFactory = default) where TModule : ModuleDefinition
+    public static void RegisterModule<TModule>(Func<TModule>? moduleFactory = default) where TModule : IModuleDefinition
     {
         TModule moduleDefinition = moduleFactory is not null ? moduleFactory() : Activator.CreateInstance<TModule>();
         RegisteredModules.Add(key: moduleDefinition.ModuleName, value: moduleDefinition);
@@ -22,13 +22,13 @@ public static class Modules
 
     public static void AddModules(this IServiceCollection services, IConfiguration configuration)
     {
-        foreach (ModuleDefinition module in RegisteredModules.Values)
+        foreach (IModuleDefinition module in RegisteredModules.Values)
         {
             module.AddDependencies(services: services, configuration: configuration);
         }
     }
 
-    public static IDictionary<string, ModuleDefinition> GetRegisteredModules()
+    public static IDictionary<string, IModuleDefinition> GetRegisteredModules()
     {
         return RegisteredModules;
     }
@@ -40,7 +40,7 @@ public static class Modules
 
     public static void MapModulesEndpoints(this IEndpointRouteBuilder endpointRouteBuilder, string rootTag)
     {
-        foreach (ModuleDefinition module in RegisteredModules.Values)
+        foreach (IModuleDefinition module in RegisteredModules.Values)
         {
             foreach (EndpointRegistration endpoint in module.CreateEndpoints())
             {

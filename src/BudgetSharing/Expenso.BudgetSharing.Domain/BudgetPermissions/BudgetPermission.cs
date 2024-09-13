@@ -53,7 +53,7 @@ public sealed class BudgetPermission : IAggregateRoot
 
     public IReadOnlyCollection<IDomainEvent> GetUncommittedChanges()
     {
-        return _domainEventsSource.DomainEvents;
+        return _domainEventsSource.GetDomainEvents();
     }
 
     public static BudgetPermission Create(BudgetPermissionId budgetPermissionId, BudgetId budgetId, PersonId ownerId)

@@ -1,13 +1,14 @@
-﻿namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
+﻿
+using TestCandidate = Expenso.Shared.Domain.Types.ValueObjects.DateAndTime;
+namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
-internal sealed class LessThan : DateAndTimeTestBase
+internal sealed class LessThan : TestBase<TestCandidate>
 {
     [Test]
     public void Should_ReturnTrue_When_ValueIsLessThanGivenDateTimeOffset()
     {
         // Arrange
-        Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
-            Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
+        TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
 
         DateTimeOffset other = dateTimeOffset.Value.AddHours(hours: 1);
 
@@ -22,8 +23,7 @@ internal sealed class LessThan : DateAndTimeTestBase
     public void Should_ReturnFalse_When_ValueIsGreaterThanOrEqualToGivenDateTimeOffset()
     {
         // Arrange
-        Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
-            Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
+        TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
 
         DateTimeOffset other = dateTimeOffset.Value.AddHours(hours: -1);
 

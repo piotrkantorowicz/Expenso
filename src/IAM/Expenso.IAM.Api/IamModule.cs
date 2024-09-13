@@ -11,11 +11,11 @@ using CoreExtensions = Expenso.IAM.Core.Extensions;
 
 namespace Expenso.IAM.Api;
 
-public sealed class IamModule : ModuleDefinition
+public sealed class IamModule : IModuleDefinition
 {
-    public override string ModulePrefix => "/users";
+    public string ModulePrefix => "/users";
 
-    public override Assembly[] GetModuleAssemblies()
+    public IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return
         [
@@ -25,13 +25,13 @@ public sealed class IamModule : ModuleDefinition
         ];
     }
 
-    public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
+    public void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddIamCore(configuration: configuration);
         services.AddIamProxy(assemblies: GetModuleAssemblies());
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
+    public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         return Array.Empty<EndpointRegistration>();
     }

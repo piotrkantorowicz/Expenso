@@ -42,11 +42,11 @@ using Extensions = Expenso.BudgetSharing.Infrastructure.Extensions;
 
 namespace Expenso.BudgetSharing.Api;
 
-public sealed class BudgetSharingModule : ModuleDefinition
+public sealed class BudgetSharingModule : IModuleDefinition
 {
-    public override string ModulePrefix => "/budget-sharing";
+    public string ModulePrefix => "/budget-sharing";
 
-    public override IReadOnlyCollection<Assembly> GetModuleAssemblies()
+    public IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return
         [
@@ -58,14 +58,14 @@ public sealed class BudgetSharingModule : ModuleDefinition
         ];
     }
 
-    public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
+    public void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDomain();
-        services.AddInfrastructure(configuration: configuration, moduleName: ModuleName);
+        services.AddInfrastructure(configuration: configuration, moduleName: GetType().Name);
         services.AddBudgetSharingProxy(assemblies: GetModuleAssemblies());
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
+    public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         List<EndpointRegistration> endpointsRegistration = [];
         endpointsRegistration.AddRange(collection: CreateBudgetPermissionRequestEndpoints());

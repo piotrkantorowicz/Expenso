@@ -13,7 +13,7 @@ internal static class PreferencesDataInitializer
 {
     public static readonly IList<Guid> PreferenceIds = new List<Guid>();
 
-    public static async Task Initialize(ICommandDispatcher commandDispatcher,
+    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
         foreach (Guid userId in UserDataInitializer.UserIds)

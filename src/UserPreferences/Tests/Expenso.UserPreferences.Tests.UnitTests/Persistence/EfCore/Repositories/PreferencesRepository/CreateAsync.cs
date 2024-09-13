@@ -13,7 +13,7 @@ internal sealed class CreateAsync : PreferenceRepositoryTestBase
 
         _preferenceDbSetMock
             .Setup(expression: x => x.AddAsync(preference, It.IsAny<CancellationToken>()))
-            .Callback<Preference, CancellationToken>(action: (entity, _) => { AddPreference(preference: entity); });
+            .Callback<Preference, CancellationToken>(action: (entity, _) => AddPreference(preference: entity));
 
         // Act
         Preference createdPreference =

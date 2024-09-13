@@ -13,7 +13,7 @@ internal sealed class GetDomainEvents : DomainEventsSourceTestBase
     {
         // Arrange
         // Act
-        IReadOnlyCollection<IDomainEvent> result = TestCandidate.DomainEvents;
+        IReadOnlyCollection<IDomainEvent> result = TestCandidate.GetDomainEvents();
 
         // Assert
         result.Should().BeEmpty();
@@ -27,10 +27,10 @@ internal sealed class GetDomainEvents : DomainEventsSourceTestBase
         TestCandidate.AddDomainEvent(domainEvent: domainEvent);
 
         // Act
-        IReadOnlyCollection<IDomainEvent> result = TestCandidate.DomainEvents;
+        IReadOnlyCollection<IDomainEvent> result = TestCandidate.GetDomainEvents();
 
         // Assert
         result.Should().Contain(expected: domainEvent);
-        TestCandidate.DomainEvents.Should().BeEmpty();
+        TestCandidate.GetDomainEvents().Should().BeEmpty();
     }
 }

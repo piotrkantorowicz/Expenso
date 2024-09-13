@@ -21,14 +21,14 @@ internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
     private BackgroundMessageProcessor? _backgroundMessageProcessor;
 
     [SetUp]
-    public async Task SetUp()
+    public async Task SetUpAsync()
     {
         TestCandidate = new TestCandidate(channel: _messageChannel);
         await StartMessageProcessor(cancellationToken: _stoppingTokenSource.Token);
     }
 
     [TearDown]
-    public async Task TearDown()
+    public async Task TearDownAsync()
     {
         _messageChannel.Writer.Complete();
         await _backgroundMessageProcessor?.StopAsync(cancellationToken: _stoppingTokenSource.Token)!;

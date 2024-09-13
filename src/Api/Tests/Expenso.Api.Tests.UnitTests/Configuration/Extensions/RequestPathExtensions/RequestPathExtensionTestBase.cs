@@ -6,7 +6,7 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Extensions.RequestPathExtens
 
 internal abstract class RequestPathExtensionTestBase
 {
-    protected Mock<ILoggerService<ModuleIdMiddleware>> _loggerMock;
+    protected Mock<ILoggerService<ModuleIdMiddleware>> _loggerMock = null!;
 
     [SetUp]
     public void SetUp()

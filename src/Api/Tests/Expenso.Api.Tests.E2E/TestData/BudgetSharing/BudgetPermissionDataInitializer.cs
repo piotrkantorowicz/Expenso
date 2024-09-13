@@ -20,7 +20,7 @@ internal static class BudgetPermissionDataInitializer
     public static readonly List<Guid> BudgetPermissionIds = [];
     public static readonly List<Guid> BudgetIds = [];
 
-    public static async Task Initialize(ICommandDispatcher commandDispatcher,
+    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
         IList<(Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType, int expiration)>

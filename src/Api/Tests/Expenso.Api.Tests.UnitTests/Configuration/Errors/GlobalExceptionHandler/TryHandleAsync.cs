@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandler;
 
-internal sealed class OnException : GlobalExceptionHandlerTestBase
+internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
 {
     [Test]
     public async Task Should_Return401_When_AuthorizationExceptionThrown()

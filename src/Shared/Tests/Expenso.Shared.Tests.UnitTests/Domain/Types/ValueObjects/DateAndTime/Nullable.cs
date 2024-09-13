@@ -1,13 +1,13 @@
-﻿namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
+﻿using TestCandidate = Expenso.Shared.Domain.Types.ValueObjects.DateAndTime;
+namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
-internal sealed class Nullable : DateAndTimeTestBase
+internal sealed class Nullable : TestBase<TestCandidate>
 {
     [Test]
     public void Should_ReturnNull_When_ValueIsNull()
     {
         // Act
-        Shared.Domain.Types.ValueObjects.DateAndTime? result =
-            Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: null);
+        TestCandidate? result = TestCandidate.Nullable(value: null);
 
         // Assert
         result.Should().BeNull();
@@ -17,8 +17,7 @@ internal sealed class Nullable : DateAndTimeTestBase
     public void Should_ReturnNull_When_ValueIsMinValue()
     {
         // Act
-        Shared.Domain.Types.ValueObjects.DateAndTime? result =
-            Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: DateTimeOffset.MinValue);
+        TestCandidate? result = TestCandidate.Nullable(value: DateTimeOffset.MinValue);
 
         // Assert
         result.Should().BeNull();
@@ -28,8 +27,7 @@ internal sealed class Nullable : DateAndTimeTestBase
     public void Should_ReturnNull_When_ValueIsMaxValue()
     {
         // Act
-        Shared.Domain.Types.ValueObjects.DateAndTime? result =
-            Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: DateTimeOffset.MaxValue);
+        TestCandidate? result = TestCandidate.Nullable(value: DateTimeOffset.MaxValue);
 
         // Assert
         result.Should().BeNull();
@@ -42,8 +40,7 @@ internal sealed class Nullable : DateAndTimeTestBase
         DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
 
         // Act
-        Shared.Domain.Types.ValueObjects.DateAndTime? result =
-            Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: dateTimeOffset);
+        TestCandidate? result = TestCandidate.Nullable(value: dateTimeOffset);
 
         // Assert
         result.Should().NotBeNull();

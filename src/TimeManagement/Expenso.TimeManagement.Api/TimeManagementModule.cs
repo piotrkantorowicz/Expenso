@@ -20,11 +20,11 @@ using CoreExtensions = Expenso.TimeManagement.Core.Extensions;
 
 namespace Expenso.TimeManagement.Api;
 
-public sealed class TimeManagementModule : ModuleDefinition
+public sealed class TimeManagementModule : IModuleDefinition
 {
-    public override string ModulePrefix => "/time-management";
+    public string ModulePrefix => "/time-management";
 
-    public override IReadOnlyCollection<Assembly> GetModuleAssemblies()
+    public IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return
         [
@@ -34,13 +34,13 @@ public sealed class TimeManagementModule : ModuleDefinition
         ];
     }
 
-    public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
+    public void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTimeManagementCore(configuration: configuration, moduleName: ModuleName);
+        services.AddTimeManagementCore(configuration: configuration, moduleName: GetType().Name);
         services.AddTimeManagementProxy(assemblies: GetModuleAssemblies());
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
+    public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         EndpointRegistration cancelJobEndpointRegistration = new(Pattern: "cancel-job", Name: "CancelJob",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (

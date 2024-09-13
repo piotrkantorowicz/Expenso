@@ -23,11 +23,11 @@ using CoreExtensions = Expenso.UserPreferences.Core.Extensions;
 
 namespace Expenso.UserPreferences.Api;
 
-public sealed class UserPreferencesModule : ModuleDefinition
+public sealed class UserPreferencesModule : IModuleDefinition
 {
-    public override string ModulePrefix => "/user-preferences";
+    public string ModulePrefix => "/user-preferences";
 
-    public override Assembly[] GetModuleAssemblies()
+    public IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return
         [
@@ -37,13 +37,13 @@ public sealed class UserPreferencesModule : ModuleDefinition
         ];
     }
 
-    public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
+    public void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddUserPreferencesCore(configuration: configuration, moduleName: ModuleName);
+        services.AddUserPreferencesCore(configuration: configuration, moduleName: GetType().Name);
         services.AddUserPreferencesProxy(assemblies: GetModuleAssemblies());
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
+    public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         EndpointRegistration getPreferencesEndpointRegistration = new(Pattern: "preferences/{id}",
             Name: "GetPreferences", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (

@@ -12,9 +12,9 @@ internal sealed class BackgroundJob : BackgroundService
 {
     private readonly ILoggerService<BackgroundJob> _logger;
     private readonly IServiceProvider _serviceProvider;
+    private readonly Guid _jobInstanceId;
     private TimeSpan _interval;
     private JobInstance? _jobInstance;
-    private Guid _jobInstanceId;
 
     public BackgroundJob(IServiceProvider serviceProvider, ILoggerService<BackgroundJob> logger)
     {

@@ -2,7 +2,7 @@
 
 using Expenso.Communication.Api;
 using Expenso.Communication.Proxy;
-using Expenso.Communication.Tests.UnitTests;
+using Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
 using CoreExtensions = Expenso.Communication.Core.Extensions;
 
@@ -13,7 +13,7 @@ internal static class Assemblies
     private static readonly Assembly Api = typeof(CommunicationModule).Assembly;
     private static readonly Assembly Core = typeof(CoreExtensions).Assembly;
     private static readonly Assembly Proxy = typeof(ICommunicationProxy).Assembly;
-    private static readonly Assembly UnitTests = typeof(UnitTestBase).Assembly;
+    private static readonly Assembly UnitTests = typeof(NotificationServiceFactoryTestBase).Assembly;
     private static readonly Assembly ArchTests = typeof(Assemblies).Assembly;
 
     public static IReadOnlyCollection<Assembly> ToArray()

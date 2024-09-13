@@ -11,11 +11,11 @@ using CoreExtensions = Expenso.DocumentManagement.Core.Extensions;
 
 namespace Expenso.DocumentManagement.Api;
 
-public sealed class DocumentManagementModule : ModuleDefinition
+public sealed class DocumentManagementModule : IModuleDefinition
 {
-    public override string ModulePrefix => "/document-management";
+    public string ModulePrefix => "/document-management";
 
-    public override IReadOnlyCollection<Assembly> GetModuleAssemblies()
+    public IReadOnlyCollection<Assembly> GetModuleAssemblies()
     {
         return
         [
@@ -25,13 +25,13 @@ public sealed class DocumentManagementModule : ModuleDefinition
         ];
     }
 
-    public override void AddDependencies(IServiceCollection services, IConfiguration configuration)
+    public void AddDependencies(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDocumentManagementCore(configuration: configuration);
         services.AddDocumentManagementProxy(assemblies: GetModuleAssemblies());
     }
 
-    public override IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
+    public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         return Array.Empty<EndpointRegistration>();
     }

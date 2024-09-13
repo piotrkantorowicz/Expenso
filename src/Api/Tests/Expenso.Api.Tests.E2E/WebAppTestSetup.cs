@@ -16,7 +16,7 @@ namespace Expenso.Api.Tests.E2E;
 internal sealed class WebAppTestSetup
 {
     [OneTimeSetUp]
-    public async Task OneTimeSetup()
+    public async Task OneTimeSetupAsync()
     {
         using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
         ICommandDispatcher commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
@@ -24,21 +24,21 @@ internal sealed class WebAppTestSetup
         IMessageContextFactory messageContextFactory =
             scope.ServiceProvider.GetRequiredService<IMessageContextFactory>();
 
-        await PreferencesDataInitializer.Initialize(commandDispatcher: commandDispatcher,
+        await PreferencesDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher,
             messageContextFactory: messageContextFactory, cancellationToken: default);
 
-        await BudgetPermissionDataInitializer.Initialize(commandDispatcher: commandDispatcher,
+        await BudgetPermissionDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher,
             messageContextFactory: messageContextFactory, cancellationToken: default);
 
-        await DocumentManagementDataInitializer.Initialize(commandDispatcher: commandDispatcher,
+        await DocumentManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher,
             messageContextFactory: messageContextFactory, cancellationToken: default);
     }
 
     [OneTimeTearDown]
-    public async Task OneTimeTearDown()
+    public async Task OneTimeTearDownAsync()
     {
         EfCoreSettings databaseSettings = GetDatabaseSettings();
-        await DropDatabase(databaseSettings: databaseSettings);
+        await DropDatabaseAsync(databaseSettings: databaseSettings);
         WebApp.Instance.Destroy();
     }
 
@@ -51,7 +51,7 @@ internal sealed class WebAppTestSetup
         return databaseSettings;
     }
 
-    private static async Task DropDatabase(EfCoreSettings databaseSettings,
+    private static async Task DropDatabaseAsync(EfCoreSettings databaseSettings,
         CancellationToken cancellationToken = default)
     {
         await using NpgsqlConnection connection =
@@ -62,21 +62,19 @@ internal sealed class WebAppTestSetup
         string terminateConnectionsCommandText =
             $"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '{databaseSettings.ConnectionParameters?.Database}';";
 
-
-        await ExecuteNonQueryCommand(connection: connection, commandText: terminateConnectionsCommandText,
+        await ExecuteNonQueryCommandAsync(connection: connection, commandText: terminateConnectionsCommandText,
             cancellationToken: cancellationToken);
 
         string dropDatabaseCommandText =
             $"DROP DATABASE IF EXISTS {databaseSettings.ConnectionParameters?.Database} WITH (FORCE);";
 
-
-        await ExecuteNonQueryCommand(connection: connection, commandText: dropDatabaseCommandText,
+        await ExecuteNonQueryCommandAsync(connection: connection, commandText: dropDatabaseCommandText,
             cancellationToken: cancellationToken);
 
         await connection.CloseAsync();
     }
 
-    private static async Task ExecuteNonQueryCommand(NpgsqlConnection connection, string commandText,
+    private static async Task ExecuteNonQueryCommandAsync(NpgsqlConnection connection, string commandText,
         CancellationToken cancellationToken)
     {
         NpgsqlCommand command = new(cmdText: commandText, connection: connection);

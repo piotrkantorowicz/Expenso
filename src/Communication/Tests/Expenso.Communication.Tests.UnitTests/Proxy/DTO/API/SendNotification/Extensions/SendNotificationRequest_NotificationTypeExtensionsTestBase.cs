@@ -7,7 +7,7 @@ namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.E
 
 internal abstract class SendNotificationRequest_NotificationTypeExtensionsTestBase
 {
-    protected NotificationSettings _settings;
+    protected NotificationSettings _settings = null!;
 
     [SetUp]
     public void SetUp()
