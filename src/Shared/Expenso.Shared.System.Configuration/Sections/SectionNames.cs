@@ -5,6 +5,7 @@ public static class SectionNames
     public const string EfCoreSection = "EfCore";
     public const string ApplicationSection = "Application";
     public const string Auth = "Authentication";
+    public const string Keycloak = "Keycloak";
     public const string Files = "Files";
     public const string Notifications = "Notifications";
     public const string Otlp = "Otlp";

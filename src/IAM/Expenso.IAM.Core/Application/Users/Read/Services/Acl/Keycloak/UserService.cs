@@ -1,8 +1,8 @@
+using Expenso.IAM.Core.Acl.Keycloak;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
 using Expenso.IAM.Proxy.DTO.GetUser;
 using Expenso.Shared.System.Types.Exceptions;
 
-using Keycloak.AuthServices.Sdk;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
@@ -11,15 +11,12 @@ namespace Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
 
 internal sealed class UserService : IUserService
 {
-    private readonly KeycloakProtectionClientOptions _keycloakProtectionClientOptions;
+    private readonly KeycloakSettings _keycloakSettings;
     private readonly IKeycloakUserClient _keycloakUserClient;
 
-    public UserService(IKeycloakUserClient keycloakUserClient,
-        KeycloakProtectionClientOptions keycloakProtectionClientOptions)
+    public UserService(IKeycloakUserClient keycloakUserClient, KeycloakSettings keycloakSettings)
     {
-        _keycloakProtectionClientOptions = keycloakProtectionClientOptions ??
-                                           throw new ArgumentNullException(
-                                               paramName: nameof(keycloakProtectionClientOptions));
+        _keycloakSettings = keycloakSettings ?? throw new ArgumentNullException(paramName: nameof(keycloakSettings));
 
         _keycloakUserClient =
             keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
@@ -27,8 +24,8 @@ internal sealed class UserService : IUserService
 
     public async Task<GetUserResponse> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        UserRepresentation keycloakUser = await _keycloakUserClient.GetUserAsync(
-            realm: _keycloakProtectionClientOptions.Realm, userId: userId, cancellationToken: cancellationToken);
+        UserRepresentation keycloakUser = await _keycloakUserClient.GetUserAsync(realm: _keycloakSettings.Realm,
+            userId: userId, cancellationToken: cancellationToken);
 
         if (keycloakUser is null)
         {
@@ -43,7 +40,7 @@ internal sealed class UserService : IUserService
     public async Task<GetUserResponse> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
     {
         List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(
-            realm: _keycloakProtectionClientOptions.Realm, parameters: new GetUsersRequestParameters
+            realm: _keycloakSettings.Realm, parameters: new GetUsersRequestParameters
             {
                 Email = email
             }, cancellationToken: cancellationToken)).ToList();

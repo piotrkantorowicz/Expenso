@@ -1,6 +1,6 @@
 using System.Reflection;
 
-using Expenso.Api.Configuration.Builders.Interfaces;
+using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.BudgetSharing.Domain.Shared;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 using Serilog;
 
-namespace Expenso.Api.Configuration.Builders;
+namespace Expenso.Api.Configuration.Configurators;
 
 internal sealed class AppConfigurator : IAppConfigurator
 {

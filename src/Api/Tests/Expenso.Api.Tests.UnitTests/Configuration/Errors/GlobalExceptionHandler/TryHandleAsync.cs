@@ -1,3 +1,4 @@
+using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Microsoft.AspNetCore.Http;
@@ -49,13 +50,42 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
     public async Task Should_Return422_When_ValidationFailed()
     {
         // Arrange
-        ValidationException exception = new(details: "Validation failed");
+        const string errorMessage = "Validation failed";
+        MemoryStream responseBody = new();
+        _httpContext.Response.Body = responseBody;
+        ValidationException exception = new(details: errorMessage);
 
         // Act
         await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
 
         // Assert
         _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status422UnprocessableEntity);
+        string response = await ReadResponse(memoryStream: responseBody);
+        response.Should().Contain(expected: errorMessage);
+    }
+
+    [Test]
+    public async Task Should_Return422_When_CommandValidationFailed()
+    {
+        // Arrange
+        const string errorMessage = "Property is required";
+
+        Dictionary<string, string> errorDictionary = new()
+        {
+            { "Property", errorMessage }
+        };
+
+        MemoryStream responseBody = new();
+        _httpContext.Response.Body = responseBody;
+        CommandValidationException exception = new(errorDictionary: errorDictionary);
+
+        // Act
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
+
+        // Assert
+        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status422UnprocessableEntity);
+        string response = await ReadResponse(memoryStream: responseBody);
+        response.Should().Contain(expected: errorMessage);
     }
 
     [Test]

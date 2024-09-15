@@ -1,6 +1,8 @@
-﻿namespace Expenso.Shared.System.Metrics;
+﻿using Expenso.Shared.System.Configuration.Settings;
 
-public sealed record OtlpSettings
+namespace Expenso.Shared.System.Metrics;
+
+public sealed record OtlpSettings : ISettings
 {
     public string? ServiceName { get; init; }
 

@@ -85,7 +85,7 @@ internal sealed class
             SendNotificationRequest ownerNotification = new(Subject: "Budget Permission Request Expired",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
-                    From: _notificationSettings.Email.From, To: owner.Person!.Email),
+                    From: _notificationSettings.Email?.From!, To: owner.Person!.Email),
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
@@ -129,7 +129,7 @@ internal sealed class
             SendNotificationRequest participantNotification = new(Subject: "Budget Permission Request Expired",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
-                    From: _notificationSettings.Email.From, To: participant.Person!.Email),
+                    From: _notificationSettings.Email?.From!, To: participant.Person!.Email),
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: participantNotification,

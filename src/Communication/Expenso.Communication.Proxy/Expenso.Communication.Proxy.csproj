@@ -17,4 +17,8 @@
         <PackageReference Include="Scrutor" Version="4.2.2"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
+    </ItemGroup>
+
 </Project>

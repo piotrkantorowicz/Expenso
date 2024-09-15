@@ -1,6 +1,6 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
-using Expenso.Shared.System.Configuration.Extensions;
+using Expenso.Shared.System.Configuration;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 

@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Configuration.Settings;
+﻿using Expenso.Shared.System.Configuration.Settings.App;
 using Expenso.Shared.System.Logging;
 
 using Microsoft.Extensions.Logging;
