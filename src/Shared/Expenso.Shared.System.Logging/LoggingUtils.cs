@@ -6,7 +6,7 @@ public static class LoggingUtils
 {
     public static EventId GeneralInformation { get; } = new(id: 2000, name: "GeneralInformation");
 
-    public static EventId ConfigurationInformation { get; } = new(id: 2000, name: "GeneralInformation");
+    public static EventId ConfigurationInformation { get; } = new(id: 2001, name: "ConfigurationInformation");
 
     public static EventId CommandExecuting { get; } = new(id: 2100, name: "CommandExecuting");
 
@@ -35,9 +35,9 @@ public static class LoggingUtils
 
     public static EventId SerializationWarning { get; } = new(id: 4001, name: "SerializationWarning");
 
-    public static EventId ConfigurationWarning { get; } = new(id: 4002, name: "ConfigurationWarning");
-
     public static EventId BackgroundJobWarning { get; } = new(id: 4002, name: "BackgroundJobProcessingWarning");
+
+    public static EventId ConfigurationWarning { get; } = new(id: 4003, name: "ConfigurationWarning");
 
     public static EventId UnexpectedError { get; } = new(id: 5000, name: "UnexpectedError");
 

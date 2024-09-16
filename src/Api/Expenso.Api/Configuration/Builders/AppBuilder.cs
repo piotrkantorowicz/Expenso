@@ -6,6 +6,8 @@ using Expenso.Api.Configuration.Configurators;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
+using Expenso.Api.Configuration.Settings.Exceptions;
+using Expenso.Api.Configuration.Settings.Services;
 using Expenso.BudgetSharing.Api;
 using Expenso.Communication.Api;
 using Expenso.DocumentManagement.Api;
@@ -22,6 +24,7 @@ using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
 using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Logging.Serilog;
@@ -87,8 +90,8 @@ internal sealed class AppBuilder : IAppBuilder
     {
         IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
 
-        OtlpSettings otlpSettings =
-            _appConfigurationManager?.GetSettings<OtlpSettings>(sectionName: SectionNames.Otlp)!;
+        OtlpSettings otlpSettings = GetSettings<OtlpSettings>(appConfigurationManager: _appConfigurationManager,
+            sectionName: SectionNames.Otlp);
 
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
@@ -155,7 +158,8 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddAuthentication();
 
         KeycloakSettings keycloakSettings =
-            _appConfigurationManager?.GetSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak)!;
+            GetSettings<KeycloakSettings>(appConfigurationManager: _appConfigurationManager,
+                sectionName: SectionNames.Keycloak);
 
         _services
             .AddClientCredentialsTokenManagement()
@@ -166,8 +170,8 @@ internal sealed class AppBuilder : IAppBuilder
                 client.TokenEndpoint = keycloakSettings.KeycloakTokenEndpoint;
             });
 
-        AuthSettings authSettings =
-            _appConfigurationManager?.GetSettings<AuthSettings>(sectionName: SectionNames.Auth)!;
+        AuthSettings authSettings = GetSettings<AuthSettings>(appConfigurationManager: _appConfigurationManager,
+            sectionName: SectionNames.Auth);
 
         switch (authSettings.AuthServer)
         {
@@ -222,10 +226,12 @@ internal sealed class AppBuilder : IAppBuilder
 
     private void ConfigureAppSettings()
     {
-        _appConfigurationManager = new AppConfigurationManager(
-            assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]),
-            configuration: _configuration);
+        IPreStartupContainer preStartupContainer = new PreStartupContainer();
 
+        preStartupContainer.Build(configuration: _configuration,
+            assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]));
+
+        _appConfigurationManager = new AppConfigurationManager(preStartupContainer: preStartupContainer);
         _appConfigurationManager.Configure(serviceCollection: _services);
     }
 
@@ -293,5 +299,16 @@ internal sealed class AppBuilder : IAppBuilder
             .AddKeycloakAdminHttpClient(configuration: _configuration,
                 keycloakClientSectionName: keyCloakAdminSection ?? KeycloakAdminClientOptions.Section)
             .AddClientCredentialsTokenHandler(tokenClientName: tokenHandlerClient);
+    }
+
+    private static TSettings GetSettings<TSettings>(AppConfigurationManager? appConfigurationManager,
+        string sectionName) where TSettings : class, ISettings
+    {
+        if (appConfigurationManager is null)
+        {
+            throw new ConfigurationHasNotBeenInitializedYetException();
+        }
+
+        return appConfigurationManager.GetSettings<TSettings>(sectionName: sectionName);
     }
 }
