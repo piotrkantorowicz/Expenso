@@ -223,7 +223,7 @@ internal sealed class AppBuilder : IAppBuilder
     private void ConfigureAppSettings()
     {
         _appConfigurationManager = new AppConfigurationManager(
-            assemblies: Modules.GetRequiredModulesAssemblies(merge: [Assembly.GetExecutingAssembly()]),
+            assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]),
             configuration: _configuration);
 
         _appConfigurationManager.Configure(serviceCollection: _services);

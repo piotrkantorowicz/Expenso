@@ -45,7 +45,7 @@ public static class StringExtensions
         bool hasUppercase = password.Any(predicate: char.IsUpper);
         bool hasLowercase = password.Any(predicate: char.IsLower);
         bool hasDigit = password.Any(predicate: char.IsDigit);
-        bool hasSpecialChar = password.Any(predicate: ch => "!@#$%^&*()_+[]{}|;:,.<>?".Contains(value: ch));
+        bool hasSpecialChar = password.Any(predicate: "!@#$%^&*()_+[]{}|;:,.<>?".Contains);
 
         return hasUppercase && hasLowercase && hasDigit && hasSpecialChar && !password.Contains(value: ' ');
     }

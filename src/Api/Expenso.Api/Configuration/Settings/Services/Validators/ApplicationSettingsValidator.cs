@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-using Expenso.Shared.System.Configuration.Settings.App;
+﻿using Expenso.Shared.System.Configuration.Settings.App;
 using Expenso.Shared.System.Configuration.Validators;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
@@ -34,18 +32,16 @@ internal sealed class ApplicationSettingsValidator : ISettingsValidator<Applicat
         }
         else
         {
-            string? assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+            string? assemblyVersion = typeof(Program).Assembly.GetName().Version?.ToString();
 
             if (Version.TryParse(input: settings.Version, result: out Version? settingsVer) &&
-                Version.TryParse(input: assemblyVersion, result: out Version? assemblyVer))
+                Version.TryParse(input: assemblyVersion, result: out Version? assemblyVer) &&
+                (settingsVer.Major != assemblyVer.Major || settingsVer.Minor != assemblyVer.Minor ||
+                 settingsVer.Build != assemblyVer.Build))
             {
-                if (settingsVer.Major != assemblyVer.Major || settingsVer.Minor != assemblyVer.Minor ||
-                    settingsVer.Build != assemblyVer.Build)
-                {
-                    errors.Add(key: nameof(settings.Version),
-                        value:
-                        $"Version mismatch. Expected: {assemblyVer.Major}.{assemblyVer.Minor}.{assemblyVer.Build}, but got: {settingsVer.Major}.{settingsVer.Minor}.{settingsVer.Build}");
-                }
+                errors.Add(key: nameof(settings.Version),
+                    value:
+                    $"Version mismatch. Expected: {assemblyVer.Major}.{assemblyVer.Minor}.{assemblyVer.Build}, but got: {settingsVer.Major}.{settingsVer.Minor}.{settingsVer.Build}");
             }
         }
 
