@@ -1,6 +1,8 @@
 ﻿using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Configuration.Validators;
 
+using Humanizer;
+
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
 internal sealed class AuthSettingsValidator : ISettingsValidator<AuthSettings>
@@ -11,7 +13,7 @@ internal sealed class AuthSettingsValidator : ISettingsValidator<AuthSettings>
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings), value: "Settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Auth settings are required");
 
             return errors;
         }

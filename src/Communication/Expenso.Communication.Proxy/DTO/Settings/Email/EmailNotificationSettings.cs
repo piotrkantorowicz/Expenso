@@ -1,3 +1,6 @@
-﻿namespace Expenso.Communication.Proxy.DTO.Settings.Email;
+﻿using Expenso.Shared.System.Configuration.Settings;
 
-public sealed record EmailNotificationSettings(bool? Enabled, SmtpSettings? Smtp, string? From, string? ReplyTo);
+namespace Expenso.Communication.Proxy.DTO.Settings.Email;
+
+public sealed record EmailNotificationSettings(bool? Enabled, SmtpSettings? Smtp, string? From, string? ReplyTo)
+    : ISettings;

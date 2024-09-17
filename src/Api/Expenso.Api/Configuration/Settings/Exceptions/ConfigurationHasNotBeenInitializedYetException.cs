@@ -1,6 +1,6 @@
 ﻿namespace Expenso.Api.Configuration.Settings.Exceptions;
 
-internal sealed class ConfigurationHasNotBeenInitializedYetException : Exception
+public sealed class ConfigurationHasNotBeenInitializedYetException : Exception
 {
     public ConfigurationHasNotBeenInitializedYetException() : base(
         message:

@@ -2,15 +2,24 @@
 using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
+using Humanizer;
+
 namespace Expenso.Api.Configuration.Settings.Services.Validators.EfCore;
 
 internal sealed class ConnectionParametersValidator : ISettingsValidator<ConnectionParameters>
 {
-    public IDictionary<string, string> Validate(ConnectionParameters settings)
+    public IDictionary<string, string> Validate(ConnectionParameters? settings)
     {
         Dictionary<string, string> errors = new();
 
-        if (string.IsNullOrEmpty(value: settings?.Host))
+        if (settings is null)
+        {
+            errors.Add(key: nameof(settings).Pascalize(), value: "Connection parameters settings are required");
+
+            return errors;
+        }
+
+        if (string.IsNullOrEmpty(value: settings.Host))
         {
             errors.Add(key: nameof(settings.Host), value: "Host must be provided and cannot be empty");
         }
@@ -33,7 +42,8 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
             errors.Add(key: nameof(settings.DefaultDatabase),
                 value: "DefaultDatabase must be provided and cannot be empty");
         }
-        else if (!settings.DefaultDatabase.IsAlphaNumericAndSpecialCharactersString(minLength: 1, maxLength: 100))
+        else if (!settings.DefaultDatabase.IsAlphaNumericAndSpecialCharactersString(minLength: 1, maxLength: 100,
+                     specialCharacters: "_-"))
         {
             errors.Add(key: nameof(settings.DefaultDatabase),
                 value: "DefaultDatabase must be an alphanumeric string between 1 and 100 characters");
@@ -43,7 +53,8 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
         {
             errors.Add(key: nameof(settings.Database), value: "Database must be provided and cannot be empty");
         }
-        else if (!settings.Database.IsAlphaNumericAndSpecialCharactersString(minLength: 1, maxLength: 100))
+        else if (!settings.Database.IsAlphaNumericAndSpecialCharactersString(minLength: 1, maxLength: 100,
+                     specialCharacters: "_-"))
         {
             errors.Add(key: nameof(settings.Database),
                 value: "Database must be an alphanumeric string between 1 and 100 characters");

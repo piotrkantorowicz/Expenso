@@ -1,3 +1,5 @@
-﻿namespace Expenso.Communication.Proxy.DTO.Settings.Push;
+﻿using Expenso.Shared.System.Configuration.Settings;
 
-public sealed record PushNotificationSettings(bool? Enabled);
+namespace Expenso.Communication.Proxy.DTO.Settings.Push;
+
+public sealed record PushNotificationSettings(bool? Enabled) : ISettings;

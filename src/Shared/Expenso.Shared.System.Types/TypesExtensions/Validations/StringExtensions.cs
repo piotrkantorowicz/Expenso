@@ -1,4 +1,7 @@
-﻿using System.Net.Mail;
+﻿using System.Net;
+using System.Net.Mail;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 
 namespace Expenso.Shared.System.Types.TypesExtensions.Validations;
 
@@ -25,14 +28,20 @@ public static class StringExtensions
 
     public static bool IsValidHost(this string? host)
     {
-        if (string.IsNullOrWhiteSpace(value: host))
+        if (string.IsNullOrWhiteSpace(value: host) || host.Length > 255 || host.Contains(value: ' '))
         {
             return false;
         }
 
         UriHostNameType hostType = Uri.CheckHostName(name: host);
 
-        return hostType is UriHostNameType.Dns or UriHostNameType.IPv4 or UriHostNameType.IPv6;
+        return hostType switch
+        {
+            UriHostNameType.Dns => IsValidDnsHost(host: host),
+            UriHostNameType.IPv4 => IsValidIPv4Host(host: host),
+            UriHostNameType.IPv6 => IsValidIPv6Host(host: host),
+            _ => false
+        };
     }
 
     public static bool IsValidPassword(this string password, int minLength = 8, int maxLength = 128)
@@ -81,14 +90,12 @@ public static class StringExtensions
     }
 
     public static bool IsAlphaNumericAndSpecialCharactersString(this string target, int minLength = 0,
-        int maxLength = int.MaxValue)
+        int maxLength = int.MaxValue, string specialCharacters = "!@#$%^&*()_+[]{}|;:,.<>?")
     {
         if (target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
-
-        const string specialCharacters = "!@#$%^&*()_+[]{}|;:,.<>?";
 
         return target.All(predicate: ch => char.IsLetterOrDigit(c: ch) || specialCharacters.Contains(value: ch));
     }
@@ -97,5 +104,68 @@ public static class StringExtensions
     {
         return Uri.TryCreate(uriString: url, uriKind: UriKind.Absolute, result: out Uri? uriResult) &&
                (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+    }
+
+    public static bool IsValidRelativePath(this string? path)
+    {
+        if (string.IsNullOrEmpty(value: path))
+        {
+            return false;
+        }
+
+        if (path.IndexOfAny(anyOf: Path.GetInvalidPathChars()) >= 0)
+        {
+            return false;
+        }
+
+        if (Path.IsPathRooted(path: path))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static bool IsValidRootPath(this string? path)
+    {
+        if (string.IsNullOrEmpty(value: path))
+        {
+            return false;
+        }
+
+        if (path.IndexOfAny(anyOf: Path.GetInvalidPathChars()) >= 0)
+        {
+            return false;
+        }
+
+        try
+        {
+            string fullPath = Path.GetFullPath(path: path);
+
+            return Path.IsPathRooted(path: fullPath) && Path.GetPathRoot(path: fullPath) == fullPath;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    private static bool IsValidDnsHost(string host)
+    {
+        string dnsPattern = @"^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$";
+
+        return host.Split(separator: '.').All(predicate: label => Regex.IsMatch(input: label, pattern: dnsPattern));
+    }
+
+    private static bool IsValidIPv4Host(string host)
+    {
+        return IPAddress.TryParse(ipString: host, address: out IPAddress? ip) &&
+               ip.AddressFamily == AddressFamily.InterNetwork;
+    }
+
+    private static bool IsValidIPv6Host(string host)
+    {
+        return IPAddress.TryParse(ipString: host, address: out IPAddress? ip) &&
+               ip.AddressFamily == AddressFamily.InterNetworkV6;
     }
 }

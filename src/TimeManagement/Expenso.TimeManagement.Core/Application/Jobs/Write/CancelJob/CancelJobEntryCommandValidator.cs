@@ -1,5 +1,7 @@
 ﻿using Expenso.Shared.Commands.Validation;
 
+using Humanizer;
+
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
 
 internal sealed class CancelJobEntryCommandValidator : ICommandValidator<CancelJobEntryCommand>
@@ -10,7 +12,7 @@ internal sealed class CancelJobEntryCommandValidator : ICommandValidator<CancelJ
 
         if (command is null)
         {
-            errors.Add(key: nameof(command), value: "Command is required");
+            errors.Add(key: nameof(command).Pascalize(), value: "Command is required");
 
             return errors;
         }

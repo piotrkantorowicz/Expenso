@@ -2,6 +2,8 @@
 using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
+using Humanizer;
+
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
 internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSettings>
@@ -14,7 +16,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings), value: "Settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Keycloak settings are required");
 
             return errors;
         }
@@ -39,7 +41,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
         }
         else
         {
-            if (!settings.Realm.IsAlphaNumericAndSpecialCharactersString(minLength: 5, maxLength: 50))
+            if (!settings.Realm.IsAlphaNumericString(minLength: 5, maxLength: 50))
             {
                 errors.Add(key: nameof(settings.Realm),
                     value: "Realm must be an alpha string with a length between 5 and 50 characters");
@@ -53,7 +55,8 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
         }
         else
         {
-            if (!settings.Resource.IsAlphaNumericAndSpecialCharactersString(minLength: 5, maxLength: 100))
+            if (!settings.Resource.IsAlphaNumericAndSpecialCharactersString(minLength: 5, maxLength: 100,
+                    specialCharacters: "_.-"))
             {
                 errors.Add(key: nameof(settings.Resource),
                     value: "Resource (client Id) must be an alpha string with a length between 5 and 100 characters");

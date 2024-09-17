@@ -17,7 +17,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "Command is required";
-        string error = validationResult[key: "command"];
+        string error = validationResult[key: "Command"];
         error.Should().Be(expected: expectedValidationMessage);
     }
 

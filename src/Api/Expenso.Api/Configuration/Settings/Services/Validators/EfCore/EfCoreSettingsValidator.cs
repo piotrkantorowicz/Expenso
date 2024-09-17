@@ -2,6 +2,8 @@
 using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions;
 
+using Humanizer;
+
 namespace Expenso.Api.Configuration.Settings.Services.Validators.EfCore;
 
 internal sealed class EfCoreSettingsValidator : ISettingsValidator<EfCoreSettings>
@@ -12,7 +14,7 @@ internal sealed class EfCoreSettingsValidator : ISettingsValidator<EfCoreSetting
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings), value: "Settings are required");
+            errors.Add(key: nameof(settings).Pascalize().Pascalize(), value: "EfCore settings are required");
 
             return errors;
         }

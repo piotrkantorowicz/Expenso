@@ -15,10 +15,19 @@ internal sealed class AccessModifierTests : TestBase
         "Program"
     ];
 
+    private static readonly string[] NotInternal =
+    [
+        "Exception"
+    ];
+
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
         ConditionList? types = Types.InAssemblies(assemblies: Assemblies.ToArray()).Should().BePublic();
+
+        types = NotInternal.Aggregate(seed: types,
+            func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
+
         AssertArchTestResult(result: types);
     }
 

@@ -1,6 +1,8 @@
 ﻿using Expenso.Shared.System.Configuration.Settings.App;
 using Expenso.Shared.System.Configuration.Validators;
 
+using Humanizer;
+
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
 internal sealed class ApplicationSettingsValidator : ISettingsValidator<ApplicationSettings>
@@ -11,7 +13,7 @@ internal sealed class ApplicationSettingsValidator : ISettingsValidator<Applicat
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings), value: "Settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Application settings are required");
 
             return errors;
         }

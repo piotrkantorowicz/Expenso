@@ -1,3 +1,5 @@
-﻿namespace Expenso.Communication.Proxy.DTO.Settings.InApp;
+﻿using Expenso.Shared.System.Configuration.Settings;
 
-public sealed record InAppNotificationSettings(bool? Enabled);
+namespace Expenso.Communication.Proxy.DTO.Settings.InApp;
+
+public sealed record InAppNotificationSettings(bool? Enabled) : ISettings;

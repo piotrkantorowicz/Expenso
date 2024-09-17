@@ -1,6 +1,6 @@
 ﻿namespace Expenso.Api.Configuration.Settings.Exceptions;
 
-internal sealed class MissingSettingsSectionException : Exception
+public sealed class MissingSettingsSectionException : Exception
 {
     public MissingSettingsSectionException(string sectionName) : base(
         message:
