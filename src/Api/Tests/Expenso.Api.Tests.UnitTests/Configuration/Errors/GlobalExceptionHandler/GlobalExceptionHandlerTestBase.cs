@@ -9,8 +9,8 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandle
 
 internal abstract class GlobalExceptionHandlerTestBase : TestBase<TestCandidate>
 {
-    protected DefaultHttpContext _httpContext;
-    private Mock<ILoggerService<TestCandidate>> _loggerMock;
+    protected DefaultHttpContext? _httpContext;
+    private Mock<ILoggerService<TestCandidate>>? _loggerMock;
 
     [SetUp]
     public void SetUp()

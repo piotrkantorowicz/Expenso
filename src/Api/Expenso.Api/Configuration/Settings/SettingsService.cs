@@ -13,7 +13,7 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
     private readonly ILoggerService<SettingsService<TSettings>> _logger;
     private readonly IEnumerable<ISettingsValidator<TSettings>> _validators;
     private bool _binded;
-    private TSettings _settings = null!;
+    private TSettings? _settings;
     private bool _validated;
 
     public SettingsService(IEnumerable<ISettingsValidator<TSettings>> validators, IConfiguration configuration,
@@ -38,7 +38,7 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
         }
 
         Dictionary<string, string> errors = _validators
-            .Select(selector: x => x.Validate(settings: _settings))
+            .Select(selector: x => x.Validate(settings: _settings!))
             .SelectMany(selector: x => x)
             .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
 
@@ -61,7 +61,7 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
         _validated = true;
     }
 
-    public TSettings Bind(string sectionName)
+    public TSettings? Bind(string sectionName)
     {
         if (_binded)
         {
@@ -72,7 +72,14 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
             return _settings;
         }
 
-        _configuration.TryBindOptions(sectionName: sectionName, options: out _settings);
+        if (_configuration.TryBindOptions(sectionName: sectionName, options: out _settings) is false)
+        {
+            _settings = null;
+            _binded = false;
+
+            return null;
+        }
+
         _binded = true;
 
         _logger.LogInfo(eventId: LoggingUtils.ConfigurationInformation,
@@ -109,6 +116,6 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
             message: "Settings of type {SettingsType} are being registered as a singleton in the service collection",
             messageContext: null, typeof(TSettings).Name);
 
-        serviceCollection.AddSingleton(implementationInstance: _settings);
+        serviceCollection.AddSingleton(implementationInstance: _settings!);
     }
 }

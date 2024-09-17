@@ -6,7 +6,7 @@ public interface ISettingsService<out TSettings>
 {
     void Validate();
 
-    TSettings Bind(string sectionName);
+    TSettings? Bind(string sectionName);
 
     void Register(IServiceCollection serviceCollection);
 }

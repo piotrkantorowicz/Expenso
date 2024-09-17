@@ -2,7 +2,6 @@
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Services;
-using Expenso.Shared.System.Configuration.Settings;
 
 namespace Expenso.Api.Configuration.Settings.Services.Binders;
 
@@ -21,9 +20,9 @@ internal sealed class KeycloakSettingsBinder : ISettingsBinder
         return SectionName;
     }
 
-    public ISettings Bind(IServiceCollection serviceCollection)
+    public object? Bind(IServiceCollection serviceCollection)
     {
-        KeycloakSettings settings = _settingsService.Bind(sectionName: SectionName);
+        KeycloakSettings? settings = _settingsService.Bind(sectionName: SectionName);
         _settingsService.Validate();
         _settingsService.Register(serviceCollection: serviceCollection);
 

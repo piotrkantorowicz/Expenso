@@ -1,7 +1,6 @@
 ﻿using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Services;
-using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 
 namespace Expenso.Api.Configuration.Settings.Services.Binders;
@@ -21,9 +20,9 @@ internal sealed class AuthSettingsBinder : ISettingsBinder
         return SectionName;
     }
 
-    public ISettings Bind(IServiceCollection serviceCollection)
+    public object? Bind(IServiceCollection serviceCollection)
     {
-        AuthSettings settings = _settingsService.Bind(sectionName: SectionName);
+        AuthSettings? settings = _settingsService.Bind(sectionName: SectionName);
         _settingsService.Validate();
         _settingsService.Register(serviceCollection: serviceCollection);
 
