@@ -82,7 +82,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         // Arrange
         _filesSettings = _filesSettings with
         {
-            ImportDirectory = Path.Combine(path1: "C:", path2: "invalidpath")
+            ImportDirectory = Path.Combine(path1: "C", path2: "inva|lidpath")
         };
 
         // Act
@@ -121,7 +121,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         // Arrange
         _filesSettings = _filesSettings with
         {
-            ReportsDirectory = Path.Combine(path1: "C:", path2: "invalidpath")
+            ReportsDirectory = Path.Combine(path1: "C", path2: "inva|lidpath")
         };
 
         // Act
