@@ -113,7 +113,11 @@ public static class StringExtensions
             return false;
         }
 
-        if (path.IndexOfAny(anyOf: Path.GetInvalidPathChars()) >= 0)
+        char[] generalInvalidChars = Path.GetInvalidPathChars();
+        char[] additionalInvalidChars = [':', '*', '?', '"', '<', '>', '|'];
+        List<char> invalidChars = generalInvalidChars.Concat(second: additionalInvalidChars).ToList();
+
+        if (path.Any(predicate: pathChar => char.IsControl(c: pathChar) || invalidChars.Contains(item: pathChar)))
         {
             return false;
         }
