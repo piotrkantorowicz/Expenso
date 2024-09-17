@@ -148,7 +148,7 @@ public static class StringExtensions
 
             return Path.IsPathRooted(path: fullPath) && Path.GetPathRoot(path: fullPath) == fullPath;
         }
-        catch (Exception)
+        catch
         {
             return false;
         }
