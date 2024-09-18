@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Expenso.Shared.System.Configuration.Extensions;
+namespace Expenso.Shared.System.Configuration;
 
 public static class OptionsExtensions
 {

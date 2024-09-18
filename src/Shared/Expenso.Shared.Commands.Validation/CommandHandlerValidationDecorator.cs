@@ -1,5 +1,3 @@
-using Expenso.Shared.System.Types.Exceptions;
-
 namespace Expenso.Shared.Commands.Validation;
 
 internal class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : class, ICommand
@@ -23,7 +21,7 @@ internal class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCo
 
         if (errors.Count != 0)
         {
-            throw new ValidationException(errorDictionary: errors);
+            throw new CommandValidationException(errorDictionary: errors);
         }
 
         await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);
@@ -52,7 +50,7 @@ internal class CommandHandlerValidationDecorator<TCommand, TResult> : ICommandHa
 
         if (errors.Count != 0)
         {
-            throw new ValidationException(errorDictionary: errors);
+            throw new CommandValidationException(errorDictionary: errors);
         }
 
         return await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);

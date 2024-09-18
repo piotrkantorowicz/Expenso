@@ -24,18 +24,37 @@ public static class Extensions
                 return;
             }
 
-            loggerConfiguration.WriteTo.OpenTelemetry(configure: options =>
-            {
-                options.Endpoint = $"{otlpEndpoint}/v1/logs";
-                options.Protocol = OtlpProtocol.Grpc;
-
-                options.ResourceAttributes = new Dictionary<string, object>
-                {
-                    [key: "service.name"] = otlpService
-                };
-            });
+            loggerConfiguration.WriteToOpenTelemetry(otlpEndpoint: otlpEndpoint, otlpService: otlpService,
+                useOpenTelemetry: useOpenTelemetry);
         });
 
         return builder;
+    }
+
+    public static LoggerConfiguration WriteToOpenTelemetry(this LoggerConfiguration loggerConfiguration,
+        string? otlpEndpoint = null, string? otlpService = null, bool useOpenTelemetry = true)
+    {
+        if (!useOpenTelemetry)
+        {
+            return loggerConfiguration;
+        }
+
+        if (string.IsNullOrEmpty(value: otlpEndpoint) || string.IsNullOrEmpty(value: otlpService))
+        {
+            return loggerConfiguration;
+        }
+
+        loggerConfiguration.WriteTo.OpenTelemetry(configure: options =>
+        {
+            options.Endpoint = $"{otlpEndpoint}/v1/logs";
+            options.Protocol = OtlpProtocol.Grpc;
+
+            options.ResourceAttributes = new Dictionary<string, object>
+            {
+                [key: "service.name"] = otlpService
+            };
+        });
+
+        return loggerConfiguration;
     }
 }

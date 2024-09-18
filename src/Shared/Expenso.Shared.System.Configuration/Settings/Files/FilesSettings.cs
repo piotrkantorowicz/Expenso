@@ -1,6 +1,6 @@
 namespace Expenso.Shared.System.Configuration.Settings.Files;
 
-public sealed record FilesSettings
+public sealed record FilesSettings : ISettings
 {
     public FileStorageType StorageType { get; init; }
 

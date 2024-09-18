@@ -2,7 +2,7 @@ using System.Reflection;
 
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Events.Dispatchers;
-using Expenso.Shared.System.Configuration.Settings;
+using Expenso.Shared.System.Configuration.Settings.App;
 using Expenso.Shared.System.Logging;
 
 using Microsoft.Extensions.DependencyInjection;

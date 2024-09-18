@@ -1,10 +1,10 @@
 using Expenso.Api.Configuration.Builders;
 
-AppBuilder appBuilder = new(args: args);
+AppBuilder appBuilder = new(appBuilder: WebApplication.CreateBuilder(args: args));
 
 appBuilder
-    .ConfigureApiDependencies()
     .ConfigureModules()
+    .ConfigureApiDependencies()
     .ConfigureSharedFramework()
     .ConfigureMvc()
     .ConfigureHealthChecks()

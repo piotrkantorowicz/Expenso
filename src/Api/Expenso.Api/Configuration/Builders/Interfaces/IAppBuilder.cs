@@ -1,3 +1,5 @@
+using Expenso.Api.Configuration.Configurators.Interfaces;
+
 namespace Expenso.Api.Configuration.Builders.Interfaces;
 
 internal interface IAppBuilder

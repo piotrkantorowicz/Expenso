@@ -1,9 +1,9 @@
-﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
+﻿using Expenso.IAM.Core.Acl.Keycloak;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
 using Expenso.IAM.Proxy.DTO.GetUser;
 
-using Keycloak.AuthServices.Sdk;
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -36,6 +36,6 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
         _getUserResponse = GetUserResponseMap.MapTo(user: _user);
 
         TestCandidate = new UserService(keycloakUserClient: _keycloakUserClientMock.Object,
-            keycloakProtectionClientOptions: new KeycloakProtectionClientOptions());
+            keycloakSettings: new KeycloakSettings());
     }
 }

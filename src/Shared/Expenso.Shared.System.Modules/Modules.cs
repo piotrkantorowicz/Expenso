@@ -32,10 +32,18 @@ public static class Modules
     {
         return RegisteredModules;
     }
-    
-    public static IReadOnlyCollection<Assembly> GetRequiredModulesAssemblies()
+
+    public static IReadOnlyCollection<Assembly> GetRequiredModulesAssemblies(Assembly[]? merge = null)
     {
-        return RegisteredModules.Values.SelectMany(selector: module => module.GetModuleAssemblies()).ToArray();
+        List<Assembly> moduleAssemblies =
+            RegisteredModules.Values.SelectMany(selector: module => module.GetModuleAssemblies()).ToList();
+
+        if (merge is not null && merge.Length > 0)
+        {
+            moduleAssemblies.AddRange(collection: merge);
+        }
+
+        return moduleAssemblies;
     }
 
     public static void MapModulesEndpoints(this IEndpointRouteBuilder endpointRouteBuilder, string rootTag)

@@ -7,7 +7,9 @@ using Expenso.Communication.Proxy;
 using Expenso.Communication.Proxy.DTO.API.SendNotification;
 using Expenso.Communication.Proxy.DTO.API.SendNotification.Extensions;
 using Expenso.Communication.Proxy.DTO.Settings;
+using Expenso.Communication.Proxy.DTO.Settings.Email;
 using Expenso.Shared.Domain.Events;
+using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal;
 
@@ -77,7 +79,9 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
             SendNotificationRequest ownerNotification = new(Subject: "Budget Permission Granted",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
-                    From: _notificationSettings.Email.From, To: owner.Person!.Email),
+                    From: _notificationSettings.Email?.From ??
+                          throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
+                    To: owner.Person!.Email),
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
@@ -113,7 +117,9 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
             SendNotificationRequest participantNotification = new(Subject: "Budget Permission Granted",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
-                    From: _notificationSettings.Email.From, To: participant.Person!.Email),
+                    From: _notificationSettings.Email?.From ??
+                          throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
+                    To: participant.Person!.Email),
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: participantNotification,

@@ -1,5 +1,7 @@
 using Expenso.Shared.Commands.Validation;
 
+using Humanizer;
+
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 
 internal sealed class UpdatePreferenceCommandValidator : ICommandValidator<UpdatePreferenceCommand>
@@ -10,7 +12,7 @@ internal sealed class UpdatePreferenceCommandValidator : ICommandValidator<Updat
 
         if (command is null)
         {
-            errors.Add(key: nameof(command), value: "Command is required");
+            errors.Add(key: nameof(command).Pascalize(), value: "Command is required");
         }
 
         if (command?.PreferenceOrUserId == Guid.Empty)

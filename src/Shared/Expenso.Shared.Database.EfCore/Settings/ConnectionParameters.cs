@@ -1,6 +1,8 @@
-﻿namespace Expenso.Shared.Database.EfCore.Settings;
+﻿using Expenso.Shared.System.Configuration.Settings;
 
-public sealed record ConnectionParameters
+namespace Expenso.Shared.Database.EfCore.Settings;
+
+public sealed record ConnectionParameters : ISettings
 {
     public string? Host { get; init; }
 

@@ -1,4 +1,4 @@
-namespace Expenso.Api.Configuration.Builders.Interfaces;
+namespace Expenso.Api.Configuration.Configurators.Interfaces;
 
 internal interface IAppConfigurator
 {

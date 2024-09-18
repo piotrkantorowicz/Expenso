@@ -1,5 +1,7 @@
 using Expenso.Shared.Commands.Validation;
 
+using Humanizer;
+
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 
 internal sealed class CreatePreferenceCommandValidator : ICommandValidator<CreatePreferenceCommand>
@@ -10,7 +12,7 @@ internal sealed class CreatePreferenceCommandValidator : ICommandValidator<Creat
 
         if (command is null)
         {
-            errors.Add(key: nameof(command), value: "Command is required");
+            errors.Add(key: nameof(command).Pascalize(), value: "Command is required");
 
             return errors;
         }

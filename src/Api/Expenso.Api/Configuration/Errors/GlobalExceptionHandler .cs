@@ -1,4 +1,5 @@
 using Expenso.Api.Configuration.Errors.Details;
+using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Exceptions;
@@ -16,6 +17,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         { typeof(UnauthorizedException), HandleUnauthorizedAccessException },
         { typeof(ForbiddenException), HandleForbiddenAccessException },
         { typeof(ValidationException), HandleInvalidModelStateException },
+        { typeof(CommandValidationException), HandleInvalidModelStateException },
         { typeof(DomainRuleValidationException), HandleInvalidModelStateException }
     };
 

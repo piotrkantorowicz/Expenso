@@ -9,12 +9,22 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandle
 
 internal abstract class GlobalExceptionHandlerTestBase : TestBase<TestCandidate>
 {
-    protected readonly DefaultHttpContext _httpContext = new();
-    private readonly Mock<ILoggerService<TestCandidate>> _loggerMock = new();
+    protected DefaultHttpContext? _httpContext;
+    private Mock<ILoggerService<TestCandidate>>? _loggerMock;
 
     [SetUp]
     public void SetUp()
     {
+        _httpContext = new DefaultHttpContext();
+        _loggerMock = new Mock<ILoggerService<TestCandidate>>();
         TestCandidate = new TestCandidate(logger: _loggerMock.Object);
+    }
+
+    protected static async Task<string> ReadResponse(MemoryStream memoryStream)
+    {
+        memoryStream.Seek(offset: 0, loc: SeekOrigin.Begin);
+        using StreamReader reader = new(stream: memoryStream);
+
+        return await reader.ReadToEndAsync();
     }
 }

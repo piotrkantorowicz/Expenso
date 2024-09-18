@@ -17,8 +17,8 @@ public static class CreateNotificationRequestNotificationTypeExtensions
             return Disable();
         }
 
-        return new SendNotificationRequest_NotificationType(Email: settings.Email.Enabled,
-            InApp: settings.InApp.Enabled, Push: settings.Push.Enabled);
+        return new SendNotificationRequest_NotificationType(Email: settings.Email?.Enabled,
+            InApp: settings.InApp?.Enabled, Push: settings.Push?.Enabled);
     }
 
     private static SendNotificationRequest_NotificationType Disable()

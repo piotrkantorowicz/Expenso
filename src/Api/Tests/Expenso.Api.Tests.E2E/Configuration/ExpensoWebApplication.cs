@@ -6,7 +6,7 @@ using Expenso.Api.Tests.E2E.IAM;
 using Expenso.IAM.Proxy;
 using Expenso.Shared.Database;
 using Expenso.Shared.Database.EfCore.Settings;
-using Expenso.Shared.System.Configuration.Extensions;
+using Expenso.Shared.System.Configuration;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Json;

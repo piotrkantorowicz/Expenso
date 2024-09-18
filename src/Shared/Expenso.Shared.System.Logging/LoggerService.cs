@@ -1,11 +1,11 @@
-﻿using Expenso.Shared.System.Configuration.Settings;
+﻿using Expenso.Shared.System.Configuration.Settings.App;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.System.Logging;
 
-internal sealed class LoggerService<T> : ILoggerService<T>
+internal sealed class LoggerService<T> : ILoggerService<T> where T : class
 {
     private readonly ApplicationSettings _applicationSettings;
     private readonly ILoggerFactory _loggerFactory;
@@ -74,10 +74,8 @@ internal sealed class LoggerService<T> : ILoggerService<T>
 
     private List<KeyValuePair<string, object>> GetLogParameters(IMessageContext? messageContext)
     {
-        List<KeyValuePair<string, object>> parameters = new()
-        {
-            new KeyValuePair<string, object>(key: "AppId", value: _applicationSettings.InstanceId)
-        };
+        List<KeyValuePair<string, object>> parameters =
+            [new KeyValuePair<string, object>(key: "AppId", value: _applicationSettings.InstanceId!)];
 
         if (!string.IsNullOrEmpty(value: _applicationSettings.Name))
         {

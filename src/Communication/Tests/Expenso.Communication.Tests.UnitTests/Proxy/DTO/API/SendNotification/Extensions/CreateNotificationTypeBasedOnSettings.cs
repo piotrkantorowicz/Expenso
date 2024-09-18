@@ -67,7 +67,7 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         // Arrange
         _settings = _settings with
         {
-            Email = _settings.Email with
+            Email = _settings.Email! with
             {
                 Enabled = false
             }

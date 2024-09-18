@@ -4,6 +4,8 @@ using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.TimeManagement.Proxy.DTO.Request;
 
+using Humanizer;
+
 using NCrontab;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
@@ -25,7 +27,7 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
 
         if (command is null)
         {
-            errors.Add(key: nameof(command), value: "Command is required");
+            errors.Add(key: nameof(command).Pascalize(), value: "Command is required");
 
             return errors;
         }

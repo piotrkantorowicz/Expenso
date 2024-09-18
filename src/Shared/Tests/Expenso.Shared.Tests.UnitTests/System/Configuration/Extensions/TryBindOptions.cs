@@ -1,4 +1,4 @@
-using Expenso.Shared.System.Configuration.Extensions;
+using Expenso.Shared.System.Configuration;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Configuration.Extensions;
 

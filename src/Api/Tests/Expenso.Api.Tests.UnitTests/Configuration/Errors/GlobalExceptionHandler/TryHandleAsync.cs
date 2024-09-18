@@ -1,3 +1,4 @@
+using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Microsoft.AspNetCore.Http;
@@ -13,10 +14,11 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
         UnauthorizedException exception = new(message: "Unauthorized");
 
         // Act
-        await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext!, exception: exception,
+            cancellationToken: default);
 
         // Assert
-        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status401Unauthorized);
+        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status401Unauthorized);
     }
 
     [Test]
@@ -26,10 +28,11 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
         ForbiddenException exception = new(message: "Forbidden");
 
         // Act
-        await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext!, exception: exception,
+            cancellationToken: default);
 
         // Assert
-        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status403Forbidden);
+        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status403Forbidden);
     }
 
     [Test]
@@ -39,23 +42,55 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
         NotFoundException exception = new(message: "Not found");
 
         // Act
-        await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext!, exception: exception,
+            cancellationToken: default);
 
         // Assert
-        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status404NotFound);
+        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status404NotFound);
     }
 
     [Test]
     public async Task Should_Return422_When_ValidationFailed()
     {
         // Arrange
-        ValidationException exception = new(details: "Validation failed");
+        const string errorMessage = "Validation failed";
+        MemoryStream responseBody = new();
+        _httpContext!.Response.Body = responseBody;
+        ValidationException exception = new(details: errorMessage);
 
         // Act
-        await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext!, exception: exception,
+            cancellationToken: default);
 
         // Assert
         _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status422UnprocessableEntity);
+        string response = await ReadResponse(memoryStream: responseBody);
+        response.Should().Contain(expected: errorMessage);
+    }
+
+    [Test]
+    public async Task Should_Return422_When_CommandValidationFailed()
+    {
+        // Arrange
+        const string errorMessage = "Property is required";
+
+        Dictionary<string, string> errorDictionary = new()
+        {
+            { "Property", errorMessage }
+        };
+
+        MemoryStream responseBody = new();
+        _httpContext!.Response.Body = responseBody;
+        CommandValidationException exception = new(errorDictionary: errorDictionary);
+
+        // Act
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext!, exception: exception,
+            cancellationToken: default);
+
+        // Assert
+        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status422UnprocessableEntity);
+        string response = await ReadResponse(memoryStream: responseBody);
+        response.Should().Contain(expected: errorMessage);
     }
 
     [Test]
@@ -65,9 +100,10 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
         Exception exception = new();
 
         // Act
-        await TestCandidate.TryHandleAsync(httpContext: _httpContext, exception: exception, cancellationToken: default);
+        await TestCandidate.TryHandleAsync(httpContext: _httpContext!, exception: exception,
+            cancellationToken: default);
 
         // Assert
-        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status500InternalServerError);
+        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status500InternalServerError);
     }
 }
