@@ -7,7 +7,7 @@ using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
 using Expenso.Api.Configuration.Settings.Exceptions;
-using Expenso.Api.Configuration.Settings.Services;
+using Expenso.Api.Configuration.Settings.Services.Containers;
 using Expenso.BudgetSharing.Api;
 using Expenso.Communication.Api;
 using Expenso.DocumentManagement.Api;
