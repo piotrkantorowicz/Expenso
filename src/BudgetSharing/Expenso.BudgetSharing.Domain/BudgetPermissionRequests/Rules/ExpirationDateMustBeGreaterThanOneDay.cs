@@ -15,7 +15,7 @@ internal sealed class ExpirationDateMustBeGreaterThanOneDay : IBusinessRule
         _clock = clock;
     }
 
-    public string Message => $"Expiration date {_expirationDate.Value} must be greater than one day";
+    public string Message => $"Expiration date {_expirationDate.Value} must be greater than one day.";
 
     public bool IsBroken()
     {

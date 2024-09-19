@@ -54,7 +54,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {email} not found");
+            .WithMessage(expectedWildcardPattern: $"User with email {email} not found.");
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(),

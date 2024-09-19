@@ -44,10 +44,10 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
                 expectedWildcardPattern:
-                $"Budget with id: {TestCandidate.BudgetId} does not have permission for provided user with id: {participantId}");
+                $"Budget with id: {TestCandidate.BudgetId} does not have permission for provided user with id: {participantId}.");
     }
 
     [Test]
@@ -63,8 +63,8 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
-                expectedWildcardPattern: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}");
+                expectedWildcardPattern: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}.");
     }
 }

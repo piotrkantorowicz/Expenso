@@ -12,7 +12,7 @@ internal sealed class UnknownBudgetPermissionRequestStatusCannotBeProcessed : IB
         _status = status ?? throw new ArgumentNullException(paramName: nameof(status));
     }
 
-    public string Message => $"Unknown budget permission request status {_status} cannot be processed";
+    public string Message => $"Unknown budget permission request status {_status} cannot be processed.";
 
     public bool IsBroken()
     {

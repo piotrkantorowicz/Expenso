@@ -48,7 +48,7 @@ internal sealed class ReadAsync : FileStorageTestBase
         action
             .Should()
             .ThrowAsync<FileHasNotBeenFoundException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: x => x.Details == "File not found");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: x => x.Details == "File not found.");
     }
 }

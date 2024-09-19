@@ -46,7 +46,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job entry with id {_jobEntryId} not found");
+            .WithMessage(expectedWildcardPattern: $"Job entry with id {_jobEntryId} not found.");
     }
 
     [Test]
@@ -69,6 +69,6 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job status with id {JobEntryStatus.Cancelled.Id} not found");
+            .WithMessage(expectedWildcardPattern: $"Job status with id {JobEntryStatus.Cancelled.Id} not found.");
     }
 }

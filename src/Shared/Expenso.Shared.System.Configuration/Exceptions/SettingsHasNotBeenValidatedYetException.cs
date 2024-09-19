@@ -3,7 +3,7 @@
 public sealed class SettingsHasNotBeenValidatedYetException : Exception
 {
     public SettingsHasNotBeenValidatedYetException(string settingsName) : base(
-        message: $"Settings of type {settingsName} have not been validated yet")
+        message: $"Settings of type {settingsName} have not been validated yet.")
     {
     }
 }

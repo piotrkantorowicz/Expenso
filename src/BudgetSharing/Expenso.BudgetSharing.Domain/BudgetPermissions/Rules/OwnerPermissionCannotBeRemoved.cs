@@ -14,7 +14,7 @@ internal sealed class OwnerPermissionCannotBeRemoved : IBusinessRule
         _permissionType = permissionType;
     }
 
-    public string Message => $"Owner permission cannot be removed from budget {_budgetId}";
+    public string Message => $"Owner permission cannot be removed from budget {_budgetId}.";
 
     public bool IsBroken()
     {

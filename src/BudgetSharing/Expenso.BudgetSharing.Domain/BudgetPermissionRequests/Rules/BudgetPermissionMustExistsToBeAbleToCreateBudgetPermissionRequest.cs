@@ -17,7 +17,7 @@ internal sealed class BudgetPermissionMustExistsToBeAbleToCreateBudgetPermission
     }
 
     public string Message =>
-        $"Unable to create budget permission request for not existant budget permission. Budget {_budgetId}";
+        $"Unable to create budget permission request for not existant budget permission. Budget {_budgetId}.";
 
     public bool IsBroken()
     {

@@ -22,7 +22,7 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
         if (string.IsNullOrEmpty(value: startupProjectPath) || !Path.Exists(path: startupProjectPath))
         {
             string errorMessage =
-                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {startupProjectPath}";
+                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {startupProjectPath}.";
 
             throw new ArgumentException(message: errorMessage);
         }

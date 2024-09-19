@@ -42,9 +42,9 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         action
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
                 expectedWildcardPattern:
-                $"Only pending budget permission request {TestCandidate.Id} can be made cancelled");
+                $"Only pending budget permission request {TestCandidate.Id} can be made cancelled.");
     }
 }

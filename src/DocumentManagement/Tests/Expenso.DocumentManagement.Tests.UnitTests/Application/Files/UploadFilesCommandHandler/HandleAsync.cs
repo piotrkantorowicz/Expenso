@@ -66,7 +66,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         action
             .Should()
             .ThrowAsync<EmptyFileContentException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty.");
     }
 }

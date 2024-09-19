@@ -30,7 +30,7 @@ internal sealed class HandleAsync : QueryHandlerLoggingDecoratorTestBase
         // Arrange
         _queryHandlerMock
             .Setup(expression: x => x.HandleAsync(_testQuery, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging"));
+            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging."));
 
         // Act
         Func<Task> action = async () => await TestCandidate.HandleAsync(
@@ -40,7 +40,7 @@ internal sealed class HandleAsync : QueryHandlerLoggingDecoratorTestBase
         await action
             .Should()
             .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging");
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging.");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.QueryExecuting, It.IsAny<string>(), It.IsAny<IMessageContext?>(),

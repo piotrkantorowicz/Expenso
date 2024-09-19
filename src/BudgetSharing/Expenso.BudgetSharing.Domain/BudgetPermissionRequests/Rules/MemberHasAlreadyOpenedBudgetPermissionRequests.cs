@@ -22,7 +22,7 @@ internal sealed class MemberHasAlreadyOpenedBudgetPermissionRequests : IBusiness
     }
 
     public string Message =>
-        $"Member has already opened requests {string.Join(separator: ", ", values: _budgetPermissionRequestIds)} for this budget {_budgetId} with same permission {_permissionType}";
+        $"Member has already opened requests {string.Join(separator: ", ", values: _budgetPermissionRequestIds)} for this budget {_budgetId} with same permission {_permissionType}.";
 
     public bool IsBroken()
     {

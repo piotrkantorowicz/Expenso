@@ -18,7 +18,7 @@ internal sealed class BudgetMustHasDistinctPermissionsForUsers : IBusinessRule
     }
 
     public string Message =>
-        $"Budget {_budgetId} already has permission for participant {_participantId}";
+        $"Budget {_budgetId} already has permission for participant {_participantId}.";
 
     public bool IsBroken()
     {
