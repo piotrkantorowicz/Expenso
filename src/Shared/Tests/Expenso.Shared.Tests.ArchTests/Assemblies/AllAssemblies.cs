@@ -4,14 +4,17 @@ internal static class AllAssemblies
 {
     public static Assembly[] ToArray()
     {
-        return CommandsAssemblies
-            .ToArray()
-            .Concat(second: DatabaseAssemblies.ToArray())
-            .Concat(second: DomainAssemblies.ToArray())
-            .Concat(second: IntegrationAssemblies.ToArray())
-            .Concat(second: QueriesAssemblies.ToArray())
-            .Concat(second: SystemAssemblies.ToArray())
-            .Concat(second: TestsAssemblies.ToArray())
+        return new[]
+            {
+                CommandsAssemblies.GetAssemblies(),
+                DatabaseAssemblies.GetAssemblies(),
+                DomainAssemblies.GetAssemblies(),
+                IntegrationAssemblies.GetAssemblies(),
+                QueriesAssemblies.GetAssemblies(),
+                SystemAssemblies.GetAssemblies(),
+                TestsAssemblies.GetAssemblies()
+            }
+            .SelectMany(selector: assembly => assembly)
             .ToArray();
     }
 }

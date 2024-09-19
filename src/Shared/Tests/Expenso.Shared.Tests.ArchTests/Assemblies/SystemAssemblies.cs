@@ -6,11 +6,9 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 
-using Extensions = Expenso.Shared.System.Logging.Serilog.Extensions;
+using SerilogExtensions = Expenso.Shared.System.Logging.Serilog.Extensions;
 
 namespace Expenso.Shared.Tests.ArchTests.Assemblies;
-
-using SerilogExtensions = Extensions;
 
 internal static class SystemAssemblies
 {
@@ -24,7 +22,7 @@ internal static class SystemAssemblies
     private static readonly Assembly Tasks = typeof(TaskExtensions).Assembly;
     private static readonly Assembly Types = typeof(IClock).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [
@@ -35,7 +33,8 @@ internal static class SystemAssemblies
             Metrics,
             Modules,
             Serialization,
-            Tasks
+            Tasks,
+            Types
         ];
 
         return assemblies;

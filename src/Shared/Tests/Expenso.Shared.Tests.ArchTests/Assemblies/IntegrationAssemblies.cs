@@ -11,15 +11,15 @@ internal static class IntegrationAssemblies
     private static readonly Assembly IntegrationEventsLogging =
         typeof(IntegrationEventHandlerLoggingDecorator<>).Assembly;
 
-    private static readonly Assembly IntegrationMessagebroker = typeof(IMessageBroker).Assembly;
+    private static readonly Assembly IntegrationMessageBroker = typeof(IMessageBroker).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [
             IntegrationEvents,
             IntegrationEventsLogging,
-            IntegrationMessagebroker
+            IntegrationMessageBroker
         ];
 
         return assemblies;

@@ -10,7 +10,7 @@ internal static class TestsAssemblies
     private static readonly Assembly ArchTests = typeof(TestsAssemblies).Assembly;
     private static readonly Assembly ArchTestsUtils = typeof(ArchTestTestBase).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [

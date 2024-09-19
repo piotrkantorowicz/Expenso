@@ -12,7 +12,7 @@ internal static class CommandsAssemblies
     private static readonly Assembly CommandsTransactions = typeof(CommandHandlerTransactionDecorator<>).Assembly;
     private static readonly Assembly CommandsValidations = typeof(CommandHandlerValidationDecorator<>).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [

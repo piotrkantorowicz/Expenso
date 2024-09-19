@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.Database;
-using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+using Expenso.Shared.Database.EfCore.Npsql.DbContexts;
 using Expenso.Shared.Database.EfCore.Settings;
 
 using DatabaseExtensions = Expenso.Shared.Database.EfCore.Memory.Extensions;
@@ -13,7 +13,7 @@ internal static class DatabaseAssemblies
     private static readonly Assembly DatabaseEfCoreMemory = typeof(DatabaseExtensions).Assembly;
     private static readonly Assembly DatabaseEfCoreNpSql = typeof(NpsqlDbContextFactory<>).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [

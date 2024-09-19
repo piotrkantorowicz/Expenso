@@ -10,7 +10,7 @@ internal static class DomainAssemblies
     private static readonly Assembly DomainEventsLogging = typeof(DomainEventHandlerLoggingDecorator<>).Assembly;
     private static readonly Assembly DomainEventsTypes = typeof(IAggregateRoot).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [

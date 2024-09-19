@@ -1,5 +1,5 @@
 using Expenso.Shared.Database.EfCore.DbContexts;
-using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+using Expenso.Shared.Database.EfCore.Npsql.DbContexts;
 
 using Microsoft.EntityFrameworkCore;
 

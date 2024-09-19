@@ -32,7 +32,7 @@
         <ProjectReference Include="..\..\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
