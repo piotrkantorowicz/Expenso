@@ -1,3 +1,5 @@
+using Expenso.Shared.Tests.ArchTests.Assemblies;
+
 namespace Expenso.Shared.Tests.ArchTests.AccessModifiers;
 
 internal sealed class AccessModifierTests : ArchTestTestBase
@@ -28,7 +30,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     public void Should_Passed_When_AllExpectedTypesAreInternalInTestAssemblies()
     {
         ConditionList? types = NetArchTypes
-            .InAssemblies(assemblies: Assemblies
+            .InAssemblies(assemblies: AllAssemblies
                 .ToArray()
                 .Where(predicate: x => x.FullName?.Contains(value: "Tests") == true))
             .Should()
@@ -44,7 +46,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
         ConditionList? types = NetArchTypes
-            .InAssemblies(assemblies: Assemblies.ToArray())
+            .InAssemblies(assemblies: AllAssemblies.ToArray())
             .Should()
             .BeClasses()
             .And()
@@ -64,7 +66,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
         ConditionList? types = NetArchTypes
-            .InAssemblies(assemblies: Assemblies.ToArray())
+            .InAssemblies(assemblies: AllAssemblies.ToArray())
             .Should()
             .NotBeSealed()
             .And()

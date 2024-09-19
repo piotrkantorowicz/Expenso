@@ -1,6 +1,7 @@
 namespace Expenso.Shared.Commands.Validation;
 
-internal class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : class, ICommand
+internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand>
+    where TCommand : class, ICommand
 {
     private readonly ICommandHandler<TCommand> _decorated;
     private readonly IEnumerable<ICommandValidator<TCommand>> _validators;
@@ -28,7 +29,7 @@ internal class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCo
     }
 }
 
-internal class CommandHandlerValidationDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
+internal sealed class CommandHandlerValidationDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
     where TCommand : class, ICommand where TResult : class
 {
     private readonly ICommandHandler<TCommand, TResult> _decorated;
