@@ -22,6 +22,8 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RemovePermission
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RestoreBudgetPermission;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Domain;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Infrastructure;
 using Expenso.BudgetSharing.Proxy;
 using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
@@ -78,7 +80,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
     {
         EndpointRegistration getBudgetPermissionRequestEndpointRegistration = new(
             Pattern: "budget-permission-requests/{id}", Name: "GetBudgetPermissionRequest",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, SubModule: nameof(BudgetPermissionRequest),
+            Handler: async (
                 [FromServices]
                 IQueryHandler<GetBudgetPermissionRequestQuery, GetBudgetPermissionRequestResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
@@ -94,7 +97,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration getBudgetPermissionRequestsEndpointRegistration = new(
             Pattern: "budget-permission-requests", Name: "GetBudgetPermissionRequests",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, SubModule: nameof(BudgetPermissionRequest),
+            Handler: async (
                 [FromServices]
                 IQueryHandler<GetBudgetPermissionRequestsQuery,
                     IReadOnlyCollection<GetBudgetPermissionRequestsResponse>> handler,
@@ -113,7 +117,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
             });
 
         EndpointRegistration assignParticipantEndpointRegistration = new(Pattern: "budget-permission-requests",
-            Name: "AssignParticipant", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
+            Name: "AssignParticipant", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post,
+            SubModule: nameof(BudgetPermissionRequest), Handler: async (
                 [FromServices] ICommandHandler<AssignParticipantCommand, AssignParticipantResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory,
                 [FromBody] AssignParticipantRequest assignParticipantRequest,
@@ -132,8 +137,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration confirmAssigningParticipantEndpointRegistration = new(
             Pattern: "budget-permission-requests/{id}/confirm", Name: "ConfirmAssigningParticipant",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch, Handler: async (
-                [FromServices] ICommandHandler<ConfirmAssigningParticipantCommand> handler,
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch, SubModule: nameof(BudgetPermissionRequest),
+            Handler: async ([FromServices] ICommandHandler<ConfirmAssigningParticipantCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
@@ -146,8 +151,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration expireAssigningParticipantEndpointRegistration = new(
             Pattern: "budget-permission-requests/{id}/expire", Name: "ExpireAssigningParticipant",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch, Handler: async (
-                [FromServices] ICommandHandler<ExpireAssigningParticipantCommand> handler,
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch, SubModule: nameof(BudgetPermissionRequest),
+            Handler: async ([FromServices] ICommandHandler<ExpireAssigningParticipantCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
@@ -160,8 +165,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration cancelAssigningParticipantEndpointRegistration = new(
             Pattern: "budget-permission-requests/{id}/cancel", Name: "CancelAssigningParticipant",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch, Handler: async (
-                [FromServices] ICommandHandler<CancelAssigningParticipantCommand> handler,
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch, SubModule: nameof(BudgetPermissionRequest),
+            Handler: async ([FromServices] ICommandHandler<CancelAssigningParticipantCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
@@ -183,7 +188,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
     private static IEnumerable<EndpointRegistration> CreateBudgetPermissionEndpoints()
     {
         EndpointRegistration getBudgetPermissionEndpointRegistration = new(Pattern: "budget-permissions/{id}",
-            Name: "GetBudgetPermission", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+            Name: "GetBudgetPermission", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get,
+            SubModule: nameof(BudgetPermission), Handler: async (
                 [FromServices] IQueryHandler<GetBudgetPermissionQuery, GetBudgetPermissionResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
@@ -196,7 +202,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
             });
 
         EndpointRegistration getBudgetPermissionsEndpointRegistration = new(Pattern: "budget-permissions",
-            Name: "GetBudgetPermissions", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+            Name: "GetBudgetPermissions", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get,
+            SubModule: nameof(BudgetPermission), Handler: async (
                 [FromServices]
                 IQueryHandler<GetBudgetPermissionsQuery, IReadOnlyCollection<GetBudgetPermissionsResponse>> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
@@ -215,7 +222,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
             });
 
         EndpointRegistration createBudgetPermissionEndpointRegistration = new(Pattern: "budget-permissions",
-            Name: "CreateBudgetPermission", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
+            Name: "CreateBudgetPermission", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post,
+            SubModule: nameof(BudgetPermission), Handler: async (
                 [FromServices] ICommandHandler<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory,
                 [FromBody] CreateBudgetPermissionRequest createBudgetPermissionRequest,
@@ -234,7 +242,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration restoreBudgetPermissionEndpointRegistration = new(Pattern: "budget-permissions/{id}",
             Name: "RestoreBudgetPermission", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Patch,
-            Handler: async ([FromServices] ICommandHandler<RestoreBudgetPermissionCommand> handler,
+            SubModule: nameof(BudgetPermission), Handler: async (
+                [FromServices] ICommandHandler<RestoreBudgetPermissionCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
@@ -247,7 +256,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration deleteBudgetPermissionEndpointRegistration = new(Pattern: "budget-permissions/{id}",
             Name: "DeleteBudgetPermission", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete,
-            Handler: async ([FromServices] ICommandHandler<DeleteBudgetPermissionCommand> handler,
+            SubModule: nameof(BudgetPermission), Handler: async (
+                [FromServices] ICommandHandler<DeleteBudgetPermissionCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
@@ -260,8 +270,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration addPermissionEndpointRegistration = new(
             Pattern: "budget-permissions/{id}/participants/{participantId}", Name: "AddPermission",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
-                [FromServices] ICommandHandler<AddPermissionCommand> handler,
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, SubModule: nameof(BudgetPermission),
+            Handler: async ([FromServices] ICommandHandler<AddPermissionCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 [FromRoute] Guid participantId, [FromBody] AddPermissionRequest addPermissionRequest,
                 CancellationToken cancellationToken = default) =>
@@ -276,8 +286,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
 
         EndpointRegistration removePermissionEndpointRegistration = new(
             Pattern: "budget-permissions/{id}/participants/{participantId}", Name: "RemovePermission",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete, Handler: async (
-                [FromServices] ICommandHandler<RemovePermissionCommand> handler,
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete, SubModule: nameof(BudgetPermission),
+            Handler: async ([FromServices] ICommandHandler<RemovePermissionCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 [FromRoute] Guid participantId, CancellationToken cancellationToken = default) =>
             {

@@ -5,7 +5,8 @@ public sealed record EndpointRegistration(
     string Name,
     AccessControl AccessControl,
     HttpVerb HttpVerb,
-    Delegate? Handler);
+    Delegate? Handler,
+    string? SubModule = null);
 
 public enum HttpVerb
 {

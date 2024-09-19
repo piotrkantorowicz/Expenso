@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 
 using Expenso.Shared.System.Modules.Extensions;
 
@@ -75,7 +76,19 @@ public static class Modules
                 }
 
                 routeHandlerBuilder.WithName(endpointName: endpoint.Name);
-                string tag = $"{rootTag}.{module.ModuleName}";
+
+                StringBuilder stringBuilder = new StringBuilder()
+                    .Append(value: rootTag)
+                    .Append(value: '.')
+                    .Append(value: module.ModuleName);
+
+                if (endpoint.SubModule is not null)
+                {
+                    stringBuilder.Append(value: '.');
+                    stringBuilder.Append(value: endpoint.SubModule);
+                }
+
+                string tag = stringBuilder.ToString();
                 routeHandlerBuilder.WithOpenApi().WithTags(tag);
             }
         }

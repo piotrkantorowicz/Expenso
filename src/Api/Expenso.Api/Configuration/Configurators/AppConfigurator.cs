@@ -36,7 +36,12 @@ internal sealed class AppConfigurator : IAppConfigurator
         }
 
         _app.UseSwagger();
-        _app.UseSwaggerUI();
+
+        _app.UseSwaggerUI(setupAction: opts =>
+        {
+            opts.DisplayOperationId();
+            opts.DisplayRequestDuration();
+        });
 
         return this;
     }
