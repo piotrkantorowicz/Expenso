@@ -15,7 +15,7 @@ internal static class Assemblies
     private static readonly Assembly UnitTests = typeof(DomainTestBase<>).Assembly;
     private static readonly Assembly ArchTests = typeof(Assemblies).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         List<Assembly> assemblies =
         [

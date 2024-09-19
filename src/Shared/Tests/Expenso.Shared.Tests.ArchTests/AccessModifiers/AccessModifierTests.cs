@@ -31,7 +31,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     {
         ConditionList? types = NetArchTypes
             .InAssemblies(assemblies: AllAssemblies
-                .ToArray()
+                .GetAssembliesCollection()
                 .Where(predicate: x => x.FullName?.Contains(value: "Tests") == true))
             .Should()
             .BePublic();
@@ -46,7 +46,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
         ConditionList? types = NetArchTypes
-            .InAssemblies(assemblies: AllAssemblies.ToArray())
+            .InAssemblies(assemblies: AllAssemblies.GetAssembliesCollection())
             .Should()
             .BeClasses()
             .And()
@@ -66,7 +66,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
         ConditionList? types = NetArchTypes
-            .InAssemblies(assemblies: AllAssemblies.ToArray())
+            .InAssemblies(assemblies: AllAssemblies.GetAssembliesCollection())
             .Should()
             .NotBeSealed()
             .And()

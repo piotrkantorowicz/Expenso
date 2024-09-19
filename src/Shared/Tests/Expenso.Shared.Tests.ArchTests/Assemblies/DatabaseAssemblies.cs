@@ -13,16 +13,16 @@ internal static class DatabaseAssemblies
     private static readonly Assembly DatabaseEfCoreMemory = typeof(DatabaseExtensions).Assembly;
     private static readonly Assembly DatabaseEfCoreNpSql = typeof(NpsqlDbContextFactory<>).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            Database,
-            DatabaseEfCore,
-            DatabaseEfCoreMemory,
-            DatabaseEfCoreNpSql
-        ];
+        [key: nameof(Database)] = typeof(IUnitOfWork).Assembly,
+        [key: nameof(DatabaseEfCore)] = typeof(EfCoreSettings).Assembly,
+        [key: nameof(DatabaseEfCoreMemory)] = typeof(DatabaseExtensions).Assembly,
+        [key: nameof(DatabaseEfCoreNpSql)] = typeof(NpsqlDbContextFactory<>).Assembly
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }

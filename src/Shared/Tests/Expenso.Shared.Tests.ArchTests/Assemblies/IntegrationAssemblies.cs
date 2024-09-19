@@ -10,18 +10,17 @@ internal static class IntegrationAssemblies
 
     private static readonly Assembly IntegrationEventsLogging =
         typeof(IntegrationEventHandlerLoggingDecorator<>).Assembly;
-
     private static readonly Assembly IntegrationMessageBroker = typeof(IMessageBroker).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            IntegrationEvents,
-            IntegrationEventsLogging,
-            IntegrationMessageBroker
-        ];
+        [key: nameof(IntegrationEvents)] = IntegrationEvents,
+        [key: nameof(IntegrationEventsLogging)] = IntegrationEventsLogging,
+        [key: nameof(IntegrationMessageBroker)] = IntegrationMessageBroker
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }

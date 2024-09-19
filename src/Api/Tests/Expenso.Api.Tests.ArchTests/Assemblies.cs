@@ -11,7 +11,7 @@ internal static class Assemblies
     private static readonly Assembly E2E = typeof(WebApp).Assembly;
     private static readonly Assembly ArchTests = typeof(AccessModifierTests).Assembly;
 
-    public static IReadOnlyCollection<Assembly> ToArray()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         Assembly[] assemblies = new List<Assembly>
         {

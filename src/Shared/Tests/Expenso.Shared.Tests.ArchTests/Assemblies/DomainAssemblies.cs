@@ -10,15 +10,15 @@ internal static class DomainAssemblies
     private static readonly Assembly DomainEventsLogging = typeof(DomainEventHandlerLoggingDecorator<>).Assembly;
     private static readonly Assembly DomainEventsTypes = typeof(IAggregateRoot).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            DomainEvents,
-            DomainEventsLogging,
-            DomainEventsTypes
-        ];
+        [key: nameof(DomainEvents)] = DomainEvents,
+        [key: nameof(DomainEventsLogging)] = DomainEventsLogging,
+        [key: nameof(DomainEventsTypes)] = DomainEventsTypes
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }

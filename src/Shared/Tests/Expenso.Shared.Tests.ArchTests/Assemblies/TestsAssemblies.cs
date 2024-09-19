@@ -10,16 +10,16 @@ internal static class TestsAssemblies
     private static readonly Assembly ArchTests = typeof(TestsAssemblies).Assembly;
     private static readonly Assembly ArchTestsUtils = typeof(ArchTestTestBase).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            UnitTests,
-            UnitTestsUtils,
-            ArchTests,
-            ArchTestsUtils
-        ];
+        [key: nameof(UnitTests)] = UnitTests,
+        [key: nameof(UnitTestsUtils)] = UnitTestsUtils,
+        [key: nameof(ArchTests)] = ArchTests,
+        [key: nameof(ArchTestsUtils)] = ArchTestsUtils
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }

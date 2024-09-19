@@ -12,16 +12,16 @@ internal static class CommandsAssemblies
     private static readonly Assembly CommandsTransactions = typeof(CommandHandlerTransactionDecorator<>).Assembly;
     private static readonly Assembly CommandsValidations = typeof(CommandHandlerValidationDecorator<>).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            Commands,
-            CommandsLogging,
-            CommandsTransactions,
-            CommandsValidations
-        ];
+        [key: nameof(Commands)] = typeof(ICommand).Assembly,
+        [key: nameof(CommandsLogging)] = typeof(CommandHandlerLoggingDecorator<>).Assembly,
+        [key: nameof(CommandsTransactions)] = typeof(CommandHandlerTransactionDecorator<>).Assembly,
+        [key: nameof(CommandsValidations)] = typeof(CommandHandlerValidationDecorator<>).Assembly
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }

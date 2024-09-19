@@ -23,7 +23,7 @@ internal sealed class AccessModifierTests : TestBase
     [Test]
     public void Should_Passed_When_AllExpectedTypesAreInternal()
     {
-        ConditionList? types = Types.InAssemblies(assemblies: Assemblies.ToArray()).Should().BePublic();
+        ConditionList? types = Types.InAssemblies(assemblies: Assemblies.GetAssemblies()).Should().BePublic();
 
         types = NotInternal.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
@@ -35,7 +35,7 @@ internal sealed class AccessModifierTests : TestBase
     public void Should_Passed_When_AllExpectedClassesAreSealed()
     {
         ConditionList? types = Types
-            .InAssemblies(assemblies: Assemblies.ToArray())
+            .InAssemblies(assemblies: Assemblies.GetAssemblies())
             .Should()
             .BeClasses()
             .And()
@@ -54,8 +54,12 @@ internal sealed class AccessModifierTests : TestBase
     [Test]
     public void Should_Passed_When_AllNotSealedClassesAreAbstract()
     {
-        ConditionList? types =
-            Types.InAssemblies(assemblies: Assemblies.ToArray()).Should().NotBeSealed().And().NotBeAbstract();
+        ConditionList? types = Types
+            .InAssemblies(assemblies: Assemblies.GetAssemblies())
+            .Should()
+            .NotBeSealed()
+            .And()
+            .NotBeAbstract();
 
         types = NotAbstract.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));

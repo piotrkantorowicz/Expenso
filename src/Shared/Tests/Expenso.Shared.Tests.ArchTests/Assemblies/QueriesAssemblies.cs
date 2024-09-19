@@ -8,14 +8,14 @@ internal static class QueriesAssemblies
     private static readonly Assembly Queries = typeof(IQuery).Assembly;
     private static readonly Assembly QueriesLogging = typeof(QueryHandlerLoggingDecorator<,>).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            Queries,
-            QueriesLogging
-        ];
+        [key: nameof(Queries)] = Queries,
+        [key: nameof(QueriesLogging)] = QueriesLogging
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }

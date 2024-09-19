@@ -7,6 +7,7 @@ using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 
 using SerilogExtensions = Expenso.Shared.System.Logging.Serilog.Extensions;
+using TaskExtensions = Expenso.Shared.System.Tasks.TaskExtensions;
 
 namespace Expenso.Shared.Tests.ArchTests.Assemblies;
 
@@ -22,21 +23,21 @@ internal static class SystemAssemblies
     private static readonly Assembly Tasks = typeof(TaskExtensions).Assembly;
     private static readonly Assembly Types = typeof(IClock).Assembly;
 
-    public static IReadOnlyCollection<Assembly> GetAssemblies()
+    private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        List<Assembly> assemblies =
-        [
-            Configuration,
-            Expressions,
-            Logging,
-            LoggingSerilog,
-            Metrics,
-            Modules,
-            Serialization,
-            Tasks,
-            Types
-        ];
+        [key: nameof(Configuration)] = Configuration,
+        [key: nameof(Expressions)] = Expressions,
+        [key: nameof(Logging)] = Logging,
+        [key: nameof(LoggingSerilog)] = LoggingSerilog,
+        [key: nameof(Metrics)] = Metrics,
+        [key: nameof(Modules)] = Modules,
+        [key: nameof(Serialization)] = Serialization,
+        [key: nameof(Tasks)] = Tasks,
+        [key: nameof(Types)] = Types
+    };
 
-        return assemblies;
+    public static IReadOnlyDictionary<string, Assembly> GetAssemblies()
+    {
+        return Assemblies;
     }
 }
