@@ -1,4 +1,4 @@
-using Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+using Expenso.Shared.Database.EfCore.Npsql.DbContexts;
 
 namespace Expenso.TimeManagement.Core.Persistence.EfCore;
 

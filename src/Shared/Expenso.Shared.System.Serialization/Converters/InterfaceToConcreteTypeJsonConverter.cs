@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Expenso.Shared.System.Serialization.Converters;
 
-public class InterfaceToConcreteTypeJsonConverter<TInterface, TConcreteType> : JsonConverter<TInterface>
+public sealed class InterfaceToConcreteTypeJsonConverter<TInterface, TConcreteType> : JsonConverter<TInterface>
     where TInterface : class where TConcreteType : class, TInterface, new()
 {
     public override TInterface? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions? options)

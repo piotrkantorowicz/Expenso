@@ -2,7 +2,8 @@ using Expenso.Shared.Database;
 
 namespace Expenso.Shared.Commands.Transactions;
 
-internal class CommandHandlerTransactionDecorator<TCommand> : ICommandHandler<TCommand> where TCommand : class, ICommand
+internal sealed class CommandHandlerTransactionDecorator<TCommand> : ICommandHandler<TCommand>
+    where TCommand : class, ICommand
 {
     private readonly ICommandHandler<TCommand> _decorated;
     private readonly IUnitOfWork _unitOfWork;
@@ -30,7 +31,7 @@ internal class CommandHandlerTransactionDecorator<TCommand> : ICommandHandler<TC
     }
 }
 
-internal class CommandHandlerTransactionDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
+internal sealed class CommandHandlerTransactionDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
     where TCommand : class, ICommand where TResult : class
 {
     private readonly ICommandHandler<TCommand, TResult> _decorated;

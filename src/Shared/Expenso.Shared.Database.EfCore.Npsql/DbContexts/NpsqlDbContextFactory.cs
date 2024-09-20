@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Expenso.Shared.Database.EfCore.NpSql.DbContexts;
+namespace Expenso.Shared.Database.EfCore.Npsql.DbContexts;
 
 public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFactory<TDbContext>
     where TDbContext : DbContext
