@@ -9,13 +9,13 @@ internal sealed class DictionaryExtensionsTests
     public void Should_MergeDictionaries_When_NoConflictingKeys()
     {
         // Arrange
-        Dictionary<int, string> dictionary = new Dictionary<int, string>
+        Dictionary<int, string> dictionary = new()
         {
             { 1, "One" },
             { 2, "Two" }
         };
 
-        Dictionary<int, string> itemsToMerge = new Dictionary<int, string>
+        Dictionary<int, string> itemsToMerge = new()
         {
             { 3, "Three" },
             { 4, "Four" }
@@ -35,13 +35,13 @@ internal sealed class DictionaryExtensionsTests
     public void Should_OverwriteValues_When_KeysConflictAndOverwriteIsTrue()
     {
         // Arrange
-        Dictionary<int, string> dictionary = new Dictionary<int, string>
+        Dictionary<int, string> dictionary = new()
         {
             { 1, "One" },
             { 2, "Two" }
         };
 
-        Dictionary<int, string> itemsToMerge = new Dictionary<int, string>
+        Dictionary<int, string> itemsToMerge = new()
         {
             { 2, "Twenty" },
             { 3, "Three" }
@@ -60,13 +60,13 @@ internal sealed class DictionaryExtensionsTests
     public void Should_ThrowInvalidOperationException_When_KeysConflictAndOverwriteIsFalse()
     {
         // Arrange
-        Dictionary<int, string> dictionary = new Dictionary<int, string>
+        Dictionary<int, string> dictionary = new()
         {
             { 1, "One" },
             { 2, "Two" }
         };
 
-        Dictionary<int, string> itemsToMerge = new Dictionary<int, string>
+        Dictionary<int, string> itemsToMerge = new()
         {
             { 2, "Twenty" },
             { 3, "Three" }
@@ -89,7 +89,7 @@ internal sealed class DictionaryExtensionsTests
         // Arrange
         IDictionary<int, string>? dictionary = null;
 
-        Dictionary<int, string> itemsToMerge = new Dictionary<int, string>
+        Dictionary<int, string> itemsToMerge = new()
         {
             { 1, "One" }
         };
@@ -105,7 +105,7 @@ internal sealed class DictionaryExtensionsTests
     public void Should_ThrowArgumentNullException_When_ItemsToMergeIsNull()
     {
         // Arrange
-        Dictionary<int, string> dictionary = new Dictionary<int, string>
+        Dictionary<int, string> dictionary = new()
         {
             { 1, "One" }
         };

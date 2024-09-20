@@ -15,7 +15,6 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
     {
         // Arrange
         DateTimeOffset currentTime = DateTimeOffset.UtcNow;
-        ;
         _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
         DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
         Status status = Status.Pending;
@@ -35,14 +34,14 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         result.CancellationDate.Should().BeNull();
     }
 
-    [Test]
-    public void Should_ThrowDomainRuleValidationException_When_StatusIsUnknown()
+    [Test, TestCase(arg: "Unknown"), TestCase(arg: "Confirmed"), TestCase(arg: "Cancelled"), TestCase(arg: "Expired")]
+    public void Should_ThrowDomainRuleValidationException_When_StatusIsOtherThanPending(string statusDisplayName)
     {
         // Arrange
         DateTimeOffset currentTime = DateTimeOffset.UtcNow;
         _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
         DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
-        Status status = Status.Unknown;
+        Status status = Status.FromDisplayName(displayName: statusDisplayName);
 
         Action action = () =>
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
@@ -55,7 +54,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
-                expectedWildcardPattern: $"Unknown budget permission request status {status} cannot be processed.");
+                expectedWildcardPattern: $"Budget permission request status must be 'Pending' but was '{status}'.");
     }
 
     [Test]

@@ -26,7 +26,7 @@ public sealed record BudgetPermissionRequestStatusTracker
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinesRuleCheck(
-                BusinessRule: new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status: status)),
+                BusinessRule: new BudgetPermissionRequestStatusMustBePendingAtTheBeginingRule(status: status)),
             new BusinesRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanSubmissionDate(expirationDate: expirationDate,
                     submissionDate: submissionDate))
@@ -35,7 +35,7 @@ public sealed record BudgetPermissionRequestStatusTracker
         BudgetPermissionRequestId = budgetPermissionRequestId;
         ExpirationDate = expirationDate;
         SubmissionDate = submissionDate;
-        Status = BudgetPermissionRequestStatus.Pending;
+        Status = status;
     }
 
     public BudgetPermissionRequestId BudgetPermissionRequestId { get; }
