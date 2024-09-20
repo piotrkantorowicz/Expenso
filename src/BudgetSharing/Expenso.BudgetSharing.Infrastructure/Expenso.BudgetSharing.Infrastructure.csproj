@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj"/>
