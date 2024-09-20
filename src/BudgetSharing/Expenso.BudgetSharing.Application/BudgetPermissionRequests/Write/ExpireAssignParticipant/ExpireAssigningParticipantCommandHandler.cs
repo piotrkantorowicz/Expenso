@@ -18,7 +18,7 @@ internal sealed class ExpireAssigningParticipantCommandHandler : ICommandHandler
 
     public async Task HandleAsync(ExpireAssigningParticipantCommand command, CancellationToken cancellationToken)
     {
-        await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpire(
+        await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpireAsync(
             budgetPermissionRequestId: command.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

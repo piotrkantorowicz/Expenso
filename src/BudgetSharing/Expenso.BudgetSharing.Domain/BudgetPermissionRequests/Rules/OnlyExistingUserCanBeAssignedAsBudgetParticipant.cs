@@ -15,7 +15,7 @@ internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant : IBusine
     }
 
     public string Message =>
-        $"Budget participant must be the existing system user, but provided user with id {_email} hasn't been found in the system.";
+        $"Budget participant must be the existing system user, but provided user with email {_email} hasn't been found in the system.";
 
     public bool IsBroken()
     {

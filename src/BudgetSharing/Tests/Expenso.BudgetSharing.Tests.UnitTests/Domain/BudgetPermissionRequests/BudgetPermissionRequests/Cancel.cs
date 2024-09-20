@@ -29,11 +29,51 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestIsAlreadyCancel()
+    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestHasBeenAlreadyCancelled()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
         TestCandidate.Cancel(clock: _clockMock.Object);
+
+        // Act
+        Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);
+
+        // Assert
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made cancelled.");
+    }
+
+    [Test]
+    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestHasBeenConfirmed()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate();
+        TestCandidate.Confirm(clock: _clockMock.Object);
+
+        // Act
+        Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);
+
+        // Assert
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made cancelled.");
+    }
+
+    [Test]
+    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestHasBeenExpired()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate();
+        TestCandidate.Expire();
 
         // Act
         Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);

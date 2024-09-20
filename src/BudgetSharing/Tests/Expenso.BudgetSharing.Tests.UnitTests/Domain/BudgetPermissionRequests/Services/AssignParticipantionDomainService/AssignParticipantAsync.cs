@@ -9,7 +9,8 @@ using FluentAssertions;
 
 using Moq;
 
-namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.AssignParticipantDomainService;
+namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
+    AssignParticipantionDomainService;
 
 internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTestBase
 {
@@ -69,7 +70,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Unable to create budget permission request for not existant budget permission. Budget {_budgetId}.");
+                $"Unable to create budget permission request for not existent budget permission. Budget {_budgetId}.");
     }
 
     [Test]
