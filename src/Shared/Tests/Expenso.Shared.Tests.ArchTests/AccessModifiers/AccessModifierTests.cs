@@ -39,7 +39,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
         types = NotInternal.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 
     [Test]
@@ -59,7 +59,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
         types = NotSealed.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 
     [Test]
@@ -75,6 +75,6 @@ internal sealed class AccessModifierTests : ArchTestTestBase
         types = NotAbstract.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 }

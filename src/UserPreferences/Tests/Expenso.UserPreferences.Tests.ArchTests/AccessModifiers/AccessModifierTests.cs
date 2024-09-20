@@ -44,7 +44,7 @@ internal sealed class AccessModifierTests : TestBase
         types = NamespacesToExclude.Aggregate(seed: types,
             func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 
     [Test]
@@ -67,7 +67,7 @@ internal sealed class AccessModifierTests : TestBase
         types = NamespacesToExclude.Aggregate(seed: types,
             func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 
     [Test]
@@ -86,6 +86,6 @@ internal sealed class AccessModifierTests : TestBase
         types = NamespacesToExclude.Aggregate(seed: types,
             func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 }

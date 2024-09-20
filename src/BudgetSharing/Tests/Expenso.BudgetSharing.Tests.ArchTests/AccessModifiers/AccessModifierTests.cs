@@ -42,7 +42,7 @@ internal sealed class AccessModifierTests : TestBase
         types = PublicTypes.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotResideInNamespaceContaining(name: skippedTypeName));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 
     [Test]
@@ -62,7 +62,7 @@ internal sealed class AccessModifierTests : TestBase
         types = NotSealed.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 
     [Test]
@@ -78,6 +78,6 @@ internal sealed class AccessModifierTests : TestBase
         types = NotAbstract.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        AssertArchTestResult(result: types);
+        AssertFailingTypes(result: types);
     }
 }
