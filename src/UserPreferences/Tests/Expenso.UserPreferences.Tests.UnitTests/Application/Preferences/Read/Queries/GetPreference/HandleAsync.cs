@@ -106,7 +106,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found");
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found.");
     }
 
     [Test]
@@ -120,7 +120,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found");
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found.");
     }
 
     [Test]
@@ -135,6 +135,6 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
             TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found");
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found.");
     }
 }

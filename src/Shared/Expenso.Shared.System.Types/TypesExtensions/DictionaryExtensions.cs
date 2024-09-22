@@ -19,7 +19,7 @@ public static class DictionaryExtensions
                 else
                 {
                     throw new InvalidOperationException(
-                        message: $"Key '{item.Key}' already exists in the dictionary and overwrite is not allowed");
+                        message: $"Key '{item.Key}' already exists in the dictionary and overwrite is not allowed.");
                 }
             }
             else

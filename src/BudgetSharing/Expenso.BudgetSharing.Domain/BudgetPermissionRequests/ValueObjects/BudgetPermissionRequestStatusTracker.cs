@@ -10,6 +10,7 @@ public sealed record BudgetPermissionRequestStatusTracker
 {
     private BudgetPermissionRequestStatusTracker()
     {
+        BudgetPermissionRequestId = default!;
         ExpirationDate = default!;
         SubmissionDate = default!;
         ConfirmationDate = default!;
@@ -17,24 +18,27 @@ public sealed record BudgetPermissionRequestStatusTracker
         Status = default!;
     }
 
-    private BudgetPermissionRequestStatusTracker(IClock clock, DateAndTime expirationDate,
-        BudgetPermissionRequestStatus status)
+    private BudgetPermissionRequestStatusTracker(BudgetPermissionRequestId budgetPermissionRequestId, IClock clock,
+        DateAndTime expirationDate, BudgetPermissionRequestStatus status)
     {
         DateAndTime submissionDate = DateAndTime.New(value: clock.UtcNow);
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinesRuleCheck(
-                BusinessRule: new UnknownBudgetPermissionRequestStatusCannotBeProcessed(status: status)),
+                BusinessRule: new BudgetPermissionRequestStatusMustBePendingAtTheBeginingRule(status: status)),
             new BusinesRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanSubmissionDate(expirationDate: expirationDate,
                     submissionDate: submissionDate))
         ]);
 
+        BudgetPermissionRequestId = budgetPermissionRequestId;
         ExpirationDate = expirationDate;
         SubmissionDate = submissionDate;
-        Status = BudgetPermissionRequestStatus.Pending;
+        Status = status;
     }
+
+    public BudgetPermissionRequestId BudgetPermissionRequestId { get; }
 
     public DateAndTime ExpirationDate { get; }
 
@@ -46,26 +50,48 @@ public sealed record BudgetPermissionRequestStatusTracker
 
     public BudgetPermissionRequestStatus Status { get; private set; }
 
-    public static BudgetPermissionRequestStatusTracker Start(IClock clock, DateAndTime expirationDate,
-        BudgetPermissionRequestStatus status)
+    public static BudgetPermissionRequestStatusTracker Start(BudgetPermissionRequestId budgetPermissionRequestId,
+        IClock clock, DateAndTime expirationDate, BudgetPermissionRequestStatus status)
     {
-        return new BudgetPermissionRequestStatusTracker(clock: clock, expirationDate: expirationDate, status: status);
+        return new BudgetPermissionRequestStatusTracker(budgetPermissionRequestId: budgetPermissionRequestId,
+            clock: clock, expirationDate: expirationDate, status: status);
     }
 
     public void Cancel(IClock clock)
     {
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            new BusinesRuleCheck(
+                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(
+                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
+        ]);
+
         CancellationDate = DateAndTime.New(value: clock.UtcNow);
         Status = BudgetPermissionRequestStatus.Cancelled;
     }
 
     public void Confirm(IClock clock)
     {
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            new BusinesRuleCheck(
+                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(
+                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
+        ]);
+
         ConfirmationDate = DateAndTime.New(value: clock.UtcNow);
         Status = BudgetPermissionRequestStatus.Confirmed;
     }
 
     public void Expire()
     {
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            new BusinesRuleCheck(
+                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
+                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
+        ]);
+
         Status = BudgetPermissionRequestStatus.Expired;
     }
 }

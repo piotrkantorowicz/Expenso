@@ -62,7 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.UserPreferences.Proxy", "src\UserPreferences\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj", "{30C8E320-20DF-49A2-BC60-83614B17A81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.NpSql", "src\Shared\Expenso.Shared.Database.EfCore.NpSql\Expenso.Shared.Database.EfCore.NpSql.csproj", "{CEF84525-B8D3-4D5D-B05A-6F2E2A0EF1E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.Npsql", "src\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj", "{CEF84525-B8D3-4D5D-B05A-6F2E2A0EF1E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore", "src\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj", "{C0C3A650-5D69-4026-84E5-DF1EF9D7DC04}"
 EndProject

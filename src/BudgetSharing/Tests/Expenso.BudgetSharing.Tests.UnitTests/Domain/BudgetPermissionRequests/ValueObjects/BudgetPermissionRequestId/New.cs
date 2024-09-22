@@ -34,8 +34,8 @@ internal sealed class New : BudgetPermissionRequestIdTestBase
         act
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
-                expectedWildcardPattern: $"Empty identifier {nameof(BudgetPermissionRequestId)} cannot be processed");
+                expectedWildcardPattern: $"Empty identifier {nameof(BudgetPermissionRequestId)} cannot be processed.");
     }
 }

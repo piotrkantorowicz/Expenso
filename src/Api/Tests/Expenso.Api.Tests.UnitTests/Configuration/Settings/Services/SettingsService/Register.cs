@@ -50,12 +50,12 @@ internal sealed class Register : SettingsServiceTestBase
         action
             .Should()
             .Throw<SettingsHasNotBeenValidatedYetException>()
-            .WithMessage(expectedWildcardPattern: "Settings of type TestSettings have not been validated yet");
+            .WithMessage(expectedWildcardPattern: "Settings of type TestSettings have not been validated yet.");
 
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,
                 "Settings of type {SettingsType} have not been validated yet",
-                It.IsAny<SettingsHasNotBeenValidatedYetException>(), null, typeof(TestSettings).Name),
+                It.IsAny<SettingsHasNotBeenValidatedYetException>(), null, nameof(TestSettings)),
             times: Times.Once);
     }
 

@@ -30,7 +30,7 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
         // Arrange
         _domainEventHandlerMock
             .Setup(expression: x => x.HandleAsync(_testDomainEvent, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging"));
+            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging."));
 
         // Act
         Func<Task> action = async () =>
@@ -40,7 +40,7 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
         await action
             .Should()
             .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging");
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging.");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.DomainEventExecuting, It.IsAny<string>(),

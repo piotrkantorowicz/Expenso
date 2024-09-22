@@ -16,7 +16,7 @@ internal sealed class MemberHasAlreadyAssignedToRequestedBudget : IBusinessRule
     }
 
     public string Message =>
-        $"Participant {_participantId} has already budget permission for budget {_budgetPermission?.BudgetId}";
+        $"Participant {_participantId} has already budget permission for budget {_budgetPermission?.BudgetId}.";
 
     public bool IsBroken()
     {

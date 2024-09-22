@@ -6,7 +6,7 @@ namespace Expenso.Shared.System.Types.Exceptions;
 
 public class ValidationException : Exception
 {
-    private const string DefaultMessage = "One or more validation failures have occurred";
+    private const string DefaultMessage = "One or more validation failures have occurred.";
 
     public ValidationException(string details) : base(message: DefaultMessage)
     {

@@ -70,7 +70,7 @@ internal sealed class Validate : SettingsServiceTestBase
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,
                 "Validation failed for settings of type {SettingsType}. Errors: {ValidationErrors}",
-                It.IsAny<SettingsValidationException>(), null, typeof(TestSettings).Name, "TestKey: TestError"),
+                It.IsAny<SettingsValidationException>(), null, nameof(TestSettings), "TestKey: TestError"),
             times: Times.Once);
     }
 
@@ -84,11 +84,11 @@ internal sealed class Validate : SettingsServiceTestBase
         action
             .Should()
             .Throw<SettingsHasNotBeenBoundYetException>()
-            .WithMessage(expectedWildcardPattern: "Settings of type TestSettings have not been bound yet");
+            .WithMessage(expectedWildcardPattern: "Settings of type TestSettings have not been bound yet.");
 
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,
                 "Settings of type {SettingsType} have not been bound yet",
-                It.IsAny<SettingsHasNotBeenBoundYetException>(), null, typeof(TestSettings).Name), times: Times.Once);
+                It.IsAny<SettingsHasNotBeenBoundYetException>(), null, nameof(TestSettings)), times: Times.Once);
     }
 }

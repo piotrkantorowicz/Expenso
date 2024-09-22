@@ -46,7 +46,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
         if (permissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with id {budgetPermissionRequestId} hasn't been found");
+                message: $"Budget permission request with id {budgetPermissionRequestId} hasn't been found.");
         }
 
         BudgetPermission? budgetPermission =
@@ -56,7 +56,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
         if (budgetPermission is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission with id {permissionRequest.BudgetId} hasn't been found");
+                message: $"Budget permission with id {permissionRequest.BudgetId} hasn't been found.");
         }
 
         GetPreferenceResponse? preference = await _userPreferencesProxy.GetUserPreferencesAsync(
@@ -67,7 +67,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
         if (preference?.FinancePreference is null)
         {
             throw new NotFoundException(
-                message: $"Finance preferences for user {budgetPermission.OwnerId} haven't been found");
+                message: $"Finance preferences for user {budgetPermission.OwnerId} haven't been found.");
         }
 
         DomainModelState.CheckBusinessRules(businessRules:

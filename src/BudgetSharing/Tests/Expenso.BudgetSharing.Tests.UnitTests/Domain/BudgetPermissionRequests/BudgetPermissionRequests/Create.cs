@@ -54,7 +54,8 @@ internal sealed class Create : BudgetPermissionRequestTestBase
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
-                expectedWildcardPattern: $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed");
+                expectedWildcardPattern:
+                $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed.");
     }
 
     [Test]
@@ -73,6 +74,6 @@ internal sealed class Create : BudgetPermissionRequestTestBase
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
-                expectedWildcardPattern: $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day");
+                expectedWildcardPattern: $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day.");
     }
 }

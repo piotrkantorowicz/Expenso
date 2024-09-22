@@ -1,5 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
@@ -9,9 +9,10 @@ using Expenso.Shared.System.Types.Clock;
 
 using Moq;
 
-namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.AssignParticipantDomainService;
+namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
+    AssignParticipantionDomainService;
 
-internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<AssignParticipantionDomainService>
+internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<IAssignParticipantionDomainService>
 {
     protected const int ExpirationDays = 3;
 
@@ -78,7 +79,8 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
         _budgetPermission = BudgetPermission.Create(budgetId: _budgetId, ownerId: _ownerId);
         _email = _getUserResponse.Email;
 
-        TestCandidate = new AssignParticipantionDomainService(iamProxy: _iamProxyMock.Object,
+        TestCandidate = new BudgetSharing.Domain.BudgetPermissionRequests.Services.AssignParticipantionDomainService(
+            iamProxy: _iamProxyMock.Object,
             budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object,
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
     }

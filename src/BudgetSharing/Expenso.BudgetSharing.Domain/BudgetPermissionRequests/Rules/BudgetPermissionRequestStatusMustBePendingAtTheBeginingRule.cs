@@ -3,19 +3,19 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
-internal sealed class UnknownBudgetPermissionRequestStatusCannotBeProcessed : IBusinessRule
+internal sealed class BudgetPermissionRequestStatusMustBePendingAtTheBeginingRule : IBusinessRule
 {
     private readonly BudgetPermissionRequestStatus _status;
 
-    public UnknownBudgetPermissionRequestStatusCannotBeProcessed(BudgetPermissionRequestStatus status)
+    public BudgetPermissionRequestStatusMustBePendingAtTheBeginingRule(BudgetPermissionRequestStatus status)
     {
         _status = status ?? throw new ArgumentNullException(paramName: nameof(status));
     }
 
-    public string Message => $"Unknown budget permission request status {_status} cannot be processed";
+    public string Message => $"Budget permission request status must be 'Pending' but was '{_status}'.";
 
     public bool IsBroken()
     {
-        return _status.IsUnknown();
+        return !_status.IsPending();
     }
 }

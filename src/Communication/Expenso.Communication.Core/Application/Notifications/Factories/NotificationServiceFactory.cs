@@ -18,13 +18,13 @@ internal sealed class NotificationServiceFactory : INotificationServiceFactory
         if (!_servicesDictionary.TryGetValue(key: typeof(T).Name, value: out INotificationService? service))
         {
             throw new InvalidOperationException(
-                message: $"Notification service {typeof(T).FullName} hasn't been found");
+                message: $"Notification service {typeof(T).FullName} hasn't been found.");
         }
 
         if (service is not T requestedService)
         {
             throw new InvalidOperationException(
-                message: $"Notification service is not of requested type {typeof(T).FullName}");
+                message: $"Notification service is not of requested type {typeof(T).FullName}.");
         }
 
         return requestedService;

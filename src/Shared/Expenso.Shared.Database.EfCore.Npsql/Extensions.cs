@@ -3,7 +3,7 @@ using Expenso.Shared.Database.EfCore.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Expenso.Shared.Database.EfCore.NpSql;
+namespace Expenso.Shared.Database.EfCore.Npsql;
 
 public static class Extensions
 {

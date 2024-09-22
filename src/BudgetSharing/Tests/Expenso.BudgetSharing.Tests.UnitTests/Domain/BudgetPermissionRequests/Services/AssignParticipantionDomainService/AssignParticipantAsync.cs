@@ -9,7 +9,8 @@ using FluentAssertions;
 
 using Moq;
 
-namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.AssignParticipantDomainService;
+namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
+    AssignParticipantionDomainService;
 
 internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTestBase
 {
@@ -69,7 +70,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Unable to create budget permission request for not existant budget permission. Budget {_budgetId}");
+                $"Unable to create budget permission request for not existent budget permission. Budget {_budgetId}.");
     }
 
     [Test]
@@ -93,7 +94,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {_email} not found");
+            .WithMessage(expectedWildcardPattern: $"User with email {_email} not found.");
     }
 
     [Test]
@@ -122,7 +123,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget participant must be the existing system user, but provided user with id {_getUserResponse.Email} hasn't been found in the system");
+                $"Budget participant must be the existing system user, but provided user with id {_getUserResponse.Email} hasn't been found in the system.");
     }
 
     [Test]
@@ -150,7 +151,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}");
+                $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}.");
     }
 
     [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]
@@ -187,7 +188,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}");
+                $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}.");
     }
 
     [Test]

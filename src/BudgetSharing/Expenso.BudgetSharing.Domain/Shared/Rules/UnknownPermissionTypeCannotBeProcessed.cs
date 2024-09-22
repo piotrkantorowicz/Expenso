@@ -12,7 +12,7 @@ internal sealed class UnknownPermissionTypeCannotBeProcessed : IBusinessRule
         _permissionType = permissionType ?? throw new ArgumentNullException(paramName: nameof(permissionType));
     }
 
-    public string Message => $"Unknown permission type {_permissionType.Value} cannot be processed";
+    public string Message => $"Unknown permission type {_permissionType.Value} cannot be processed.";
 
     public bool IsBroken()
     {

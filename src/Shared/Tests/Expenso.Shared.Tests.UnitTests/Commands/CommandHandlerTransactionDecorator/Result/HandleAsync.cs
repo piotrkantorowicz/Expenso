@@ -26,7 +26,7 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
         // Arrange
         _commandHandlerMock
             .Setup(expression: x => x.HandleAsync(_testCommand, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test rollback"));
+            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test rollback."));
 
         // Act
         Func<Task> action = async () =>
@@ -36,7 +36,7 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
         await action
             .Should()
             .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test rollback");
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test rollback.");
 
         _unitOfWorkMock.Verify(expression: x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()),
             times: Times.Once);
