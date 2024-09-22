@@ -30,7 +30,7 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
         // Arrange
         _integrationEventHandlerMock
             .Setup(expression: x => x.HandleAsync(_testIntegrationEvent, It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging"));
+            .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging."));
 
         // Act
         Func<Task> action = async () => await TestCandidate.HandleAsync(
@@ -40,7 +40,7 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
         await action
             .Should()
             .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging");
+            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging.");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.IntegrationEventExecuting, It.IsAny<string>(),

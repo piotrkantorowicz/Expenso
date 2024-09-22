@@ -92,6 +92,6 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided");
+            .WithMessage(expectedWildcardPattern: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.");
     }
 }

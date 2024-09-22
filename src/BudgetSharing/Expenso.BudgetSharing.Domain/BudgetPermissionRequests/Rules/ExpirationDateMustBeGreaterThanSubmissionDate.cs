@@ -15,7 +15,7 @@ internal sealed class ExpirationDateMustBeGreaterThanSubmissionDate : IBusinessR
     }
 
     public string Message =>
-        $"Expiration date {_expirationDate.Value} must be greater than Submission date: {_submissionDate.Value}";
+        $"Expiration date {_expirationDate.Value} must be greater than Submission date: {_submissionDate.Value}.";
 
     public bool IsBroken()
     {

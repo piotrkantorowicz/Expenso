@@ -1,6 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
@@ -14,7 +15,7 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
 
-internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<ConfirmParticipantionDomainService>
+internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<IConfirmParticipantionDomainService>
 {
     protected BudgetId _budgetId = null!;
     protected BudgetPermission _budgetPermission = null!;
@@ -22,10 +23,10 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
     protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
-    private Mock<IClock> _clockMock = null!;
     protected GetPreferenceResponse _getPreferenceResponse = null!;
     protected Mock<IUserPreferencesProxy> _userPreferencesProxyMock = null!;
-
+    private Mock<IClock> _clockMock = null!;
+    
     [SetUp]
     public void SetUp()
     {

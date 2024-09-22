@@ -37,7 +37,7 @@ internal sealed class DeleteAsync : FileStorageTestBase
         action
             .Should()
             .ThrowAsync<FileHasNotBeenFoundException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: ex => ex.Details == "File not found");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: ex => ex.Details == "File not found.");
     }
 }

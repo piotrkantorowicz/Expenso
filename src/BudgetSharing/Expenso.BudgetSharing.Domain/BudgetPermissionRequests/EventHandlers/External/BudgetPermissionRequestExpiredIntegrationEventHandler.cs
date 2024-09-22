@@ -22,7 +22,7 @@ internal sealed class
     public async Task HandleAsync(BudgetPermissionRequestExpiredIntegrationEvent @event,
         CancellationToken cancellationToken)
     {
-        await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpire(
+        await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpireAsync(
             budgetPermissionRequestId: @event.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

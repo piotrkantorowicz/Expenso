@@ -93,8 +93,8 @@ internal sealed class SaveAsync : FileStorageTestBase
         action
             .Should()
             .ThrowAsync<EmptyPathException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: ex => ex.Details == "Path cannot be empty");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: ex => ex.Details == "Path cannot be empty.");
     }
 
     [Test]
@@ -119,8 +119,8 @@ internal sealed class SaveAsync : FileStorageTestBase
         action
             .Should()
             .ThrowAsync<EmptyFileNameException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: ex => ex.Details == "File name cannot be empty");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: ex => ex.Details == "File name cannot be empty.");
     }
 
     [Test]
@@ -139,8 +139,8 @@ internal sealed class SaveAsync : FileStorageTestBase
         action
             .Should()
             .ThrowAsync<EmptyFileContentException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty.");
     }
 
     [Test]
@@ -159,7 +159,7 @@ internal sealed class SaveAsync : FileStorageTestBase
         action
             .Should()
             .ThrowAsync<EmptyFileContentException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred")
-            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty");
+            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
+            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty.");
     }
 }

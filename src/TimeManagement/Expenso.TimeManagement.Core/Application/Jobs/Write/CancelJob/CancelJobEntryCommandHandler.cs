@@ -29,7 +29,7 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
         if (jobEntry is null)
         {
-            throw new NotFoundException(message: $"Job entry with id {jobEntryId} not found");
+            throw new NotFoundException(message: $"Job entry with id {jobEntryId} not found.");
         }
 
         Guid jobStatusId = JobEntryStatus.Cancelled.Id;
@@ -39,7 +39,7 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
         if (cancelledStatus is null)
         {
-            throw new NotFoundException(message: $"Job status with id {jobStatusId} not found");
+            throw new NotFoundException(message: $"Job status with id {jobStatusId} not found.");
         }
 
         jobEntry.JobStatus = cancelledStatus;

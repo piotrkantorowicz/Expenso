@@ -19,7 +19,7 @@ public sealed class InterfaceToConcreteTypeJsonConverter<TInterface, TConcreteTy
         }
         else
         {
-            throw new InvalidOperationException(message: "Attempted to serialize an object of incorrect type");
+            throw new InvalidOperationException(message: "Attempted to serialize an object of incorrect type.");
         }
     }
 }

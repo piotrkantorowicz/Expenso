@@ -18,7 +18,7 @@ internal sealed class OnlyPendingBudgetPermissionRequestCanBeMadeCancelled : IBu
     }
 
     public string Message =>
-        $"Only pending budget permission request {_budgetPermissionRequestId} can be made cancelled";
+        $"Only pending budget permission request {_budgetPermissionRequestId} can be made cancelled.";
 
     public bool IsBroken()
     {

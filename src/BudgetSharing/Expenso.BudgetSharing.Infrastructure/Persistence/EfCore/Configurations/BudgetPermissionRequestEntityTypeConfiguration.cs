@@ -31,6 +31,13 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
             buildAction: statusTrackerBuilder =>
             {
                 statusTrackerBuilder
+                    .Property(propertyExpression: x => x.BudgetPermissionRequestId)
+                    .HasConversion(convertToProviderExpression: x => x.Value,
+                        convertFromProviderExpression: x => BudgetPermissionRequestId.New(x))
+                    .IsRequired(required: true);
+
+                
+                statusTrackerBuilder
                     .Property(propertyExpression: x => x.SubmissionDate)
                     .HasConversion(convertToProviderExpression: x => x.Value,
                         convertFromProviderExpression: x => DateAndTime.New(x))

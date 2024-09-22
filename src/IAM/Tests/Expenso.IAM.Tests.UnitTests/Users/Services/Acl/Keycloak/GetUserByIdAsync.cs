@@ -44,7 +44,7 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with id {userId} not found");
+            .WithMessage(expectedWildcardPattern: $"User with id {userId} not found.");
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUserAsync(It.IsAny<string>(), userId, false, It.IsAny<CancellationToken>()),

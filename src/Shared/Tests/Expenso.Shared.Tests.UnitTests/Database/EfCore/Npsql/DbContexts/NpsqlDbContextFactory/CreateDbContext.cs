@@ -16,7 +16,7 @@ internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
             .ThrowAsync<ArgumentException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}");
+                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}.");
     }
 
     [Test]

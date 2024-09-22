@@ -15,7 +15,7 @@ internal sealed class EmptyIdentifierCannotBeProcessed : IBusinessRule
         _type = type;
     }
 
-    public string Message => $"Empty identifier {_type?.Name} cannot be processed";
+    public string Message => $"Empty identifier {_type?.Name} cannot be processed.";
 
     public bool IsBroken()
     {

@@ -29,7 +29,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestIsAlreadyConfirmed()
+    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestHasBeenAlreadyConfirmed()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
@@ -42,9 +42,49 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         action
             .Should()
             .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed")
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
                 expectedWildcardPattern:
-                $"Only pending budget permission request {TestCandidate.Id} can be made confirmed");
+                $"Only pending budget permission request {TestCandidate.Id} can be made confirmed.");
+    }
+
+    [Test]
+    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestHasBeenCancelled()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate();
+        TestCandidate.Cancel(clock: _clockMock.Object);
+
+        // Act
+        Action action = () => TestCandidate.Confirm(clock: _clockMock.Object);
+
+        // Assert
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made confirmed.");
+    }
+
+    [Test]
+    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestHasBeenExpired()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate();
+        TestCandidate.Expire();
+
+        // Act
+        Action action = () => TestCandidate.Confirm(clock: _clockMock.Object);
+
+        // Assert
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Only pending budget permission request {TestCandidate.Id} can be made confirmed.");
     }
 }

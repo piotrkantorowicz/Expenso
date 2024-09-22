@@ -20,7 +20,7 @@ internal sealed class BudgetCanHasOnlyOwnerPermissionForItsOwner : IBusinessRule
     }
 
     public string Message =>
-        $"Budget {_budgetId} cannot have owner permission for other user {_participantId} that its owner {_ownerId}";
+        $"Budget {_budgetId} cannot have owner permission for other user {_participantId} that its owner {_ownerId}.";
 
     public bool IsBroken()
     {

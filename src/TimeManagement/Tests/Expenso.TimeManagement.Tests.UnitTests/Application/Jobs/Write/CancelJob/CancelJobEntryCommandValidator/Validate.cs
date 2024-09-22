@@ -15,7 +15,7 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required";
+        const string expectedValidationMessage = "Command is required.";
         string error = validationResult[key: "Command"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -32,7 +32,7 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Cancel job entry request is required";
+        const string expectedValidationMessage = "Cancel job entry request is required.";
         string error = validationResult[key: nameof(_cancelJobCommand.CancelJobEntryRequest)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -61,7 +61,7 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "JobEntryId is required";
+        const string expectedValidationMessage = "JobEntryId is required.";
         string error = validationResult[key: nameof(CancelJobEntryRequest.JobEntryId)];
         error.Should().Be(expected: expectedValidationMessage);
     }

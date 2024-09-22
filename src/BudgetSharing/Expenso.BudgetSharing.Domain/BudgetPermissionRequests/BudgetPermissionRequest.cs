@@ -54,8 +54,8 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         OwnerId = ownerId;
         PermissionType = permissionType;
 
-        StatusTracker =
-            BudgetPermissionRequestStatusTracker.Start(clock: clock, expirationDate: expirationDate, status: status);
+        StatusTracker = BudgetPermissionRequestStatusTracker.Start(budgetPermissionRequestId: Id, clock: clock,
+            expirationDate: expirationDate, status: status);
 
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
@@ -92,13 +92,6 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
     public void Confirm(IClock clock)
     {
-        DomainModelState.CheckBusinessRules(businessRules:
-        [
-            new BusinesRuleCheck(
-                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(budgetPermissionRequestId: Id,
-                    status: StatusTracker.Status))
-        ]);
-
         StatusTracker.Confirm(clock: clock);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestConfirmedEvent(
@@ -108,13 +101,6 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
     public void Cancel(IClock clock)
     {
-        DomainModelState.CheckBusinessRules(businessRules:
-        [
-            new BusinesRuleCheck(
-                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(budgetPermissionRequestId: Id,
-                    status: StatusTracker.Status))
-        ]);
-
         StatusTracker.Cancel(clock: clock);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestCancelledEvent(
@@ -124,13 +110,6 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
     public void Expire()
     {
-        DomainModelState.CheckBusinessRules(businessRules:
-        [
-            new BusinesRuleCheck(
-                BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(budgetPermissionRequestId: Id,
-                    status: StatusTracker.Status))
-        ]);
-
         StatusTracker.Expire();
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestExpiredEvent(

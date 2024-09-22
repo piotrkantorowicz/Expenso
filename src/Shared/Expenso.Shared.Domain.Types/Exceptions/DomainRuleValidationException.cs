@@ -9,7 +9,7 @@ public class DomainRuleValidationException : Exception
     private readonly IEnumerable<IBusinessRule> _brokenRules;
 
     public DomainRuleValidationException(IReadOnlyCollection<IBusinessRule>? brokenRules) : base(
-        message: "Business rule validation failed")
+        message: "Business rule validation failed.")
     {
         _brokenRules = brokenRules ?? new List<IBusinessRule>();
     }

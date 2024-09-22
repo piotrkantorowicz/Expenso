@@ -13,7 +13,7 @@ internal sealed class EmptyDateTimeCannotBeProcessed : IBusinessRule
         _type = type;
     }
 
-    public string Message => $"Empty date and time {_type?.Name} cannot be processed";
+    public string Message => $"Empty date and time {_type?.Name} cannot be processed.";
 
     public bool IsBroken()
     {

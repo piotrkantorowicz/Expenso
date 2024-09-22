@@ -87,7 +87,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
             .ThrowAsync<ConflictException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found");
+                $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.");
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
