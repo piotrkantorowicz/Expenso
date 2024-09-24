@@ -26,7 +26,7 @@ internal sealed class MemberHasAlreadyOpenedBudgetPermissionRequests : IBusiness
 
     public bool IsBroken()
     {
-        if (_budgetPermissionRequests is null || _budgetPermissionRequests.Count == 0)
+        if (_budgetPermissionRequests is null || _budgetPermissionRequests.Count is 0)
         {
             return false;
         }

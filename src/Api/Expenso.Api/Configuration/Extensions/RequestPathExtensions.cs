@@ -44,7 +44,7 @@ internal static class RequestPathExtensions
             .ToList();
 
         foreach (var modulePrefix in modulePrefixes.Where(predicate: modulePrefix =>
-                     requestPath?.Contains(value: modulePrefix.Prefix) == true))
+                     requestPath?.Contains(value: modulePrefix.Prefix) is true))
         {
             logger?.LogDebug(eventId: LoggingUtils.GeneralInformation,
                 message: $"Module found: {modulePrefix.Name} for request path: {requestPath}");

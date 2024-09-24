@@ -76,6 +76,12 @@ public static class Modules
 
                 routeHandlerBuilder.WithName(endpointName: endpoint.Name);
                 string tag = $"{rootTag}.{module.ModuleName}";
+
+                if (endpoint.SubModule is not null)
+                {
+                    tag += $".{endpoint.SubModule}";
+                }
+
                 routeHandlerBuilder.WithOpenApi().WithTags(tag);
             }
         }

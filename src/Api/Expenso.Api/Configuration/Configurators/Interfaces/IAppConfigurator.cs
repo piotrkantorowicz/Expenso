@@ -6,6 +6,8 @@ internal interface IAppConfigurator
 
     IAppConfigurator UseAuth();
 
+    IAppConfigurator UseCors();
+
     IAppConfigurator UseHealthChecks();
 
     IAppConfigurator UseHttpsRedirection();

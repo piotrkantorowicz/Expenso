@@ -45,7 +45,7 @@ internal sealed class UserService : IUserService
                 Email = email
             }, cancellationToken: cancellationToken)).ToList();
 
-        UserRepresentation? user = keycloakUsers.Count == 0 ? null : keycloakUsers.Single();
+        UserRepresentation? user = keycloakUsers.Count is 0 ? null : keycloakUsers.Single();
 
         if (user is null)
         {

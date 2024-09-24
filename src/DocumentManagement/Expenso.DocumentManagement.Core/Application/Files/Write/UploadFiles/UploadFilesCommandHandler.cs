@@ -31,7 +31,7 @@ internal sealed class UploadFilesCommandHandler : ICommandHandler<UploadFilesCom
 
         foreach (UploadFilesRequest_File file in fileContents)
         {
-            if (file.Content is null || file.Content.Length == 0)
+            if (file.Content is null || file.Content.Length is 0)
             {
                 throw new EmptyFileContentException();
             }

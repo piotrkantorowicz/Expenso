@@ -1,16 +1,15 @@
 ﻿using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Services;
-using Expenso.Shared.System.Configuration.Settings.App;
 
 namespace Expenso.Api.Configuration.Settings.Services.Binders;
 
-internal sealed class ApplicationSettingsBinder : ISettingsBinder
+internal sealed class CorsSettingsBinder : ISettingsBinder
 {
-    private const string SectionName = SectionNames.Application;
-    private readonly ISettingsService<ApplicationSettings> _settingsService;
+    private const string SectionName = SectionNames.Cors;
+    private readonly ISettingsService<CorsSettings> _settingsService;
 
-    public ApplicationSettingsBinder(ISettingsService<ApplicationSettings> settingsService)
+    public CorsSettingsBinder(ISettingsService<CorsSettings> settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(paramName: nameof(settingsService));
     }
@@ -22,7 +21,7 @@ internal sealed class ApplicationSettingsBinder : ISettingsBinder
 
     public object? Bind(IServiceCollection serviceCollection)
     {
-        ApplicationSettings? settings = _settingsService.Bind(sectionName: SectionName);
+        CorsSettings? settings = _settingsService.Bind(sectionName: SectionName);
         _settingsService.Validate();
         _settingsService.Register(serviceCollection: serviceCollection);
 

@@ -6,6 +6,8 @@ using Expenso.Api.Configuration.Configurators;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
+using Expenso.Api.Configuration.Extensions.Environment;
+using Expenso.Api.Configuration.Settings;
 using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.Api.Configuration.Settings.Services.Containers;
 using Expenso.BudgetSharing.Api;
@@ -24,7 +26,6 @@ using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
 using Expenso.Shared.System.Configuration.Sections;
-using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Logging.Serilog;
@@ -41,6 +42,7 @@ using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.OpenApi.Models;
@@ -90,8 +92,9 @@ internal sealed class AppBuilder : IAppBuilder
     {
         IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
 
-        OtlpSettings otlpSettings = GetSettings<OtlpSettings>(appConfigurationManager: _appConfigurationManager,
-            sectionName: SectionNames.Otlp);
+        OtlpSettings otlpSettings =
+            _appConfigurationManager?.GetSettings<OtlpSettings>(sectionName: SectionNames.Otlp) ??
+            throw new ConfigurationHasNotBeenInitializedYetException();
 
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
@@ -134,6 +137,29 @@ internal sealed class AppBuilder : IAppBuilder
         return this;
     }
 
+    public IAppBuilder ConfigureCors()
+    {
+        CorsSettings corsSettings =
+            _appConfigurationManager?.GetSettings<CorsSettings>(sectionName: SectionNames.Cors) ??
+            throw new ConfigurationHasNotBeenInitializedYetException();
+
+        if (corsSettings.Enabled is true)
+        {
+            _services.AddCors(setupAction: options => options.AddDefaultPolicy(configurePolicy: builder =>
+            {
+                CorsPolicyBuilder corsPolicyBuilder = builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+
+                if (!_applicationBuilder.Environment.IsDevelopment() || !_applicationBuilder.Environment.IsLocal() ||
+                    !_applicationBuilder.Environment.IsTest())
+                {
+                    corsPolicyBuilder.WithOrigins(origins: corsSettings.AllowedOrigins!);
+                }
+            }));
+        }
+
+        return this;
+    }
+
     public IAppBuilder ConfigureCache()
     {
         _services.AddDistributedMemoryCache();
@@ -158,8 +184,8 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddAuthentication();
 
         KeycloakSettings keycloakSettings =
-            GetSettings<KeycloakSettings>(appConfigurationManager: _appConfigurationManager,
-                sectionName: SectionNames.Keycloak);
+            _appConfigurationManager?.GetSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak) ??
+            throw new ConfigurationHasNotBeenInitializedYetException();
 
         _services
             .AddClientCredentialsTokenManagement()
@@ -170,8 +196,9 @@ internal sealed class AppBuilder : IAppBuilder
                 client.TokenEndpoint = keycloakSettings.KeycloakTokenEndpoint;
             });
 
-        AuthSettings authSettings = GetSettings<AuthSettings>(appConfigurationManager: _appConfigurationManager,
-            sectionName: SectionNames.Auth);
+        AuthSettings authSettings =
+            _appConfigurationManager?.GetSettings<AuthSettings>(sectionName: SectionNames.Auth) ??
+            throw new ConfigurationHasNotBeenInitializedYetException();
 
         switch (authSettings.AuthServer)
         {
@@ -233,6 +260,7 @@ internal sealed class AppBuilder : IAppBuilder
 
         _appConfigurationManager = new AppConfigurationManager(preStartupContainer: preStartupContainer);
         _appConfigurationManager.Configure(serviceCollection: _services);
+        _services.AddSingleton(implementationInstance: _appConfigurationManager);
     }
 
     private void ConfigureKeycloak(string tokenHandlerClient, string? keyCloakAdminSection = null)
@@ -299,16 +327,5 @@ internal sealed class AppBuilder : IAppBuilder
             .AddKeycloakAdminHttpClient(configuration: _configuration,
                 keycloakClientSectionName: keyCloakAdminSection ?? KeycloakAdminClientOptions.Section)
             .AddClientCredentialsTokenHandler(tokenClientName: tokenHandlerClient);
-    }
-
-    private static TSettings GetSettings<TSettings>(AppConfigurationManager? appConfigurationManager,
-        string sectionName) where TSettings : class, ISettings
-    {
-        if (appConfigurationManager is null)
-        {
-            throw new ConfigurationHasNotBeenInitializedYetException();
-        }
-
-        return appConfigurationManager.GetSettings<TSettings>(sectionName: sectionName);
     }
 }
