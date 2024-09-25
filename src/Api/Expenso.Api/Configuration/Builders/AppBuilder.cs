@@ -6,9 +6,9 @@ using Expenso.Api.Configuration.Configurators;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
+using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Api.Configuration.Settings;
-using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.Api.Configuration.Settings.Services.Containers;
 using Expenso.BudgetSharing.Api;
 using Expenso.Communication.Api;
@@ -93,8 +93,7 @@ internal sealed class AppBuilder : IAppBuilder
         IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
 
         OtlpSettings otlpSettings =
-            _appConfigurationManager?.GetSettings<OtlpSettings>(sectionName: SectionNames.Otlp) ??
-            throw new ConfigurationHasNotBeenInitializedYetException();
+            _appConfigurationManager.GetRequiredSettings<OtlpSettings>(sectionName: SectionNames.Otlp);
 
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
@@ -140,8 +139,7 @@ internal sealed class AppBuilder : IAppBuilder
     public IAppBuilder ConfigureCors()
     {
         CorsSettings corsSettings =
-            _appConfigurationManager?.GetSettings<CorsSettings>(sectionName: SectionNames.Cors) ??
-            throw new ConfigurationHasNotBeenInitializedYetException();
+            _appConfigurationManager.GetRequiredSettings<CorsSettings>(sectionName: SectionNames.Cors);
 
         if (corsSettings.Enabled is true)
         {
@@ -149,7 +147,7 @@ internal sealed class AppBuilder : IAppBuilder
             {
                 CorsPolicyBuilder corsPolicyBuilder = builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials();
 
-                if (!_applicationBuilder.Environment.IsDevelopment() || !_applicationBuilder.Environment.IsLocal() ||
+                if (!_applicationBuilder.Environment.IsDevelopment() && !_applicationBuilder.Environment.IsLocal() &&
                     !_applicationBuilder.Environment.IsTest())
                 {
                     corsPolicyBuilder.WithOrigins(origins: corsSettings.AllowedOrigins!);
@@ -184,8 +182,7 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddAuthentication();
 
         KeycloakSettings keycloakSettings =
-            _appConfigurationManager?.GetSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak) ??
-            throw new ConfigurationHasNotBeenInitializedYetException();
+            _appConfigurationManager.GetRequiredSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak);
 
         _services
             .AddClientCredentialsTokenManagement()
@@ -197,8 +194,7 @@ internal sealed class AppBuilder : IAppBuilder
             });
 
         AuthSettings authSettings =
-            _appConfigurationManager?.GetSettings<AuthSettings>(sectionName: SectionNames.Auth) ??
-            throw new ConfigurationHasNotBeenInitializedYetException();
+            _appConfigurationManager.GetRequiredSettings<AuthSettings>(sectionName: SectionNames.Auth);
 
         switch (authSettings.AuthServer)
         {

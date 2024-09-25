@@ -85,7 +85,7 @@ internal sealed class AppConfigurationManager
             string sectionName = binder.GetSectionName();
             object? boundSettings = binder.Bind(serviceCollection: serviceCollection);
 
-            if (boundSettings != null)
+            if (boundSettings is not null)
             {
                 _settingsMap[key: sectionName] = boundSettings;
 

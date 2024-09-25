@@ -33,14 +33,11 @@ internal sealed class CorsSettingsValidator : ISettingsValidator<CorsSettings>
         {
             foreach (string allowedOrigin in settings.AllowedOrigins)
             {
-                if (string.IsNullOrEmpty(value: allowedOrigin))
+                if (string.IsNullOrEmpty(value: allowedOrigin) ||
+                    (allowedOrigin is not "*" && !allowedOrigin.IsValidUrl()))
                 {
-                    errors.Add(key: nameof(settings.AllowedOrigins), value: "Origin cannot be empty.");
-                }
-
-                if (allowedOrigin is not "*" && !allowedOrigin.IsValidUrl())
-                {
-                    errors.Add(key: nameof(settings.AllowedOrigins), value: "Origin must be a valid URL.");
+                    errors.Add(key: nameof(settings.AllowedOrigins),
+                        value: "Origin cannot be empty and must be a valid URL.");
                 }
             }
         }

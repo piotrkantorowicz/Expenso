@@ -8,7 +8,7 @@ public static class QueryableExtensions
 {
     public static IQueryable<T> Tracking<T>(this IQueryable<T> queryable, bool? useTracking) where T : class
     {
-        return useTracking == true ? queryable : queryable.AsNoTracking();
+        return useTracking is true ? queryable : queryable.AsNoTracking();
     }
 
     public static IQueryable<T> IncludeMany<T>(this IQueryable<T> queryable,
@@ -21,6 +21,6 @@ public static class QueryableExtensions
     private static IQueryable<T> IncludeIfNotNull<T>(this IQueryable<T> queryable,
         Expression<Func<T, object>>? includeExpression) where T : class
     {
-        return includeExpression != null ? queryable.Include(navigationPropertyPath: includeExpression) : queryable;
+        return includeExpression is not null ? queryable.Include(navigationPropertyPath: includeExpression) : queryable;
     }
 }

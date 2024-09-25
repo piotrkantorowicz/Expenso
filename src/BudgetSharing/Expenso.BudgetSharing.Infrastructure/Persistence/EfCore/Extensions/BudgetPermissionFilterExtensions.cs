@@ -38,7 +38,7 @@ public static class BudgetPermissionFilterExtensions
                     x.Permissions.Select(y => y.ParticipantId).Contains(PersonId.New(filter.ParticipantId.Value)));
         }
 
-        if (filter.PermissionType != null)
+        if (filter.PermissionType is not null)
         {
             predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
                 rightExpression: x => x.Permissions.Select(y => y.PermissionType).Contains(filter.PermissionType));

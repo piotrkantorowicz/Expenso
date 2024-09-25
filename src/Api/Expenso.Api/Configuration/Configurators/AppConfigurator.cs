@@ -33,7 +33,7 @@ internal sealed class AppConfigurator : IAppConfigurator
 
     public IAppConfigurator UseSwagger()
     {
-        if ((_app.Environment.IsDevelopment() || _app.Environment.IsLocal()) is false)
+        if (!_app.Environment.IsDevelopment() && !_app.Environment.IsLocal())
         {
             return this;
         }
