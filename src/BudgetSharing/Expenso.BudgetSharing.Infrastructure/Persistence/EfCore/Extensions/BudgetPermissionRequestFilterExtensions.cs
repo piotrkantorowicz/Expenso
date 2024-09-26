@@ -31,6 +31,12 @@ public static class BudgetPermissionRequestFilterExtensions
                 rightExpression: x => x.ParticipantId == filter.ParticipantId);
         }
 
+        if (filter.OwnerId is not null)
+        {
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.OwnerId == filter.OwnerId);
+        }
+        
         if (filter.Status is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,

@@ -5,7 +5,7 @@ using Expenso.Shared.System.Logging;
 
 using TestCandidate = Expenso.Api.Configuration.AppConfigurationManager;
 
-namespace Expenso.Api.Tests.UnitTests.AppConfigurationManager;
+namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 
 internal sealed class Configure : AppConfigurationManagerTestBase
 {

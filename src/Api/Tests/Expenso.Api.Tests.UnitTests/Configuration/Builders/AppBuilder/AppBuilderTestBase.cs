@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using TestCandidate = Expenso.Api.Configuration.Builders.AppBuilder;
 
-namespace Expenso.Api.Tests.UnitTests.Builders.AppBuilder;
+namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
 internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
 {
@@ -30,5 +30,11 @@ internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
         _configurationManagerMock = new Mock<IAppConfigurationManager>();
         _serviceCollection = new ServiceCollection();
         _configurationMock = new Mock<IConfiguration>();
+    }
+
+    protected void CreateTestCandiate()
+    {
+        TestCandidate = new TestCandidate(appBuilder: _webApplicationBuilder, configuration: _configurationMock.Object,
+            serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
     }
 }

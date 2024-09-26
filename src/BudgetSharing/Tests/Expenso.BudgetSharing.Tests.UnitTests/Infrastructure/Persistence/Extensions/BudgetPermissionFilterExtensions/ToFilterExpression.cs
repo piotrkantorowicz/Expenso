@@ -13,7 +13,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Exten
 internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestBase
 {
     [Test]
-    public void Should_ReturnTrue_When_IdIsProvided()
+    public void Should_ReturnTrue_When_FilterHasMatchingId()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -30,7 +30,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnFalse_When_WrongIdIsProvided()
+    public void Should_ReturnFalse_When_FilterIdDoesNotMatch()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -47,7 +47,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnTrue_When_BudgetIdIsProvided()
+    public void Should_ReturnTrue_When_FilterHasMatchingBudgetId()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -64,7 +64,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnFalse_When_WrongBudgetIdIsProvided()
+    public void Should_ReturnFalse_When_FilterBudgetIdDoesNotMatch()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -81,7 +81,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnTrue_When_OwnerIdIsProvided()
+    public void Should_ReturnTrue_When_FilterHasMatchingOwnerId()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -98,7 +98,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnFalse_When_WrongOwnerIdIsProvided()
+    public void Should_ReturnFalse_When_FilterOwnerIdDoesNotMatch()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -115,7 +115,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnTrue_When_ParticipantIdIsProvided()
+    public void Should_ReturnTrue_When_FilterHasMatchingParticipantId()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -132,7 +132,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnFalse_When_WrongParticipantIdIsProvided()
+    public void Should_ReturnFalse_When_FilterParticipantIdDoesNotMatch()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -149,7 +149,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnTrue_When_PermissionTypeIsProvided()
+    public void Should_ReturnTrue_When_FilterHasMatchingPermissionType()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -166,7 +166,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnFalse_When_WrongPermissionTypeIsProvided()
+    public void Should_ReturnFalse_When_FilterPermissionTypeDoesNotMatch()
     {
         // Arrange
         BudgetPermissionFilter filter = new()
@@ -183,7 +183,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnTrue_When_BlockerIsNull()
+    public void Should_ReturnTrue_When_NoBlockerIsPresent()
     {
         // Arrange
         BudgetPermissionFilter filter = new();
@@ -197,7 +197,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnTrue_When_BlockerIsNotBlocked()
+    public void Should_ReturnTrue_When_BlockerIsNotBlocking()
     {
         // Arrange
         BudgetPermissionFilter filter = new();
@@ -211,7 +211,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     }
 
     [Test]
-    public void Should_ReturnFalse_When_BlockerIsBlocked()
+    public void Should_ReturnFalse_When_BlockerIsBlocking()
     {
         // Arrange
         BudgetPermissionFilter filter = new();

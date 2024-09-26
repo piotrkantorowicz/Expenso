@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using TestCandidate = Expenso.Api.Configuration.Builders.AppBuilder;
-
-namespace Expenso.Api.Tests.UnitTests.Builders.AppBuilder;
+namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
 internal sealed class ConfigureCors : AppBuilderTestBase
 {
@@ -20,8 +18,7 @@ internal sealed class ConfigureCors : AppBuilderTestBase
             .Setup(expression: x => x.GetSettings<CorsSettings>(SectionNames.Cors))
             .Returns(value: _corsSettings);
 
-        TestCandidate = new TestCandidate(appBuilder: _webApplicationBuilder, configuration: _configurationMock.Object,
-            serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
+        CreateTestCandiate();
 
         // Act
         TestCandidate.ConfigureCors();
@@ -46,8 +43,7 @@ internal sealed class ConfigureCors : AppBuilderTestBase
             .Setup(expression: x => x.GetSettings<CorsSettings>(SectionNames.Cors))
             .Returns(value: corsSettings);
 
-        TestCandidate = new TestCandidate(appBuilder: _webApplicationBuilder, configuration: _configurationMock.Object,
-            serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
+        CreateTestCandiate();
 
         // Act
         TestCandidate.ConfigureCors();
@@ -72,8 +68,7 @@ internal sealed class ConfigureCors : AppBuilderTestBase
             .Setup(expression: x => x.GetSettings<CorsSettings>(SectionNames.Cors))
             .Returns(value: _corsSettings);
 
-        TestCandidate = new TestCandidate(appBuilder: _webApplicationBuilder, configuration: _configurationMock.Object,
-            serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
+        CreateTestCandiate();
 
         // Act
         TestCandidate.ConfigureCors();
@@ -100,8 +95,7 @@ internal sealed class ConfigureCors : AppBuilderTestBase
             .Setup(expression: x => x.GetSettings<CorsSettings>(SectionNames.Cors))
             .Returns(value: _corsSettings);
 
-        TestCandidate = new TestCandidate(appBuilder: _webApplicationBuilder, configuration: _configurationMock.Object,
-            serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
+        CreateTestCandiate();
 
         // Act
         TestCandidate.ConfigureCors();

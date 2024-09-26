@@ -2,7 +2,7 @@
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Logging;
 
-namespace Expenso.Api.Tests.UnitTests.AppConfigurationManager;
+namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 
 internal sealed class GetSettings : AppConfigurationManagerTestBase
 {
