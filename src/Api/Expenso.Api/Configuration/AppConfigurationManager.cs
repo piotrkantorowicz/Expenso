@@ -5,7 +5,7 @@ using Expenso.Shared.System.Logging;
 
 namespace Expenso.Api.Configuration;
 
-internal sealed class AppConfigurationManager
+internal sealed class AppConfigurationManager : IAppConfigurationManager
 {
     private readonly IPreStartupContainer _preStartupContainer;
     private readonly Dictionary<string, object?> _settingsMap = new();

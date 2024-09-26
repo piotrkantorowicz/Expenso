@@ -9,11 +9,6 @@ using Expenso.Api.Configuration.Execution;
 using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Api.Configuration.Settings;
-using Expenso.Api.Configuration.Settings.Services.Containers;
-using Expenso.BudgetSharing.Api;
-using Expenso.Communication.Api;
-using Expenso.DocumentManagement.Api;
-using Expenso.IAM.Api;
 using Expenso.IAM.Core.Acl.Keycloak;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
@@ -34,8 +29,6 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
-using Expenso.TimeManagement.Api;
-using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
@@ -56,19 +49,21 @@ internal sealed class AppBuilder : IAppBuilder
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private AppConfigurationManager? _appConfigurationManager;
+    private readonly IAppConfigurationManager _appConfigurationManager;
 
-    public AppBuilder(WebApplicationBuilder appBuilder)
+    public AppBuilder(WebApplicationBuilder appBuilder, IConfiguration configuration,
+        IServiceCollection serviceCollection, IAppConfigurationManager appConfigurationManager)
     {
+        _appConfigurationManager = appConfigurationManager;
+        _configuration = configuration;
+        _services = serviceCollection;
         _applicationBuilder = appBuilder;
-        _configuration = appBuilder.Configuration;
-        _services = appBuilder.Services;
     }
 
     public IAppBuilder ConfigureApiDependencies()
     {
-        ConfigureAppSettings();
         _services.AddHttpContextAccessor();
+        _services.AddSingleton(implementationInstance: _appConfigurationManager);
         _services.AddScoped<IExecutionContextAccessor, ExecutionContextAccessor>();
         _services.AddRouting(configureOptions: options => options.LowercaseUrls = true);
 
@@ -77,12 +72,6 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureModules()
     {
-        Modules.RegisterModule<IamModule>();
-        Modules.RegisterModule<UserPreferencesModule>();
-        Modules.RegisterModule<BudgetSharingModule>();
-        Modules.RegisterModule<DocumentManagementModule>();
-        Modules.RegisterModule<CommunicationModule>();
-        Modules.RegisterModule<TimeManagementModule>();
         _services.AddModules(configuration: _configuration);
 
         return this;
@@ -245,18 +234,6 @@ internal sealed class AppBuilder : IAppBuilder
         WebApplication app = _applicationBuilder.Build();
 
         return new AppConfigurator(app: app);
-    }
-
-    private void ConfigureAppSettings()
-    {
-        IPreStartupContainer preStartupContainer = new PreStartupContainer();
-
-        preStartupContainer.Build(configuration: _configuration,
-            assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]));
-
-        _appConfigurationManager = new AppConfigurationManager(preStartupContainer: preStartupContainer);
-        _appConfigurationManager.Configure(serviceCollection: _services);
-        _services.AddSingleton(implementationInstance: _appConfigurationManager);
     }
 
     private void ConfigureKeycloak(string tokenHandlerClient, string? keyCloakAdminSection = null)

@@ -4,7 +4,7 @@ namespace Expenso.Api.Configuration.Extensions;
 
 internal static class AppConfigurationManagerExtensions
 {
-    public static T GetRequiredSettings<T>(this AppConfigurationManager? appConfigurationManager, string sectionName)
+    public static T GetRequiredSettings<T>(this IAppConfigurationManager? appConfigurationManager, string sectionName)
         where T : class
     {
         return appConfigurationManager?.GetSettings<T>(sectionName: sectionName) ??

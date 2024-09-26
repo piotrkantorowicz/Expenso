@@ -54,7 +54,7 @@ internal sealed class AppConfigurator : IAppConfigurator
 
     public IAppConfigurator UseCors()
     {
-        AppConfigurationManager? appConfigurationManager = _app.Services.GetService<AppConfigurationManager>();
+        IAppConfigurationManager? appConfigurationManager = _app.Services.GetService<IAppConfigurationManager>();
 
         CorsSettings corsSettings =
             appConfigurationManager?.GetSettings<CorsSettings>(sectionName: SectionNames.Cors) ??
