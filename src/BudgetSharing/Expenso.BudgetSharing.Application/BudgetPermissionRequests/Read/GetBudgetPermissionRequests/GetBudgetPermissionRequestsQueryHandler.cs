@@ -31,7 +31,7 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
     public async Task<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>?> HandleAsync(
         GetBudgetPermissionRequestsQuery query, CancellationToken cancellationToken)
     {
-        (_, Guid? budgetId, Guid? participantId, bool? forCurrentUser,
+        (_, Guid? budgetId, Guid? participantId, Guid? ownerId, bool? forCurrentUser,
             GetBudgetPermissionRequestsRequest_Status? status,
             GetBudgetPermissionRequestsRequest_PermissionType? permissionType) = query;
 
@@ -47,6 +47,7 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
         {
             BudgetId = BudgetId.Nullable(value: budgetId),
             ParticipantId = PersonId.Nullable(value: participantId),
+            OwnerId = PersonId.Nullable(value: ownerId),
             Status = status.HasValue ? GetBudgetPermissionRequestsRequestMap.MapTo(status: status.Value) : null,
             PermissionType = permissionType.HasValue
                 ? GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: permissionType.Value)

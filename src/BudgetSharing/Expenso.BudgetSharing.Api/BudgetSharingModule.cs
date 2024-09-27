@@ -99,14 +99,16 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 IQueryHandler<GetBudgetPermissionRequestsQuery,
                     IReadOnlyCollection<GetBudgetPermissionRequestsResponse>> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
-                [FromQuery] Guid? participantId = null, [FromQuery] bool? forCurrentUser = null,
+                [FromQuery] Guid? participantId = null, [FromQuery] Guid? ownerId = null,
+                [FromQuery] bool? forCurrentUser = null,
                 [FromQuery] GetBudgetPermissionRequestsRequest_Status? status = null,
                 [FromQuery] GetBudgetPermissionRequestsRequest_PermissionType? permissionType = null,
                 CancellationToken cancellationToken = default) =>
             {
                 IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? getPreferences = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestsQuery(MessageContext: messageContextFactory.Current(),
-                        BudgetId: budgetId, ParticipantId: participantId, ForCurrentUser: forCurrentUser,
+                        BudgetId: budgetId, ParticipantId: participantId, OwnerId: ownerId,
+                        ForCurrentUser: forCurrentUser,
                         Status: status, PermissionType: permissionType), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: getPreferences);
