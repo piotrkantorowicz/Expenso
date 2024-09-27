@@ -18,10 +18,10 @@ internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
         AllowedOrigins = ["localhost:3000"]
     };
 
-    protected Mock<IAppConfigurationManager> _configurationManagerMock;
-    protected Mock<IConfiguration> _configurationMock;
-    protected WebApplicationBuilder _webApplicationBuilder;
-    protected IServiceCollection _serviceCollection;
+    protected Mock<IAppConfigurationManager> _configurationManagerMock = null!;
+    private Mock<IConfiguration> _configurationMock = null!;
+    protected IServiceCollection _serviceCollection = null!;
+    protected WebApplicationBuilder _webApplicationBuilder = null!;
 
     [SetUp]
     public void SetUp()

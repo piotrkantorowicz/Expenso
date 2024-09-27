@@ -12,216 +12,82 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Exten
 
 internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestBase
 {
-    [Test]
-    public void Should_ReturnTrue_When_FilterHasMatchingId()
+    [TestCase(arg1: nameof(BudgetPermissionFilter.BudgetId), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.BudgetId), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.BudgetId), arg2: true, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.Id), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.Id), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.Id), arg2: true, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.OwnerId), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.OwnerId), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.OwnerId), arg2: true, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.ParticipantId), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.ParticipantId), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.ParticipantId), arg2: true, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionType), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionType), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionType), arg2: true, arg3: false)]
+    public void Should_ReturnExpectedResult_When_FilterPropertyMatches(string propertyName, bool expectedResult,
+        bool blocked)
     {
         // Arrange
-        BudgetPermissionFilter filter = new()
+        BudgetPermissionFilter filter =
+            CreateFilterWithProperty(propertyName: propertyName, expectedResult: expectedResult);
+
+        // Act
+        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
+        bool result = expression.Compile().Invoke(arg: _budgetPermission);
+
+        // Assert
+        result.Should().Be(expected: expectedResult);
+    }
+
+    private BudgetPermissionFilter CreateFilterWithProperty(string propertyName, bool expectedResult)
+    {
+        return propertyName switch
         {
-            Id = _budgetPermissionId
+            nameof(BudgetPermissionFilter.Id) when expectedResult => new BudgetPermissionFilter
+            {
+                Id = _budgetPermissionId
+            },
+            nameof(BudgetPermissionFilter.Id) when expectedResult is false => new BudgetPermissionFilter
+            {
+                Id = BudgetPermissionId.New(value: Guid.NewGuid())
+            },
+            nameof(BudgetPermissionFilter.BudgetId) when expectedResult => new BudgetPermissionFilter
+            {
+                BudgetId = _budgetId
+            },
+            nameof(BudgetPermissionFilter.BudgetId) when expectedResult is false => new BudgetPermissionFilter
+            {
+                BudgetId = BudgetId.New(value: Guid.NewGuid())
+            },
+            nameof(BudgetPermissionFilter.OwnerId)when expectedResult => new BudgetPermissionFilter
+            {
+                OwnerId = _ownerId
+            },
+            nameof(BudgetPermissionFilter.OwnerId)when expectedResult is false => new BudgetPermissionFilter
+            {
+                OwnerId = PersonId.New(value: Guid.NewGuid())
+            },
+            nameof(BudgetPermissionFilter.ParticipantId)when expectedResult => new BudgetPermissionFilter
+            {
+                ParticipantId = _participantId
+            },
+            nameof(BudgetPermissionFilter.ParticipantId)when expectedResult is false => new BudgetPermissionFilter
+            {
+                ParticipantId = PersonId.New(value: Guid.NewGuid())
+            },
+            nameof(BudgetPermissionFilter.PermissionType) when expectedResult => new BudgetPermissionFilter
+            {
+                PermissionType = _permissionType
+            },
+            nameof(BudgetPermissionFilter.PermissionType)when expectedResult is false => new BudgetPermissionFilter
+            {
+                PermissionType = PermissionType.Owner
+            },
+            _ => throw new ArgumentOutOfRangeException(paramName: nameof(propertyName), actualValue: propertyName,
+                message: "Unsupported property.")
         };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnFalse_When_FilterIdDoesNotMatch()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            Id = BudgetPermissionId.New(value: Guid.NewGuid())
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Test]
-    public void Should_ReturnTrue_When_FilterHasMatchingBudgetId()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            BudgetId = _budgetId
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnFalse_When_FilterBudgetIdDoesNotMatch()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            BudgetId = BudgetId.New(value: Guid.NewGuid())
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Test]
-    public void Should_ReturnTrue_When_FilterHasMatchingOwnerId()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            OwnerId = _ownerId
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnFalse_When_FilterOwnerIdDoesNotMatch()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            OwnerId = PersonId.New(value: Guid.NewGuid())
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Test]
-    public void Should_ReturnTrue_When_FilterHasMatchingParticipantId()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            ParticipantId = _participantId
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnFalse_When_FilterParticipantIdDoesNotMatch()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            ParticipantId = PersonId.New(value: Guid.NewGuid())
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Test]
-    public void Should_ReturnTrue_When_FilterHasMatchingPermissionType()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            PermissionType = _permissionType
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnFalse_When_FilterPermissionTypeDoesNotMatch()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new()
-        {
-            PermissionType = PermissionType.Owner
-        };
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Test]
-    public void Should_ReturnTrue_When_NoBlockerIsPresent()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new();
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnTrue_When_BlockerIsNotBlocking()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new();
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Test]
-    public void Should_ReturnFalse_When_BlockerIsBlocking()
-    {
-        // Arrange
-        BudgetPermissionFilter filter = new();
-        _budgetPermission.Block();
-
-        // Act
-        Expression<Func<BudgetPermission, bool>> expression = filter.ToFilterExpression();
-        bool result = expression.Compile().Invoke(arg: _budgetPermission);
-
-        // Assert
-        result.Should().BeFalse();
     }
 }

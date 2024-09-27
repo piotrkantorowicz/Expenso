@@ -59,15 +59,11 @@ internal sealed class ConfigureCors : AppBuilderTestBase
     public void ConfigureCors_Should_UseAllowedOrigins_When_NotInDevelopmentOrLocalOrTest(string environmentName)
     {
         // Arrange
-        _webApplicationBuilder = WebApplication.CreateBuilder(options: new WebApplicationOptions
-        {
-            EnvironmentName = environmentName
-        });
-
         _configurationManagerMock
             .Setup(expression: x => x.GetSettings<CorsSettings>(SectionNames.Cors))
             .Returns(value: _corsSettings);
 
+        SetupWebApplicationBuilder(environmentName: environmentName);
         CreateTestCandiate();
 
         // Act
@@ -86,15 +82,11 @@ internal sealed class ConfigureCors : AppBuilderTestBase
     public void ConfigureCors_Should_NotUseAllowedOrigins_When_InDevelopmentOrLocalOrTest(string environmentName)
     {
         // Arrange
-        _webApplicationBuilder = WebApplication.CreateBuilder(options: new WebApplicationOptions
-        {
-            EnvironmentName = environmentName
-        });
-
         _configurationManagerMock
             .Setup(expression: x => x.GetSettings<CorsSettings>(SectionNames.Cors))
             .Returns(value: _corsSettings);
 
+        SetupWebApplicationBuilder(environmentName: environmentName);
         CreateTestCandiate();
 
         // Act
@@ -128,5 +120,13 @@ internal sealed class ConfigureCors : AppBuilderTestBase
         defaultPolicy?.Methods.Should().Contain(expected: "*");
         defaultPolicy?.Headers.Should().Contain(expected: "*");
         defaultPolicy?.SupportsCredentials.Should().BeTrue();
+    }
+
+    private void SetupWebApplicationBuilder(string? environmentName = null)
+    {
+        _webApplicationBuilder = WebApplication.CreateBuilder(options: new WebApplicationOptions
+        {
+            EnvironmentName = environmentName ?? _webApplicationBuilder.Environment.EnvironmentName
+        });
     }
 }
