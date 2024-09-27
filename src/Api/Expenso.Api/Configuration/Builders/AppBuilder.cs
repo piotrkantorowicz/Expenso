@@ -6,12 +6,9 @@ using Expenso.Api.Configuration.Configurators;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
-using Expenso.Api.Configuration.Settings.Exceptions;
-using Expenso.Api.Configuration.Settings.Services.Containers;
-using Expenso.BudgetSharing.Api;
-using Expenso.Communication.Api;
-using Expenso.DocumentManagement.Api;
-using Expenso.IAM.Api;
+using Expenso.Api.Configuration.Extensions;
+using Expenso.Api.Configuration.Extensions.Environment;
+using Expenso.Api.Configuration.Settings;
 using Expenso.IAM.Core.Acl.Keycloak;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
@@ -24,7 +21,6 @@ using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
 using Expenso.Shared.System.Configuration.Sections;
-using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Logging.Serilog;
@@ -33,14 +29,13 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
-using Expenso.TimeManagement.Api;
-using Expenso.UserPreferences.Api;
 
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Keycloak.AuthServices.Sdk;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.OpenApi.Models;
@@ -54,19 +49,21 @@ internal sealed class AppBuilder : IAppBuilder
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private AppConfigurationManager? _appConfigurationManager;
+    private readonly IAppConfigurationManager _appConfigurationManager;
 
-    public AppBuilder(WebApplicationBuilder appBuilder)
+    public AppBuilder(WebApplicationBuilder appBuilder, IConfiguration configuration,
+        IServiceCollection serviceCollection, IAppConfigurationManager appConfigurationManager)
     {
+        _appConfigurationManager = appConfigurationManager;
+        _configuration = configuration;
+        _services = serviceCollection;
         _applicationBuilder = appBuilder;
-        _configuration = appBuilder.Configuration;
-        _services = appBuilder.Services;
     }
 
     public IAppBuilder ConfigureApiDependencies()
     {
-        ConfigureAppSettings();
         _services.AddHttpContextAccessor();
+        _services.AddSingleton(implementationInstance: _appConfigurationManager);
         _services.AddScoped<IExecutionContextAccessor, ExecutionContextAccessor>();
         _services.AddRouting(configureOptions: options => options.LowercaseUrls = true);
 
@@ -75,12 +72,6 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureModules()
     {
-        Modules.RegisterModule<IamModule>();
-        Modules.RegisterModule<UserPreferencesModule>();
-        Modules.RegisterModule<BudgetSharingModule>();
-        Modules.RegisterModule<DocumentManagementModule>();
-        Modules.RegisterModule<CommunicationModule>();
-        Modules.RegisterModule<TimeManagementModule>();
         _services.AddModules(configuration: _configuration);
 
         return this;
@@ -90,8 +81,8 @@ internal sealed class AppBuilder : IAppBuilder
     {
         IReadOnlyCollection<Assembly> assemblies = Modules.GetRequiredModulesAssemblies();
 
-        OtlpSettings otlpSettings = GetSettings<OtlpSettings>(appConfigurationManager: _appConfigurationManager,
-            sectionName: SectionNames.Otlp);
+        OtlpSettings otlpSettings =
+            _appConfigurationManager.GetRequiredSettings<OtlpSettings>(sectionName: SectionNames.Otlp);
 
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
@@ -134,6 +125,28 @@ internal sealed class AppBuilder : IAppBuilder
         return this;
     }
 
+    public IAppBuilder ConfigureCors()
+    {
+        CorsSettings corsSettings =
+            _appConfigurationManager.GetRequiredSettings<CorsSettings>(sectionName: SectionNames.Cors);
+
+        if (corsSettings.Enabled is true)
+        {
+            _services.AddCors(setupAction: options => options.AddDefaultPolicy(configurePolicy: builder =>
+            {
+                CorsPolicyBuilder corsPolicyBuilder = builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+
+                if (!_applicationBuilder.Environment.IsDevelopment() && !_applicationBuilder.Environment.IsLocal() &&
+                    !_applicationBuilder.Environment.IsTest())
+                {
+                    corsPolicyBuilder.WithOrigins(origins: corsSettings.AllowedOrigins!);
+                }
+            }));
+        }
+
+        return this;
+    }
+
     public IAppBuilder ConfigureCache()
     {
         _services.AddDistributedMemoryCache();
@@ -158,8 +171,7 @@ internal sealed class AppBuilder : IAppBuilder
         _services.AddAuthentication();
 
         KeycloakSettings keycloakSettings =
-            GetSettings<KeycloakSettings>(appConfigurationManager: _appConfigurationManager,
-                sectionName: SectionNames.Keycloak);
+            _appConfigurationManager.GetRequiredSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak);
 
         _services
             .AddClientCredentialsTokenManagement()
@@ -170,8 +182,8 @@ internal sealed class AppBuilder : IAppBuilder
                 client.TokenEndpoint = keycloakSettings.KeycloakTokenEndpoint;
             });
 
-        AuthSettings authSettings = GetSettings<AuthSettings>(appConfigurationManager: _appConfigurationManager,
-            sectionName: SectionNames.Auth);
+        AuthSettings authSettings =
+            _appConfigurationManager.GetRequiredSettings<AuthSettings>(sectionName: SectionNames.Auth);
 
         switch (authSettings.AuthServer)
         {
@@ -222,17 +234,6 @@ internal sealed class AppBuilder : IAppBuilder
         WebApplication app = _applicationBuilder.Build();
 
         return new AppConfigurator(app: app);
-    }
-
-    private void ConfigureAppSettings()
-    {
-        IPreStartupContainer preStartupContainer = new PreStartupContainer();
-
-        preStartupContainer.Build(configuration: _configuration,
-            assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]));
-
-        _appConfigurationManager = new AppConfigurationManager(preStartupContainer: preStartupContainer);
-        _appConfigurationManager.Configure(serviceCollection: _services);
     }
 
     private void ConfigureKeycloak(string tokenHandlerClient, string? keyCloakAdminSection = null)
@@ -299,16 +300,5 @@ internal sealed class AppBuilder : IAppBuilder
             .AddKeycloakAdminHttpClient(configuration: _configuration,
                 keycloakClientSectionName: keyCloakAdminSection ?? KeycloakAdminClientOptions.Section)
             .AddClientCredentialsTokenHandler(tokenClientName: tokenHandlerClient);
-    }
-
-    private static TSettings GetSettings<TSettings>(AppConfigurationManager? appConfigurationManager,
-        string sectionName) where TSettings : class, ISettings
-    {
-        if (appConfigurationManager is null)
-        {
-            throw new ConfigurationHasNotBeenInitializedYetException();
-        }
-
-        return appConfigurationManager.GetSettings<TSettings>(sectionName: sectionName);
     }
 }

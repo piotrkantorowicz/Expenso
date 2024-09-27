@@ -15,10 +15,13 @@ public static class Modules
 {
     private static readonly Dictionary<string, IModuleDefinition> RegisteredModules = new();
 
-    public static void RegisterModule<TModule>(Func<TModule>? moduleFactory = default) where TModule : IModuleDefinition
+    public static void RegisterModules(Func<IModuleDefinition>[] moduleFactories)
     {
-        TModule moduleDefinition = moduleFactory is not null ? moduleFactory() : Activator.CreateInstance<TModule>();
-        RegisteredModules.Add(key: moduleDefinition.ModuleName, value: moduleDefinition);
+        foreach (Func<IModuleDefinition> moduleFactory in moduleFactories)
+        {
+            IModuleDefinition moduleDefinition = moduleFactory.Invoke();
+            RegisteredModules.Add(key: moduleDefinition.ModuleName, value: moduleDefinition);
+        }
     }
 
     public static void AddModules(this IServiceCollection services, IConfiguration configuration)

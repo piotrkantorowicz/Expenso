@@ -40,7 +40,7 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
         (_, Guid? preferenceId, Guid? userId, bool? forCurrentUser, bool? includeFinancePreferences,
             bool? includeNotificationPreferences, bool? includeGeneralPreferences) = query;
 
-        if (forCurrentUser == true)
+        if (forCurrentUser is true)
         {
             userId = Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId, result: out Guid id)
                 ? id

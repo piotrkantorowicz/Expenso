@@ -3,9 +3,12 @@ using System.Reflection;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
+using Expenso.Api.Configuration.Settings;
+using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.Database.EfCore.Settings;
+using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Tasks;
 using Expenso.Shared.System.Types.ExecutionContext;
@@ -30,7 +33,7 @@ internal sealed class AppConfigurator : IAppConfigurator
 
     public IAppConfigurator UseSwagger()
     {
-        if (!(_app.Environment.IsDevelopment() || _app.Environment.IsTest()))
+        if (!_app.Environment.IsDevelopment() && !_app.Environment.IsLocal())
         {
             return this;
         }
@@ -50,6 +53,22 @@ internal sealed class AppConfigurator : IAppConfigurator
     {
         _app.UseAuthentication();
         _app.UseAuthorization();
+
+        return this;
+    }
+
+    public IAppConfigurator UseCors()
+    {
+        IAppConfigurationManager? appConfigurationManager = _app.Services.GetService<IAppConfigurationManager>();
+
+        CorsSettings corsSettings =
+            appConfigurationManager?.GetSettings<CorsSettings>(sectionName: SectionNames.Cors) ??
+            throw new ConfigurationHasNotBeenInitializedYetException();
+
+        if (corsSettings.Enabled is true)
+        {
+            _app.UseCors();
+        }
 
         return this;
     }

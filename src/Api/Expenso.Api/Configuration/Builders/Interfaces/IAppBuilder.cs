@@ -14,6 +14,8 @@ internal interface IAppBuilder
 
     IAppBuilder ConfigureMvc();
 
+    IAppBuilder ConfigureCors();
+
     IAppBuilder ConfigureCache();
 
     IAppBuilder ConfigureSerializationOptions();

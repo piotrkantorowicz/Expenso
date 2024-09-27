@@ -14,7 +14,7 @@ internal abstract class AuthSettingsValidatorTestBase : TestBase<TestCandidate>
     {
         _authSettings = new AuthSettings
         {
-            AuthServer = AuthServer.Keycloak // Assuming Keycloak is a valid enum value
+            AuthServer = AuthServer.Keycloak
         };
 
         TestCandidate = new TestCandidate();

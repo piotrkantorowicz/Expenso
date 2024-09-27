@@ -7,7 +7,7 @@ namespace Expenso.Api.Configuration.Settings.Services.Binders;
 
 internal sealed class ApplicationSettingsBinder : ISettingsBinder
 {
-    private const string SectionName = SectionNames.ApplicationSection;
+    private const string SectionName = SectionNames.Application;
     private readonly ISettingsService<ApplicationSettings> _settingsService;
 
     public ApplicationSettingsBinder(ISettingsService<ApplicationSettings> settingsService)

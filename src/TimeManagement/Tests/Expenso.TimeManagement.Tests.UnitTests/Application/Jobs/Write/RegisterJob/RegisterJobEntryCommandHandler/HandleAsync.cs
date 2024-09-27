@@ -50,7 +50,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         {
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayofMonth: 10,
+                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayOfMonth: 10,
                     Hour: 12, Minute: 30, Second: 30, UseSeconds: true)
             }
         };

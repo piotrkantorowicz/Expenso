@@ -62,7 +62,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
     {
         // Arrange
         const string requestPath = "/api/budget-sharing";
-        Modules.RegisterModule<BudgetSharingModule>();
+        Modules.RegisterModules(moduleFactories: [() => new BudgetSharingModule()]);
 
         // Act
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
@@ -82,7 +82,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
     {
         // Arrange
         const string requestPath = "/api/unknown";
-        Modules.RegisterModule<BudgetSharingModule>();
+        Modules.RegisterModules(moduleFactories: [() => new BudgetSharingModule()]);
 
         // Act
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);

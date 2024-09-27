@@ -20,7 +20,7 @@ internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHand
             .SelectMany(selector: x => x)
             .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
 
-        if (errors.Count != 0)
+        if (errors.Count is not 0)
         {
             throw new CommandValidationException(errorDictionary: errors);
         }
@@ -49,7 +49,7 @@ internal sealed class CommandHandlerValidationDecorator<TCommand, TResult> : ICo
             .SelectMany(selector: x => x)
             .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
 
-        if (errors.Count != 0)
+        if (errors.Count is not 0)
         {
             throw new CommandValidationException(errorDictionary: errors);
         }

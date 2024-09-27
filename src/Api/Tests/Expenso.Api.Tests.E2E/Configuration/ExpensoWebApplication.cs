@@ -34,7 +34,7 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
             UseFakeIIamProxy(services: services);
             EfCoreSettings efCoreSettings = GetEfCoreSettings();
 
-            if (efCoreSettings.InMemory == true)
+            if (efCoreSettings.InMemory is true)
             {
                 UseFakeUnitOfWork(services: services);
             }

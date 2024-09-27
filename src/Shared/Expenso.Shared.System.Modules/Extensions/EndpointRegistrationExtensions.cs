@@ -4,12 +4,12 @@ public static class EndpointRegistrationExtensions
 {
     internal static EndpointRegistration WithLeadingSlash(this EndpointRegistration endpointRegistration)
     {
-        if (endpointRegistration.Pattern.Length == 0)
+        if (endpointRegistration.Pattern.Length is 0)
         {
             return endpointRegistration;
         }
 
-        if (endpointRegistration.Pattern[index: 0] != '/')
+        if (endpointRegistration.Pattern[index: 0] is not '/')
         {
             endpointRegistration = endpointRegistration with
             {

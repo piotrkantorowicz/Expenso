@@ -5,7 +5,7 @@ using Expenso.Shared.System.Logging;
 
 namespace Expenso.Api.Configuration;
 
-internal sealed class AppConfigurationManager
+internal sealed class AppConfigurationManager : IAppConfigurationManager
 {
     private readonly IPreStartupContainer _preStartupContainer;
     private readonly Dictionary<string, object?> _settingsMap = new();
@@ -64,7 +64,7 @@ internal sealed class AppConfigurationManager
 
         IReadOnlyCollection<ISettingsBinder?> binders = _preStartupContainer.ResolveMany<ISettingsBinder>();
 
-        if (binders.Count == 0)
+        if (binders.Count is 0)
         {
             logger?.LogWarning(eventId: LoggingUtils.ConfigurationWarning,
                 message: "No ISettingsBinder services were found");
@@ -85,18 +85,18 @@ internal sealed class AppConfigurationManager
             string sectionName = binder.GetSectionName();
             object? boundSettings = binder.Bind(serviceCollection: serviceCollection);
 
-            if (boundSettings != null)
+            if (boundSettings is not null)
             {
                 _settingsMap[key: sectionName] = boundSettings;
 
                 logger?.LogInfo(eventId: LoggingUtils.ConfigurationInformation,
-                    message: "Successfully bound settings for section: {SectionName}", messageContext: null,
-                    sectionName);
+                    message: "Settings of type {SettingsType} have been successfully added into settings map",
+                    messageContext: null, boundSettings.GetType().Name);
             }
             else
             {
                 logger?.LogWarning(eventId: LoggingUtils.ConfigurationWarning,
-                    message: "Failed to bind settings for section: {SectionName}", exception: null,
+                    message: "Failed to add settings from section {SectionName} into settings map", exception: null,
                     messageContext: null, sectionName);
             }
         }

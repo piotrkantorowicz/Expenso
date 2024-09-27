@@ -32,7 +32,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
         ConditionList? types = NetArchTypes
             .InAssemblies(assemblies: AllAssemblies
                 .GetAssembliesCollection()
-                .Where(predicate: x => x.FullName?.Contains(value: "Tests") == true))
+                .Where(predicate: x => x.FullName?.Contains(value: "Tests") is true))
             .Should()
             .BePublic();
 
