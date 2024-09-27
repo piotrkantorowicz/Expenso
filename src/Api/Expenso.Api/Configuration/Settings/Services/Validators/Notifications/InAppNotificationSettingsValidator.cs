@@ -13,14 +13,14 @@ internal sealed class InAppNotificationSettingsValidator : ISettingsValidator<In
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "In-app notification settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "In-app notification settings are required.");
 
             return errors;
         }
 
         if (settings.Enabled is null)
         {
-            errors.Add(key: nameof(settings.Enabled), value: "In-app enabled flag must be provided");
+            errors.Add(key: nameof(settings.Enabled), value: "In-app enabled flag must be provided.");
         }
 
         return errors;

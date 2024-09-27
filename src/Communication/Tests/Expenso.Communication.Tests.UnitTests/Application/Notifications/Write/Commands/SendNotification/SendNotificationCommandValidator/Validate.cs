@@ -23,7 +23,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest)]
             .Should()
-            .Be(expected: "Send notification request is required");
+            .Be(expected: "Send notification request is required.");
     }
 
     [Test]
@@ -44,7 +44,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.NotificationContext)]
             .Should()
-            .Be(expected: "Notification context is required");
+            .Be(expected: "Notification context is required.");
     }
 
     [Test]
@@ -64,7 +64,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.NotificationType)]
             .Should()
-            .Be(expected: "Notification type is required");
+            .Be(expected: "Notification type is required.");
     }
 
     [Test]
@@ -85,7 +85,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.NotificationContext.To)]
             .Should()
-            .Be(expected: "To is required");
+            .Be(expected: "To is required.");
     }
 
     [Test]
@@ -106,7 +106,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.NotificationContext.From)]
             .Should()
-            .Be(expected: "From is required");
+            .Be(expected: "From is required.");
     }
 
     [Test]
@@ -127,7 +127,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.Content)]
             .Should()
-            .Be(expected: "Content is required and must be less than 2500 characters");
+            .Be(expected: "Content is required and must be less than 2500 characters.");
     }
 
     [Test]
@@ -149,7 +149,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.Content)]
             .Should()
-            .Be(expected: "Content is required and must be less than 2500 characters");
+            .Be(expected: "Content is required and must be less than 2500 characters.");
     }
 
     [Test]
@@ -170,6 +170,6 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
 
         result[key: nameof(command.SendNotificationRequest.NotificationType)]
             .Should()
-            .Be(expected: "At least one notification type is required");
+            .Be(expected: "At least one notification type is required.");
     }
 }

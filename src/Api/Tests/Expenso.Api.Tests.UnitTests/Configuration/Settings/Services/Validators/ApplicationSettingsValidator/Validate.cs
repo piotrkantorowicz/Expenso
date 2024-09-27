@@ -11,7 +11,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Application settings are required";
+        const string expectedValidationMessage = "Application settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -30,7 +30,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Instance Id must be provided and cannot be empty";
+        const string expectedValidationMessage = "Instance Id must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_applicationSettings.InstanceId)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -49,7 +49,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Instance Id must be provided and cannot be empty";
+        const string expectedValidationMessage = "Instance Id must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_applicationSettings.InstanceId)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -68,7 +68,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Name must be provided and cannot be empty";
+        const string expectedValidationMessage = "Name must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_applicationSettings.Name)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -87,7 +87,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Version must be provided and cannot be empty";
+        const string expectedValidationMessage = "Version must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_applicationSettings.Version)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -110,7 +110,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         string[] assemblyVersionParts = assemblyVersion.Split(separator: '.');
 
         string expectedValidationMessage =
-            $"Version mismatch. Expected: {assemblyVersionParts[0]}.{assemblyVersionParts[1]}.{assemblyVersionParts[2]}, but got: 2.0.0";
+            $"Version mismatch. Expected: [{assemblyVersionParts[0]}.{assemblyVersionParts[1]}.{assemblyVersionParts[2]}], but got: [2.0.0].";
 
         string error = validationResult[key: nameof(_applicationSettings.Version)];
         error.Should().Be(expected: expectedValidationMessage);

@@ -15,14 +15,14 @@ internal sealed class EmailNotificationSettingsValidator : ISettingsValidator<Em
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Email notification settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Email notification settings are required.");
 
             return errors;
         }
 
         if (settings.Enabled is null)
         {
-            errors.Add(key: nameof(settings.Enabled), value: "Email enabled flag must be provided");
+            errors.Add(key: nameof(settings.Enabled), value: "Email enabled flag must be provided.");
 
             return errors;
         }
@@ -34,26 +34,26 @@ internal sealed class EmailNotificationSettingsValidator : ISettingsValidator<Em
 
         if (string.IsNullOrEmpty(value: settings.From))
         {
-            errors.Add(key: nameof(settings.From), value: "Email 'From' address must be provided and cannot be empty");
+            errors.Add(key: nameof(settings.From), value: "Email 'From' address must be provided and cannot be empty.");
         }
         else if (!settings.From.IsValidEmail())
         {
-            errors.Add(key: nameof(settings.From), value: "Email 'From' address must be a valid email address");
+            errors.Add(key: nameof(settings.From), value: "Email 'From' address must be a valid email address.");
         }
 
         if (string.IsNullOrEmpty(value: settings.ReplyTo))
         {
             errors.Add(key: nameof(settings.ReplyTo),
-                value: "Email 'ReplyTo' address must be provided and cannot be empty");
+                value: "Email 'ReplyTo' address must be provided and cannot be empty.");
         }
         else if (!settings.ReplyTo.IsValidEmail())
         {
-            errors.Add(key: nameof(settings.ReplyTo), value: "Email 'ReplyTo' address must be a valid email address");
+            errors.Add(key: nameof(settings.ReplyTo), value: "Email 'ReplyTo' address must be a valid email address.");
         }
 
         if (settings.Smtp is null)
         {
-            errors.Add(key: nameof(settings.Smtp), value: "Smtp must be provided and cannot be null");
+            errors.Add(key: nameof(settings.Smtp), value: "Smtp must be provided and cannot be null.");
         }
         else
         {

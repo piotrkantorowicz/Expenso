@@ -13,7 +13,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email notification settings are required";
+        const string expectedValidationMessage = "Email notification settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -32,7 +32,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email enabled flag must be provided";
+        const string expectedValidationMessage = "Email enabled flag must be provided.";
         string error = validationResult[key: nameof(_emailNotificationSettings.Enabled)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -67,7 +67,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email 'From' address must be provided and cannot be empty";
+        const string expectedValidationMessage = "Email 'From' address must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_emailNotificationSettings.From)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -86,7 +86,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email 'From' address must be a valid email address";
+        const string expectedValidationMessage = "Email 'From' address must be a valid email address.";
         string error = validationResult[key: nameof(_emailNotificationSettings.From)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -105,7 +105,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email 'ReplyTo' address must be provided and cannot be empty";
+        const string expectedValidationMessage = "Email 'ReplyTo' address must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_emailNotificationSettings.ReplyTo)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -124,7 +124,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email 'ReplyTo' address must be a valid email address";
+        const string expectedValidationMessage = "Email 'ReplyTo' address must be a valid email address.";
         string error = validationResult[key: nameof(_emailNotificationSettings.ReplyTo)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -143,7 +143,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Smtp must be provided and cannot be null";
+        const string expectedValidationMessage = "Smtp must be provided and cannot be null.";
         string error = validationResult[key: nameof(_emailNotificationSettings.Smtp)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -165,7 +165,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP host must be provided and cannot be empty";
+        const string expectedValidationMessage = "SMTP host must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_emailNotificationSettings.Smtp.Host)];
         error.Should().Be(expected: expectedValidationMessage);
     }

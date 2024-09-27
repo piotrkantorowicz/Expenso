@@ -13,24 +13,24 @@ internal sealed class ApplicationSettingsValidator : ISettingsValidator<Applicat
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Application settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Application settings are required.");
 
             return errors;
         }
 
         if (settings.InstanceId is null || settings.InstanceId == Guid.Empty)
         {
-            errors.Add(key: nameof(settings.InstanceId), value: "Instance Id must be provided and cannot be empty");
+            errors.Add(key: nameof(settings.InstanceId), value: "Instance Id must be provided and cannot be empty.");
         }
 
         if (string.IsNullOrEmpty(value: settings.Name))
         {
-            errors.Add(key: nameof(settings.Name), value: "Name must be provided and cannot be empty");
+            errors.Add(key: nameof(settings.Name), value: "Name must be provided and cannot be empty.");
         }
 
         if (string.IsNullOrEmpty(value: settings.Version))
         {
-            errors.Add(key: nameof(settings.Version), value: "Version must be provided and cannot be empty");
+            errors.Add(key: nameof(settings.Version), value: "Version must be provided and cannot be empty.");
         }
         else
         {
@@ -43,7 +43,7 @@ internal sealed class ApplicationSettingsValidator : ISettingsValidator<Applicat
             {
                 errors.Add(key: nameof(settings.Version),
                     value:
-                    $"Version mismatch. Expected: {assemblyVer.Major}.{assemblyVer.Minor}.{assemblyVer.Build}, but got: {settingsVer.Major}.{settingsVer.Minor}.{settingsVer.Build}");
+                    $"Version mismatch. Expected: [{assemblyVer.Major}.{assemblyVer.Minor}.{assemblyVer.Build}], but got: [{settingsVer.Major}.{settingsVer.Minor}.{settingsVer.Build}].");
             }
         }
 

@@ -27,20 +27,20 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
 
         if (command is null)
         {
-            errors.Add(key: nameof(command).Pascalize(), value: "Command is required");
+            errors.Add(key: nameof(command).Pascalize(), value: "Command is required.");
 
             return errors;
         }
 
         if (command.RegisterJobEntryRequest is null)
         {
-            errors.Add(key: nameof(command.RegisterJobEntryRequest), value: "Register job entry request is required");
+            errors.Add(key: nameof(command.RegisterJobEntryRequest), value: "Register job entry request is required.");
         }
 
         if (command.RegisterJobEntryRequest?.MaxRetries is not null && command.RegisterJobEntryRequest?.MaxRetries <= 0)
         {
             errors.Add(key: nameof(command.RegisterJobEntryRequest.MaxRetries),
-                value: "MaxRetries must be a positive value");
+                value: "MaxRetries must be a positive value.");
         }
 
         if (command.RegisterJobEntryRequest?.Interval is null && command.RegisterJobEntryRequest?.RunAt is null)
@@ -48,7 +48,7 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             errors.Add(
                 key:
                 $"{nameof(command.RegisterJobEntryRequest.Interval)}|{nameof(command.RegisterJobEntryRequest.RunAt)}",
-                value: "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs");
+                value: "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs.");
         }
 
         if (command.RegisterJobEntryRequest?.Interval is not null && command.RegisterJobEntryRequest?.RunAt is not null)
@@ -56,7 +56,7 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
             errors.Add(
                 key:
                 $"{nameof(command.RegisterJobEntryRequest.Interval)}|{nameof(command.RegisterJobEntryRequest.RunAt)}",
-                value: "RunAt and Interval cannot be used together");
+                value: "RunAt and Interval cannot be used together.");
         }
 
         if (command.RegisterJobEntryRequest?.Interval is not null)
@@ -81,7 +81,7 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
         {
             errors.Add(key: nameof(command.RegisterJobEntryRequest.RunAt),
                 value:
-                $"RunAt must be greater than current time. Provided: {command.RegisterJobEntryRequest.RunAt}. Current: {_clock.UtcNow}");
+                $"RunAt must be greater than current time. Provided: {command.RegisterJobEntryRequest.RunAt}. Current: {_clock.UtcNow}.");
         }
 
         ICollection<RegisterJobEntryRequest_JobEntryTrigger>? jobEntryTriggers =
@@ -90,7 +90,7 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
         if (jobEntryTriggers is null || jobEntryTriggers.Count is 0)
         {
             errors.Add(key: nameof(command.RegisterJobEntryRequest.JobEntryTriggers),
-                value: "Job entry triggers are required");
+                value: "Job entry triggers are required.");
         }
 
         if (errors.Count > 0)
@@ -102,12 +102,12 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
         {
             if (string.IsNullOrEmpty(value: jobEntryTrigger.EventType))
             {
-                errors.Add(key: nameof(jobEntryTrigger.EventType), value: "Event type is required");
+                errors.Add(key: nameof(jobEntryTrigger.EventType), value: "Event type is required.");
             }
 
             if (string.IsNullOrEmpty(value: jobEntryTrigger.EventData))
             {
-                errors.Add(key: nameof(jobEntryTrigger.EventData), value: "Event data is required");
+                errors.Add(key: nameof(jobEntryTrigger.EventData), value: "Event data is required.");
             }
 
             if (jobEntryTrigger.EventType is not null && _serializer.Deserialize(value: jobEntryTrigger.EventData!,
@@ -115,7 +115,7 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
                     settings: DefaultSerializerOptions.DefaultSettings) is null)
             {
                 errors.Add(key: $"{nameof(jobEntryTrigger.EventType)}|{nameof(jobEntryTrigger.EventData)}",
-                    value: "EventData must be serializable to provided EventType");
+                    value: "EventData must be serializable to provided EventType.");
             }
         }
 

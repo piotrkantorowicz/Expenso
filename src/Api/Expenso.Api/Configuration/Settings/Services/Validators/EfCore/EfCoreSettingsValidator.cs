@@ -14,7 +14,7 @@ internal sealed class EfCoreSettingsValidator : ISettingsValidator<EfCoreSetting
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings).Pascalize().Pascalize(), value: "EfCore settings are required");
+            errors.Add(key: nameof(settings).Pascalize().Pascalize(), value: "EfCore settings are required.");
 
             return errors;
         }
@@ -22,7 +22,7 @@ internal sealed class EfCoreSettingsValidator : ISettingsValidator<EfCoreSetting
         if (settings.ConnectionParameters is null)
         {
             errors.Add(key: nameof(settings.ConnectionParameters),
-                value: "ConnectionParameters must be provided and cannot be null");
+                value: "ConnectionParameters must be provided and cannot be null.");
         }
         else
         {
@@ -31,17 +31,17 @@ internal sealed class EfCoreSettingsValidator : ISettingsValidator<EfCoreSetting
 
         if (settings.InMemory is null)
         {
-            errors.Add(key: nameof(settings.InMemory), value: "InMemory flag must be provided");
+            errors.Add(key: nameof(settings.InMemory), value: "InMemory flag must be provided.");
         }
 
         if (settings.UseMigration is null)
         {
-            errors.Add(key: nameof(settings.UseMigration), value: "UseMigration flag must be provided");
+            errors.Add(key: nameof(settings.UseMigration), value: "UseMigration flag must be provided.");
         }
 
         if (settings.UseSeeding is null)
         {
-            errors.Add(key: nameof(settings.UseSeeding), value: "UseSeeding flag must be provided");
+            errors.Add(key: nameof(settings.UseSeeding), value: "UseSeeding flag must be provided.");
         }
 
         return errors;

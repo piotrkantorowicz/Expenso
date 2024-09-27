@@ -10,7 +10,7 @@ internal sealed class SendNotificationCommandValidator : ICommandValidator<SendN
 
         if (command.SendNotificationRequest is null)
         {
-            errors.Add(key: nameof(command.SendNotificationRequest), value: "Send notification request is required");
+            errors.Add(key: nameof(command.SendNotificationRequest), value: "Send notification request is required.");
 
             return errors;
         }
@@ -18,7 +18,7 @@ internal sealed class SendNotificationCommandValidator : ICommandValidator<SendN
         if (command.SendNotificationRequest?.NotificationContext is null)
         {
             errors.Add(key: nameof(command.SendNotificationRequest.NotificationContext),
-                value: "Notification context is required");
+                value: "Notification context is required.");
 
             return errors;
         }
@@ -26,7 +26,7 @@ internal sealed class SendNotificationCommandValidator : ICommandValidator<SendN
         if (command.SendNotificationRequest?.NotificationType is null)
         {
             errors.Add(key: nameof(command.SendNotificationRequest.NotificationType),
-                value: "Notification type is required");
+                value: "Notification type is required.");
 
             return errors;
         }
@@ -35,24 +35,24 @@ internal sealed class SendNotificationCommandValidator : ICommandValidator<SendN
             command.SendNotificationRequest?.Content.Length > 2500)
         {
             errors.Add(key: nameof(command.SendNotificationRequest.Content),
-                value: "Content is required and must be less than 2500 characters");
+                value: "Content is required and must be less than 2500 characters.");
         }
 
         if (string.IsNullOrEmpty(value: command.SendNotificationRequest?.NotificationContext?.To))
         {
-            errors.Add(key: nameof(command.SendNotificationRequest.NotificationContext.To), value: "To is required");
+            errors.Add(key: nameof(command.SendNotificationRequest.NotificationContext.To), value: "To is required.");
         }
 
         if (string.IsNullOrEmpty(value: command.SendNotificationRequest?.NotificationContext?.From))
         {
             errors.Add(key: nameof(command.SendNotificationRequest.NotificationContext.From),
-                value: "From is required");
+                value: "From is required.");
         }
 
         if (command.SendNotificationRequest?.NotificationType is { Push: false, Email: false, InApp: false })
         {
             errors.Add(key: nameof(command.SendNotificationRequest.NotificationType),
-                value: "At least one notification type is required");
+                value: "At least one notification type is required.");
         }
 
         return errors;

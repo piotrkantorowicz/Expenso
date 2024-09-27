@@ -13,7 +13,7 @@ internal sealed class Validate : AuthSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Auth settings are required";
+        const string expectedValidationMessage = "Auth settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -32,7 +32,7 @@ internal sealed class Validate : AuthSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "AuthServer must be a valid value";
+        const string expectedValidationMessage = "AuthServer must be a valid value.";
         string error = validationResult[key: nameof(_authSettings.AuthServer)];
         error.Should().Be(expected: expectedValidationMessage);
     }

@@ -15,7 +15,7 @@ internal sealed class Validate : PushNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Push notification settings are required";
+        const string expectedValidationMessage = "Push notification settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -31,7 +31,7 @@ internal sealed class Validate : PushNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Push enabled flag must be provided";
+        const string expectedValidationMessage = "Push enabled flag must be provided.";
         string error = validationResult[key: nameof(_pushNotificationSettings.Enabled)];
         error.Should().Be(expected: expectedValidationMessage);
     }

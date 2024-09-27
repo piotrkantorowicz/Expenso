@@ -13,7 +13,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "File settings are required";
+        const string expectedValidationMessage = "File settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -32,7 +32,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "StorageType must be a valid value";
+        const string expectedValidationMessage = "StorageType must be a valid value.";
         string error = validationResult[key: nameof(_filesSettings.StorageType)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -51,7 +51,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "RootPath must be a valid absolute path";
+        const string expectedValidationMessage = "RootPath must be a valid absolute path.";
         string error = validationResult[key: nameof(_filesSettings.RootPath)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -71,7 +71,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ImportDirectory must be provided and cannot be empty";
+        const string expectedValidationMessage = "ImportDirectory must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_filesSettings.ImportDirectory)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -90,7 +90,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ImportDirectory must be a valid relative path";
+        const string expectedValidationMessage = "ImportDirectory must be a valid relative path.";
         string error = validationResult[key: nameof(_filesSettings.ImportDirectory)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -110,7 +110,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ReportsDirectory must be provided and cannot be empty";
+        const string expectedValidationMessage = "ReportsDirectory must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_filesSettings.ReportsDirectory)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -129,7 +129,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ReportsDirectory must be a valid relative path";
+        const string expectedValidationMessage = "ReportsDirectory must be a valid relative path.";
         string error = validationResult[key: nameof(_filesSettings.ReportsDirectory)];
         error.Should().Be(expected: expectedValidationMessage);
     }

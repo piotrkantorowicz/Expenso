@@ -16,7 +16,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required";
+        const string expectedValidationMessage = "Command is required.";
         string error = validationResult[key: "Command"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -33,7 +33,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Register job entry request is required";
+        const string expectedValidationMessage = "Register job entry request is required.";
         string error = validationResult[key: nameof(RegisterJobEntryRequest)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -64,7 +64,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "MaxRetries must be a positive value";
+        const string expectedValidationMessage = "MaxRetries must be a positive value.";
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.MaxRetries)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -141,7 +141,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         const string expectedValidationMessage =
-            "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs";
+            "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs.";
 
         string error = validationResult[
             key:
@@ -166,7 +166,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "RunAt and Interval cannot be used together";
+        const string expectedValidationMessage = "RunAt and Interval cannot be used together.";
 
         string error = validationResult[
             key:
@@ -195,7 +195,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         string expectedValidationMessage =
-            $"RunAt must be greater than current time. Provided: {runAt}. Current: {_clockMock.Object.UtcNow}";
+            $"RunAt must be greater than current time. Provided: {runAt}. Current: {_clockMock.Object.UtcNow}.";
 
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)];
         error.Should().Be(expected: expectedValidationMessage);
@@ -240,7 +240,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Job entry triggers are required";
+        const string expectedValidationMessage = "Job entry triggers are required.";
         string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -266,7 +266,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Event data is required";
+        const string expectedValidationMessage = "Event data is required.";
         string error = validationResult[key: nameof(JobEntryTrigger.EventData)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -292,7 +292,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Event type is required";
+        const string expectedValidationMessage = "Event type is required.";
         string error = validationResult[key: nameof(JobEntryTrigger.EventType)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -318,7 +318,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "EventData must be serializable to provided EventType";
+        const string expectedValidationMessage = "EventData must be serializable to provided EventType.";
 
         string error = validationResult[
             key: $"{nameof(JobEntryTrigger.EventType)}|{nameof(JobEntryTrigger.EventData)}"];

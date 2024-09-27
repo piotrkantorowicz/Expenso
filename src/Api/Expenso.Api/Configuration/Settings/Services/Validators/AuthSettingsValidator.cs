@@ -13,14 +13,14 @@ internal sealed class AuthSettingsValidator : ISettingsValidator<AuthSettings>
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Auth settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Auth settings are required.");
 
             return errors;
         }
 
         if (!Enum.IsDefined(enumType: typeof(AuthServer), value: settings.AuthServer))
         {
-            errors.Add(key: nameof(settings.AuthServer), value: "AuthServer must be a valid value");
+            errors.Add(key: nameof(settings.AuthServer), value: "AuthServer must be a valid value.");
         }
 
         return errors;

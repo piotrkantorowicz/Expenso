@@ -15,7 +15,7 @@ internal sealed class Validate : InAppNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "In-app notification settings are required";
+        const string expectedValidationMessage = "In-app notification settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -31,7 +31,7 @@ internal sealed class Validate : InAppNotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "In-app enabled flag must be provided";
+        const string expectedValidationMessage = "In-app enabled flag must be provided.";
         string error = validationResult[key: nameof(_inAppNotificationSettings.Enabled)];
         error.Should().Be(expected: expectedValidationMessage);
     }
