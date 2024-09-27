@@ -23,7 +23,7 @@ internal sealed class ExecutionContextAccessor : IExecutionContextAccessor
         Guid? correlationId = null;
 
         if (_httpContextAccessor.HttpContext?.Request.Headers.Keys.Any(predicate: x =>
-                x == CorrelationIdMiddleware.CorrelationHeaderKey) == true)
+                x is CorrelationIdMiddleware.CorrelationHeaderKey) is true)
         {
             StringValues correlationIdString =
                 _httpContextAccessor.HttpContext.Request.Headers[key: CorrelationIdMiddleware.CorrelationHeaderKey];
@@ -37,7 +37,7 @@ internal sealed class ExecutionContextAccessor : IExecutionContextAccessor
         string? moduleId = null;
 
         if (_httpContextAccessor.HttpContext?.Request.Headers.Keys.Any(predicate: x =>
-                x == ModuleIdMiddleware.ModuleMiddlewareHeaderKey) == true)
+                x is ModuleIdMiddleware.ModuleMiddlewareHeaderKey) is true)
         {
             StringValues moduleIdValue =
                 _httpContextAccessor.HttpContext.Request.Headers[key: ModuleIdMiddleware.ModuleMiddlewareHeaderKey];
@@ -47,7 +47,7 @@ internal sealed class ExecutionContextAccessor : IExecutionContextAccessor
 
         UserContext? userContext = null;
 
-        if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
+        if (_httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated is true)
         {
             string? userId = GetClaim(claimName: ClaimNames.UserIdClaimName);
             string? username = GetClaim(claimName: ClaimNames.UsernameClaimName);

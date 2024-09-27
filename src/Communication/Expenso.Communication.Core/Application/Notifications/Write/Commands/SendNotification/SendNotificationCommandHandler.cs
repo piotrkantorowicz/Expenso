@@ -27,7 +27,7 @@ internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotif
 
         (string from, string to, string[]? cc, string[]? bcc, string? replyTo) = context!;
 
-        if (type?.Email == true)
+        if (type?.Email is true)
         {
             IEmailService emailService = _notificationServiceFactory.GetService<IEmailService>();
 
@@ -35,7 +35,7 @@ internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotif
                 subject: subject, content: content, cc: cc, bcc: bcc, replyTo: replyTo);
         }
 
-        if (type?.Push == true)
+        if (type?.Push is true)
         {
             IPushService pushService = _notificationServiceFactory.GetService<IPushService>();
 
@@ -43,7 +43,7 @@ internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotif
                 subject: subject, content: content, cc: cc, bcc: bcc, replyTo: replyTo);
         }
 
-        if (type?.InApp == true)
+        if (type?.InApp is true)
         {
             IInAppService inAppService = _notificationServiceFactory.GetService<IInAppService>();
 

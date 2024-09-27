@@ -7,7 +7,7 @@ namespace Expenso.Api.Configuration.Settings.Services.Binders;
 
 internal sealed class EfCoreSettingsBinder : ISettingsBinder
 {
-    private const string SectionName = SectionNames.EfCoreSection;
+    private const string SectionName = SectionNames.EfCore;
     private readonly ISettingsService<EfCoreSettings> _settingsService;
 
     public EfCoreSettingsBinder(ISettingsService<EfCoreSettings> settingsService)

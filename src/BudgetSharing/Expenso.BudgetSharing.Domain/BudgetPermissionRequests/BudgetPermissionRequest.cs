@@ -83,9 +83,11 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     }
 
     public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,
-        PermissionType permissionType, int expirationDays, IClock clock)
+        PermissionType permissionType, int expirationDays, IClock clock,
+        BudgetPermissionRequestId? budgetPermissionRequestId = null)
     {
-        return new BudgetPermissionRequest(id: BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
+        return new BudgetPermissionRequest(
+            id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
             ownerId: ownerId, participantId: personId, permissionType: permissionType,
             status: BudgetPermissionRequestStatus.Pending, expirationDays: expirationDays, clock: clock);
     }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using TestCandidate = Expenso.Api.Configuration.AppConfigurationManager;
 
-namespace Expenso.Api.Tests.UnitTests.AppConfigurationManager;
+namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 
 internal abstract class AppConfigurationManagerTestBase
 {

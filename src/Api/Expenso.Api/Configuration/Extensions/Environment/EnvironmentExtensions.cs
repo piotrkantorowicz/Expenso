@@ -8,4 +8,9 @@ internal static class EnvironmentExtensions
     {
         return environment.IsEnvironment(environmentName: CustomEnvironments.Test);
     }
+
+    public static bool IsLocal(this IWebHostEnvironment environment)
+    {
+        return environment.IsEnvironment(environmentName: CustomEnvironments.Local);
+    }
 }

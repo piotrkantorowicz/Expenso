@@ -31,13 +31,19 @@ public static class BudgetPermissionRequestFilterExtensions
                 rightExpression: x => x.ParticipantId == filter.ParticipantId);
         }
 
-        if (filter.Status != null)
+        if (filter.OwnerId is not null)
+        {
+            predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
+                rightExpression: x => x.OwnerId == filter.OwnerId);
+        }
+        
+        if (filter.Status is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
                 rightExpression: x => x.StatusTracker.Status == filter.Status);
         }
 
-        if (filter.PermissionType != null)
+        if (filter.PermissionType is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
                 rightExpression: x => x.PermissionType == filter.PermissionType);

@@ -36,7 +36,7 @@ internal sealed class FileStorage : IFileStorage
             throw new EmptyFileNameException();
         }
 
-        if (byteContent is null || byteContent.Length == 0)
+        if (byteContent is null || byteContent.Length is 0)
         {
             throw new EmptyFileContentException();
         }

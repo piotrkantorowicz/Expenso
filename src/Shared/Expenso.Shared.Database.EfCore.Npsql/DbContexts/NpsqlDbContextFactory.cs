@@ -34,7 +34,7 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
             .AddEnvironmentVariables()
             .Build();
 
-        configuration.TryBindOptions(sectionName: SectionNames.EfCoreSection,
+        configuration.TryBindOptions(sectionName: SectionNames.EfCore,
             options: out EfCoreSettings databaseSettings);
 
         optionsBuilder.UseNpgsql(connectionString: databaseSettings.ConnectionParameters?.ConnectionString);

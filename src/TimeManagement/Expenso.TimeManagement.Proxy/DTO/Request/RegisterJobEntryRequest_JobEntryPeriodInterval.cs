@@ -5,7 +5,7 @@ namespace Expenso.TimeManagement.Proxy.DTO.Request;
 public sealed record RegisterJobEntryRequest_JobEntryPeriodInterval(
     int? DayOfWeek = null,
     int? Month = null,
-    int? DayofMonth = null,
+    int? DayOfMonth = null,
     int? Hour = null,
     int? Minute = null,
     int? Second = null,
@@ -33,7 +33,7 @@ public sealed record RegisterJobEntryRequest_JobEntryPeriodInterval(
         stringBuilder.Append(value: ' ');
         stringBuilder.Append(value: Hour?.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
-        stringBuilder.Append(value: DayofMonth?.ToString() ?? "*");
+        stringBuilder.Append(value: DayOfMonth?.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
         stringBuilder.Append(value: Month?.ToString() ?? "*");
         stringBuilder.Append(value: ' ');
