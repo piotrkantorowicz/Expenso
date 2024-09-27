@@ -14,14 +14,14 @@ internal sealed class NotificationSettingsValidator : ISettingsValidator<Notific
 
         if (settings is null)
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Notification settings are required");
+            errors.Add(key: nameof(settings).Pascalize(), value: "Notification settings are required.");
 
             return errors;
         }
 
         if (settings.Enabled is null)
         {
-            errors.Add(key: nameof(settings.Enabled), value: "Enabled flag must be provided");
+            errors.Add(key: nameof(settings.Enabled), value: "Enabled flag must be provided.");
 
             return errors;
         }
@@ -33,7 +33,7 @@ internal sealed class NotificationSettingsValidator : ISettingsValidator<Notific
 
         if (settings.Email is null)
         {
-            errors.Add(key: nameof(settings.Email), value: "Email notification settings must be provided");
+            errors.Add(key: nameof(settings.Email), value: "Email notification settings must be provided.");
         }
         else
         {
@@ -42,7 +42,7 @@ internal sealed class NotificationSettingsValidator : ISettingsValidator<Notific
 
         if (settings.InApp is null)
         {
-            errors.Add(key: nameof(settings.InApp), value: "In-app notification settings must be provided");
+            errors.Add(key: nameof(settings.InApp), value: "In-app notification settings must be provided.");
         }
         else
         {
@@ -51,7 +51,7 @@ internal sealed class NotificationSettingsValidator : ISettingsValidator<Notific
 
         if (settings.Push is null)
         {
-            errors.Add(key: nameof(settings.Push), value: "Push notification settings must be provided");
+            errors.Add(key: nameof(settings.Push), value: "Push notification settings must be provided.");
         }
         else
         {

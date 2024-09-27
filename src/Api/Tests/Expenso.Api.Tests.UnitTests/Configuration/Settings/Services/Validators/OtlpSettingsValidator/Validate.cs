@@ -11,7 +11,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Otlp settings are required";
+        const string expectedValidationMessage = "Otlp settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -30,7 +30,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Service name must be provided and cannot be empty";
+        const string expectedValidationMessage = "Service name must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_otlpSettings.ServiceName)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -51,7 +51,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         const string expectedValidationMessage =
-            "Service name can only contain alphanumeric characters and special characters";
+            "Service name can only contain alphanumeric characters and special characters.";
 
         string error = validationResult[key: nameof(_otlpSettings.ServiceName)];
         error.Should().Be(expected: expectedValidationMessage);
@@ -71,7 +71,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Endpoint must be provided and cannot be empty";
+        const string expectedValidationMessage = "Endpoint must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_otlpSettings.Endpoint)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -90,7 +90,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Endpoint must be a valid URL";
+        const string expectedValidationMessage = "Endpoint must be a valid URL.";
         string error = validationResult[key: nameof(_otlpSettings.Endpoint)];
         error.Should().Be(expected: expectedValidationMessage);
     }

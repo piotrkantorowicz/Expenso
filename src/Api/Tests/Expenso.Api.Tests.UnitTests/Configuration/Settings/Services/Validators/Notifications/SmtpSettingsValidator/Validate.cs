@@ -13,7 +13,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP settings are required";
+        const string expectedValidationMessage = "SMTP settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -32,7 +32,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP host must be provided and cannot be empty";
+        const string expectedValidationMessage = "SMTP host must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_smtpSettings.Host)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -51,7 +51,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP host must be a valid DNS name, IPv4, or IPv6 address";
+        const string expectedValidationMessage = "SMTP host must be a valid DNS name, IPv4, or IPv6 address.";
         string error = validationResult[key: nameof(_smtpSettings.Host)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -70,7 +70,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP port must be a valid integer between 1 and 65535";
+        const string expectedValidationMessage = "SMTP port must be a valid integer between 1 and 65535.";
         string error = validationResult[key: nameof(_smtpSettings.Port)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -89,7 +89,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP username must be provided and cannot be empty";
+        const string expectedValidationMessage = "SMTP username must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_smtpSettings.Username)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -110,7 +110,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         const string expectedValidationMessage =
-            "SMTP username must be between 3 and 30 characters long and start with a letter";
+            "SMTP username must be between 3 and 30 characters long and start with a letter.";
 
         string error = validationResult[key: nameof(_smtpSettings.Username)];
         error.Should().Be(expected: expectedValidationMessage);
@@ -130,7 +130,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SMTP password must be provided and cannot be empty";
+        const string expectedValidationMessage = "SMTP password must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_smtpSettings.Password)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -151,7 +151,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         const string expectedValidationMessage =
-            "SMTP password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character";
+            "SMTP password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character.";
 
         string error = validationResult[key: nameof(_smtpSettings.Password)];
         error.Should().Be(expected: expectedValidationMessage);

@@ -13,7 +13,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "EfCore settings are required";
+        const string expectedValidationMessage = "EfCore settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -32,7 +32,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ConnectionParameters must be provided and cannot be null";
+        const string expectedValidationMessage = "ConnectionParameters must be provided and cannot be null.";
         string error = validationResult[key: nameof(_efCoreSettings.ConnectionParameters)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -54,7 +54,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Host must be provided and cannot be empty";
+        const string expectedValidationMessage = "Host must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_efCoreSettings.ConnectionParameters.Host)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -73,7 +73,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "InMemory flag must be provided";
+        const string expectedValidationMessage = "InMemory flag must be provided.";
         string error = validationResult[key: nameof(_efCoreSettings.InMemory)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -92,7 +92,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "UseMigration flag must be provided";
+        const string expectedValidationMessage = "UseMigration flag must be provided.";
         string error = validationResult[key: nameof(_efCoreSettings.UseMigration)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -111,7 +111,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "UseSeeding flag must be provided";
+        const string expectedValidationMessage = "UseSeeding flag must be provided.";
         string error = validationResult[key: nameof(_efCoreSettings.UseSeeding)];
         error.Should().Be(expected: expectedValidationMessage);
     }

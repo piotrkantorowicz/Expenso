@@ -14,7 +14,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Notification settings are required";
+        const string expectedValidationMessage = "Notification settings are required.";
         string error = validationResult[key: "Settings"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -33,7 +33,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Enabled flag must be provided";
+        const string expectedValidationMessage = "Enabled flag must be provided.";
         string error = validationResult[key: nameof(_notificationSettings.Enabled)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -68,7 +68,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email notification settings must be provided";
+        const string expectedValidationMessage = "Email notification settings must be provided.";
         string error = validationResult[key: nameof(_notificationSettings.Email)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -90,7 +90,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email 'From' address must be provided and cannot be empty";
+        const string expectedValidationMessage = "Email 'From' address must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_notificationSettings.Email.From)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -109,7 +109,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "In-app notification settings must be provided";
+        const string expectedValidationMessage = "In-app notification settings must be provided.";
         string error = validationResult[key: nameof(_notificationSettings.InApp)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -128,7 +128,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Push notification settings must be provided";
+        const string expectedValidationMessage = "Push notification settings must be provided.";
         string error = validationResult[key: nameof(_notificationSettings.Push)];
         error.Should().Be(expected: expectedValidationMessage);
     }

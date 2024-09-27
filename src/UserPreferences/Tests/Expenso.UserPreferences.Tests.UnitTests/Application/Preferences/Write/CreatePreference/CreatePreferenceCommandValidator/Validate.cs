@@ -15,7 +15,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required";
+        const string expectedValidationMessage = "Command is required.";
         string error = validationResult[key: "Command"];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -45,7 +45,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "User id cannot be empty";
+        const string expectedValidationMessage = "User id cannot be empty.";
         string error = validationResult[key: nameof(command.Preference.UserId)];
         error.Should().Be(expected: expectedValidationMessage);
     }
