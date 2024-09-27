@@ -38,6 +38,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
@@ -201,28 +202,44 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureSwagger()
     {
-        OpenApiSecurityScheme securityScheme = new()
+        _services.AddSwaggerGen(setupAction: options =>
         {
-            Name = "JWT Authentication",
-            Description = "Enter JWT Bearer token **_only_**",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.Http,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-            Reference = new OpenApiReference
+            options.SwaggerDoc(name: "v1", info: new OpenApiInfo
             {
-                Type = ReferenceType.SecurityScheme,
-                Id = JwtBearerDefaults.AuthenticationScheme
-            }
-        };
+                Title = "Expenso",
+                Version = "v1"
+            });
 
-        _services.AddSwaggerGen(setupAction: o =>
-        {
-            o.AddSecurityDefinition(name: securityScheme.Reference.Id, securityScheme: securityScheme);
+            KeycloakSettings keycloakOptions =
+                _appConfigurationManager.GetRequiredSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak);
 
-            o.AddSecurityRequirement(securityRequirement: new OpenApiSecurityRequirement
+            string schemeName = SecuritySchemeType.OpenIdConnect.GetDisplayName();
+
+            options.AddSecurityDefinition(name: schemeName, securityScheme: new OpenApiSecurityScheme
             {
-                { securityScheme, Array.Empty<string>() }
+                Type = SecuritySchemeType.OpenIdConnect,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                OpenIdConnectUrl =
+                    new Uri(
+                        uriString:
+                        $"{keycloakOptions.AuthServerUrl}/realms/{keycloakOptions.Realm}/.well-known/openid-configuration")
+            });
+
+            OpenApiSecurityScheme keycloakSecurityScheme = new()
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = schemeName,
+                    Type = ReferenceType.SecurityScheme
+                },
+                In = ParameterLocation.Header,
+                Name = "Bearer",
+                Scheme = "Bearer"
+            };
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { keycloakSecurityScheme, Array.Empty<string>() }
             });
         });
 
