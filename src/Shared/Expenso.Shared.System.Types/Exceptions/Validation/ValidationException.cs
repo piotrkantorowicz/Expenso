@@ -2,7 +2,7 @@ using System.Text;
 
 using Humanizer;
 
-namespace Expenso.Shared.System.Types.Exceptions;
+namespace Expenso.Shared.System.Types.Exceptions.Validation;
 
 public class ValidationException : Exception
 {
@@ -20,7 +20,7 @@ public class ValidationException : Exception
 
     public string? Details { get; private set; }
 
-    public IDictionary<string, string> ErrorDictionary { get; set; } = new Dictionary<string, string>();
+    public IReadOnlyCollection<ValidationDetailModel> Errors { get; private set; } = [];
 
     private void CreateErrorDictionary(IDictionary<string, string> errorDictionary, string? details = null)
     {
@@ -37,6 +37,6 @@ public class ValidationException : Exception
         }
 
         Details = stringBuilder.ToString();
-        ErrorDictionary = errorDictionary;
+        Errors = errorDictionary.Select(selector: x => new ValidationDetailModel(x.Key, x.Value)).ToList().AsReadOnly();
     }
 }

@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Validation;
 
 using Microsoft.AspNetCore.Http;
 

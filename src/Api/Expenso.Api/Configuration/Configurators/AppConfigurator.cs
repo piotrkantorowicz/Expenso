@@ -2,6 +2,7 @@ using System.Reflection;
 
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
+using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Api.Configuration.Settings;
 using Expenso.Api.Configuration.Settings.Exceptions;
@@ -9,6 +10,7 @@ using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.IAM.Core.Acl.Keycloak;
 using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.Database.EfCore.Settings;
+using Expenso.Shared.Api.ProblemDetails.Details;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Tasks;
@@ -16,7 +18,6 @@ using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 using Serilog;
@@ -44,11 +45,10 @@ internal sealed class AppConfigurator : IAppConfigurator
 
         _app.UseSwaggerUI(setupAction: options =>
         {
-            AppConfigurationManager? appConfigurationManager = _app.Services.GetService<AppConfigurationManager>();
+            IAppConfigurationManager? appConfigurationManager = _app.Services.GetService<IAppConfigurationManager>();
 
             KeycloakSettings keycloakSettings =
-                appConfigurationManager?.GetSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak) ??
-                throw new ConfigurationHasNotBeenInitializedYetException();
+                appConfigurationManager.GetRequiredSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak);
 
             options.DisplayOperationId();
             options.DisplayRequestDuration();
@@ -129,7 +129,6 @@ internal sealed class AppConfigurator : IAppConfigurator
         return this;
     }
 
-
     public IAppConfigurator CreateEndpoints()
     {
         _app.MapModulesEndpoints(rootTag: BaseTag);
@@ -142,8 +141,8 @@ internal sealed class AppConfigurator : IAppConfigurator
             .WithName(endpointName: "Hello")
             .WithDescription(description: "Just a simple greeting from the Expenso API")
             .WithSummary(summary: "Greets the user with a simple hello message")
-            .Produces(statusCode: 200, responseType: typeof(string))
-            .WithTags(BaseTag);
+            .WithTags(BaseTag)
+            .Produces(statusCode: 200, responseType: typeof(string));
 
         _app
             .MapGet(pattern: "/greetings/hello-user", handler: (HttpContext httpContext) =>
@@ -164,7 +163,8 @@ internal sealed class AppConfigurator : IAppConfigurator
                 summary: "Greets the authenticated user by username with a custom message from the Expenso API")
             .WithTags(BaseTag)
             .Produces(statusCode: 200, responseType: typeof(string))
-            .Produces(statusCode: 401, responseType: typeof(ProblemDetails))
+            .Produces(statusCode: 401, responseType: typeof(UnauthorizedAccessProblemDetails))
+            .Produces(statusCode: 403, responseType: typeof(ForbiddenProblemDetails))
             .RequireAuthorization();
 
         return this;

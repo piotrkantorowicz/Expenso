@@ -20,6 +20,7 @@ using Expenso.Shared.Integration.Events.Logging;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
+using Expenso.Shared.Api.ProblemDetails.Details;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Logging;
@@ -47,10 +48,10 @@ namespace Expenso.Api.Configuration.Builders;
 
 internal sealed class AppBuilder : IAppBuilder
 {
+    private readonly IAppConfigurationManager _appConfigurationManager;
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private readonly IAppConfigurationManager _appConfigurationManager;
 
     public AppBuilder(WebApplicationBuilder appBuilder, IConfiguration configuration,
         IServiceCollection serviceCollection, IAppConfigurationManager appConfigurationManager)
@@ -237,7 +238,7 @@ internal sealed class AppBuilder : IAppBuilder
                 Scheme = "Bearer"
             };
 
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            options.AddSecurityRequirement(securityRequirement: new OpenApiSecurityRequirement
             {
                 { keycloakSecurityScheme, Array.Empty<string>() }
             });
@@ -264,46 +265,30 @@ internal sealed class AppBuilder : IAppBuilder
                     OnChallenge = async context =>
                     {
                         context.HandleResponse();
-                        const int statusCode = StatusCodes.Status401Unauthorized;
                         HttpContext httpContext = context.HttpContext;
                         RouteData routeData = httpContext.GetRouteData();
 
                         ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
                             actionDescriptor: new ActionDescriptor());
 
-                        ProblemDetails problemDetails = new()
+                        ObjectResult result = new(value: new UnauthorizedAccessProblemDetails())
                         {
-                            Status = StatusCodes.Status401Unauthorized,
-                            Title = "Unauthorized",
-                            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-                        };
-
-                        ObjectResult result = new(value: problemDetails)
-                        {
-                            StatusCode = statusCode
+                            StatusCode = StatusCodes.Status401Unauthorized
                         };
 
                         await result.ExecuteResultAsync(context: actionContext);
                     },
                     OnForbidden = async context =>
                     {
-                        const int statusCode = StatusCodes.Status403Forbidden;
                         HttpContext httpContext = context.HttpContext;
                         RouteData routeData = httpContext.GetRouteData();
 
                         ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
                             actionDescriptor: new ActionDescriptor());
 
-                        ProblemDetails problemDetails = new()
+                        ObjectResult result = new(value: new ForbiddenProblemDetails())
                         {
-                            Status = StatusCodes.Status403Forbidden,
-                            Title = "Forbidden",
-                            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
-                        };
-
-                        ObjectResult result = new(value: problemDetails)
-                        {
-                            StatusCode = statusCode
+                            StatusCode = StatusCodes.Status403Forbidden
                         };
 
                         await result.ExecuteResultAsync(context: actionContext);

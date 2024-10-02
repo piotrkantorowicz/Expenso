@@ -42,8 +42,8 @@ public sealed class TimeManagementModule : IModuleDefinition
 
     public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
-        EndpointRegistration cancelJobEndpointRegistration = new(Pattern: "cancel-job", Name: "CancelJob",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
+        EndpointRegistration cancelJobEndpointRegistration = new(pattern: "cancel-job", name: "CancelJob",
+            accessControl: AccessControl.User, httpVerb: HttpVerb.Post, handler: async (
                 [FromServices] ICommandHandler<CancelJobEntryCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CancelJobEntryRequest model,
                 CancellationToken cancellationToken = default) =>
@@ -53,21 +53,37 @@ public sealed class TimeManagementModule : IModuleDefinition
                         CancelJobEntryRequest: model), cancellationToken: cancellationToken);
 
                 return Results.NoContent();
-            });
+            },
+            description:
+            "Cancels a job entry. The job entry to cancel is provided in the request body, and upon success, no content is returned.",
+            summary: "Cancel a job entry", responses:
+            [
+                new Produces(StatusCode: StatusCodes.Status204NoContent, ContentType: typeof(void))
+            ]);
 
-        EndpointRegistration registerJobEndpointRegistration = new(Pattern: "register-job", Name: "RegisterJob",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
+        EndpointRegistration registerJobEndpointRegistration = new(pattern: "register-job", name: "RegisterJob",
+            accessControl: AccessControl.User, httpVerb: HttpVerb.Post, handler: async (
                 [FromServices] ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] RegisterJobEntryRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                RegisterJobEntryResponse? response = await handler.HandleAsync(command: new RegisterJobEntryCommand(
-                    MessageContext: messageContextFactory.Current(),
+                RegisterJobEntryResponse? response = await handler.HandleAsync(
+                    command: new RegisterJobEntryCommand(MessageContext: messageContextFactory.Current(),
                         RegisterJobEntryRequest: model), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
-            });
+            },
+            description:
+            "Registers a new job entry. The details of the job entry are provided in the request body, and upon success, the newly registered job entry information is returned.",
+            summary: "Register a job entry", responses:
+            [
+                new Produces(StatusCode: StatusCodes.Status200OK, ContentType: typeof(RegisterJobEntryResponse))
+            ]);
 
-        return [cancelJobEndpointRegistration, registerJobEndpointRegistration];
+        return
+        [
+            cancelJobEndpointRegistration,
+            registerJobEndpointRegistration
+        ];
     }
 }
