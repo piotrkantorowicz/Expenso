@@ -118,13 +118,13 @@ internal sealed class Execute : JobExecutionTestBase
             expression: x =>
                 x.AddOrUpdateAsync(It.Is<JobEntry>(j => j.Id == jobEntry.Id), It.IsAny<CancellationToken>()),
             times: Times.Once);
-        
+
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
                 "Skipping job entry with id {JobEntryId} because it has no triggers. JobInstanceId: {JobInstanceId}",
                 null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
-    
+
     [Test]
     public async Task Should_SetJobAsCompleted_When_CronExpressionIsEmptyAndJobHasBeenRanBefore()
     {
@@ -169,8 +169,7 @@ internal sealed class Execute : JobExecutionTestBase
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
                 "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
-                null, null,
-                jobEntry.Id, _jobInstanceId), times: Times.Once);
+                null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
     [Test]

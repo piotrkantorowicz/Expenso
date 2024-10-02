@@ -5,8 +5,9 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.SettingsService<
-    Expenso.Api.Tests.UnitTests.Configuration.Settings.TestSettings>;
+using TestCandidate =
+    Expenso.Api.Configuration.Settings.Services.SettingsService<
+        Expenso.Api.Tests.UnitTests.Configuration.Settings.TestSettings>;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 

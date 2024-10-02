@@ -26,11 +26,11 @@ internal sealed class Create : BudgetPermissionTestBase
 
         TestCandidate.Blocker.Should().BeNull();
 
-        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
-        {
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.OwnerId,
                 PermissionType: PermissionType.Owner)
-        });
+        ]);
     }
 }

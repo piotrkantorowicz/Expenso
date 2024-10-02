@@ -21,9 +21,7 @@ public static class Extensions
         string moduleName)
     {
         services.AddDbMigrator();
-
-        configuration.TryBindOptions(sectionName: SectionNames.EfCore,
-            options: out EfCoreSettings databaseSettings);
+        configuration.TryBindOptions(sectionName: SectionNames.EfCore, options: out EfCoreSettings databaseSettings);
 
         if (databaseSettings.InMemory is true)
         {

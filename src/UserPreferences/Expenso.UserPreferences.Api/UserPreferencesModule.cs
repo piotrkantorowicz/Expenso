@@ -126,13 +126,13 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 return Results.NoContent();
             });
 
-        return new[]
-        {
+        return
+        [
             getPreferencesEndpointRegistration,
             getCurrentUserPreferencesEndpointRegistration,
             getUserPreferencesByEndpointRegistration,
             createPreferencesEndpointRegistration,
             updatePreferencesEndpointRegistration
-        };
+        ];
     }
 }

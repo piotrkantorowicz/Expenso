@@ -4,7 +4,8 @@ using Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandle
 using Expenso.Shared.Domain.Types.ValueObjects;
 
 using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.BudgetPermissionRequestExpiredEventHandler;
+    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.
+    BudgetPermissionRequestExpiredEventHandler;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.Internal.
     BudgetPermissionRequestExpiredEventHandler;

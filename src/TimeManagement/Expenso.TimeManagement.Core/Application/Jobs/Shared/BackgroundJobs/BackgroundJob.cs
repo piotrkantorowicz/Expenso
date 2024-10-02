@@ -10,9 +10,9 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
 
 internal sealed class BackgroundJob : BackgroundService
 {
+    private readonly Guid _jobInstanceId;
     private readonly ILoggerService<BackgroundJob> _logger;
     private readonly IServiceProvider _serviceProvider;
-    private readonly Guid _jobInstanceId;
     private TimeSpan _interval;
     private JobInstance? _jobInstance;
 

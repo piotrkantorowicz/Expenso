@@ -9,7 +9,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.Permiss
 internal sealed class Create : PermissionTestBase
 {
     public static object[] PermissionTypes =
-    {
+    [
         new object[]
         {
             PermissionType.Owner
@@ -22,7 +22,7 @@ internal sealed class Create : PermissionTestBase
         {
             PermissionType.Reviewer
         }
-    };
+    ];
 
     [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]
     public void Should_ReturnPermission_When_Created(PermissionType permissionType)

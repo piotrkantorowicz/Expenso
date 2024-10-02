@@ -46,10 +46,10 @@ namespace Expenso.Api.Configuration.Builders;
 
 internal sealed class AppBuilder : IAppBuilder
 {
+    private readonly IAppConfigurationManager _appConfigurationManager;
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private readonly IAppConfigurationManager _appConfigurationManager;
 
     public AppBuilder(WebApplicationBuilder appBuilder, IConfiguration configuration,
         IServiceCollection serviceCollection, IAppConfigurationManager appConfigurationManager)

@@ -9,7 +9,6 @@ internal sealed class Between : TestBase<TestCandidate>
     {
         // Arrange
         TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
-
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: -1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 1);
 
@@ -25,7 +24,6 @@ internal sealed class Between : TestBase<TestCandidate>
     {
         // Arrange
         TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
-
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: 1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 2);
 

@@ -48,7 +48,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         // Arrange
         Guid userId = Guid.NewGuid();
         const string fileName = "fileName";
-        byte[] byteContent = Array.Empty<byte>();
+        byte[] byteContent = [];
 
         UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             UploadFilesRequest: new UploadFilesRequest(UserId: userId, Groups: null,

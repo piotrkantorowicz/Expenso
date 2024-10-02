@@ -12,14 +12,14 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Exten
 
 internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : DomainTestBase<BudgetPermission>
 {
-    private Mock<IClock> _clockMock = null!;
-    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected BudgetId _budgetId = null!;
-    protected PersonId _participantId = null!;
+    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
+    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
+    private Mock<IClock> _clockMock = null!;
     protected PersonId _ownerId = null!;
+    protected PersonId _participantId = null!;
     protected PermissionType _permissionType = null!;
     protected BudgetPermissionRequestStatus _status = null!;
-    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
 
     [SetUp]
     public void SetUp()

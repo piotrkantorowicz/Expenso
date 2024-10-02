@@ -7,12 +7,12 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Exten
 
 internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBase<BudgetPermission>
 {
-    protected BudgetPermissionId _budgetPermissionId = null!;
     protected BudgetId _budgetId = null!;
+    protected BudgetPermission _budgetPermission = null!;
+    protected BudgetPermissionId _budgetPermissionId = null!;
     protected PersonId _ownerId = null!;
     protected PersonId _participantId = null!;
     protected PermissionType _permissionType = null!;
-    protected BudgetPermission _budgetPermission = null!;
 
     [SetUp]
     public void SetUp()

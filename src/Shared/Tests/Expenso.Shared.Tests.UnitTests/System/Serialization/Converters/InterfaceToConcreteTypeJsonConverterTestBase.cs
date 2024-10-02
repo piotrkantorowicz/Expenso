@@ -13,21 +13,6 @@ internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<
 {
     private readonly Mock<ILoggerService<TestCandidate>> _loggerMock = new();
 
-    protected interface ITestInterface
-    {
-        string Name { get; }
-    }
-
-    protected sealed class TestConcreteType : ITestInterface
-    {
-        public string Name { get; set; } = "Test";
-    }
-
-    protected sealed class AnotherConcreteType : ITestInterface
-    {
-        public string Name { get; set; } = "Another";
-    }
-
     protected readonly JsonSerializerOptions _serializerOptions = new()
     {
         Converters =
@@ -58,5 +43,20 @@ internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<
         // Assert
         deserializedMessageContext?.Should().NotBeNull();
         deserializedMessageContext?.Name.Should().Be(expected: originalMessageContext.Name);
+    }
+
+    protected interface ITestInterface
+    {
+        string Name { get; }
+    }
+
+    protected sealed class TestConcreteType : ITestInterface
+    {
+        public string Name { get; set; } = "Test";
+    }
+
+    protected sealed class AnotherConcreteType : ITestInterface
+    {
+        public string Name { get; set; } = "Another";
     }
 }

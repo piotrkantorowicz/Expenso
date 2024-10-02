@@ -3,7 +3,8 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 
 using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.BudgetPermissionRequestConfirmedEventHandler;
+    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.
+    BudgetPermissionRequestConfirmedEventHandler;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.Internal.
     BudgetPermissionRequestConfirmedEventHandler;

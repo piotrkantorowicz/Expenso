@@ -11,12 +11,12 @@ internal sealed class FakeIamProxy : IIamProxy
 
     private readonly IReadOnlyCollection<GetUserResponse> _users =
     [
-        new GetUserResponse(UserId: UserDataInitializer.UserIds[index: 0].ToString(), Firstname: "Sergio",
-            Lastname: "Huang", Username: "SHuang", Email: ExistingEmails[0]),
-        new GetUserResponse(UserId: new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(),
-            Firstname: "Krishna", Lastname: "Le", Username: "KLeee", Email: ExistingEmails[1]),
-        new GetUserResponse(UserId: new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(),
-            Firstname: "Vincent", Lastname: "Ashraf", Username: "VAshraf", Email: ExistingEmails[2])
+        new(UserId: UserDataInitializer.UserIds[index: 0].ToString(), Firstname: "Sergio", Lastname: "Huang",
+            Username: "SHuang", Email: ExistingEmails[0]),
+        new(UserId: new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(), Firstname: "Krishna",
+            Lastname: "Le", Username: "KLeee", Email: ExistingEmails[1]),
+        new(UserId: new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(), Firstname: "Vincent",
+            Lastname: "Ashraf", Username: "VAshraf", Email: ExistingEmails[2])
     ];
 
     public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken)

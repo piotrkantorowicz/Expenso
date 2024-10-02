@@ -21,11 +21,11 @@ internal sealed class Unblock : BudgetPermissionTestBase
         // Assert
         TestCandidate.Blocker?.Should().BeNull();
 
-        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
-        {
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
             new BudgetPermissionUnblockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
-        });
+        ]);
     }
 
     [Test]

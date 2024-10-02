@@ -35,10 +35,10 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
     {
         (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel> participants) =
             await _iamProxyService.GetUserNotificationAvailability(messageContext: @event.MessageContext,
-                ownerId: @event.OwnerId, participantIds: new[]
-                {
+                ownerId: @event.OwnerId, participantIds:
+                [
                     @event.ParticipantId
-                }, cancellationToken: cancellationToken);
+                ], cancellationToken: cancellationToken);
 
         PersonNotificationModel? participant =
             participants.FirstOrDefault(predicate: x => x.Person?.UserId == @event.ParticipantId.ToString());

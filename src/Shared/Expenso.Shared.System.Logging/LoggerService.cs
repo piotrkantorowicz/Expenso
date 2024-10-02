@@ -74,8 +74,7 @@ internal sealed class LoggerService<T> : ILoggerService<T> where T : class
 
     private List<KeyValuePair<string, object>> GetLogParameters(IMessageContext? messageContext)
     {
-        List<KeyValuePair<string, object>> parameters =
-            [new KeyValuePair<string, object>(key: "AppId", value: _applicationSettings.InstanceId!)];
+        List<KeyValuePair<string, object>> parameters = [new(key: "AppId", value: _applicationSettings.InstanceId!)];
 
         if (!string.IsNullOrEmpty(value: _applicationSettings.Name))
         {

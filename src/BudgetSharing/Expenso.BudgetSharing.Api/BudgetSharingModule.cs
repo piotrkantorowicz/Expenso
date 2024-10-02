@@ -108,8 +108,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? getPreferences = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestsQuery(MessageContext: messageContextFactory.Current(),
                         BudgetId: budgetId, ParticipantId: participantId, OwnerId: ownerId,
-                        ForCurrentUser: forCurrentUser,
-                        Status: status, PermissionType: permissionType), cancellationToken: cancellationToken);
+                        ForCurrentUser: forCurrentUser, Status: status, PermissionType: permissionType),
+                    cancellationToken: cancellationToken);
 
                 return Results.Ok(value: getPreferences);
             });
