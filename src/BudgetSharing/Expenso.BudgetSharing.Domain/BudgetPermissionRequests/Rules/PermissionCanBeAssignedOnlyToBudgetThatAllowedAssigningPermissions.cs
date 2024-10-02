@@ -39,7 +39,6 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     public string Message =>
         $"Permission of type {_permissionTypeFromRequest} can't be assigned to budget with id {_budgetId}, because permission type is not valid or budget owner with id: {_ownerId} don't allow any or more participants.";
 
-
     public bool IsBroken()
     {
         bool isPermissionTypeFromRequestValid = _permissionTypeFromRequest == PermissionType.SubOwner ||

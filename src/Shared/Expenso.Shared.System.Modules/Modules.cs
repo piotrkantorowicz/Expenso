@@ -58,10 +58,10 @@ public static class Modules
                 string endpointRoute = $"{module.GetModulePrefixSanitized()}{endpoint.WithLeadingSlash().Pattern}";
 
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(pattern: endpointRoute,
-                    httpMethods: new[]
-                    {
+                    httpMethods:
+                    [
                         endpoint.HttpVerb.ToString().ToUpper()
-                    }, handler: endpoint.Handler!);
+                    ], handler: endpoint.Handler!);
 
                 switch (endpoint.AccessControl)
                 {

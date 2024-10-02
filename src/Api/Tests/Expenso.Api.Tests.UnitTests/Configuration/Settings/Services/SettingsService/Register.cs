@@ -55,8 +55,7 @@ internal sealed class Register : SettingsServiceTestBase
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,
                 "Settings of type {SettingsType} have not been validated yet",
-                It.IsAny<SettingsHasNotBeenValidatedYetException>(), null, nameof(TestSettings)),
-            times: Times.Once);
+                It.IsAny<SettingsHasNotBeenValidatedYetException>(), null, nameof(TestSettings)), times: Times.Once);
     }
 
     [Test]

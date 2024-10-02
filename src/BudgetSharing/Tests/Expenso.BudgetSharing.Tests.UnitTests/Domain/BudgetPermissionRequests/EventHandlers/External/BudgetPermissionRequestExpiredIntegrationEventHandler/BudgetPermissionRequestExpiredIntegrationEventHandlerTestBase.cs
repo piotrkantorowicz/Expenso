@@ -4,7 +4,8 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 using Moq;
 
 using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler;
+    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.
+    BudgetPermissionRequestExpiredIntegrationEventHandler;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;

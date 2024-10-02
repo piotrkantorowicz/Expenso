@@ -10,10 +10,7 @@ internal sealed class MigrateAsync : DbMigratorTestBase
     public async Task Should_RunMigrations_When_DbContextIsMigratable()
     {
         // Arrange
-        List<Assembly> assemblies = new()
-        {
-            typeof(TestDbContextMigrate).Assembly
-        };
+        List<Assembly> assemblies = [typeof(TestDbContextMigrate).Assembly];
 
         _serviceScopeMock
             .Setup(expression: x => x.ServiceProvider.GetService(typeof(TestDbContextMigrate)))
@@ -32,10 +29,7 @@ internal sealed class MigrateAsync : DbMigratorTestBase
     public async Task Should_NotRunMigrations_When_DbContextIsNotMigratable()
     {
         // Arrange
-        List<Assembly> assemblies = new()
-        {
-            typeof(TestDbContextMigrate).Assembly
-        };
+        List<Assembly> assemblies = [typeof(TestDbContextMigrate).Assembly];
 
         _serviceScopeMock
             .Setup(expression: x => x.ServiceProvider.GetService(typeof(TestDbContextNoMigrate)))

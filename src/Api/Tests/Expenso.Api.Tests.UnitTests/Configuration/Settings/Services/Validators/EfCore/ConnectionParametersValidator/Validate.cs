@@ -170,6 +170,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
 
         const string expectedValidationMessage =
             "Database must be an alphanumeric string between 1 and 100 characters.";
+
         string error = validationResult[key: nameof(_connectionParameters.Database)];
         error.Should().Be(expected: expectedValidationMessage);
     }

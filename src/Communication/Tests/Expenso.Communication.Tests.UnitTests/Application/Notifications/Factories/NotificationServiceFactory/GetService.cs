@@ -59,7 +59,8 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         action
             .Should()
             .Throw<InvalidOperationException>()
-            .WithMessage(expectedWildcardPattern:
+            .WithMessage(
+                expectedWildcardPattern:
                 "Notification service Expenso.Communication.Core.Application.Notifications.Services.Push.IPushService hasn't been found.");
     }
 
@@ -77,7 +78,8 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         action
             .Should()
             .Throw<InvalidOperationException>()
-            .WithMessage(expectedWildcardPattern:
+            .WithMessage(
+                expectedWildcardPattern:
                 "Notification service is not of requested type Expenso.Communication.Core.Application.Notifications.Services.Emails.IEmailService.");
     }
 }

@@ -13,8 +13,8 @@ internal abstract class
     BudgetPermissionRequestExpirationDomainServiceTestBase : DomainTestBase<
     IBudgetPermissionRequestExpirationDomainService>
 {
-    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
+    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     private Mock<IClock> _clockMock = null!;
 
     [SetUp]

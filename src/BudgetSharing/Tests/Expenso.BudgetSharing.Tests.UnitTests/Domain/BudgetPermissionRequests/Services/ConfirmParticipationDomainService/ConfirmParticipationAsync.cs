@@ -1,7 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
-using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
@@ -45,19 +44,19 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
                 x.ParticipantId == _budgetPermissionRequest.ParticipantId &&
                 x.PermissionType == _budgetPermissionRequest.PermissionType);
 
-        AssertDomainEventPublished(aggregateRoot: _budgetPermissionRequest, expectedDomainEvents: new IDomainEvent[]
-        {
+        AssertDomainEventPublished(aggregateRoot: _budgetPermissionRequest, expectedDomainEvents:
+        [
             new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: _budgetPermissionRequest.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
-        });
+        ]);
 
-        AssertDomainEventPublished(aggregateRoot: _budgetPermission, expectedDomainEvents: new IDomainEvent[]
-        {
+        AssertDomainEventPublished(aggregateRoot: _budgetPermission, expectedDomainEvents:
+        [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: _budgetPermission.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
-        });
+        ]);
     }
 
     [Test]

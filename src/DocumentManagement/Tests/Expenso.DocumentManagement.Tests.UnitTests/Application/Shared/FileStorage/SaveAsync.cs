@@ -149,7 +149,7 @@ internal sealed class SaveAsync : FileStorageTestBase
         // Arrange
         const string directoryPath = "directoryPath";
         const string fileName = "fileName";
-        byte[] byteContent = Array.Empty<byte>();
+        byte[] byteContent = [];
 
         // Act
         Func<Task> action = () => TestCandidate.SaveAsync(directoryPath: directoryPath, fileName: fileName,

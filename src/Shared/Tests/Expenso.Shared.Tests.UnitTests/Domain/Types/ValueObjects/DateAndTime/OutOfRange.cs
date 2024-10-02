@@ -1,4 +1,5 @@
 ﻿using TestCandidate = Expenso.Shared.Domain.Types.ValueObjects.DateAndTime;
+
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
 internal sealed class OutOfRange : TestBase<TestCandidate>
@@ -8,7 +9,6 @@ internal sealed class OutOfRange : TestBase<TestCandidate>
     {
         // Arrange
         TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
-
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: 1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 2);
 
@@ -24,7 +24,6 @@ internal sealed class OutOfRange : TestBase<TestCandidate>
     {
         // Arrange
         TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
-
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: -1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 1);
 

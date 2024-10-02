@@ -50,13 +50,13 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
         _defaultNotificationModel = new UserNotificationModel(
             Owner: new PersonNotificationModel(
                 Person: new GetUserResponse(UserId: _defaultOwnerId.ToString(), Firstname: "Laura", Lastname: "Ramirez",
-                    Username: "laur123", Email: "laura@email.com"), CanSendNotification: true), Participants: new[]
-            {
+                    Username: "laur123", Email: "laura@email.com"), CanSendNotification: true), Participants:
+            [
                 new PersonNotificationModel(
                     Person: new GetUserResponse(UserId: _defaultParticipantId.ToString(), Firstname: "Francisco",
                         Lastname: "Yue", Username: "francisco224", Email: "francisco224@email.com"),
                     CanSendNotification: true)
-            });
+            ]);
 
         InitTestCandidate();
     }

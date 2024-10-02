@@ -23,11 +23,11 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         // Assert
         TestCandidate.Permissions.Should().NotContain(predicate: x => x.ParticipantId == participantId);
 
-        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
-        {
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
             new BudgetPermissionWithdrawnEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: participantId, PermissionType: PermissionType.SubOwner)
-        });
+        ]);
     }
 
     [Test]

@@ -25,7 +25,6 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         // Assert
         AssertResponseCreated(response: response);
 
-
         CreateBudgetPermissionResponse? createBudgetPermissionResponse =
             await response.Content.ReadFromJsonAsync<CreateBudgetPermissionResponse>();
 

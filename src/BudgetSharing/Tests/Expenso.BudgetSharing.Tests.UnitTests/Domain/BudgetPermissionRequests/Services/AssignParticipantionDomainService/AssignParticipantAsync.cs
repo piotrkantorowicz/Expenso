@@ -1,7 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -42,13 +41,13 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow.AddDays(days: ExpirationDays),
                 precision: TimeSpan.FromMilliseconds(value: 500));
 
-        AssertDomainEventPublished(aggregateRoot: budgetPermissionRequest, expectedDomainEvents: new IDomainEvent[]
-        {
+        AssertDomainEventPublished(aggregateRoot: budgetPermissionRequest, expectedDomainEvents:
+        [
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: budgetPermissionRequest.OwnerId, ParticipantId: budgetPermissionRequest.ParticipantId,
                 PermissionType: budgetPermissionRequest.PermissionType,
                 SubmissionDate: budgetPermissionRequest.StatusTracker.SubmissionDate)
-        });
+        ]);
     }
 
     [Test]

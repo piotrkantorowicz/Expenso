@@ -23,10 +23,10 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
     protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
+    private Mock<IClock> _clockMock = null!;
     protected GetPreferenceResponse _getPreferenceResponse = null!;
     protected Mock<IUserPreferencesProxy> _userPreferencesProxyMock = null!;
-    private Mock<IClock> _clockMock = null!;
-    
+
     [SetUp]
     public void SetUp()
     {

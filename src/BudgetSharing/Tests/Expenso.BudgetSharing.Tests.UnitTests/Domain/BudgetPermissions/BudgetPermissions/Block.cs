@@ -25,13 +25,13 @@ internal sealed class Block : BudgetPermissionTestBase
             .Blocker?.BlockDate.Should()
             .BeCloseTo(nearbyTime: DateTimeOffset.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
 
-        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
-        {
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
             new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 BlockDate: DateAndTime.New(
                     value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
                 OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
-        });
+        ]);
     }
 
     [Test]
@@ -51,14 +51,14 @@ internal sealed class Block : BudgetPermissionTestBase
             .Blocker?.BlockDate.Should()
             .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
 
-        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
-        {
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
             new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId,
                 BlockDate: DateAndTime.New(
                     value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
                 Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
-        });
+        ]);
     }
 
     [Test]

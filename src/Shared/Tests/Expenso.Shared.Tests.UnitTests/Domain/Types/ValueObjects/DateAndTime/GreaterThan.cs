@@ -1,4 +1,5 @@
 ﻿using TestCandidate = Expenso.Shared.Domain.Types.ValueObjects.DateAndTime;
+
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
 internal sealed class GreaterThan : TestBase<TestCandidate>
@@ -8,7 +9,6 @@ internal sealed class GreaterThan : TestBase<TestCandidate>
     {
         // Arrange
         TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
-
         DateTimeOffset other = dateTimeOffset.Value.AddHours(hours: -1);
 
         // Act
@@ -23,7 +23,6 @@ internal sealed class GreaterThan : TestBase<TestCandidate>
     {
         // Arrange
         TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
-
         DateTimeOffset other = dateTimeOffset.Value.AddHours(hours: 1);
 
         // Act

@@ -15,10 +15,10 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
         _keycloakUserClientMock
             .Setup(expression: x => x.GetUsersAsync(It.IsAny<string>(),
                 It.Is<GetUsersRequestParameters>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new[]
-            {
+            .ReturnsAsync(value:
+            [
                 _user
-            });
+            ]);
 
         // Act
         GetUserResponse getUser =

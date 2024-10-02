@@ -1,5 +1,4 @@
-﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
+﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.System.Types.Exceptions;
 
 using FluentAssertions;
@@ -39,7 +38,7 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
 
         _budgetPermissionRequestRepositoryMock
             .Setup(expression: repo => repo.GetByIdAsync(budgetPermissionRequestId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: (BudgetPermissionRequest?)null);
+            .ReturnsAsync(value: null);
 
         // Act
         Func<Task> action = async () =>

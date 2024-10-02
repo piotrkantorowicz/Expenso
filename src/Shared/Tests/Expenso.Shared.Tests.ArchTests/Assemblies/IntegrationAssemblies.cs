@@ -10,6 +10,7 @@ internal static class IntegrationAssemblies
 
     private static readonly Assembly IntegrationEventsLogging =
         typeof(IntegrationEventHandlerLoggingDecorator<>).Assembly;
+
     private static readonly Assembly IntegrationMessageBroker = typeof(IMessageBroker).Assembly;
 
     private static readonly Dictionary<string, Assembly> Assemblies = new()
