@@ -1,5 +1,5 @@
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Requests;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Responses;
 
 namespace Expenso.TimeManagement.Proxy;
 

@@ -24,11 +24,11 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .Permissions.Should()
             .ContainSingle(predicate: x => x.ParticipantId == participantId && x.PermissionType == permissionType);
 
-        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents: new[]
-        {
+        AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
+        [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: participantId, PermissionType: permissionType)
-        });
+        ]);
     }
 
     [Test]
@@ -110,6 +110,5 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .WithDetails(
                 expectedWildcardPattern:
                 $"Budget {TestCandidate.BudgetId} cannot have owner permission for other user {participantId} that its owner {_defaultOwnerId}.");
-
     }
 }

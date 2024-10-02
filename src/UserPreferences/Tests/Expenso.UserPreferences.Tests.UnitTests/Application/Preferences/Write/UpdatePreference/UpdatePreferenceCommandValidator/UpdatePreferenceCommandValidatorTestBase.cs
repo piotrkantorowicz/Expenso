@@ -1,9 +1,8 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Requests;
 
 using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.
-    UpdatePreferenceCommandValidator;
+    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
@@ -17,13 +16,13 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
     {
         _updatePreferenceCommand = new UpdatePreferenceCommand(
             MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceOrUserId: Guid.NewGuid(),
-            Preference: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+            Preference: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 2, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 5),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 3),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: false)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: false)));
 
         TestCandidate = new TestCandidate();
     }

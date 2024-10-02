@@ -6,4 +6,4 @@ namespace Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.Notifica
 public sealed record NotificationPreferenceUpdatedIntegrationEvent(
     IMessageContext MessageContext,
     Guid UserId,
-    NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference NotificationPreference) : IIntegrationEvent;
+    NotificationPreferenceUpdatedIntegrationEventNotificationPreference NotificationPreference) : IIntegrationEvent;

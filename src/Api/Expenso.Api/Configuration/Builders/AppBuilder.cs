@@ -9,7 +9,10 @@ using Expenso.Api.Configuration.Execution;
 using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Api.Configuration.Settings;
+using Expenso.Api.Configuration.Swagger;
 using Expenso.IAM.Core.Acl.Keycloak;
+using Expenso.Shared.Api.ProblemDetails.Details;
+using Expenso.Shared.Api.Swagger;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
 using Expenso.Shared.Commands.Transactions;
@@ -38,6 +41,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 
 using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
@@ -46,10 +50,10 @@ namespace Expenso.Api.Configuration.Builders;
 
 internal sealed class AppBuilder : IAppBuilder
 {
+    private readonly IAppConfigurationManager _appConfigurationManager;
     private readonly WebApplicationBuilder _applicationBuilder;
     private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private readonly IAppConfigurationManager _appConfigurationManager;
 
     public AppBuilder(WebApplicationBuilder appBuilder, IConfiguration configuration,
         IServiceCollection serviceCollection, IAppConfigurationManager appConfigurationManager)
@@ -103,7 +107,8 @@ internal sealed class AppBuilder : IAppBuilder
             .AddMessageContext()
             .AddDefaultSerializer()
             .AddInternalLogging()
-            .AddOtlpMetrics(otlpSettings: otlpSettings);
+            .AddOtlpMetrics(otlpSettings: otlpSettings)
+            .AddSwaggerDescriptions();
 
         return this;
     }
@@ -201,28 +206,53 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureSwagger()
     {
-        OpenApiSecurityScheme securityScheme = new()
+        _services.AddSwaggerGen(setupAction: options =>
         {
-            Name = "JWT Authentication",
-            Description = "Enter JWT Bearer token **_only_**",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.Http,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-            Reference = new OpenApiReference
+            options.SwaggerDoc(name: "v1", info: new OpenApiInfo
             {
-                Type = ReferenceType.SecurityScheme,
-                Id = JwtBearerDefaults.AuthenticationScheme
-            }
-        };
+                Title = "Expenso",
+                Version = "v1"
+            });
 
-        _services.AddSwaggerGen(setupAction: o =>
-        {
-            o.AddSecurityDefinition(name: securityScheme.Reference.Id, securityScheme: securityScheme);
+            options.SchemaFilter<UnauthorizedAccessProblemDetailsSchemaFilter>();
+            options.SchemaFilter<ForbiddenErrorProblemDetailsSchemaFilter>();
+            options.SchemaFilter<NotFoundErrorProblemDetailsSchemaFilter>();
+            options.SchemaFilter<ConflictErrorProblemDetailsSchemaFilter>();
+            options.SchemaFilter<InternalServerErrorProblemDetailsSchemaFilter>();
+            options.SchemaFilter<NotImplementedProblemDetailsSchemaFilter>();
+            options.SchemaFilter<ValidationErrorProblemDetailsSchemaFilter>();
+            Modules.ConfigureSwaggerOptions(options: options);
 
-            o.AddSecurityRequirement(securityRequirement: new OpenApiSecurityRequirement
+            KeycloakSettings keycloakOptions =
+                _appConfigurationManager.GetRequiredSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak);
+
+            string schemeName = SecuritySchemeType.OpenIdConnect.GetDisplayName();
+
+            options.AddSecurityDefinition(name: schemeName, securityScheme: new OpenApiSecurityScheme
             {
-                { securityScheme, Array.Empty<string>() }
+                Type = SecuritySchemeType.OpenIdConnect,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                OpenIdConnectUrl =
+                    new Uri(
+                        uriString:
+                        $"{keycloakOptions.AuthServerUrl}/realms/{keycloakOptions.Realm}/.well-known/openid-configuration")
+            });
+
+            OpenApiSecurityScheme keycloakSecurityScheme = new()
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = schemeName,
+                    Type = ReferenceType.SecurityScheme
+                },
+                In = ParameterLocation.Header,
+                Name = "Bearer",
+                Scheme = "Bearer"
+            };
+
+            options.AddSecurityRequirement(securityRequirement: new OpenApiSecurityRequirement
+            {
+                { keycloakSecurityScheme, Array.Empty<string>() }
             });
         });
 
@@ -247,46 +277,30 @@ internal sealed class AppBuilder : IAppBuilder
                     OnChallenge = async context =>
                     {
                         context.HandleResponse();
-                        const int statusCode = StatusCodes.Status401Unauthorized;
                         HttpContext httpContext = context.HttpContext;
                         RouteData routeData = httpContext.GetRouteData();
 
                         ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
                             actionDescriptor: new ActionDescriptor());
 
-                        ProblemDetails problemDetails = new()
+                        ObjectResult result = new(value: new UnauthorizedAccessProblemDetails())
                         {
-                            Status = StatusCodes.Status401Unauthorized,
-                            Title = "Unauthorized",
-                            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-                        };
-
-                        ObjectResult result = new(value: problemDetails)
-                        {
-                            StatusCode = statusCode
+                            StatusCode = StatusCodes.Status401Unauthorized
                         };
 
                         await result.ExecuteResultAsync(context: actionContext);
                     },
                     OnForbidden = async context =>
                     {
-                        const int statusCode = StatusCodes.Status403Forbidden;
                         HttpContext httpContext = context.HttpContext;
                         RouteData routeData = httpContext.GetRouteData();
 
                         ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
                             actionDescriptor: new ActionDescriptor());
 
-                        ProblemDetails problemDetails = new()
+                        ObjectResult result = new(value: new ForbiddenProblemDetails())
                         {
-                            Status = StatusCodes.Status403Forbidden,
-                            Title = "Forbidden",
-                            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
-                        };
-
-                        ObjectResult result = new(value: problemDetails)
-                        {
-                            StatusCode = statusCode
+                            StatusCode = StatusCodes.Status403Forbidden
                         };
 
                         await result.ExecuteResultAsync(context: actionContext);

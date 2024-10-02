@@ -3,8 +3,8 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Requests;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Responses;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
@@ -85,7 +85,7 @@ internal sealed class
     }
 
     private static JobEntryTrigger[] CreateJobEntryTriggers(
-        ICollection<RegisterJobEntryRequest_JobEntryTrigger>? triggers)
+        ICollection<RegisterJobEntryRequestJobEntryTrigger>? triggers)
     {
         triggers ??= [];
 

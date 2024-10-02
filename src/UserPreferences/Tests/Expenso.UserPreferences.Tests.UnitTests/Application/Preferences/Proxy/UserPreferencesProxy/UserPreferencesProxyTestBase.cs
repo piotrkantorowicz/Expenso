@@ -1,8 +1,8 @@
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Responses;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 using TestCandidate = Expenso.UserPreferences.Core.Application.Proxy.UserPreferencesProxy;
 
@@ -26,12 +26,12 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
         _commandDispatcherMock = new Mock<ICommandDispatcher>();
 
         _getPreferenceExternalResponse = new GetPreferenceResponse(Id: _id, UserId: _userId,
-            FinancePreference: new GetPreferenceResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
+            FinancePreference: new GetPreferenceResponseFinancePreference(AllowAddFinancePlanSubOwners: false,
                 MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: false,
                 MaxNumberOfFinancePlanReviewers: 0),
-            NotificationPreference: new GetPreferenceResponse_NotificationPreference(SendFinanceReportEnabled: true,
+            NotificationPreference: new GetPreferenceResponseNotificationPreference(SendFinanceReportEnabled: true,
                 SendFinanceReportInterval: 7),
-            GeneralPreference: new GetPreferenceResponse_GeneralPreference(UseDarkMode: false));
+            GeneralPreference: new GetPreferenceResponseGeneralPreference(UseDarkMode: false));
 
         _createPreferenceResponse = new CreatePreferenceResponse(PreferenceId: _id);
 

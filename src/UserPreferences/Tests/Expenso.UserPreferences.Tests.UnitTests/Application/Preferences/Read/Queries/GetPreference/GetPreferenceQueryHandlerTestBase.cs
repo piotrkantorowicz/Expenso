@@ -4,7 +4,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 using TestCandidate =
     Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.GetPreferenceQueryHandler;

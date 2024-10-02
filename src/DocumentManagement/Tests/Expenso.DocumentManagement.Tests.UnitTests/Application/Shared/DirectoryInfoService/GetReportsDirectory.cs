@@ -15,10 +15,10 @@ internal sealed class GetReportsDirectory : DirectoryInfoServiceTestBase
         string expectedPath = $"RootPath/{userId}/Reports/20220101/group1/group2";
 
         string[] groups =
-        {
+        [
             "group1",
             "group2"
-        };
+        ];
 
         _fileSystemMock
             ?.Setup(expression: x => x.Path.Combine(It.IsAny<string[]>()))

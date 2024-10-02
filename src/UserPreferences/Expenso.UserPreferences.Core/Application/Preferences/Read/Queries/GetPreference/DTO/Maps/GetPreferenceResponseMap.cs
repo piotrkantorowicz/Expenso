@@ -1,5 +1,5 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Maps;
 
@@ -13,39 +13,39 @@ internal static class GetPreferenceResponseMap
             GeneralPreference: MapTo(generalPreference: preference.GeneralPreference));
     }
 
-    private static GetPreferenceResponse_FinancePreference? MapTo(FinancePreference? financePreference)
+    private static GetPreferenceResponseFinancePreference? MapTo(FinancePreference? financePreference)
     {
         if (financePreference is null)
         {
             return null;
         }
 
-        return new GetPreferenceResponse_FinancePreference(
+        return new GetPreferenceResponseFinancePreference(
             AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
             MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
             AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
             MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
-    private static GetPreferenceResponse_NotificationPreference? MapTo(NotificationPreference? notificationPreference)
+    private static GetPreferenceResponseNotificationPreference? MapTo(NotificationPreference? notificationPreference)
     {
         if (notificationPreference is null)
         {
             return null;
         }
 
-        return new GetPreferenceResponse_NotificationPreference(
+        return new GetPreferenceResponseNotificationPreference(
             SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
             SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
-    private static GetPreferenceResponse_GeneralPreference? MapTo(GeneralPreference? generalPreference)
+    private static GetPreferenceResponseGeneralPreference? MapTo(GeneralPreference? generalPreference)
     {
         if (generalPreference is null)
         {
             return null;
         }
 
-        return new GetPreferenceResponse_GeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
+        return new GetPreferenceResponseGeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
     }
 }

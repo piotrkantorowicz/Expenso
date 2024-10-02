@@ -15,10 +15,10 @@ internal static class DatabaseAssemblies
 
     private static readonly Dictionary<string, Assembly> Assemblies = new()
     {
-        [key: nameof(Database)] = typeof(IUnitOfWork).Assembly,
-        [key: nameof(DatabaseEfCore)] = typeof(EfCoreSettings).Assembly,
-        [key: nameof(DatabaseEfCoreMemory)] = typeof(DatabaseExtensions).Assembly,
-        [key: nameof(DatabaseEfCoreNpSql)] = typeof(NpsqlDbContextFactory<>).Assembly
+        [key: nameof(Database)] = Database,
+        [key: nameof(DatabaseEfCore)] = DatabaseEfCore,
+        [key: nameof(DatabaseEfCoreMemory)] = DatabaseEfCoreMemory,
+        [key: nameof(DatabaseEfCoreNpSql)] = DatabaseEfCoreNpSql
     };
 
     public static IReadOnlyDictionary<string, Assembly> GetAssemblies()

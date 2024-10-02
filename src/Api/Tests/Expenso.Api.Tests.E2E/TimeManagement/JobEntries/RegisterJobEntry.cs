@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 
 using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Requests;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Responses;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
@@ -17,7 +17,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
 
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
-            new RegisterJobEntryRequest_JobEntryTrigger(
+            new RegisterJobEntryRequestJobEntryTrigger(
                 EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
                     MessageContext: null!, BudgetPermissionRequestId: Guid.NewGuid())))
@@ -55,7 +55,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         // Arrange
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
-            new RegisterJobEntryRequest_JobEntryTrigger(
+            new RegisterJobEntryRequestJobEntryTrigger(
                 EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
                     MessageContext: null!, BudgetPermissionRequestId: Guid.NewGuid())))

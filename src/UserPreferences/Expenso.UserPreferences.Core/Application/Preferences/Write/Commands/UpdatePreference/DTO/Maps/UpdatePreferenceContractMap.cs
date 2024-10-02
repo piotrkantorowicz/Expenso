@@ -7,26 +7,26 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 
 internal static class UpdatePreferenceContractMap
 {
-    public static FinancePreferenceUpdatedIntegrationEvent_FinancePreference MapTo(FinancePreference financePreference)
+    public static FinancePreferenceUpdatedIntegrationEventFinancePreference MapTo(FinancePreference financePreference)
     {
-        return new FinancePreferenceUpdatedIntegrationEvent_FinancePreference(
+        return new FinancePreferenceUpdatedIntegrationEventFinancePreference(
             AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
             MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
             AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
             MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
-    public static NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference MapTo(
+    public static NotificationPreferenceUpdatedIntegrationEventNotificationPreference MapTo(
         NotificationPreference notificationPreference)
     {
-        return new NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference(
+        return new NotificationPreferenceUpdatedIntegrationEventNotificationPreference(
             SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
             SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
-    public static GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference MapTo(GeneralPreference generalPreference)
+    public static GeneralPreferenceUpdatedIntegrationEventGeneralPreference MapTo(GeneralPreference generalPreference)
     {
-        return new GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference(
+        return new GeneralPreferenceUpdatedIntegrationEventGeneralPreference(
             UseDarkMode: generalPreference.UseDarkMode);
     }
 }

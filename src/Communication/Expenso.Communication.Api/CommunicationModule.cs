@@ -7,6 +7,8 @@ using Expenso.Shared.System.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 using CoreExtensions = Expenso.Communication.Core.Extensions;
 
 namespace Expenso.Communication.Api;
@@ -34,5 +36,9 @@ public sealed class CommunicationModule : IModuleDefinition
     public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
         return Array.Empty<EndpointRegistration>();
+    }
+
+    public void ConfigureSwaggerOptions(SwaggerGenOptions options)
+    {
     }
 }

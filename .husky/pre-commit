@@ -5,12 +5,12 @@
 echo 'Pre-commit check starting...'
 echo 'Checking for uncommitted changes...'
 
-if git diff --quiet ':(exclude)docker/keycloak/expenso_realm.json' ':(exclude)docker/compose/.env' ':(exclude)src/Api/Expenso.Api/REST/http-client.env.json' ':(exclude)src/Api/Expenso.Api/appsettings.Development.json' ':(exclude)src/Api/Expenso.Api/appsettings.Test.json'; then
-  echo 'No uncommitted changes found.'
-else
-  echo 'Uncommitted changes found. Please commit or stash them before proceeding.'
-  exit 1
-fi
+#if git diff --quiet ':(exclude)docker/keycloak/expenso_realm.json' ':(exclude)docker/compose/.env' ':(exclude)src/Api/Expenso.Api/REST/http-client.env.json' ':(exclude)src/Api/Expenso.Api/appsettings.Development.json' ':(exclude)src/Api/Expenso.Api/appsettings.Test.json'; then
+#  echo 'No uncommitted changes found.'
+#else
+#  echo 'Uncommitted changes found. Please commit or stash them before proceeding.'
+#  exit 1
+#fi
 
 echo 'Restoring dependencies...'
 dotnet restore

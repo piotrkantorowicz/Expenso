@@ -19,10 +19,10 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         // Arrange
         DefaultHttpContext httpContext = new()
         {
-            User = new ClaimsPrincipal(identities: new[]
-            {
+            User = new ClaimsPrincipal(identities:
+            [
                 new ClaimsIdentity()
-            })
+            ])
         };
 
         _httpContextAccessorMock.SetupGet(expression: x => x.HttpContext).Returns(value: httpContext);
@@ -41,10 +41,10 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         // Arrange
         DefaultHttpContext httpContext = new()
         {
-            User = new ClaimsPrincipal(identities: new[]
-            {
+            User = new ClaimsPrincipal(identities:
+            [
                 new ClaimsIdentity(authenticationType: "rX8hkFW")
-            })
+            ])
         };
 
         _httpContextAccessorMock.SetupGet(expression: x => x.HttpContext).Returns(value: httpContext);
@@ -77,14 +77,14 @@ internal sealed class Get : ExecutionContextAccessorTestBase
                         value: expectedCorrelationId.ToString())
                 }
             },
-            User = new ClaimsPrincipal(identities: new[]
-            {
-                new ClaimsIdentity(identity: new ClaimsIdentity(authenticationType: "rX8hkFW"), claims: new[]
-                {
+            User = new ClaimsPrincipal(identities:
+            [
+                new ClaimsIdentity(identity: new ClaimsIdentity(authenticationType: "rX8hkFW"), claims:
+                [
                     new Claim(type: ClaimNames.UserIdClaimName, value: userId),
                     new Claim(type: ClaimNames.UsernameClaimName, value: username)
-                })
-            })
+                ])
+            ])
         };
 
         _httpContextAccessorMock.SetupGet(expression: x => x.HttpContext).Returns(value: httpContext);

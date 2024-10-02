@@ -20,12 +20,7 @@ internal sealed class Configure : AppConfigurationManagerTestBase
 
         _settingsBinderMock.Setup(expression: b => b.Bind(_serviceCollectionMock.Object)).Returns(value: settings);
         _settingsBinderMock.Setup(expression: x => x.GetSectionName()).Returns(value: "TestSection");
-
-        List<ISettingsBinder?> binders = new()
-        {
-            _settingsBinderMock.Object
-        };
-
+        List<ISettingsBinder?> binders = [_settingsBinderMock.Object];
         _preStartupContainerMock.Setup(expression: c => c.ResolveMany<ISettingsBinder>()).Returns(value: binders!);
 
         // Act
@@ -93,11 +88,11 @@ internal sealed class Configure : AppConfigurationManagerTestBase
     public void Should_SkipNullBinderAndLogWarning()
     {
         // Arrange
-        List<ISettingsBinder?> binders = new()
-        {
+        List<ISettingsBinder?> binders =
+        [
             null,
             _settingsBinderMock.Object
-        };
+        ];
 
         _preStartupContainerMock.Setup(expression: c => c.ResolveMany<ISettingsBinder>()).Returns(value: binders!);
 

@@ -1,5 +1,5 @@
 ﻿using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Requests;
 
 using FluentAssertions;
 
@@ -78,7 +78,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(),
                 RunAt = null
             }
         });
@@ -96,7 +96,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(),
                 RunAt = null
             }
         });
@@ -159,7 +159,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(),
                 RunAt = _clockMock.Object.UtcNow.AddSeconds(seconds: 15)
             }
         });
@@ -211,7 +211,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
                 RunAt = null,
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 8)
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(DayOfWeek: 8)
             }
         });
 
@@ -234,7 +234,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
-                JobEntryTriggers = new List<RegisterJobEntryRequest_JobEntryTrigger>()
+                JobEntryTriggers = new List<RegisterJobEntryRequestJobEntryTrigger>()
             }
         });
 

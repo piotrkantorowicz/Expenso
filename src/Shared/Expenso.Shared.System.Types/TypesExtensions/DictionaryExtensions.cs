@@ -28,4 +28,12 @@ public static class DictionaryExtensions
             }
         }
     }
+
+    public static void AddTuple<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, (TKey Key, TValue Value)? item)
+    {
+        ArgumentNullException.ThrowIfNull(argument: dictionary);
+        ArgumentNullException.ThrowIfNull(argument: item);
+        (TKey key, TValue value) = item.Value;
+        dictionary.Add(key: key, value: value);
+    }
 }

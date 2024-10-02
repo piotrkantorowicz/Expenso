@@ -16,6 +16,11 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.7.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Expenso.Shared.Api.ProblemDetails\Expenso.Shared.Api.ProblemDetails.csproj"/>
     </ItemGroup>
 
 </Project>

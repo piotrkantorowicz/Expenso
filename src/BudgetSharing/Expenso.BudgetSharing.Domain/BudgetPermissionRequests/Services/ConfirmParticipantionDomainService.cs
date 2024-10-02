@@ -9,7 +9,7 @@ using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 

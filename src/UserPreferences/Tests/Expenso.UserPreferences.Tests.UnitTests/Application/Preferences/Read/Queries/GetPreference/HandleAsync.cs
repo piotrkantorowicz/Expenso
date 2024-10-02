@@ -1,7 +1,7 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreference;
 

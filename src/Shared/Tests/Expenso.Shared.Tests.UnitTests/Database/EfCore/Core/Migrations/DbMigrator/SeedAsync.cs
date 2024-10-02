@@ -10,10 +10,7 @@ internal sealed class SeedAsync : DbMigratorTestBase
     public async Task Should_RunSeeding_When_DbContextIsSeedable()
     {
         // Arrange
-        List<Assembly> assemblies = new()
-        {
-            typeof(TestDbContextMigrate).Assembly
-        };
+        List<Assembly> assemblies = [typeof(TestDbContextMigrate).Assembly];
 
         _serviceScopeMock
             .Setup(expression: x => x.ServiceProvider.GetService(typeof(TestDbContextMigrate)))
@@ -32,10 +29,7 @@ internal sealed class SeedAsync : DbMigratorTestBase
     public async Task Should_notRunSeeding_When_DbContextIsNotSeedable()
     {
         // Arrange
-        List<Assembly> assemblies = new()
-        {
-            typeof(TestDbContextMigrate).Assembly
-        };
+        List<Assembly> assemblies = [typeof(TestDbContextMigrate).Assembly];
 
         _serviceScopeMock
             .Setup(expression: x => x.ServiceProvider.GetService(typeof(TestDbContextNoSeed)))

@@ -1,4 +1,4 @@
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Requests;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
@@ -78,7 +78,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: -1)
             }
@@ -103,7 +103,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 11)
             }
@@ -128,7 +128,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: -1, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 5)
             }
@@ -153,7 +153,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 6, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 5)
             }
@@ -198,8 +198,8 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                NotificationPreference =
-                new UpdatePreferenceRequest_NotificationPreference(SendFinanceReportEnabled: true,
+                NotificationPreference = new UpdatePreferenceRequestNotificationPreference(
+                    SendFinanceReportEnabled: true,
                     SendFinanceReportInterval: -1)
             }
         });
@@ -223,8 +223,8 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Preference = _updatePreferenceCommand.Preference! with
             {
-                NotificationPreference =
-                new UpdatePreferenceRequest_NotificationPreference(SendFinanceReportEnabled: true,
+                NotificationPreference = new UpdatePreferenceRequestNotificationPreference(
+                    SendFinanceReportEnabled: true,
                     SendFinanceReportInterval: 32)
             }
         });

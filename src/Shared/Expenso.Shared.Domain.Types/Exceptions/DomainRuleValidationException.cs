@@ -1,6 +1,5 @@
-using System.Collections.ObjectModel;
-
 using Expenso.Shared.Domain.Types.Rules;
+using Expenso.Shared.System.Types.Exceptions.Validation;
 
 namespace Expenso.Shared.Domain.Types.Exceptions;
 
@@ -15,10 +14,16 @@ public class DomainRuleValidationException : Exception
     }
 
     public string Details =>
-        string.Join(separator: Environment.NewLine, values: GetMessages(brokenRules: _brokenRules));
+        string.Join(separator: Environment.NewLine,
+            values: GetErrorDictionary(brokenRules: _brokenRules).Select(selector: x => x.Message));
 
-    private static ReadOnlyCollection<string> GetMessages(IEnumerable<IBusinessRule> brokenRules)
+    public IReadOnlyCollection<ValidationDetailModel> Errors => GetErrorDictionary(brokenRules: _brokenRules);
+
+    private static IReadOnlyCollection<ValidationDetailModel> GetErrorDictionary(IEnumerable<IBusinessRule> brokenRules)
     {
-        return brokenRules.Select(selector: x => x.Message).ToList().AsReadOnly();
+        return brokenRules
+            .Select(selector: x => new ValidationDetailModel(Property: x.GetType().Name, Message: x.Message))
+            .ToList()
+            .AsReadOnly();
     }
 }

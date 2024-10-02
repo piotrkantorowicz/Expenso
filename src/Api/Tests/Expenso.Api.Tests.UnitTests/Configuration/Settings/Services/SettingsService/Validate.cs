@@ -1,6 +1,7 @@
 ﻿using Expenso.Shared.System.Configuration.Exceptions;
 using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Types.Exceptions.Validation;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
@@ -62,10 +63,9 @@ internal sealed class Validate : SettingsServiceTestBase
         action
             .Should()
             .Throw<SettingsValidationException>()
-            .Which.ErrorDictionary.Should()
-            .ContainKey(expected: "TestKey")
-            .WhoseValue.Should()
-            .Be(expected: "TestError");
+            .Where(exceptionExpression: x =>
+                errors.All(y => x.Errors.Contains(new ValidationDetailModel(y.Key, y.Value))))
+            .Where(exceptionExpression: x => x.Details!.Contains("TestKey: TestError"));
 
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,

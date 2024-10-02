@@ -3,9 +3,9 @@ using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Requests;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Requests;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Responses;
 
 namespace Expenso.Api.Tests.E2E.TestData.Preferences;
 
@@ -32,13 +32,13 @@ internal static class PreferencesDataInitializer
         await commandDispatcher.SendAsync(
             command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
                 PreferenceOrUserId: UserDataInitializer.UserIds[index: 0],
-                Preference: new UpdatePreferenceRequest(
-                    FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                Preference: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                        AllowAddFinancePlanSubOwners: true,
                         MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,
                         MaxNumberOfFinancePlanReviewers: 5),
-                    NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                    NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                         SendFinanceReportEnabled: true, SendFinanceReportInterval: 7),
-                    GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true))),
+                    GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true))),
             cancellationToken: cancellationToken);
     }
 }

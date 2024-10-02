@@ -4,6 +4,11 @@ namespace Expenso.Communication.Core.Application.Notifications.Write.Commands.Se
 
 internal sealed class SendNotificationCommandValidator : ICommandValidator<SendNotificationCommand>
 {
+    public IReadOnlyDictionary<string, CommandValidationRule<SendNotificationCommand>[]> GetValidationMetadata()
+    {
+        throw new NotImplementedException();
+    }
+
     public IDictionary<string, string> Validate(SendNotificationCommand command)
     {
         Dictionary<string, string> errors = new();

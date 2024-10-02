@@ -1,4 +1,4 @@
-using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Validation;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
 
@@ -30,7 +30,8 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
         await action
             .Should()
             .ThrowAsync<ValidationException>()
-            .Where(exceptionExpression: x => errors.All(y => x.ErrorDictionary.Contains(y)))
+            .Where(exceptionExpression: x =>
+                errors.All(y => x.Errors.Contains(new ValidationDetailModel(y.Key, y.Value))))
             .Where(exceptionExpression: x => x.Details ==
                                              $"Id: Id is required{Environment.NewLine}Name: Name is required{Environment.NewLine}");
     }

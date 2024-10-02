@@ -6,7 +6,7 @@ using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
-using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Requests;
 
 using Moq;
 
@@ -41,7 +41,7 @@ internal abstract class
             MessageContext: MessageContextFactoryMock.Object.Current(),
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
-                new RegisterJobEntryRequest_JobEntryTrigger(
+                new RegisterJobEntryRequestJobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));

@@ -3,7 +3,7 @@ using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Maps;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Requests;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
@@ -35,9 +35,9 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
     {
         (_, Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) = command;
 
-        (UpdatePreferenceRequest_FinancePreference? financePreferenceRequest,
-            UpdatePreferenceRequest_NotificationPreference? notificationPreferenceRequest,
-            UpdatePreferenceRequest_GeneralPreference? generalPreferenceRequest) = updatePreferenceRequest!;
+        (UpdatePreferenceRequestFinancePreference? financePreferenceRequest,
+            UpdatePreferenceRequestNotificationPreference? notificationPreferenceRequest,
+            UpdatePreferenceRequestGeneralPreference? generalPreferenceRequest) = updatePreferenceRequest!;
 
         PreferenceFilter preferenceFilter = new(UseTracking: true, IncludeFinancePreferences: true,
             IncludeGeneralPreferences: true, IncludeNotificationPreferences: true);
@@ -59,9 +59,9 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
         if (dbPreference is null)
         {
-            throw new ConflictException(
+            throw new NotFoundException(
                 message:
-                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found");
+                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found.");
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,
@@ -73,10 +73,9 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
     }
 
     private IEnumerable<Task> Update(Preference preference,
-        UpdatePreferenceRequest_GeneralPreference updateGeneralPreference,
-        UpdatePreferenceRequest_FinancePreference updateFinancePreference,
-        UpdatePreferenceRequest_NotificationPreference updateNotificationPreference,
-        CancellationToken cancellationToken)
+        UpdatePreferenceRequestGeneralPreference updateGeneralPreference,
+        UpdatePreferenceRequestFinancePreference updateFinancePreference,
+        UpdatePreferenceRequestNotificationPreference updateNotificationPreference, CancellationToken cancellationToken)
     {
         GeneralPreference generalPreference =
             UpdatePreferenceRequestMap.MapFrom(generalGeneralPreference: updateGeneralPreference);

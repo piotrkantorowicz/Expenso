@@ -3,6 +3,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Swashbuckle.AspNetCore.SwaggerGen;
+
 namespace Expenso.Shared.System.Modules;
 
 public interface IModuleDefinition
@@ -16,4 +18,6 @@ public interface IModuleDefinition
     void AddDependencies(IServiceCollection services, IConfiguration configuration);
 
     IReadOnlyCollection<EndpointRegistration> CreateEndpoints();
+
+    void ConfigureSwaggerOptions(SwaggerGenOptions options);
 }

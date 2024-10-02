@@ -2,7 +2,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Create
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Responses;
 
 using TestCandidate =
     Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandHandler;

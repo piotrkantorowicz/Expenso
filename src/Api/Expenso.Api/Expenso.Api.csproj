@@ -27,6 +27,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events.Logging\Expenso.Shared.Domain.Events.Logging.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Api.ProblemDetails\Expenso.Shared.Api.ProblemDetails.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>

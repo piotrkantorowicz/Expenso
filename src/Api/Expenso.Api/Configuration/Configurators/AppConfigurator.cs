@@ -2,10 +2,13 @@ using System.Reflection;
 
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
+using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
 using Expenso.Api.Configuration.Settings;
 using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.BudgetSharing.Domain.Shared;
+using Expenso.IAM.Core.Acl.Keycloak;
+using Expenso.Shared.Api.ProblemDetails.Details;
 using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration.Sections;
@@ -39,7 +42,20 @@ internal sealed class AppConfigurator : IAppConfigurator
         }
 
         _app.UseSwagger();
-        _app.UseSwaggerUI();
+
+        _app.UseSwaggerUI(setupAction: options =>
+        {
+            IAppConfigurationManager? appConfigurationManager = _app.Services.GetService<IAppConfigurationManager>();
+
+            KeycloakSettings keycloakSettings =
+                appConfigurationManager.GetRequiredSettings<KeycloakSettings>(sectionName: SectionNames.Keycloak);
+
+            options.DisplayOperationId();
+            options.DisplayRequestDuration();
+            options.OAuthClientId(value: keycloakSettings.Resource);
+            options.OAuthClientSecret(value: keycloakSettings.Credentials.Secret);
+            options.OAuthUsePkce();
+        });
 
         return this;
     }
@@ -123,7 +139,10 @@ internal sealed class AppConfigurator : IAppConfigurator
                     httpContext.Response.WriteAsJsonAsync(value: "Hello, I'm Expenso API"))
             .WithOpenApi()
             .WithName(endpointName: "Hello")
-            .WithTags(BaseTag);
+            .WithDescription(description: "Just a simple greeting from the Expenso API")
+            .WithSummary(summary: "Greets the user with a simple hello message")
+            .WithTags(BaseTag)
+            .Produces(statusCode: 200, responseType: typeof(string));
 
         _app
             .MapGet(pattern: "/greetings/hello-user", handler: (HttpContext httpContext) =>
@@ -138,7 +157,14 @@ internal sealed class AppConfigurator : IAppConfigurator
             })
             .WithOpenApi()
             .WithName(endpointName: "HelloUser")
+            .WithDescription(
+                description: "Returns a personalized greeting message to the authenticated user, using the username.")
+            .WithSummary(
+                summary: "Greets the authenticated user by username with a custom message from the Expenso API")
             .WithTags(BaseTag)
+            .Produces(statusCode: 200, responseType: typeof(string))
+            .Produces(statusCode: 401, responseType: typeof(UnauthorizedAccessProblemDetails))
+            .Produces(statusCode: 403, responseType: typeof(ForbiddenProblemDetails))
             .RequireAuthorization();
 
         return this;

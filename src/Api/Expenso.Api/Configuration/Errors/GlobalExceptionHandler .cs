@@ -1,8 +1,9 @@
-using Expenso.Api.Configuration.Errors.Details;
-using Expenso.Shared.Commands.Validation;
+using Expenso.Shared.Api.ProblemDetails;
+using Expenso.Shared.Commands.Validation.Exceptions;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Validation;
 
 using Microsoft.AspNetCore.Diagnostics;
 
@@ -44,8 +45,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             return true;
         }
 
-        await HandleUnknownException(exception: exception, httpContext: httpContext,
-            cancellationToken: cancellationToken);
+        await HandleUnknownException(httpContext: httpContext, cancellationToken: cancellationToken);
 
         return true;
     }
@@ -53,7 +53,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
     private static Task HandleInvalidModelStateException(Exception exception, HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        return HandleException(statusCode: StatusCodes.Status422UnprocessableEntity, httpContext: httpContext,
+        return HandleException(statusCode: StatusCodes.Status400BadRequest, httpContext: httpContext,
             exception: exception, cancellationToken: cancellationToken);
     }
 
@@ -85,8 +85,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             cancellationToken: cancellationToken);
     }
 
-    private static Task HandleUnknownException(Exception exception, HttpContext httpContext,
-        CancellationToken cancellationToken)
+    private static Task HandleUnknownException(HttpContext httpContext, CancellationToken cancellationToken)
     {
         return HandleException(statusCode: StatusCodes.Status500InternalServerError, httpContext: httpContext,
             exception: null, cancellationToken: cancellationToken);
@@ -95,10 +94,11 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
     private static Task HandleException(int statusCode, HttpContext httpContext, Exception? exception,
         CancellationToken cancellationToken)
     {
-        string? expectedExceptionMessage = exception switch
+        object? expectedExceptionMessage = exception switch
         {
-            DomainRuleValidationException domainRuleValidationException => domainRuleValidationException.Details,
-            ValidationException validationException => validationException.Details,
+            DomainRuleValidationException domainRuleValidationException => domainRuleValidationException.Errors,
+            CommandValidationException validationException => validationException.Errors,
+            ValidationException validationException => validationException.Errors,
             _ => exception?.Message
         };
 

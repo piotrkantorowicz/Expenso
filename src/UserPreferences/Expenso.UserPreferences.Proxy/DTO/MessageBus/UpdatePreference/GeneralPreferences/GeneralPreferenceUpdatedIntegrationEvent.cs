@@ -6,4 +6,4 @@ namespace Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralP
 public sealed record GeneralPreferenceUpdatedIntegrationEvent(
     IMessageContext MessageContext,
     Guid UserId,
-    GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference GeneralPreference) : IIntegrationEvent;
+    GeneralPreferenceUpdatedIntegrationEventGeneralPreference GeneralPreference) : IIntegrationEvent;

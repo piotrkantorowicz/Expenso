@@ -1,3 +1,5 @@
+using Expenso.Shared.Commands.Validation.Exceptions;
+
 namespace Expenso.Shared.Commands.Validation;
 
 internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand>

@@ -1,6 +1,6 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Requests;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinancePreferences;
 using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
@@ -17,13 +17,13 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             PreferenceOrUserId: _userId,
-            Preference: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
+            Preference: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 5),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
@@ -64,13 +64,13 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             PreferenceOrUserId: _userId,
-            Preference: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
+            Preference: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 5),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),

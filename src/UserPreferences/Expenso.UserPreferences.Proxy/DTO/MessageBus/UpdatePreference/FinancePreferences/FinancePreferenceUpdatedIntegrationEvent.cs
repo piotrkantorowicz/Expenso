@@ -6,4 +6,4 @@ namespace Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinanceP
 public sealed record FinancePreferenceUpdatedIntegrationEvent(
     IMessageContext MessageContext,
     Guid UserId,
-    FinancePreferenceUpdatedIntegrationEvent_FinancePreference FinancePreference) : IIntegrationEvent;
+    FinancePreferenceUpdatedIntegrationEventFinancePreference FinancePreference) : IIntegrationEvent;

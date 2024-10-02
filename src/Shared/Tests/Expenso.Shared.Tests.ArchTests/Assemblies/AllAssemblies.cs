@@ -6,6 +6,7 @@ internal static class AllAssemblies
     {
         return new[]
             {
+                ApiAssemblies.GetAssemblies(),
                 CommandsAssemblies.GetAssemblies(),
                 DatabaseAssemblies.GetAssemblies(),
                 DomainAssemblies.GetAssemblies(),

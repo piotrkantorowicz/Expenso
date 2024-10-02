@@ -1,3 +1,0 @@
-﻿namespace Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
-
-public sealed record CancelJobEntryRequest(Guid? JobEntryId);

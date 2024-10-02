@@ -1,6 +1,6 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Requests;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 

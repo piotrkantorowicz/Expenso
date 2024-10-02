@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
@@ -12,12 +12,12 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     private readonly PersonId _ownerId;
     private readonly PermissionType _permissionTypeFromRequest;
 
-    private readonly GetPreferenceResponse_FinancePreference
+    private readonly GetPreferenceResponseFinancePreference
         _preferenceExternalPreferenceResponseFinancePreferenceExternal;
 
     public PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(BudgetId budgetId,
         PersonId ownerId, PermissionType permissionTypeFromRequest,
-        GetPreferenceResponse_FinancePreference preferenceResponseFinancePreference,
+        GetPreferenceResponseFinancePreference preferenceResponseFinancePreference,
         IReadOnlyCollection<Permission> currentPermissions)
     {
         _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
@@ -38,7 +38,6 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
 
     public string Message =>
         $"Permission of type {_permissionTypeFromRequest} can't be assigned to budget with id {_budgetId}, because permission type is not valid or budget owner with id: {_ownerId} don't allow any or more participants.";
-
 
     public bool IsBroken()
     {

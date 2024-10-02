@@ -1,5 +1,5 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Responses;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.DTO.Maps;
 

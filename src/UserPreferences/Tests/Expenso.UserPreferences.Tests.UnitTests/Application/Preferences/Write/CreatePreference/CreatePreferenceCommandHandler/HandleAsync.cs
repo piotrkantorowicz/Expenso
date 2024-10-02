@@ -2,8 +2,8 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Requests;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Responses;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandHandler;

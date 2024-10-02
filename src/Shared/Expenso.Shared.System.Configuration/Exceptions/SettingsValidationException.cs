@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Types.Exceptions;
+﻿using Expenso.Shared.System.Types.Exceptions.Validation;
 
 namespace Expenso.Shared.System.Configuration.Exceptions;
 

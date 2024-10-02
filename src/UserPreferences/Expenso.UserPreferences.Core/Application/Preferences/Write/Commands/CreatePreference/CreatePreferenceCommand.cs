@@ -1,6 +1,6 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Requests;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 

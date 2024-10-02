@@ -6,6 +6,11 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 
 internal sealed class UpdatePreferenceCommandValidator : ICommandValidator<UpdatePreferenceCommand>
 {
+    public IReadOnlyDictionary<string, CommandValidationRule<UpdatePreferenceCommand>[]> GetValidationMetadata()
+    {
+        return new Dictionary<string, CommandValidationRule<UpdatePreferenceCommand>[]>();
+    }
+
     public IDictionary<string, string> Validate(UpdatePreferenceCommand? command)
     {
         Dictionary<string, string> errors = new();

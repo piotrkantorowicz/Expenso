@@ -1,6 +1,6 @@
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Requests;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Responses;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 namespace Expenso.UserPreferences.Proxy;
 

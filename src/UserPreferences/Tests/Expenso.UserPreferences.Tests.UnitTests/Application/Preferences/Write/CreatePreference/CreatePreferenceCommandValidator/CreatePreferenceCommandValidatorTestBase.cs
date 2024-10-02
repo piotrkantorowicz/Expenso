@@ -1,9 +1,8 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Requests;
 
 using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.
-    CreatePreferenceCommandValidator;
+    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandValidator;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandValidator;

@@ -2,8 +2,8 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Requests;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Responses;
 
 using FluentAssertions;
 
@@ -50,7 +50,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         {
             RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayOfMonth: 10,
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayOfMonth: 10,
                     Hour: 12, Minute: 30, Second: 30, UseSeconds: true)
             }
         };
@@ -92,7 +92,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         RegisterJobEntryCommand entryCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
-                new RegisterJobEntryRequest_JobEntryTrigger(
+                new RegisterJobEntryRequestJobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));

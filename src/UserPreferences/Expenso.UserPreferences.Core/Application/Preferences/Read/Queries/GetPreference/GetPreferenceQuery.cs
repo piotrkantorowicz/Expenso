@@ -1,6 +1,6 @@
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Responses;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 

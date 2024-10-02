@@ -1,4 +1,4 @@
-﻿using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
+﻿using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Requests;
 
 using FluentAssertions;
 

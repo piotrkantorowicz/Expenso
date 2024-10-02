@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Api.Swagger\Expenso.Shared.Api.Swagger.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
         <ProjectReference Include="..\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj"/>
     </ItemGroup>

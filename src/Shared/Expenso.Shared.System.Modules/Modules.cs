@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 
 using Expenso.Shared.System.Modules.Extensions;
 
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Expenso.Shared.System.Modules;
 
@@ -58,10 +61,10 @@ public static class Modules
                 string endpointRoute = $"{module.GetModulePrefixSanitized()}{endpoint.WithLeadingSlash().Pattern}";
 
                 RouteHandlerBuilder routeHandlerBuilder = endpointRouteBuilder.MapMethods(pattern: endpointRoute,
-                    httpMethods: new[]
-                    {
+                    httpMethods:
+                    [
                         endpoint.HttpVerb.ToString().ToUpper()
-                    }, handler: endpoint.Handler!);
+                    ], handler: endpoint.Handler!);
 
                 switch (endpoint.AccessControl)
                 {
@@ -77,10 +80,38 @@ public static class Modules
                             actualValue: endpoint.AccessControl, message: "Unknown access control type");
                 }
 
-                routeHandlerBuilder.WithName(endpointName: endpoint.Name);
-                string tag = $"{rootTag}.{module.ModuleName}";
+                routeHandlerBuilder
+                    .WithName(endpointName: endpoint.Name)
+                    .WithDescription(description: endpoint.Description)
+                    .WithSummary(summary: endpoint.Summary);
+
+                foreach (Produces produces in endpoint.Responses!.Concat(second: endpoint.Problems!))
+                {
+                    routeHandlerBuilder.Produces(statusCode: produces.StatusCode, responseType: produces.ContentType);
+                }
+
+                StringBuilder stringBuilder = new StringBuilder()
+                    .Append(value: rootTag)
+                    .Append(value: '.')
+                    .Append(value: module.ModuleName);
+
+                if (endpoint.SubModule is not null)
+                {
+                    stringBuilder.Append(value: '.');
+                    stringBuilder.Append(value: endpoint.SubModule);
+                }
+
+                string tag = stringBuilder.ToString();
                 routeHandlerBuilder.WithOpenApi().WithTags(tag);
             }
+        }
+    }
+
+    public static void ConfigureSwaggerOptions(SwaggerGenOptions options)
+    {
+        foreach (IModuleDefinition module in RegisteredModules.Values)
+        {
+            module.ConfigureSwaggerOptions(options: options);
         }
     }
 

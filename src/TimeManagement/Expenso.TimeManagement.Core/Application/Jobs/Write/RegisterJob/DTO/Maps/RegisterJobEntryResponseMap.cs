@@ -1,5 +1,5 @@
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Proxy.DTO.RegisterJob.Responses;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 
