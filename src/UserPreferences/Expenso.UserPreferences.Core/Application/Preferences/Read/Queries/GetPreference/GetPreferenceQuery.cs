@@ -6,8 +6,7 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetP
 
 public sealed record GetPreferenceQuery(
     IMessageContext MessageContext,
-    Guid? PreferenceId = null,
-    Guid? UserId = null,
+    Guid? PreferenceIdOrUserId = null,
     bool? ForCurrentUser = null,
     bool? IncludeFinancePreferences = null,
     bool? IncludeNotificationPreferences = null,

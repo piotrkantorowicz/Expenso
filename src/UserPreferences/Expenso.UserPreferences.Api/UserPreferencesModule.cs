@@ -53,13 +53,13 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
-                    query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(), PreferenceId: id,
+                GetPreferenceResponse? response = await handler.HandleAsync(query: new GetPreferenceQuery(
+                    MessageContext: messageContextFactory.Current(), PreferenceIdOrUserId: id,
                         IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
 
-                return Results.Ok(value: getPreferences);
+                return Results.Ok(value: response);
             });
 
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new(Pattern: "preferences/current-user",
@@ -70,30 +70,13 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
+                GetPreferenceResponse? response = await handler.HandleAsync(
                     query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(), ForCurrentUser: true,
                         IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
 
-                return Results.Ok(value: getPreferences);
-            });
-
-        EndpointRegistration getUserPreferencesByEndpointRegistration = new(Pattern: "preferences",
-            Name: "GetUserPreferences", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
-                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
-                [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid userId,
-                [FromQuery] bool? includeFinancePreferences = null,
-                [FromQuery] bool? includeNotificationPreferences = null,
-                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
-            {
-                GetPreferenceResponse? getPreferences = await handler.HandleAsync(
-                    query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(), UserId: userId,
-                        IncludeFinancePreferences: includeFinancePreferences,
-                        IncludeNotificationPreferences: includeNotificationPreferences,
-                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
-
-                return Results.Ok(value: getPreferences);
+                return Results.Ok(value: response);
             });
 
         EndpointRegistration createPreferencesEndpointRegistration = new(Pattern: "preferences",
@@ -102,15 +85,15 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CreatePreferenceRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                CreatePreferenceResponse? createPreferenceResponse = await handler.HandleAsync(
+                CreatePreferenceResponse? response = await handler.HandleAsync(
                     command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
                         Preference: new CreatePreferenceRequest(UserId: model.UserId)),
                     cancellationToken: cancellationToken);
 
                 return Results.CreatedAtRoute(routeName: getPreferencesEndpointRegistration.Name, routeValues: new
                 {
-                    id = createPreferenceResponse?.PreferenceId
-                }, value: createPreferenceResponse);
+                    id = response?.PreferenceId
+                }, value: response);
             });
 
         EndpointRegistration updatePreferencesEndpointRegistration = new(Pattern: "preferences/{id}",
@@ -130,7 +113,6 @@ public sealed class UserPreferencesModule : IModuleDefinition
         [
             getPreferencesEndpointRegistration,
             getCurrentUserPreferencesEndpointRegistration,
-            getUserPreferencesByEndpointRegistration,
             createPreferencesEndpointRegistration,
             updatePreferencesEndpointRegistration
         ];

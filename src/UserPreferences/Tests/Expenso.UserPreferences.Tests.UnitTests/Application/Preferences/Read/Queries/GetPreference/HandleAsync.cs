@@ -11,13 +11,14 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: _id,
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceIdOrUserId: _id,
             IncludeFinancePreferences: It.IsAny<bool>(), IncludeNotificationPreferences: It.IsAny<bool>(),
             IncludeGeneralPreferences: It.IsAny<bool>());
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(
-                new PreferenceFilter(_id, null, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new PreferenceFilter(_id, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -31,7 +32,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(
-                new PreferenceFilter(_id, null, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new PreferenceFilter(_id, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -39,13 +40,14 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByUserIdAndPreferenceExists()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), UserId: _userId,
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceIdOrUserId: _userId,
             IncludeFinancePreferences: It.IsAny<bool>(), IncludeNotificationPreferences: It.IsAny<bool>(),
             IncludeGeneralPreferences: It.IsAny<bool>());
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(
-                new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new PreferenceFilter(_userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -59,7 +61,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(
-                new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new PreferenceFilter(_userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -75,7 +77,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(
-                new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new PreferenceFilter(_userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -89,7 +91,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(
-                new PreferenceFilter(null, _userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                new PreferenceFilter(_userId, false, It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
 
         _userContextAccessorMock.Verify(expression: x => x.Get(), times: Times.Once);
@@ -99,7 +101,8 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_SearchingByIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: _id);
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceIdOrUserId: _id);
 
         // Act
         Func<Task> action = async () =>
@@ -113,7 +116,8 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_SearchingByUserIdAndPreferenceHasNotBeenFound()
     {
         // Arrange
-        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(), UserId: _userId);
+        GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceIdOrUserId: _userId);
 
         // Act
         Func<Task> action = async () =>

@@ -1,3 +1,4 @@
+using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
@@ -6,7 +7,7 @@ namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 internal sealed class GetPreferences : PreferencesTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_ReturnExpectedResult_When_PassPreferenceId()
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
@@ -20,6 +21,23 @@ internal sealed class GetPreferences : PreferencesTestBase
         AssertResponseOk(response: response);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.Id.Should().Be(expected: preferenceId);
+    }
+
+    [Test]
+    public async Task Should_ReturnExpectedResult_When_PassUserId()
+    {
+        // Arrange
+        Guid userId = UserDataInitializer.UserIds[index: 2];
+        _httpClient.SetFakeBearerToken(token: _claims);
+        string requestPath = $"user-preferences/preferences/{userId}";
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+
+        // Assert
+        AssertResponseOk(response: response);
+        GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
+        responseContent?.UserId.Should().Be(expected: userId);
     }
 
     [Test]

@@ -25,7 +25,7 @@ internal sealed class
     {
         PreferenceFilter filter = new()
         {
-            UserId = command.Preference.UserId,
+            PreferenceIdOrUserId = command.Preference.UserId,
             UseTracking = false
         };
 

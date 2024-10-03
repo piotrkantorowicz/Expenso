@@ -37,20 +37,20 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
 
     private PreferenceFilter GetFilter(GetPreferenceQuery query)
     {
-        (_, Guid? preferenceId, Guid? userId, bool? forCurrentUser, bool? includeFinancePreferences,
+        (_, Guid? preferenceIdOrUserId, bool? forCurrentUser, bool? includeFinancePreferences,
             bool? includeNotificationPreferences, bool? includeGeneralPreferences) = query;
 
         if (forCurrentUser is true)
         {
-            userId = Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId, result: out Guid id)
+            preferenceIdOrUserId = Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId,
+                result: out Guid id)
                 ? id
                 : Guid.Empty;
         }
 
         return new PreferenceFilter
         {
-            Id = preferenceId,
-            UserId = userId,
+            PreferenceIdOrUserId = preferenceIdOrUserId,
             IncludeFinancePreferences = includeFinancePreferences,
             IncludeNotificationPreferences = includeNotificationPreferences,
             IncludeGeneralPreferences = includeGeneralPreferences,

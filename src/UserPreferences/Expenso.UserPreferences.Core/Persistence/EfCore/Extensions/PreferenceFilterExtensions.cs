@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 
 using Expenso.Shared.System.Expressions.And;
+using Expenso.Shared.System.Expressions.Or;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 
@@ -12,17 +13,16 @@ internal static class PreferenceFilterExtensions
     {
         Expression<Func<Preference, bool>> predicate = p => true;
 
-        if (filter.Id.HasValue)
+        if (!filter.PreferenceIdOrUserId.HasValue)
         {
-            predicate = AndExpression<Preference>.And(leftExpression: predicate,
-                rightExpression: p => p.Id == filter.Id.Value);
+            return predicate;
         }
 
-        if (filter.UserId.HasValue)
-        {
-            predicate = AndExpression<Preference>.And(leftExpression: predicate,
-                rightExpression: p => p.UserId == filter.UserId.Value);
-        }
+        predicate = AndExpression<Preference>.And(leftExpression: predicate,
+            rightExpression: p => p.Id == filter.PreferenceIdOrUserId.Value);
+
+        predicate = OrExpression<Preference>.Or(leftExpression: predicate,
+            rightExpression: p => p.UserId == filter.PreferenceIdOrUserId.Value);
 
         return predicate;
     }

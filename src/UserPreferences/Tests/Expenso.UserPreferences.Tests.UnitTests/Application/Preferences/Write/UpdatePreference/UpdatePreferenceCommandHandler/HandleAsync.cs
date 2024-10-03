@@ -26,7 +26,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
                 GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
 
         _preferenceRepositoryMock
-            .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+            .Setup(expression: x => x.GetAsync(new PreferenceFilter(_userId, true, true, true, true),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -36,8 +36,8 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _preferenceRepositoryMock.Verify(
-            expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+        _preferenceRepositoryMock.Verify(expression: x =>
+            x.GetAsync(new PreferenceFilter(_userId, true, true, true, true),
                 It.IsAny<CancellationToken>()), times: Times.Once);
 
         _preferenceRepositoryMock.Verify(expression: x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()),
@@ -73,7 +73,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
                 GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
 
         _preferenceRepositoryMock
-            .Setup(expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+            .Setup(expression: x => x.GetAsync(new PreferenceFilter(_userId, true, true, true, true),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
@@ -89,8 +89,8 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
                 expectedWildcardPattern:
                 $"User preferences for user with id {command.PreferenceOrUserId} or with own id: {command.PreferenceOrUserId} haven't been found.");
 
-        _preferenceRepositoryMock.Verify(
-            expression: x => x.GetAsync(new PreferenceFilter(null, _userId, true, true, true, true),
+        _preferenceRepositoryMock.Verify(expression: x =>
+            x.GetAsync(new PreferenceFilter(_userId, true, true, true, true),
                 It.IsAny<CancellationToken>()), times: Times.Once);
 
         _preferenceRepositoryMock.Verify(expression: x => x.UpdateAsync(_preference, It.IsAny<CancellationToken>()),

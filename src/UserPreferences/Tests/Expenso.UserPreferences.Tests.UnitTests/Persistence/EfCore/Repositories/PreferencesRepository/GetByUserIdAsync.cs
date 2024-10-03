@@ -11,7 +11,7 @@ internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
         // Arrange
         PreferenceFilter filter = new()
         {
-            UserId = userId,
+            PreferenceIdOrUserId = userId,
             UseTracking = false
         };
 

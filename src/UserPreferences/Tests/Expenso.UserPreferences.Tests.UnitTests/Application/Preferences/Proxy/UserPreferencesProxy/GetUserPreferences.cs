@@ -10,13 +10,13 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x => x.QueryAsync(
-                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+            .Setup(expression: x => x.QueryAsync(new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null),
+                _userId, null,
                     It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceExternalResponse);
 
         // Act
-        GetPreferenceResponse? preference = await TestCandidate.GetUserPreferencesAsync(userId: _userId,
+        GetPreferenceResponse? preference = await TestCandidate.GetUserPreferencesAsync(id: _userId,
             includeFinancePreferences: It.IsAny<bool>(), includeNotificationPreferences: It.IsAny<bool>(),
             includeGeneralPreferences: It.IsAny<bool>(), cancellationToken: It.IsAny<CancellationToken>());
 
@@ -25,8 +25,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         preference.Should().BeEquivalentTo(expectation: _getPreferenceExternalResponse);
 
         _queryDispatcherMock.Verify(
-            expression: x => x.QueryAsync(
-                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+            expression: x => x.QueryAsync(new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null),
+                _userId, null,
                     It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()),
             times: Times.Once);
     }
@@ -36,13 +36,13 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x => x.QueryAsync(
-                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+            .Setup(expression: x => x.QueryAsync(new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null),
+                _userId, null,
                     It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
         // Act
-        GetPreferenceResponse? preference = await TestCandidate.GetUserPreferencesAsync(userId: _userId,
+        GetPreferenceResponse? preference = await TestCandidate.GetUserPreferencesAsync(id: _userId,
             includeFinancePreferences: It.IsAny<bool>(), includeNotificationPreferences: It.IsAny<bool>(),
             includeGeneralPreferences: It.IsAny<bool>(), cancellationToken: It.IsAny<CancellationToken>());
 
@@ -50,8 +50,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         preference.Should().BeNull();
 
         _queryDispatcherMock.Verify(
-            expression: x => x.QueryAsync(
-                new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null), null, _userId, null,
+            expression: x => x.QueryAsync(new GetPreferenceQuery(MessageContextFactoryMock.Object.Current(null),
+                _userId, null,
                     It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), It.IsAny<CancellationToken>()),
             times: Times.Once);
     }
