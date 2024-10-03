@@ -9,7 +9,7 @@ public static class StringExtensions
 {
     public static bool IsValidEmail(this string? email)
     {
-        if (string.IsNullOrWhiteSpace(value: email))
+        if (string.IsNullOrEmpty(value: email))
         {
             return false;
         }
@@ -28,7 +28,7 @@ public static class StringExtensions
 
     public static bool IsValidHost(this string? host)
     {
-        if (string.IsNullOrWhiteSpace(value: host) || host.Length > 255 || host.Contains(value: ' '))
+        if (string.IsNullOrEmpty(value: host) || host.Length > 255 || host.Contains(value: ' '))
         {
             return false;
         }
@@ -44,9 +44,9 @@ public static class StringExtensions
         };
     }
 
-    public static bool IsValidPassword(this string password, int minLength = 8, int maxLength = 128)
+    public static bool IsValidPassword(this string? password, int minLength = 8, int maxLength = 128)
     {
-        if (password.Length < minLength || password.Length > maxLength)
+        if (string.IsNullOrEmpty(value: password) || password.Length < minLength || password.Length > maxLength)
         {
             return false;
         }
@@ -59,9 +59,9 @@ public static class StringExtensions
         return hasUppercase && hasLowercase && hasDigit && hasSpecialChar && !password.Contains(value: ' ');
     }
 
-    public static bool IsValidUsername(this string username, int minLength = 3, int maxLength = 30)
+    public static bool IsValidUsername(this string? username, int minLength = 3, int maxLength = 30)
     {
-        if (username.Length < minLength || username.Length > maxLength)
+        if (string.IsNullOrEmpty(value: username) || username.Length < minLength || username.Length > maxLength)
         {
             return false;
         }
@@ -69,9 +69,9 @@ public static class StringExtensions
         return char.IsLetter(c: username[index: 0]) && username.All(predicate: char.IsLetterOrDigit);
     }
 
-    public static bool IsAlphaString(this string target, int minLength = 0, int maxLength = int.MaxValue)
+    public static bool IsAlphaString(this string? target, int minLength = 0, int maxLength = int.MaxValue)
     {
-        if (target.Length < minLength || target.Length > maxLength)
+        if (string.IsNullOrEmpty(value: target) || target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
@@ -79,9 +79,9 @@ public static class StringExtensions
         return target.All(predicate: char.IsLetter);
     }
 
-    public static bool IsAlphaNumericString(this string target, int minLength = 0, int maxLength = int.MaxValue)
+    public static bool IsAlphaNumericString(this string? target, int minLength = 0, int maxLength = int.MaxValue)
     {
-        if (target.Length < minLength || target.Length > maxLength)
+        if (string.IsNullOrEmpty(value: target) || target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
@@ -89,10 +89,10 @@ public static class StringExtensions
         return target.All(predicate: char.IsLetterOrDigit);
     }
 
-    public static bool IsAlphaNumericAndSpecialCharactersString(this string target, int minLength = 0,
+    public static bool IsAlphaNumericAndSpecialCharactersString(this string? target, int minLength = 0,
         int maxLength = int.MaxValue, string specialCharacters = "!@#$%^&*()_+[]{}|;:,.<>?")
     {
-        if (target.Length < minLength || target.Length > maxLength)
+        if (string.IsNullOrEmpty(value: target) || target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
@@ -113,11 +113,11 @@ public static class StringExtensions
             return false;
         }
 
-        char[] generalInvalidChars = Path.GetInvalidPathChars();
         char[] additionalInvalidChars = [':', '*', '?', '"', '<', '>', '|'];
-        List<char> invalidChars = generalInvalidChars.Concat(second: additionalInvalidChars).ToList();
 
-        if (path.Any(predicate: pathChar => char.IsControl(c: pathChar) || invalidChars.Contains(item: pathChar)))
+        if (path.Any(predicate: pathChar =>
+                char.IsControl(c: pathChar) || GetInvalidPathChars(additionalInvalidChars: additionalInvalidChars)
+                    .Contains(value: pathChar)))
         {
             return false;
         }
@@ -137,7 +137,10 @@ public static class StringExtensions
             return false;
         }
 
-        if (path.IndexOfAny(anyOf: Path.GetInvalidPathChars()) >= 0)
+        char[] additionalInvalidChars = ['*', '?', '"', '<', '>', '|'];
+
+        if (path.Any(predicate: pathChar =>
+                GetInvalidPathChars(additionalInvalidChars: additionalInvalidChars).Contains(value: pathChar)))
         {
             return false;
         }
@@ -156,7 +159,7 @@ public static class StringExtensions
 
     private static bool IsValidDnsHost(string host)
     {
-        string dnsPattern = @"^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$";
+        const string dnsPattern = "^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$";
 
         return host.Split(separator: '.').All(predicate: label => Regex.IsMatch(input: label, pattern: dnsPattern));
     }
@@ -171,5 +174,12 @@ public static class StringExtensions
     {
         return IPAddress.TryParse(ipString: host, address: out IPAddress? ip) &&
                ip.AddressFamily == AddressFamily.InterNetworkV6;
+    }
+
+    private static char[] GetInvalidPathChars(char[] additionalInvalidChars = null)
+    {
+        char[] generalInvalidChars = Path.GetInvalidPathChars();
+
+        return generalInvalidChars.Concat(second: additionalInvalidChars).ToArray();
     }
 }
