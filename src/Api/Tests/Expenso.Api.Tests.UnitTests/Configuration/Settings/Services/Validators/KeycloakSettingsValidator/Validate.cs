@@ -16,12 +16,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         error.Should().Be(expected: expectedValidationMessage);
     }
 
-    [Test, TestCase(arguments: null), TestCase(arguments: null)]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_AuthServerUrlIsNullOrWhiteSpace(
-        string? authServerUrl)
+    [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_AuthServerUrlIsNull()
     {
         // Arrange
-        _keycloakSettings.AuthServerUrl = authServerUrl;
+        _keycloakSettings.AuthServerUrl = null;
 
         // Act
         IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
@@ -49,7 +48,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         error.Should().Be(expected: expectedValidationMessage);
     }
 
-    [Test, TestCase(arg: null), TestCase(arg: "")]
+    [Test, TestCase(arg: null), TestCase(arg: ""), TestCase(arg: "   ")]
     public void Should_ReturnValidationResultWithCorrectMessage_When_RealmIsNullOrWhiteSpace(string? realm)
     {
         // Arrange

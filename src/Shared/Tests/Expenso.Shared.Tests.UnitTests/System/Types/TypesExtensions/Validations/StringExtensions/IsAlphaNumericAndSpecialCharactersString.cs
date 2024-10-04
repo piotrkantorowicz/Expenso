@@ -17,7 +17,7 @@ internal sealed class IsAlphaNumericAndSpecialCharactersString
         result.Should().BeTrue();
     }
 
-    [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "lyubov ra@y1")]
+    [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "   "), TestCase(arg: "lyubov ra@y1")]
     public void Should_ReturnFalse_When_StringIsNotAlphaNumericAndSpecialCharacters(string target)
     {
         // Arrange

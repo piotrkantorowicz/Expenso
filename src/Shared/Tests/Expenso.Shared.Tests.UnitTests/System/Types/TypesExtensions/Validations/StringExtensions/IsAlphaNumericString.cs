@@ -15,7 +15,8 @@ internal sealed class IsAlphaNumericString
         result.Should().BeTrue();
     }
 
-    [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "lyub1v ray"), TestCase(arg: "lyubov.ray1")]
+    [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "   "), TestCase(arg: "lyub1v ray"),
+     TestCase(arg: "lyubov.ray1")]
     public void Should_ReturnFalse_When_StringIsNotAlphaNumeric(string target)
     {
         // Arrange

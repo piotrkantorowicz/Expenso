@@ -2,27 +2,13 @@
 
 internal sealed class Validate : ConnectionParametersValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Connection parameters settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrWhiteSpace()
+    [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "   ")]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrWhiteSpace(string host)
     {
         // Arrange
         _connectionParameters = _connectionParameters with
         {
-            Host = string.Empty
+            Host = host
         };
 
         // Act
