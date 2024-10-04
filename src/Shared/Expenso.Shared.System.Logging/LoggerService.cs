@@ -76,12 +76,12 @@ internal sealed class LoggerService<T> : ILoggerService<T> where T : class
     {
         List<KeyValuePair<string, object>> parameters = [new(key: "AppId", value: _applicationSettings.InstanceId!)];
 
-        if (!string.IsNullOrEmpty(value: _applicationSettings.Name))
+        if (!string.IsNullOrWhiteSpace(value: _applicationSettings.Name))
         {
             parameters.Add(item: new KeyValuePair<string, object>(key: "App", value: _applicationSettings.Name));
         }
 
-        if (!string.IsNullOrEmpty(value: _applicationSettings.Version))
+        if (!string.IsNullOrWhiteSpace(value: _applicationSettings.Version))
         {
             parameters.Add(item: new KeyValuePair<string, object>(key: "Version", value: _applicationSettings.Version));
         }

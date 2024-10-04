@@ -31,19 +31,19 @@ internal sealed class SendNotificationCommandValidator : ICommandValidator<SendN
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: command.SendNotificationRequest?.Content) ||
+        if (string.IsNullOrWhiteSpace(value: command.SendNotificationRequest?.Content) ||
             command.SendNotificationRequest?.Content.Length > 2500)
         {
             errors.Add(key: nameof(command.SendNotificationRequest.Content),
                 value: "Content is required and must be less than 2500 characters.");
         }
 
-        if (string.IsNullOrEmpty(value: command.SendNotificationRequest?.NotificationContext?.To))
+        if (string.IsNullOrWhiteSpace(value: command.SendNotificationRequest?.NotificationContext?.To))
         {
             errors.Add(key: nameof(command.SendNotificationRequest.NotificationContext.To), value: "To is required.");
         }
 
-        if (string.IsNullOrEmpty(value: command.SendNotificationRequest?.NotificationContext?.From))
+        if (string.IsNullOrWhiteSpace(value: command.SendNotificationRequest?.NotificationContext?.From))
         {
             errors.Add(key: nameof(command.SendNotificationRequest.NotificationContext.From),
                 value: "From is required.");

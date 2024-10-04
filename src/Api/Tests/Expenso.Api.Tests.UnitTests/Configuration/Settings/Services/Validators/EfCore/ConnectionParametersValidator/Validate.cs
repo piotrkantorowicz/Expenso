@@ -17,7 +17,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrEmpty()
+    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrWhiteSpace()
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -55,7 +55,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_PortIsNullOrEmpty()
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PortIsNullOrWhiteSpace()
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -93,7 +93,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_DefaultDatabaseIsNullOrEmpty(
+    public void Should_ReturnValidationResultWithCorrectMessage_When_DefaultDatabaseIsNullOrWhiteSpace(
         string? defaultDatabase)
     {
         // Arrange
@@ -135,7 +135,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_DatabaseIsNullOrEmpty(string? database)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_DatabaseIsNullOrWhiteSpace(string? database)
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -176,7 +176,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_UserIsNullOrEmpty(string? user)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_UserIsNullOrWhiteSpace(string? user)
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -217,7 +217,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_PasswordIsNullOrEmpty(string? password)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PasswordIsNullOrWhiteSpace(string? password)
     {
         // Arrange
         _connectionParameters = _connectionParameters with

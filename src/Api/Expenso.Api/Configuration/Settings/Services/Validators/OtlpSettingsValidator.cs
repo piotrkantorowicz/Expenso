@@ -19,7 +19,7 @@ internal sealed class OtlpSettingsValidator : ISettingsValidator<OtlpSettings>
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: settings.ServiceName))
+        if (string.IsNullOrWhiteSpace(value: settings.ServiceName))
         {
             errors.Add(key: nameof(settings.ServiceName), value: "Service name must be provided and cannot be empty.");
         }
@@ -32,7 +32,7 @@ internal sealed class OtlpSettingsValidator : ISettingsValidator<OtlpSettings>
             }
         }
 
-        if (string.IsNullOrEmpty(value: settings.Endpoint))
+        if (string.IsNullOrWhiteSpace(value: settings.Endpoint))
         {
             errors.Add(key: nameof(settings.Endpoint), value: "Endpoint must be provided and cannot be empty.");
         }

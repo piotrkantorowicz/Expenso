@@ -21,7 +21,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: settings.AuthServerUrl))
+        if (string.IsNullOrWhiteSpace(value: settings.AuthServerUrl))
         {
             errors.Add(key: nameof(settings.AuthServerUrl),
                 value: "Authorization server URL must be provided and cannot be empty.");
@@ -35,7 +35,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
             }
         }
 
-        if (string.IsNullOrEmpty(value: settings.Realm))
+        if (string.IsNullOrWhiteSpace(value: settings.Realm))
         {
             errors.Add(key: nameof(settings.Realm), value: "Realm must be provided and cannot be empty.");
         }
@@ -48,7 +48,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
             }
         }
 
-        if (string.IsNullOrEmpty(value: settings.Resource))
+        if (string.IsNullOrWhiteSpace(value: settings.Resource))
         {
             errors.Add(key: nameof(settings.Resource),
                 value: "Resource (client Id) must be provided and cannot be empty.");
@@ -63,7 +63,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
             }
         }
 
-        if (string.IsNullOrEmpty(value: settings.SslRequired))
+        if (string.IsNullOrWhiteSpace(value: settings.SslRequired))
         {
             errors.Add(key: nameof(settings.SslRequired),
                 value: "SSL requirement must be specified and cannot be empty.");
@@ -93,7 +93,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: settings.Credentials.Secret))
+        if (string.IsNullOrWhiteSpace(value: settings.Credentials.Secret))
         {
             errors.Add(key: nameof(settings.Credentials.Secret),
                 value: "Client secret must be provided and cannot be empty.");

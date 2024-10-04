@@ -4,7 +4,7 @@ namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validation
 
 internal sealed class IsValidRootPath
 {
-    [Test, TestCase(arg: "C:\\"), TestCase(arg: "C:/")]
+    [Test, TestCase(arg: "/")]
     public void Should_ReturnTrue_When_RootPathIsValid(string rootPath)
     {
         // Arrange

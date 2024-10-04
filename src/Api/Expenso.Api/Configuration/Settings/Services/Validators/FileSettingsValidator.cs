@@ -24,12 +24,12 @@ internal sealed class FilesSettingsValidator : ISettingsValidator<FilesSettings>
             errors.Add(key: nameof(settings.StorageType), value: "StorageType must be a valid value.");
         }
 
-        if (!string.IsNullOrEmpty(value: settings.RootPath) && !settings.RootPath.IsValidRootPath())
+        if (!string.IsNullOrWhiteSpace(value: settings.RootPath) && !settings.RootPath.IsValidRootPath())
         {
             errors.Add(key: nameof(settings.RootPath), value: "RootPath must be a valid absolute path.");
         }
 
-        if (string.IsNullOrEmpty(value: settings.ImportDirectory))
+        if (string.IsNullOrWhiteSpace(value: settings.ImportDirectory))
         {
             errors.Add(key: nameof(settings.ImportDirectory),
                 value: "ImportDirectory must be provided and cannot be empty.");
@@ -43,7 +43,7 @@ internal sealed class FilesSettingsValidator : ISettingsValidator<FilesSettings>
             }
         }
 
-        if (string.IsNullOrEmpty(value: settings.ReportsDirectory))
+        if (string.IsNullOrWhiteSpace(value: settings.ReportsDirectory))
         {
             errors.Add(key: nameof(settings.ReportsDirectory),
                 value: "ReportsDirectory must be provided and cannot be empty.");

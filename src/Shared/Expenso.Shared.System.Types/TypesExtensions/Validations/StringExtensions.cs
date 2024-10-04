@@ -9,7 +9,7 @@ public static class StringExtensions
 {
     public static bool IsValidEmail(this string? email)
     {
-        if (string.IsNullOrEmpty(value: email))
+        if (string.IsNullOrWhiteSpace(value: email))
         {
             return false;
         }
@@ -28,7 +28,7 @@ public static class StringExtensions
 
     public static bool IsValidHost(this string? host)
     {
-        if (string.IsNullOrEmpty(value: host) || host.Length > 255 || host.Contains(value: ' '))
+        if (string.IsNullOrWhiteSpace(value: host) || host.Length > 255 || host.Contains(value: ' '))
         {
             return false;
         }
@@ -46,7 +46,7 @@ public static class StringExtensions
 
     public static bool IsValidPassword(this string? password, int minLength = 8, int maxLength = 128)
     {
-        if (string.IsNullOrEmpty(value: password) || password.Length < minLength || password.Length > maxLength)
+        if (string.IsNullOrWhiteSpace(value: password) || password.Length < minLength || password.Length > maxLength)
         {
             return false;
         }
@@ -61,43 +61,45 @@ public static class StringExtensions
 
     public static bool IsValidUsername(this string? username, int minLength = 3, int maxLength = 30)
     {
-        if (string.IsNullOrEmpty(value: username) || username.Length < minLength || username.Length > maxLength)
+        if (string.IsNullOrWhiteSpace(value: username) || username.Length < minLength || username.Length > maxLength)
         {
             return false;
         }
 
-        return char.IsLetter(c: username[index: 0]) && username.All(predicate: char.IsLetterOrDigit);
+        return char.IsLetter(c: username[index: 0]) &&
+               username.All(predicate: c => char.IsLetterOrDigit(c: c) && !char.IsWhiteSpace(c: c));
     }
 
     public static bool IsAlphaString(this string? target, int minLength = 0, int maxLength = int.MaxValue)
     {
-        if (string.IsNullOrEmpty(value: target) || target.Length < minLength || target.Length > maxLength)
+        if (string.IsNullOrWhiteSpace(value: target) || target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
 
-        return target.All(predicate: char.IsLetter);
+        return target.All(predicate: ch => char.IsLetter(c: ch) && !char.IsWhiteSpace(c: ch));
     }
 
     public static bool IsAlphaNumericString(this string? target, int minLength = 0, int maxLength = int.MaxValue)
     {
-        if (string.IsNullOrEmpty(value: target) || target.Length < minLength || target.Length > maxLength)
+        if (string.IsNullOrWhiteSpace(value: target) || target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
 
-        return target.All(predicate: char.IsLetterOrDigit);
+        return target.All(predicate: ch => char.IsLetterOrDigit(c: ch) && !char.IsWhiteSpace(c: ch));
     }
 
     public static bool IsAlphaNumericAndSpecialCharactersString(this string? target, int minLength = 0,
         int maxLength = int.MaxValue, string specialCharacters = "!@#$%^&*()_+[]{}|;:,.<>?")
     {
-        if (string.IsNullOrEmpty(value: target) || target.Length < minLength || target.Length > maxLength)
+        if (string.IsNullOrWhiteSpace(value: target) || target.Length < minLength || target.Length > maxLength)
         {
             return false;
         }
 
-        return target.All(predicate: ch => char.IsLetterOrDigit(c: ch) || specialCharacters.Contains(value: ch));
+        return target.All(predicate: ch =>
+            (char.IsLetterOrDigit(c: ch) || specialCharacters.Contains(value: ch)) && !char.IsWhiteSpace(c: ch));
     }
 
     public static bool IsValidUrl(this string url)
@@ -108,7 +110,7 @@ public static class StringExtensions
 
     public static bool IsValidRelativePath(this string? path)
     {
-        if (string.IsNullOrEmpty(value: path))
+        if (string.IsNullOrWhiteSpace(value: path))
         {
             return false;
         }
@@ -122,17 +124,12 @@ public static class StringExtensions
             return false;
         }
 
-        if (Path.IsPathRooted(path: path))
-        {
-            return false;
-        }
-
-        return true;
+        return !Path.IsPathRooted(path: path);
     }
 
     public static bool IsValidRootPath(this string? path)
     {
-        if (string.IsNullOrEmpty(value: path))
+        if (string.IsNullOrWhiteSpace(value: path))
         {
             return false;
         }
@@ -176,7 +173,7 @@ public static class StringExtensions
                ip.AddressFamily == AddressFamily.InterNetworkV6;
     }
 
-    private static char[] GetInvalidPathChars(char[] additionalInvalidChars = null)
+    private static char[] GetInvalidPathChars(char[] additionalInvalidChars)
     {
         char[] generalInvalidChars = Path.GetInvalidPathChars();
 

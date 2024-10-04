@@ -17,7 +17,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_ServiceNameIsNullOrEmpty(string serviceName)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_ServiceNameIsNullOrWhiteSpace(string serviceName)
     {
         // Arrange
         _otlpSettings = _otlpSettings with
@@ -58,7 +58,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
     }
 
     [Test, TestCase(arg: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_EndpointIsNullOrEmpty(string? endpoint)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_EndpointIsNullOrWhiteSpace(string? endpoint)
     {
         // Arrange
         _otlpSettings = _otlpSettings with

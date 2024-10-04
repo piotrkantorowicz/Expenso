@@ -4,12 +4,11 @@ namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validation
 
 internal sealed class IsValidRelativePath
 {
-    [Test]
-    public void Should_ReturnTrue_When_PathIsValid()
+    [Test, TestCase(arg: @"Users\lyubovray\Desktop\folder\file.txt\file.txt"),
+     TestCase(arg: "Users/lyubovray/Desktop/older/file.txt")]
+    public void Should_ReturnTrue_When_PathIsValid(string path)
     {
         // Arrange
-        const string path = @"Users\lyubovray\Desktop\folder\file.txt\file.txt";
-
         // Act
         bool result = path.IsValidRelativePath();
 
@@ -18,7 +17,7 @@ internal sealed class IsValidRelativePath
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: @"C:\Users\lyubovray\Desktop\folder\file.txt\"),
-     TestCase(arg: @"\Users\lyubovray\Desktop\folder\file.txt\file.txt")]
+     TestCase(arg: @"\\Users\lyubovray\Desktop\fo**:lder\file.txt\")]
     public void Should_ReturnFalse_When_PathIsInvalid(string path)
     {
         // Arrange
