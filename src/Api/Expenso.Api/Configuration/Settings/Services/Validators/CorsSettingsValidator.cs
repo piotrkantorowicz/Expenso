@@ -33,7 +33,7 @@ internal sealed class CorsSettingsValidator : ISettingsValidator<CorsSettings>
         {
             foreach (string allowedOrigin in settings.AllowedOrigins)
             {
-                if (string.IsNullOrEmpty(value: allowedOrigin) ||
+                if (string.IsNullOrWhiteSpace(value: allowedOrigin) ||
                     (allowedOrigin is not "*" && !allowedOrigin.IsValidUrl()))
                 {
                     errors.Add(key: nameof(settings.AllowedOrigins),

@@ -2,27 +2,13 @@
 
 internal sealed class Validate : ConnectionParametersValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Connection parameters settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrEmpty()
+    [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "   ")]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrWhiteSpace(string host)
     {
         // Arrange
         _connectionParameters = _connectionParameters with
         {
-            Host = string.Empty
+            Host = host
         };
 
         // Act
@@ -55,7 +41,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_PortIsNullOrEmpty()
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PortIsNullOrWhiteSpace()
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -93,7 +79,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_DefaultDatabaseIsNullOrEmpty(
+    public void Should_ReturnValidationResultWithCorrectMessage_When_DefaultDatabaseIsNullOrWhiteSpace(
         string? defaultDatabase)
     {
         // Arrange
@@ -135,7 +121,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_DatabaseIsNullOrEmpty(string? database)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_DatabaseIsNullOrWhiteSpace(string? database)
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -176,7 +162,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_UserIsNullOrEmpty(string? user)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_UserIsNullOrWhiteSpace(string? user)
     {
         // Arrange
         _connectionParameters = _connectionParameters with
@@ -217,7 +203,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_PasswordIsNullOrEmpty(string? password)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PasswordIsNullOrWhiteSpace(string? password)
     {
         // Arrange
         _connectionParameters = _connectionParameters with

@@ -57,7 +57,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_ImportDirectoryIsNullOrEmpty(
+    public void Should_ReturnValidationResultWithCorrectMessage_When_ImportDirectoryIsNullOrWhiteSpace(
         string importDirectory)
     {
         // Arrange
@@ -96,7 +96,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_ReportsDirectoryIsNullOrEmpty(
+    public void Should_ReturnValidationResultWithCorrectMessage_When_ReportsDirectoryIsNullOrWhiteSpace(
         string reportsDirectory)
     {
         // Arrange

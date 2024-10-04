@@ -19,7 +19,7 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: settings.Host))
+        if (string.IsNullOrWhiteSpace(value: settings.Host))
         {
             errors.Add(key: nameof(settings.Host), value: "Host must be provided and cannot be empty.");
         }
@@ -28,7 +28,7 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
             errors.Add(key: nameof(settings.Host), value: "Host must be a valid DNS name or IP address.");
         }
 
-        if (string.IsNullOrEmpty(value: settings?.Port))
+        if (string.IsNullOrWhiteSpace(value: settings?.Port))
         {
             errors.Add(key: nameof(settings.Port), value: "Port must be provided and cannot be empty.");
         }
@@ -37,7 +37,7 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
             errors.Add(key: nameof(settings.Port), value: "Port must be a valid integer between 1 and 65535.");
         }
 
-        if (string.IsNullOrEmpty(value: settings?.DefaultDatabase))
+        if (string.IsNullOrWhiteSpace(value: settings?.DefaultDatabase))
         {
             errors.Add(key: nameof(settings.DefaultDatabase),
                 value: "DefaultDatabase must be provided and cannot be empty.");
@@ -49,7 +49,7 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
                 value: "DefaultDatabase must be an alphanumeric string between 1 and 100 characters.");
         }
 
-        if (string.IsNullOrEmpty(value: settings?.Database))
+        if (string.IsNullOrWhiteSpace(value: settings?.Database))
         {
             errors.Add(key: nameof(settings.Database), value: "Database must be provided and cannot be empty.");
         }
@@ -60,7 +60,7 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
                 value: "Database must be an alphanumeric string between 1 and 100 characters.");
         }
 
-        if (string.IsNullOrEmpty(value: settings?.User))
+        if (string.IsNullOrWhiteSpace(value: settings?.User))
         {
             errors.Add(key: nameof(settings.User), value: "User must be provided and cannot be empty.");
         }
@@ -71,7 +71,7 @@ internal sealed class ConnectionParametersValidator : ISettingsValidator<Connect
                 "User must be a valid alphanumeric string starting with a letter and between 3 and 30 characters.");
         }
 
-        if (string.IsNullOrEmpty(value: settings?.Password))
+        if (string.IsNullOrWhiteSpace(value: settings?.Password))
         {
             errors.Add(key: nameof(settings.Password), value: "Password must be provided and cannot be empty.");
         }

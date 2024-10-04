@@ -100,12 +100,12 @@ internal sealed class RegisterJobEntryCommandValidator : ICommandValidator<Regis
 
         foreach (RegisterJobEntryRequest_JobEntryTrigger jobEntryTrigger in jobEntryTriggers!)
         {
-            if (string.IsNullOrEmpty(value: jobEntryTrigger.EventType))
+            if (string.IsNullOrWhiteSpace(value: jobEntryTrigger.EventType))
             {
                 errors.Add(key: nameof(jobEntryTrigger.EventType), value: "Event type is required.");
             }
 
-            if (string.IsNullOrEmpty(value: jobEntryTrigger.EventData))
+            if (string.IsNullOrWhiteSpace(value: jobEntryTrigger.EventData))
             {
                 errors.Add(key: nameof(jobEntryTrigger.EventData), value: "Event data is required.");
             }
