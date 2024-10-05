@@ -4,9 +4,10 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 
-public sealed record GetPreferenceQuery(
+public sealed record GetPreferencesQuery(
     IMessageContext MessageContext,
-    Guid? PreferenceIdOrUserId = null,
+    Guid? PreferenceId = null,
+    Guid? UserId = null,
     bool? ForCurrentUser = null,
     bool? IncludeFinancePreferences = null,
     bool? IncludeNotificationPreferences = null,

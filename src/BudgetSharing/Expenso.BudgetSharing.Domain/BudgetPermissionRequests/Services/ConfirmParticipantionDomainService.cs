@@ -59,8 +59,8 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
                 message: $"Budget permission with id {permissionRequest.BudgetId} hasn't been found.");
         }
 
-        GetPreferenceResponse? preference = await _userPreferencesProxy.GetUserPreferencesAsync(
-            id: budgetPermission.OwnerId.Value, includeFinancePreferences: true,
+        GetPreferenceResponse? preference = await _userPreferencesProxy.GetUserPreferencesByUserIdAsync(
+            userId: budgetPermission.OwnerId.Value, includeFinancePreferences: true,
             includeNotificationPreferences: false, includeGeneralPreferences: false,
             cancellationToken: cancellationToken);
 

@@ -9,12 +9,12 @@ using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 
-internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQuery, GetPreferenceResponse>
+internal sealed class GetPreferencesQueryHandler : IQueryHandler<GetPreferencesQuery, GetPreferenceResponse>
 {
     private readonly IExecutionContextAccessor _executionContextAccessor;
     private readonly IPreferencesRepository _preferencesRepository;
 
-    public GetPreferenceQueryHandler(IPreferencesRepository preferencesRepository,
+    public GetPreferencesQueryHandler(IPreferencesRepository preferencesRepository,
         IExecutionContextAccessor executionContextAccessor)
     {
         _executionContextAccessor = executionContextAccessor ??
@@ -24,7 +24,8 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
                                  throw new ArgumentNullException(paramName: nameof(preferencesRepository));
     }
 
-    public async Task<GetPreferenceResponse?> HandleAsync(GetPreferenceQuery query, CancellationToken cancellationToken)
+    public async Task<GetPreferenceResponse?> HandleAsync(GetPreferencesQuery query,
+        CancellationToken cancellationToken)
     {
         PreferenceFilter filter = GetFilter(query: query);
 
@@ -35,14 +36,14 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
         return GetPreferenceResponseMap.MapTo(preference: preference);
     }
 
-    private PreferenceFilter GetFilter(GetPreferenceQuery query)
+    private PreferenceFilter GetFilter(GetPreferencesQuery query)
     {
-        (_, Guid? preferenceIdOrUserId, bool? forCurrentUser, bool? includeFinancePreferences,
+        (_, Guid? preferenceId, Guid? userId, bool? forCurrentUser, bool? includeFinancePreferences,
             bool? includeNotificationPreferences, bool? includeGeneralPreferences) = query;
 
         if (forCurrentUser is true)
         {
-            preferenceIdOrUserId = Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId,
+            userId = Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId,
                 result: out Guid id)
                 ? id
                 : Guid.Empty;
@@ -50,7 +51,8 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
 
         return new PreferenceFilter
         {
-            PreferenceIdOrUserId = preferenceIdOrUserId,
+            PreferenceId = preferenceId,
+            UserId = userId,
             IncludeFinancePreferences = includeFinancePreferences,
             IncludeNotificationPreferences = includeNotificationPreferences,
             IncludeGeneralPreferences = includeGeneralPreferences,

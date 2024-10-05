@@ -18,7 +18,7 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             Preference: new CreatePreferenceRequest(UserId: _userId));
 
         _preferenceRepositoryMock
-            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(_userId, false, null, null, null),
+            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: false);
 
@@ -46,7 +46,7 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             Preference: new CreatePreferenceRequest(UserId: _userId));
 
         _preferenceRepositoryMock
-            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(_userId, false, null, null, null),
+            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: true);
 

@@ -39,13 +39,13 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Act
         IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
         {
-            PreferenceOrUserId = userId
+            PreferenceId = userId
         });
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
         const string expectedValidationMessage = "Preferences or user id cannot be empty.";
-        string error = validationResult[key: nameof(_updatePreferenceCommand.PreferenceOrUserId)];
+        string error = validationResult[key: nameof(_updatePreferenceCommand.PreferenceId)];
         error.Should().Be(expected: expectedValidationMessage);
     }
 

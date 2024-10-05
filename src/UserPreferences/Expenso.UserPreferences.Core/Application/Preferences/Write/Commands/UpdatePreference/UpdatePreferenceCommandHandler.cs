@@ -39,7 +39,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
             UpdatePreferenceRequest_NotificationPreference? notificationPreferenceRequest,
             UpdatePreferenceRequest_GeneralPreference? generalPreferenceRequest) = updatePreferenceRequest!;
 
-        PreferenceFilter preferenceFilter = new(PreferenceIdOrUserId: preferenceOrUserId, UseTracking: true,
+        PreferenceFilter preferenceFilter = new(PreferenceId: preferenceOrUserId, UseTracking: true,
             IncludeFinancePreferences: true, IncludeGeneralPreferences: true, IncludeNotificationPreferences: true);
 
         Preference? dbPreference = await _preferencesRepository.GetAsync(preferenceFilter: preferenceFilter,

@@ -27,7 +27,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
+            .Setup(expression: x => x.GetUserPreferencesByUserIdAsync(_budgetPermission.OwnerId.Value, true, false,
+                false,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse);
 
@@ -120,7 +121,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
+            .Setup(expression: x => x.GetUserPreferencesByUserIdAsync(_budgetPermission.OwnerId.Value, true, false,
+                false,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
@@ -151,7 +153,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
+            .Setup(expression: x => x.GetUserPreferencesByUserIdAsync(_budgetPermission.OwnerId.Value, true, false,
+                false,
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse with
             {

@@ -15,10 +15,12 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<TestCa
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
     protected Guid _userId;
+    protected Guid _id;
 
     [SetUp]
     public void SetUp()
     {
+        _id = Guid.NewGuid();
         _userId = Guid.NewGuid();
         _preference = PreferenceFactory.Create(userId: _userId);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();

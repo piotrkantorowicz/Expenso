@@ -1,10 +1,9 @@
-using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
-internal sealed class GetPreferences : PreferencesTestBase
+internal sealed class GetPreference : PreferencesTestBase
 {
     [Test]
     public async Task Should_ReturnExpectedResult_When_PassPreferenceId()
@@ -12,7 +11,7 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"user-preferences/preferences?id={preferenceId}";
+        string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
@@ -22,30 +21,13 @@ internal sealed class GetPreferences : PreferencesTestBase
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.Id.Should().Be(expected: preferenceId);
     }
-    
-    [Test]
-    public async Task Should_ReturnExpectedResult_When_PassUserId()
-    {
-        // Arrange
-        Guid userId = UserDataInitializer.UserIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"user-preferences/preferences?userId={userId}";
-
-        // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
-
-        // Assert
-        AssertResponseOk(response: response);
-        GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        responseContent?.UserId.Should().Be(expected: userId);
-    }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        string requestPath = "user-preferences/preferences";
+        string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);

@@ -15,9 +15,9 @@ internal sealed class UpdatePreferenceCommandValidator : ICommandValidator<Updat
             errors.Add(key: nameof(command).Pascalize(), value: "Command is required.");
         }
 
-        if (command?.PreferenceOrUserId == Guid.Empty)
+        if (command?.PreferenceId == Guid.Empty)
         {
-            errors.Add(key: nameof(command.PreferenceOrUserId), value: "Preferences or user id cannot be empty.");
+            errors.Add(key: nameof(command.PreferenceId), value: "Preferences or user id cannot be empty.");
         }
 
         if (command?.Preference?.FinancePreference is null)

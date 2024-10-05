@@ -27,12 +27,13 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<GetPreferenceResponse?> GetUserPreferencesAsync(Guid id, bool includeFinancePreferences,
+    public async Task<GetPreferenceResponse?> GetUserPreferencesByUserIdAsync(Guid userId,
+        bool includeFinancePreferences,
         bool includeNotificationPreferences, bool includeGeneralPreferences,
         CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(query: new GetPreferenceQuery(
-            MessageContext: _messageContextFactory.Current(), PreferenceIdOrUserId: id,
+        return await _queryDispatcher.QueryAsync(query: new GetPreferencesQuery(
+            MessageContext: _messageContextFactory.Current(), UserId: userId,
                 IncludeFinancePreferences: includeFinancePreferences,
                 IncludeNotificationPreferences: includeNotificationPreferences,
                 IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);

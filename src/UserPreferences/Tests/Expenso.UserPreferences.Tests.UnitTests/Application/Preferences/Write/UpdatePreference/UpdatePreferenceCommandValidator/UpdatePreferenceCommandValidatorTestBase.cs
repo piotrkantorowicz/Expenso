@@ -2,8 +2,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 
 using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.
-    UpdatePreferenceCommandValidator;
+    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
@@ -16,7 +15,7 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
     public void SetUp()
     {
         _updatePreferenceCommand = new UpdatePreferenceCommand(
-            MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceOrUserId: Guid.NewGuid(),
+            MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: Guid.NewGuid(),
             Preference: new UpdatePreferenceRequest(
                 FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 2, AllowAddFinancePlanReviewers: true,

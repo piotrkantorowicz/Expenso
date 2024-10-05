@@ -25,13 +25,13 @@ internal static class PreferencesDataInitializer
 
             if (preference is not null)
             {
-                PreferenceIds?.Add(item: preference.PreferenceId);
+                PreferenceIds.Add(item: preference.PreferenceId);
             }
         }
 
         await commandDispatcher.SendAsync(
             command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                PreferenceOrUserId: UserDataInitializer.UserIds[index: 0],
+                PreferenceId: PreferenceIds[index: 0],
                 Preference: new UpdatePreferenceRequest(
                     FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                         MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,

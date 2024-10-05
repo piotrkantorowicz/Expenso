@@ -6,7 +6,7 @@ namespace Expenso.UserPreferences.Proxy;
 
 public interface IUserPreferencesProxy
 {
-    Task<GetPreferenceResponse?> GetUserPreferencesAsync(Guid id, bool includeFinancePreferences,
+    Task<GetPreferenceResponse?> GetUserPreferencesByUserIdAsync(Guid userId, bool includeFinancePreferences,
         bool includeNotificationPreferences, bool includeGeneralPreferences,
         CancellationToken cancellationToken = default);
 

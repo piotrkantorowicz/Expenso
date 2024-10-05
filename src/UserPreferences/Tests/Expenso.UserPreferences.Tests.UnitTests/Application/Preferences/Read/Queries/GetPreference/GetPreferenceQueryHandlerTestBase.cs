@@ -1,17 +1,15 @@
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
 
-using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.GetPreferenceQueryHandler;
-
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreference;
 
-internal abstract class GetPreferenceQueryHandlerTestBase : TestBase<TestCandidate>
+internal abstract class GetPreferenceQueryHandlerTestBase : TestBase<GetPreferencesQueryHandler>
 {
     protected Mock<IExecutionContext> _executionContextMock = null!;
     protected GetPreferenceResponse _getPreferenceResponse = null!;
@@ -36,7 +34,7 @@ internal abstract class GetPreferenceQueryHandlerTestBase : TestBase<TestCandida
         _userContextMock.SetupGet(expression: x => x.UserId).Returns(value: _userId.ToString());
         _executionContextMock.SetupGet(expression: x => x.UserContext).Returns(value: _userContextMock.Object);
 
-        TestCandidate = new TestCandidate(preferencesRepository: _preferenceRepositoryMock.Object,
+        TestCandidate = new GetPreferencesQueryHandler(preferencesRepository: _preferenceRepositoryMock.Object,
             executionContextAccessor: _userContextAccessorMock.Object);
     }
 }

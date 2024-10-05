@@ -45,16 +45,16 @@ public sealed class UserPreferencesModule : IModuleDefinition
 
     public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
-        EndpointRegistration getPreferencesEndpointRegistration = new(Pattern: "preferences/{id}",
-            Name: "GetPreferences", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
-                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
+        EndpointRegistration getPreferenceEndpointRegistration = new(Pattern: "preferences/{id}", Name: "GetPreference",
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+                [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferenceResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 [FromQuery] bool? includeFinancePreferences = null,
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? response = await handler.HandleAsync(query: new GetPreferenceQuery(
-                    MessageContext: messageContextFactory.Current(), PreferenceIdOrUserId: id,
+                GetPreferenceResponse? response = await handler.HandleAsync(query: new GetPreferencesQuery(
+                    MessageContext: messageContextFactory.Current(), PreferenceId: id,
                         IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
@@ -64,15 +64,32 @@ public sealed class UserPreferencesModule : IModuleDefinition
 
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new(Pattern: "preferences/current-user",
             Name: "GetCurrentUserPreferences", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get,
-            Handler: async ([FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
+            Handler: async ([FromServices] IQueryHandler<GetPreferencesQuery, GetPreferenceResponse> handler,  
                 [FromServices] IMessageContextFactory messageContextFactory,
                 [FromQuery] bool? includeFinancePreferences = null,
                 [FromQuery] bool? includeNotificationPreferences = null,
                 [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
             {
                 GetPreferenceResponse? response = await handler.HandleAsync(
-                    query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(), ForCurrentUser: true,
-                        IncludeFinancePreferences: includeFinancePreferences,
+                    query: new GetPreferencesQuery(MessageContext: messageContextFactory.Current(),
+                        ForCurrentUser: true, IncludeFinancePreferences: includeFinancePreferences,
+                        IncludeNotificationPreferences: includeNotificationPreferences,
+                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
+
+                return Results.Ok(value: response);
+            });
+
+        EndpointRegistration getPreferencesEndpointRegistration = new(Pattern: "preferences", Name: "GetPreferences",
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+                [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferenceResponse> handler,
+                [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? id = null,
+                [FromQuery] Guid? userId = null, [FromQuery] bool? includeFinancePreferences = null,
+                [FromQuery] bool? includeNotificationPreferences = null,
+                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
+            {
+                GetPreferenceResponse? response = await handler.HandleAsync(query: new GetPreferencesQuery(
+                    MessageContext: messageContextFactory.Current(), PreferenceId: id, UserId: userId,
+                    IncludeFinancePreferences: includeFinancePreferences,
                         IncludeNotificationPreferences: includeNotificationPreferences,
                         IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
 
@@ -90,7 +107,7 @@ public sealed class UserPreferencesModule : IModuleDefinition
                         Preference: new CreatePreferenceRequest(UserId: model.UserId)),
                     cancellationToken: cancellationToken);
 
-                return Results.CreatedAtRoute(routeName: getPreferencesEndpointRegistration.Name, routeValues: new
+                return Results.CreatedAtRoute(routeName: getPreferenceEndpointRegistration.Name, routeValues: new
                 {
                     id = response?.PreferenceId
                 }, value: response);
@@ -104,15 +121,16 @@ public sealed class UserPreferencesModule : IModuleDefinition
             {
                 await handler.HandleAsync(
                     command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                        PreferenceOrUserId: id, Preference: model), cancellationToken: cancellationToken);
+                        PreferenceId: id, Preference: model), cancellationToken: cancellationToken);
 
                 return Results.NoContent();
             });
 
         return
         [
-            getPreferencesEndpointRegistration,
+            getPreferenceEndpointRegistration,
             getCurrentUserPreferencesEndpointRegistration,
+            getPreferencesEndpointRegistration,
             createPreferencesEndpointRegistration,
             updatePreferencesEndpointRegistration
         ];
