@@ -38,7 +38,7 @@ internal sealed class
 
         if (jobType is null)
         {
-            throw new NotFoundException(message: $"Job instance with id {jobInstanceId} not found");
+            throw new NotFoundException(message: $"Job instance with ID {jobInstanceId} not found");
         }
 
         Guid jobStatusId = JobEntryStatus.Running.Id;
@@ -48,7 +48,7 @@ internal sealed class
 
         if (runningJobStatus is null)
         {
-            throw new NotFoundException(message: $"Job status with id {jobStatusId} not found");
+            throw new NotFoundException(message: $"Job status with ID {jobStatusId} not found");
         }
 
         JobEntry? jobEntry = CreateJobEntry(jobEntry: entryCommand.RegisterJobEntryRequest, jobInstance: jobType,

@@ -94,7 +94,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Resource (client Id) must be provided and cannot be empty.";
+        const string expectedValidationMessage = "Resource (client ID) must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_keycloakSettings.Resource)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -112,7 +112,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         validationResult.Should().NotBeNullOrEmpty();
 
         const string expectedValidationMessage =
-            "Resource (client Id) must be an alpha string with a length between 5 and 100 characters.";
+            "Resource (client ID) must be an alpha string with a length between 5 and 100 characters.";
 
         string error = validationResult[key: nameof(_keycloakSettings.Resource)];
         error.Should().Be(expected: expectedValidationMessage);

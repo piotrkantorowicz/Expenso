@@ -20,7 +20,7 @@ internal sealed class ApplicationSettingsValidator : ISettingsValidator<Applicat
 
         if (settings.InstanceId is null || settings.InstanceId == Guid.Empty)
         {
-            errors.Add(key: nameof(settings.InstanceId), value: "Instance Id must be provided and cannot be empty.");
+            errors.Add(key: nameof(settings.InstanceId), value: "Instance ID must be provided and cannot be empty.");
         }
 
         if (string.IsNullOrEmpty(value: settings.Name))

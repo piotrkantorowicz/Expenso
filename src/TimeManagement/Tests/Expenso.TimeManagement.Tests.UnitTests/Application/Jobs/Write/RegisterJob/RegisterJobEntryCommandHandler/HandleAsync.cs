@@ -82,7 +82,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job instance with id {JobInstance.Default.Id} not found.");
+            .WithMessage(expectedWildcardPattern: $"Job instance with ID {JobInstance.Default.Id} not found.");
     }
 
     [Test]
@@ -114,7 +114,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job status with id {JobEntryStatus.Running.Id} not found.");
+            .WithMessage(expectedWildcardPattern: $"Job status with ID {JobEntryStatus.Running.Id} not found.");
     }
 
     [Test]

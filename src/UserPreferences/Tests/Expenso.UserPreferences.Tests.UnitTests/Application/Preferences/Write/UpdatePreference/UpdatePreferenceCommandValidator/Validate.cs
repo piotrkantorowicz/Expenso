@@ -33,7 +33,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 
         // Assert
         AssertSingleError(validationResult: validationResult, propertyName: "PreferenceId",
-            errorMessage: "Preference id cannot be empty.");
+            errorMessage: "Preference ID cannot be empty.");
     }
 
     [Test]

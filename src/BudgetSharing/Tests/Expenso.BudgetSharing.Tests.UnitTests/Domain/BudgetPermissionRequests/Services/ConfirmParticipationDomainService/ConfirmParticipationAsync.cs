@@ -81,7 +81,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission request with id {_budgetPermissionRequestId} hasn't been found.");
+                $"Budget permission request with ID {_budgetPermissionRequestId} hasn't been found.");
     }
 
     [Test]
@@ -107,7 +107,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission with id {_budgetPermissionRequest.BudgetId} hasn't been found.");
+                $"Budget permission with ID {_budgetPermissionRequest.BudgetId} hasn't been found.");
     }
 
     [Test]
@@ -179,6 +179,6 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetailsAsync(
                 expectedWildcardPattern:
-                $"Permission of type {_budgetPermissionRequest.PermissionType} can't be assigned to budget with id {_budgetPermission.BudgetId}, because permission type is not valid or budget owner with id: {_budgetPermission.OwnerId} don't allow any or more participants.");
+                $"Permission of type {_budgetPermissionRequest.PermissionType} can't be assigned to budget with ID {_budgetPermission.BudgetId}, because permission type is not valid or budget owner with ID {_budgetPermission.OwnerId} don't allow any or more participants.");
     }
 }

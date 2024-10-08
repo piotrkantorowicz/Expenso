@@ -17,7 +17,7 @@ internal sealed class HandleAsync : CommandHandlerResultTestBase
         // Assert
         commandResult?.Should().NotBeNull();
         commandResult?.Message.Should().NotBeNullOrEmpty();
-        string message = $"Successfully processed command with id: {_testCommand.Id}";
+        string message = $"Successfully processed command with ID {_testCommand.Id}";
         commandResult?.Message.Should().Be(expected: message);
     }
 }

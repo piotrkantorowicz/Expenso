@@ -38,7 +38,7 @@ internal sealed class BackgroundJob : BackgroundService
             await jobInstanceRepository.GetAsync(id: _jobInstanceId, cancellationToken: cancellationToken);
 
         _jobInstance = jobInstance ??
-                       throw new ArgumentException(message: $"Job entry type with id {_jobInstanceId} not found");
+                       throw new ArgumentException(message: $"Job entry type with ID {_jobInstanceId} not found");
 
         _interval = TimeSpan.FromSeconds(value: _jobInstance?.RunningDelay ?? 10);
         await base.StartAsync(cancellationToken: cancellationToken);

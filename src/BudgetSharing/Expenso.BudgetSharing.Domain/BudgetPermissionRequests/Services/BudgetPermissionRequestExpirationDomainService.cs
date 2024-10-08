@@ -28,7 +28,7 @@ internal sealed class BudgetPermissionRequestExpirationDomainService : IBudgetPe
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with id {budgetPermissionRequestId} hasn't been found.");
+                message: $"Budget permission request with ID {budgetPermissionRequestId} hasn't been found.");
         }
 
         budgetPermissionRequest.Expire();

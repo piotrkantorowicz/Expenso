@@ -51,7 +51,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
         if (string.IsNullOrEmpty(value: settings.Resource))
         {
             errors.Add(key: nameof(settings.Resource),
-                value: "Resource (client Id) must be provided and cannot be empty.");
+                value: "Resource (client ID) must be provided and cannot be empty.");
         }
         else
         {
@@ -59,7 +59,7 @@ internal sealed class KeycloakSettingsValidator : ISettingsValidator<KeycloakSet
                     specialCharacters: "_.-"))
             {
                 errors.Add(key: nameof(settings.Resource),
-                    value: "Resource (client Id) must be an alpha string with a length between 5 and 100 characters.");
+                    value: "Resource (client ID) must be an alpha string with a length between 5 and 100 characters.");
             }
         }
 

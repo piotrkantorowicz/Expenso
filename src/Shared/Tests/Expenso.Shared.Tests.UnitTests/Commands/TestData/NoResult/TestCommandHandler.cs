@@ -15,7 +15,7 @@ internal sealed class TestCommandHandler : ICommandHandler<TestCommand>
     public async Task HandleAsync(TestCommand command, CancellationToken cancellationToken)
     {
         _logger.LogInfo(eventId: LoggingUtils.GeneralInformation,
-            message: "Successfully processed command with id: {CommandId}", messageContext: command.MessageContext,
+            message: "Successfully processed command with ID {CommandId}", messageContext: command.MessageContext,
             args: command.Id);
 
         await Task.CompletedTask;

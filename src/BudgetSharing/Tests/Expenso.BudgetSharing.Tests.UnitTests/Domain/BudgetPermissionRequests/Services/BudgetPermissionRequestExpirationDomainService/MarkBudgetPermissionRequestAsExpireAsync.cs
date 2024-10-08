@@ -51,6 +51,6 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission request with id {budgetPermissionRequestId} hasn't been found.");
+                $"Budget permission request with ID {budgetPermissionRequestId} hasn't been found.");
     }
 }

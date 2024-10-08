@@ -15,7 +15,7 @@ internal sealed class TestDomainEventHandler : IDomainEventHandler<TestDomainEve
     public async Task HandleAsync(TestDomainEvent @event, CancellationToken cancellationToken)
     {
         _logger.LogInfo(eventId: LoggingUtils.GeneralInformation,
-            message: "Successfully handled @event with id: {EventId} and name: {EventName}",
+            message: "Successfully handled @event with ID {EventId} and name: {EventName}",
             messageContext: @event.MessageContext, args: [@event.Id, @event.Name]);
 
         await Task.CompletedTask;
