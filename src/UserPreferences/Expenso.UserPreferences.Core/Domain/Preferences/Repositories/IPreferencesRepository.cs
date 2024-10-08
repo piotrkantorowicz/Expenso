@@ -5,9 +5,11 @@ namespace Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 internal interface IPreferencesRepository
 {
-    Task<Preference?> GetAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken);
+    Task<Preference?> GetAsync(PreferenceQuerySpecification preferenceQuerySpecification,
+        CancellationToken cancellationToken);
 
-    Task<bool> ExistsAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken);
+    Task<bool> ExistsAsync(PreferenceQuerySpecification preferenceQuerySpecification,
+        CancellationToken cancellationToken);
 
     Task<Preference> CreateAsync(Preference preference, CancellationToken cancellationToken);
 

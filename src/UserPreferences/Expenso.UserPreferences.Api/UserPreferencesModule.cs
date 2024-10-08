@@ -6,13 +6,20 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Request;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
-using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,51 +54,48 @@ public sealed class UserPreferencesModule : IModuleDefinition
     {
         EndpointRegistration getPreferenceEndpointRegistration = new(Pattern: "preferences/{id}", Name: "GetPreference",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
-                [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferenceResponse> handler,
+                [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
-                [FromQuery] bool? includeFinancePreferences = null,
-                [FromQuery] bool? includeNotificationPreferences = null,
-                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetPreferenceRequest_PreferenceTypes preferenceType =
+                    GetPreferenceRequest_PreferenceTypes.None, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? response = await handler.HandleAsync(query: new GetPreferencesQuery(
-                    MessageContext: messageContextFactory.Current(), PreferenceId: id,
-                        IncludeFinancePreferences: includeFinancePreferences,
-                        IncludeNotificationPreferences: includeNotificationPreferences,
-                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
+                GetPreferenceResponse? response = await handler.HandleAsync(
+                    query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(),
+                        Payload: new GetPreferenceRequest(PreferenceId: id, PreferenceType: preferenceType)),
+                    cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });
 
         EndpointRegistration getCurrentUserPreferencesEndpointRegistration = new(Pattern: "preferences/current-user",
             Name: "GetCurrentUserPreferences", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get,
-            Handler: async ([FromServices] IQueryHandler<GetPreferencesQuery, GetPreferenceResponse> handler,  
+            Handler: async (
+                [FromServices]
+                IQueryHandler<GetPreferenceForCurrentUserQuery, GetPreferenceForCurrentUserResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory,
-                [FromQuery] bool? includeFinancePreferences = null,
-                [FromQuery] bool? includeNotificationPreferences = null,
-                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetPreferenceForCurrentUserRequest_PreferenceTypes preferenceType =
+                    GetPreferenceForCurrentUserRequest_PreferenceTypes.None,
+                CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? response = await handler.HandleAsync(
-                    query: new GetPreferencesQuery(MessageContext: messageContextFactory.Current(),
-                        ForCurrentUser: true, IncludeFinancePreferences: includeFinancePreferences,
-                        IncludeNotificationPreferences: includeNotificationPreferences,
-                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
+                GetPreferenceForCurrentUserResponse? response = await handler.HandleAsync(
+                    query: new GetPreferenceForCurrentUserQuery(MessageContext: messageContextFactory.Current(),
+                        Payload: new GetPreferenceForCurrentUserRequest()), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });
 
         EndpointRegistration getPreferencesEndpointRegistration = new(Pattern: "preferences", Name: "GetPreferences",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
-                [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferenceResponse> handler,
+                [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferencesResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? id = null,
-                [FromQuery] Guid? userId = null, [FromQuery] bool? includeFinancePreferences = null,
-                [FromQuery] bool? includeNotificationPreferences = null,
-                [FromQuery] bool? includeGeneralPreferences = null, CancellationToken cancellationToken = default) =>
+                [FromQuery] Guid? userId = null,
+                [FromQuery] GetPreferencesRequest_PreferenceTypes preferenceType =
+                    GetPreferencesRequest_PreferenceTypes.None, CancellationToken cancellationToken = default) =>
             {
-                GetPreferenceResponse? response = await handler.HandleAsync(query: new GetPreferencesQuery(
-                    MessageContext: messageContextFactory.Current(), PreferenceId: id, UserId: userId,
-                    IncludeFinancePreferences: includeFinancePreferences,
-                        IncludeNotificationPreferences: includeNotificationPreferences,
-                        IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
+                GetPreferencesResponse? response = await handler.HandleAsync(
+                    query: new GetPreferencesQuery(MessageContext: messageContextFactory.Current(),
+                        Payload: new GetPreferencesRequest(PreferenceId: id, UserId: userId,
+                            PreferenceType: preferenceType)), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });
@@ -104,7 +108,7 @@ public sealed class UserPreferencesModule : IModuleDefinition
             {
                 CreatePreferenceResponse? response = await handler.HandleAsync(
                     command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                        Preference: new CreatePreferenceRequest(UserId: model.UserId)),
+                        Payload: new CreatePreferenceRequest(UserId: model.UserId)),
                     cancellationToken: cancellationToken);
 
                 return Results.CreatedAtRoute(routeName: getPreferenceEndpointRegistration.Name, routeValues: new
@@ -121,7 +125,7 @@ public sealed class UserPreferencesModule : IModuleDefinition
             {
                 await handler.HandleAsync(
                     command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                        PreferenceId: id, Preference: model), cancellationToken: cancellationToken);
+                        PreferenceId: id, Payload: model), cancellationToken: cancellationToken);
 
                 return Results.NoContent();
             });

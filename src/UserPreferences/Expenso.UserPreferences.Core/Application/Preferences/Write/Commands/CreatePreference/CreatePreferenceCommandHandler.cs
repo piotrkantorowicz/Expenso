@@ -5,7 +5,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Create
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 
@@ -23,22 +23,23 @@ internal sealed class
     public async Task<CreatePreferenceResponse?> HandleAsync(CreatePreferenceCommand command,
         CancellationToken cancellationToken)
     {
-        PreferenceFilter filter = new()
+        PreferenceQuerySpecification querySpecification = new()
         {
-            UserId = command.Preference.UserId,
+            UserId = command.Payload.UserId,
             UseTracking = false
         };
 
         bool dbUserPreferencesExists =
-            await _preferencesRepository.ExistsAsync(preferenceFilter: filter, cancellationToken: cancellationToken);
+            await _preferencesRepository.ExistsAsync(preferenceQuerySpecification: querySpecification,
+                cancellationToken: cancellationToken);
 
         if (dbUserPreferencesExists)
         {
             throw new ConflictException(
-                message: $"Preferences for user with id {command.Preference.UserId} already exists");
+                message: $"Preferences for user with id {command.Payload.UserId} already exists");
         }
 
-        Preference preferenceToCreate = PreferenceFactory.Create(userId: command.Preference.UserId);
+        Preference preferenceToCreate = PreferenceFactory.Create(userId: command.Payload.UserId);
 
         Preference preference =
             await _preferencesRepository.CreateAsync(preference: preferenceToCreate,

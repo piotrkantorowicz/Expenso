@@ -1,6 +1,6 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
@@ -22,7 +22,7 @@ internal sealed class GetPreferences : PreferencesTestBase
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.Id.Should().Be(expected: preferenceId);
     }
-    
+
     [Test]
     public async Task Should_ReturnExpectedResult_When_PassUserId()
     {

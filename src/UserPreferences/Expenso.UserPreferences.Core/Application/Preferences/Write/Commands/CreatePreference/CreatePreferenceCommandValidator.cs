@@ -1,27 +1,21 @@
 using Expenso.Shared.Commands.Validation;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.DTO.Request.Validators;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 
-internal sealed class CreatePreferenceCommandValidator : ICommandValidator<CreatePreferenceCommand>
+internal sealed class CreatePreferenceCommandValidator : CommandValidator<CreatePreferenceCommand>
 {
-    public IDictionary<string, string> Validate(CreatePreferenceCommand? command)
+    public CreatePreferenceCommandValidator(MessageContextValidator messageContextValidator,
+        CreatePreferenceRequestValidator preferenceRequestValidator) : base(
+        messageContextValidator: messageContextValidator)
     {
-        Dictionary<string, string> errors = new();
+        RuleFor(expression: x => x.Payload).NotNull();
 
-        if (command is null)
+        When(predicate: x => x.Payload != null, action: () =>
         {
-            errors.Add(key: nameof(command).Pascalize(), value: "Command is required.");
-
-            return errors;
-        }
-
-        if (command.Preference.UserId == Guid.Empty)
-        {
-            errors.Add(key: nameof(command.Preference.UserId), value: "User id cannot be empty.");
-        }
-
-        return errors;
+            RuleFor(expression: x => x.Payload).SetValidator(validator: preferenceRequestValidator!);
+        });
     }
 }

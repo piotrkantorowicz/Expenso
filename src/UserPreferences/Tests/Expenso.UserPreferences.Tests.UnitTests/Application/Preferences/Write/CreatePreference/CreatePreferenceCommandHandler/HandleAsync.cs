@@ -2,8 +2,8 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandHandler;
@@ -15,11 +15,12 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     {
         // Arrange
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Preference: new CreatePreferenceRequest(UserId: _userId));
+            Payload: new CreatePreferenceRequest(UserId: _userId));
 
         _preferenceRepositoryMock
-            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
-                It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.ExistsAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: false);
 
         _preferenceRepositoryMock
@@ -43,11 +44,12 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     {
         // Arrange
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Preference: new CreatePreferenceRequest(UserId: _userId));
+            Payload: new CreatePreferenceRequest(UserId: _userId));
 
         _preferenceRepositoryMock
-            .Setup(expression: x => x.ExistsAsync(new PreferenceFilter(null, _userId, false, null, null, null),
-                It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.ExistsAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: true);
 
         // Act
@@ -59,6 +61,6 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             .Should()
             .ThrowAsync<ConflictException>()
             .WithMessage(
-                expectedWildcardPattern: $"Preferences for user with id {command.Preference.UserId} already exists.");
+                expectedWildcardPattern: $"Preferences for user with id {command.Payload.UserId} already exists.");
     }
 }

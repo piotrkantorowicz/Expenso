@@ -9,14 +9,15 @@ internal sealed class GetByIdAsync : PreferenceRepositoryTestBase
     public async Task Should_ReturnPreference_When_PreferenceExists(Guid preferenceId)
     {
         // Arrange
-        PreferenceFilter filter = new()
+        PreferenceQuerySpecification querySpecification = new()
         {
             PreferenceId = preferenceId,
             UseTracking = false
         };
 
         // Act
-        Preference? preference = await TestCandidate.GetAsync(preferenceFilter: filter, cancellationToken: default);
+        Preference? preference = await TestCandidate.GetAsync(preferenceQuerySpecification: querySpecification,
+            cancellationToken: default);
 
         // Assert
         preference.Should().NotBeNull();

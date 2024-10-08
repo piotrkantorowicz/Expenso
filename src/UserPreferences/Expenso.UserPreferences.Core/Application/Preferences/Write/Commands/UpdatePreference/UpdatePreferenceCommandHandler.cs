@@ -7,9 +7,9 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.FinancePreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.GeneralPreferences;
-using Expenso.UserPreferences.Proxy.DTO.MessageBus.UpdatePreference.NotificationPreferences;
+using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences;
+using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
+using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 
@@ -33,51 +33,47 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken)
     {
-        (_, Guid preferenceOrUserId, UpdatePreferenceRequest? updatePreferenceRequest) = command;
+        PreferenceQuerySpecification preferenceQuerySpecification = new(PreferenceId: command.PreferenceId,
+            UseTracking: true, PreferenceType: PreferenceTypes.All);
 
-        (UpdatePreferenceRequest_FinancePreference? financePreferenceRequest,
-            UpdatePreferenceRequest_NotificationPreference? notificationPreferenceRequest,
-            UpdatePreferenceRequest_GeneralPreference? generalPreferenceRequest) = updatePreferenceRequest!;
-
-        PreferenceFilter preferenceFilter = new(PreferenceId: preferenceOrUserId, UseTracking: true,
-            IncludeFinancePreferences: true, IncludeGeneralPreferences: true, IncludeNotificationPreferences: true);
-
-        Preference? dbPreference = await _preferencesRepository.GetAsync(preferenceFilter: preferenceFilter,
+        Preference? dbPreference = await _preferencesRepository.GetAsync(
+            preferenceQuerySpecification: preferenceQuerySpecification,
             cancellationToken: cancellationToken);
 
         if (dbPreference is null)
         {
-            throw new ConflictException(
-                message:
-                $"User preferences for user with id {preferenceOrUserId} or with own id: {preferenceOrUserId} haven't been found");
+            throw new ConflictException(message: $"User preferences with id {command.PreferenceId} haven't been found");
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,
-            updateGeneralPreference: generalPreferenceRequest!, updateFinancePreference: financePreferenceRequest!,
-            updateNotificationPreference: notificationPreferenceRequest!, cancellationToken: cancellationToken);
+            updateGeneralPreference: command.Payload?.GeneralPreference,
+            updateFinancePreference: command.Payload?.FinancePreference,
+            updateNotificationPreference: command.Payload?.NotificationPreference,
+            cancellationToken: cancellationToken);
 
         await _preferencesRepository.UpdateAsync(preference: dbPreference, cancellationToken: cancellationToken);
         await Task.WhenAll(tasks: integrationMessagesTasks);
     }
 
     private IEnumerable<Task> Update(Preference preference,
-        UpdatePreferenceRequest_GeneralPreference updateGeneralPreference,
-        UpdatePreferenceRequest_FinancePreference updateFinancePreference,
-        UpdatePreferenceRequest_NotificationPreference updateNotificationPreference,
+        UpdatePreferenceRequest_GeneralPreference? updateGeneralPreference,
+        UpdatePreferenceRequest_FinancePreference? updateFinancePreference,
+        UpdatePreferenceRequest_NotificationPreference? updateNotificationPreference,
         CancellationToken cancellationToken)
     {
-        GeneralPreference generalPreference =
+        GeneralPreference? generalPreference =
             UpdatePreferenceRequestMap.MapFrom(generalGeneralPreference: updateGeneralPreference);
 
-        FinancePreference financePreference =
+        FinancePreference? financePreference =
             UpdatePreferenceRequestMap.MapFrom(financePreference: updateFinancePreference);
 
-        NotificationPreference notificationPreference =
+        NotificationPreference? notificationPreference =
             UpdatePreferenceRequestMap.MapFrom(updatePreferenceRequest: updateNotificationPreference);
 
         ICollection<Task> tasks = [];
 
-        if (preference.GeneralPreference is not null && preference.GeneralPreference != generalPreference)
+        if (preference.GeneralPreference is not null && generalPreference is not null &&
+            preference.GeneralPreference != generalPreference)
         {
             preference.GeneralPreference = preference.GeneralPreference with
             {
@@ -91,7 +87,8 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
                 cancellationToken: cancellationToken));
         }
 
-        if (preference.FinancePreference is not null && preference.FinancePreference != financePreference)
+        if (preference.FinancePreference is not null && financePreference is not null &&
+            preference.FinancePreference != financePreference)
         {
             preference.FinancePreference = preference.FinancePreference with
             {
@@ -108,7 +105,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
                 cancellationToken: cancellationToken));
         }
 
-        if (preference.NotificationPreference is not null &&
+        if (preference.NotificationPreference is not null && notificationPreference is not null &&
             preference.NotificationPreference != notificationPreference)
         {
             preference.NotificationPreference = preference.NotificationPreference with

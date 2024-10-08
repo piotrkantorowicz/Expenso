@@ -7,4 +7,4 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 public sealed record UpdatePreferenceCommand(
     IMessageContext MessageContext,
     Guid PreferenceId,
-    UpdatePreferenceRequest? Preference) : ICommand;
+    UpdatePreferenceRequest? Payload) : ICommand;

@@ -1,6 +1,6 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
@@ -20,7 +20,7 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
 
         // Act
         CreatePreferenceResponse? preference = await TestCandidate.CreatePreferencesAsync(
-            createPreferenceRequest: createPreferenceRequest, cancellationToken: It.IsAny<CancellationToken>());
+            request: createPreferenceRequest, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         preference.Should().NotBeNull();
