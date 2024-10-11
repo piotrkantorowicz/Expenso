@@ -33,7 +33,7 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
         // Arrange
         Dictionary<string, string> errors = new()
         {
-            { "Id", "Id is required" },
+            { "Id", "ID is required" },
             { "Name", "Name is required" }
         };
 
@@ -41,7 +41,7 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
             .Setup(expression: x => x.Validate(_testCommand))
             .Returns(value: new Dictionary<string, string>
             {
-                { "Id", "Id is required" },
+                { "Id", "ID is required" },
                 { "Name", "Name is required" }
             });
 
@@ -55,6 +55,6 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
             .ThrowAsync<ValidationException>()
             .Where(exceptionExpression: x => errors.All(y => x.ErrorDictionary.Contains(y)))
             .Where(exceptionExpression: x => x.Details ==
-                                             $"Id: Id is required{Environment.NewLine}Name: Name is required{Environment.NewLine}");
+                                             $"Id: ID is required{Environment.NewLine}Name: Name is required{Environment.NewLine}");
     }
 }
