@@ -1,3 +1,5 @@
+using System.Text;
+
 using FluentValidation;
 
 namespace Expenso.Shared.Commands.Validation;
@@ -20,7 +22,18 @@ internal sealed class CommandHandlerFluentValidationDecorator<TCommand> : IComma
         Dictionary<string, string> errors = _validators
             .Select(selector: x => x.Validate(instance: command))
             .SelectMany(selector: x => x.Errors)
-            .ToDictionary(keySelector: x => x.PropertyName, elementSelector: x => x.ErrorMessage);
+            .GroupBy(keySelector: x => x.PropertyName)
+            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
+            {
+                StringBuilder sb = new();
+
+                foreach (string? error in g.Select(selector: e => e.ErrorMessage))
+                {
+                    sb.AppendLine(value: error);
+                }
+
+                return sb.ToString().TrimEnd();
+            });
 
         if (errors.Count is not 0)
         {
@@ -44,12 +57,23 @@ internal sealed class CommandHandlerFluentValidationDecorator<TCommand, TResult>
         _validators = validators ?? throw new ArgumentNullException(paramName: nameof(validators));
     }
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
+    public async Task<TResult> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         Dictionary<string, string> errors = _validators
             .Select(selector: x => x.Validate(instance: command))
             .SelectMany(selector: x => x.Errors)
-            .ToDictionary(keySelector: x => x.PropertyName, elementSelector: x => x.ErrorMessage);
+            .GroupBy(keySelector: x => x.PropertyName)
+            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
+            {
+                StringBuilder sb = new();
+
+                foreach (string? error in g.Select(selector: e => e.ErrorMessage))
+                {
+                    sb.AppendLine(value: error);
+                }
+
+                return sb.ToString().TrimEnd();
+            });
 
         if (errors.Count is not 0)
         {

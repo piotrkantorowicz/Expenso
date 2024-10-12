@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Expenso.Shared.Commands.Validation;
 
 internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand>
@@ -18,7 +20,18 @@ internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHand
         Dictionary<string, string> errors = _validators
             .Select(selector: x => x.Validate(command: command))
             .SelectMany(selector: x => x)
-            .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
+            .GroupBy(keySelector: x => x.Key)
+            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
+            {
+                StringBuilder sb = new();
+
+                foreach (string error in g.Select(selector: e => e.Value))
+                {
+                    sb.AppendLine(value: error);
+                }
+
+                return sb.ToString().TrimEnd();
+            });
 
         if (errors.Count is not 0)
         {
@@ -42,12 +55,23 @@ internal sealed class CommandHandlerValidationDecorator<TCommand, TResult> : ICo
         _validators = validators ?? throw new ArgumentNullException(paramName: nameof(validators));
     }
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
+    public async Task<TResult> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         Dictionary<string, string> errors = _validators
             .Select(selector: x => x.Validate(command: command))
             .SelectMany(selector: x => x)
-            .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
+            .GroupBy(keySelector: x => x.Key)
+            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
+            {
+                StringBuilder sb = new();
+
+                foreach (string error in g.Select(selector: e => e.Value))
+                {
+                    sb.AppendLine(value: error);
+                }
+
+                return sb.ToString().TrimEnd();
+            });
 
         if (errors.Count is not 0)
         {

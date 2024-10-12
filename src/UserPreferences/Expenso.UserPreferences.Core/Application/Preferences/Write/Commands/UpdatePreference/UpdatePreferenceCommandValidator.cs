@@ -11,6 +11,9 @@ internal sealed class UpdatePreferenceCommandValidator : CommandValidator<Update
         UpdatePreferenceRequestValidator updatePreferenceCommandValidator) : base(
         messageContextValidator: messageContextValidator)
     {
+        ArgumentNullException.ThrowIfNull(argument: updatePreferenceCommandValidator,
+            paramName: nameof(updatePreferenceCommandValidator));
+
         RuleFor(expression: x => x.Payload).NotNull();
         RuleFor(expression: x => x.PreferenceId).NotEmpty().WithMessage(errorMessage: "Preference id cannot be empty.");
 

@@ -20,12 +20,14 @@ internal sealed class
                                  throw new ArgumentNullException(paramName: nameof(preferencesRepository));
     }
 
-    public async Task<CreatePreferenceResponse?> HandleAsync(CreatePreferenceCommand command,
+    public async Task<CreatePreferenceResponse> HandleAsync(CreatePreferenceCommand command,
         CancellationToken cancellationToken)
     {
+        Guid userId = command.Payload!.UserId;
+
         PreferenceQuerySpecification querySpecification = new()
         {
-            UserId = command.Payload.UserId,
+            UserId = userId,
             UseTracking = false
         };
 
@@ -35,11 +37,10 @@ internal sealed class
 
         if (dbUserPreferencesExists)
         {
-            throw new ConflictException(
-                message: $"Preferences for user with id {command.Payload.UserId} already exists");
+            throw new ConflictException(message: $"Preferences for user with id {userId} already exists");
         }
 
-        Preference preferenceToCreate = PreferenceFactory.Create(userId: command.Payload.UserId);
+        Preference preferenceToCreate = PreferenceFactory.Create(userId: userId);
 
         Preference preference =
             await _preferencesRepository.CreateAsync(preference: preferenceToCreate,

@@ -43,13 +43,13 @@ internal sealed class CommandHandlerTransactionDecorator<TCommand, TResult> : IC
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(paramName: nameof(unitOfWork));
     }
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
+    public async Task<TResult> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken: cancellationToken);
 
-            TResult? commandResult =
+            TResult commandResult =
                 await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);
 
             await _unitOfWork.CommitTransactionAsync(cancellationToken: cancellationToken);

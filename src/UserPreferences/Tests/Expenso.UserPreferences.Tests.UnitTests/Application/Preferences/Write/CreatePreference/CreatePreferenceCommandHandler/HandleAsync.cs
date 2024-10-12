@@ -61,6 +61,6 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             .Should()
             .ThrowAsync<ConflictException>()
             .WithMessage(
-                expectedWildcardPattern: $"Preferences for user with id {command.Payload.UserId} already exists.");
+                expectedWildcardPattern: $"Preferences for user with id {command.Payload?.UserId} already exists.");
     }
 }

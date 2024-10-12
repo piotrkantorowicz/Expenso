@@ -19,7 +19,7 @@ internal sealed class
                                       throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
     }
 
-    public async Task<CreateBudgetPermissionResponse?> HandleAsync(CreateBudgetPermissionCommand command,
+    public async Task<CreateBudgetPermissionResponse> HandleAsync(CreateBudgetPermissionCommand command,
         CancellationToken cancellationToken)
     {
         (_, (Guid? budgetPermissionId, Guid budgetId, Guid ownerId)) = command;

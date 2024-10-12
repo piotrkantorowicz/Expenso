@@ -21,31 +21,31 @@ internal static class UpdatePreferenceRequestMap
         };
     }
 
-    public static GeneralPreference? MapFrom(UpdatePreferenceRequest_GeneralPreference? generalGeneralPreference)
+    public static GeneralPreference? MapFrom(UpdatePreferenceRequest_GeneralPreference? generalPreference)
     {
-        if (generalGeneralPreference is null)
+        if (generalPreference is null)
         {
             return null;
         }
 
         return new GeneralPreference
         {
-            UseDarkMode = generalGeneralPreference.UseDarkMode
+            UseDarkMode = generalPreference.UseDarkMode
         };
     }
 
     public static NotificationPreference? MapFrom(
-        UpdatePreferenceRequest_NotificationPreference? updatePreferenceRequest)
+        UpdatePreferenceRequest_NotificationPreference? notificationPreference)
     {
-        if (updatePreferenceRequest is null)
+        if (notificationPreference is null)
         {
             return null;
         }
 
         return new NotificationPreference
         {
-            SendFinanceReportEnabled = updatePreferenceRequest.SendFinanceReportEnabled,
-            SendFinanceReportInterval = updatePreferenceRequest.SendFinanceReportInterval
+            SendFinanceReportEnabled = notificationPreference.SendFinanceReportEnabled,
+            SendFinanceReportInterval = notificationPreference.SendFinanceReportInterval
         };
     }
 }

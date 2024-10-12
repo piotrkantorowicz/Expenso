@@ -42,7 +42,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
         if (dbPreference is null)
         {
-            throw new ConflictException(message: $"User preferences with id {command.PreferenceId} haven't been found");
+            throw new NotFoundException(message: $"User preferences with id {command.PreferenceId} haven't been found");
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,
@@ -62,13 +62,15 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
         CancellationToken cancellationToken)
     {
         GeneralPreference? generalPreference =
-            UpdatePreferenceRequestMap.MapFrom(generalGeneralPreference: updateGeneralPreference);
+            UpdatePreferenceRequestMap.MapFrom(generalPreference: updateGeneralPreference);
 
         FinancePreference? financePreference =
             UpdatePreferenceRequestMap.MapFrom(financePreference: updateFinancePreference);
 
+        ;
+
         NotificationPreference? notificationPreference =
-            UpdatePreferenceRequestMap.MapFrom(updatePreferenceRequest: updateNotificationPreference);
+            UpdatePreferenceRequestMap.MapFrom(notificationPreference: updateNotificationPreference);
 
         ICollection<Task> tasks = [];
 
