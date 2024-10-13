@@ -38,6 +38,6 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         validationResult.Errors.Should().HaveCount(expected: 1);
         ValidationFailure validationError = validationResult.Errors.First();
         validationError.PropertyName.Should().Be(expected: "Payload.UserId");
-        validationError.ErrorMessage.Should().Be(expected: "User id cannot be empty.");
+        validationError.ErrorMessage.Should().Be(expected: "The user id must not be empty.");
     }
 }

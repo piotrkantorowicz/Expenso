@@ -1,18 +1,20 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
+using FluentValidation.Results;
+
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.Result;
 
-internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
+internal sealed class HandleAsync : CommandHandlerFluentValidationDecoratorTestBase
 {
     [Test]
     public async Task Should_ReturnCorrectResult_When_NoValidationErrorsOccurred()
     {
         // Arrange
         TestCommandResult expectedCommandResult = new(Message: "Test message");
-        _validator.Setup(expression: x => x.Validate(_testCommand)).Returns(value: new Dictionary<string, string>());
+        _validator.Setup(expression: x => x.Validate(_testCommand)).Returns(value: new ValidationResult());
 
         _handler
             .Setup(expression: x => x.HandleAsync(_testCommand, It.IsAny<CancellationToken>()))
@@ -39,11 +41,11 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 
         _validator
             .Setup(expression: x => x.Validate(_testCommand))
-            .Returns(value: new Dictionary<string, string>
-            {
-                { "Id", "Id is required" },
-                { "Name", "Name is required" }
-            });
+            .Returns(value: new ValidationResult(failures:
+            [
+                new ValidationFailure(propertyName: "Id", errorMessage: "Id is required"),
+                new ValidationFailure(propertyName: "Name", errorMessage: "Name is required")
+            ]));
 
         // Act
         Func<Task> action = async () =>

@@ -33,7 +33,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 
         // Assert
         AssertSingleError(validationResult: validationResult, propertyName: "PreferenceId",
-            errorMessage: "Preference id cannot be empty.");
+            errorMessage: "The preference id must not be empty.");
     }
 
     [Test]
@@ -51,7 +51,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 
         // Assert
         AssertSingleError(validationResult: validationResult, propertyName: "Payload.FinancePreference",
-            errorMessage: "Finance preference cannot be empty.");
+            errorMessage: "The finance preference must not be empty.");
     }
 
     [Test]
@@ -72,7 +72,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Assert
         AssertSingleError(validationResult: validationResult,
             propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
-            errorMessage: "Max number of finance plan reviewers must be between 0 and 10.");
+            errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
     [Test]
@@ -93,7 +93,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Assert
         AssertSingleError(validationResult: validationResult,
             propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
-            errorMessage: "Max number of finance plan reviewers must be between 0 and 10.");
+            errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
     [Test]
@@ -114,7 +114,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Assert
         AssertSingleError(validationResult: validationResult,
             propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
-            errorMessage: "Max number of sub finance plan sub owners must be between 0 and 5.");
+            errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
     [Test]
@@ -135,7 +135,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Assert
         AssertSingleError(validationResult: validationResult,
             propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
-            errorMessage: "Max number of sub finance plan sub owners must be between 0 and 5.");
+            errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
     [Test]
@@ -153,7 +153,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 
         // Assert
         AssertSingleError(validationResult: validationResult, propertyName: "Payload.NotificationPreference",
-            errorMessage: "Notification preference cannot be empty.");
+            errorMessage: "The notification preference must not be empty.");
     }
 
     [Test]
@@ -174,7 +174,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Assert
         AssertSingleError(validationResult: validationResult,
             propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
-            errorMessage: "Send finance report interval must be between 0 and 31.");
+            errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
     [Test]
@@ -195,7 +195,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         // Assert
         AssertSingleError(validationResult: validationResult,
             propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
-            errorMessage: "Send finance report interval must be between 0 and 31.");
+            errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
     [Test]
@@ -213,6 +213,6 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 
         // Assert
         AssertSingleError(validationResult: validationResult, propertyName: "Payload.GeneralPreference",
-            errorMessage: "General preference cannot be empty.");
+            errorMessage: "The general preference must not be empty.");
     }
 }

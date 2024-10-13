@@ -18,7 +18,7 @@ internal sealed class ModuleIdMiddleware
         ILoggerService<ModuleIdMiddleware>? logger =
             context.RequestServices.GetService<ILoggerService<ModuleIdMiddleware>>();
 
-        string? requestPath = context.Request.Path;
+        string requestPath = context.Request.Path;
         string? moduleId = requestPath.GuessModule(logger: logger);
         context.Request.Headers.Append(key: ModuleMiddlewareHeaderKey, value: moduleId);
 

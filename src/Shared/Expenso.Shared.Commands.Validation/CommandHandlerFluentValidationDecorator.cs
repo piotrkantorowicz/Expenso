@@ -1,5 +1,3 @@
-using System.Text;
-
 using FluentValidation;
 
 namespace Expenso.Shared.Commands.Validation;
@@ -23,17 +21,9 @@ internal sealed class CommandHandlerFluentValidationDecorator<TCommand> : IComma
             .Select(selector: x => x.Validate(instance: command))
             .SelectMany(selector: x => x.Errors)
             .GroupBy(keySelector: x => x.PropertyName)
-            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
-            {
-                StringBuilder sb = new();
-
-                foreach (string? error in g.Select(selector: e => e.ErrorMessage))
-                {
-                    sb.AppendLine(value: error);
-                }
-
-                return sb.ToString().TrimEnd();
-            });
+            .ToDictionary(keySelector: g => g.Key,
+                elementSelector: g =>
+                    string.Join(separator: Environment.NewLine, values: g.Select(selector: e => e.ErrorMessage)));
 
         if (errors.Count is not 0)
         {
@@ -63,17 +53,9 @@ internal sealed class CommandHandlerFluentValidationDecorator<TCommand, TResult>
             .Select(selector: x => x.Validate(instance: command))
             .SelectMany(selector: x => x.Errors)
             .GroupBy(keySelector: x => x.PropertyName)
-            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
-            {
-                StringBuilder sb = new();
-
-                foreach (string? error in g.Select(selector: e => e.ErrorMessage))
-                {
-                    sb.AppendLine(value: error);
-                }
-
-                return sb.ToString().TrimEnd();
-            });
+            .ToDictionary(keySelector: g => g.Key,
+                elementSelector: g =>
+                    string.Join(separator: Environment.NewLine, values: g.Select(selector: e => e.ErrorMessage)));
 
         if (errors.Count is not 0)
         {

@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace Expenso.Shared.Commands.Validation;
 
 internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand>
@@ -21,17 +19,9 @@ internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHand
             .Select(selector: x => x.Validate(command: command))
             .SelectMany(selector: x => x)
             .GroupBy(keySelector: x => x.Key)
-            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
-            {
-                StringBuilder sb = new();
-
-                foreach (string error in g.Select(selector: e => e.Value))
-                {
-                    sb.AppendLine(value: error);
-                }
-
-                return sb.ToString().TrimEnd();
-            });
+            .ToDictionary(keySelector: g => g.Key,
+                elementSelector: g =>
+                    string.Join(separator: Environment.NewLine, values: g.Select(selector: e => e.Value)));
 
         if (errors.Count is not 0)
         {
@@ -61,18 +51,10 @@ internal sealed class CommandHandlerValidationDecorator<TCommand, TResult> : ICo
             .Select(selector: x => x.Validate(command: command))
             .SelectMany(selector: x => x)
             .GroupBy(keySelector: x => x.Key)
-            .ToDictionary(keySelector: g => g.Key, elementSelector: g =>
-            {
-                StringBuilder sb = new();
-
-                foreach (string error in g.Select(selector: e => e.Value))
-                {
-                    sb.AppendLine(value: error);
-                }
-
-                return sb.ToString().TrimEnd();
-            });
-
+            .ToDictionary(keySelector: g => g.Key,
+                elementSelector: g =>
+                    string.Join(separator: Environment.NewLine, values: g.Select(selector: e => e.Value)));
+        
         if (errors.Count is not 0)
         {
             throw new CommandValidationException(errorDictionary: errors);

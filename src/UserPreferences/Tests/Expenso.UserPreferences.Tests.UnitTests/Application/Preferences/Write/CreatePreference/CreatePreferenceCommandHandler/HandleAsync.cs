@@ -28,7 +28,7 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             .ReturnsAsync(value: _preference);
 
         // Act
-        CreatePreferenceResponse? result =
+        CreatePreferenceResponse result =
             await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
