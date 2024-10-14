@@ -121,14 +121,14 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromBody] AssignParticipantRequest assignParticipantRequest,
                 CancellationToken cancellationToken = default) =>
             {
-                AssignParticipantResponse? response = await handler.HandleAsync(
+                AssignParticipantResponse response = await handler.HandleAsync(
                     command: new AssignParticipantCommand(MessageContext: messageContextFactory.Current(),
                         AssignParticipantRequest: assignParticipantRequest), cancellationToken: cancellationToken);
 
                 return Results.CreatedAtRoute(routeName: getBudgetPermissionRequestEndpointRegistration.Name,
                     routeValues: new
                     {
-                        id = response?.BudgetPermissionRequestId
+                        id = response.BudgetPermissionRequestId
                     }, value: response);
             });
 
@@ -223,14 +223,14 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromBody] CreateBudgetPermissionRequest createBudgetPermissionRequest,
                 CancellationToken cancellationToken = default) =>
             {
-                CreateBudgetPermissionResponse? response = await handler.HandleAsync(
+                CreateBudgetPermissionResponse response = await handler.HandleAsync(
                     command: new CreateBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
                         CreateBudgetPermissionRequest: createBudgetPermissionRequest),
                     cancellationToken: cancellationToken);
 
                 return Results.CreatedAtRoute(routeName: getBudgetPermissionEndpointRegistration.Name, routeValues: new
                 {
-                    id = response?.BudgetPermissionId
+                    id = response.BudgetPermissionId
                 }, value: response);
             });
 

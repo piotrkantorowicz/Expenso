@@ -11,13 +11,13 @@ internal sealed class HandleAsync : CommandHandlerResultTestBase
     {
         // Arrange
         // Act
-        TestCommandResult? commandResult =
+        TestCommandResult commandResult =
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        commandResult?.Should().NotBeNull();
-        commandResult?.Message.Should().NotBeNullOrEmpty();
+        commandResult.Should().NotBeNull();
+        commandResult.Message.Should().NotBeNullOrEmpty();
         string message = $"Successfully processed command with ID {_testCommand.Id}";
-        commandResult?.Message.Should().Be(expected: message);
+        commandResult.Message.Should().Be(expected: message);
     }
 }
