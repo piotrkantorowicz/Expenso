@@ -28,7 +28,7 @@ internal sealed class
                                  throw new ArgumentNullException(paramName: nameof(jobInstanceRepository));
     }
 
-    public async Task<RegisterJobEntryResponse?> HandleAsync(RegisterJobEntryCommand entryCommand,
+    public async Task<RegisterJobEntryResponse> HandleAsync(RegisterJobEntryCommand entryCommand,
         CancellationToken cancellationToken)
     {
         Guid jobInstanceId = JobInstance.Default.Id;

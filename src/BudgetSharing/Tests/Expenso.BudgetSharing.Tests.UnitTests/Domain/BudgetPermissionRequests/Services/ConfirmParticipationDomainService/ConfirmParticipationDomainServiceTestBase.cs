@@ -7,8 +7,8 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
-using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 using Moq;
 
@@ -24,7 +24,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
     protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     private Mock<IClock> _clockMock = null!;
-    protected GetPreferenceResponse _getPreferenceResponse = null!;
+    protected GetPreferencesResponse _getPreferenceResponse = null!;
     protected Mock<IUserPreferencesProxy> _userPreferencesProxyMock = null!;
 
     [SetUp]
@@ -50,8 +50,8 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermission = BudgetPermission.Create(budgetId: _budgetPermissionRequest.BudgetId, ownerId: ownerId);
         _budgetPermission.AddPermission(participantId: ownerId, permissionType: PermissionType.Owner);
 
-        _getPreferenceResponse = new GetPreferenceResponse(Id: Guid.NewGuid(), UserId: ownerId.Value,
-            FinancePreference: new GetPreferenceResponse_FinancePreference(AllowAddFinancePlanSubOwners: true,
+        _getPreferenceResponse = new GetPreferencesResponse(Id: Guid.NewGuid(), UserId: ownerId.Value,
+            FinancePreference: new GetPreferencesResponse_FinancePreference(AllowAddFinancePlanSubOwners: true,
                 MaxNumberOfSubFinancePlanSubOwners: 1, AllowAddFinancePlanReviewers: true,
                 MaxNumberOfFinancePlanReviewers: 3), NotificationPreference: null, GeneralPreference: null);
 

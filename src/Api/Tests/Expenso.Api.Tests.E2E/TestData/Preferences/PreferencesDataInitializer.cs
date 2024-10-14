@@ -4,8 +4,8 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.Api.Tests.E2E.TestData.Preferences;
 
@@ -21,18 +21,17 @@ internal static class PreferencesDataInitializer
             CreatePreferenceResponse? preference =
                 await commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
                     command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                        Preference: new CreatePreferenceRequest(UserId: userId)), cancellationToken: cancellationToken);
+                        Payload: new CreatePreferenceRequest(UserId: userId)), cancellationToken: cancellationToken);
 
             if (preference is not null)
             {
-                PreferenceIds?.Add(item: preference.PreferenceId);
+                PreferenceIds.Add(item: preference.PreferenceId);
             }
         }
 
         await commandDispatcher.SendAsync(
             command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                PreferenceOrUserId: UserDataInitializer.UserIds[index: 0],
-                Preference: new UpdatePreferenceRequest(
+                PreferenceId: PreferenceIds[index: 0], Payload: new UpdatePreferenceRequest(
                     FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                         MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,
                         MaxNumberOfFinancePlanReviewers: 5),

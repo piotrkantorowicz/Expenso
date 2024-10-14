@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Rules;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 
@@ -12,12 +12,12 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     private readonly PersonId _ownerId;
     private readonly PermissionType _permissionTypeFromRequest;
 
-    private readonly GetPreferenceResponse_FinancePreference
+    private readonly GetPreferencesResponse_FinancePreference
         _preferenceExternalPreferenceResponseFinancePreferenceExternal;
 
     public PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(BudgetId budgetId,
         PersonId ownerId, PermissionType permissionTypeFromRequest,
-        GetPreferenceResponse_FinancePreference preferenceResponseFinancePreference,
+        GetPreferencesResponse_FinancePreference preferenceResponseFinancePreference,
         IReadOnlyCollection<Permission> currentPermissions)
     {
         _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));

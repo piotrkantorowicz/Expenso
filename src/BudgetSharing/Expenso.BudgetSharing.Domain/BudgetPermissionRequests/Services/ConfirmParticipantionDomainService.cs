@@ -8,8 +8,9 @@ using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
-using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
@@ -59,10 +60,9 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
                 message: $"Budget permission with id {permissionRequest.BudgetId} hasn't been found.");
         }
 
-        GetPreferenceResponse? preference = await _userPreferencesProxy.GetUserPreferencesAsync(
-            userId: budgetPermission.OwnerId.Value, includeFinancePreferences: true,
-            includeNotificationPreferences: false, includeGeneralPreferences: false,
-            cancellationToken: cancellationToken);
+        GetPreferencesResponse? preference = await _userPreferencesProxy.GetPreferences(
+            getPreferenceRequest: new GetPreferencesRequest(UserId: budgetPermission.OwnerId.Value,
+                PreferenceType: GetPreferencesRequest_PreferenceTypes.Finance), cancellationToken: cancellationToken);
 
         if (preference?.FinancePreference is null)
         {

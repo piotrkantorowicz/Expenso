@@ -1,23 +1,21 @@
-### GetUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/f68546d6-fc1b-48cb-93d8-b96b29d8666d?
-    includeFinancePreferences=true&includeNotificationPreferences=true&includeGeneralPreferences=true
+### GetPreference
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/0d002552-918f-4a1f-b114-7b4138147148?
+    preferenceType=Finance,Notification,General
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
-### GetCurrentUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user?includeFinancePreferences=true&
-    includeNotificationPreferences=true&includeGeneralPreferences=true
+### GetCurrentUserPreference
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user?preferenceType=Finance,Notification,General
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
-### GetUserPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?
-    userId=4c7a9020-398f-4d42-8cb4-cac1477a49ac&includeFinancePreferences=true&includeNotificationPreferences=true&
-    includeGeneralPreferences=true
+### GetPreferences
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?PreferenceId=0d002552-918f-4a1f-b114-7b4138147148&
+    preferenceType=Finance,Notification,General
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
-### CreatePreferences 
+### CreatePreference
 POST {{apiHostAddress}}/{{userPreferencesRoute}}/preferences
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
@@ -26,8 +24,8 @@ Authorization: Bearer {{apiAccessToken}}
   "userId": "4c7a9020-398f-4d42-8cb4-cac1477a49ac"
 }
 
-### UpdatePreferences
-PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/f68546d6-fc1b-48cb-93d8-b96b29d8666d
+### UpdatePreference
+PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/0d002552-918f-4a1f-b114-7b4138147148
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 

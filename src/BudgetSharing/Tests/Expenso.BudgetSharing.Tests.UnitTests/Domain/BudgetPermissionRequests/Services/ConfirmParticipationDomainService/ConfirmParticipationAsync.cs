@@ -3,7 +3,8 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 using FluentAssertions;
 
@@ -27,8 +28,10 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
-                It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.GetPreferences(
+                    new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
+                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse);
 
         // Act
@@ -120,8 +123,10 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
-                It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.GetPreferences(
+                    new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
+                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
         // Act
@@ -151,11 +156,13 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: _budgetPermission);
 
         _userPreferencesProxyMock
-            .Setup(expression: x => x.GetUserPreferencesAsync(_budgetPermission.OwnerId.Value, true, false, false,
-                It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.GetPreferences(
+                    new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
+                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse with
             {
-                FinancePreference = new GetPreferenceResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
+                FinancePreference = new GetPreferencesResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: false,
                     MaxNumberOfFinancePlanReviewers: 0)
             });

@@ -2,7 +2,6 @@ using Expenso.Shared.Database.EfCore.Queryable;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
-using Expenso.UserPreferences.Core.Persistence.EfCore.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -18,21 +17,23 @@ internal sealed class PreferencesRepository : IPreferencesRepository
                                     throw new ArgumentNullException(paramName: nameof(userPreferencesDbContext));
     }
 
-    public async Task<Preference?> GetAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken)
+    public async Task<Preference?> GetAsync(PreferenceQuerySpecification preferenceQuerySpecification,
+        CancellationToken cancellationToken)
     {
         return await _userPreferencesDbContext
-            .Preferences.Tracking(useTracking: preferenceFilter.UseTracking)
-            .IncludeMany(includeExpression: preferenceFilter.ToIncludeExpressions())
-            .SingleOrDefaultAsync(predicate: preferenceFilter.ToFilterExpression(),
+            .Preferences.Tracking(useTracking: preferenceQuerySpecification.UseTracking)
+            .IncludeMany(includeExpression: preferenceQuerySpecification.Include())
+            .SingleOrDefaultAsync(predicate: preferenceQuerySpecification.Filter(),
                 cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> ExistsAsync(PreferenceFilter preferenceFilter, CancellationToken cancellationToken)
+    public async Task<bool> ExistsAsync(PreferenceQuerySpecification preferenceQuerySpecification,
+        CancellationToken cancellationToken)
     {
         return await _userPreferencesDbContext
-            .Preferences.Tracking(useTracking: preferenceFilter.UseTracking)
-            .IncludeMany(includeExpression: preferenceFilter.ToIncludeExpressions())
-            .AnyAsync(predicate: preferenceFilter.ToFilterExpression(), cancellationToken: cancellationToken);
+            .Preferences.Tracking(useTracking: preferenceQuerySpecification.UseTracking)
+            .IncludeMany(includeExpression: preferenceQuerySpecification.Include())
+            .AnyAsync(predicate: preferenceQuerySpecification.Filter(), cancellationToken: cancellationToken);
     }
 
     public async Task<Preference> CreateAsync(Preference preference, CancellationToken cancellationToken)

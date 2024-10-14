@@ -18,7 +18,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
-        <ProjectReference Include="..\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
+        <ProjectReference Include="..\Expenso.UserPreferences.Shared\Expenso.UserPreferences.Shared.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

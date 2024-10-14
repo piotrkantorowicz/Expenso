@@ -1,33 +1,22 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 
+using FluentValidation.Results;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
 
 internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 {
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_CommandIsNull()
+    public void Should_ReturnNoErrors_When_UserIdIsNotEmpty()
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: null!);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required.";
-        string error = validationResult[key: "Command"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_ReturnEmptyValidationResult_When_UserIdIsNotEmpty()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand);
-
-        // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.Should().NotBeNull();
+        validationResult.Errors.Should().BeNullOrEmpty();
     }
 
     [Test]
@@ -37,16 +26,14 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         Guid userId = Guid.Empty;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            PreferenceOrUserId = userId
+            PreferenceId = userId
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Preferences or user id cannot be empty.";
-        string error = validationResult[key: nameof(_updatePreferenceCommand.PreferenceOrUserId)];
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult, propertyName: "PreferenceId",
+            errorMessage: "The preference id must not be empty.");
     }
 
     [Test]
@@ -54,19 +41,17 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 FinancePreference = null
             }
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Finance preferences cannot be null.";
-        string error = validationResult[key: nameof(_updatePreferenceCommand.Preference.FinancePreference)];
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult, propertyName: "Payload.FinancePreference",
+            errorMessage: "The finance preference must not be empty.");
     }
 
     [Test]
@@ -74,9 +59,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
@@ -85,13 +70,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Max number of finance plan reviewers cannot be negative.";
-
-        string error = validationResult[
-            key: nameof(_updatePreferenceCommand.Preference.FinancePreference.MaxNumberOfFinancePlanReviewers)];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult,
+            propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
+            errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
     [Test]
@@ -99,9 +80,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
@@ -110,13 +91,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Max number of finance plan reviewers cannot be greater than 10.";
-
-        string error = validationResult[
-            key: nameof(_updatePreferenceCommand.Preference.FinancePreference.MaxNumberOfFinancePlanReviewers)];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult,
+            propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
+            errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
     [Test]
@@ -124,9 +101,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: -1, AllowAddFinancePlanReviewers: true,
@@ -135,13 +112,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Max number of sub finance plan sub owners cannot be negative.";
-
-        string error = validationResult[
-            key: nameof(_updatePreferenceCommand.Preference.FinancePreference.MaxNumberOfSubFinancePlanSubOwners)];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult,
+            propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
+            errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
     [Test]
@@ -149,9 +122,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 6, AllowAddFinancePlanReviewers: true,
@@ -160,13 +133,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Max number of sub finance plan sub owners cannot be greater than 5.";
-
-        string error = validationResult[
-            key: nameof(_updatePreferenceCommand.Preference.FinancePreference.MaxNumberOfSubFinancePlanSubOwners)];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult,
+            propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
+            errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
     [Test]
@@ -174,19 +143,17 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 NotificationPreference = null!
             }
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Notification preferences cannot be null.";
-        string error = validationResult[key: nameof(_updatePreferenceCommand.Preference.NotificationPreference)];
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult, propertyName: "Payload.NotificationPreference",
+            errorMessage: "The notification preference must not be empty.");
     }
 
     [Test]
@@ -194,9 +161,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 NotificationPreference =
                 new UpdatePreferenceRequest_NotificationPreference(SendFinanceReportEnabled: true,
@@ -205,13 +172,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Send finance report interval cannot be negative.";
-
-        string error = validationResult[
-            key: nameof(_updatePreferenceCommand.Preference.NotificationPreference.SendFinanceReportInterval)];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult,
+            propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
+            errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
     [Test]
@@ -219,9 +182,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 NotificationPreference =
                 new UpdatePreferenceRequest_NotificationPreference(SendFinanceReportEnabled: true,
@@ -230,13 +193,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Send finance report interval cannot be greater than 31.";
-
-        string error = validationResult[
-            key: nameof(_updatePreferenceCommand.Preference.NotificationPreference.SendFinanceReportInterval)];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult,
+            propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
+            errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
     [Test]
@@ -244,18 +203,16 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _updatePreferenceCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            Preference = _updatePreferenceCommand.Preference! with
+            Payload = _updatePreferenceCommand.Payload! with
             {
                 GeneralPreference = null!
             }
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "General preferences cannot be null.";
-        string error = validationResult[key: nameof(_updatePreferenceCommand.Preference.GeneralPreference)];
-        error.Should().Be(expected: expectedValidationMessage);
+        AssertSingleError(validationResult: validationResult, propertyName: "Payload.GeneralPreference",
+            errorMessage: "The general preference must not be empty.");
     }
 }

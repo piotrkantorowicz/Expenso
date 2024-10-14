@@ -26,7 +26,7 @@
         <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
         <ProjectReference Include="..\..\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj"/>
         <ProjectReference Include="..\..\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj"/>
-        <ProjectReference Include="..\..\Expenso.UserPreferences.Proxy\Expenso.UserPreferences.Proxy.csproj"/>
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Shared\Expenso.UserPreferences.Shared.csproj"/>
         <ProjectReference Include="..\Expenso.UserPreferences.Tests.UnitTests\Expenso.UserPreferences.Tests.UnitTests.csproj"/>
     </ItemGroup>
 

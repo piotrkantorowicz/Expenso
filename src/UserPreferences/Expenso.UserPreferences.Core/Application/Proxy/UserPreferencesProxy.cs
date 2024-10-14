@@ -1,12 +1,13 @@
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
-using Expenso.UserPreferences.Proxy;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Response;
-using Expenso.UserPreferences.Proxy.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Proxy;
 
@@ -27,22 +28,19 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<GetPreferenceResponse?> GetUserPreferencesAsync(Guid userId, bool includeFinancePreferences,
-        bool includeNotificationPreferences, bool includeGeneralPreferences,
+    public async Task<GetPreferencesResponse?> GetPreferences(GetPreferencesRequest request,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetPreferenceQuery(MessageContext: _messageContextFactory.Current(), UserId: userId,
-                IncludeFinancePreferences: includeFinancePreferences,
-                IncludeNotificationPreferences: includeNotificationPreferences,
-                IncludeGeneralPreferences: includeGeneralPreferences), cancellationToken: cancellationToken);
+            query: new GetPreferencesQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            cancellationToken: cancellationToken);
     }
 
-    public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest createPreferenceRequest,
+    public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest request,
         CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-            command: new CreatePreferenceCommand(MessageContext: _messageContextFactory.Current(),
-                Preference: createPreferenceRequest), cancellationToken: cancellationToken);
+            command: new CreatePreferenceCommand(MessageContext: _messageContextFactory.Current(), Payload: request),
+            cancellationToken: cancellationToken);
     }
 }

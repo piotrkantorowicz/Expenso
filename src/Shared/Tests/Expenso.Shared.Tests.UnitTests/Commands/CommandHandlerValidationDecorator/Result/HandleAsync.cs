@@ -5,7 +5,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
 
-internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
+internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 {
     [Test]
     public async Task Should_ReturnCorrectResult_When_NoValidationErrorsOccurred()
@@ -19,7 +19,7 @@ internal sealed class HandleAsync : CommandHandlerDecoratorTestBase
             .ReturnsAsync(value: expectedCommandResult);
 
         // Act
-        TestCommandResult? commandResult =
+        TestCommandResult commandResult =
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
 
         // Assert

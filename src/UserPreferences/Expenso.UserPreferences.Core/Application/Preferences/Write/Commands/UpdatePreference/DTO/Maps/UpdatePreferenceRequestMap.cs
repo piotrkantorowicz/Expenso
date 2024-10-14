@@ -5,8 +5,13 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 
 internal static class UpdatePreferenceRequestMap
 {
-    public static FinancePreference MapFrom(UpdatePreferenceRequest_FinancePreference financePreference)
+    public static FinancePreference? MapFrom(UpdatePreferenceRequest_FinancePreference? financePreference)
     {
+        if (financePreference is null)
+        {
+            return null;
+        }
+
         return new FinancePreference
         {
             AllowAddFinancePlanReviewers = financePreference.AllowAddFinancePlanReviewers,
@@ -16,20 +21,31 @@ internal static class UpdatePreferenceRequestMap
         };
     }
 
-    public static GeneralPreference MapFrom(UpdatePreferenceRequest_GeneralPreference generalGeneralPreference)
+    public static GeneralPreference? MapFrom(UpdatePreferenceRequest_GeneralPreference? generalPreference)
     {
+        if (generalPreference is null)
+        {
+            return null;
+        }
+
         return new GeneralPreference
         {
-            UseDarkMode = generalGeneralPreference.UseDarkMode
+            UseDarkMode = generalPreference.UseDarkMode
         };
     }
 
-    public static NotificationPreference MapFrom(UpdatePreferenceRequest_NotificationPreference updatePreferenceRequest)
+    public static NotificationPreference? MapFrom(
+        UpdatePreferenceRequest_NotificationPreference? notificationPreference)
     {
+        if (notificationPreference is null)
+        {
+            return null;
+        }
+
         return new NotificationPreference
         {
-            SendFinanceReportEnabled = updatePreferenceRequest.SendFinanceReportEnabled,
-            SendFinanceReportInterval = updatePreferenceRequest.SendFinanceReportInterval
+            SendFinanceReportEnabled = notificationPreference.SendFinanceReportEnabled,
+            SendFinanceReportInterval = notificationPreference.SendFinanceReportInterval
         };
     }
 }

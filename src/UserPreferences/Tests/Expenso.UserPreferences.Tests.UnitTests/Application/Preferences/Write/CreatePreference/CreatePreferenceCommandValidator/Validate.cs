@@ -1,5 +1,7 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
-using Expenso.UserPreferences.Proxy.DTO.API.CreatePreference.Request;
+using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
+
+using FluentValidation.Results;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandValidator;
@@ -7,28 +9,15 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.
 internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
 {
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_CommandIsNull()
+    public void Should_ReturnNoErrors_When_UserIdIsNotEmpty()
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: null!);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _createPreferenceCommand);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required.";
-        string error = validationResult[key: "Command"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_ReturnEmptyValidationResult_When_UserIdIsNotEmpty()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _createPreferenceCommand);
-
-        // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.Should().NotBeNull();
+        validationResult.Errors.Should().BeNullOrEmpty();
     }
 
     [Test]
@@ -38,15 +27,17 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         Guid userId = Guid.Empty;
 
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Preference: new CreatePreferenceRequest(UserId: userId));
+            Payload: new CreatePreferenceRequest(UserId: userId));
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "User id cannot be empty.";
-        string error = validationResult[key: nameof(command.Preference.UserId)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.Should().NotBeNull();
+        validationResult.Errors.Should().NotBeNullOrEmpty();
+        validationResult.Errors.Should().HaveCount(expected: 1);
+        ValidationFailure validationError = validationResult.Errors.First();
+        validationError.PropertyName.Should().Be(expected: "Payload.UserId");
+        validationError.ErrorMessage.Should().Be(expected: "The user id must not be empty.");
     }
 }
