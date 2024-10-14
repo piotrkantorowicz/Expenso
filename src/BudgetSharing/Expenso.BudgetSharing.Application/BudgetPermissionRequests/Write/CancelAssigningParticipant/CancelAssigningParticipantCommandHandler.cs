@@ -32,7 +32,7 @@ internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with id {command.BudgetPermissionRequestId} hasn't been found");
+                message: $"Budget permission request with ID {command.BudgetPermissionRequestId} hasn't been found");
         }
 
         budgetPermissionRequest.Cancel(clock: _clock);

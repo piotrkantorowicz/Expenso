@@ -18,7 +18,7 @@ internal sealed class BudgetMustContainsPermissionForProvidedUser : IBusinessRul
     }
 
     public string Message =>
-        $"Budget with id: {_budgetId} does not have permission for provided user with id: {_participantId}.";
+        $"Budget with ID {_budgetId} does not have permission for provided user with ID {_participantId}.";
 
     public bool IsBroken()
     {

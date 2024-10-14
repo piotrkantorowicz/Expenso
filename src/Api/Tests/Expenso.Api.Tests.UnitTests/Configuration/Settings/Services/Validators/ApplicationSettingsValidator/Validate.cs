@@ -30,7 +30,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Instance Id must be provided and cannot be empty.";
+        const string expectedValidationMessage = "Instance ID must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_applicationSettings.InstanceId)];
         error.Should().Be(expected: expectedValidationMessage);
     }
@@ -49,7 +49,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
 
         // Assert
         validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Instance Id must be provided and cannot be empty.";
+        const string expectedValidationMessage = "Instance ID must be provided and cannot be empty.";
         string error = validationResult[key: nameof(_applicationSettings.InstanceId)];
         error.Should().Be(expected: expectedValidationMessage);
     }

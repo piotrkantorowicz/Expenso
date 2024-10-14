@@ -42,7 +42,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
         if (dbPreference is null)
         {
-            throw new NotFoundException(message: $"User preferences with id {command.PreferenceId} haven't been found");
+            throw new NotFoundException(message: $"User preferences with ID {command.PreferenceId} haven't been found");
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,

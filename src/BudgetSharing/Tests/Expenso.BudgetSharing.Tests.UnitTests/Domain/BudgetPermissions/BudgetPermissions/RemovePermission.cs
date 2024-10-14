@@ -47,7 +47,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
                 expectedWildcardPattern:
-                $"Budget with id: {TestCandidate.BudgetId} does not have permission for provided user with id: {participantId}.");
+                $"Budget with ID {TestCandidate.BudgetId} does not have permission for provided user with ID {participantId}.");
     }
 
     [Test]

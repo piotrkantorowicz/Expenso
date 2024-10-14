@@ -42,6 +42,6 @@ internal sealed class Unblock : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget permission with id: {TestCandidate.Id} is not deleted.");
+            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is not deleted.");
     }
 }

@@ -107,14 +107,14 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CreatePreferenceRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                CreatePreferenceResponse? response = await handler.HandleAsync(
+                CreatePreferenceResponse response = await handler.HandleAsync(
                     command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
                         Payload: new CreatePreferenceRequest(UserId: model.UserId)),
                     cancellationToken: cancellationToken);
 
                 return Results.CreatedAtRoute(routeName: getPreferenceEndpointRegistration.Name, routeValues: new
                 {
-                    id = response?.PreferenceId
+                    id = response.PreferenceId
                 }, value: response);
             });
 

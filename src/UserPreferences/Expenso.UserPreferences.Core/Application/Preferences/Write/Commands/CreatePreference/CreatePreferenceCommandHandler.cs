@@ -37,7 +37,7 @@ internal sealed class
 
         if (dbUserPreferencesExists)
         {
-            throw new ConflictException(message: $"Preferences for user with id {userId} already exists");
+            throw new ConflictException(message: $"Preferences for user with ID {userId} already exists");
         }
 
         Preference preferenceToCreate = PreferenceFactory.Create(userId: userId);

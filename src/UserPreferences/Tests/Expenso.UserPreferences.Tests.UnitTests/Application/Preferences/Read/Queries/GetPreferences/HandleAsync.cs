@@ -63,7 +63,6 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
                     It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
-
     [Test]
     public void Should_ThrowNotFoundException_When_SearchingByIdAndPreferenceHasNotBeenFound()
     {
@@ -95,5 +94,4 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Assert
         action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: "Preferences not found.");
     }
-
 }

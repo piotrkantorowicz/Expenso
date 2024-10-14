@@ -16,7 +16,7 @@ internal sealed class UpdatePreferenceCommandValidator : CommandValidator<Update
 
         RuleFor(expression: x => x.PreferenceId)
             .NotEmpty()
-            .WithMessage(errorMessage: "The preference id must not be empty.");
+            .WithMessage(errorMessage: "The preference ID must not be empty.");
 
         RuleFor(expression: x => x.Payload).NotNull().SetValidator(validator: updatePreferenceCommandValidator!);
     }

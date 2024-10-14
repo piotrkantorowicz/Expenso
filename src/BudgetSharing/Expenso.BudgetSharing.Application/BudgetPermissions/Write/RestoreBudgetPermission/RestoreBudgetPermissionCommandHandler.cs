@@ -24,7 +24,7 @@ internal sealed class RestoreBudgetPermissionCommandHandler : ICommandHandler<Re
         if (budgetPermission is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission with id {command.BudgetPermissionId} hasn't been found");
+                message: $"Budget permission with ID {command.BudgetPermissionId} hasn't been found");
         }
 
         budgetPermission.Unblock();

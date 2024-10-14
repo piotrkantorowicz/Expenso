@@ -53,7 +53,7 @@ internal sealed class JobExecution : IJobExecution
             if (jobInstance is null)
             {
                 _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
-                    message: "Job instance with id: {JobInstanceId} hasn't been found", args: jobInstanceId);
+                    message: "Job instance with ID {JobInstanceId} hasn't been found", args: jobInstanceId);
 
                 return;
             }
@@ -65,7 +65,7 @@ internal sealed class JobExecution : IJobExecution
             if (jobEntries.Count == 0)
             {
                 _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
-                    message: "No active job entries found. JobInstanceId: {JobInstanceId}", args: jobInstanceId);
+                    message: "No active job entries found. Job instance ID {JobInstanceId}", args: jobInstanceId);
 
                 return;
             }
@@ -86,7 +86,7 @@ internal sealed class JobExecution : IJobExecution
                 {
                     _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                         message:
-                        "Skipping job entry with id {JobEntryId} because it has no triggers. JobInstanceId: {JobInstanceId}",
+                        "Skipping job entry with ID {JobEntryId} because it has no triggers. Job instance ID {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
                     await SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId,
@@ -108,7 +108,7 @@ internal sealed class JobExecution : IJobExecution
                         {
                             _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
-                                "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
+                                "Skipping job entry with ID {JobEntryId} because the job is ended. Job instance ID {JobInstanceId}",
                                 args: [jobEntry.Id, jobInstanceId]);
 
                             await SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId,
@@ -133,7 +133,7 @@ internal sealed class JobExecution : IJobExecution
                         {
                             _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
-                                "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
+                                "Skipping job entry with ID {JobEntryId} because the job is ended. Job instance ID {JobInstanceId}",
                                 args: [jobEntry.Id, jobInstanceId]);
 
                             await SetJobAsCompleted(currentJobEntry: jobEntry, jobTypeInstance: jobInstanceId,
@@ -148,7 +148,7 @@ internal sealed class JobExecution : IJobExecution
                         {
                             _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
                                 message:
-                                "Skipping job entry with Id {JobEntryId} because it's out of the actual run. JobInstanceId: {JobInstanceId}",
+                                "Skipping job entry with ID {JobEntryId} because it's out of the actual run. Job instance ID {JobInstanceId}",
                                 args: [jobEntry.Id, jobInstanceId]);
 
                             continue;
@@ -156,7 +156,7 @@ internal sealed class JobExecution : IJobExecution
                     }
 
                     _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
-                        message: "Running job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                        message: "Running job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
                     List<IIntegrationEvent?> events = jobEntry
@@ -167,7 +167,7 @@ internal sealed class JobExecution : IJobExecution
                             {
                                 _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                     message:
-                                    "Skipping triggering events for job entry with Id {JobEntryId} because it's invalid. JobInstanceId: {JobInstanceId}",
+                                    "Skipping triggering events for job entry with ID {JobEntryId} because it's invalid. Job instance ID {JobInstanceId}",
                                     args: [jobEntry.Id, jobInstanceId]);
 
                                 return null;
@@ -184,7 +184,7 @@ internal sealed class JobExecution : IJobExecution
 
                             _logger.LogWarning(eventId: LoggingUtils.BackgroundJobWarning,
                                 message:
-                                "Failed to deserialize event trigger for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                                "Failed to deserialize event trigger for job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                                 args: [jobEntry.Id, jobInstanceId]);
 
                             return null;
@@ -202,7 +202,7 @@ internal sealed class JobExecution : IJobExecution
 
                         _logger.LogDebug(eventId: LoggingUtils.BackgroundJobGeneralInformation,
                             message:
-                            "Published events: {Events} for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                            "Published events: {Events} for job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                             args:
                             [
                                 string.Join(separator: ",",
@@ -218,7 +218,7 @@ internal sealed class JobExecution : IJobExecution
                 {
                     _logger.LogError(eventId: LoggingUtils.BackgroundJobError, exception: ex,
                         message:
-                        "An error occurred while processing and job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                        "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
                     jobEntry.JobStatus =
@@ -238,7 +238,8 @@ internal sealed class JobExecution : IJobExecution
         catch (Exception ex)
         {
             _logger.LogError(eventId: LoggingUtils.BackgroundJobError, exception: ex,
-                message: "An error occurred while processing job. JobInstanceId: {JobInstanceId}", args: jobInstanceId);
+                message: "An error occurred while processing job. Job instance ID {JobInstanceId}",
+                args: jobInstanceId);
         }
     }
 
@@ -247,7 +248,7 @@ internal sealed class JobExecution : IJobExecution
     {
         _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
             message:
-            "All periods for job entry with Id {JobEntryId} have been completed. JobInstanceId: {JobInstanceId}",
+            "All periods for job entry with ID {JobEntryId} have been completed. Job instance ID {JobInstanceId}",
             args: [currentJobEntry.Id, jobTypeInstance]);
 
         currentJobEntry.JobStatus = JobEntryStatus.Completed;

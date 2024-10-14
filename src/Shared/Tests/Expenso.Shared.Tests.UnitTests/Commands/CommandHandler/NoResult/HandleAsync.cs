@@ -16,7 +16,7 @@ internal sealed class HandleAsync : CommandHandlerNoResultTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.GeneralInformation,
-                "Successfully processed command with id: {CommandId}", _testCommand.MessageContext, _testCommand.Id),
+                "Successfully processed command with ID {CommandId}", _testCommand.MessageContext, _testCommand.Id),
             times: Times.Once);
     }
 

@@ -56,14 +56,14 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         };
 
         // Act
-        RegisterJobEntryResponse? result = await TestCandidate.HandleAsync(entryCommand: entryCommand,
+        RegisterJobEntryResponse result = await TestCandidate.HandleAsync(entryCommand: entryCommand,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _jobEntryRepositoryMock.Verify(expression: x =>
             x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
 
-        result?.CronExpression.Should().Be(expected: "30 30 12 10 6 5");
+        result.CronExpression.Should().Be(expected: "30 30 12 10 6 5");
     }
 
     [Test]
@@ -82,7 +82,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job instance with id {JobInstance.Default.Id} not found.");
+            .WithMessage(expectedWildcardPattern: $"Job instance with ID {JobInstance.Default.Id} not found.");
     }
 
     [Test]
@@ -114,7 +114,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job status with id {JobEntryStatus.Running.Id} not found.");
+            .WithMessage(expectedWildcardPattern: $"Job status with ID {JobEntryStatus.Running.Id} not found.");
     }
 
     [Test]

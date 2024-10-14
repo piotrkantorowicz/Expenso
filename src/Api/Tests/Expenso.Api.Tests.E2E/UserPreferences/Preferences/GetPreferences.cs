@@ -45,7 +45,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        string requestPath = "user-preferences/preferences";
+        string requestPath = $"user-preferences/preferences?id={preferenceId}";
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);

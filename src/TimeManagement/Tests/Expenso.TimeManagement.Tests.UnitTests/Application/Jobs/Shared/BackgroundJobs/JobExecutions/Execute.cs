@@ -32,7 +32,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
-                "Job instance with id: {JobInstanceId} hasn't been found", null, null, _jobInstanceId),
+                "Job instance with ID {JobInstanceId} hasn't been found", null, null, _jobInstanceId),
             times: Times.Once);
     }
 
@@ -55,7 +55,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.BackgroundJobGeneralInformation,
-                "No active job entries found. JobInstanceId: {JobInstanceId}", null, _jobInstanceId),
+                "No active job entries found. Job instance ID {JobInstanceId}", null, _jobInstanceId),
             times: Times.Once);
     }
 
@@ -121,7 +121,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
-                "Skipping job entry with id {JobEntryId} because it has no triggers. JobInstanceId: {JobInstanceId}",
+                "Skipping job entry with ID {JobEntryId} because it has no triggers. Job instance ID {JobInstanceId}",
                 null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
@@ -168,7 +168,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
-                "Skipping job entry with Id {JobEntryId} because the job is ended. JobInstanceId: {JobInstanceId}",
+                "Skipping job entry with ID {JobEntryId} because the job is ended. Job instance ID {JobInstanceId}",
                 null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
@@ -211,7 +211,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogDebug(LoggingUtils.BackgroundJobGeneralInformation,
-                "Skipping job entry with Id {JobEntryId} because it's out of the actual run. JobInstanceId: {JobInstanceId}",
+                "Skipping job entry with ID {JobEntryId} because it's out of the actual run. Job instance ID {JobInstanceId}",
                 null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
@@ -248,7 +248,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
-                "Skipping triggering events for job entry with Id {JobEntryId} because it's invalid. JobInstanceId: {JobInstanceId}",
+                "Skipping triggering events for job entry with ID {JobEntryId} because it's invalid. Job instance ID {JobInstanceId}",
                 null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
@@ -296,7 +296,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
-                "Failed to deserialize event trigger for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                "Failed to deserialize event trigger for job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 null, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
     }
 
@@ -335,7 +335,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogError(LoggingUtils.BackgroundJobError,
-                "An error occurred while processing job. JobInstanceId: {JobInstanceId}", error, null, _jobInstanceId),
+                "An error occurred while processing job. Job instance ID {JobInstanceId}", error, null, _jobInstanceId),
             times: Times.Once);
     }
 
@@ -387,7 +387,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogDebug(LoggingUtils.BackgroundJobGeneralInformation,
-                "Published events: {Events} for job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}", null,
+                "Published events: {Events} for job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}", null,
                 It.IsAny<object?>(), jobEntry.Id, _jobInstanceId), times: Times.Once);
 
         _messageBrokerMock.Verify(
@@ -452,7 +452,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogError(LoggingUtils.BackgroundJobError,
-                "An error occurred while processing and job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
 
         jobEntry.CurrentRetries.Should().Be(expected: null);
@@ -515,7 +515,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Assert
         _loggerMock.Verify(
             expression: x => x.LogError(LoggingUtils.BackgroundJobError,
-                "An error occurred while processing and job entry with Id {JobEntryId}. JobInstanceId: {JobInstanceId}",
+                "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
 
         jobEntry.CurrentRetries.Should().Be(expected: null);

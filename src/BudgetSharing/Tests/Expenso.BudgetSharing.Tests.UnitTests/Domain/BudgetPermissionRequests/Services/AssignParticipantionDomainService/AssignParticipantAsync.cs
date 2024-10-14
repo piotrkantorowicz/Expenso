@@ -122,7 +122,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget participant must be the existing system user, but provided user with id {_getUserResponse.Email} hasn't been found in the system.");
+                $"Budget participant must be the existing system user, but provided user with ID {_getUserResponse.Email} hasn't been found in the system.");
     }
 
     [Test]

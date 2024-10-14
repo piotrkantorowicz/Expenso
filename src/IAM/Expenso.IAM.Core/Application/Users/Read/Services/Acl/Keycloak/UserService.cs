@@ -29,7 +29,7 @@ internal sealed class UserService : IUserService
 
         if (keycloakUser is null)
         {
-            throw new NotFoundException(message: $"User with id {userId} not found");
+            throw new NotFoundException(message: $"User with ID {userId} not found");
         }
 
         GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: keycloakUser);
