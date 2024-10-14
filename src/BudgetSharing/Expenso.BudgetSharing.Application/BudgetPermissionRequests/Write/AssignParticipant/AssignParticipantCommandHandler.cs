@@ -20,7 +20,7 @@ internal sealed class
                                                  paramName: nameof(assignParticipantionDomainService));
     }
 
-    public async Task<AssignParticipantResponse?> HandleAsync(AssignParticipantCommand command,
+    public async Task<AssignParticipantResponse> HandleAsync(AssignParticipantCommand command,
         CancellationToken cancellationToken)
     {
         (_,

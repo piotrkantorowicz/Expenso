@@ -20,7 +20,7 @@ internal sealed class
                                  throw new ArgumentNullException(paramName: nameof(preferencesRepository));
     }
 
-    public async Task<CreatePreferenceResponse?> HandleAsync(CreatePreferenceCommand command,
+    public async Task<CreatePreferenceResponse> HandleAsync(CreatePreferenceCommand command,
         CancellationToken cancellationToken)
     {
         Guid userId = command.Payload!.UserId;

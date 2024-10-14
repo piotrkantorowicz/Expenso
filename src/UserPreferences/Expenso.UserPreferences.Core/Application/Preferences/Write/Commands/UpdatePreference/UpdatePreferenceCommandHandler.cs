@@ -62,13 +62,15 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
         CancellationToken cancellationToken)
     {
         GeneralPreference? generalPreference =
-            UpdatePreferenceRequestMap.MapFrom(generalGeneralPreference: updateGeneralPreference);
+            UpdatePreferenceRequestMap.MapFrom(generalPreference: updateGeneralPreference);
 
         FinancePreference? financePreference =
             UpdatePreferenceRequestMap.MapFrom(financePreference: updateFinancePreference);
 
+        ;
+
         NotificationPreference? notificationPreference =
-            UpdatePreferenceRequestMap.MapFrom(updatePreferenceRequest: updateNotificationPreference);
+            UpdatePreferenceRequestMap.MapFrom(notificationPreference: updateNotificationPreference);
 
         ICollection<Task> tasks = [];
 

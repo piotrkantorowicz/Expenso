@@ -61,7 +61,7 @@ public sealed class TimeManagementModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] RegisterJobEntryRequest model,
                 CancellationToken cancellationToken = default) =>
             {
-                RegisterJobEntryResponse? response = await handler.HandleAsync(
+                RegisterJobEntryResponse response = await handler.HandleAsync(
                     command: new RegisterJobEntryCommand(MessageContext: messageContextFactory.Current(),
                         RegisterJobEntryRequest: model), cancellationToken: cancellationToken);
 

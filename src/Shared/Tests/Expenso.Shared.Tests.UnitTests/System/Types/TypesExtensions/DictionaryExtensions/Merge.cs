@@ -2,8 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.DictionaryExtensions;
 
-[TestFixture]
-internal sealed class DictionaryExtensionsTests
+internal sealed class Merge
 {
     [Test]
     public void Should_MergeDictionaries_When_NoConflictingKeys()

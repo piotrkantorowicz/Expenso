@@ -67,7 +67,7 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : IComma
         _serializer = serializer ?? throw new ArgumentNullException(paramName: nameof(serializer));
     }
 
-    public async Task<TResult?> HandleAsync(TCommand command, CancellationToken cancellationToken)
+    public async Task<TResult> HandleAsync(TCommand command, CancellationToken cancellationToken)
     {
         string? commandName = command.GetType().FullName;
         string serializedCommand = _serializer.Serialize(value: command);
@@ -81,7 +81,7 @@ internal sealed class CommandHandlerLoggingDecorator<TCommand, TResult> : IComma
         try
         {
             stopwatch.Start();
-            TResult? result = await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);
+            TResult result = await _decorated.HandleAsync(command: command, cancellationToken: cancellationToken);
             stopwatch.Stop();
 
             _logger.LogInfo(eventId: LoggingUtils.CommandExecuted, message: "[END] {CommandName}: {ExecutionTime}[ms]",

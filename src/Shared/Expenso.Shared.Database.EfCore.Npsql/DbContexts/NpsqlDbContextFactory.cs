@@ -19,7 +19,7 @@ public abstract class NpsqlDbContextFactory<TDbContext> : IDesignTimeDbContextFa
         string? environment = Environment.GetEnvironmentVariable(variable: "ASPNETCORE_ENVIRONMENT");
         string? startupProjectPath = args?[0];
 
-        if (string.IsNullOrEmpty(value: startupProjectPath) || !Path.Exists(path: startupProjectPath))
+        if (string.IsNullOrWhiteSpace(value: startupProjectPath) || !Path.Exists(path: startupProjectPath))
         {
             string errorMessage =
                 $"Startup project path parameter must be provided and must exists on current machine. Actual value: {startupProjectPath}.";

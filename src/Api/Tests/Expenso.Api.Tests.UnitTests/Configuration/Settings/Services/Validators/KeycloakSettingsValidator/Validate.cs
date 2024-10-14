@@ -16,11 +16,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         error.Should().Be(expected: expectedValidationMessage);
     }
 
-    [Test, TestCase(arguments: null), TestCase(arguments: null)]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_AuthServerUrlIsNullOrEmpty(string? authServerUrl)
+    [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_AuthServerUrlIsNull()
     {
         // Arrange
-        _keycloakSettings.AuthServerUrl = authServerUrl;
+        _keycloakSettings.AuthServerUrl = null;
 
         // Act
         IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
@@ -48,8 +48,8 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         error.Should().Be(expected: expectedValidationMessage);
     }
 
-    [Test, TestCase(arg: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_RealmIsNullOrEmpty(string? realm)
+    [Test, TestCase(arg: null), TestCase(arg: ""), TestCase(arg: "   ")]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_RealmIsNullOrWhiteSpace(string? realm)
     {
         // Arrange
         _keycloakSettings.Realm = realm!;
@@ -84,7 +84,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
     }
 
     [Test, TestCase(arg: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_ResourceIsNullOrEmpty(string? resource)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_ResourceIsNullOrWhiteSpace(string? resource)
     {
         // Arrange
         _keycloakSettings.Resource = resource!;
@@ -119,7 +119,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SslRequiredIsNullOrEmpty(string? sslRequired)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_SslRequiredIsNullOrWhiteSpace(string? sslRequired)
     {
         // Arrange
         _keycloakSettings.SslRequired = sslRequired!;

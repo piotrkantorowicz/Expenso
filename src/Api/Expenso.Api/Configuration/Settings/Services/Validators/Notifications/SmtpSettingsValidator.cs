@@ -19,7 +19,7 @@ internal sealed class SmtpSettingsValidator : ISettingsValidator<SmtpSettings>
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: settings.Host))
+        if (string.IsNullOrWhiteSpace(value: settings.Host))
         {
             errors.Add(key: nameof(settings.Host), value: "SMTP host must be provided and cannot be empty.");
         }
@@ -33,7 +33,7 @@ internal sealed class SmtpSettingsValidator : ISettingsValidator<SmtpSettings>
             errors.Add(key: nameof(settings.Port), value: "SMTP port must be a valid integer between 1 and 65535.");
         }
 
-        if (string.IsNullOrEmpty(value: settings.Username))
+        if (string.IsNullOrWhiteSpace(value: settings.Username))
         {
             errors.Add(key: nameof(settings.Username), value: "SMTP username must be provided and cannot be empty.");
         }
@@ -43,7 +43,7 @@ internal sealed class SmtpSettingsValidator : ISettingsValidator<SmtpSettings>
                 value: "SMTP username must be between 3 and 30 characters long and start with a letter.");
         }
 
-        if (string.IsNullOrEmpty(value: settings.Password))
+        if (string.IsNullOrWhiteSpace(value: settings.Password))
         {
             errors.Add(key: nameof(settings.Password), value: "SMTP password must be provided and cannot be empty.");
         }

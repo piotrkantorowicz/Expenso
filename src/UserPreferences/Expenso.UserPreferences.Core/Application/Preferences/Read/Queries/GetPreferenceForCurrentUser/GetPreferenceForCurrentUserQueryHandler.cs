@@ -1,7 +1,9 @@
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.ExecutionContext;
+using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Maps;
+using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Response;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
@@ -29,15 +31,17 @@ internal sealed class
     public async Task<GetPreferenceForCurrentUserResponse?> HandleAsync(GetPreferenceForCurrentUserQuery query,
         CancellationToken cancellationToken)
     {
-        Guid? currentUserId =
-            Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId, result: out Guid id)
-                ? id
-                : Guid.Empty;
+        if (Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId,
+                result: out Guid currentUserId) is false)
+        {
+            throw new NotFoundException(message: "Preferences not found");
+        }
 
         PreferenceQuerySpecification querySpecification = new()
         {
             UserId = currentUserId,
-            PreferenceType = (PreferenceTypes?)query.Payload.PreferenceType,
+            PreferenceType = query.Payload.PreferenceType
+                .SafeCast<PreferenceTypes, GetPreferenceForCurrentUserRequest_PreferenceTypes>(),
             UseTracking = false
         };
 

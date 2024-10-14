@@ -55,7 +55,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_NameIsNullorEmpty(string name)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_NameIsNullOrWhiteSpace(string name)
     {
         // Arrange
         _applicationSettings = _applicationSettings with
@@ -74,7 +74,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_VersionIsNullOrEmpty(string version)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_VersionIsNullOrWhiteSpace(string version)
     {
         // Arrange
         _applicationSettings = _applicationSettings with

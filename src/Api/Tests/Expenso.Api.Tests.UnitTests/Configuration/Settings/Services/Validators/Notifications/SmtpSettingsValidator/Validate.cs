@@ -19,7 +19,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrEmpty(string? host)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_HostIsNullOrWhiteSpace(string? host)
     {
         // Arrange
         _smtpSettings = _smtpSettings with
@@ -76,7 +76,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_UsernameIsNullOrEmpty(string username)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_UsernameIsNullOrWhiteSpace(string username)
     {
         // Arrange
         _smtpSettings = _smtpSettings with
@@ -117,7 +117,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_PasswordIsNullOrEmpty(string password)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PasswordIsNullOrWhiteSpace(string password)
     {
         // Arrange
         _smtpSettings = _smtpSettings with

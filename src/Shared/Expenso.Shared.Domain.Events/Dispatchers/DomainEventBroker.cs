@@ -43,8 +43,8 @@ internal sealed class DomainEventBroker : IDomainEventBroker
     private static async Task PublishInternal(IDomainEvent @event, IServiceScope scope,
         CancellationToken cancellationToken)
     {
-        Type? handlerType = typeof(IDomainEventHandler<>).MakeGenericType(@event.GetType());
-        IEnumerable<object?>? handlers = scope.ServiceProvider.GetServices(serviceType: handlerType);
+        Type handlerType = typeof(IDomainEventHandler<>).MakeGenericType(@event.GetType());
+        IEnumerable<object?> handlers = scope.ServiceProvider.GetServices(serviceType: handlerType);
         MethodInfo? method = handlerType.GetMethod(name: nameof(IDomainEventHandler<IDomainEvent>.HandleAsync));
 
         if (method is null)
@@ -52,7 +52,7 @@ internal sealed class DomainEventBroker : IDomainEventBroker
             throw new InvalidOperationException(message: $"Event handler for '{@event.GetType().Name}' is invalid");
         }
 
-        IEnumerable<Task>? tasks = handlers.Select(selector: x => (Task)method.Invoke(obj: x, parameters:
+        IEnumerable<Task> tasks = handlers.Select(selector: x => (Task)method.Invoke(obj: x, parameters:
         [
             @event,
             cancellationToken

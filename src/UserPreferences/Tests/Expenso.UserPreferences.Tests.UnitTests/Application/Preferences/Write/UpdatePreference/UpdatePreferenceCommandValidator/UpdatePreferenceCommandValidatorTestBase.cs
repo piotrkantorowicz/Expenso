@@ -29,7 +29,10 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
                 GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: false)));
 
         TestCandidate = new TestCandidate(messageContextValidator: new MessageContextValidator(),
-            updatePreferenceCommandValidator: new UpdatePreferenceRequestValidator());
+            updatePreferenceCommandValidator: new UpdatePreferenceRequestValidator(
+                financePreferenceValidator: new UpdatePreferenceRequest_FinancePreferenceValidator(),
+                notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),
+                generalPreferenceValidator: new UpdatePreferenceRequest_GeneralPreferenceValidator()));
     }
 
     protected static void AssertSingleError(ValidationResult validationResult, string propertyName, string errorMessage)

@@ -8,6 +8,6 @@ internal sealed class CreatePreferenceRequestValidator : AbstractValidator<Creat
 {
     public CreatePreferenceRequestValidator()
     {
-        RuleFor(expression: x => x.UserId).NotEmpty().WithMessage(errorMessage: "User ID cannot be empty.");
+        RuleFor(expression: x => x.UserId).NotEmpty().WithMessage(errorMessage: "The user ID must not be empty.");
     }
 }

@@ -19,7 +19,7 @@ public static class Extensions
                 return;
             }
 
-            if (string.IsNullOrEmpty(value: otlpEndpoint) || string.IsNullOrEmpty(value: otlpService))
+            if (string.IsNullOrWhiteSpace(value: otlpEndpoint) || string.IsNullOrWhiteSpace(value: otlpService))
             {
                 return;
             }
@@ -39,7 +39,7 @@ public static class Extensions
             return loggerConfiguration;
         }
 
-        if (string.IsNullOrEmpty(value: otlpEndpoint) || string.IsNullOrEmpty(value: otlpService))
+        if (string.IsNullOrWhiteSpace(value: otlpEndpoint) || string.IsNullOrWhiteSpace(value: otlpService))
         {
             return loggerConfiguration;
         }

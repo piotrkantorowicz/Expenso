@@ -79,7 +79,8 @@ public sealed class UserPreferencesModule : IModuleDefinition
             {
                 GetPreferenceForCurrentUserResponse? response = await handler.HandleAsync(
                     query: new GetPreferenceForCurrentUserQuery(MessageContext: messageContextFactory.Current(),
-                        Payload: new GetPreferenceForCurrentUserRequest()), cancellationToken: cancellationToken);
+                        Payload: new GetPreferenceForCurrentUserRequest(PreferenceType: preferenceType)),
+                    cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });

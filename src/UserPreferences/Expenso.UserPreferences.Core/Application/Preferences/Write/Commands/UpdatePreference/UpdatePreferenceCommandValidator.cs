@@ -11,12 +11,13 @@ internal sealed class UpdatePreferenceCommandValidator : CommandValidator<Update
         UpdatePreferenceRequestValidator updatePreferenceCommandValidator) : base(
         messageContextValidator: messageContextValidator)
     {
-        RuleFor(expression: x => x.Payload).NotNull();
-        RuleFor(expression: x => x.PreferenceId).NotEmpty().WithMessage(errorMessage: "Preference ID cannot be empty.");
+        ArgumentNullException.ThrowIfNull(argument: updatePreferenceCommandValidator,
+            paramName: nameof(updatePreferenceCommandValidator));
 
-        When(predicate: x => x.Payload != null, action: () =>
-        {
-            RuleFor(expression: x => x.Payload).SetValidator(validator: updatePreferenceCommandValidator!);
-        });
+        RuleFor(expression: x => x.PreferenceId)
+            .NotEmpty()
+            .WithMessage(errorMessage: "The preference ID must not be empty.");
+
+        RuleFor(expression: x => x.Payload).NotNull().SetValidator(validator: updatePreferenceCommandValidator!);
     }
 }
