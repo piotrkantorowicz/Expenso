@@ -54,7 +54,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_FromIsNullOrEmpty(string? from)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_FromIsNullOrWhiteSpace(string? from)
     {
         // Arrange
         _emailNotificationSettings = _emailNotificationSettings with
@@ -92,7 +92,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_ReplyToIsNullOrEmpty(string? replyTo)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_ReplyToIsNullOrWhiteSpace(string? replyTo)
     {
         // Arrange
         _emailNotificationSettings = _emailNotificationSettings with

@@ -18,12 +18,12 @@ internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, GetUserR
     {
         (_, string? userId, string? email) = query;
 
-        if (!string.IsNullOrEmpty(value: userId))
+        if (!string.IsNullOrWhiteSpace(value: userId))
         {
             return await _userService.GetUserByIdAsync(userId: userId, cancellationToken: cancellationToken);
         }
 
-        if (!string.IsNullOrEmpty(value: email))
+        if (!string.IsNullOrWhiteSpace(value: email))
         {
             return await _userService.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
         }

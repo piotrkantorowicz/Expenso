@@ -32,7 +32,7 @@ internal sealed class EmailNotificationSettingsValidator : ISettingsValidator<Em
             return errors;
         }
 
-        if (string.IsNullOrEmpty(value: settings.From))
+        if (string.IsNullOrWhiteSpace(value: settings.From))
         {
             errors.Add(key: nameof(settings.From), value: "Email 'From' address must be provided and cannot be empty.");
         }
@@ -41,7 +41,7 @@ internal sealed class EmailNotificationSettingsValidator : ISettingsValidator<Em
             errors.Add(key: nameof(settings.From), value: "Email 'From' address must be a valid email address.");
         }
 
-        if (string.IsNullOrEmpty(value: settings.ReplyTo))
+        if (string.IsNullOrWhiteSpace(value: settings.ReplyTo))
         {
             errors.Add(key: nameof(settings.ReplyTo),
                 value: "Email 'ReplyTo' address must be provided and cannot be empty.");

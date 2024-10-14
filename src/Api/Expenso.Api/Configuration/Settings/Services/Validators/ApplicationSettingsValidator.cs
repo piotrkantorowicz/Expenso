@@ -23,12 +23,12 @@ internal sealed class ApplicationSettingsValidator : ISettingsValidator<Applicat
             errors.Add(key: nameof(settings.InstanceId), value: "Instance Id must be provided and cannot be empty.");
         }
 
-        if (string.IsNullOrEmpty(value: settings.Name))
+        if (string.IsNullOrWhiteSpace(value: settings.Name))
         {
             errors.Add(key: nameof(settings.Name), value: "Name must be provided and cannot be empty.");
         }
 
-        if (string.IsNullOrEmpty(value: settings.Version))
+        if (string.IsNullOrWhiteSpace(value: settings.Version))
         {
             errors.Add(key: nameof(settings.Version), value: "Version must be provided and cannot be empty.");
         }

@@ -26,12 +26,12 @@ internal sealed class FileStorage : IFileStorage
     public async Task SaveAsync(string directoryPath, string fileName, byte[] byteContent,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(value: directoryPath))
+        if (string.IsNullOrWhiteSpace(value: directoryPath))
         {
             throw new EmptyPathException();
         }
 
-        if (string.IsNullOrEmpty(value: fileName))
+        if (string.IsNullOrWhiteSpace(value: fileName))
         {
             throw new EmptyFileNameException();
         }
