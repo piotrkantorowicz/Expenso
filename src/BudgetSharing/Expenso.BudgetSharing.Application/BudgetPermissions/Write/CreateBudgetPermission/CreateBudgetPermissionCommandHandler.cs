@@ -2,7 +2,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
 using Expenso.Shared.Commands;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;

@@ -25,7 +25,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
         <ProjectReference Include="..\..\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
-        <ProjectReference Include="..\..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>
+        <ProjectReference Include="..\..\Expenso.BudgetSharing.Shared\Expenso.BudgetSharing.Shared.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Tests.UnitTests\Expenso.BudgetSharing.Tests.UnitTests.csproj"/>
     </ItemGroup>
 

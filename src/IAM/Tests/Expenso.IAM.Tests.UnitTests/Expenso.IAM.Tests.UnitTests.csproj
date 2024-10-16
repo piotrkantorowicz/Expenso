@@ -24,7 +24,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj"/>
         <ProjectReference Include="..\..\Expenso.IAM.Core\Expenso.IAM.Core.csproj"/>
-        <ProjectReference Include="..\..\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj"/>
+        <ProjectReference Include="..\..\Expenso.IAM.Shared\Expenso.IAM.Shared.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

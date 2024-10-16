@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.API.SendNotification;
+﻿using Expenso.Communication.Shared.DTO.API.SendNotification;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

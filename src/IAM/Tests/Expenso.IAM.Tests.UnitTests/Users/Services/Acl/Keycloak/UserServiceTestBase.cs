@@ -2,7 +2,7 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser;
 
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;

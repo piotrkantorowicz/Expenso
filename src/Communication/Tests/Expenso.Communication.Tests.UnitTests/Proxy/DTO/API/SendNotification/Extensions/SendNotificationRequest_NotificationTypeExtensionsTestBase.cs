@@ -1,7 +1,7 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings;
-using Expenso.Communication.Proxy.DTO.Settings.Email;
-using Expenso.Communication.Proxy.DTO.Settings.InApp;
-using Expenso.Communication.Proxy.DTO.Settings.Push;
+﻿using Expenso.Communication.Shared.DTO.Settings;
+using Expenso.Communication.Shared.DTO.Settings.Email;
+using Expenso.Communication.Shared.DTO.Settings.InApp;
+using Expenso.Communication.Shared.DTO.Settings.Push;
 
 namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.Extensions;
 

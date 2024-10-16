@@ -1,8 +1,8 @@
 using System.IO.Abstractions;
 
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
-using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Request;
-using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Response;
+using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

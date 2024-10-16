@@ -1,6 +1,6 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
-using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Shared;
+using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

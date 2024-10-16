@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings.Push;
+﻿using Expenso.Communication.Shared.DTO.Settings.Push;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.PushSettingsValidator;
 

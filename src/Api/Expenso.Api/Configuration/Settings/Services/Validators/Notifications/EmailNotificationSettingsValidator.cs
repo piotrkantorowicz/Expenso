@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings.Email;
+﻿using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.Shared.System.Types.TypesExtensions.Validations;

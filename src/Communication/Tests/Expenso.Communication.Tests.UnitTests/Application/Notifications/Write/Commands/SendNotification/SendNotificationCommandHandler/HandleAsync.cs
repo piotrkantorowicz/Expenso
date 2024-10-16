@@ -2,7 +2,7 @@
 using Expenso.Communication.Core.Application.Notifications.Services.InApp;
 using Expenso.Communication.Core.Application.Notifications.Services.Push;
 using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
-using Expenso.Communication.Proxy.DTO.API.SendNotification;
+using Expenso.Communication.Shared.DTO.API.SendNotification;
 
 using Moq;
 

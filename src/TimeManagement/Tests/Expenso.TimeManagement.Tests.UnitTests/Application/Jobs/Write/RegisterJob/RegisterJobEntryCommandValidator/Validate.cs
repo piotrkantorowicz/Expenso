@@ -1,5 +1,5 @@
 ﻿using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.Request;
 
 using FluentAssertions;
 

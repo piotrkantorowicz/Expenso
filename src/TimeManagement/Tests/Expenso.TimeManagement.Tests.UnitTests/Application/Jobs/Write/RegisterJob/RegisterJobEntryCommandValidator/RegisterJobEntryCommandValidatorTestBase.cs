@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
 
-using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
-using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.Request;
 
 using Moq;
 

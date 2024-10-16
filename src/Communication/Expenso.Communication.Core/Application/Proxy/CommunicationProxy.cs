@@ -1,6 +1,6 @@
 ﻿using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
-using Expenso.Communication.Proxy;
-using Expenso.Communication.Proxy.DTO.API.SendNotification;
+using Expenso.Communication.Shared;
+using Expenso.Communication.Shared.DTO.API.SendNotification;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

@@ -1,5 +1,5 @@
 using Expenso.IAM.Core.Application.Users.Read.Services;
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using TestCandidate = Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.GetUserQueryHandler;

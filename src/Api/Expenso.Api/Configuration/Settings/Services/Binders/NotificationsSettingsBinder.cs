@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings;
+﻿using Expenso.Communication.Shared.DTO.Settings;
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.Shared.System.Configuration.Services;

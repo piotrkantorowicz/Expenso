@@ -3,10 +3,10 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissi
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RestoreBudgetPermission;
-using Expenso.BudgetSharing.Proxy;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
-using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
+using Expenso.BudgetSharing.Shared;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;

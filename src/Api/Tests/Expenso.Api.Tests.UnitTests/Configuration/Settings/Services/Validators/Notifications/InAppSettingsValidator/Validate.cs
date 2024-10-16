@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings.InApp;
+﻿using Expenso.Communication.Shared.DTO.Settings.InApp;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.InAppSettingsValidator;
 

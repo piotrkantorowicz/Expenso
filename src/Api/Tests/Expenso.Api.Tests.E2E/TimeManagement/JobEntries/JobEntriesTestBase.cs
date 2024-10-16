@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.System.Types.Clock;
-using Expenso.TimeManagement.Proxy;
+using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 

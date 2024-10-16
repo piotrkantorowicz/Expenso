@@ -2,7 +2,7 @@
 
 using Expenso.BudgetSharing.Api;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
-using Expenso.BudgetSharing.Proxy;
+using Expenso.BudgetSharing.Shared;
 using Expenso.BudgetSharing.Tests.UnitTests.Domain;
 
 namespace Expenso.BudgetSharing.Tests.ArchTests;

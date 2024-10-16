@@ -2,7 +2,7 @@
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
-using Expenso.TimeManagement.Proxy.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.Request;
 
 using Humanizer;
 

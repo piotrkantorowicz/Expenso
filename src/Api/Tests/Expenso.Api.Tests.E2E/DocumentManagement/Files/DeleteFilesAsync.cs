@@ -1,5 +1,5 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 

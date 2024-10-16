@@ -2,7 +2,7 @@
 
 using Expenso.TimeManagement.Api;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
-using Expenso.TimeManagement.Proxy;
+using Expenso.TimeManagement.Shared;
 using Expenso.TimeManagement.Tests.ArchTests.AccessModifiers;
 using Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.BackgroundJobs.JobExecutions;
 

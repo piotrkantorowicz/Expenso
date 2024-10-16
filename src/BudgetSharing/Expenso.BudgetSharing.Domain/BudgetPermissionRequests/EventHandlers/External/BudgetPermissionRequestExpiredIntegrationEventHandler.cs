@@ -1,5 +1,5 @@
 ﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
-using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.Integration.Events;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External;

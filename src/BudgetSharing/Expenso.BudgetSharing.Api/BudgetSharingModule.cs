@@ -23,11 +23,11 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.RestoreBudgetPer
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Domain;
 using Expenso.BudgetSharing.Infrastructure;
-using Expenso.BudgetSharing.Proxy;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
-using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Request;
-using Expenso.BudgetSharing.Proxy.DTO.API.GetBudgetPermissions.Response;
+using Expenso.BudgetSharing.Shared;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;

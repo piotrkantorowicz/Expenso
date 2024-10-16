@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 using Expenso.Communication.Core;
-using Expenso.Communication.Proxy;
+using Expenso.Communication.Shared;
 using Expenso.Shared.System.Modules;
 
 using Microsoft.Extensions.Configuration;

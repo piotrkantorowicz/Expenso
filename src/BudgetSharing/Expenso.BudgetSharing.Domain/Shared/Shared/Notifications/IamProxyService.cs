@@ -1,7 +1,7 @@
 ﻿using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Shared;
+using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

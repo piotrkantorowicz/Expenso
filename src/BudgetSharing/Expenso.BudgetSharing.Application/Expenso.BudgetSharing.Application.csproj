@@ -11,7 +11,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj"/>
-        <ProjectReference Include="..\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj"/>
+        <ProjectReference Include="..\Expenso.BudgetSharing.Shared\Expenso.BudgetSharing.Shared.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

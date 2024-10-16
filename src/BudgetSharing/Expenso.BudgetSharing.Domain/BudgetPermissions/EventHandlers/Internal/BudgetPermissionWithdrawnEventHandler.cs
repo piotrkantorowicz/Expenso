@@ -3,11 +3,11 @@ using System.Text;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
-using Expenso.Communication.Proxy;
-using Expenso.Communication.Proxy.DTO.API.SendNotification;
-using Expenso.Communication.Proxy.DTO.API.SendNotification.Extensions;
-using Expenso.Communication.Proxy.DTO.Settings;
-using Expenso.Communication.Proxy.DTO.Settings.Email;
+using Expenso.Communication.Shared;
+using Expenso.Communication.Shared.DTO.API.SendNotification;
+using Expenso.Communication.Shared.DTO.API.SendNotification.Extensions;
+using Expenso.Communication.Shared.DTO.Settings;
+using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.System.Types.Exceptions;
 

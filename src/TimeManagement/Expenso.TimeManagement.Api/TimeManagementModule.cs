@@ -7,9 +7,9 @@ using Expenso.TimeManagement.Core;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
-using Expenso.TimeManagement.Proxy;
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Shared;
+using Expenso.TimeManagement.Shared.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.Response;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

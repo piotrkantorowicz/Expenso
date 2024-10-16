@@ -1,8 +1,8 @@
-﻿using Expenso.Communication.Proxy.DTO.API.SendNotification;
-using Expenso.Communication.Proxy.DTO.API.SendNotification.Extensions;
-using Expenso.Communication.Proxy.DTO.Settings;
-using Expenso.Communication.Proxy.DTO.Settings.InApp;
-using Expenso.Communication.Proxy.DTO.Settings.Push;
+﻿using Expenso.Communication.Shared.DTO.API.SendNotification;
+using Expenso.Communication.Shared.DTO.API.SendNotification.Extensions;
+using Expenso.Communication.Shared.DTO.Settings;
+using Expenso.Communication.Shared.DTO.Settings.InApp;
+using Expenso.Communication.Shared.DTO.Settings.Push;
 
 using FluentAssertions;
 

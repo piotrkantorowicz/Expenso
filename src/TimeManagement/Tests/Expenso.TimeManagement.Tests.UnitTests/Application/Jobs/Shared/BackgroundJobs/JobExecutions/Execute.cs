@@ -1,4 +1,4 @@
-﻿using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
+﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization.Default;
