@@ -11,6 +11,7 @@
     <ItemGroup>
         <PackageReference Include="Castle.Core" Version="5.1.1"/>
         <PackageReference Include="FluentAssertions" Version="6.12.0"/>
+        <PackageReference Include="FluentValidation" Version="11.10.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0"/>
         <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.2"/>
@@ -34,7 +35,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
         <ProjectReference Include="..\..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
     </ItemGroup>
 

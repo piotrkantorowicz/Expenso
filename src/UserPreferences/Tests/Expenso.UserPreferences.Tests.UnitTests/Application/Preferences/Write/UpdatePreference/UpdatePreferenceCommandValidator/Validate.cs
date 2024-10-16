@@ -1,3 +1,4 @@
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 
 using FluentValidation.Results;
@@ -32,7 +33,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult, propertyName: "PreferenceId",
+        validationResult.AssertSingleError(propertyName: "PreferenceId",
             errorMessage: "The preference ID must not be empty.");
     }
 
@@ -50,7 +51,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult, propertyName: "Payload.FinancePreference",
+        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference",
             errorMessage: "The finance preference must not be empty.");
     }
 
@@ -70,8 +71,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult,
-            propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
+        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
             errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
@@ -91,8 +91,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult,
-            propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
+        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
             errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
@@ -112,8 +111,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult,
-            propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
+        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
             errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
@@ -133,8 +131,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult,
-            propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
+        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
             errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
@@ -152,7 +149,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult, propertyName: "Payload.NotificationPreference",
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationPreference",
             errorMessage: "The notification preference must not be empty.");
     }
 
@@ -172,8 +169,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult,
-            propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
             errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
@@ -193,8 +189,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult,
-            propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
             errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
@@ -212,7 +207,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        AssertSingleError(validationResult: validationResult, propertyName: "Payload.GeneralPreference",
+        validationResult.AssertSingleError(propertyName: "Payload.GeneralPreference",
             errorMessage: "The general preference must not be empty.");
     }
 }
