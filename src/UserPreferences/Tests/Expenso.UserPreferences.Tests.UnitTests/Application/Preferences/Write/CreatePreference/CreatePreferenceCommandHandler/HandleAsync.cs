@@ -8,6 +8,7 @@ using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
 {
     [Test]

@@ -6,6 +6,7 @@ using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base;
 
+[TestFixture]
 internal sealed class AddDomainEvent : DomainEventsSourceTestBase
 {
     [Test]

@@ -9,14 +9,9 @@ using Keycloak.AuthServices.Sdk.Admin.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
+[TestFixture]
 internal abstract class UserServiceTestBase : TestBase<IUserService>
 {
-    protected GetUserResponse _getUserResponse = null!;
-    protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
-    protected UserRepresentation _user = null!;
-    protected string _userEmail = null!;
-    protected string _userId = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -38,4 +33,10 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
         TestCandidate = new UserService(keycloakUserClient: _keycloakUserClientMock.Object,
             keycloakSettings: new KeycloakSettings());
     }
+
+    protected GetUserResponse _getUserResponse = null!;
+    protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
+    protected UserRepresentation _user = null!;
+    protected string _userEmail = null!;
+    protected string _userId = null!;
 }

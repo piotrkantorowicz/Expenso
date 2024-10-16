@@ -7,11 +7,9 @@ namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.UploadFil
 
 using TestCandidate = Core.Application.Files.Write.UploadFiles.UploadFilesCommandHandler;
 
+[TestFixture]
 internal abstract class UploadFilesCommandHandler : TestBase<TestCandidate>
 {
-    protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;
-    protected Mock<IFileStorage> _fileStorageMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -21,4 +19,7 @@ internal abstract class UploadFilesCommandHandler : TestBase<TestCandidate>
         TestCandidate = new TestCandidate(fileStorage: _fileStorageMock.Object,
             directoryPathResolver: _directoryPathResolverMock.Object);
     }
+
+    protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;
+    protected Mock<IFileStorage> _fileStorageMock = null!;
 }

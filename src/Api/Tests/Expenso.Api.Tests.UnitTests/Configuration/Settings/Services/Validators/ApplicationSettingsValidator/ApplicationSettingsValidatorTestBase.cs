@@ -5,10 +5,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.App
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.ApplicationSettingsValidator;
 
+[TestFixture]
 internal abstract class ApplicationSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected ApplicationSettings _applicationSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -21,4 +20,6 @@ internal abstract class ApplicationSettingsValidatorTestBase : TestBase<TestCand
 
         TestCandidate = new TestCandidate();
     }
+
+    protected ApplicationSettings _applicationSettings = null!;
 }

@@ -2,6 +2,7 @@ using Expenso.Shared.Tests.Utils.ArchTests;
 
 namespace Expenso.UserPreferences.Tests.ArchTests.AccessModifiers;
 
+[TestFixture]
 internal sealed class AccessModifierTests : TestBase
 {
     private static readonly string[] NotInternal =

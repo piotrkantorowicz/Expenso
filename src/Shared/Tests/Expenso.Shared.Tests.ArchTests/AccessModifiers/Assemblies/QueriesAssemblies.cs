@@ -1,7 +1,7 @@
 ﻿using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
 
-namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class QueriesAssemblies
 {

@@ -5,6 +5,7 @@ using Expenso.Shared.Tests.UnitTests.System.Expressions.TestData;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Expressions.AndExpression;
 
+[TestFixture]
 internal sealed class And
 {
     [Test]

@@ -5,10 +5,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.Otl
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.OtlpSettingsValidator;
 
+[TestFixture]
 internal abstract class OtlpSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected OtlpSettings _otlpSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -20,4 +19,6 @@ internal abstract class OtlpSettingsValidatorTestBase : TestBase<TestCandidate>
 
         TestCandidate = new TestCandidate();
     }
+
+    protected OtlpSettings _otlpSettings = null!;
 }

@@ -10,14 +10,9 @@ using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJ
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler;
 
+[TestFixture]
 internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCandidate>
 {
-    protected CancelJobEntryCommand _cancelJobEntryCommand = null!;
-    protected JobEntry? _jobEntry;
-    protected Guid? _jobEntryId;
-    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
-    protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -36,4 +31,10 @@ internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCand
         TestCandidate = new TestCandidate(jobEntryRepository: _jobEntryRepositoryMock.Object,
             jobStatusRepository: _jobEntryStatusReposiotry.Object);
     }
+
+    protected CancelJobEntryCommand _cancelJobEntryCommand = null!;
+    protected JobEntry? _jobEntry;
+    protected Guid? _jobEntryId;
+    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
+    protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
 }

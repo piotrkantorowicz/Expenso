@@ -10,13 +10,9 @@ using TestCandidate = Expenso.Shared.Database.EfCore.Migrations.DbMigrator;
 
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Core.Migrations.DbMigrator;
 
+[TestFixture]
 internal abstract class DbMigratorTestBase : TestBase<TestCandidate>
 {
-    protected Mock<IServiceScope> _serviceScopeMock = null!;
-    protected Mock<ITestDbContextMigrate> _testDbContextMigrateMock = null!;
-    protected Mock<ITestDbContextNoMigrate> _testDbContextNoMigrateMock = null!;
-    protected Mock<ITestDbContextNoSeed> _testDbContextNoSeedMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -26,6 +22,11 @@ internal abstract class DbMigratorTestBase : TestBase<TestCandidate>
         _testDbContextNoSeedMock = new Mock<ITestDbContextNoSeed>();
         TestCandidate = new TestCandidate();
     }
+
+    protected Mock<IServiceScope> _serviceScopeMock = null!;
+    protected Mock<ITestDbContextMigrate> _testDbContextMigrateMock = null!;
+    protected Mock<ITestDbContextNoMigrate> _testDbContextNoMigrateMock = null!;
+    protected Mock<ITestDbContextNoSeed> _testDbContextNoSeedMock = null!;
 }
 
 internal interface ITestDbContextMigrate : IDbContext;

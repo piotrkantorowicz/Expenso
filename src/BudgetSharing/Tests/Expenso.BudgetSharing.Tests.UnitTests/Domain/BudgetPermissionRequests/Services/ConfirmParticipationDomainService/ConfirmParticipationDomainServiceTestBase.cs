@@ -15,18 +15,9 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
 
+[TestFixture]
 internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBase<IConfirmParticipantionDomainService>
 {
-    protected BudgetId _budgetId = null!;
-    protected BudgetPermission _budgetPermission = null!;
-    protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
-    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
-    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
-    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
-    private Mock<IClock> _clockMock = null!;
-    protected GetPreferencesResponse _getPreferenceResponse = null!;
-    protected Mock<IUserPreferencesProxy> _userPreferencesProxyMock = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -64,4 +55,14 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermissionRequest.GetUncommittedChanges();
         _budgetPermission.GetUncommittedChanges();
     }
+
+    protected BudgetId _budgetId = null!;
+    protected BudgetPermission _budgetPermission = null!;
+    protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
+    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
+    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
+    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
+    private Mock<IClock> _clockMock = null!;
+    protected GetPreferencesResponse _getPreferenceResponse = null!;
+    protected Mock<IUserPreferencesProxy> _userPreferencesProxyMock = null!;
 }

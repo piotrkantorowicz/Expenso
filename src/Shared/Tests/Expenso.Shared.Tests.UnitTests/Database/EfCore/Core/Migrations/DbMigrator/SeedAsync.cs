@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Core.Migrations.DbMigrator;
 
+[TestFixture]
 internal sealed class SeedAsync : DbMigratorTestBase
 {
     [Test]

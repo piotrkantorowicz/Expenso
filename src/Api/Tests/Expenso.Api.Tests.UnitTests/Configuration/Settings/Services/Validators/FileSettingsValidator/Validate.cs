@@ -2,6 +2,7 @@
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.FileSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : FileSettingsValidatorTestBase
 {
     [Test]

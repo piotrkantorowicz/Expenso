@@ -7,13 +7,9 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreference;
 
+[TestFixture]
 internal abstract class GetPreferenceQueryHandlerTestBase : TestBase<GetPreferenceQueryHandler>
 {
-    protected GetPreferenceResponse _getPreferenceResponse = null!;
-    protected Guid _id;
-    protected Preference _preference = null!;
-    protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -23,4 +19,9 @@ internal abstract class GetPreferenceQueryHandlerTestBase : TestBase<GetPreferen
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         TestCandidate = new GetPreferenceQueryHandler(preferencesRepository: _preferenceRepositoryMock.Object);
     }
+
+    protected GetPreferenceResponse _getPreferenceResponse = null!;
+    protected Guid _id;
+    protected Preference _preference = null!;
+    protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
 }

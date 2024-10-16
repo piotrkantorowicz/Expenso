@@ -2,10 +2,9 @@ using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandler.Result;
 
+[TestFixture]
 internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandler>
 {
-    protected TestCommand _testCommand = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -14,4 +13,6 @@ internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandl
 
         TestCandidate = new TestCommandHandler();
     }
+
+    protected TestCommand _testCommand = null!;
 }

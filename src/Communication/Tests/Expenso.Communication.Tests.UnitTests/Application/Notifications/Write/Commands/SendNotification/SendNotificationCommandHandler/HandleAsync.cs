@@ -9,6 +9,7 @@ using Moq;
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
 {
     [Test]

@@ -1,12 +1,12 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
 
 using TestCandidate =
-    Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.
-    SendNotificationCommandValidator;
+    Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.SendNotificationCommandValidator;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandValidator;
 
+[TestFixture]
 internal abstract class SendNotificationCommandValidatorTestBase : TestBase<TestCandidate>
 {
     [SetUp]

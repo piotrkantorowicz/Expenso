@@ -3,6 +3,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetP
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
+[TestFixture]
 internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestBase
 {
     [Test]

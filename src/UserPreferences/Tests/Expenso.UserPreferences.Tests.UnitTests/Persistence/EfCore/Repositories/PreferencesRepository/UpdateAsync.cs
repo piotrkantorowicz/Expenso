@@ -2,6 +2,7 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
+[TestFixture]
 internal sealed class UpdateAsync : PreferenceRepositoryTestBase
 {
     [Test]

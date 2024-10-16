@@ -7,19 +7,9 @@ using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
+[TestFixture]
 internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermission>
 {
-    protected readonly BudgetId _defaultBudgetId =
-        BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
-
-    protected readonly BudgetPermissionId _defaultBudgetPermissionId =
-        BudgetPermissionId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
-
-    protected readonly PersonId _defaultOwnerId =
-        PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
-
-    protected Mock<IClock> _clockMock = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -30,6 +20,17 @@ internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermissi
             .Returns(value: new DateTimeOffset(year: 2021, month: 1, day: 1, hour: 0, minute: 0, second: 0,
                 offset: TimeSpan.Zero));
     }
+
+    protected readonly BudgetId _defaultBudgetId =
+        BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
+    protected readonly BudgetPermissionId _defaultBudgetPermissionId =
+        BudgetPermissionId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
+    protected readonly PersonId _defaultOwnerId =
+        PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+
+    protected Mock<IClock> _clockMock = null!;
 
     protected BudgetPermission CreateTestCandidate(bool createDefaultPermission = true, bool emitDomainEvents = false)
     {

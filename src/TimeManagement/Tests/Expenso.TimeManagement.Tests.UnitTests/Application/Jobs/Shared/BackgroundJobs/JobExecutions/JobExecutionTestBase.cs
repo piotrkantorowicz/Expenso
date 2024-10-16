@@ -11,16 +11,9 @@ using Moq;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.BackgroundJobs.JobExecutions;
 
+[TestFixture]
 internal abstract class JobExecutionTestBase : TestBase<JobExecution>
 {
-    protected Mock<IClock> _clockMock = null!;
-    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
-    protected Mock<IJobEntryStatusRepository> _jobEntryStatusRepositoryMock = null!;
-    protected Mock<IJobInstanceRepository> _jobInstanceRepositoryMock = null!;
-    protected Mock<ILoggerService<JobExecution>> _loggerMock = null!;
-    protected Mock<IMessageBroker> _messageBrokerMock = null!;
-    protected Mock<ISerializer> _serializerMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -49,4 +42,12 @@ internal abstract class JobExecutionTestBase : TestBase<JobExecution>
             messageBroker: _messageBrokerMock.Object, clock: _clockMock.Object,
             jobInstanceRepository: _jobInstanceRepositoryMock.Object);
     }
+
+    protected Mock<IClock> _clockMock = null!;
+    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
+    protected Mock<IJobEntryStatusRepository> _jobEntryStatusRepositoryMock = null!;
+    protected Mock<IJobInstanceRepository> _jobInstanceRepositoryMock = null!;
+    protected Mock<ILoggerService<JobExecution>> _loggerMock = null!;
+    protected Mock<IMessageBroker> _messageBrokerMock = null!;
+    protected Mock<ISerializer> _serializerMock = null!;
 }

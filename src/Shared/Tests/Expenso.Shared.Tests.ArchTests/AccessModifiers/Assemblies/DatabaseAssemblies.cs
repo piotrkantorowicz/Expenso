@@ -4,7 +4,7 @@ using Expenso.Shared.Database.EfCore.Settings;
 
 using DatabaseExtensions = Expenso.Shared.Database.EfCore.Memory.Extensions;
 
-namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class DatabaseAssemblies
 {

@@ -13,13 +13,9 @@ using TestCandidate = Expenso.Shared.Integration.MessageBroker.InMemory.InMemory
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.InMemoryMessageBroker;
 
+[TestFixture]
 internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
 {
-    private readonly Mock<ILoggerService<BackgroundMessageProcessor>> _loggerService = new();
-    private readonly IMessageChannel _messageChannel = new MessageChannel();
-    private readonly CancellationTokenSource _stoppingTokenSource = new();
-    private BackgroundMessageProcessor? _backgroundMessageProcessor;
-
     [SetUp]
     public async Task SetUpAsync()
     {
@@ -34,6 +30,11 @@ internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
         await _backgroundMessageProcessor?.StopAsync(cancellationToken: _stoppingTokenSource.Token)!;
         _backgroundMessageProcessor?.Dispose();
     }
+
+    private readonly Mock<ILoggerService<BackgroundMessageProcessor>> _loggerService = new();
+    private readonly IMessageChannel _messageChannel = new MessageChannel();
+    private readonly CancellationTokenSource _stoppingTokenSource = new();
+    private BackgroundMessageProcessor? _backgroundMessageProcessor;
 
     private async Task StartMessageProcessor(CancellationToken cancellationToken)
     {

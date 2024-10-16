@@ -1,5 +1,6 @@
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
+[TestFixture]
 internal abstract class PreferencesTestBase : TestBase
 {
     [SetUp]

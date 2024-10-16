@@ -5,6 +5,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryHandlerLoggingDecorator;
 
+[TestFixture]
 internal sealed class HandleAsync : QueryHandlerLoggingDecoratorTestBase
 {
     [Test]

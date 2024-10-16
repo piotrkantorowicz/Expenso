@@ -5,10 +5,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.EfC
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.EfCoreValidator;
 
+[TestFixture]
 internal abstract class EfCoreSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected EfCoreSettings _efCoreSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -30,4 +29,6 @@ internal abstract class EfCoreSettingsValidatorTestBase : TestBase<TestCandidate
 
         TestCandidate = new TestCandidate();
     }
+
+    protected EfCoreSettings _efCoreSettings = null!;
 }

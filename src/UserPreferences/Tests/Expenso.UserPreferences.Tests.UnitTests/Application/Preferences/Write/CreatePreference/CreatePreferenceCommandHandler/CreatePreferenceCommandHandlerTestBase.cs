@@ -10,13 +10,9 @@ using TestCandidate =
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandHandler;
 
+[TestFixture]
 internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<TestCandidate>
 {
-    protected CreatePreferenceResponse _createPreferenceResponse = null!;
-    protected Preference _preference = null!;
-    protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
-    protected Guid _userId;
-
     [SetUp]
     public void SetUp()
     {
@@ -26,4 +22,9 @@ internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<TestCa
         _createPreferenceResponse = CreatePreferenceResponseMap.MapTo(preference: _preference);
         TestCandidate = new TestCandidate(preferencesRepository: _preferenceRepositoryMock.Object);
     }
+
+    protected CreatePreferenceResponse _createPreferenceResponse = null!;
+    protected Preference _preference = null!;
+    protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
+    protected Guid _userId;
 }

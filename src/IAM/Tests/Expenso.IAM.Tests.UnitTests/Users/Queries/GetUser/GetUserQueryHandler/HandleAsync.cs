@@ -4,6 +4,7 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserQueryHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : GetUserQueryHandlerTestBase
 {
     [Test]

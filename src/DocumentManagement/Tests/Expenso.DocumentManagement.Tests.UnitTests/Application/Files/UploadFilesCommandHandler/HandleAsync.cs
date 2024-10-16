@@ -8,6 +8,7 @@ using Moq;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.UploadFilesCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : UploadFilesCommandHandler
 {
     [Test]

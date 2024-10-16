@@ -2,6 +2,7 @@ using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 
+[TestFixture]
 internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
 {
     [Test]

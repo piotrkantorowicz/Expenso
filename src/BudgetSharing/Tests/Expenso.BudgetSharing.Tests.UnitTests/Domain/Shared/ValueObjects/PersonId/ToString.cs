@@ -4,6 +4,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.PersonId;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PersonId;
 
+[TestFixture]
 internal sealed class ToString : PersonIdTestBase
 {
     [Test]

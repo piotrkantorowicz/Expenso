@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
+[TestFixture]
 internal sealed class ConfigureCors : AppBuilderTestBase
 {
     [Test]

@@ -7,6 +7,7 @@ using Moq;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
 {
     [Test]

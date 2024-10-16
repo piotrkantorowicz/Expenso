@@ -4,6 +4,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObject
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId;
 
+[TestFixture]
 internal sealed class Nullable : BudgetPermissionIdTestBase
 {
     [Test]

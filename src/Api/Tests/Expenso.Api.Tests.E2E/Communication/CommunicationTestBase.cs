@@ -4,10 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Api.Tests.E2E.Communication;
 
+[TestFixture]
 internal abstract class CommunicationTestBase : TestBase
 {
-    protected ICommunicationProxy _communicationProxy = null!;
-
     [SetUp]
     public override Task SetUpAsync()
     {
@@ -23,4 +22,6 @@ internal abstract class CommunicationTestBase : TestBase
 
         return base.TearDownAsync();
     }
+
+    protected ICommunicationProxy _communicationProxy = null!;
 }

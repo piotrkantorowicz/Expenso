@@ -8,6 +8,7 @@ using Moq;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.GetFilesQueryHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
 {
     [Test]

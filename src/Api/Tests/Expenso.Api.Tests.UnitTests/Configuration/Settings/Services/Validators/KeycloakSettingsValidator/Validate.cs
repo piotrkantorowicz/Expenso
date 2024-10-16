@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : KeycloakSettingsValidatorTestBase
 {
     [Test]

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryDispatcher;
 
+[TestFixture]
 internal abstract class QueryDispatcherTestBase : TestBase<IQueryDispatcher>
 {
     [SetUp]

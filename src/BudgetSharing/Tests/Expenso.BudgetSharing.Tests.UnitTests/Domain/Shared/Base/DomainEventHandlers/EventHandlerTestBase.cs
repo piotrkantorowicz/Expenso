@@ -16,17 +16,10 @@ using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 
+[TestFixture]
 internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : class, IDomainEventHandler<TEvent>
     where TEvent : class, IDomainEvent
 {
-    protected Mock<IClock> _clock = null!;
-    protected Mock<ICommunicationProxy> _communicationProxyMock = null!;
-    protected UserNotificationModel _defaultNotificationModel = null!;
-    protected PersonId _defaultOwnerId = null!;
-    protected PersonId _defaultParticipantId = null!;
-    protected Mock<IIamProxyService> _iIamProxyServiceMock = null!;
-    protected NotificationSettings _notificationSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -60,6 +53,14 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
 
         InitTestCandidate();
     }
+
+    protected Mock<IClock> _clock = null!;
+    protected Mock<ICommunicationProxy> _communicationProxyMock = null!;
+    protected UserNotificationModel _defaultNotificationModel = null!;
+    protected PersonId _defaultOwnerId = null!;
+    protected PersonId _defaultParticipantId = null!;
+    protected Mock<IIamProxyService> _iIamProxyServiceMock = null!;
+    protected NotificationSettings _notificationSettings = null!;
 
     protected abstract void InitTestCandidate();
 }

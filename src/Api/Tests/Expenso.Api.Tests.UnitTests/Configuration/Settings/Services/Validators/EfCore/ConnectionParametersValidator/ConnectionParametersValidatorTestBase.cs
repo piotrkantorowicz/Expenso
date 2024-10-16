@@ -5,10 +5,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.EfC
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
 
+[TestFixture]
 internal abstract class ConnectionParametersValidatorTestBase : TestBase<TestCandidate>
 {
-    protected ConnectionParameters _connectionParameters = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -24,4 +23,6 @@ internal abstract class ConnectionParametersValidatorTestBase : TestBase<TestCan
 
         TestCandidate = new TestCandidate();
     }
+
+    protected ConnectionParameters _connectionParameters = null!;
 }

@@ -8,6 +8,7 @@ using Status = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObject
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
 
+[TestFixture]
 internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
 {
     [Test]

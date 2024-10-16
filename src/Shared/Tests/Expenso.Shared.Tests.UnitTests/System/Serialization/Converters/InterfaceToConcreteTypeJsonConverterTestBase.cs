@@ -9,8 +9,15 @@ using TestCandidate = Expenso.Shared.System.Serialization.Default.DefaultSeriali
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Converters;
 
+[TestFixture]
 internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<TestCandidate>
 {
+    [SetUp]
+    public void SetUp()
+    {
+        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
+    }
+
     private readonly Mock<ILoggerService<TestCandidate>> _loggerMock = new();
 
     protected readonly JsonSerializerOptions _serializerOptions = new()
@@ -20,12 +27,6 @@ internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<
             new InterfaceToConcreteTypeJsonConverter<ITestInterface, TestConcreteType>()
         }
     };
-
-    [SetUp]
-    public void SetUp()
-    {
-        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
-    }
 
     [Test]
     public void SerializeAndDeserializeAreSymmetric()

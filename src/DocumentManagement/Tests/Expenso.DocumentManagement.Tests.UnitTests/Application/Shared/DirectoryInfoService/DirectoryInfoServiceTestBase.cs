@@ -10,11 +10,9 @@ using TestCandidate = Expenso.DocumentManagement.Core.Application.Shared.Service
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryInfoService;
 
+[TestFixture]
 internal abstract class DirectoryInfoServiceTestBase : TestBase<IDirectoryInfoService>
 {
-    private FilesSettings? _filesSettings;
-    protected Mock<IFileSystem>? _fileSystemMock;
-
     [SetUp]
     public void Setup()
     {
@@ -30,4 +28,7 @@ internal abstract class DirectoryInfoServiceTestBase : TestBase<IDirectoryInfoSe
 
         TestCandidate = new TestCandidate(fileSystem: _fileSystemMock.Object, filesSettings: _filesSettings);
     }
+
+    private FilesSettings? _filesSettings;
+    protected Mock<IFileSystem>? _fileSystemMock;
 }

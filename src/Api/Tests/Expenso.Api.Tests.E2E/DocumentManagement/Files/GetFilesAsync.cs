@@ -4,6 +4,7 @@ using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
+[TestFixture]
 internal sealed class GetFilesAsync : DocumentManagementTestBase
 {
     [Test]

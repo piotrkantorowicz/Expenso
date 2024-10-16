@@ -10,17 +10,9 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Extensions.
     BudgetPermissionRequestFilterExtensions;
 
+[TestFixture]
 internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : DomainTestBase<BudgetPermission>
 {
-    protected BudgetId _budgetId = null!;
-    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
-    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
-    private Mock<IClock> _clockMock = null!;
-    protected PersonId _ownerId = null!;
-    protected PersonId _participantId = null!;
-    protected PermissionType _permissionType = null!;
-    protected BudgetPermissionRequestStatus _status = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -39,4 +31,13 @@ internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : Domain
 
         ;
     }
+
+    protected BudgetId _budgetId = null!;
+    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
+    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
+    private Mock<IClock> _clockMock = null!;
+    protected PersonId _ownerId = null!;
+    protected PersonId _participantId = null!;
+    protected PermissionType _permissionType = null!;
+    protected BudgetPermissionRequestStatus _status = null!;
 }

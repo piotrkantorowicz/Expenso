@@ -4,6 +4,7 @@ using TestCandidate = Expenso.Shared.Domain.Types.ValueObjects.DateAndTime;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
+[TestFixture]
 internal sealed class New : TestBase<TestCandidate>
 {
     [Test]

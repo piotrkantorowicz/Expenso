@@ -10,6 +10,7 @@ using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain;
 
+[TestFixture]
 internal abstract class DomainTestBase<TTestCandidate> : TestBase<TTestCandidate> where TTestCandidate : class
 {
     [OneTimeSetUp]

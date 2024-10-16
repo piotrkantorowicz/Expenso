@@ -2,6 +2,7 @@
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.CorsSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : CorsSettingsValidatorTestBase
 {
     [Test]

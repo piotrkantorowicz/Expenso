@@ -6,6 +6,7 @@ using FluentValidation.Results;
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
 
+[TestFixture]
 internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 {
     [Test]

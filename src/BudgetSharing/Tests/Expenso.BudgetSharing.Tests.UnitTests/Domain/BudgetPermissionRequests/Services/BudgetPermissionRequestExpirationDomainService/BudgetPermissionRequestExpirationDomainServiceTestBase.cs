@@ -9,14 +9,11 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     BudgetPermissionRequestExpirationDomainService;
 
+[TestFixture]
 internal abstract class
     BudgetPermissionRequestExpirationDomainServiceTestBase : DomainTestBase<
     IBudgetPermissionRequestExpirationDomainService>
 {
-    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
-    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
-    private Mock<IClock> _clockMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -36,4 +33,8 @@ internal abstract class
             new BudgetSharing.Domain.BudgetPermissionRequests.Services.BudgetPermissionRequestExpirationDomainService(
                 budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object);
     }
+
+    protected BudgetPermissionRequest _budgetPermissionRequest = null!;
+    protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
+    private Mock<IClock> _clockMock = null!;
 }

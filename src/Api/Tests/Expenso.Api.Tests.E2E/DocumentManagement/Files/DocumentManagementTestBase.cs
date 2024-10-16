@@ -4,10 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
+[TestFixture]
 internal abstract class DocumentManagementTestBase : TestBase
 {
-    protected IDocumentManagementProxy _documentManagementProxy = null!;
-
     [SetUp]
     public override Task SetUpAsync()
     {
@@ -23,4 +22,6 @@ internal abstract class DocumentManagementTestBase : TestBase
 
         return base.TearDownAsync();
     }
+
+    protected IDocumentManagementProxy _documentManagementProxy = null!;
 }

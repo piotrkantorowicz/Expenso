@@ -13,6 +13,7 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
 
+[TestFixture]
 internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServiceTestBase
 {
     [Test]

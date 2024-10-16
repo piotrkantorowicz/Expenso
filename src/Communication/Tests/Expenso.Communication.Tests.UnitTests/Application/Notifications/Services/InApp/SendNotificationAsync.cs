@@ -3,6 +3,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.InApp;
 
+[TestFixture]
 internal sealed class SendNotificationAsync : FakeInAppServiceTestBase
 {
     [Test]

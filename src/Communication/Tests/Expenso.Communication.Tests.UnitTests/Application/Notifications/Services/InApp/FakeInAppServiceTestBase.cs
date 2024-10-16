@@ -6,14 +6,15 @@ using Moq;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.InApp;
 
+[TestFixture]
 internal abstract class FakeInAppServiceTestBase : TestBase<FakeInAppService>
 {
-    protected Mock<ILoggerService<FakeInAppService>> _loggerServiceMock = null!;
-
     [SetUp]
     public void SetUp()
     {
         _loggerServiceMock = new Mock<ILoggerService<FakeInAppService>>();
         TestCandidate = new FakeInAppService(logger: _loggerServiceMock.Object);
     }
+
+    protected Mock<ILoggerService<FakeInAppService>> _loggerServiceMock = null!;
 }

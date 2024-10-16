@@ -3,6 +3,7 @@ using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
+[TestFixture]
 internal sealed class DeleteFilesAsync : DocumentManagementTestBase
 {
     [Test]

@@ -8,14 +8,10 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandlerLoggingDecorator;
 
+[TestFixture]
 internal abstract class
     DomainEventHandlerLoggingDecoratorTestBase : TestBase<DomainEventHandlerLoggingDecorator<TestDomainEvent>>
 {
-    protected Mock<IDomainEventHandler<TestDomainEvent>> _domainEventHandlerMock = null!;
-    protected Mock<ILoggerService<DomainEventHandlerLoggingDecorator<TestDomainEvent>>> _loggerMock = null!;
-    private Mock<ISerializer> _serializerMock = null!;
-    protected TestDomainEvent _testDomainEvent = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -29,4 +25,9 @@ internal abstract class
         TestCandidate = new DomainEventHandlerLoggingDecorator<TestDomainEvent>(logger: _loggerMock.Object,
             decorated: _domainEventHandlerMock.Object, serializer: _serializerMock.Object);
     }
+
+    protected Mock<IDomainEventHandler<TestDomainEvent>> _domainEventHandlerMock = null!;
+    protected Mock<ILoggerService<DomainEventHandlerLoggingDecorator<TestDomainEvent>>> _loggerMock = null!;
+    private Mock<ISerializer> _serializerMock = null!;
+    protected TestDomainEvent _testDomainEvent = null!;
 }

@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
+[TestFixture]
 internal sealed class IsValidEmail
 {
     [Test]

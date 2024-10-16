@@ -1,5 +1,6 @@
 namespace Expenso.Api.Tests.E2E.Greetings;
 
+[TestFixture]
 internal sealed class Hello : TestBase
 {
     [Test]

@@ -28,4 +28,8 @@
         <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="AccessModifiers\"/>
+    </ItemGroup>
+
 </Project>

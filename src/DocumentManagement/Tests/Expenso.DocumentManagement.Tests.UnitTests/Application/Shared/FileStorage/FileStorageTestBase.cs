@@ -9,14 +9,15 @@ using TestCandidate = Expenso.DocumentManagement.Core.Application.Shared.Service
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.FileStorage;
 
+[TestFixture]
 internal abstract class FileStorageTestBase : TestBase<IFileStorage>
 {
-    protected Mock<IFileSystem> _fileSystemMock = null!;
-
     [SetUp]
     public void Setup()
     {
         _fileSystemMock = new Mock<IFileSystem>();
         TestCandidate = new TestCandidate(fileSystem: _fileSystemMock.Object);
     }
+
+    protected Mock<IFileSystem> _fileSystemMock = null!;
 }

@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Api.Tests.E2E.Communication;
 
+[TestFixture]
 internal sealed class SendNotificationAsync : CommunicationTestBase
 {
     [Test]

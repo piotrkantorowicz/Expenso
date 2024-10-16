@@ -1,7 +1,8 @@
-using Expenso.Shared.Tests.ArchTests.Assemblies;
+using Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
-namespace Expenso.Shared.Tests.ArchTests.AccessModifiers;
+namespace Expenso.Shared.Tests.ArchTests;
 
+[TestFixture]
 internal sealed class AccessModifierTests : ArchTestTestBase
 {
     private static readonly string[] NotInternal =

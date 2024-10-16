@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.NpsqlDbContextFactory;
 
+[TestFixture]
 internal abstract class NpsqlDbContextFactoryTestBase : TestBase<NpsqlDbContextFactory<TestDbContext>>
 {
     [SetUp]

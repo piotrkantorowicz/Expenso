@@ -11,6 +11,7 @@ using Moq;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
 {
     [Test]

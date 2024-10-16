@@ -3,6 +3,7 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.Push;
 
+[TestFixture]
 internal sealed class SendNotificationAsync : FakePushServiceTestBase
 {
     [Test]

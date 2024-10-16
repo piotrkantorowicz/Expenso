@@ -4,6 +4,7 @@ using FluentAssertions;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJob.CancelJobEntryCommandValidator;
 
+[TestFixture]
 internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
 {
     [Test]

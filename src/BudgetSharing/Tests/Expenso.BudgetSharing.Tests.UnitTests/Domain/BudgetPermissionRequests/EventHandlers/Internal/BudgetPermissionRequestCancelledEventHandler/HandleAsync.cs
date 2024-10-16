@@ -3,12 +3,12 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 
 using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.
-    BudgetPermissionRequestCancelledEventHandler;
+    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.BudgetPermissionRequestCancelledEventHandler;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.Internal.
     BudgetPermissionRequestCancelledEventHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : HandleAsyncBase<TestCandidate, BudgetPermissionRequestCancelledEvent>
 {
     protected override BudgetPermissionRequestCancelledEvent CreateEvent()

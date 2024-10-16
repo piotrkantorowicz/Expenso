@@ -5,10 +5,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.Not
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator;
 
+[TestFixture]
 internal abstract class SmtpSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected SmtpSettings _smtpSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -17,4 +16,6 @@ internal abstract class SmtpSettingsValidatorTestBase : TestBase<TestCandidate>
 
         TestCandidate = new TestCandidate();
     }
+
+    protected SmtpSettings _smtpSettings = null!;
 }

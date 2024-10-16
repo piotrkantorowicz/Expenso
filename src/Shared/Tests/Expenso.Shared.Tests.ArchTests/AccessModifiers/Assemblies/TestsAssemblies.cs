@@ -1,7 +1,7 @@
 ﻿using Expenso.Shared.Tests.UnitTests.System.Modules.Extensions.EndpointRegistrationExtensions;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
-namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class TestsAssemblies
 {

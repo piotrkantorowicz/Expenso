@@ -3,6 +3,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
+[TestFixture]
 internal sealed class GetCurrentUserPreferences : PreferencesTestBase
 {
     [Test]

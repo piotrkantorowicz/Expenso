@@ -7,6 +7,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.Result;
 
+[TestFixture]
 internal sealed class HandleAsync : CommandHandlerFluentValidationDecoratorTestBase
 {
     [Test]

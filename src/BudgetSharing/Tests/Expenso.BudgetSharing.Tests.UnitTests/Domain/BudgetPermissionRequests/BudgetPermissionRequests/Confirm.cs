@@ -6,6 +6,7 @@ using FluentAssertions;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.BudgetPermissionRequests;
 
+[TestFixture]
 internal sealed class Confirm : BudgetPermissionRequestTestBase
 {
     [Test]

@@ -5,6 +5,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandlerLoggingDecorator;
 
+[TestFixture]
 internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
 {
     [Test]

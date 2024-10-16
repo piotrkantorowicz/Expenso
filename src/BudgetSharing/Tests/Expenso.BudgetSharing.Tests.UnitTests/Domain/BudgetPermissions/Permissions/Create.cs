@@ -6,6 +6,7 @@ using FluentAssertions;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.Permissions;
 
+[TestFixture]
 internal sealed class Create : PermissionTestBase
 {
     public static object[] PermissionTypes =

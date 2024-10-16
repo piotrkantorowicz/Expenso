@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
+[TestFixture]
 internal sealed class GreaterThan : TestBase<TestCandidate>
 {
     [Test]

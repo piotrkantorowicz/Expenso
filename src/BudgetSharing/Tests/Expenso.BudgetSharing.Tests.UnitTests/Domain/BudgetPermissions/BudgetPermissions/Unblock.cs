@@ -5,6 +5,7 @@ using FluentAssertions;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
+[TestFixture]
 internal sealed class Unblock : BudgetPermissionTestBase
 {
     [Test]
