@@ -6,13 +6,9 @@ using TestCandidate = Expenso.IAM.Core.Application.Proxy.IamProxy;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
+[TestFixture]
 internal abstract class IamProxyTestBase : TestBase<IIamProxy>
 {
-    protected GetUserResponse _getUserResponse = null!;
-    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
-    protected string _userEmail = null!;
-    protected string _userId = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -27,4 +23,9 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
         TestCandidate = new TestCandidate(queryDispatcher: _queryDispatcherMock.Object,
             messageContextFactory: MessageContextFactoryMock.Object);
     }
+
+    protected GetUserResponse _getUserResponse = null!;
+    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
+    protected string _userEmail = null!;
+    protected string _userId = null!;
 }

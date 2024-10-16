@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.Events.IntegrationEventHandlerLoggingDecorator;
 
+[TestFixture]
 internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestBase
 {
     [Test]

@@ -5,6 +5,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerLoggingDecorator.NoResult;
 
+[TestFixture]
 internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
 {
     [Test]

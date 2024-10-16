@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Converters;
 
+[TestFixture]
 internal sealed class Serialize : InterfaceToConcreteTypeJsonConverterTestBase
 {
     [Test]

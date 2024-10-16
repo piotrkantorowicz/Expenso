@@ -5,11 +5,9 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandler;
 
+[TestFixture]
 internal abstract class DomainEventHandlerTestBase : TestBase<TestDomainEventHandler>
 {
-    protected Mock<ILoggerService<TestDomainEventHandler>> _loggerMock = null!;
-    protected TestDomainEvent _testDomainEvent = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -19,4 +17,7 @@ internal abstract class DomainEventHandlerTestBase : TestBase<TestDomainEventHan
         _loggerMock = new Mock<ILoggerService<TestDomainEventHandler>>();
         TestCandidate = new TestDomainEventHandler(logger: _loggerMock.Object);
     }
+
+    protected Mock<ILoggerService<TestDomainEventHandler>> _loggerMock = null!;
+    protected TestDomainEvent _testDomainEvent = null!;
 }

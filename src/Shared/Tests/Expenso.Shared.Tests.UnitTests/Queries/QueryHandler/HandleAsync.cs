@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : QueryHandlerResultTestBase
 {
     [Test]

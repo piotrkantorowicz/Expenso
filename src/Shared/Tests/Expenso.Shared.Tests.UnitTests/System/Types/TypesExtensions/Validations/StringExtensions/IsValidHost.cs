@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
+[TestFixture]
 internal sealed class IsValidHost
 {
     [Test, TestCase(arg: "www.google.com"), TestCase(arg: "127.0.0.1"), TestCase(arg: "::1")]

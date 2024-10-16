@@ -12,14 +12,11 @@ using Moq;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
+[TestFixture]
 internal abstract class
     RegisterJobEntryCommandValidatorTestBase : TestBase<
     Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator>
 {
-    protected Mock<IClock> _clockMock = null!;
-    protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
-    protected Mock<ISerializer> _serializer = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -50,4 +47,8 @@ internal abstract class
             new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator(serializer: _serializer.Object,
                 clock: _clockMock.Object);
     }
+
+    protected Mock<IClock> _clockMock = null!;
+    protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
+    protected Mock<ISerializer> _serializer = null!;
 }

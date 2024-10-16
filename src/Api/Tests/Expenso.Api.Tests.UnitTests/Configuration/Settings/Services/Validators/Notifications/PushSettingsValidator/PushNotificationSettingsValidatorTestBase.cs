@@ -6,14 +6,15 @@ using TestCandidate =
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.PushSettingsValidator;
 
+[TestFixture]
 internal abstract class PushNotificationSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected PushNotificationSettings _pushNotificationSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
         _pushNotificationSettings = new PushNotificationSettings(Enabled: true);
         TestCandidate = new TestCandidate();
     }
+
+    protected PushNotificationSettings _pushNotificationSettings = null!;
 }

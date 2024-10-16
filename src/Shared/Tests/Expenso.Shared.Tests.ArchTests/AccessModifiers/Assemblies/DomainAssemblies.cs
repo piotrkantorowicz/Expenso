@@ -2,7 +2,7 @@
 using Expenso.Shared.Domain.Events.Logging;
 using Expenso.Shared.Domain.Types.Aggregates;
 
-namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class DomainAssemblies
 {

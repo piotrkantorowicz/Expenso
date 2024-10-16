@@ -8,14 +8,10 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerLoggingDecorator.Result;
 
+[TestFixture]
 internal abstract class
     CommandHandlerLoggingDecoratorTestBase : TestBase<CommandHandlerLoggingDecorator<TestCommand, TestCommandResult>>
 {
-    protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _commandHandlerMock = null!;
-    protected Mock<ILoggerService<CommandHandlerLoggingDecorator<TestCommand, TestCommandResult>>> _loggerMock = null!;
-    private Mock<ISerializer> _serializerMock = null!;
-    protected TestCommand _testCommand = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -29,4 +25,9 @@ internal abstract class
         TestCandidate = new CommandHandlerLoggingDecorator<TestCommand, TestCommandResult>(logger: _loggerMock.Object,
             decorated: _commandHandlerMock.Object, serializer: _serializerMock.Object);
     }
+
+    protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _commandHandlerMock = null!;
+    protected Mock<ILoggerService<CommandHandlerLoggingDecorator<TestCommand, TestCommandResult>>> _loggerMock = null!;
+    private Mock<ISerializer> _serializerMock = null!;
+    protected TestCommand _testCommand = null!;
 }

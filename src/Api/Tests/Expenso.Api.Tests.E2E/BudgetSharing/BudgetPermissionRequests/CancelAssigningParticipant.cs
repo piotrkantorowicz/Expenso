@@ -2,6 +2,7 @@ using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
+[TestFixture]
 internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBase
 {
     [Test]

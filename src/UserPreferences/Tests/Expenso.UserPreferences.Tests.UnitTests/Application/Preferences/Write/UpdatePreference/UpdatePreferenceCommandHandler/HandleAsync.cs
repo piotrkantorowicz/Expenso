@@ -9,6 +9,7 @@ using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.Notificatio
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
 {
     [Test]

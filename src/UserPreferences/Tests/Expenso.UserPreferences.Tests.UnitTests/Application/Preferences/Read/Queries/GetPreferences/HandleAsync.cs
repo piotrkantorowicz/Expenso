@@ -6,6 +6,7 @@ using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreferences;
 
+[TestFixture]
 internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
 {
     [Test]

@@ -8,6 +8,7 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     BudgetPermissionRequestExpirationDomainService;
 
+[TestFixture]
 internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissionRequestExpirationDomainServiceTestBase
 {
     [Test]

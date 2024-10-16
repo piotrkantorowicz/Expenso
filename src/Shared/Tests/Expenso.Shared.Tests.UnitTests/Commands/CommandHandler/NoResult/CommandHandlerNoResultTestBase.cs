@@ -5,11 +5,9 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandler.NoResult;
 
+[TestFixture]
 internal abstract class CommandHandlerNoResultTestBase : TestBase<TestCommandHandler>
 {
-    protected Mock<ILoggerService<TestCommandHandler>> _loggerMock = null!;
-    protected TestCommand _testCommand = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -19,4 +17,7 @@ internal abstract class CommandHandlerNoResultTestBase : TestBase<TestCommandHan
         _loggerMock = new Mock<ILoggerService<TestCommandHandler>>();
         TestCandidate = new TestCommandHandler(logger: _loggerMock.Object);
     }
+
+    protected Mock<ILoggerService<TestCommandHandler>> _loggerMock = null!;
+    protected TestCommand _testCommand = null!;
 }

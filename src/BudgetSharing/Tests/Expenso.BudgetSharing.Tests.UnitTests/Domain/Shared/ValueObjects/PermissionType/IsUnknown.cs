@@ -4,6 +4,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.Permissio
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PermissionType;
 
+[TestFixture]
 internal sealed class IsUnknown : PermissionTypeTestBase
 {
     [Test]

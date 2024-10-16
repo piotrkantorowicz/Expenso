@@ -1,5 +1,6 @@
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.NpsqlDbContextFactory;
 
+[TestFixture]
 internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
 {
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "Path not exists not this machine")]

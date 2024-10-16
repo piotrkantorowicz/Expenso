@@ -6,6 +6,7 @@ using Moq;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.FileStorage;
 
+[TestFixture]
 internal sealed class ReadAsync : FileStorageTestBase
 {
     [Test]

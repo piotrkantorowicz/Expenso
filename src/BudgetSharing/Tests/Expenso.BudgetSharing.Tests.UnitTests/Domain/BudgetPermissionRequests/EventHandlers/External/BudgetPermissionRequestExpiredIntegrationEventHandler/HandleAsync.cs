@@ -3,6 +3,7 @@
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase
 {
     [Test]

@@ -5,6 +5,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignPar
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
+[TestFixture]
 internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
 {
     [Test]

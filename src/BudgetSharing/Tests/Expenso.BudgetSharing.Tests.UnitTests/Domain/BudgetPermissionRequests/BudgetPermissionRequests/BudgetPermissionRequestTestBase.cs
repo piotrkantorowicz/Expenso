@@ -6,8 +6,14 @@ using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.BudgetPermissionRequests;
 
+[TestFixture]
 internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetPermissionRequest>
 {
+    [SetUp]
+    public void SetUp()
+    {
+    }
+
     protected const int Expiration = 3;
     protected readonly Mock<IClock> _clockMock = new();
 
@@ -21,11 +27,6 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
 
     protected readonly PersonId _defaultPersonId =
         PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
-
-    [SetUp]
-    public void SetUp()
-    {
-    }
 
     protected BudgetPermissionRequest CreateTestCandidate(bool emitDomainEvents = false)
     {

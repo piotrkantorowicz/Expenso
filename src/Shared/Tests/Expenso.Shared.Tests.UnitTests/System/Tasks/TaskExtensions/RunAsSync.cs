@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Tasks.TaskExtensions;
 
+[TestFixture]
 internal sealed class RunAsSync
 {
     [Test]

@@ -1,4 +1,4 @@
-﻿namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+﻿namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class AllAssemblies
 {

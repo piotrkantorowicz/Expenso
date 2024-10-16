@@ -3,6 +3,7 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
+[TestFixture]
 internal sealed class GetUserByIdAsync : UserServiceTestBase
 {
     [Test]

@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
 
+[TestFixture]
 internal sealed class Validate : ConnectionParametersValidatorTestBase
 {
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "   ")]

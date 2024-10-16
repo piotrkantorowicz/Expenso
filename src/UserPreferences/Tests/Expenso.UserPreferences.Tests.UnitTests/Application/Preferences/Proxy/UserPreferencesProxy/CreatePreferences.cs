@@ -4,6 +4,7 @@ using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
+[TestFixture]
 internal sealed class CreatePreferences : UserPreferencesProxyTestBase
 {
     [Test]

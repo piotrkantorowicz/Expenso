@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryInfoService;
 
+[TestFixture]
 internal sealed class GetReportsDirectory : DirectoryInfoServiceTestBase
 {
     [Test]

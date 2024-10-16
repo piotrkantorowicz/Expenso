@@ -9,7 +9,7 @@ using Expenso.Shared.System.Types.Clock;
 using SerilogExtensions = Expenso.Shared.System.Logging.Serilog.Extensions;
 using TaskExtensions = Expenso.Shared.System.Tasks.TaskExtensions;
 
-namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class SystemAssemblies
 {

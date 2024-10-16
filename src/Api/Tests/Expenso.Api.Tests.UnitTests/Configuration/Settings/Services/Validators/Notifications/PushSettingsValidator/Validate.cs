@@ -2,6 +2,7 @@
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.PushSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : PushNotificationSettingsValidatorTestBase
 {
     [Test]

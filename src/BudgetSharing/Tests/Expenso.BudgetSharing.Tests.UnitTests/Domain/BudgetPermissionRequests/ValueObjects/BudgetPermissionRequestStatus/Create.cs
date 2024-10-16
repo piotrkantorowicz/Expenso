@@ -5,6 +5,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Valu
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatus;
 
+[TestFixture]
 internal sealed class Create : BudgetPermissionRequestStatusTestBase
 {
     [Test, TestCase(arg1: 0, arg2: "Unknown"), TestCase(arg1: 1, arg2: "Pending"), TestCase(arg1: 2, arg2: "Confirmed"),

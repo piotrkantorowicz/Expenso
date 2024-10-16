@@ -9,10 +9,9 @@ using TestCandidate =
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandValidator;
 
+[TestFixture]
 internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<TestCandidate>
 {
-    protected CreatePreferenceCommand _createPreferenceCommand = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -23,4 +22,6 @@ internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<Test
         TestCandidate = new TestCandidate(messageContextValidator: new MessageContextValidator(),
             preferenceRequestValidator: new CreatePreferenceRequestValidator());
     }
+
+    protected CreatePreferenceCommand _createPreferenceCommand = null!;
 }

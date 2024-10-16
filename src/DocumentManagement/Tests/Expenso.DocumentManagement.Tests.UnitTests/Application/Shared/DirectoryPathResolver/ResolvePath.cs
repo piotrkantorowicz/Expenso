@@ -6,6 +6,7 @@ using DirectoryInfo = Expenso.DocumentManagement.Core.Application.Shared.Service
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryPathResolver;
 
+[TestFixture]
 internal sealed class ResolvePath : DirectoryPathResolverTestBase
 {
     [Test]

@@ -6,6 +6,7 @@ using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
+[TestFixture]
 internal sealed class GetUserByEmailAsync : UserServiceTestBase
 {
     [Test]

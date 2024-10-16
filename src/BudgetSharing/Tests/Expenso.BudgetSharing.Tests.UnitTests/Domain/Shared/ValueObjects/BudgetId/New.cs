@@ -6,6 +6,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.BudgetId;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.BudgetId;
 
+[TestFixture]
 internal sealed class New : BudgetIdTestBase
 {
     [Test]

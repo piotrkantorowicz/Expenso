@@ -7,13 +7,10 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerTransactionDecorator.NoResult;
 
+[TestFixture]
 internal abstract class
     CommandHandlerTransactionDecoratorTestBase : TestBase<CommandHandlerTransactionDecorator<TestCommand>>
 {
-    protected Mock<ICommandHandler<TestCommand>> _commandHandlerMock = null!;
-    protected TestCommand _testCommand = null!;
-    protected Mock<IUnitOfWork> _unitOfWorkMock = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -26,4 +23,8 @@ internal abstract class
         TestCandidate = new CommandHandlerTransactionDecorator<TestCommand>(unitOfWork: _unitOfWorkMock.Object,
             decorated: _commandHandlerMock.Object);
     }
+
+    protected Mock<ICommandHandler<TestCommand>> _commandHandlerMock = null!;
+    protected TestCommand _testCommand = null!;
+    protected Mock<IUnitOfWork> _unitOfWorkMock = null!;
 }

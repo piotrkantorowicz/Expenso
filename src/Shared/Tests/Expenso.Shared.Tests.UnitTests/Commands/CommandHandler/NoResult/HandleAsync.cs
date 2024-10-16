@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandler.NoResult;
 
+[TestFixture]
 internal sealed class HandleAsync : CommandHandlerNoResultTestBase
 {
     [Test]

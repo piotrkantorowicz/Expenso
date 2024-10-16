@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
+[TestFixture]
 internal sealed class IsValidRelativePath
 {
     [Test, TestCase(arg: @"Users\lyubovray\Desktop\folder\file.txt\file.txt"),

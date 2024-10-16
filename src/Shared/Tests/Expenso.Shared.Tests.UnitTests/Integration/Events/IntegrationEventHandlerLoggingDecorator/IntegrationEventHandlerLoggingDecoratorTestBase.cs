@@ -8,15 +8,11 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.Events.IntegrationEventHandlerLoggingDecorator;
 
+[TestFixture]
 internal abstract class
     IntegrationEventHandlerLoggingDecoratorTestBase : TestBase<
     IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>
 {
-    protected Mock<IIntegrationEventHandler<TestIntegrationEvent>> _integrationEventHandlerMock = null!;
-    protected Mock<ILoggerService<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>> _loggerMock = null!;
-    private Mock<ISerializer> _serializerMock = null!;
-    protected TestIntegrationEvent _testIntegrationEvent = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -30,4 +26,9 @@ internal abstract class
         TestCandidate = new IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>(logger: _loggerMock.Object,
             decorated: _integrationEventHandlerMock.Object, serializer: _serializerMock.Object);
     }
+
+    protected Mock<IIntegrationEventHandler<TestIntegrationEvent>> _integrationEventHandlerMock = null!;
+    protected Mock<ILoggerService<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>> _loggerMock = null!;
+    private Mock<ISerializer> _serializerMock = null!;
+    protected TestIntegrationEvent _testIntegrationEvent = null!;
 }

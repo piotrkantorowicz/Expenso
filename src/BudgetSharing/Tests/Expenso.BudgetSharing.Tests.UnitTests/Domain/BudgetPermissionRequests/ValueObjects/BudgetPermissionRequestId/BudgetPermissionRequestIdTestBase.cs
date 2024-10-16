@@ -2,6 +2,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Valu
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
 
+[TestFixture]
 internal abstract class BudgetPermissionRequestIdTestBase : DomainTestBase<TestCandidate>
 {
     [SetUp]

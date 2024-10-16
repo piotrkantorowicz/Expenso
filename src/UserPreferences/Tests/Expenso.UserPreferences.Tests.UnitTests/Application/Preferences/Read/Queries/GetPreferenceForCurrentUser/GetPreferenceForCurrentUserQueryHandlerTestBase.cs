@@ -9,17 +9,10 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser;
 
+[TestFixture]
 internal abstract class
     GetPreferenceForCurrentUserQueryHandlerTestBase : TestBase<GetPreferenceForCurrentUserQueryHandler>
 {
-    protected Mock<IExecutionContext> _executionContextMock = null!;
-    protected GetPreferenceForCurrentUserResponse _getPreferenceResponse = null!;
-    protected Preference _preference = null!;
-    protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
-    protected Mock<IExecutionContextAccessor> _userContextAccessorMock = null!;
-    protected Mock<IUserContext> _userContextMock = null!;
-    protected Guid _userId;
-
     [SetUp]
     public void SetUp()
     {
@@ -37,4 +30,12 @@ internal abstract class
             preferencesRepository: _preferenceRepositoryMock.Object,
             executionContextAccessor: _userContextAccessorMock.Object);
     }
+
+    protected Mock<IExecutionContext> _executionContextMock = null!;
+    protected GetPreferenceForCurrentUserResponse _getPreferenceResponse = null!;
+    protected Preference _preference = null!;
+    protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
+    protected Mock<IExecutionContextAccessor> _userContextAccessorMock = null!;
+    protected Mock<IUserContext> _userContextMock = null!;
+    protected Guid _userId;
 }

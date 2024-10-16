@@ -12,6 +12,7 @@ using TestCandidate = Expenso.Shared.Commands.Dispatchers.CommandDispatcher;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 
+[TestFixture]
 internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
 {
     [SetUp]

@@ -12,6 +12,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.BackgroundJobs.JobExecutions;
 
+[TestFixture]
 internal sealed class Execute : JobExecutionTestBase
 {
     private readonly TimeSpan _interval = TimeSpan.FromSeconds(value: 10);

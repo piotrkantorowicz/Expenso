@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.InMemoryMessageBroker;
 
+[TestFixture]
 internal sealed class PublishAsync : MessageBrokerTestBase
 {
     [Test]

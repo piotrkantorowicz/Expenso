@@ -7,11 +7,9 @@ using Moq;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
+[TestFixture]
 internal abstract class JobEntriesTestBase : TestBase
 {
-    protected Mock<IClock> _clockMock = null!;
-    protected ITimeManagementProxy _timeManagementProxy = null!;
-
     [SetUp]
     public override Task SetUpAsync()
     {
@@ -34,6 +32,9 @@ internal abstract class JobEntriesTestBase : TestBase
 
         return base.TearDownAsync();
     }
+
+    protected Mock<IClock> _clockMock = null!;
+    protected ITimeManagementProxy _timeManagementProxy = null!;
 
     protected override void AssertResponseOk(HttpResponseMessage response)
     {

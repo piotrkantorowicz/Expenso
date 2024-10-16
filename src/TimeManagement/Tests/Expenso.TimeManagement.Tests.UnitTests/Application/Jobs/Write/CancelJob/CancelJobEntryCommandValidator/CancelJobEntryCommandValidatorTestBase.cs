@@ -6,11 +6,9 @@ using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJ
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJob.CancelJobEntryCommandValidator;
 
+[TestFixture]
 internal abstract class CancelJobEntryCommandValidatorTestBase : TestBase<TestCandidate>
 {
-    protected CancelJobEntryCommand _cancelJobCommand = null!;
-    private Guid? _jobEntryId;
-
     [SetUp]
     public void SetUp()
     {
@@ -21,4 +19,7 @@ internal abstract class CancelJobEntryCommandValidatorTestBase : TestBase<TestCa
 
         TestCandidate = new TestCandidate();
     }
+
+    protected CancelJobEntryCommand _cancelJobCommand = null!;
+    private Guid? _jobEntryId;
 }

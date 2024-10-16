@@ -2,6 +2,7 @@
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.AuthSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : AuthSettingsValidatorTestBase
 {
     [Test]

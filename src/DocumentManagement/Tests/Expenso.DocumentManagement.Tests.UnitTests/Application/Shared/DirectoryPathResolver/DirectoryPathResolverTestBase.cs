@@ -8,11 +8,9 @@ using TestCandidate = Expenso.DocumentManagement.Core.Application.Shared.Service
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryPathResolver;
 
+[TestFixture]
 internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathResolver>
 {
-    protected Mock<IClock> _clockMock = null!;
-    protected Mock<IDirectoryInfoService> _directoryInfoServiceMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -23,4 +21,7 @@ internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathR
         TestCandidate = new TestCandidate(directoryInfoService: _directoryInfoServiceMock.Object,
             clock: _clockMock.Object);
     }
+
+    protected Mock<IClock> _clockMock = null!;
+    protected Mock<IDirectoryInfoService> _directoryInfoServiceMock = null!;
 }

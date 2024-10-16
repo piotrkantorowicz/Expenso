@@ -3,6 +3,7 @@ using Expenso.Shared.System.Modules.Extensions;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Modules.Extensions.EndpointRegistrationExtensions;
 
+[TestFixture]
 internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
 {
     [Test, TestCase(arg: ""), TestCase(arg: "/users")]

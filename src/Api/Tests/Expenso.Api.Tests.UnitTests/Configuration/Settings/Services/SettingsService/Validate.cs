@@ -4,6 +4,7 @@ using Expenso.Shared.System.Logging;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
+[TestFixture]
 internal sealed class Validate : SettingsServiceTestBase
 {
     [Test]

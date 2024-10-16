@@ -8,6 +8,7 @@ using TestCandidate =
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.EventHandlers.
     BudgetPermissionGrantedEventHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : HandleAsyncBase<TestCandidate, BudgetPermissionGrantedEvent>
 {
     protected override BudgetPermissionGrantedEvent CreateEvent()

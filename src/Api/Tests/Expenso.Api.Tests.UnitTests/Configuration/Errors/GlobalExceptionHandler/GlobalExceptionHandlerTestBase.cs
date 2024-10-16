@@ -7,11 +7,9 @@ using TestCandidate = Expenso.Api.Configuration.Errors.GlobalExceptionHandler;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandler;
 
+[TestFixture]
 internal abstract class GlobalExceptionHandlerTestBase : TestBase<TestCandidate>
 {
-    protected DefaultHttpContext? _httpContext;
-    private Mock<ILoggerService<TestCandidate>>? _loggerMock;
-
     [SetUp]
     public void SetUp()
     {
@@ -19,6 +17,9 @@ internal abstract class GlobalExceptionHandlerTestBase : TestBase<TestCandidate>
         _loggerMock = new Mock<ILoggerService<TestCandidate>>();
         TestCandidate = new TestCandidate(logger: _loggerMock.Object);
     }
+
+    protected DefaultHttpContext? _httpContext;
+    private Mock<ILoggerService<TestCandidate>>? _loggerMock;
 
     protected static async Task<string> ReadResponse(MemoryStream memoryStream)
     {

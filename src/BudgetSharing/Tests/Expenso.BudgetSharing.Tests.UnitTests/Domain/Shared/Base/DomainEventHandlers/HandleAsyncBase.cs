@@ -10,6 +10,7 @@ using Moq;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 
+[TestFixture]
 internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEvent>
     where T : class, IDomainEventHandler<TEvent> where TEvent : class, IDomainEvent
 {

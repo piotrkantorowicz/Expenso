@@ -2,6 +2,7 @@ using Expenso.Shared.System.Configuration;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Configuration.Extensions;
 
+[TestFixture]
 internal sealed class TryBindOptions : OptionsExtensionsTestBase
 {
     [Test]

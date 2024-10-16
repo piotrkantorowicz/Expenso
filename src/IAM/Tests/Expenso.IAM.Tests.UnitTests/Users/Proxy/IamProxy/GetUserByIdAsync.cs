@@ -4,6 +4,7 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
+[TestFixture]
 internal sealed class GetUserByIdAsync : IamProxyTestBase
 {
     [Test]

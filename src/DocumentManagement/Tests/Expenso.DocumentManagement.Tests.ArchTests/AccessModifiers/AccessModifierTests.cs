@@ -4,6 +4,7 @@ using NetArchTest.Rules;
 
 namespace Expenso.DocumentManagement.Tests.ArchTests.AccessModifiers;
 
+[TestFixture]
 internal sealed class AccessModifierTests : TestBase
 {
     private static readonly string[] PublicTypes =

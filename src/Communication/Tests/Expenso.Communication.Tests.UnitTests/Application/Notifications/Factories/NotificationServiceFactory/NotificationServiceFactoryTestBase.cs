@@ -11,8 +11,15 @@ using TestCandidate = Expenso.Communication.Core.Application.Notifications.Facto
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
+[TestFixture]
 internal abstract class NotificationServiceFactoryTestBase : TestBase<INotificationServiceFactory>
 {
+    [SetUp]
+    public void Setup()
+    {
+        TestCandidate = new TestCandidate(servicesDictionary: _servicesDictionary);
+    }
+
     protected readonly IDictionary<string, INotificationService> _servicesDictionary =
         new Dictionary<string, INotificationService>
         {
@@ -20,10 +27,4 @@ internal abstract class NotificationServiceFactoryTestBase : TestBase<INotificat
             { nameof(IEmailService), new Mock<IEmailService>().Object },
             { nameof(IPushService), new Mock<IPushService>().Object }
         };
-
-    [SetUp]
-    public void Setup()
-    {
-        TestCandidate = new TestCandidate(servicesDictionary: _servicesDictionary);
-    }
 }

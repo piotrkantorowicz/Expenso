@@ -5,6 +5,7 @@ using Moq;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.DeleteFilesCommandHandler;
 
+[TestFixture]
 internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
 {
     [Test]

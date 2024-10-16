@@ -6,6 +6,7 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser;
 
+[TestFixture]
 internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestBase
 {
     [Test]

@@ -6,14 +6,15 @@ using Moq;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.Emails;
 
+[TestFixture]
 internal abstract class FakeEmailServiceTestBase : TestBase<FakeEmailService>
 {
-    protected Mock<ILoggerService<FakeEmailService>> _loggerServiceMock = null!;
-
     [SetUp]
     public void SetUp()
     {
         _loggerServiceMock = new Mock<ILoggerService<FakeEmailService>>();
         TestCandidate = new FakeEmailService(logger: _loggerServiceMock.Object);
     }
+
+    protected Mock<ILoggerService<FakeEmailService>> _loggerServiceMock = null!;
 }

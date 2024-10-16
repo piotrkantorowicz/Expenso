@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.ApplicationSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : ApplicationSettingsValidatorTestBase
 {
     [Test]

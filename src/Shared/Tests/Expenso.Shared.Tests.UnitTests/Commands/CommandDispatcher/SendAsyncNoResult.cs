@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 
+[TestFixture]
 internal sealed class SendAsync : CommandDispatcherTestBase
 {
     [Test]

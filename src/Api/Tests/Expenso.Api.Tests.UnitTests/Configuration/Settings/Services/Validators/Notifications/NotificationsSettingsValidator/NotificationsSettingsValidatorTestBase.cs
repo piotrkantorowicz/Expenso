@@ -10,10 +10,9 @@ using TestCandidate =
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.
     NotificationsSettingsValidator;
 
+[TestFixture]
 internal abstract class NotificationSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected NotificationSettings _notificationSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -29,4 +28,6 @@ internal abstract class NotificationSettingsValidatorTestBase : TestBase<TestCan
 
         TestCandidate = new TestCandidate();
     }
+
+    protected NotificationSettings _notificationSettings = null!;
 }

@@ -6,6 +6,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Logging.LoggerService;
 
+[TestFixture]
 internal sealed class LogInfo : LoggerServiceTestBase
 {
     [Test]

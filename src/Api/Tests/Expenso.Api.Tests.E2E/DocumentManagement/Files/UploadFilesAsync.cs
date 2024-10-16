@@ -3,6 +3,7 @@ using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
+[TestFixture]
 internal sealed class UploadFilesAsync : DocumentManagementTestBase
 {
     [Test]

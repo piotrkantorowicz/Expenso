@@ -5,6 +5,7 @@ using Expenso.Shared.Tests.UnitTests.System.Expressions.TestData;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Expressions.OrExpression;
 
+[TestFixture]
 internal sealed class Or
 {
     [Test]

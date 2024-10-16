@@ -12,10 +12,9 @@ using TestCandidate =
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandHandler;
 
+[TestFixture]
 internal abstract class SendNotificationCommandHandlerTestBase : TestBase<TestCandidate>
 {
-    protected Mock<INotificationServiceFactory> _notificationServiceFactoryMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -35,4 +34,6 @@ internal abstract class SendNotificationCommandHandlerTestBase : TestBase<TestCa
 
         TestCandidate = new TestCandidate(notificationServiceFactory: _notificationServiceFactoryMock.Object);
     }
+
+    protected Mock<INotificationServiceFactory> _notificationServiceFactoryMock = null!;
 }

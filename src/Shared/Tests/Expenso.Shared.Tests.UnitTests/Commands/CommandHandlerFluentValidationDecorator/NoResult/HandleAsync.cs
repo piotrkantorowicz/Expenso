@@ -4,6 +4,7 @@ using FluentValidation.Results;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.NoResult;
 
+[TestFixture]
 internal sealed class HandleAsync : CommandHandlerFluentValidationDecoratorTestBase
 {
     [Test]

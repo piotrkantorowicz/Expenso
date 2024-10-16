@@ -12,18 +12,11 @@ using Moq;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler;
 
+[TestFixture]
 internal abstract class
     RegisterJobEntryCommandHandlerTestBase : TestBase<
     Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler>
 {
-    protected Mock<IClock> _clockMock = null!;
-    protected BudgetPermissionRequestExpiredIntegrationEvent _eventTrigger = null!;
-    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
-    protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
-    protected Mock<IJobInstanceRepository> _jobInstanceRepository = null!;
-    protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
-    protected Mock<ISerializer> _serializer = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -53,4 +46,12 @@ internal abstract class
             jobEntryRepository: _jobEntryRepositoryMock.Object, jobInstanceRepository: _jobInstanceRepository.Object,
             jobEntryStatusRepository: _jobEntryStatusReposiotry.Object);
     }
+
+    protected Mock<IClock> _clockMock = null!;
+    protected BudgetPermissionRequestExpiredIntegrationEvent _eventTrigger = null!;
+    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
+    protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
+    protected Mock<IJobInstanceRepository> _jobInstanceRepository = null!;
+    protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
+    protected Mock<ISerializer> _serializer = null!;
 }

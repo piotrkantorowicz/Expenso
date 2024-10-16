@@ -5,10 +5,9 @@ using Expenso.Communication.Shared.DTO.Settings.Push;
 
 namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.Extensions;
 
+[TestFixture]
 internal abstract class SendNotificationRequest_NotificationTypeExtensionsTestBase
 {
-    protected NotificationSettings _settings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -22,4 +21,6 @@ internal abstract class SendNotificationRequest_NotificationTypeExtensionsTestBa
             Push = new PushNotificationSettings(Enabled: true)
         };
     }
+
+    protected NotificationSettings _settings = null!;
 }

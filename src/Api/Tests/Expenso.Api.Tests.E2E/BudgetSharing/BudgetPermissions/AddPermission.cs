@@ -4,6 +4,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DT
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 
+[TestFixture]
 internal sealed class AddPermission : BudgetPermissionTestBase
 {
     [Test]

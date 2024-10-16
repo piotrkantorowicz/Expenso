@@ -7,12 +7,9 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Logging.LoggerService;
 
+[TestFixture]
 internal abstract class LoggerServiceTestBase : TestBase<LoggerService<LoggerServiceTestBase>>
 {
-    private ApplicationSettings? _applicationSettings;
-    private Mock<ILoggerFactory>? _loggerFactoryMock;
-    protected Mock<ILogger<LoggerService<object>>>? _loggerMock;
-
     [SetUp]
     public void SetUp()
     {
@@ -33,4 +30,8 @@ internal abstract class LoggerServiceTestBase : TestBase<LoggerService<LoggerSer
         TestCandidate = new LoggerService<LoggerServiceTestBase>(logger: _loggerFactoryMock.Object,
             applicationSettings: _applicationSettings);
     }
+
+    private ApplicationSettings? _applicationSettings;
+    private Mock<ILoggerFactory>? _loggerFactoryMock;
+    protected Mock<ILogger<LoggerService<object>>>? _loggerMock;
 }

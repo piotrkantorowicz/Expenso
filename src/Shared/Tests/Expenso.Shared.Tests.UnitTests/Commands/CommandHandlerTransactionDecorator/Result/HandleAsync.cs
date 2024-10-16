@@ -2,6 +2,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerTransactionDecorator.Result;
 
+[TestFixture]
 internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
 {
     [Test]

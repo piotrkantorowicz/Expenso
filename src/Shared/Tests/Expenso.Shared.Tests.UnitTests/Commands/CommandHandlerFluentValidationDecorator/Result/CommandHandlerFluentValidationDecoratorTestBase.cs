@@ -8,14 +8,11 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.Result;
 
+[TestFixture]
 internal abstract class
     CommandHandlerFluentValidationDecoratorTestBase : TestBase<
     CommandHandlerFluentValidationDecorator<TestCommand, TestCommandResult>>
 {
-    protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _handler = null!;
-    protected TestCommand _testCommand = null!;
-    protected Mock<IValidator<TestCommand>> _validator = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -29,4 +26,8 @@ internal abstract class
             new CommandHandlerFluentValidationDecorator<TestCommand, TestCommandResult>(validators: [_validator.Object],
                 decorated: _handler.Object);
     }
+
+    protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _handler = null!;
+    protected TestCommand _testCommand = null!;
+    protected Mock<IValidator<TestCommand>> _validator = null!;
 }

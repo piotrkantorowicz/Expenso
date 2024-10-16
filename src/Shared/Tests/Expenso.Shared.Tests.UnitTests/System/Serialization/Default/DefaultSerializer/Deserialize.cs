@@ -2,6 +2,7 @@ using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
+[TestFixture]
 internal sealed class Deserialize : DefaultSerializerTestBase
 {
     [Test]

@@ -8,6 +8,7 @@ using Moq;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
+[TestFixture]
 internal sealed class GetService : NotificationServiceFactoryTestBase
 {
     [Test]

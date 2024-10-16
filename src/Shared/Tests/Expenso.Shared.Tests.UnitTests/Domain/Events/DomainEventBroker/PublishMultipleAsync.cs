@@ -2,6 +2,7 @@ using Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 
+[TestFixture]
 internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
 {
     [Test]

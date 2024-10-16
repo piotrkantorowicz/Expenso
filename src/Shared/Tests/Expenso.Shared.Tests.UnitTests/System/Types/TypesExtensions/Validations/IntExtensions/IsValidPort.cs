@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.IntExtensions;
 
+[TestFixture]
 internal sealed class IsValidPort
 {
     [Test]

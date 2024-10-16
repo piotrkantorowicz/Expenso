@@ -10,8 +10,18 @@ using TestCandidate = Expenso.Api.Configuration.Builders.AppBuilder;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
+[TestFixture]
 internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
 {
+    [SetUp]
+    public void SetUp()
+    {
+        _webApplicationBuilder = WebApplication.CreateBuilder();
+        _configurationManagerMock = new Mock<IAppConfigurationManager>();
+        _serviceCollection = new ServiceCollection();
+        _configurationMock = new Mock<IConfiguration>();
+    }
+
     protected readonly CorsSettings _corsSettings = new()
     {
         Enabled = true,
@@ -22,15 +32,6 @@ internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
     private Mock<IConfiguration> _configurationMock = null!;
     protected IServiceCollection _serviceCollection = null!;
     protected WebApplicationBuilder _webApplicationBuilder = null!;
-
-    [SetUp]
-    public void SetUp()
-    {
-        _webApplicationBuilder = WebApplication.CreateBuilder();
-        _configurationManagerMock = new Mock<IAppConfigurationManager>();
-        _serviceCollection = new ServiceCollection();
-        _configurationMock = new Mock<IConfiguration>();
-    }
 
     protected void CreateTestCandiate()
     {

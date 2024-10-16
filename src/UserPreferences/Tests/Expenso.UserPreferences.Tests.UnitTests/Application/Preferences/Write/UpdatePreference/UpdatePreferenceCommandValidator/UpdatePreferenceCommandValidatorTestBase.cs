@@ -3,18 +3,15 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request.Validators;
 
-using FluentValidation.Results;
-
 using TestCandidate =
     Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
 
+[TestFixture]
 internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<TestCandidate>
 {
-    protected UpdatePreferenceCommand _updatePreferenceCommand = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -34,4 +31,6 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
                 notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),
                 generalPreferenceValidator: new UpdatePreferenceRequest_GeneralPreferenceValidator()));
     }
+
+    protected UpdatePreferenceCommand _updatePreferenceCommand = null!;
 }

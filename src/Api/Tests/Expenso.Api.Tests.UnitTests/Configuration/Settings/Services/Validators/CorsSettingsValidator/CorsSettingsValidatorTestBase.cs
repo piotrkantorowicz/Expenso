@@ -5,10 +5,9 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators
 
 using TestCandidate = Api.Configuration.Settings.Services.Validators.CorsSettingsValidator;
 
+[TestFixture]
 internal abstract class CorsSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected CorsSettings _corsSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -20,4 +19,6 @@ internal abstract class CorsSettingsValidatorTestBase : TestBase<TestCandidate>
 
         TestCandidate = new TestCandidate();
     }
+
+    protected CorsSettings _corsSettings = null!;
 }

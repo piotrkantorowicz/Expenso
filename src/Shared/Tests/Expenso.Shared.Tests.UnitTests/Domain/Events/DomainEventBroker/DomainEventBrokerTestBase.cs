@@ -11,6 +11,7 @@ using TestCandidate = Expenso.Shared.Domain.Events.Dispatchers.DomainEventBroker
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 
+[TestFixture]
 internal abstract class DomainEventBrokerTestBase : TestBase<IDomainEventBroker>
 {
     [SetUp]

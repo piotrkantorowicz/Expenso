@@ -8,6 +8,7 @@ using FluentAssertions;
 
 namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.Extensions;
 
+[TestFixture]
 internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRequest_NotificationTypeExtensionsTestBase
 {
     [Test]

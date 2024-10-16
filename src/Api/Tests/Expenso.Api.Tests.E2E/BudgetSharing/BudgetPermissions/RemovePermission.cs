@@ -3,6 +3,7 @@ using Expenso.Api.Tests.E2E.TestData.IAM;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 
+[TestFixture]
 internal sealed class RemovePermission : BudgetPermissionTestBase
 {
     [Test]

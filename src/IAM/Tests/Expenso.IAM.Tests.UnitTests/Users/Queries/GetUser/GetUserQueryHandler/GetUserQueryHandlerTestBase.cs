@@ -6,14 +6,9 @@ using TestCandidate = Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.Ge
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserQueryHandler;
 
+[TestFixture]
 internal abstract class GetUserQueryHandlerTestBase : TestBase<TestCandidate>
 {
-    protected GetUserResponse _getUserResponse = null!;
-    protected Mock<IMessageContext> _messageContextMock = null!;
-    protected string _userEmail = null!;
-    protected string _userId = null!;
-    protected Mock<IUserService> _userServiceMock = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -27,4 +22,10 @@ internal abstract class GetUserQueryHandlerTestBase : TestBase<TestCandidate>
         _messageContextMock = new Mock<IMessageContext>();
         TestCandidate = new TestCandidate(userService: _userServiceMock.Object);
     }
+
+    protected GetUserResponse _getUserResponse = null!;
+    protected Mock<IMessageContext> _messageContextMock = null!;
+    protected string _userEmail = null!;
+    protected string _userId = null!;
+    protected Mock<IUserService> _userServiceMock = null!;
 }

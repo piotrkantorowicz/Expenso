@@ -14,8 +14,15 @@ using TestCandidate = Expenso.Shared.System.Serialization.Default.DefaultSeriali
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
+[TestFixture]
 internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
 {
+    [SetUp]
+    public void SetUp()
+    {
+        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
+    }
+
     protected static readonly BasicTestObject BasicObject = new()
     {
         PrimaryId = new Guid(g: "dd37661a-dc23-45ca-9a33-e92568536a73"),
@@ -50,10 +57,4 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
             new InterfaceToConcreteTypeJsonConverter<IMessageContext, MessageContext>()
         }
     };
-
-    [SetUp]
-    public void SetUp()
-    {
-        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
-    }
 }

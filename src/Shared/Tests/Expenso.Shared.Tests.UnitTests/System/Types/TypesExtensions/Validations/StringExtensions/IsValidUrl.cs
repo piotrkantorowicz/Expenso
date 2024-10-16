@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
+[TestFixture]
 internal sealed class IsValidUrl
 {
     [Test, TestCase(arg: "http://www.google.com"), TestCase(arg: "https://www.google.com"),

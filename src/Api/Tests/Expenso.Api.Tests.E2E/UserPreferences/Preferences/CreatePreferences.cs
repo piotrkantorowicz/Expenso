@@ -3,6 +3,7 @@ using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
+[TestFixture]
 internal sealed class CreatePreferences : PreferencesTestBase
 {
     [Test]

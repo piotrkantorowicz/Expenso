@@ -7,10 +7,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.Key
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
 
+[TestFixture]
 internal abstract class KeycloakSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected KeycloakSettings _keycloakSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -29,4 +28,6 @@ internal abstract class KeycloakSettingsValidatorTestBase : TestBase<TestCandida
 
         TestCandidate = new TestCandidate();
     }
+
+    protected KeycloakSettings _keycloakSettings = null!;
 }

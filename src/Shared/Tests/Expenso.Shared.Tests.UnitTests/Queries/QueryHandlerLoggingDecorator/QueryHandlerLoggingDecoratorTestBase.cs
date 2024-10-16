@@ -8,14 +8,10 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryHandlerLoggingDecorator;
 
+[TestFixture]
 internal abstract class
     QueryHandlerLoggingDecoratorTestBase : TestBase<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>
 {
-    protected Mock<ILoggerService<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>> _loggerMock = null!;
-    protected Mock<IQueryHandler<TestQuery, TestResponse>> _queryHandlerMock = null!;
-    private Mock<ISerializer> _serializerMock = null!;
-    protected TestQuery _testQuery = null!;
-
     [SetUp]
     protected void Setup()
     {
@@ -27,4 +23,9 @@ internal abstract class
         TestCandidate = new QueryHandlerLoggingDecorator<TestQuery, TestResponse>(logger: _loggerMock.Object,
             decorated: _queryHandlerMock.Object, serializer: _serializerMock.Object);
     }
+
+    protected Mock<ILoggerService<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>> _loggerMock = null!;
+    protected Mock<IQueryHandler<TestQuery, TestResponse>> _queryHandlerMock = null!;
+    private Mock<ISerializer> _serializerMock = null!;
+    protected TestQuery _testQuery = null!;
 }

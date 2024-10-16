@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : SmtpSettingsValidatorTestBase
 {
     [Test]

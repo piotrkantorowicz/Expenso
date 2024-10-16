@@ -5,15 +5,9 @@ using Expenso.BudgetSharing.Tests.UnitTests.Domain;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Extensions.BudgetPermissionFilterExtensions;
 
+[TestFixture]
 internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBase<BudgetPermission>
 {
-    protected BudgetId _budgetId = null!;
-    protected BudgetPermission _budgetPermission = null!;
-    protected BudgetPermissionId _budgetPermissionId = null!;
-    protected PersonId _ownerId = null!;
-    protected PersonId _participantId = null!;
-    protected PermissionType _permissionType = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -28,4 +22,11 @@ internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBas
 
         _budgetPermission.AddPermission(participantId: _participantId, permissionType: _permissionType);
     }
+
+    protected BudgetId _budgetId = null!;
+    protected BudgetPermission _budgetPermission = null!;
+    protected BudgetPermissionId _budgetPermissionId = null!;
+    protected PersonId _ownerId = null!;
+    protected PersonId _participantId = null!;
+    protected PermissionType _permissionType = null!;
 }

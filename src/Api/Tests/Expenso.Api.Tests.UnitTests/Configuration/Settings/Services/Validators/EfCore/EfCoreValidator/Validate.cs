@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.EfCoreValidator;
 
+[TestFixture]
 internal sealed class Validate : EfCoreSettingsValidatorTestBase
 {
     [Test]

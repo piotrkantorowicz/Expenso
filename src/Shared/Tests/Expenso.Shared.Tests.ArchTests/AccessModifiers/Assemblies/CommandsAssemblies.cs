@@ -3,7 +3,7 @@ using Expenso.Shared.Commands.Logging;
 using Expenso.Shared.Commands.Transactions;
 using Expenso.Shared.Commands.Validation;
 
-namespace Expenso.Shared.Tests.ArchTests.Assemblies;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class CommandsAssemblies
 {

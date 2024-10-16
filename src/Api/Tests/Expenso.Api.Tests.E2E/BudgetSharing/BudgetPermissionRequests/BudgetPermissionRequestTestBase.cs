@@ -1,5 +1,6 @@
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
+[TestFixture]
 internal abstract class BudgetPermissionRequestTestBase : TestBase
 {
     [SetUp]

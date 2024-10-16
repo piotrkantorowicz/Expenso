@@ -4,6 +4,7 @@ using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryDispatcher;
 
+[TestFixture]
 internal sealed class QueryAsync : QueryDispatcherTestBase
 {
     [Test]

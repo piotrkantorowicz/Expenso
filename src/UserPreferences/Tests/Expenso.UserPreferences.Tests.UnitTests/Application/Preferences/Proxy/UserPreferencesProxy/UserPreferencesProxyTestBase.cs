@@ -8,15 +8,9 @@ using TestCandidate = Expenso.UserPreferences.Core.Application.Proxy.UserPrefere
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
+[TestFixture]
 internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferencesProxy>
 {
-    protected Mock<ICommandDispatcher> _commandDispatcherMock = null!;
-    protected CreatePreferenceResponse _createPreferenceResponse = null!;
-    protected GetPreferencesResponse _getPreferencesExternalResponse = null!;
-    private Guid _id;
-    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
-    protected Guid _userId;
-
     [SetUp]
     public void SetUp()
     {
@@ -38,4 +32,11 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
         TestCandidate = new TestCandidate(commandDispatcher: _commandDispatcherMock.Object,
             queryDispatcher: _queryDispatcherMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
+
+    protected Mock<ICommandDispatcher> _commandDispatcherMock = null!;
+    protected CreatePreferenceResponse _createPreferenceResponse = null!;
+    protected GetPreferencesResponse _getPreferencesExternalResponse = null!;
+    private Guid _id;
+    protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
+    protected Guid _userId;
 }

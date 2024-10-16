@@ -6,10 +6,9 @@ using TestCandidate =
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.EmailSettingsValidator;
 
+[TestFixture]
 internal abstract class EmailNotificationSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected EmailNotificationSettings _emailNotificationSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -19,4 +18,6 @@ internal abstract class EmailNotificationSettingsValidatorTestBase : TestBase<Te
 
         TestCandidate = new TestCandidate();
     }
+
+    protected EmailNotificationSettings _emailNotificationSettings = null!;
 }

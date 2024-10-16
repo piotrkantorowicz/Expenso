@@ -6,6 +6,7 @@ using Expenso.TimeManagement.Shared.DTO.Response;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
+[TestFixture]
 internal sealed class RegisterJobEntry : JobEntriesTestBase
 {
     [Test]

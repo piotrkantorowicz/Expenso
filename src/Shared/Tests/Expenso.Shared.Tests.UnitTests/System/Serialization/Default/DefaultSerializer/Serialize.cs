@@ -1,5 +1,6 @@
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
+[TestFixture]
 internal sealed class Serialize : DefaultSerializerTestBase
 {
     [Test, TestCaseSource(sourceName: nameof(SerializedTestObjects))]

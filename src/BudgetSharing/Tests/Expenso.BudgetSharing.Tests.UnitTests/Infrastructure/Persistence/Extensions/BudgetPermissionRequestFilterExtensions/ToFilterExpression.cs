@@ -11,6 +11,7 @@ using FluentAssertions;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Extensions.
     BudgetPermissionRequestFilterExtensions;
 
+[TestFixture]
 internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensionsTestBase
 {
     [TestCase(arg1: nameof(BudgetPermissionRequestFilter.Id), arg2: true),

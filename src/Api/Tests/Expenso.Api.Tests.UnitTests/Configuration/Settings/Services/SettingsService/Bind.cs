@@ -2,6 +2,7 @@
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
+[TestFixture]
 internal sealed class Bind : SettingsServiceTestBase
 {
     [Test]

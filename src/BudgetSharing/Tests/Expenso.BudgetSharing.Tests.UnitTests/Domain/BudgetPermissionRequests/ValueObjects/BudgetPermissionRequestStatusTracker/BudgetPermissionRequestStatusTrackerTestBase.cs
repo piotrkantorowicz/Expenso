@@ -9,13 +9,9 @@ using TestCandidate =
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
 
+[TestFixture]
 internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<TestCandidate>
 {
-    protected BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId
-        _budgetPermissionRequestId = null!;
-
-    protected Mock<IClock> _clockMock = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -25,4 +21,9 @@ internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.New(
                 value: Guid.NewGuid());
     }
+
+    protected BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId
+        _budgetPermissionRequestId = null!;
+
+    protected Mock<IClock> _clockMock = null!;
 }

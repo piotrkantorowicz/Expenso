@@ -1,5 +1,8 @@
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.Utils.ArchTests;
 
+[TestFixture]
 public abstract class TestBase
 {
     protected static void AssertFailingTypes(ConditionList? result)

@@ -3,6 +3,7 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
+[TestFixture]
 internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
 {
     [Test, TestCaseSource(sourceName: nameof(_userIds))]

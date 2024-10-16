@@ -2,6 +2,7 @@ using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
 
+[TestFixture]
 internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 {
     [Test]

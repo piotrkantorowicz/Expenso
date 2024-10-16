@@ -6,6 +6,7 @@ using FluentAssertions;
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandValidator;
 
+[TestFixture]
 internal sealed class Validate : SendNotificationCommandValidatorTestBase
 {
     [Test]

@@ -7,14 +7,15 @@ using TestCandidate = Expenso.Api.Configuration.Execution.ExecutionContextAccess
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Execution.ExecutionContextAccessor;
 
+[TestFixture]
 internal abstract class ExecutionContextAccessorTestBase : TestBase<IExecutionContextAccessor>
 {
-    protected Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
-
     [SetUp]
     public void SetUp()
     {
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
         TestCandidate = new TestCandidate(httpContextAccessor: _httpContextAccessorMock.Object);
     }
+
+    protected Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
 }

@@ -2,6 +2,7 @@
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.DictionaryExtensions;
 
+[TestFixture]
 internal sealed class Merge
 {
     [Test]

@@ -2,6 +2,7 @@ using TestCandidate = Expenso.BudgetSharing.Domain.Shared.Base.DomainEventsSourc
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base;
 
+[TestFixture]
 internal abstract class DomainEventsSourceTestBase : DomainTestBase<TestCandidate>
 {
     [SetUp]

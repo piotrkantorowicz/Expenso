@@ -6,14 +6,15 @@ using TestCandidate =
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.InAppSettingsValidator;
 
+[TestFixture]
 internal abstract class InAppNotificationSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected InAppNotificationSettings _inAppNotificationSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
         _inAppNotificationSettings = new InAppNotificationSettings(Enabled: true);
         TestCandidate = new TestCandidate();
     }
+
+    protected InAppNotificationSettings _inAppNotificationSettings = null!;
 }

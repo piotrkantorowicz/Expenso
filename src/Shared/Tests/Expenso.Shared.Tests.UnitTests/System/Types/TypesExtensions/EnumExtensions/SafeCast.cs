@@ -3,6 +3,7 @@ using Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtensions
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtensions;
 
+[TestFixture]
 internal sealed class SafeCast
 {
     [Test]

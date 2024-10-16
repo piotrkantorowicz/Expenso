@@ -5,6 +5,7 @@ using FluentAssertions;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
+[TestFixture]
 internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 {
     [Test]

@@ -3,6 +3,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
+[TestFixture]
 internal sealed class UpdatePreferences : PreferencesTestBase
 {
     [Test]

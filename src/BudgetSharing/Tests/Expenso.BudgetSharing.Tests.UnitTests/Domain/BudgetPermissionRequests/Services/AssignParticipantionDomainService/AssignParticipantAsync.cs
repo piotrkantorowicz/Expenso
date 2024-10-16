@@ -11,6 +11,7 @@ using Moq;
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     AssignParticipantionDomainService;
 
+[TestFixture]
 internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTestBase
 {
     [Test]

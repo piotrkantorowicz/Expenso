@@ -1,5 +1,6 @@
 ﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.OtlpSettingsValidator;
 
+[TestFixture]
 internal sealed class Validate : OtlpSettingsValidatorTestBase
 {
     [Test]

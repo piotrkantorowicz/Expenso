@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandler;
 
+[TestFixture]
 internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
 {
     [Test]

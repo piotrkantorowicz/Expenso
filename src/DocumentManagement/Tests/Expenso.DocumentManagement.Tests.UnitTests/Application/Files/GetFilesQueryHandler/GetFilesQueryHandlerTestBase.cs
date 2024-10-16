@@ -9,12 +9,9 @@ namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.GetFilesQ
 
 using TestCandidate = Core.Application.Files.Read.GetFiles.GetFilesQueryHandler;
 
+[TestFixture]
 internal abstract class GetFilesQueryHandlerTestBase : TestBase<TestCandidate>
 {
-    protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;
-    protected Mock<IFileStorage> _fileStorageMock = null!;
-    protected Mock<IFileSystem> _fileSystemMock = null!;
-
     [SetUp]
     public void Setup()
     {
@@ -25,4 +22,8 @@ internal abstract class GetFilesQueryHandlerTestBase : TestBase<TestCandidate>
         TestCandidate = new TestCandidate(directoryPathResolver: _directoryPathResolverMock.Object,
             fileStorage: _fileStorageMock.Object, fileSystem: _fileSystemMock.Object);
     }
+
+    protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;
+    protected Mock<IFileStorage> _fileStorageMock = null!;
+    protected Mock<IFileSystem> _fileSystemMock = null!;
 }

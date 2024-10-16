@@ -5,10 +5,9 @@ using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.Fil
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.FileSettingsValidator;
 
+[TestFixture]
 internal abstract class FileSettingsValidatorTestBase : TestBase<TestCandidate>
 {
-    protected FilesSettings _filesSettings = null!;
-
     [SetUp]
     public void SetUp()
     {
@@ -21,4 +20,6 @@ internal abstract class FileSettingsValidatorTestBase : TestBase<TestCandidate>
 
         TestCandidate = new TestCandidate();
     }
+
+    protected FilesSettings _filesSettings = null!;
 }
