@@ -1,4 +1,4 @@
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser;
 
 namespace Expenso.IAM.Core.Application.Users.Read.Services;
 

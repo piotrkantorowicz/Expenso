@@ -2,7 +2,7 @@
 
 using Expenso.DocumentManagement.Api;
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
-using Expenso.DocumentManagement.Proxy;
+using Expenso.DocumentManagement.Shared;
 using Expenso.DocumentManagement.Tests.ArchTests.AccessModifiers;
 using Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.FileStorage;
 

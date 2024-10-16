@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings.Email;
+﻿using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator;

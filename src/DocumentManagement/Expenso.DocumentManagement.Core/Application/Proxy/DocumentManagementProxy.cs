@@ -1,11 +1,11 @@
 using Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
 using Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
 using Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
-using Expenso.DocumentManagement.Proxy;
-using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
-using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Request;
-using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Response;
-using Expenso.DocumentManagement.Proxy.DTO.API.UploadFiles.Request;
+using Expenso.DocumentManagement.Shared;
+using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
+using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;

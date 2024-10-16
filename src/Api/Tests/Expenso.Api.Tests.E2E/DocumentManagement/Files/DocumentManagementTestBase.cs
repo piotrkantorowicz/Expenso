@@ -1,4 +1,4 @@
-using Expenso.DocumentManagement.Proxy;
+using Expenso.DocumentManagement.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 

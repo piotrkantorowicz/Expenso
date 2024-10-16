@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy;
+﻿using Expenso.Communication.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 

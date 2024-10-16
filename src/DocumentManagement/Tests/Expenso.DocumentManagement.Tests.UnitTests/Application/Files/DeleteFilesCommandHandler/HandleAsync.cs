@@ -1,5 +1,5 @@
 using Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
-using Expenso.DocumentManagement.Proxy.DTO.API.DeleteFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 
 using Moq;
 

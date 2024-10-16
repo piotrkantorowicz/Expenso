@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 
-using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.TimeManagement.Shared.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.Response;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 

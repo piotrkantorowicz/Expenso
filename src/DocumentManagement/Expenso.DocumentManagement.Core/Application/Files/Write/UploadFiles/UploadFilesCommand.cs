@@ -1,4 +1,4 @@
-using Expenso.DocumentManagement.Proxy.DTO.API.UploadFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

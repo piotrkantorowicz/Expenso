@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings.Push;
+﻿using Expenso.Communication.Shared.DTO.Settings.Push;
 using Expenso.Shared.System.Configuration.Validators;
 
 using Humanizer;

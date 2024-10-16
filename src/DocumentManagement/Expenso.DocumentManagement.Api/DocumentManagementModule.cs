@@ -1,7 +1,7 @@
 using System.Reflection;
 
 using Expenso.DocumentManagement.Core;
-using Expenso.DocumentManagement.Proxy;
+using Expenso.DocumentManagement.Shared;
 using Expenso.Shared.System.Modules;
 
 using Microsoft.Extensions.Configuration;

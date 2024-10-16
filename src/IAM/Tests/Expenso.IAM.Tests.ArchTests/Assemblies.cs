@@ -1,6 +1,6 @@
 ﻿using Expenso.IAM.Api;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
-using Expenso.IAM.Proxy;
+using Expenso.IAM.Shared;
 using Expenso.IAM.Tests.ArchTests.AccessModifiers;
 using Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 

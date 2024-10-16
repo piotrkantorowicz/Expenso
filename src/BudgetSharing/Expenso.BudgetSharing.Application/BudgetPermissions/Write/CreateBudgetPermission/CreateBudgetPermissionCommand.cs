@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

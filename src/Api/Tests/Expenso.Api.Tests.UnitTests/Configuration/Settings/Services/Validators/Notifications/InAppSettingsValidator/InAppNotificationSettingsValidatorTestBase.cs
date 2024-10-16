@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings.InApp;
+﻿using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using TestCandidate =

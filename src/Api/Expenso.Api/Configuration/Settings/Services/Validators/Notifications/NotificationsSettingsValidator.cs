@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Proxy.DTO.Settings;
+﻿using Expenso.Communication.Shared.DTO.Settings;
 using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions;
 

@@ -7,8 +7,8 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Request;
-using Expenso.BudgetSharing.Proxy.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

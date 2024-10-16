@@ -1,6 +1,6 @@
 using Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
-using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Request;
-using Expenso.DocumentManagement.Proxy.DTO.API.GetFiles.Response;
+using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
+using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 
 using FluentAssertions;
 

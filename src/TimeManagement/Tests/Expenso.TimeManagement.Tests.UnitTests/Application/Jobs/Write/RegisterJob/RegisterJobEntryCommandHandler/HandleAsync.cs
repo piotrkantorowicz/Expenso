@@ -1,9 +1,9 @@
-﻿using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
+﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Proxy.DTO.Request;
-using Expenso.TimeManagement.Proxy.DTO.Response;
+using Expenso.TimeManagement.Shared.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.Response;
 
 using FluentAssertions;
 

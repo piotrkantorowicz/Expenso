@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Expenso.Api.Configuration.Extensions.Environment.Const;
 using Expenso.Api.Tests.E2E.BudgetSharing.Persistence;
 using Expenso.Api.Tests.E2E.IAM;
-using Expenso.IAM.Proxy;
+using Expenso.IAM.Shared;
 using Expenso.Shared.Database;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration;

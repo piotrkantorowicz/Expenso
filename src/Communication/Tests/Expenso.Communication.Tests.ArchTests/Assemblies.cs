@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 using Expenso.Communication.Api;
-using Expenso.Communication.Proxy;
+using Expenso.Communication.Shared;
 using Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
 using CoreExtensions = Expenso.Communication.Core.Extensions;

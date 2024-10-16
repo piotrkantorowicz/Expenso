@@ -3,8 +3,8 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.IAM.Proxy;
-using Expenso.IAM.Proxy.DTO.GetUser;
+using Expenso.IAM.Shared;
+using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.System.Types.Clock;
 
 using Moq;

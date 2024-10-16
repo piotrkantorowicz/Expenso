@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Api", "src\IAM\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B1E958E3-FBD0-4068-BEF5-84103D0870AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Proxy", "src\IAM\Expenso.IAM.Proxy\Expenso.IAM.Proxy.csproj", "{398A363A-BE22-4ADE-9855-888A6E68EF93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.IAM.Shared", "src\IAM\Expenso.IAM.Shared\Expenso.IAM.Shared.csproj", "{398A363A-BE22-4ADE-9855-888A6E68EF93}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{CF5195DB-3FF6-4592-9C13-9520176C8E5F}"
 EndProject
@@ -83,7 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BudgetSharing", "BudgetShar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Api", "src\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj", "{320EE729-C18B-4C32-82F8-CFBE12EBBC06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Proxy", "src\BudgetSharing\Expenso.BudgetSharing.Proxy\Expenso.BudgetSharing.Proxy.csproj", "{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.BudgetSharing.Shared", "src\BudgetSharing\Expenso.BudgetSharing.Shared\Expenso.BudgetSharing.Shared.csproj", "{06B32214-722A-4FEB-9F73-0B7EAD6C3B1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{348FEC73-3B51-464D-9E0D-3E82A66D1455}"
 EndProject
@@ -95,7 +95,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{718EA4D8-9641-44CD-938B-164538B2A80D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Proxy", "src\Communication\Expenso.Communication.Proxy\Expenso.Communication.Proxy.csproj", "{803F8E20-D917-491B-A324-80AD359D95D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Shared", "src\Communication\Expenso.Communication.Shared\Expenso.Communication.Shared.csproj", "{803F8E20-D917-491B-A324-80AD359D95D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Communication.Core", "src\Communication\Expenso.Communication.Core\Expenso.Communication.Core.csproj", "{023F26D9-9203-43A6-9FC9-74DD3314E2D3}"
 EndProject
@@ -159,7 +159,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Api"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Core", "src\TimeManagement\Expenso.TimeManagement.Core\Expenso.TimeManagement.Core.csproj", "{D7B683F4-1FAD-4CC3-95B9-A93D1772DCC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Proxy", "src\TimeManagement\Expenso.TimeManagement.Proxy\Expenso.TimeManagement.Proxy.csproj", "{C401EC5E-41A5-4E39-B8AE-8B3E51B4BE62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Shared", "src\TimeManagement\Expenso.TimeManagement.Shared\Expenso.TimeManagement.Shared.csproj", "{C401EC5E-41A5-4E39-B8AE-8B3E51B4BE62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.TimeManagement.Tests.UnitTests", "src\TimeManagement\Tests\Expenso.TimeManagement.Tests.UnitTests\Expenso.TimeManagement.Tests.UnitTests.csproj", "{48575EE3-0812-4A78-8826-E34C9F869E1E}"
 EndProject
@@ -177,7 +177,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Core", "src\DocumentManagement\Expenso.DocumentManagement.Core\Expenso.DocumentManagement.Core.csproj", "{18D061A7-58D3-4CC5-9536-A946AECDA7D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Proxy", "src\DocumentManagement\Expenso.DocumentManagement.Proxy\Expenso.DocumentManagement.Proxy.csproj", "{7420167C-49D8-4D01-A777-9B39C41C168C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.DocumentManagement.Shared", "src\DocumentManagement\Expenso.DocumentManagement.Shared\Expenso.DocumentManagement.Shared.csproj", "{7420167C-49D8-4D01-A777-9B39C41C168C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Database.EfCore.Memory", "src\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj", "{063E732E-FA66-4CAA-B8C0-F45EF8036FAB}"
 EndProject

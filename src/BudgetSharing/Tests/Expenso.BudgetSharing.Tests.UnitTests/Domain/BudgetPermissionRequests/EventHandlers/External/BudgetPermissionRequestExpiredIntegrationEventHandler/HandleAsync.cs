@@ -1,4 +1,4 @@
-﻿using Expenso.BudgetSharing.Proxy.DTO.MessageBus.BudgetPermissionRequests;
+﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
