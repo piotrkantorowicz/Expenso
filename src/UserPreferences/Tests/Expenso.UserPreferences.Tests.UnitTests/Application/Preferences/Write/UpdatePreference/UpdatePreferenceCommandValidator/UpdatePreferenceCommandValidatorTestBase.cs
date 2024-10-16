@@ -34,14 +34,4 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
                 notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),
                 generalPreferenceValidator: new UpdatePreferenceRequest_GeneralPreferenceValidator()));
     }
-
-    protected static void AssertSingleError(ValidationResult validationResult, string propertyName, string errorMessage)
-    {
-        validationResult.Should().NotBeNull();
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Should().NotBeEmpty();
-        validationResult.Errors.Should().HaveCount(expected: 1);
-        validationResult.Errors[index: 0].PropertyName.Should().Be(expected: propertyName);
-        validationResult.Errors[index: 0].ErrorMessage.Should().Be(expected: errorMessage);
-    }
 }

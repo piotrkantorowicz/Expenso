@@ -8,7 +8,7 @@ internal sealed class AccessModifierTests : ArchTestTestBase
     [
         "TestBase",
         "InMemoryFakeLogger",
-        "LoggerAssertions"
+        "Assertions"
     ];
 
     private static readonly string[] NotSealed =
