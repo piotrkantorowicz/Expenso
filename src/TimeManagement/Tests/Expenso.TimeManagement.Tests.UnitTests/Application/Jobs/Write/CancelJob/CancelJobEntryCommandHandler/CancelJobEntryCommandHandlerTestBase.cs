@@ -1,6 +1,6 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
@@ -21,7 +21,7 @@ internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCand
         _jobEntryId = Guid.NewGuid();
 
         _cancelJobEntryCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
-            CancelJobEntryRequest: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
+            Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
 
         _jobEntry = new JobEntry
         {

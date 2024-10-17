@@ -1,6 +1,7 @@
-﻿using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request;
 
-using FluentAssertions;
+using FluentValidation.Results;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJob.CancelJobEntryCommandValidator;
 
@@ -8,17 +9,14 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJo
 internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
 {
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_CommandIsNull()
+    public void Should_ReturnEmptyValidationResult_When_JobEntryIdHasValue()
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: null!);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _cancelJobCommand);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required.";
-        string error = validationResult[key: "Command"];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertNoErrors();
     }
 
     [Test]
@@ -26,44 +24,28 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _cancelJobCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _cancelJobCommand with
         {
-            CancelJobEntryRequest = null
+            Payload = null
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Cancel job entry request is required.";
-        string error = validationResult[key: nameof(_cancelJobCommand.CancelJobEntryRequest)];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_ReturnEmptyValidationResult_When_JobEntryIdHasValue()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _cancelJobCommand);
-
-        // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage: "The command payload must not be null.");
     }
 
     [Test, TestCase(arg: null), TestCase(arg: "00000000-0000-0000-0000-000000000000")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_MaxRetriesIsNegative(string? jobEntryId)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_JobEntryIdIsNullOrEmpty(string? jobEntryId)
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _cancelJobCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _cancelJobCommand with
         {
-            CancelJobEntryRequest =
-            new CancelJobEntryRequest(JobEntryId: jobEntryId is null ? null : new Guid(g: jobEntryId))
+            Payload = new CancelJobEntryRequest(JobEntryId: jobEntryId is null ? null : new Guid(g: jobEntryId))
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "JobEntryId is required.";
-        string error = validationResult[key: nameof(CancelJobEntryRequest.JobEntryId)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload.JobEntryId",
+            errorMessage: "The job entry id must not be null or empty.");
     }
 }

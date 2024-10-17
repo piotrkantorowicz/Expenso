@@ -34,13 +34,13 @@ internal abstract class
         _serializer.Setup(expression: x => x.Serialize(_eventTrigger, null)).Returns(value: eventTriggerPayload);
 
         _registerJobEntryCommand = new RegisterJobEntryCommand(
-            MessageContext: MessageContextFactoryMock.Object.Current(),
-            RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
-            [
-                new RegisterJobEntryRequest_JobEntryTrigger(
-                    EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
-                    EventData: _serializer.Object.Serialize(value: _eventTrigger))
-            ], Interval: null, RunAt: _clockMock.Object.UtcNow));
+            MessageContext: MessageContextFactoryMock.Object.Current(), Payload: new RegisterJobEntryRequest(
+                MaxRetries: 5, JobEntryTriggers:
+                [
+                    new RegisterJobEntryRequest_JobEntryTrigger(
+                        EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
+                        EventData: _serializer.Object.Serialize(value: _eventTrigger))
+                ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
         TestCandidate = new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler(
             jobEntryRepository: _jobEntryRepositoryMock.Object, jobInstanceRepository: _jobInstanceRepository.Object,

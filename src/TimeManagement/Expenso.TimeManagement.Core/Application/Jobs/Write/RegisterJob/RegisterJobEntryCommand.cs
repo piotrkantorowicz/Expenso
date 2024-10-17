@@ -4,6 +4,5 @@ using Expenso.TimeManagement.Shared.DTO.Request;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 
-public sealed record RegisterJobEntryCommand(
-    IMessageContext MessageContext,
-    RegisterJobEntryRequest? RegisterJobEntryRequest) : ICommand;
+public sealed record RegisterJobEntryCommand(IMessageContext MessageContext, RegisterJobEntryRequest? Payload)
+    : ICommand;

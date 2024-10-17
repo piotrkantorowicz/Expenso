@@ -1,4 +1,5 @@
 using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 
 using FluentValidation.Results;
@@ -10,27 +11,41 @@ namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.
 internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
 {
     [Test]
-    public void Should_ReturnNoErrors_When_UserIdIsNotEmpty()
+    public void Should_ReturnNoErrors_When_PreferenceIdIsNotEmpty()
     {
         // Arrange
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand);
 
         // Assert
-        validationResult.Should().NotBeNull();
-        validationResult.Errors.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_UserIdIsEmpty()
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PayloadIsEmpty()
     {
         // Arrange
-        Guid userId = Guid.Empty;
+        UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            PreferenceId: Guid.NewGuid(), Payload: null);
+
+        // Act
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
+
+        // Assert
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage: "The command payload must not be null.");
+    }
+
+    [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PreferenceIdIsEmpty()
+    {
+        // Arrange
+        Guid preferenceId = Guid.Empty;
 
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _updatePreferenceCommand with
         {
-            PreferenceId = userId
+            PreferenceId = preferenceId
         });
 
         // Assert

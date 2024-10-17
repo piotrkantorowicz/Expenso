@@ -51,7 +51,7 @@ internal sealed class
             throw new NotFoundException(message: $"Job status with ID {jobStatusId} not found");
         }
 
-        JobEntry? jobEntry = CreateJobEntry(jobEntry: entryCommand.RegisterJobEntryRequest, jobInstance: jobType,
+        JobEntry? jobEntry = CreateJobEntry(jobEntry: entryCommand.Payload, jobInstance: jobType,
             jobEntryStatus: runningJobStatus);
 
         if (jobEntry is null)
