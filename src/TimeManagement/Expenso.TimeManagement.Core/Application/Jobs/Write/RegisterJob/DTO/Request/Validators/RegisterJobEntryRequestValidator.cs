@@ -20,8 +20,6 @@ internal sealed class RegisterJobEntryRequestValidator : AbstractValidator<Regis
         ArgumentNullException.ThrowIfNull(argument: clock, paramName: nameof(clock));
 
         RuleFor(expression: x => x.MaxRetries)
-            .NotNull()
-            .WithMessage(errorMessage: "Max retries for job entry must not be empty.")
             .GreaterThan(valueToCompare: 0)
             .WithMessage(errorMessage: "Max retries for job entry must be greater than 0.");
 
@@ -35,15 +33,14 @@ internal sealed class RegisterJobEntryRequestValidator : AbstractValidator<Regis
 
         When(predicate: x => x.Interval is not null, action: () =>
         {
-            RuleFor(expression: x => x.Interval).SetValidator(validator: jobEntryPeriodIntervalValidator!);
+            RuleFor(expression: x => x.Interval!).SetValidator(validator: jobEntryPeriodIntervalValidator);
         });
 
         When(predicate: x => x.RunAt is not null, action: () =>
         {
             RuleFor(expression: x => x.RunAt)
                 .Must(predicate: runAt => runAt >= clock.UtcNow)
-                .WithMessage(messageProvider: x =>
-                    $"RunAt must be greater than current time. Provided: {x.RunAt}. Current: {clock.UtcNow}.");
+                .WithMessage(messageProvider: x => $"RunAt must be a future time. Provided: {x.RunAt}.");
         });
 
         RuleFor(expression: x => x.JobEntryTriggers)

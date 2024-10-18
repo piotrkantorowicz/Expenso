@@ -14,9 +14,9 @@ internal sealed class CancelJobEntryCommandValidator : CommandValidator<CancelJo
         ArgumentNullException.ThrowIfNull(argument: cancelJobEntryRequestValidator,
             paramName: nameof(cancelJobEntryRequestValidator));
 
-        RuleFor(expression: x => x.Payload)
+        RuleFor(expression: x => x.Payload!)
             .NotNull()
             .WithMessage(errorMessage: "The command payload must not be null.")
-            .SetValidator(validator: cancelJobEntryRequestValidator!);
+            .SetValidator(validator: cancelJobEntryRequestValidator);
     }
 }

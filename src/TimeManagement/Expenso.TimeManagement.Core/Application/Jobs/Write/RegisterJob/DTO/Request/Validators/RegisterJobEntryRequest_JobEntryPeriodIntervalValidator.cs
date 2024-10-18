@@ -17,7 +17,7 @@ internal sealed class
             {
                 try
                 {
-                    string cronExpression = interval!.GetCronExpression();
+                    string cronExpression = interval.GetCronExpression();
 
                     CrontabSchedule.Parse(expression: cronExpression, options: new CrontabSchedule.ParseOptions
                     {

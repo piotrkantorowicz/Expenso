@@ -1,5 +1,6 @@
 ﻿using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
@@ -11,18 +12,22 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 internal sealed class
     RegisterJobEntryCommandHandler : ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse>
 {
+    private readonly IEventTypeResolver _eventTypeResolver;
     private readonly IJobEntryRepository _jobEntryRepository;
     private readonly IJobEntryStatusRepository _jobEntryStatusRepository;
     private readonly IJobInstanceRepository _jobInstanceRepository;
 
     public RegisterJobEntryCommandHandler(IJobEntryRepository jobEntryRepository,
-        IJobInstanceRepository jobInstanceRepository, IJobEntryStatusRepository jobEntryStatusRepository)
+        IJobInstanceRepository jobInstanceRepository, IJobEntryStatusRepository jobEntryStatusRepository,
+        IEventTypeResolver eventTypeResolver)
     {
         _jobEntryRepository =
             jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
 
         _jobEntryStatusRepository = jobEntryStatusRepository ??
                                     throw new ArgumentNullException(paramName: nameof(jobEntryStatusRepository));
+
+        _eventTypeResolver = eventTypeResolver ?? throw new ArgumentNullException(paramName: nameof(eventTypeResolver));
 
         _jobInstanceRepository = jobInstanceRepository ??
                                  throw new ArgumentNullException(paramName: nameof(jobInstanceRepository));
@@ -52,7 +57,7 @@ internal sealed class
         }
 
         JobEntry? jobEntry = CreateJobEntry(jobEntry: entryCommand.Payload, jobInstance: jobType,
-            jobEntryStatus: runningJobStatus);
+            jobEntryStatus: runningJobStatus, eventTypeResolver: _eventTypeResolver);
 
         if (jobEntry is null)
         {
@@ -65,7 +70,7 @@ internal sealed class
     }
 
     private static JobEntry? CreateJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,
-        JobEntryStatus? jobEntryStatus)
+        JobEntryStatus? jobEntryStatus, IEventTypeResolver eventTypeResolver)
     {
         if (jobEntry is null)
         {
@@ -80,21 +85,26 @@ internal sealed class
             RunAt = jobEntry.RunAt,
             MaxRetries = jobEntry.MaxRetries,
             JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(paramName: nameof(jobEntryStatus)),
-            Triggers = CreateJobEntryTriggers(triggers: jobEntry.JobEntryTriggers)
+            Triggers = CreateJobEntryTriggers(triggers: jobEntry.JobEntryTriggers, eventTypeResolver: eventTypeResolver)
         };
     }
 
     private static JobEntryTrigger[] CreateJobEntryTriggers(
-        ICollection<RegisterJobEntryRequest_JobEntryTrigger>? triggers)
+        ICollection<RegisterJobEntryRequest_JobEntryTrigger>? triggers, IEventTypeResolver eventTypeResolver)
     {
         triggers ??= [];
 
         return triggers
-            .Select(selector: x => new JobEntryTrigger
+            .Select(selector: x =>
             {
-                Id = Guid.NewGuid(),
-                EventType = x.EventType,
-                EventData = x.EventData
+                Type eventType = eventTypeResolver.Resolve(eventName: x.EventType!);
+
+                return new JobEntryTrigger
+                {
+                    Id = Guid.NewGuid(),
+                    EventType = eventType.AssemblyQualifiedName,
+                    EventData = x.EventData
+                };
             })
             .ToArray();
     }

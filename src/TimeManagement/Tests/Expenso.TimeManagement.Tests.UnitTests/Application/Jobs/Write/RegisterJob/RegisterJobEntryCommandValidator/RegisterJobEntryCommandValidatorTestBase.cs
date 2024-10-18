@@ -5,19 +5,21 @@ using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.Utils.UnitTests;
+using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Request.Validators;
 using Expenso.TimeManagement.Shared.DTO.Request;
 
 using Moq;
 
-using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
-
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
 [TestFixture]
-internal abstract class RegisterJobEntryCommandValidatorTestBase : TestBase<TestCandidate>
+internal abstract class
+    RegisterJobEntryCommandValidatorTestBase : TestBase<
+    Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator>
 {
     [SetUp]
     public void SetUp()
@@ -36,23 +38,42 @@ internal abstract class RegisterJobEntryCommandValidatorTestBase : TestBase<Test
                 x.Deserialize(eventTriggerPayload, eventTrigger.GetType(), DefaultSerializerOptions.DefaultSettings))
             .Returns(value: eventTrigger);
 
-        _registerJobEntryCommand = new RegisterJobEntryCommand(
-            MessageContext: MessageContextFactoryMock.Object.Current(), Payload: new RegisterJobEntryRequest(
-                MaxRetries: 5, JobEntryTriggers:
-                [
-                    new RegisterJobEntryRequest_JobEntryTrigger(
-                        EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
-                        EventData: _serializer.Object.Serialize(value: eventTrigger))
-                ], Interval: null, RunAt: _clockMock.Object.UtcNow));
+        _eventTypeResolver = new Mock<IEventTypeResolver>();
 
-        TestCandidate = new TestCandidate(messageContextValidator: new MessageContextValidator(),
-            registerJobEntryRequestValidator: new RegisterJobEntryRequestValidator(
-                jobEntryPeriodIntervalValidator: new RegisterJobEntryRequest_JobEntryPeriodIntervalValidator(),
-                jobEntryTriggerValidator: new RegisterJobEntryRequest_JobEntryTriggerValidator(
-                    serializer: _serializer.Object), clock: _clockMock.Object));
+        _eventTypeResolver
+            .Setup(expression: x => x.IsAllowable(AllowedEvents.BudgetPermissionRequestExpired))
+            .Returns(value: true);
+
+        _eventTypeResolver
+            .Setup(expression: x => x.Resolve(AllowedEvents.BudgetPermissionRequestExpired))
+            .Returns(value: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
+
+        IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
+        string eventData = _serializer.Object.Serialize(value: eventTrigger);
+
+        RegisterJobEntryRequest_JobEntryTrigger jobEntryTrigger =
+            new(EventType: AllowedEvents.BudgetPermissionRequestExpired, EventData: eventData);
+
+        RegisterJobEntryRequest payload = new(MaxRetries: 5, JobEntryTriggers: [jobEntryTrigger], Interval: null,
+            RunAt: _clockMock.Object.UtcNow);
+
+        _registerJobEntryCommand = new RegisterJobEntryCommand(MessageContext: messageContext, Payload: payload);
+        MessageContextValidator messageContextValidator = new();
+        RegisterJobEntryRequest_JobEntryPeriodIntervalValidator periodIntervalValidator = new();
+
+        RegisterJobEntryRequest_JobEntryTriggerValidator triggerValidator =
+            new(serializer: _serializer.Object, eventTypeResolver: _eventTypeResolver.Object);
+
+        RegisterJobEntryRequestValidator requestValidator = new(
+            jobEntryPeriodIntervalValidator: periodIntervalValidator, jobEntryTriggerValidator: triggerValidator,
+            clock: _clockMock.Object);
+
+        TestCandidate = new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator(
+            messageContextValidator: messageContextValidator, registerJobEntryRequestValidator: requestValidator);
     }
 
     protected Mock<IClock> _clockMock = null!;
     protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
     protected Mock<ISerializer> _serializer = null!;
+    protected Mock<IEventTypeResolver> _eventTypeResolver = null!;
 }

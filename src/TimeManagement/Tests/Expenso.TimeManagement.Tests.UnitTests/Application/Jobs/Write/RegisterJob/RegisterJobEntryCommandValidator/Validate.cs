@@ -70,25 +70,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
             errorMessage: "The command payload must not be null.");
     }
 
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_MaxRetriesIsNull()
-    {
-        // Arrange
-        // Act
-        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
-        {
-            Payload = _registerJobEntryCommand.Payload! with
-            {
-                MaxRetries = null
-            }
-        });
-
-        // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.MaxRetries",
-            errorMessage: "Max retries for job entry must not be empty.");
-    }
-
-    [Test, TestCase(arg: 0), TestCase(arg: -1), TestCase(arg: -50)]
+    [Test, TestCase(arg: null), TestCase(arg: 0), TestCase(arg: -1), TestCase(arg: -50)]
     public void Should_ReturnValidationResultWithCorrectMessage_When_MaxRetriesIsNegative(int maxRetries)
     {
         // Arrange
@@ -163,8 +145,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         validationResult.AssertSingleError(propertyName: "Payload.RunAt",
-            errorMessage:
-            $"RunAt must be greater than current time. Provided: {runAt}. Current: {_clockMock.Object.UtcNow}.");
+            errorMessage: $"RunAt must be a future time. Provided: {runAt}.");
     }
 
     [Test]
