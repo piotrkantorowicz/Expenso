@@ -1,6 +1,8 @@
-﻿using Expenso.Shared.Tests.Utils.UnitTests;
+﻿using Expenso.Shared.Commands.Validation;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request.Validators;
 
 using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.CancelJobEntryCommandValidator;
 
@@ -15,9 +17,10 @@ internal abstract class CancelJobEntryCommandValidatorTestBase : TestBase<TestCa
         _jobEntryId = Guid.NewGuid();
 
         _cancelJobCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
-            CancelJobEntryRequest: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
+            Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new TestCandidate(messageContextValidator: new MessageContextValidator(),
+            cancelJobEntryRequestValidator: new CancelJobEntryRequestValidator());
     }
 
     protected CancelJobEntryCommand _cancelJobCommand = null!;

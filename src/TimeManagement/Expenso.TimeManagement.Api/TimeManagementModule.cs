@@ -5,7 +5,7 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.TimeManagement.Core;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Shared;
 using Expenso.TimeManagement.Shared.DTO.Request;
@@ -49,8 +49,8 @@ public sealed class TimeManagementModule : IModuleDefinition
                 CancellationToken cancellationToken = default) =>
             {
                 await handler.HandleAsync(
-                    command: new CancelJobEntryCommand(MessageContext: messageContextFactory.Current(),
-                        CancelJobEntryRequest: model), cancellationToken: cancellationToken);
+                    command: new CancelJobEntryCommand(MessageContext: messageContextFactory.Current(), Payload: model),
+                    cancellationToken: cancellationToken);
 
                 return Results.NoContent();
             });
@@ -63,7 +63,7 @@ public sealed class TimeManagementModule : IModuleDefinition
             {
                 RegisterJobEntryResponse response = await handler.HandleAsync(
                     command: new RegisterJobEntryCommand(MessageContext: messageContextFactory.Current(),
-                        RegisterJobEntryRequest: model), cancellationToken: cancellationToken);
+                        Payload: model), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });

@@ -9,7 +9,7 @@ internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandl
     protected void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
-            Name: "TkpxYGL8bVkwqDIo");
+            Payload: "TkpxYGL8bVkwqDIo");
 
         TestCandidate = new TestCommandHandler();
     }

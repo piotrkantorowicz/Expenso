@@ -22,14 +22,12 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
     public async Task HandleAsync(CancelJobEntryCommand command, CancellationToken cancellationToken)
     {
-        Guid? jobEntryId = command.CancelJobEntryRequest?.JobEntryId;
-
-        JobEntry? jobEntry = await _jobEntryRepository.GetJobEntry(jobEntryId: jobEntryId,
+        JobEntry? jobEntry = await _jobEntryRepository.GetJobEntry(jobEntryId: command.Payload?.JobEntryId,
             cancellationToken: cancellationToken);
 
         if (jobEntry is null)
         {
-            throw new NotFoundException(message: $"Job entry with ID {jobEntryId} not found.");
+            throw new NotFoundException(message: $"Job entry with ID {command.Payload?.JobEntryId} not found.");
         }
 
         Guid jobStatusId = JobEntryStatus.Cancelled.Id;

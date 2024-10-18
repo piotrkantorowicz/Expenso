@@ -18,8 +18,22 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _createPreferenceCommand);
 
         // Assert
-        validationResult.Should().NotBeNull();
-        validationResult.Errors.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
+    }
+
+    [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_PayloadIsEmpty()
+    {
+        // Arrange
+        CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Payload: null);
+
+        // Act
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
+
+        // Assert
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage: "The command payload must not be null.");
     }
 
     [Test]

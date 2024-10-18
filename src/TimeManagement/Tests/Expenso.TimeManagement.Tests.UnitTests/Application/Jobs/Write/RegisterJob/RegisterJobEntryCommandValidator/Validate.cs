@@ -1,7 +1,7 @@
-﻿using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 using Expenso.TimeManagement.Shared.DTO.Request;
 
-using FluentAssertions;
+using FluentValidation.Results;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
@@ -9,65 +9,14 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.Register
 internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 {
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_CommandIsNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Command is required.";
-        string error = validationResult[key: "Command"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_RegisterJobEntryRequestIsNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
-        {
-            RegisterJobEntryRequest = null
-        });
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Register job entry request is required.";
-        string error = validationResult[key: nameof(RegisterJobEntryRequest)];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
     public void Should_ReturnEmptyValidationResult_When_MaxRetriesIsPositive()
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
-    }
-
-    [Test, TestCase(arg: 0), TestCase(arg: -1), TestCase(arg: -50)]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_MaxRetriesIsNegative(int maxRetries)
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
-        {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
-            {
-                MaxRetries = maxRetries
-            }
-        });
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "MaxRetries must be a positive value.";
-        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.MaxRetries)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertNoErrors();
     }
 
     [Test]
@@ -75,9 +24,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
                 RunAt = null
@@ -85,25 +34,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
-    }
-
-    [Test]
-    public void Should_ReturnEmptyValidationResult_WhenIntervalIsEmpty()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
-        {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
-            {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
-                RunAt = null
-            }
-        });
-
-        // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 
     [Test]
@@ -111,9 +42,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 Interval = null,
                 RunAt = _clockMock.Object.UtcNow.AddSeconds(seconds: 15)
@@ -121,7 +52,40 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
+    }
+
+    [Test]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_RegisterJobEntryRequestIsNull()
+    {
+        // Arrange
+        // Act
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
+        {
+            Payload = null
+        });
+
+        // Assert
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage: "The command payload must not be null.");
+    }
+
+    [Test, TestCase(arg: null), TestCase(arg: 0), TestCase(arg: -1), TestCase(arg: -50)]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_MaxRetriesIsNegative(int maxRetries)
+    {
+        // Arrange
+        // Act
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
+        {
+            Payload = _registerJobEntryCommand.Payload! with
+            {
+                MaxRetries = maxRetries
+            }
+        });
+
+        // Assert
+        validationResult.AssertSingleError(propertyName: "Payload.MaxRetries",
+            errorMessage: "Max retries for job entry must be greater than 0.");
     }
 
     [Test]
@@ -129,9 +93,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 Interval = null,
                 RunAt = null
@@ -139,16 +103,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs.";
-
-        string error = validationResult[
-            key:
-            $"{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)}|{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)}"];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage:
+            "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs.");
     }
 
     [Test]
@@ -156,9 +113,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
                 RunAt = _clockMock.Object.UtcNow.AddSeconds(seconds: 15)
@@ -166,14 +123,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "RunAt and Interval cannot be used together.";
-
-        string error = validationResult[
-            key:
-            $"{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)}|{nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)}"];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage: "RunAt and Interval cannot be used together.");
     }
 
     [Test]
@@ -183,9 +134,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         DateTimeOffset runAt = _clockMock.Object.UtcNow.AddSeconds(seconds: -1);
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 RunAt = runAt,
                 Interval = null
@@ -193,13 +144,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        string expectedValidationMessage =
-            $"RunAt must be greater than current time. Provided: {runAt}. Current: {_clockMock.Object.UtcNow}.";
-
-        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.RunAt)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload.RunAt",
+            errorMessage: $"RunAt must be a future time. Provided: {runAt}.");
     }
 
     [Test]
@@ -207,9 +153,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 RunAt = null,
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 8)
@@ -217,13 +163,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "Unable to parse provided interval, because of 8 is higher than the maximum allowable value for the [DayOfWeek] field. Value must be between 0 and 6 (all inclusive).";
-
-        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.Interval)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload.Interval",
+            errorMessage:
+            "Unable to parse provided interval, because of 8 is higher than the maximum allowable value for the [DayOfWeek] field. Value must be between 0 and 6 (all inclusive).");
     }
 
     [Test]
@@ -231,19 +173,17 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 JobEntryTriggers = new List<RegisterJobEntryRequest_JobEntryTrigger>()
             }
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Job entry triggers are required.";
-        string error = validationResult[key: nameof(_registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload.JobEntryTriggers",
+            errorMessage: "Job entry triggers are required.");
     }
 
     [Test]
@@ -251,13 +191,13 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 JobEntryTriggers =
                 [
-                    _registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
+                    _registerJobEntryCommand.Payload.JobEntryTriggers!.First() with
                     {
                         EventData = null
                     }
@@ -266,10 +206,8 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Event data is required.";
-        string error = validationResult[key: nameof(JobEntryTrigger.EventData)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload.JobEntryTriggers[0].EventData",
+            errorMessage: "Event data is required.");
     }
 
     [Test]
@@ -277,13 +215,13 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 JobEntryTriggers =
                 [
-                    _registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
+                    _registerJobEntryCommand.Payload.JobEntryTriggers!.First() with
                     {
                         EventType = null
                     }
@@ -292,38 +230,35 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Event type is required.";
-        string error = validationResult[key: nameof(JobEntryTrigger.EventType)];
-        error.Should().Be(expected: expectedValidationMessage);
+        // Assert
+        validationResult.AssertSingleError(propertyName: "Payload.JobEntryTriggers[0].EventType",
+            errorMessage: "Event type is required.");
     }
 
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_WhenEventTriggerDateIsNotSerializableToType()
     {
         // Arrange
+        const string invalidEventData = "InvalidEventType";
+        _eventTypeResolver.Setup(expression: x => x.IsAllowable(invalidEventData)).Returns(value: false);
+
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(command: _registerJobEntryCommand with
+        ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 JobEntryTriggers =
                 [
-                    _registerJobEntryCommand.RegisterJobEntryRequest.JobEntryTriggers!.First() with
+                    _registerJobEntryCommand.Payload.JobEntryTriggers!.First() with
                     {
-                        EventType = typeof(int).AssemblyQualifiedName
+                        EventType = invalidEventData
                     }
                 ]
             }
         });
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "EventData must be serializable to provided EventType.";
-
-        string error = validationResult[
-            key: $"{nameof(JobEntryTrigger.EventType)}|{nameof(JobEntryTrigger.EventData)}"];
-
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: "Payload.JobEntryTriggers[0]",
+            errorMessage: "EventData must be serializable to provided EventType.");
     }
 }

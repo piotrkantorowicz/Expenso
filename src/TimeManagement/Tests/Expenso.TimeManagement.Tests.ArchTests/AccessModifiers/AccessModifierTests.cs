@@ -16,7 +16,8 @@ internal sealed class AccessModifierTests : TestBase
         "Query",
         "Command",
         "Contract",
-        "IntegrationEvent"
+        "IntegrationEvent",
+        "AllowedEvents"
     ];
 
     private static readonly string[] NotSealed =

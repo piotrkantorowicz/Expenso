@@ -49,7 +49,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
 
         RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = _registerJobEntryCommand.RegisterJobEntryRequest! with
+            Payload = _registerJobEntryCommand.Payload! with
             {
                 Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayOfMonth: 10,
                     Hour: 12, Minute: 30, Second: 30, UseSeconds: true)
@@ -91,7 +91,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
     {
         // Arrange
         RegisterJobEntryCommand entryCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            RegisterJobEntryRequest: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+            Payload: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
                     EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
@@ -124,7 +124,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         // Arrange
         RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
         {
-            RegisterJobEntryRequest = null
+            Payload = null
         };
 
         _jobInstanceRepository

@@ -14,6 +14,9 @@ internal sealed class CreatePreferenceCommandValidator : CommandValidator<Create
         ArgumentNullException.ThrowIfNull(argument: preferenceRequestValidator,
             paramName: nameof(preferenceRequestValidator));
 
-        RuleFor(expression: x => x.Payload).NotNull().SetValidator(validator: preferenceRequestValidator!);
+        RuleFor(expression: x => x.Payload!)
+            .NotNull()
+            .WithMessage(errorMessage: "The command payload must not be null.")
+            .SetValidator(validator: preferenceRequestValidator);
     }
 }

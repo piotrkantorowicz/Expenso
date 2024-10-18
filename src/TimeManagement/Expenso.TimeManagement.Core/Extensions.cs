@@ -5,6 +5,7 @@ using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration;
 using Expenso.Shared.System.Configuration.Sections;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
+using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 using Expenso.TimeManagement.Core.Persistence.EfCore;
@@ -39,6 +40,7 @@ public static class Extensions
         services.AddScoped<IJobEntryStatusRepository, JobEntryStatusRepository>();
         services.AddScoped<IJobInstanceRepository, JobInstanceRepository>();
         services.AddScoped<IJobExecution, JobExecution>();
+        services.AddSingleton<IEventTypeResolver, EventTypeResolver>();
         services.AddHostedService<BackgroundJob>();
     }
 }
