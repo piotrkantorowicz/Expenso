@@ -1,7 +1,8 @@
 ﻿using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
 using Expenso.Communication.Shared.DTO.API.SendNotification;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
-using FluentAssertions;
+using FluentValidation.Results;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandValidator;
@@ -14,17 +15,14 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: null!);
+            Payload: null);
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest));
-
-        result[key: nameof(command.SendNotificationRequest)]
-            .Should()
-            .Be(expected: "Send notification request is required.");
+        validationResult.AssertSingleError(propertyName: "Payload",
+            errorMessage: "Send notification request is required.");
     }
 
     [Test]
@@ -32,20 +30,16 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: null,
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content", NotificationContext: null,
                 NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.NotificationContext));
-
-        result[key: nameof(command.SendNotificationRequest.NotificationContext)]
-            .Should()
-            .Be(expected: "Notification context is required.");
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationContext",
+            errorMessage: "Notification context is required.");
     }
 
     [Test]
@@ -53,19 +47,16 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject", Content: "Content",
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
                 NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
                 NotificationType: null!));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.NotificationType));
-
-        result[key: nameof(command.SendNotificationRequest.NotificationType)]
-            .Should()
-            .Be(expected: "Notification type is required.");
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationType",
+            errorMessage: "Notification type is required.");
     }
 
     [Test]
@@ -73,20 +64,17 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject", Content: "Content",
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
                 NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: string.Empty),
                 NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.NotificationContext.To));
-
-        result[key: nameof(command.SendNotificationRequest.NotificationContext.To)]
-            .Should()
-            .Be(expected: "To is required.");
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationContext.To",
+            errorMessage: "To is required.");
     }
 
     [Test]
@@ -94,41 +82,34 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject", Content: "Content",
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
                 NotificationContext: new SendNotificationRequest_NotificationContext(From: string.Empty, To: "To"),
                 NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.NotificationContext.From));
-
-        result[key: nameof(command.SendNotificationRequest.NotificationContext.From)]
-            .Should()
-            .Be(expected: "From is required.");
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationContext.From",
+            errorMessage: "From is required.");
     }
 
-    [Test]
-    public void Should_ReturnError_When_ContentIsNull()
+    [Test, TestCase(arguments: null), TestCase(arg: "")]
+    public void Should_ReturnError_When_ContentIsNull(string content)
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject", Content: string.Empty,
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: content,
                 NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
                 NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.Content));
-
-        result[key: nameof(command.SendNotificationRequest.Content)]
-            .Should()
-            .Be(expected: "Content is required and must be less than 2500 characters.");
+        validationResult.AssertSingleError(propertyName: "Payload.Content", errorMessage: "Content is required.");
     }
 
     [Test]
@@ -136,21 +117,17 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject",
-                Content: new string(c: 'a', count: 2501),
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: new string(c: 'a', count: 2501),
                 NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
                 NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.Content));
-
-        result[key: nameof(command.SendNotificationRequest.Content)]
-            .Should()
-            .Be(expected: "Content is required and must be less than 2500 characters.");
+        validationResult.AssertSingleError(propertyName: "Payload.Content",
+            errorMessage: "Content must be less than 2500 characters.");
     }
 
     [Test]
@@ -158,19 +135,16 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
     {
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            SendNotificationRequest: new SendNotificationRequest(Subject: "Subject", Content: "Content",
+            Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
                 NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
                 NotificationType: new SendNotificationRequest_NotificationType(Email: false, Push: false,
                     InApp: false)));
 
         // Act
-        IDictionary<string, string> result = TestCandidate.Validate(command: command);
+        ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        result.Should().ContainKey(expected: nameof(command.SendNotificationRequest.NotificationType));
-
-        result[key: nameof(command.SendNotificationRequest.NotificationType)]
-            .Should()
-            .Be(expected: "At least one notification type is required.");
+        validationResult.AssertSingleError(propertyName: "Payload.NotificationType",
+            errorMessage: "At least one notification type is required.");
     }
 }
