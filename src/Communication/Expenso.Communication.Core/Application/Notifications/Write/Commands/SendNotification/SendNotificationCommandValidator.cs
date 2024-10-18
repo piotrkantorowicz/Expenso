@@ -11,7 +11,7 @@ internal sealed class SendNotificationCommandValidator : CommandValidator<SendNo
         SendNotificationRequestValidator sendNotificationRequestValidator) : base(
         messageContextValidator: messageContextValidator)
     {
-        ArgumentNullException.ThrowIfNull(argument: nameof(sendNotificationRequestValidator));
+        ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestValidator);
 
         RuleFor(expression: x => x.Payload!)
             .NotNull()

@@ -10,8 +10,8 @@ internal sealed class SendNotificationRequestValidator : AbstractValidator<SendN
         SendNotificationRequest_NotificationContextValidator sendNotificationRequestNotificationContextValidator,
         SendNotificationRequest_NotificationTypeValidator sendNotificationRequestNotificationTypeValidator)
     {
-        ArgumentNullException.ThrowIfNull(argument: nameof(sendNotificationRequestNotificationContextValidator));
-        ArgumentNullException.ThrowIfNull(argument: nameof(sendNotificationRequestNotificationTypeValidator));
+        ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestNotificationContextValidator);
+        ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestNotificationTypeValidator);
 
         RuleFor(expression: x => x.NotificationContext!)
             .NotNull()
