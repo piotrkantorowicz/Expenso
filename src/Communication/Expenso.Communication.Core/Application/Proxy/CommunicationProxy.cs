@@ -23,8 +23,8 @@ internal sealed class CommunicationProxy : ICommunicationProxy
         CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(
-            command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(),
-                SendNotificationRequest: request), cancellationToken: cancellationToken);
+            command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(), Payload: request),
+            cancellationToken: cancellationToken);
     }
 
     public async Task SendNotificationsAsync(IReadOnlyCollection<SendNotificationRequest> requests,
@@ -36,7 +36,7 @@ internal sealed class CommunicationProxy : ICommunicationProxy
         {
             sendNotificationTasks.Add(item: _commandDispatcher.SendAsync(
                 command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(),
-                    SendNotificationRequest: request), cancellationToken: cancellationToken));
+                    Payload: request), cancellationToken: cancellationToken));
         }
 
         await Task.WhenAll(tasks: sendNotificationTasks);
