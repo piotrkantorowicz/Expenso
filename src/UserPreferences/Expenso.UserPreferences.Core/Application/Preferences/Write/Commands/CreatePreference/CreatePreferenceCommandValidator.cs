@@ -1,4 +1,4 @@
-using Expenso.Shared.Commands.Validation;
+using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.DTO.Request.Validators;
 
 using FluentValidation;

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
-using Expenso.Shared.Commands.Validation;
+using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;

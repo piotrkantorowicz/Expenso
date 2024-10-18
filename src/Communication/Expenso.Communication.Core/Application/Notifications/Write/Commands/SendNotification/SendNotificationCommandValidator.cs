@@ -1,5 +1,5 @@
-﻿using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.DTO.Validators;
-using Expenso.Shared.Commands.Validation;
+using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.DTO.Validators;
+using Expenso.Shared.Commands.Validation.Validators;
 
 using FluentValidation;
 
