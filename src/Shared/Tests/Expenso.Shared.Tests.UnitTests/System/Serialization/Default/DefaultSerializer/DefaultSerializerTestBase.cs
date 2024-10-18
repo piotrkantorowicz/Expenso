@@ -10,17 +10,15 @@ using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
 using Moq;
 
-using TestCandidate = Expenso.Shared.System.Serialization.Default.DefaultSerializer;
-
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
 [TestFixture]
-internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
+internal abstract class DefaultSerializerTestBase : TestBase<Shared.System.Serialization.Default.DefaultSerializer>
 {
     [SetUp]
     public void SetUp()
     {
-        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
+        TestCandidate = new Shared.System.Serialization.Default.DefaultSerializer(logger: _loggerMock.Object);
     }
 
     protected static readonly BasicTestObject BasicObject = new()
@@ -46,7 +44,7 @@ internal abstract class DefaultSerializerTestBase : TestBase<TestCandidate>
         }
     ];
 
-    private readonly Mock<ILoggerService<TestCandidate>> _loggerMock = new();
+    private readonly Mock<ILoggerService<Shared.System.Serialization.Default.DefaultSerializer>> _loggerMock = new();
 
     protected readonly JsonSerializerOptions _serializerOptions = new()
     {

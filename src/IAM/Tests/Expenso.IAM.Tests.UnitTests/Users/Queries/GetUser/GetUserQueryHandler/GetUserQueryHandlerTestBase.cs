@@ -2,12 +2,11 @@ using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
-using TestCandidate = Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.GetUserQueryHandler;
-
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserQueryHandler;
 
 [TestFixture]
-internal abstract class GetUserQueryHandlerTestBase : TestBase<TestCandidate>
+internal abstract class
+    GetUserQueryHandlerTestBase : TestBase<Core.Application.Users.Read.Queries.GetUser.GetUserQueryHandler>
 {
     [SetUp]
     public void SetUp()
@@ -20,7 +19,9 @@ internal abstract class GetUserQueryHandlerTestBase : TestBase<TestCandidate>
 
         _userServiceMock = new Mock<IUserService>();
         _messageContextMock = new Mock<IMessageContext>();
-        TestCandidate = new TestCandidate(userService: _userServiceMock.Object);
+
+        TestCandidate =
+            new Core.Application.Users.Read.Queries.GetUser.GetUserQueryHandler(userService: _userServiceMock.Object);
     }
 
     protected GetUserResponse _getUserResponse = null!;

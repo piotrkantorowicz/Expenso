@@ -3,14 +3,12 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Create
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.DTO.Request.Validators;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 
-using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandValidator;
-
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandValidator;
 
 [TestFixture]
-internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<TestCandidate>
+internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<
+    Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandValidator>
 {
     [SetUp]
     public void SetUp()
@@ -19,7 +17,9 @@ internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<Test
             MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new CreatePreferenceRequest(UserId: Guid.NewGuid()));
 
-        TestCandidate = new TestCandidate(messageContextValidator: new MessageContextValidator(),
+        TestCandidate =
+            new Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandValidator(
+                messageContextValidator: new MessageContextValidator(),
             preferenceRequestValidator: new CreatePreferenceRequestValidator());
     }
 

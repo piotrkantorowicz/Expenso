@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.BudgetId;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.BudgetId;
 
 [TestFixture]
@@ -12,7 +10,9 @@ internal sealed class ToString : BudgetIdTestBase
     {
         // Arrange
         Guid value = Guid.NewGuid();
-        TestCandidate sut = TestCandidate.New(value: value);
+
+        BudgetSharing.Domain.Shared.ValueObjects.BudgetId sut =
+            BudgetSharing.Domain.Shared.ValueObjects.BudgetId.New(value: value);
 
         // Act
         string result = sut.ToString();

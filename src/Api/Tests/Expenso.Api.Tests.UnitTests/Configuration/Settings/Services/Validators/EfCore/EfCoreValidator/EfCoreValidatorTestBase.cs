@@ -1,12 +1,11 @@
-﻿using Expenso.Shared.Database.EfCore.Settings;
+﻿using Expenso.Api.Configuration.Settings.Services.Validators.EfCore;
+using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
-
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.EfCore.EfCoreSettingsValidator;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.EfCoreValidator;
 
 [TestFixture]
-internal abstract class EfCoreSettingsValidatorTestBase : TestBase<TestCandidate>
+internal abstract class EfCoreSettingsValidatorTestBase : TestBase<EfCoreSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -27,7 +26,7 @@ internal abstract class EfCoreSettingsValidatorTestBase : TestBase<TestCandidate
             UseSeeding = true
         };
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new EfCoreSettingsValidator();
     }
 
     protected EfCoreSettings _efCoreSettings = null!;

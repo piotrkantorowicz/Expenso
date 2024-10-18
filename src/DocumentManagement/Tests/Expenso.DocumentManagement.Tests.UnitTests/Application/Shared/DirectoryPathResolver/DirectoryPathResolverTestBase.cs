@@ -4,8 +4,6 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
-using TestCandidate = Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk.DirectoryPathResolver;
-
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryPathResolver;
 
 [TestFixture]
@@ -18,7 +16,8 @@ internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathR
         _clockMock = new Mock<IClock>();
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTime.UtcNow);
 
-        TestCandidate = new TestCandidate(directoryInfoService: _directoryInfoServiceMock.Object,
+        TestCandidate = new Core.Application.Shared.Services.Acl.Disk.DirectoryPathResolver(
+            directoryInfoService: _directoryInfoServiceMock.Object,
             clock: _clockMock.Object);
     }
 

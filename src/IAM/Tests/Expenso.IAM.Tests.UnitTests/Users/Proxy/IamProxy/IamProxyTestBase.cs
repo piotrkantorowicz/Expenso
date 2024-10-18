@@ -2,8 +2,6 @@ using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.Queries.Dispatchers;
 
-using TestCandidate = Expenso.IAM.Core.Application.Proxy.IamProxy;
-
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
 [TestFixture]
@@ -20,7 +18,7 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
 
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
 
-        TestCandidate = new TestCandidate(queryDispatcher: _queryDispatcherMock.Object,
+        TestCandidate = new Core.Application.Proxy.IamProxy(queryDispatcher: _queryDispatcherMock.Object,
             messageContextFactory: MessageContextFactoryMock.Object);
     }
 

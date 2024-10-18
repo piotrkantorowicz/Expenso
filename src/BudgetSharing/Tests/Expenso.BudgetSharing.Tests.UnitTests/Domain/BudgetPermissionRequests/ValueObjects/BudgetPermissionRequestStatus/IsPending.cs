@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatus;
 
@@ -12,7 +10,8 @@ internal sealed class IsPending : BudgetPermissionRequestStatusTestBase
     public void Should_ReturnTrue_When_BudgetPermissionRequestStatusIsPending()
     {
         // Arrange
-        TestCandidate testCandidate = TestCandidate.Pending;
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus testCandidate =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Pending;
 
         // Act
         bool result = testCandidate.IsPending();

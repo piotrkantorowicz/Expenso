@@ -3,14 +3,11 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
-using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
 
 [TestFixture]
-internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase : TestBase<TestCandidate>
+internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase : TestBase<BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler>
 {
     [SetUp]
     public void SetUp()
@@ -18,7 +15,7 @@ internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTes
         _budgetPermissionRequestExpireDomainServiceMock = new Mock<IBudgetPermissionRequestExpirationDomainService>();
 
         TestCandidate =
-            new TestCandidate(
+            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler(
                 budgetPermissionRequestExpirationDomainService: _budgetPermissionRequestExpireDomainServiceMock.Object);
     }
 

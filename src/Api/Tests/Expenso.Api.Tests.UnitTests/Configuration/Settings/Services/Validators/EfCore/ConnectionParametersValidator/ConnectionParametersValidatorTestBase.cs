@@ -1,12 +1,12 @@
 ﻿using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
 
 [TestFixture]
-internal abstract class ConnectionParametersValidatorTestBase : TestBase<TestCandidate>
+internal abstract class
+    ConnectionParametersValidatorTestBase : TestBase<
+    Api.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator>
 {
     [SetUp]
     public void SetUp()
@@ -21,7 +21,7 @@ internal abstract class ConnectionParametersValidatorTestBase : TestBase<TestCan
             Password = "ValidPassword1!"
         };
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new Api.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator();
     }
 
     protected ConnectionParameters _connectionParameters = null!;

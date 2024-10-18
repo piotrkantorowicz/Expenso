@@ -1,9 +1,7 @@
-using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.PermissionType;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PermissionType;
 
 [TestFixture]
-internal abstract class PermissionTypeTestBase : DomainTestBase<TestCandidate>
+internal abstract class PermissionTypeTestBase : DomainTestBase<BudgetSharing.Domain.Shared.ValueObjects.PermissionType>
 {
     [SetUp]
     public void SetUp()

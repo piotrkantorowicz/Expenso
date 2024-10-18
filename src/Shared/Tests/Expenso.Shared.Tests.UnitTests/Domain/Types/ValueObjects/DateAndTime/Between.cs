@@ -1,15 +1,14 @@
-﻿using TestCandidate = Expenso.Shared.Domain.Types.ValueObjects.DateAndTime;
-
-namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
+﻿namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
 [TestFixture]
-internal sealed class Between : TestBase<TestCandidate>
+internal sealed class Between : TestBase<Shared.Domain.Types.ValueObjects.DateAndTime>
 {
     [Test]
     public void Should_ReturnTrue_When_ValueIsBetweenStartAndEnd()
     {
         // Arrange
-        TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
+        Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
+            Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: -1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 1);
 
@@ -24,7 +23,8 @@ internal sealed class Between : TestBase<TestCandidate>
     public void Should_ReturnFalse_When_ValueIsNotBetweenStartAndEnd()
     {
         // Arrange
-        TestCandidate dateTimeOffset = TestCandidate.New(value: DateTimeOffset.Now);
+        Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
+            Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: 1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 2);
 

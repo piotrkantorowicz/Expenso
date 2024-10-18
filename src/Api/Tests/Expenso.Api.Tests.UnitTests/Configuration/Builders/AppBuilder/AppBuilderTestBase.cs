@@ -6,12 +6,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using TestCandidate = Expenso.Api.Configuration.Builders.AppBuilder;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
 [TestFixture]
-internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
+internal abstract class AppBuilderTestBase : TestBase<Api.Configuration.Builders.AppBuilder>
 {
     [SetUp]
     public void SetUp()
@@ -35,7 +33,8 @@ internal abstract class AppBuilderTestBase : TestBase<TestCandidate>
 
     protected void CreateTestCandiate()
     {
-        TestCandidate = new TestCandidate(appBuilder: _webApplicationBuilder, configuration: _configurationMock.Object,
+        TestCandidate = new Api.Configuration.Builders.AppBuilder(appBuilder: _webApplicationBuilder,
+            configuration: _configurationMock.Object,
             serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
     }
 }

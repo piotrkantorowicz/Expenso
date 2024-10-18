@@ -3,8 +3,6 @@ using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
-using Status = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
 
@@ -22,13 +20,18 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         // Act
         statusTracker.Expire();
 
         // Assert
-        statusTracker.Status.Should().Be(expected: Status.Expired);
+        statusTracker
+            .Status.Should()
+            .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                .Expired);
     }
 
     [Test]
@@ -42,7 +45,9 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         statusTracker.Confirm(clock: _clockMock.Object);
 
@@ -70,7 +75,9 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         statusTracker.Cancel(clock: _clockMock.Object);
 
@@ -98,7 +105,9 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         statusTracker.Expire();
 

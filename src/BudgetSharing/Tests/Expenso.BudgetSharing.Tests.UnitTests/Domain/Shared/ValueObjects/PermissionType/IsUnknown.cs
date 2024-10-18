@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.PermissionType;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PermissionType;
 
 [TestFixture]
@@ -11,7 +9,8 @@ internal sealed class IsUnknown : PermissionTypeTestBase
     public void Should_ReturnTrue_When_ValueIsUnknown()
     {
         // Arrange
-        TestCandidate testCandidate = TestCandidate.Unknown;
+        BudgetSharing.Domain.Shared.ValueObjects.PermissionType testCandidate =
+            BudgetSharing.Domain.Shared.ValueObjects.PermissionType.Unknown;
 
         // Act
         bool result = testCandidate.IsUnknown();

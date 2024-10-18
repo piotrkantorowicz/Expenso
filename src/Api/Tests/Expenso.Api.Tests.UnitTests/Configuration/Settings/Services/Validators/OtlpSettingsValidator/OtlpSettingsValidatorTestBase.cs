@@ -1,12 +1,11 @@
 ﻿using Expenso.Shared.System.Metrics;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.OtlpSettingsValidator;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.OtlpSettingsValidator;
 
 [TestFixture]
-internal abstract class OtlpSettingsValidatorTestBase : TestBase<TestCandidate>
+internal abstract class
+    OtlpSettingsValidatorTestBase : TestBase<Api.Configuration.Settings.Services.Validators.OtlpSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -17,7 +16,7 @@ internal abstract class OtlpSettingsValidatorTestBase : TestBase<TestCandidate>
             Endpoint = "https://valid-endpoint.com"
         };
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new Api.Configuration.Settings.Services.Validators.OtlpSettingsValidator();
     }
 
     protected OtlpSettings _otlpSettings = null!;

@@ -3,14 +3,12 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
-using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
 
 [TestFixture]
-internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<TestCandidate>
+internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<
+    BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker>
 {
     [SetUp]
     public void SetUp()

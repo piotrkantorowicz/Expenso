@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.PermissionType;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PermissionType;
 
 [TestFixture]
@@ -13,7 +11,8 @@ internal sealed class Create : PermissionTypeTestBase
     {
         // Arrange
         // Act
-        TestCandidate result = TestCandidate.Create(value: value);
+        BudgetSharing.Domain.Shared.ValueObjects.PermissionType result =
+            BudgetSharing.Domain.Shared.ValueObjects.PermissionType.Create(value: value);
 
         // Assert
         result.Value.Should().Be(expected: value);

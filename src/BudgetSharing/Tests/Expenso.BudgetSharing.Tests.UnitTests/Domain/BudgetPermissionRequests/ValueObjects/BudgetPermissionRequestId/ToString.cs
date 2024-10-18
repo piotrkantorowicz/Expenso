@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
 
 [TestFixture]
@@ -12,7 +10,9 @@ internal sealed class ToString : BudgetPermissionRequestIdTestBase
     {
         // Arrange
         Guid value = Guid.NewGuid();
-        TestCandidate sut = TestCandidate.New(value: value);
+
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId sut =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.New(value: value);
 
         // Act
         string result = sut.ToString();

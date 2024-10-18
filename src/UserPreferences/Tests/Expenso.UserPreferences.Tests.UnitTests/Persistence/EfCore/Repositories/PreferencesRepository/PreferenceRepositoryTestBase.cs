@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using MockQueryable.Moq;
 
-using TestCandidate = Expenso.UserPreferences.Core.Persistence.EfCore.Repositories.PreferencesRepository;
-
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
 [TestFixture]
@@ -63,7 +61,10 @@ internal abstract class PreferenceRepositoryTestBase : TestBase<IPreferencesRepo
         _preferenceDbSetMock = _preferences.AsQueryable().BuildMockDbSet();
         _dbContextMock = new Mock<IUserPreferencesDbContext>();
         _dbContextMock.Setup(expression: x => x.Preferences).Returns(value: _preferenceDbSetMock.Object);
-        TestCandidate = new TestCandidate(userPreferencesDbContext: _dbContextMock.Object);
+
+        TestCandidate =
+            new Core.Persistence.EfCore.Repositories.PreferencesRepository(
+                userPreferencesDbContext: _dbContextMock.Object);
     }
 
     [TearDown]

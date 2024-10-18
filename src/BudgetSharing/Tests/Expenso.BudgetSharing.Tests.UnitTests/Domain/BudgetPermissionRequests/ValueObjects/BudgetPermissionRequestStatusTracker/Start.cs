@@ -3,8 +3,6 @@ using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
-using Status = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
 
@@ -18,7 +16,9 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         DateTimeOffset currentTime = DateTimeOffset.UtcNow;
         _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
         DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
-        Status status = Status.Pending;
+
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus status =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Pending;
 
         // Act
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker result =
@@ -30,7 +30,11 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         result.Should().NotBeNull();
         result.ExpirationDate.Should().Be(expected: expirationDate);
         result.SubmissionDate.Value.Should().Be(expected: currentTime);
-        result.Status.Should().Be(expected: Status.Pending);
+
+        result
+            .Status.Should()
+            .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                .Pending);
         result.ConfirmationDate.Should().BeNull();
         result.CancellationDate.Should().BeNull();
     }
@@ -42,7 +46,10 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         DateTimeOffset currentTime = DateTimeOffset.UtcNow;
         _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
         DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
-        Status status = Status.FromDisplayName(displayName: statusDisplayName);
+
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus status =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.FromDisplayName(
+                displayName: statusDisplayName);
 
         Action action = () =>
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
@@ -65,7 +72,9 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         DateTimeOffset currentTime = DateTimeOffset.UtcNow;
         _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
         DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: -1));
-        Status status = Status.Pending;
+
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus status =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Pending;
 
         Action action = () =>
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(

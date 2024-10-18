@@ -1,17 +1,15 @@
-﻿using Expenso.Communication.Shared.DTO.Settings;
+﻿using Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
+using Expenso.Communication.Shared.DTO.Settings;
 using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Communication.Shared.DTO.Settings.Push;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
-using TestCandidate =
-    Expenso.Api.Configuration.Settings.Services.Validators.Notifications.NotificationSettingsValidator;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.
     NotificationsSettingsValidator;
 
 [TestFixture]
-internal abstract class NotificationSettingsValidatorTestBase : TestBase<TestCandidate>
+internal abstract class NotificationSettingsValidatorTestBase : TestBase<NotificationSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -26,7 +24,7 @@ internal abstract class NotificationSettingsValidatorTestBase : TestBase<TestCan
             Push = new PushNotificationSettings(Enabled: true)
         };
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new NotificationSettingsValidator();
     }
 
     protected NotificationSettings _notificationSettings = null!;

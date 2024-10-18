@@ -1,13 +1,12 @@
 using System.Security.Claims;
 
 using Expenso.Api.Configuration.Auth.Claims;
+using Expenso.Api.Configuration.Auth.Users;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-
-using Context = Expenso.Api.Configuration.Auth.Users.UserContext;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Execution.ExecutionContextAccessor;
 
@@ -64,7 +63,7 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         // Arrange
         const string? username = "Phasellusfeugiat";
         string userId = Guid.NewGuid().ToString();
-        Context expectedUser = new(UserId: userId, Username: username);
+        UserContext expectedUser = new(UserId: userId, Username: username);
         Guid expectedCorrelationId = Guid.NewGuid();
 
         DefaultHttpContext httpContext = new()

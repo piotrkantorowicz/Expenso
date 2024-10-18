@@ -9,8 +9,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 using Moq;
 
-using TestCandidate = Expenso.Shared.Integration.MessageBroker.InMemory.InMemoryMessageBroker;
-
 namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.InMemoryMessageBroker;
 
 [TestFixture]
@@ -19,7 +17,7 @@ internal abstract class MessageBrokerTestBase : TestBase<IMessageBroker>
     [SetUp]
     public async Task SetUpAsync()
     {
-        TestCandidate = new TestCandidate(channel: _messageChannel);
+        TestCandidate = new Shared.Integration.MessageBroker.InMemory.InMemoryMessageBroker(channel: _messageChannel);
         await StartMessageProcessor(cancellationToken: _stoppingTokenSource.Token);
     }
 

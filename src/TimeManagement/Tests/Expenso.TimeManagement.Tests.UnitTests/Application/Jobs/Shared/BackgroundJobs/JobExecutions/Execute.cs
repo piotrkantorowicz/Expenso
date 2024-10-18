@@ -1,4 +1,6 @@
-﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+﻿using System.Text.Json;
+
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization.Default;
@@ -7,8 +9,6 @@ using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using FluentAssertions;
 
 using Moq;
-
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.BackgroundJobs.JobExecutions;
 

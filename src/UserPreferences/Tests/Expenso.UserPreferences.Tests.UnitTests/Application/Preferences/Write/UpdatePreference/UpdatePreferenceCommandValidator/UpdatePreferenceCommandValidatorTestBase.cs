@@ -3,14 +3,12 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request.Validators;
 
-using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator;
-
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
 
 [TestFixture]
-internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<TestCandidate>
+internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<
+    Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator>
 {
     [SetUp]
     public void SetUp()
@@ -25,7 +23,9 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<Test
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 3),
                 GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: false)));
 
-        TestCandidate = new TestCandidate(messageContextValidator: new MessageContextValidator(),
+        TestCandidate =
+            new Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator(
+                messageContextValidator: new MessageContextValidator(),
             updatePreferenceCommandValidator: new UpdatePreferenceRequestValidator(
                 financePreferenceValidator: new UpdatePreferenceRequest_FinancePreferenceValidator(),
                 notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),

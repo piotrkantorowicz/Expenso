@@ -1,12 +1,11 @@
-﻿using Expenso.Shared.System.Configuration.Settings.Files;
+﻿using Expenso.Api.Configuration.Settings.Services.Validators;
+using Expenso.Shared.System.Configuration.Settings.Files;
 using Expenso.Shared.Tests.Utils.UnitTests;
-
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.FilesSettingsValidator;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.FileSettingsValidator;
 
 [TestFixture]
-internal abstract class FileSettingsValidatorTestBase : TestBase<TestCandidate>
+internal abstract class FileSettingsValidatorTestBase : TestBase<FilesSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -18,7 +17,7 @@ internal abstract class FileSettingsValidatorTestBase : TestBase<TestCandidate>
             ReportsDirectory = "Reports"
         };
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new FilesSettingsValidator();
     }
 
     protected FilesSettings _filesSettings = null!;

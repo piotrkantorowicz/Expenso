@@ -4,14 +4,13 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 using Expenso.Shared.Domain.Types.ValueObjects;
 
-using TestCandidate =
-    Expenso.BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal.BudgetPermissionBlockedEventHandler;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.EventHandlers.
     BudgetPermissionBlockedEventHandler;
 
 [TestFixture]
-internal sealed class HandleAsync : HandleAsyncBase<TestCandidate, BudgetPermissionBlockedEvent>
+internal sealed class HandleAsync : HandleAsyncBase<
+    BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal.BudgetPermissionBlockedEventHandler,
+    BudgetPermissionBlockedEvent>
 {
     protected override BudgetPermissionBlockedEvent CreateEvent()
     {
@@ -23,7 +22,9 @@ internal sealed class HandleAsync : HandleAsyncBase<TestCandidate, BudgetPermiss
 
     protected override void InitTestCandidate()
     {
-        TestCandidate = new TestCandidate(communicationProxy: _communicationProxyMock.Object,
+        TestCandidate =
+            new BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal.BudgetPermissionBlockedEventHandler(
+                communicationProxy: _communicationProxyMock.Object,
             notificationSettings: _notificationSettings, iamProxyService: _iIamProxyServiceMock.Object);
     }
 }

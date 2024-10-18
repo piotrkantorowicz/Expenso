@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatus;
 
@@ -14,7 +12,9 @@ internal sealed class Create : BudgetPermissionRequestStatusTestBase
     {
         // Arrange
         // Act
-        TestCandidate result = TestCandidate.Create(value: value);
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus result =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Create(
+                value: value);
 
         // Assert
         result.Value.Should().Be(expected: value);
