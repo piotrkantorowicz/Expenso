@@ -239,6 +239,9 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     public void Should_ReturnValidationResultWithCorrectMessage_WhenEventTriggerDateIsNotSerializableToType()
     {
         // Arrange
+        const string invalidEventData = "InvalidEventType";
+        _eventTypeResolver.Setup(expression: x => x.IsAllowable(invalidEventData)).Returns(value: false);
+
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
         {
@@ -248,7 +251,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
                 [
                     _registerJobEntryCommand.Payload.JobEntryTriggers!.First() with
                     {
-                        EventType = typeof(int).AssemblyQualifiedName
+                        EventType = invalidEventData
                     }
                 ]
             }

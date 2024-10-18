@@ -16,7 +16,7 @@ internal abstract class
     protected void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
-            Name: "JYi9R7e7v2Qor");
+            Payload: "JYi9R7e7v2Qor");
 
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _commandHandlerMock = new Mock<ICommandHandler<TestCommand, TestCommandResult>>();

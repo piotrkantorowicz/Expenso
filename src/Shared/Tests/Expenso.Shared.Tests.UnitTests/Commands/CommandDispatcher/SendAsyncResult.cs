@@ -12,7 +12,7 @@ internal sealed class SendAsyncResult : CommandDispatcherTestBase
     {
         // Arrange
         TestCommand testCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
-            Name: "BzC6M2Qjw7Y2CPC4s");
+            Payload: "BzC6M2Qjw7Y2CPC4s");
 
         // Act
         TestCommandResult? commandResult =
