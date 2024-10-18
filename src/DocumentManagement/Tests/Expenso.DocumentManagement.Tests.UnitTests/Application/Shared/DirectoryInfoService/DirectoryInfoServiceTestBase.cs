@@ -6,8 +6,6 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
-using TestCandidate = Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk.DirectoryInfoService;
-
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryInfoService;
 
 [TestFixture]
@@ -26,7 +24,9 @@ internal abstract class DirectoryInfoServiceTestBase : TestBase<IDirectoryInfoSe
             ReportsDirectory = "Reports"
         };
 
-        TestCandidate = new TestCandidate(fileSystem: _fileSystemMock.Object, filesSettings: _filesSettings);
+        TestCandidate =
+            new Core.Application.Shared.Services.Acl.Disk.DirectoryInfoService(fileSystem: _fileSystemMock.Object,
+                filesSettings: _filesSettings);
     }
 
     private FilesSettings? _filesSettings;

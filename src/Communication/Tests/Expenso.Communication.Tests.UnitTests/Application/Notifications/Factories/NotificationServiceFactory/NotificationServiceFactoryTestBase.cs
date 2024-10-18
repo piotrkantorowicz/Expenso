@@ -7,8 +7,6 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
-using TestCandidate = Expenso.Communication.Core.Application.Notifications.Factories.NotificationServiceFactory;
-
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
 [TestFixture]
@@ -17,7 +15,9 @@ internal abstract class NotificationServiceFactoryTestBase : TestBase<INotificat
     [SetUp]
     public void Setup()
     {
-        TestCandidate = new TestCandidate(servicesDictionary: _servicesDictionary);
+        TestCandidate =
+            new Core.Application.Notifications.Factories.NotificationServiceFactory(
+                servicesDictionary: _servicesDictionary);
     }
 
     protected readonly IDictionary<string, INotificationService> _servicesDictionary =

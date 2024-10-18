@@ -1,27 +1,26 @@
-﻿using Expenso.Shared.System.Configuration.Validators;
+﻿using Expenso.Api.Configuration.Settings.Services;
+using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.SettingsService<
-    Expenso.Api.Tests.UnitTests.Configuration.Settings.TestSettings>;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
 [TestFixture]
-internal abstract class SettingsServiceTestBase : TestBase<TestCandidate>
+internal abstract class SettingsServiceTestBase : TestBase<SettingsService<TestSettings>>
 {
     [SetUp]
     public void SetUp()
     {
         _validatorsMock = new Mock<IEnumerable<ISettingsValidator<TestSettings>>>();
-        _loggerMock = new Mock<ILoggerService<TestCandidate>>();
+        _loggerMock = new Mock<ILoggerService<SettingsService<TestSettings>>>();
         _serviceCollection = new ServiceCollection();
         _configuration = new ConfigurationBuilder().AddInMemoryCollection(initialData: _myConfiguration).Build();
 
-        TestCandidate = new TestCandidate(validators: _validatorsMock.Object, configuration: _configuration,
+        TestCandidate = new SettingsService<TestSettings>(validators: _validatorsMock.Object,
+            configuration: _configuration,
             logger: _loggerMock.Object);
     }
 
@@ -32,7 +31,7 @@ internal abstract class SettingsServiceTestBase : TestBase<TestCandidate>
     };
 
     protected IConfiguration _configuration = null!;
-    protected Mock<ILoggerService<TestCandidate>> _loggerMock = null!;
+    protected Mock<ILoggerService<SettingsService<TestSettings>>> _loggerMock = null!;
     protected IServiceCollection _serviceCollection = null!;
     protected Mock<IEnumerable<ISettingsValidator<TestSettings>>> _validatorsMock = null!;
 }

@@ -3,14 +3,12 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Create
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 
-using TestCandidate =
-    Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandHandler;
-
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;
 
 [TestFixture]
-internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<TestCandidate>
+internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<
+    Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandHandler>
 {
     [SetUp]
     public void SetUp()
@@ -21,7 +19,8 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<TestCa
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _messageBrokerMock = new Mock<IMessageBroker>();
 
-        TestCandidate = new TestCandidate(preferencesRepository: _preferenceRepositoryMock.Object,
+        TestCandidate = new Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandHandler(
+            preferencesRepository: _preferenceRepositoryMock.Object,
             messageBroker: _messageBrokerMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
 

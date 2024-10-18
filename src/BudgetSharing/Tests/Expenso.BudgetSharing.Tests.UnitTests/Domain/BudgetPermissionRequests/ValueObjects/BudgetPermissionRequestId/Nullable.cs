@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
 
 [TestFixture]
@@ -14,7 +12,8 @@ internal sealed class Nullable : BudgetPermissionRequestIdTestBase
         Guid value = Guid.NewGuid();
 
         // Act
-        TestCandidate? result = TestCandidate.Nullable(value: value);
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId? result =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.Nullable(value: value);
 
         // Assert
         result.Should().NotBeNull();
@@ -27,7 +26,8 @@ internal sealed class Nullable : BudgetPermissionRequestIdTestBase
         Guid? value = null;
 
         // Act
-        TestCandidate? result = TestCandidate.Nullable(value: value);
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId? result =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.Nullable(value: value);
 
         // Assert
         result.Should().BeNull();

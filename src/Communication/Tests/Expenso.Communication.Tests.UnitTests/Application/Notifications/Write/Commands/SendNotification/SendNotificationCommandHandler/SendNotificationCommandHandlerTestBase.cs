@@ -6,14 +6,12 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
-using TestCandidate =
-    Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.SendNotificationCommandHandler;
-
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandHandler;
 
 [TestFixture]
-internal abstract class SendNotificationCommandHandlerTestBase : TestBase<TestCandidate>
+internal abstract class SendNotificationCommandHandlerTestBase : TestBase<
+    Core.Application.Notifications.Write.Commands.SendNotification.SendNotificationCommandHandler>
 {
     [SetUp]
     public void Setup()
@@ -32,7 +30,9 @@ internal abstract class SendNotificationCommandHandlerTestBase : TestBase<TestCa
             .Setup(expression: x => x.GetService<IInAppService>())
             .Returns(value: new Mock<IInAppService>().Object);
 
-        TestCandidate = new TestCandidate(notificationServiceFactory: _notificationServiceFactoryMock.Object);
+        TestCandidate =
+            new Core.Application.Notifications.Write.Commands.SendNotification.SendNotificationCommandHandler(
+                notificationServiceFactory: _notificationServiceFactoryMock.Object);
     }
 
     protected Mock<INotificationServiceFactory> _notificationServiceFactoryMock = null!;

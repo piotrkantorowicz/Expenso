@@ -3,8 +3,6 @@
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Logging;
 
-using TestCandidate = Expenso.Api.Configuration.AppConfigurationManager;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 
 internal sealed class Configure : AppConfigurationManagerTestBase
@@ -27,7 +25,7 @@ internal sealed class Configure : AppConfigurationManagerTestBase
         _appConfigurationManager.Configure(serviceCollection: _serviceCollectionMock.Object);
 
         // Assert
-        FieldInfo? settingsMap = typeof(TestCandidate).GetField(name: "_settingsMap",
+        FieldInfo? settingsMap = typeof(Api.Configuration.AppConfigurationManager).GetField(name: "_settingsMap",
             bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance);
 
         Dictionary<string, object?> result =

@@ -2,23 +2,22 @@
 
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization.Converters;
+using Expenso.Shared.System.Serialization.Default;
 
 using Moq;
-
-using TestCandidate = Expenso.Shared.System.Serialization.Default.DefaultSerializer;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Converters;
 
 [TestFixture]
-internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<TestCandidate>
+internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<DefaultSerializer>
 {
     [SetUp]
     public void SetUp()
     {
-        TestCandidate = new TestCandidate(logger: _loggerMock.Object);
+        TestCandidate = new DefaultSerializer(logger: _loggerMock.Object);
     }
 
-    private readonly Mock<ILoggerService<TestCandidate>> _loggerMock = new();
+    private readonly Mock<ILoggerService<DefaultSerializer>> _loggerMock = new();
 
     protected readonly JsonSerializerOptions _serializerOptions = new()
     {

@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using CoreExtensions = Expenso.TimeManagement.Core.Extensions;
+using Extensions = Expenso.TimeManagement.Core.Extensions;
 
 namespace Expenso.TimeManagement.Api;
 
@@ -29,7 +29,7 @@ public sealed class TimeManagementModule : IModuleDefinition
         return
         [
             typeof(TimeManagementModule).Assembly,
-            typeof(CoreExtensions).Assembly,
+            typeof(Extensions).Assembly,
             typeof(ITimeManagementProxy).Assembly
         ];
     }

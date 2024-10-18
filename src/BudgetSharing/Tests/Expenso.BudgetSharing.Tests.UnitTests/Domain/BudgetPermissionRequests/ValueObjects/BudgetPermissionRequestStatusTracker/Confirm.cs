@@ -3,8 +3,6 @@ using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
-using Status = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
 
@@ -22,13 +20,18 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         // Act
         statusTracker.Confirm(clock: _clockMock.Object);
 
         // Assert
-        statusTracker.Status.Should().Be(expected: Status.Confirmed);
+        statusTracker
+            .Status.Should()
+            .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                .Confirmed);
         statusTracker.ConfirmationDate.Should().NotBeNull();
         statusTracker.ConfirmationDate!.Value.Should().Be(expected: currentTime);
     }
@@ -44,7 +47,9 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         statusTracker.Confirm(clock: _clockMock.Object);
 
@@ -72,7 +77,9 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         statusTracker.Cancel(clock: _clockMock.Object);
 
@@ -100,7 +107,9 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate, status: Status.Pending);
+                expirationDate: expirationDate,
+                status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
+                    .Pending);
 
         statusTracker.Expire();
 

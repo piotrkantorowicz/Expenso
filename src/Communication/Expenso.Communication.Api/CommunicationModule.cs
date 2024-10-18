@@ -7,7 +7,7 @@ using Expenso.Shared.System.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using CoreExtensions = Expenso.Communication.Core.Extensions;
+using Extensions = Expenso.Communication.Core.Extensions;
 
 namespace Expenso.Communication.Api;
 
@@ -20,7 +20,7 @@ public sealed class CommunicationModule : IModuleDefinition
         return new List<Assembly>
         {
             typeof(CommunicationModule).Assembly,
-            typeof(CoreExtensions).Assembly,
+            typeof(Extensions).Assembly,
             typeof(ICommunicationProxy).Assembly
         };
     }

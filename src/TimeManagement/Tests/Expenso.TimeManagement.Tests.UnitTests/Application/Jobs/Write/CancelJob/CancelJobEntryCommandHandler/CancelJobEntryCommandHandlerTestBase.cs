@@ -6,12 +6,11 @@ using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
 using Moq;
 
-using TestCandidate = Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler;
-
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler;
 
 [TestFixture]
-internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCandidate>
+internal abstract class
+    CancelJobEntryCommandHandlerTestBase : TestBase<Core.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler>
 {
     [SetUp]
     public void SetUp()
@@ -28,7 +27,8 @@ internal abstract class CancelJobEntryCommandHandlerTestBase : TestBase<TestCand
             Id = _jobEntryId.GetValueOrDefault(defaultValue: Guid.Empty)
         };
 
-        TestCandidate = new TestCandidate(jobEntryRepository: _jobEntryRepositoryMock.Object,
+        TestCandidate = new Core.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler(
+            jobEntryRepository: _jobEntryRepositoryMock.Object,
             jobStatusRepository: _jobEntryStatusReposiotry.Object);
     }
 

@@ -3,12 +3,12 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Keycloak.AuthServices.Common;
 
-using TestCandidate = Expenso.Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
-
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
 
 [TestFixture]
-internal abstract class KeycloakSettingsValidatorTestBase : TestBase<TestCandidate>
+internal abstract class
+    KeycloakSettingsValidatorTestBase : TestBase<
+    Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -26,7 +26,7 @@ internal abstract class KeycloakSettingsValidatorTestBase : TestBase<TestCandida
             }
         };
 
-        TestCandidate = new TestCandidate();
+        TestCandidate = new Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator();
     }
 
     protected KeycloakSettings _keycloakSettings = null!;

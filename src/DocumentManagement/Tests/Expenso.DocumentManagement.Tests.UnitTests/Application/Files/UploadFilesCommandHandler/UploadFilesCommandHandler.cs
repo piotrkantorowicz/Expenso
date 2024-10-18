@@ -5,10 +5,9 @@ using Moq;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.UploadFilesCommandHandler;
 
-using TestCandidate = Core.Application.Files.Write.UploadFiles.UploadFilesCommandHandler;
-
 [TestFixture]
-internal abstract class UploadFilesCommandHandler : TestBase<TestCandidate>
+internal abstract class
+    UploadFilesCommandHandler : TestBase<Core.Application.Files.Write.UploadFiles.UploadFilesCommandHandler>
 {
     [SetUp]
     public void Setup()
@@ -16,7 +15,8 @@ internal abstract class UploadFilesCommandHandler : TestBase<TestCandidate>
         _fileStorageMock = new Mock<IFileStorage>();
         _directoryPathResolverMock = new Mock<IDirectoryPathResolver>();
 
-        TestCandidate = new TestCandidate(fileStorage: _fileStorageMock.Object,
+        TestCandidate = new Core.Application.Files.Write.UploadFiles.UploadFilesCommandHandler(
+            fileStorage: _fileStorageMock.Object,
             directoryPathResolver: _directoryPathResolverMock.Object);
     }
 

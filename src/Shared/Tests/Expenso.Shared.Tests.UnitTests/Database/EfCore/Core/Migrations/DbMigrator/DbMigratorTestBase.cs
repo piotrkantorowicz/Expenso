@@ -6,12 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Moq;
 
-using TestCandidate = Expenso.Shared.Database.EfCore.Migrations.DbMigrator;
-
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Core.Migrations.DbMigrator;
 
 [TestFixture]
-internal abstract class DbMigratorTestBase : TestBase<TestCandidate>
+internal abstract class DbMigratorTestBase : TestBase<Shared.Database.EfCore.Migrations.DbMigrator>
 {
     [SetUp]
     public void Setup()
@@ -20,7 +18,7 @@ internal abstract class DbMigratorTestBase : TestBase<TestCandidate>
         _testDbContextMigrateMock = new Mock<ITestDbContextMigrate>();
         _testDbContextNoMigrateMock = new Mock<ITestDbContextNoMigrate>();
         _testDbContextNoSeedMock = new Mock<ITestDbContextNoSeed>();
-        TestCandidate = new TestCandidate();
+        TestCandidate = new Shared.Database.EfCore.Migrations.DbMigrator();
     }
 
     protected Mock<IServiceScope> _serviceScopeMock = null!;

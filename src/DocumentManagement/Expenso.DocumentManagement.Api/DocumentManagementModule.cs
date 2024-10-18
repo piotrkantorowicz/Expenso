@@ -7,7 +7,7 @@ using Expenso.Shared.System.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using CoreExtensions = Expenso.DocumentManagement.Core.Extensions;
+using Extensions = Expenso.DocumentManagement.Core.Extensions;
 
 namespace Expenso.DocumentManagement.Api;
 
@@ -20,7 +20,7 @@ public sealed class DocumentManagementModule : IModuleDefinition
         return
         [
             typeof(DocumentManagementModule).Assembly,
-            typeof(CoreExtensions).Assembly,
+            typeof(Extensions).Assembly,
             typeof(IDocumentManagementProxy).Assembly
         ];
     }

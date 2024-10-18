@@ -1,7 +1,5 @@
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.Shared.ValueObjects.PersonId;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PersonId;
 
 [TestFixture]
@@ -14,7 +12,8 @@ internal sealed class Nullable : PersonIdTestBase
         Guid value = Guid.NewGuid();
 
         // Act
-        TestCandidate? result = TestCandidate.Nullable(value: value);
+        BudgetSharing.Domain.Shared.ValueObjects.PersonId? result =
+            BudgetSharing.Domain.Shared.ValueObjects.PersonId.Nullable(value: value);
 
         // Assert
         result.Should().NotBeNull();
@@ -27,7 +26,8 @@ internal sealed class Nullable : PersonIdTestBase
         Guid? value = null;
 
         // Act
-        TestCandidate? result = TestCandidate.Nullable(value: value);
+        BudgetSharing.Domain.Shared.ValueObjects.PersonId? result =
+            BudgetSharing.Domain.Shared.ValueObjects.PersonId.Nullable(value: value);
 
         // Assert
         result.Should().BeNull();

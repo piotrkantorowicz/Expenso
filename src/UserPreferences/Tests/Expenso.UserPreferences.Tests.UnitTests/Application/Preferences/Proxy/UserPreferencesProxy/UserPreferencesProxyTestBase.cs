@@ -4,8 +4,6 @@ using Expenso.UserPreferences.Shared;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
-using TestCandidate = Expenso.UserPreferences.Core.Application.Proxy.UserPreferencesProxy;
-
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
 [TestFixture]
@@ -29,7 +27,8 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
 
         _createPreferenceResponse = new CreatePreferenceResponse(PreferenceId: _id);
 
-        TestCandidate = new TestCandidate(commandDispatcher: _commandDispatcherMock.Object,
+        TestCandidate = new Core.Application.Proxy.UserPreferencesProxy(
+            commandDispatcher: _commandDispatcherMock.Object,
             queryDispatcher: _queryDispatcherMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
 

@@ -2,8 +2,6 @@ using Expenso.Shared.Domain.Types.Exceptions;
 
 using FluentAssertions;
 
-using TestCandidate = Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
-
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
 
 [TestFixture]
@@ -16,7 +14,8 @@ internal sealed class New : BudgetPermissionRequestIdTestBase
         Guid value = Guid.NewGuid();
 
         // Act
-        TestCandidate result = TestCandidate.New(value: value);
+        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId result =
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.New(value: value);
 
         // Assert
         result.Should().NotBeNull();
@@ -29,7 +28,8 @@ internal sealed class New : BudgetPermissionRequestIdTestBase
         Guid value = Guid.Empty;
 
         // Act
-        Action act = () => TestCandidate.New(value: value);
+        Action act = () =>
+            BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.New(value: value);
 
         // Assert
         act

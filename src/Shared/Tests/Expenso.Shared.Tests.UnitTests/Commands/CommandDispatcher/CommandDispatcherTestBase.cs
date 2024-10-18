@@ -8,8 +8,6 @@ using Expenso.Shared.System.Logging;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using TestCandidate = Expenso.Shared.Commands.Dispatchers.CommandDispatcher;
-
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 
 [TestFixture]
@@ -28,6 +26,6 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
 
         serviceCollection.AddSingleton<ApplicationSettings>();
         IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-        TestCandidate = new TestCandidate(serviceProvider: serviceProvider);
+        TestCandidate = new Shared.Commands.Dispatchers.CommandDispatcher(serviceProvider: serviceProvider);
     }
 }
