@@ -2,7 +2,7 @@
 
 using FluentValidation;
 
-namespace Expenso.Shared.Commands.Validation;
+namespace Expenso.Shared.Commands.Validation.Validators;
 
 public sealed class MessageContextValidator : AbstractValidator<IMessageContext?>
 {

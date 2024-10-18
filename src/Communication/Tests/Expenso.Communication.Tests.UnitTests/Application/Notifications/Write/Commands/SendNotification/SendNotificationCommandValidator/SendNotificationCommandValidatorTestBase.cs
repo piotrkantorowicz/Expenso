@@ -1,5 +1,5 @@
-﻿using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.DTO.Validators;
-using Expenso.Shared.Commands.Validation;
+using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification.DTO.Validators;
+using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
@@ -21,10 +21,9 @@ internal abstract class SendNotificationCommandValidatorTestBase : TestBase<
 
         MessageContextValidator messageContextValidator = new();
 
-        Core.Application.Notifications.Write.Commands.SendNotification.SendNotificationCommandValidator
-            sendNotificationCommandValidator = new(messageContextValidator: messageContextValidator,
+        TestCandidate =
+            new Core.Application.Notifications.Write.Commands.SendNotification.SendNotificationCommandValidator(
+                messageContextValidator: messageContextValidator,
                 sendNotificationRequestValidator: sendNotificationRequestValidator);
-
-        TestCandidate = sendNotificationCommandValidator;
     }
 }

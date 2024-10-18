@@ -1,6 +1,6 @@
 ﻿using Expenso.Shared.System.Types.Exceptions;
 
-namespace Expenso.Shared.Commands.Validation;
+namespace Expenso.Shared.Commands.Validation.Exceptions;
 
 public sealed class CommandValidationException : ValidationException
 {

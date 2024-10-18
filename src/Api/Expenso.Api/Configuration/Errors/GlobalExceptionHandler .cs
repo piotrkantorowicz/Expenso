@@ -1,5 +1,5 @@
 using Expenso.Api.Configuration.Errors.Details;
-using Expenso.Shared.Commands.Validation;
+using Expenso.Shared.Commands.Validation.Exceptions;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Exceptions;

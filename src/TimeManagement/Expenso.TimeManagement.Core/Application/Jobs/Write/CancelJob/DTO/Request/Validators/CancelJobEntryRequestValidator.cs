@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.Commands.Validation;
+﻿using Expenso.Shared.Commands.Validation.Rules;
 
 using FluentValidation;
 

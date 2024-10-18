@@ -1,3 +1,5 @@
+using Expenso.Shared.Commands.Validation.Exceptions;
+
 using FluentValidation;
 
 namespace Expenso.Shared.Commands.Validation;

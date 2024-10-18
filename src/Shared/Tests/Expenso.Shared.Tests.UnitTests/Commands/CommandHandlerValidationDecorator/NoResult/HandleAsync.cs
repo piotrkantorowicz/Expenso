@@ -1,5 +1,7 @@
 using Expenso.Shared.System.Types.Exceptions;
 
+using FluentValidation.Results;
+
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
 
 [TestFixture]
@@ -17,11 +19,11 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 
         _validator
             .Setup(expression: x => x.Validate(_testCommand))
-            .Returns(value: new Dictionary<string, string>
+            .Returns(value: new ValidationResult(new List<ValidationFailure>
             {
-                { "Id", "ID is required" },
-                { "Name", "Name is required" }
-            });
+                new(propertyName: "Id", errorMessage: "ID is required"),
+                new(propertyName: "Name", errorMessage: "Name is required")
+            }));
 
         // Act
         Func<Task> action = async () =>

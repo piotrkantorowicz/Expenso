@@ -1,4 +1,4 @@
-﻿using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
+using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
 using Expenso.Communication.Shared.DTO.API.SendNotification;
 using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 

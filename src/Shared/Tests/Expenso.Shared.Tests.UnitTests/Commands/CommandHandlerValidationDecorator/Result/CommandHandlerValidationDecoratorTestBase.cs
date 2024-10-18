@@ -2,6 +2,8 @@ using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Validation;
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
+using FluentValidation;
+
 using Moq;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
@@ -9,7 +11,7 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecora
 [TestFixture]
 internal abstract class
     CommandHandlerValidationDecoratorTestBase : TestBase<
-    CommandHandlerValidationDecorator<TestCommand, TestCommandResult>>
+    CommandHandlerFluentValidationDecorator<TestCommand, TestCommandResult>>
 {
     [SetUp]
     protected void Setup()
@@ -17,15 +19,15 @@ internal abstract class
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Payload: "JYi9R7e7v2Qor");
 
-        _validator = new Mock<ICommandValidator<TestCommand>>();
+        _validator = new Mock<IValidator<TestCommand>>();
         _handler = new Mock<ICommandHandler<TestCommand, TestCommandResult>>();
 
-        TestCandidate =
-            new CommandHandlerValidationDecorator<TestCommand, TestCommandResult>(validators: [_validator.Object],
+        TestCandidate = new CommandHandlerFluentValidationDecorator<TestCommand, TestCommandResult>(
+            validators: [_validator.Object],
                 decorated: _handler.Object);
     }
 
     protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _handler = null!;
     protected TestCommand _testCommand = null!;
-    protected Mock<ICommandValidator<TestCommand>> _validator = null!;
+    protected Mock<IValidator<TestCommand>> _validator = null!;
 }

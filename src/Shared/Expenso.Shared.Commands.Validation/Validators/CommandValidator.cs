@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Expenso.Shared.Commands.Validation;
+namespace Expenso.Shared.Commands.Validation.Validators;
 
 public abstract class CommandValidator<TCommand> : AbstractValidator<TCommand> where TCommand : class, ICommand
 {
