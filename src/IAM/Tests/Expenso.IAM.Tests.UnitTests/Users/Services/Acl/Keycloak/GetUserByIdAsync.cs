@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Shared.DTO.GetUser;
+﻿using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;

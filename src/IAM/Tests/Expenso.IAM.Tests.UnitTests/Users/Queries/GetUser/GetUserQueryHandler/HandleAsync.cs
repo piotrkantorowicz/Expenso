@@ -1,5 +1,6 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Request;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserQueryHandler;
@@ -11,7 +12,8 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new(MessageContext: _messageContextMock.Object, UserId: _userId);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object,
+            Payload: new GetUserRequest(UserId: _userId));
 
         _userServiceMock
             .Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))
@@ -30,7 +32,8 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnUser_When_SearchingByEmailAndUserExists()
     {
         // Arrange
-        GetUserQuery query = new(MessageContext: _messageContextMock.Object, Email: _userEmail);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object,
+            Payload: new GetUserRequest(Email: _userEmail));
 
         _userServiceMock
             .Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))
@@ -49,7 +52,8 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByIdAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new(MessageContext: _messageContextMock.Object, UserId: _userId);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object,
+            Payload: new GetUserRequest(UserId: _userId));
 
         _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
@@ -66,7 +70,8 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public async Task Should_ReturnNull_When_SearchingByEmailAndUserHasNotBeenFound()
     {
         // Arrange
-        GetUserQuery query = new(MessageContext: _messageContextMock.Object, Email: _userEmail);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object,
+            Payload: new GetUserRequest(Email: _userEmail));
 
         _userServiceMock.Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
@@ -83,7 +88,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     public void Should_ThrowNotFoundException_When_QueryIsEmpty()
     {
         // Arrange
-        GetUserQuery query = new(MessageContext: _messageContextMock.Object);
+        GetUserQuery query = new(MessageContext: _messageContextMock.Object, Payload: null);
 
         // Act
         Func<Task> action = async () =>
@@ -93,6 +98,8 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"{nameof(query.Payload.UserId)} or {nameof(query.Payload.Email)} must be provided.");
     }
 }

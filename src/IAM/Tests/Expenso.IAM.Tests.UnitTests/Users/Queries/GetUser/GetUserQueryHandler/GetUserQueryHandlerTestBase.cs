@@ -1,5 +1,5 @@
 using Expenso.IAM.Core.Application.Users.Read.Services;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserQueryHandler;

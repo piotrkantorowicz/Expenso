@@ -1,5 +1,5 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
@@ -12,8 +12,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Payload!.Email == _userEmail),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserResponse);
 
         // Act
@@ -26,8 +26,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         getUserResponse.Should().BeEquivalentTo(expectation: _getUserResponse);
 
         _queryDispatcherMock.Verify(
-            expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
+            expression: x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Payload!.Email == _userEmail),
+                It.IsAny<CancellationToken>()),
             times: Times.Once);
     }
 
@@ -38,8 +38,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         const string email = "email1@email.com";
 
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserQuery>(y => y.Payload!.Email == _userEmail),
+                It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found."));
 
         // Act

@@ -1,5 +1,5 @@
 using Expenso.IAM.Core.Application.Users.Read.Services;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -16,7 +16,8 @@ internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, GetUserR
 
     public async Task<GetUserResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken)
     {
-        (_, string? userId, string? email) = query;
+        string? userId = query.Payload?.UserId;
+        string? email = query.Payload?.Email;
 
         if (!string.IsNullOrWhiteSpace(value: userId))
         {
@@ -28,6 +29,6 @@ internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, GetUserR
             return await _userService.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
         }
 
-        throw new NotFoundException(message: $"{nameof(query.UserId)} or {nameof(query.Email)} must be provided");
+        throw new NotFoundException(message: $"{nameof(userId)} or {nameof(email)} must be provided");
     }
 }

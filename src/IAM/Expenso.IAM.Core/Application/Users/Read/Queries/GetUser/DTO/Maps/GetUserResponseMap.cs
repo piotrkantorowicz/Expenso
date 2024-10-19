@@ -1,8 +1,8 @@
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
-namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
+namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Maps;
 
 internal static class GetUserResponseMap
 {

@@ -6,7 +6,7 @@ using Expenso.Communication.Shared.DTO.Settings;
 using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Communication.Shared.DTO.Settings.Push;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Clock;

@@ -1,5 +1,5 @@
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.Queries.Dispatchers;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;

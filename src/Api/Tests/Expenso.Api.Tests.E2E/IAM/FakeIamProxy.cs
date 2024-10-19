@@ -1,6 +1,6 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 
 namespace Expenso.Api.Tests.E2E.IAM;
 

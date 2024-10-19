@@ -1,6 +1,7 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Request;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -22,14 +23,14 @@ internal sealed class IamProxy : IIamProxy
     public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserQuery(MessageContext: _messageContextFactory.Current(), UserId: userId),
-            cancellationToken: cancellationToken);
+            query: new GetUserQuery(MessageContext: _messageContextFactory.Current(),
+                Payload: new GetUserRequest(UserId: userId)), cancellationToken: cancellationToken);
     }
 
     public async Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserQuery(MessageContext: _messageContextFactory.Current(), Email: email),
-            cancellationToken: cancellationToken);
+            query: new GetUserQuery(MessageContext: _messageContextFactory.Current(),
+                Payload: new GetUserRequest(Email: email)), cancellationToken: cancellationToken);
     }
 }

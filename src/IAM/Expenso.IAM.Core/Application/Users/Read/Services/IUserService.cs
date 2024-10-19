@@ -1,4 +1,4 @@
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 
 namespace Expenso.IAM.Core.Application.Users.Read.Services;
 

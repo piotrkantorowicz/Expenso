@@ -1,6 +1,6 @@
 using Expenso.IAM.Core.Acl.Keycloak;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Maps;
+using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin;
