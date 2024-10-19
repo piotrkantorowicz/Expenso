@@ -4,5 +4,5 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 
-public sealed record UploadFilesCommand(IMessageContext MessageContext, UploadFilesRequest UploadFilesRequest)
+public sealed record UploadFilesCommand(IMessageContext MessageContext, UploadFilesRequest? Payload)
     : ICommand;

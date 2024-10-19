@@ -1,3 +1,5 @@
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
+
 using FluentAssertions;
 
 using Moq;
@@ -11,7 +13,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     public void Should_ReturnCorrectPathForImports()
     {
         // Arrange
-        const int fileType = 1;
+        const FileType fileType = FileType.Import;
         string userId = Guid.NewGuid().ToString();
 
         string expectedPath =
@@ -38,7 +40,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     public void Should_ReturnCorrectPathForReports()
     {
         // Arrange
-        const int fileType = 2;
+        const FileType fileType = FileType.Report;
         string userId = Guid.NewGuid().ToString();
 
         string expectedPath =

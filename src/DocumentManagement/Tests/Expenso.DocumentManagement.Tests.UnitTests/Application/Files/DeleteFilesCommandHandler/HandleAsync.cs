@@ -1,4 +1,5 @@
 using Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 
 using Moq;
@@ -23,7 +24,7 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
         Guid userId = Guid.NewGuid();
 
         DeleteFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            DeleteFilesRequest: new DeleteFilesRequest(UserId: userId, Groups: null, FileNames: fileNames,
+            Payload: new DeleteFilesRequest(UserId: userId, Groups: null, FileNames: fileNames,
                 FileType: DeleteFilesRequest_FileType.Import));
 
         _fileStorageMock
@@ -31,8 +32,8 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
             .Returns(value: Task.CompletedTask);
 
         _directoryPathResolverMock
-            .Setup(expression: x => x.ResolvePath((int)DeleteFilesRequest_FileType.Import, userId.ToString(),
-                command.DeleteFilesRequest.Groups))
+            .Setup(expression: x => x.ResolvePath((FileType)DeleteFilesRequest_FileType.Import, userId.ToString(),
+                command.Payload!.Groups))
             .Returns(value: directoryPath);
 
         _fileSystemMock.Setup(expression: x => x.Path.Combine(directoryPath, fileNames[0])).Returns(value: "filePath1");

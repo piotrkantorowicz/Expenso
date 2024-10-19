@@ -1,9 +1,9 @@
 using System.IO.Abstractions;
 
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
 using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 using Expenso.Shared.Commands;
-using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
 
@@ -25,13 +25,12 @@ internal sealed class DeleteFilesCommandHandler : ICommandHandler<DeleteFilesCom
 
     public async Task HandleAsync(DeleteFilesCommand command, CancellationToken cancellationToken)
     {
-        (IMessageContext messageContext,
-            (Guid? userId, string[]? groups, string[] fileNames, DeleteFilesRequest_FileType fileType)) = command;
+        string directoryPath = _directoryPathResolver.ResolvePath(
+            fileType: (FileType)(command.Payload?.FileType ?? DeleteFilesRequest_FileType.None),
+            userId: (command.Payload?.UserId ?? command.MessageContext.RequestedBy).ToString(),
+            groups: command.Payload?.Groups);
 
-        string directoryPath = _directoryPathResolver.ResolvePath(fileType: (int)fileType,
-            userId: (userId ?? messageContext.RequestedBy).ToString(), groups: groups);
-
-        foreach (string fileName in fileNames)
+        foreach (string fileName in command.Payload?.FileNames ?? [])
         {
             string fullFilePath = _fileSystem.Path.Combine(path1: directoryPath, path2: fileName);
             await _fileStorage.DeleteAsync(path: fullFilePath, cancellationToken: cancellationToken);
