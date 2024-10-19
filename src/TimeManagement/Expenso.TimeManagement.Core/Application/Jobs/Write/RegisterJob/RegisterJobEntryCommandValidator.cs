@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.Commands.Validation;
+﻿using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Request.Validators;
 
 using FluentValidation;
