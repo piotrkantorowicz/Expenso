@@ -1,4 +1,5 @@
 using Expenso.IAM.Core.Application.Users.Read.Services;
+using Expenso.IAM.Shared.DTO.GetUser.Request;
 using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
@@ -16,19 +17,13 @@ internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, GetUserR
 
     public async Task<GetUserResponse?> HandleAsync(GetUserQuery query, CancellationToken cancellationToken)
     {
-        string? userId = query.Payload?.UserId;
-        string? email = query.Payload?.Email;
-
-        if (!string.IsNullOrWhiteSpace(value: userId))
+        return query.Payload switch
         {
-            return await _userService.GetUserByIdAsync(userId: userId, cancellationToken: cancellationToken);
-        }
-
-        if (!string.IsNullOrWhiteSpace(value: email))
-        {
-            return await _userService.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
-        }
-
-        throw new NotFoundException(message: $"{nameof(userId)} or {nameof(email)} must be provided");
+            GetUserByIdRequest request => await _userService.GetUserByIdAsync(userId: request.UserId,
+                cancellationToken: cancellationToken),
+            GetUserByEmailRequest request => await _userService.GetUserByEmailAsync(email: request.Email,
+                cancellationToken: cancellationToken),
+            _ => throw new NotFoundException(message: $"User not found. Payload: {query.Payload?.GetType().Name}")
+        };
     }
 }

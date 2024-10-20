@@ -13,7 +13,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object,
-            Payload: new GetUserRequest(UserId: _userId));
+            Payload: new GetUserByIdRequest(UserId: _userId));
 
         _userServiceMock
             .Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))
@@ -33,7 +33,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object,
-            Payload: new GetUserRequest(Email: _userEmail));
+            Payload: new GetUserByEmailRequest(Email: _userEmail));
 
         _userServiceMock
             .Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))
@@ -53,7 +53,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object,
-            Payload: new GetUserRequest(UserId: _userId));
+            Payload: new GetUserByIdRequest(UserId: _userId));
 
         _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
@@ -71,7 +71,7 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
     {
         // Arrange
         GetUserQuery query = new(MessageContext: _messageContextMock.Object,
-            Payload: new GetUserRequest(Email: _userEmail));
+            Payload: new GetUserByEmailRequest(Email: _userEmail));
 
         _userServiceMock.Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
@@ -98,8 +98,6 @@ internal sealed class HandleAsync : GetUserQueryHandlerTestBase
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"{nameof(query.Payload.UserId)} or {nameof(query.Payload.Email)} must be provided.");
+            .WithMessage(expectedWildcardPattern: $"User not found. Payload: {query.Payload?.GetType().Name}");
     }
 }

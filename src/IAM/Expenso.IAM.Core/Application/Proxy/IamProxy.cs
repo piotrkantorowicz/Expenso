@@ -24,13 +24,13 @@ internal sealed class IamProxy : IIamProxy
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUserQuery(MessageContext: _messageContextFactory.Current(),
-                Payload: new GetUserRequest(UserId: userId)), cancellationToken: cancellationToken);
+                Payload: new GetUserByIdRequest(UserId: userId)), cancellationToken: cancellationToken);
     }
 
     public async Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUserQuery(MessageContext: _messageContextFactory.Current(),
-                Payload: new GetUserRequest(Email: email)), cancellationToken: cancellationToken);
+                Payload: new GetUserByEmailRequest(Email: email)), cancellationToken: cancellationToken);
     }
 }

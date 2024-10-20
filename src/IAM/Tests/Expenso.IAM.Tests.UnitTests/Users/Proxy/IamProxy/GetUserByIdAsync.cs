@@ -1,4 +1,5 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
+using Expenso.IAM.Shared.DTO.GetUser.Request;
 using Expenso.IAM.Shared.DTO.GetUser.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -13,7 +14,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Payload!.UserId == _userId), It.IsAny<CancellationToken>()))
+                x.QueryAsync(It.Is<GetUserQuery>(y => ((GetUserByIdRequest?)y.Payload)!.UserId == _userId),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserResponse);
 
         // Act
@@ -25,9 +27,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         getUserResponse.Should().BeEquivalentTo(expectation: _getUserResponse);
 
         _queryDispatcherMock.Verify(
-            expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Payload!.UserId == _userId), It.IsAny<CancellationToken>()),
-            times: Times.Once);
+            expression: x => x.QueryAsync(It.Is<GetUserQuery>(y => ((GetUserByIdRequest?)y.Payload)!.UserId == _userId),
+                It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
     [Test]
@@ -38,7 +39,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
 
         _queryDispatcherMock
             .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Payload!.UserId == _userId), It.IsAny<CancellationToken>()))
+                x.QueryAsync(It.Is<GetUserQuery>(y => ((GetUserByIdRequest?)y.Payload)!.UserId == _userId),
+                    It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with ID {userId} not found."));
 
         // Act
