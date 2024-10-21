@@ -1,10 +1,10 @@
 ﻿namespace Expenso.Shared.Tests.UnitTests.System.Types.Helpers.StringHelper;
 
 [TestFixture]
-internal sealed class SafelyJoin
+internal sealed class SafeJoin
 {
     [Test]
-    public void SafelyJoin_WhenValuesIsNull_ShouldReturnEmptyString()
+    public void Should_ReturnEmptyString_When_ValuesIsNull()
     {
         // Arrange
         const string? separator = " ";
@@ -18,7 +18,7 @@ internal sealed class SafelyJoin
     }
 
     [Test]
-    public void SafelyJoin_WhenValuesIsEmpty_ShouldReturnEmptyString()
+    public void Should_ReturnEmptyString_When_ValuesIsEmpty()
     {
         // Arrange
         const string? separator = " ";
@@ -32,7 +32,7 @@ internal sealed class SafelyJoin
     }
 
     [Test]
-    public void SafelyJoin_WhenValuesContainsNull_ShouldReturnEmptyString()
+    public void Should_ShouldOmitNullValues_When_ValuesContainsNull()
     {
         // Arrange
         const string? separator = " ";
@@ -52,7 +52,7 @@ internal sealed class SafelyJoin
     }
 
     [Test]
-    public void SafelyJoin_WhenValuesContainsEmptyString_ShouldReturnEmptyString()
+    public void Should_ShouldOmitEmptyStrings_When_ValuesContainsEmptyString()
     {
         // Arrange
         const string separator = " ";
@@ -72,7 +72,7 @@ internal sealed class SafelyJoin
     }
 
     [Test]
-    public void SafelyJoin_WhenValuesContainsWhitespace_ShouldReturnEmptyString()
+    public void Should_ShouldOmitWhitespaceStrings_When_ValuesContainsWhitespace()
     {
         // Arrange
         const string separator = " ";
@@ -92,7 +92,7 @@ internal sealed class SafelyJoin
     }
 
     [Test]
-    public void SafelyJoin_WhenValuesContainsNullAndEmptyStringAndWhitespace_ShouldReturnEmptyString()
+    public void Should_ShouldOmitInvalidValues_When_ValuesContainsNullAndEmptyStringAndWhitespace()
     {
         // Arrange
         const string separator = " ";
