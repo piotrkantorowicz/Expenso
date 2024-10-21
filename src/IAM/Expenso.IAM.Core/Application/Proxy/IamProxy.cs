@@ -1,6 +1,10 @@
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
+using Expenso.IAM.Shared.DTO.GetUserById.Request;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -19,17 +23,19 @@ internal sealed class IamProxy : IIamProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<GetUserResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken = default)
+    public async Task<GetUserByIdResponse?> GetUserByIdAsync(string userId,
+        CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(
-            query: new GetUserQuery(MessageContext: _messageContextFactory.Current(), UserId: userId),
-            cancellationToken: cancellationToken);
+        return await _queryDispatcher.QueryAsync(query: new GetUserByIdQuery(
+            MessageContext: _messageContextFactory.Current(),
+                Payload: new GetUserByIdRequest(UserId: userId)), cancellationToken: cancellationToken);
     }
 
-    public async Task<GetUserResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(string email,
+        CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(
-            query: new GetUserQuery(MessageContext: _messageContextFactory.Current(), Email: email),
-            cancellationToken: cancellationToken);
+        return await _queryDispatcher.QueryAsync(query: new GetUserByEmailQuery(
+            MessageContext: _messageContextFactory.Current(),
+                Payload: new GetUserByEmailRequest(Email: email)), cancellationToken: cancellationToken);
     }
 }

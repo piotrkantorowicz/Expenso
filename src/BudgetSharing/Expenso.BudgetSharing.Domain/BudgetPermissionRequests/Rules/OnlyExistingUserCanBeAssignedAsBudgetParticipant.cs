@@ -1,4 +1,3 @@
-using Expenso.IAM.Shared.DTO.GetUser;
 using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
@@ -6,12 +5,12 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant : IBusinessRule
 {
     private readonly string _email;
-    private readonly GetUserResponse? _user;
+    private readonly string? _userId;
 
-    public OnlyExistingUserCanBeAssignedAsBudgetParticipant(string email, GetUserResponse? user)
+    public OnlyExistingUserCanBeAssignedAsBudgetParticipant(string email, string? userId)
     {
         _email = email;
-        _user = user;
+        _userId = userId;
     }
 
     public string Message =>
@@ -19,6 +18,6 @@ internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant : IBusine
 
     public bool IsBroken()
     {
-        return !Guid.TryParse(input: _user?.UserId, result: out _);
+        return !Guid.TryParse(input: _userId, result: out _);
     }
 }

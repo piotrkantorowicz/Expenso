@@ -1,7 +1,7 @@
 ﻿using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -21,7 +21,7 @@ internal sealed class IamProxyService : IIamProxyService
     public async Task<UserNotificationModel> GetUserNotificationAvailability(IMessageContext messageContext,
         PersonId ownerId, IReadOnlyCollection<PersonId> participantIds, CancellationToken cancellationToken)
     {
-        GetUserResponse? owner =
+        GetUserByIdResponse? owner =
             await _iamProxy.GetUserByIdAsync(userId: ownerId.ToString(), cancellationToken: cancellationToken);
 
         bool canSendNotificationToOwner = true;
@@ -37,9 +37,10 @@ internal sealed class IamProxyService : IIamProxyService
 
         ICollection<PersonNotificationModel> participantsNotificationModels = [];
 
+        // TODO: Implement get many users endpoint in IAM
         foreach (PersonId participantId in participantIds)
         {
-            GetUserResponse? participant = await _iamProxy.GetUserByIdAsync(userId: participantId.ToString(),
+            GetUserByIdResponse? participant = await _iamProxy.GetUserByIdAsync(userId: participantId.ToString(),
                 cancellationToken: cancellationToken);
 
             bool canSendNotificationToParticipant = true;

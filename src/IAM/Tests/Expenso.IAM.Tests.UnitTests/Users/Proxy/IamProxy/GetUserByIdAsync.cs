@@ -1,5 +1,5 @@
-﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
-using Expenso.IAM.Shared.DTO.GetUser;
+﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
@@ -12,21 +12,21 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _getUserByIdResponse);
 
         // Act
-        GetUserResponse? getUserResponse =
+        GetUserByIdResponse? getUserResponse =
             await TestCandidate.GetUserByIdAsync(userId: _userId, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();
-        getUserResponse.Should().BeEquivalentTo(expectation: _getUserResponse);
+        getUserResponse.Should().BeEquivalentTo(expectation: _getUserByIdResponse);
 
-        _queryDispatcherMock.Verify(
-            expression: x => x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == _userId), It.IsAny<CancellationToken>()),
-            times: Times.Once);
+        _queryDispatcherMock.Verify(expression: x =>
+            x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
+                It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
     [Test]
@@ -36,8 +36,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         string userId = Guid.NewGuid().ToString();
 
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.UserId == userId), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
+                It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with ID {userId} not found."));
 
         // Act

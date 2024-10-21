@@ -5,7 +5,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.System.Types.Clock;
@@ -49,12 +49,13 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
                     budgetPermission: budgetPermission), ThrowException: true)
         ]);
 
-        GetUserResponse? user = await _iamProxy.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
+        GetUserByEmailResponse? user =
+            await _iamProxy.GetUserByEmailAsync(email: email, cancellationToken: cancellationToken);
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinesRuleCheck(
-                BusinessRule: new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email: email, user: user),
+                BusinessRule: new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email: email, userId: user?.UserId),
                 ThrowException: true)
         ]);
 

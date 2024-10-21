@@ -7,7 +7,7 @@ namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtens
 internal sealed class SafeCast
 {
     [Test]
-    public void ShouldReturnDefaultValue_When_SourceIsNull()
+    public void Should_ReturnDefaultValue_When_SourceIsNull()
     {
         SourceEnum? source = null;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>(defaultValue: DestinationEnum.Value3);
@@ -15,7 +15,7 @@ internal sealed class SafeCast
     }
 
     [Test]
-    public void ShouldReturnCorrespondingValue_When_SourceIsDefinedInDestinationEnum()
+    public void Should_ReturnCorrespondingValue_When_SourceIsDefinedInDestinationEnum()
     {
         SourceEnum? source = SourceEnum.Value1;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>();
@@ -23,7 +23,7 @@ internal sealed class SafeCast
     }
 
     [Test]
-    public void ShouldReturnDefaultValue_When_SourceIsNotDefinedInDestinationEnum()
+    public void Should_ReturnDefaultValue_When_SourceIsNotDefinedInDestinationEnum()
     {
         SourceEnum? source = (SourceEnum)99;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>(defaultValue: DestinationEnum.Value3);
@@ -31,7 +31,7 @@ internal sealed class SafeCast
     }
 
     [Test]
-    public void ShouldReturnNull_When_SourceIsNotDefinedInDestinationEnumAndNoDefaultValueProvided()
+    public void Should_ReturnNull_When_SourceIsNotDefinedInDestinationEnumAndNoDefaultValueProvided()
     {
         SourceEnum? source = (SourceEnum)99;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>();

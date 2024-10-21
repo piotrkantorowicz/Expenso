@@ -1,5 +1,6 @@
-﻿using Expenso.IAM.Shared.DTO.GetUser;
+﻿using Expenso.IAM.Shared.DTO.GetUserById.Response;
 
 namespace Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 
-public sealed record PersonNotificationModel(GetUserResponse? Person, bool CanSendNotification);
+// TODO: use other type than proxy response
+public sealed record PersonNotificationModel(GetUserByIdResponse? Person, bool CanSendNotification);

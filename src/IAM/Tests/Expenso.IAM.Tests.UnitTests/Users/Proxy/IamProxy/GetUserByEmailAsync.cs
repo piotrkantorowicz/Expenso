@@ -1,5 +1,5 @@
-﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser;
-using Expenso.IAM.Shared.DTO.GetUser;
+﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
@@ -12,23 +12,22 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _getUserByEmailResponse);
 
         // Act
-        GetUserResponse? getUserResponse =
+        GetUserByEmailResponse? getUserResponse =
             await TestCandidate.GetUserByEmailAsync(email: _userEmail,
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();
-        getUserResponse.Should().BeEquivalentTo(expectation: _getUserResponse);
+        getUserResponse.Should().BeEquivalentTo(expectation: _getUserByEmailResponse);
 
         _queryDispatcherMock.Verify(
-            expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == _userEmail), It.IsAny<CancellationToken>()),
-            times: Times.Once);
+            expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
+                It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
     [Test]
@@ -38,8 +37,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
         const string email = "email1@email.com";
 
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(It.Is<GetUserQuery>(y => y.Email == email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
+                    It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found."));
 
         // Act

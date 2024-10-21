@@ -6,7 +6,7 @@ using Expenso.Communication.Shared.DTO.Settings;
 using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Communication.Shared.DTO.Settings.Push;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Clock;
@@ -41,12 +41,12 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
         _defaultParticipantId = PersonId.New(value: Guid.NewGuid());
 
         _defaultNotificationModel = new UserNotificationModel(
-            Owner: new PersonNotificationModel(
-                Person: new GetUserResponse(UserId: _defaultOwnerId.ToString(), Firstname: "Laura", Lastname: "Ramirez",
+            Owner: new PersonNotificationModel(Person: new GetUserByIdResponse(UserId: _defaultOwnerId.ToString(),
+                Firstname: "Laura", Lastname: "Ramirez",
                     Username: "laur123", Email: "laura@email.com"), CanSendNotification: true), Participants:
             [
-                new PersonNotificationModel(
-                    Person: new GetUserResponse(UserId: _defaultParticipantId.ToString(), Firstname: "Francisco",
+                new PersonNotificationModel(Person: new GetUserByIdResponse(UserId: _defaultParticipantId.ToString(),
+                        Firstname: "Francisco",
                         Lastname: "Yue", Username: "francisco224", Email: "francisco224@email.com"),
                     CanSendNotification: true)
             ]);

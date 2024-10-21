@@ -1,6 +1,8 @@
 using Expenso.IAM.Core.Acl.Keycloak;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Response.Maps;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin;
@@ -22,22 +24,22 @@ internal sealed class UserService : IUserService
             keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
     }
 
-    public async Task<GetUserResponse> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
+    public async Task<GetUserByIdResponse> GetUserByIdAsync(string? userId, CancellationToken cancellationToken)
     {
         UserRepresentation keycloakUser = await _keycloakUserClient.GetUserAsync(realm: _keycloakSettings.Realm,
-            userId: userId, cancellationToken: cancellationToken);
+            userId: userId ?? string.Empty, cancellationToken: cancellationToken);
 
         if (keycloakUser is null)
         {
             throw new NotFoundException(message: $"User with ID {userId} not found");
         }
 
-        GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: keycloakUser);
+        GetUserByIdResponse getUserResponse = GetUserByIdResponseMap.MapTo(user: keycloakUser);
 
         return getUserResponse;
     }
 
-    public async Task<GetUserResponse> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<GetUserByEmailResponse> GetUserByEmailAsync(string? email, CancellationToken cancellationToken)
     {
         List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(
             realm: _keycloakSettings.Realm, parameters: new GetUsersRequestParameters
@@ -52,7 +54,7 @@ internal sealed class UserService : IUserService
             throw new NotFoundException(message: $"User with email {email} not found");
         }
 
-        GetUserResponse getUserResponse = GetUserResponseMap.MapTo(user: user);
+        GetUserByEmailResponse getUserResponse = GetUserByEmailResponseMap.MapTo(user: user);
 
         return getUserResponse;
     }

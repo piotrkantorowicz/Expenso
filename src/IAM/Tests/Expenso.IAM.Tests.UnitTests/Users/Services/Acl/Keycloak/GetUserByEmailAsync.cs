@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Shared.DTO.GetUser;
+﻿using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -22,13 +22,13 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             ]);
 
         // Act
-        GetUserResponse getUser =
+        GetUserByEmailResponse getUser =
             await TestCandidate.GetUserByEmailAsync(email: _userEmail,
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUser.Should().NotBeNull();
-        getUser.Should().BeEquivalentTo(expectation: _getUserResponse);
+        getUser.Should().BeEquivalentTo(expectation: _getUserByEmailResponse);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(),

@@ -4,7 +4,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Clock;
 
 using Moq;
@@ -32,11 +32,11 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
         _budgetId = BudgetId.New(value: Guid.NewGuid());
         _ownerId = PersonId.New(value: Guid.NewGuid());
 
-        _getUserResponse = new GetUserResponse(UserId: _participantId.Value.ToString(), Firstname: "Valentina",
-            Lastname: "Long", Username: "vLong", Email: "email@email.com");
+        _getUserByEmailResponse = new GetUserByEmailResponse(UserId: _participantId.Value.ToString(),
+            Firstname: "Valentina", Lastname: "Long", Username: "vLong", Email: "email@email.com");
 
         _budgetPermission = BudgetPermission.Create(budgetId: _budgetId, ownerId: _ownerId);
-        _email = _getUserResponse.Email;
+        _email = _getUserByEmailResponse.Email;
 
         TestCandidate = new BudgetSharing.Domain.BudgetPermissionRequests.Services.AssignParticipantionDomainService(
             iamProxy: _iamProxyMock.Object,
@@ -81,7 +81,7 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     protected Mock<IClock> _clockMock = null!;
     protected string _email = null!;
-    protected GetUserResponse _getUserResponse = null!;
+    protected GetUserByEmailResponse _getUserByEmailResponse = null!;
     protected Mock<IIamProxy> _iamProxyMock = null!;
     protected PersonId _ownerId = null!;
     protected PersonId _participantId = null!;

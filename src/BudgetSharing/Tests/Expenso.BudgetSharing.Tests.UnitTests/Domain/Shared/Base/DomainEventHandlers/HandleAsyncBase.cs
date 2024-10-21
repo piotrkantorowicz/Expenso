@@ -1,7 +1,7 @@
 ﻿using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Communication.Shared.DTO.API.SendNotification;
-using Expenso.IAM.Shared.DTO.GetUser;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Messages.Interfaces;
@@ -105,8 +105,8 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
             {
                 Participants =
                 [
-                    new PersonNotificationModel(
-                        Person: new GetUserResponse(UserId: Guid.NewGuid().ToString(), Firstname: "Francisco",
+                    new PersonNotificationModel(Person: new GetUserByIdResponse(UserId: Guid.NewGuid().ToString(),
+                            Firstname: "Francisco",
                             Lastname: "Yue", Username: "francisco224", Email: "francisco224@email.com"),
                         CanSendNotification: true)
                 ]
