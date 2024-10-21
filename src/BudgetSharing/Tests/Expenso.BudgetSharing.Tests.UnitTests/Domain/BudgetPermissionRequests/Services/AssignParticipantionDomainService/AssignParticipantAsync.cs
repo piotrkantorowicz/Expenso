@@ -20,7 +20,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
@@ -107,7 +107,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
 
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse with
+            .ReturnsAsync(value: _getUserByEmailResponse with
             {
                 UserId = "db9aUuZIcbRkWg3"
             });
@@ -123,7 +123,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget participant must be the existing system user, but provided user with ID {_getUserResponse.Email} hasn't been found in the system.");
+                $"Budget participant must be the existing system user, but provided user with ID {_getUserByEmailResponse.Email} hasn't been found in the system.");
     }
 
     [Test]
@@ -132,7 +132,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermission.AddPermission(participantId: _participantId, permissionType: _permissionType);
 
@@ -162,7 +162,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
@@ -198,7 +198,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
@@ -232,7 +232,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(_email, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserResponse);
+            .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))

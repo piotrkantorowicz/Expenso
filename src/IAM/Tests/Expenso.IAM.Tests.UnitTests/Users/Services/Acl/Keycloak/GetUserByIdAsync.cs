@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Shared.DTO.GetUser.Response;
+﻿using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
@@ -15,12 +15,12 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
             .ReturnsAsync(value: _user);
 
         // Act
-        GetUserResponse getUser =
+        GetUserByIdResponse getUser =
             await TestCandidate.GetUserByIdAsync(userId: _userId, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUser.Should().NotBeNull();
-        getUser.Should().BeEquivalentTo(expectation: _getUserResponse);
+        getUser.Should().BeEquivalentTo(expectation: _getUserByIdResponse);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUserAsync(It.IsAny<string>(), _userId, false, It.IsAny<CancellationToken>()),

@@ -1,8 +1,10 @@
 ﻿using Expenso.IAM.Core.Acl.Keycloak;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUser.DTO.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
-using Expenso.IAM.Shared.DTO.GetUser.Response;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -28,13 +30,15 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
             Email = _userEmail
         };
 
-        _getUserResponse = GetUserResponseMap.MapTo(user: _user);
+        _getUserByIdResponse = GetUserByIdResponseMap.MapTo(user: _user);
+        _getUserByEmailResponse = GetUserByEmailResponseMap.MapTo(user: _user);
 
         TestCandidate = new UserService(keycloakUserClient: _keycloakUserClientMock.Object,
             keycloakSettings: new KeycloakSettings());
     }
 
-    protected GetUserResponse _getUserResponse = null!;
+    protected GetUserByIdResponse _getUserByIdResponse = null!;
+    protected GetUserByEmailResponse _getUserByEmailResponse = null!;
     protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;
     protected UserRepresentation _user = null!;
     protected string _userEmail = null!;
