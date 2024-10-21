@@ -33,8 +33,7 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
         _ownerId = PersonId.New(value: Guid.NewGuid());
 
         _getUserByEmailResponse = new GetUserByEmailResponse(UserId: _participantId.Value.ToString(),
-            Firstname: "Valentina",
-            Lastname: "Long", Username: "vLong", Email: "email@email.com");
+            Firstname: "Valentina", Lastname: "Long", Username: "vLong", Email: "email@email.com");
 
         _budgetPermission = BudgetPermission.Create(budgetId: _budgetId, ownerId: _ownerId);
         _email = _getUserByEmailResponse.Email;

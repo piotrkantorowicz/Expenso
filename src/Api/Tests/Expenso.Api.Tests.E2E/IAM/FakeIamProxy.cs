@@ -4,6 +4,7 @@ using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
 using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
+using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -44,13 +45,15 @@ internal sealed class FakeIamProxy : IIamProxy
 
     public async Task<GetUserByIdResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
     {
-        return GetUserByIdResponseMap.MapTo(
-            user: await Task.FromResult(result: _users.First(predicate: x => x.Id == userId)));
+        return GetUserByIdResponseMap.MapTo(user: await Task.FromResult(
+            result: _users.FirstOrDefault(predicate: x => x.Id == userId) ??
+                    throw new NotFoundException(message: $"User with id {userId} not found.")));
     }
 
     public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        return GetUserByEmailResponseMap.MapTo(
-            user: await Task.FromResult(result: _users.First(predicate: x => x.Email == email)));
+        return GetUserByEmailResponseMap.MapTo(user: await Task.FromResult(
+            result: _users.FirstOrDefault(predicate: x => x.Email == email) ??
+                    throw new NotFoundException(message: $"User with email {email} not found.")));
     }
 }

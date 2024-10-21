@@ -1,3 +1,5 @@
+using Expenso.Shared.System.Types.Helpers;
+
 namespace Expenso.IAM.Shared.DTO.GetUserById.Response;
 
 public sealed record GetUserByIdResponse(
@@ -7,5 +9,5 @@ public sealed record GetUserByIdResponse(
     string Username,
     string Email)
 {
-    public string Fullname => $"{Firstname} {Lastname}";
+    public string Fullname => StringHelper.SafelyJoin(separator: " ", Firstname, Lastname);
 }
