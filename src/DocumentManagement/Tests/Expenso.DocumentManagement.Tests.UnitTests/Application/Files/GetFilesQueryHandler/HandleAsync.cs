@@ -1,4 +1,5 @@
 using Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 
@@ -36,12 +37,12 @@ internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
         ];
 
         GetFilesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            GetFileRequest: new GetFileRequest(UserId: null, Groups: null, FileNames: files,
+            Payload: new GetFileRequest(UserId: null, Groups: null, FileNames: files,
                 FileType: GetFilesRequest_FileType.Import));
 
         _directoryPathResolverMock
-            .Setup(expression: x => x.ResolvePath((int)query.GetFileRequest.FileType,
-                query.MessageContext.RequestedBy.ToString(), query.GetFileRequest.Groups))
+            .Setup(expression: x => x.ResolvePath((FileType)query.Payload!.FileType,
+                query.MessageContext.RequestedBy.ToString(), query.Payload.Groups))
             .Returns(value: directoryPath);
 
         _fileSystemMock.Setup(expression: x => x.Path.Combine(directoryPath, files[0])).Returns(value: filePaths[0]);

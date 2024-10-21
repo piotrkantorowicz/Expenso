@@ -1,5 +1,6 @@
 using Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 
 using FluentAssertions;
@@ -21,12 +22,12 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         byte[] byteContent = [1, 2, 3];
 
         UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            UploadFilesRequest: new UploadFilesRequest(UserId: userId, Groups: null,
+            Payload: new UploadFilesRequest(UserId: userId, Groups: null,
                 Files: [new UploadFilesRequest_File(Name: fileName, Content: byteContent)],
                 FileType: UploadFilesRequest_FileType.Report));
 
         _directoryPathResolverMock
-            .Setup(expression: x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
+            .Setup(expression: x => x.ResolvePath((FileType)command.Payload!.FileType, userId.ToString(), null))
             .Returns(value: "directoryPath");
 
         _fileStorageMock
@@ -52,12 +53,12 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         byte[] byteContent = [];
 
         UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            UploadFilesRequest: new UploadFilesRequest(UserId: userId, Groups: null,
+            Payload: new UploadFilesRequest(UserId: userId, Groups: null,
                 Files: [new UploadFilesRequest_File(Name: fileName, Content: byteContent)],
                 FileType: UploadFilesRequest_FileType.Report));
 
         _directoryPathResolverMock
-            .Setup(expression: x => x.ResolvePath((int)command.UploadFilesRequest.FileType, userId.ToString(), null))
+            .Setup(expression: x => x.ResolvePath((FileType)command.Payload!.FileType, userId.ToString(), null))
             .Returns(value: "directoryPath");
 
         // Act

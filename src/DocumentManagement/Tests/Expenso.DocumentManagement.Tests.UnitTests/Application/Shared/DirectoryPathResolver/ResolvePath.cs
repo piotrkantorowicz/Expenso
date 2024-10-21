@@ -1,3 +1,6 @@
+using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
+
 using FluentAssertions;
 
 using Moq;
@@ -11,7 +14,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     public void Should_ReturnCorrectPathForImports()
     {
         // Arrange
-        const int fileType = 1;
+        const FileType fileType = FileType.Import;
         string userId = Guid.NewGuid().ToString();
 
         string expectedPath =
@@ -38,7 +41,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     public void Should_ReturnCorrectPathForReports()
     {
         // Arrange
-        const int fileType = 2;
+        const FileType fileType = FileType.Report;
         string userId = Guid.NewGuid().ToString();
 
         string expectedPath =
@@ -59,5 +62,20 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
 
         // Assert
         result.Should().Be(expected: expectedPath);
+    }
+
+    [Test]
+    public void Should_ThrowInvalidFileTypeException()
+    {
+        // Arrange
+        const FileType fileType = FileType.None;
+        string userId = Guid.NewGuid().ToString();
+        string[] groups = [];
+
+        // Act
+        Action act = () => TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
+
+        // Assert
+        act.Should().Throw<InvalidFileTypeException>();
     }
 }

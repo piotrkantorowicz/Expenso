@@ -4,5 +4,5 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Write.DeleteFiles;
 
-public sealed record DeleteFilesCommand(IMessageContext MessageContext, DeleteFilesRequest DeleteFilesRequest)
+public sealed record DeleteFilesCommand(IMessageContext MessageContext, DeleteFilesRequest? Payload)
     : ICommand;

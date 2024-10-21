@@ -33,7 +33,7 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetFilesQuery(MessageContext: _messageContextFactory.Current(), GetFileRequest: getFileRequest),
+            query: new GetFilesQuery(MessageContext: _messageContextFactory.Current(), Payload: getFileRequest),
             cancellationToken: cancellationToken);
     }
 
@@ -42,7 +42,7 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
     {
         await _commandDispatcher.SendAsync(
             command: new UploadFilesCommand(MessageContext: _messageContextFactory.Current(),
-                UploadFilesRequest: uploadFilesRequest), cancellationToken: cancellationToken);
+                Payload: uploadFilesRequest), cancellationToken: cancellationToken);
     }
 
     public async Task DeleteFilesAsync(DeleteFilesRequest deleteFilesRequest,
@@ -50,6 +50,6 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
     {
         await _commandDispatcher.SendAsync(
             command: new DeleteFilesCommand(MessageContext: _messageContextFactory.Current(),
-                DeleteFilesRequest: deleteFilesRequest), cancellationToken: cancellationToken);
+                Payload: deleteFilesRequest), cancellationToken: cancellationToken);
     }
 }

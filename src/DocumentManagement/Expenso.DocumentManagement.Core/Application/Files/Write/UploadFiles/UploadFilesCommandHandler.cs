@@ -1,9 +1,9 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Const;
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 using Expenso.Shared.Commands;
-using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 
@@ -22,14 +22,12 @@ internal sealed class UploadFilesCommandHandler : ICommandHandler<UploadFilesCom
 
     public async Task HandleAsync(UploadFilesCommand command, CancellationToken cancellationToken)
     {
-        (IMessageContext messageContext,
-            (Guid? userId, string[]? groups, UploadFilesRequest_File[] fileContents,
-                UploadFilesRequest_FileType fileType)) = command;
+        string directoryPath = _directoryPathResolver.ResolvePath(
+            fileType: (FileType)(command.Payload?.FileType ?? UploadFilesRequest_FileType.None),
+            userId: (command.Payload?.UserId ?? command.MessageContext.RequestedBy).ToString(),
+            groups: command.Payload?.Groups);
 
-        string directoryPath = _directoryPathResolver.ResolvePath(fileType: (int)fileType,
-            userId: (userId ?? messageContext.RequestedBy).ToString(), groups: groups);
-
-        foreach (UploadFilesRequest_File file in fileContents)
+        foreach (UploadFilesRequest_File file in command.Payload?.Files ?? [])
         {
             if (file.Content is null || file.Content.Length is 0)
             {

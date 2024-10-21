@@ -1,10 +1,10 @@
 using System.IO.Abstractions;
 
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 using Expenso.Shared.Queries;
-using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
 
@@ -27,23 +27,22 @@ internal sealed class GetFilesQueryHandler : IQueryHandler<GetFilesQuery, IEnume
     public async Task<IEnumerable<GetFilesResponse>?> HandleAsync(GetFilesQuery query,
         CancellationToken cancellationToken)
     {
-        (IMessageContext messageContext,
-            (Guid? userId, string[]? groups, string[] fileNames, GetFilesRequest_FileType fileType)) = query;
+        Guid userId = query.Payload?.UserId ?? query.MessageContext.RequestedBy;
 
-        userId ??= messageContext.RequestedBy;
-
-        string directoryPath =
-            _directoryPathResolver.ResolvePath(fileType: (int)fileType, userId: userId.ToString()!, groups: groups);
+        string directoryPath = _directoryPathResolver.ResolvePath(
+            fileType: (FileType)(query.Payload?.FileType ?? GetFilesRequest_FileType.None), userId: userId.ToString(),
+            groups: query.Payload?.Groups);
 
         List<GetFilesResponse> filesResponses = [];
 
-        foreach (string fileName in fileNames)
+        foreach (string fileName in query.Payload?.FileNames ?? [])
         {
             string filePath = _fileSystem.Path.Combine(path1: directoryPath, path2: fileName);
             byte[] fileContent = await _fileStorage.ReadAsync(path: filePath, cancellationToken: cancellationToken);
 
-            filesResponses.Add(item: new GetFilesResponse(UserId: userId.Value, FileName: fileName,
-                FileContent: fileContent, FilesResponseFileType: (GetFilesResponse_FileType)fileType));
+            filesResponses.Add(item: new GetFilesResponse(UserId: userId, FileName: fileName, FileContent: fileContent,
+                FilesResponseFileType: (GetFilesResponse_FileType)(query.Payload?.FileType ??
+                                                                   GetFilesRequest_FileType.None)));
         }
 
         return filesResponses;

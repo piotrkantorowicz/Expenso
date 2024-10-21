@@ -1,3 +1,5 @@
+using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
+using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
@@ -15,16 +17,15 @@ internal sealed class DirectoryPathResolver : IDirectoryPathResolver
                                 throw new ArgumentNullException(paramName: nameof(directoryInfoService));
     }
 
-    public string ResolvePath(int fileType, string userId, string[]? groups)
+    public string ResolvePath(FileType fileType, string userId, string[]? groups)
     {
         string directoryPath = fileType switch
         {
-            1 => _directoryInfoService.GetImportsDirectory(userId: userId, groups: groups,
+            FileType.Import => _directoryInfoService.GetImportsDirectory(userId: userId, groups: groups,
                 date: _clock.UtcNow.ToString(format: "yyyyMMdd")),
-            2 => _directoryInfoService.GetReportsDirectory(userId: userId, groups: groups,
+            FileType.Report => _directoryInfoService.GetReportsDirectory(userId: userId, groups: groups,
                 date: _clock.UtcNow.ToString(format: "yyyyMMdd")),
-            _ => throw new ArgumentOutOfRangeException(paramName: nameof(fileType), actualValue: fileType,
-                message: "Unknown file type")
+            _ or FileType.None => throw new InvalidFileTypeException(typeName: fileType.ToString())
         };
 
         return directoryPath;
