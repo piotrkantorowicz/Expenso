@@ -42,8 +42,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
-                BusinessRule: new UnknownPermissionTypeCannotBeProcessed(permissionType: permissionType)),
+            new BusinesRuleCheck(BusinessRule: new NonePermissionTypeCannotBeProcessed(permissionType: permissionType)),
             new BusinesRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: clock))
         ]);

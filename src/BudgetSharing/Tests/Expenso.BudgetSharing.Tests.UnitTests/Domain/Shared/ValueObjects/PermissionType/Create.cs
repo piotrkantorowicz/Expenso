@@ -5,7 +5,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.Permi
 [TestFixture]
 internal sealed class Create : PermissionTypeTestBase
 {
-    [Test, TestCase(arg1: 0, arg2: "Unknown"), TestCase(arg1: 1, arg2: "Owner"), TestCase(arg1: 2, arg2: "SubOwner"),
+    [Test, TestCase(arg1: 0, arg2: "None"), TestCase(arg1: 1, arg2: "Owner"), TestCase(arg1: 2, arg2: "SubOwner"),
      TestCase(arg1: 3, arg2: "Reviewer")]
     public void Should_CreateInstance(int value, string displayName)
     {

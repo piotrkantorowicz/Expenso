@@ -53,12 +53,12 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsUnknown()
+    public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsNone()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
         PersonId participantId = PersonId.New(value: Guid.NewGuid());
-        PermissionType permissionType = PermissionType.Unknown;
+        PermissionType permissionType = PermissionType.None;
 
         // Act
         Action act = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
@@ -68,8 +68,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern: $"Unknown permission type {permissionType.Value} cannot be processed.");
+            .WithDetails(expectedWildcardPattern: $"None permission type {permissionType.Value} cannot be processed.");
     }
 
     [Test]

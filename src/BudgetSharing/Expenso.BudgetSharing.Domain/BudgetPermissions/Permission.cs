@@ -19,8 +19,7 @@ public sealed class Permission
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
-                BusinessRule: new UnknownPermissionTypeCannotBeProcessed(permissionType: permissionType))
+            new BusinesRuleCheck(BusinessRule: new NonePermissionTypeCannotBeProcessed(permissionType: permissionType))
         ]);
 
         ParticipantId = participantId;

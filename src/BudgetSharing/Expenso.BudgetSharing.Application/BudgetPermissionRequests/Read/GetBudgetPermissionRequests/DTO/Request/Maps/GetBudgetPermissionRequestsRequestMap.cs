@@ -9,7 +9,7 @@ public sealed class GetBudgetPermissionRequestsRequestMap
     {
         return permissionType switch
         {
-            GetBudgetPermissionRequestsRequest_PermissionType.Unknown => PermissionType.Unknown,
+            GetBudgetPermissionRequestsRequest_PermissionType.None => PermissionType.None,
             GetBudgetPermissionRequestsRequest_PermissionType.Owner => PermissionType.Owner,
             GetBudgetPermissionRequestsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             GetBudgetPermissionRequestsRequest_PermissionType.Reviewer => PermissionType.Reviewer,
@@ -22,7 +22,7 @@ public sealed class GetBudgetPermissionRequestsRequestMap
     {
         return status switch
         {
-            GetBudgetPermissionRequestsRequest_Status.Unknown => BudgetPermissionRequestStatus.Unknown,
+            GetBudgetPermissionRequestsRequest_Status.None => BudgetPermissionRequestStatus.None,
             GetBudgetPermissionRequestsRequest_Status.Pending => BudgetPermissionRequestStatus.Pending,
             GetBudgetPermissionRequestsRequest_Status.Cancelled => BudgetPermissionRequestStatus.Cancelled,
             GetBudgetPermissionRequestsRequest_Status.Confirmed => BudgetPermissionRequestStatus.Confirmed,

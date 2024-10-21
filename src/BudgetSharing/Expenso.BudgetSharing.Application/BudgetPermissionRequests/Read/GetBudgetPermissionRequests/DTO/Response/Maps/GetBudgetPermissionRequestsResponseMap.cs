@@ -28,9 +28,9 @@ internal static class GetBudgetPermissionRequestsResponseMap
     private static GetBudgetPermissionRequestsResponse_Status MapTo(
         BudgetPermissionRequestStatus budgetPermissionRequestStatus)
     {
-        if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Unknown)
+        if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.None)
         {
-            return GetBudgetPermissionRequestsResponse_Status.Unknown;
+            return GetBudgetPermissionRequestsResponse_Status.None;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Pending)
@@ -59,9 +59,9 @@ internal static class GetBudgetPermissionRequestsResponseMap
 
     private static GetBudgetPermissionRequestsResponse_PermissionType MapTo(PermissionType permissionType)
     {
-        if (permissionType == PermissionType.Unknown)
+        if (permissionType == PermissionType.None)
         {
-            return GetBudgetPermissionRequestsResponse_PermissionType.Unknown;
+            return GetBudgetPermissionRequestsResponse_PermissionType.None;
         }
 
         if (permissionType == PermissionType.Owner)

@@ -9,7 +9,7 @@ public sealed class GetBudgetPermissionsRequestMap
     {
         return permissionType switch
         {
-            GetBudgetPermissionsRequest_PermissionType.Unknown => PermissionType.Unknown,
+            GetBudgetPermissionsRequest_PermissionType.None => PermissionType.None,
             GetBudgetPermissionsRequest_PermissionType.Owner => PermissionType.Owner,
             GetBudgetPermissionsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             GetBudgetPermissionsRequest_PermissionType.Reviewer => PermissionType.Reviewer,

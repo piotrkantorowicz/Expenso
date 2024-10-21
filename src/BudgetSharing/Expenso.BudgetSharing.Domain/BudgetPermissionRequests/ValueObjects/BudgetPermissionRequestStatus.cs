@@ -4,7 +4,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 
 public sealed record BudgetPermissionRequestStatus : Enumeration<BudgetPermissionRequestStatus>
 {
-    public static readonly BudgetPermissionRequestStatus Unknown = new(value: 0, displayName: "Unknown");
+    public static readonly BudgetPermissionRequestStatus None = new(value: 0, displayName: "None");
     public static readonly BudgetPermissionRequestStatus Pending = new(value: 1, displayName: "Pending");
     public static readonly BudgetPermissionRequestStatus Confirmed = new(value: 2, displayName: "Confirmed");
     public static readonly BudgetPermissionRequestStatus Cancelled = new(value: 3, displayName: "Cancelled");
@@ -24,8 +24,8 @@ public sealed record BudgetPermissionRequestStatus : Enumeration<BudgetPermissio
         return this == Pending;
     }
 
-    public bool IsUnknown()
+    public bool IsNone()
     {
-        return this == Unknown;
+        return this == None;
     }
 }

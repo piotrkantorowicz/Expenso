@@ -9,16 +9,17 @@ public sealed record EndpointRegistration(
 
 public enum HttpVerb
 {
-    Get,
-    Post,
-    Patch,
-    Put,
-    Delete
+    None = 0,
+    Get = 1,
+    Post = 2,
+    Patch = 3,
+    Put = 4,
+    Delete = 5
 }
 
 public enum AccessControl
 {
-    Anonymous,
-    User,
-    Unknown
+    None = 0,
+    Anonymous = 1,
+    User = 2
 }

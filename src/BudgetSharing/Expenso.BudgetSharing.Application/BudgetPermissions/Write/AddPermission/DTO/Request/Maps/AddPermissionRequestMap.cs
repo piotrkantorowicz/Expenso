@@ -9,7 +9,7 @@ internal sealed class AddPermissionRequestMap
     {
         return addPermissionRequestPermissionType switch
         {
-            AddPermissionRequest_PermissionType.Unknown => PermissionType.Unknown,
+            AddPermissionRequest_PermissionType.None => PermissionType.None,
             AddPermissionRequest_PermissionType.Owner => PermissionType.Owner,
             AddPermissionRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             AddPermissionRequest_PermissionType.Reviewer => PermissionType.Reviewer,

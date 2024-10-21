@@ -9,7 +9,7 @@ internal sealed class AssignParticipantRequestMap
     {
         return assignParticipantRequestPermissionType switch
         {
-            AssignParticipantRequest_PermissionType.Unknown => PermissionType.Unknown,
+            AssignParticipantRequest_PermissionType.None => PermissionType.None,
             AssignParticipantRequest_PermissionType.Owner => PermissionType.Owner,
             AssignParticipantRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             AssignParticipantRequest_PermissionType.Reviewer => PermissionType.Reviewer,

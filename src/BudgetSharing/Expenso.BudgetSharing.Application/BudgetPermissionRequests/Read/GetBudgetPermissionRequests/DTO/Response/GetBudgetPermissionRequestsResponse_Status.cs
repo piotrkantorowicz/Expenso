@@ -2,7 +2,7 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBud
 
 public enum GetBudgetPermissionRequestsResponse_Status
 {
-    Unknown = 0,
+    None = 0,
     Pending = 1,
     Confirmed = 2,
     Cancelled = 3,

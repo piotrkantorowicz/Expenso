@@ -39,7 +39,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         result.CancellationDate.Should().BeNull();
     }
 
-    [Test, TestCase(arg: "Unknown"), TestCase(arg: "Confirmed"), TestCase(arg: "Cancelled"), TestCase(arg: "Expired")]
+    [Test, TestCase(arg: "None"), TestCase(arg: "Confirmed"), TestCase(arg: "Cancelled"), TestCase(arg: "Expired")]
     public void Should_ThrowDomainRuleValidationException_When_StatusIsOtherThanPending(string statusDisplayName)
     {
         // Arrange
