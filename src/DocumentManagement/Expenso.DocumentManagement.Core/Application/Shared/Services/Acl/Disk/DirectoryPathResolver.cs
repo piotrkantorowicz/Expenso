@@ -25,7 +25,7 @@ internal sealed class DirectoryPathResolver : IDirectoryPathResolver
                 date: _clock.UtcNow.ToString(format: "yyyyMMdd")),
             FileType.Report => _directoryInfoService.GetReportsDirectory(userId: userId, groups: groups,
                 date: _clock.UtcNow.ToString(format: "yyyyMMdd")),
-            _ => throw new InvalidFileTypeException(typeName: fileType.ToString())
+            _ or FileType.None => throw new InvalidFileTypeException(typeName: fileType.ToString())
         };
 
         return directoryPath;

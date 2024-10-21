@@ -1,3 +1,4 @@
+using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 using Expenso.DocumentManagement.Core.Application.Shared.Models;
 
 using FluentAssertions;
@@ -61,5 +62,20 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
 
         // Assert
         result.Should().Be(expected: expectedPath);
+    }
+
+    [Test]
+    public void Should_ThrowInvalidFileTypeException()
+    {
+        // Arrange
+        const FileType fileType = FileType.None;
+        string userId = Guid.NewGuid().ToString();
+        string[] groups = [];
+
+        // Act
+        Action act = () => TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
+
+        // Assert
+        act.Should().Throw<InvalidFileTypeException>();
     }
 }
