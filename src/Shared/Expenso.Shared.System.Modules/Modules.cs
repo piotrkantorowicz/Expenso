@@ -70,7 +70,7 @@ public static class Modules
 
                         break;
                     case AccessControl.Anonymous:
-                    case AccessControl.Unknown:
+                    case AccessControl.None:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(paramName: endpoint.AccessControl.GetType().Name,

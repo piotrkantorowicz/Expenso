@@ -2,7 +2,7 @@
 
 internal enum FileType
 {
-    None,
-    Import,
-    Report
+    None = 0,
+    Import = 1,
+    Report = 2
 }

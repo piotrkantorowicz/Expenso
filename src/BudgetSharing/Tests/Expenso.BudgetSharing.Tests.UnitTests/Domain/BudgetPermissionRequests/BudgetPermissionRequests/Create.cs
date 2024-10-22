@@ -42,12 +42,12 @@ internal sealed class Create : BudgetPermissionRequestTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsUnknown()
+    public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsNone()
     {
         // Arrange
         // Act
         Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
-            ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: PermissionType.Unknown,
+            ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: PermissionType.None,
             expirationDays: Expiration, clock: _clockMock.Object));
 
         // Assert
@@ -55,8 +55,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
             .WithMessage(
-                expectedWildcardPattern:
-                $"Unknown permission type {PermissionType.Unknown.Value} cannot be processed.");
+                expectedWildcardPattern: $"None permission type {PermissionType.None.Value} cannot be processed.");
     }
 
     [Test]

@@ -2,7 +2,7 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Assig
 
 public enum AssignParticipantRequest_PermissionType
 {
-    Unknown = 0,
+    None = 0,
     Owner = 1,
     SubOwner = 2,
     Reviewer = 3

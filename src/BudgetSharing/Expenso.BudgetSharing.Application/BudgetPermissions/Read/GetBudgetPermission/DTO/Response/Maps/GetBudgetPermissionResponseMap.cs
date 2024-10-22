@@ -20,9 +20,9 @@ internal static class GetBudgetPermissionResponseMap
 
     private static GetBudgetPermissionResponse_PermissionType MapTo(PermissionType permissionType)
     {
-        if (permissionType == PermissionType.Unknown)
+        if (permissionType == PermissionType.None)
         {
-            return GetBudgetPermissionResponse_PermissionType.Unknown;
+            return GetBudgetPermissionResponse_PermissionType.None;
         }
 
         if (permissionType == PermissionType.Owner)

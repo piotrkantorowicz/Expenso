@@ -2,7 +2,7 @@ namespace Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 
 public enum UploadFilesRequest_FileType
 {
-    None,
-    Import,
-    Report
+    None = 0,
+    Import = 1,
+    Report = 2
 }
