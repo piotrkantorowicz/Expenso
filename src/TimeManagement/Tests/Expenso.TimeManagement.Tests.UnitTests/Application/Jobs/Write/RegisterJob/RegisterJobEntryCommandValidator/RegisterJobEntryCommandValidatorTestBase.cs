@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
-using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
@@ -25,7 +26,7 @@ internal abstract class
     public void SetUp()
     {
         BudgetPermissionRequestExpiredIntegrationEvent eventTrigger = new(MessageContext: null!,
-            BudgetPermissionRequestId: Guid.NewGuid());
+            Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: eventTrigger);
         _clockMock = new Mock<IClock>();

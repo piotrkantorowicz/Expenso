@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
-using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Shared.DTO.Request;
 using Expenso.TimeManagement.Shared.DTO.Response;
@@ -21,7 +22,8 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         [
             new RegisterJobEntryRequest_JobEntryTrigger(EventType: AllowedEvents.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: null!, BudgetPermissionRequestId: Guid.NewGuid())))
+                    MessageContext: null!,
+                    Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act
@@ -58,7 +60,8 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         [
             new RegisterJobEntryRequest_JobEntryTrigger(EventType: AllowedEvents.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: null!, BudgetPermissionRequestId: Guid.NewGuid())))
+                    MessageContext: null!,
+                    Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act

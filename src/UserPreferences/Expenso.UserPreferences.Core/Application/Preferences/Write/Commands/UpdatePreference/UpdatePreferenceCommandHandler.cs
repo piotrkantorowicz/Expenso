@@ -37,8 +37,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
             UseTracking: true, PreferenceType: PreferenceTypes.All);
 
         Preference? dbPreference = await _preferencesRepository.GetAsync(
-            preferenceQuerySpecification: preferenceQuerySpecification,
-            cancellationToken: cancellationToken);
+            preferenceQuerySpecification: preferenceQuerySpecification, cancellationToken: cancellationToken);
 
         if (dbPreference is null)
         {
@@ -67,8 +66,6 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
         FinancePreference? financePreference =
             UpdatePreferenceRequestMap.MapFrom(financePreference: updateFinancePreference);
 
-        ;
-
         NotificationPreference? notificationPreference =
             UpdatePreferenceRequestMap.MapFrom(notificationPreference: updateNotificationPreference);
 
@@ -84,9 +81,8 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
             tasks.Add(item: _messageBroker.PublishAsync(
                 @event: new GeneralPreferenceUpdatedIntegrationEvent(MessageContext: _messageContextFactory.Current(),
-                    UserId: preference.UserId,
-                    GeneralPreference: UpdatePreferenceContractMap.MapTo(generalPreference: generalPreference)),
-                cancellationToken: cancellationToken));
+                    Payload: UpdatePreferenceContractMap.MapTo(userId: preference.UserId,
+                        generalPreference: generalPreference)), cancellationToken: cancellationToken));
         }
 
         if (preference.FinancePreference is not null && financePreference is not null &&
@@ -102,9 +98,8 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
             tasks.Add(item: _messageBroker.PublishAsync(
                 @event: new FinancePreferenceUpdatedIntegrationEvent(MessageContext: _messageContextFactory.Current(),
-                    UserId: preference.UserId,
-                    FinancePreference: UpdatePreferenceContractMap.MapTo(financePreference: financePreference)),
-                cancellationToken: cancellationToken));
+                    Payload: UpdatePreferenceContractMap.MapTo(userId: preference.UserId,
+                        financePreference: financePreference)), cancellationToken: cancellationToken));
         }
 
         if (preference.NotificationPreference is not null && notificationPreference is not null &&
@@ -118,8 +113,8 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
             tasks.Add(item: _messageBroker.PublishAsync(
                 @event: new NotificationPreferenceUpdatedIntegrationEvent(
-                    MessageContext: _messageContextFactory.Current(), UserId: preference.UserId,
-                    NotificationPreference: UpdatePreferenceContractMap.MapTo(
+                    MessageContext: _messageContextFactory.Current(),
+                    Payload: UpdatePreferenceContractMap.MapTo(userId: preference.UserId,
                         notificationPreference: notificationPreference)), cancellationToken: cancellationToken));
         }
 

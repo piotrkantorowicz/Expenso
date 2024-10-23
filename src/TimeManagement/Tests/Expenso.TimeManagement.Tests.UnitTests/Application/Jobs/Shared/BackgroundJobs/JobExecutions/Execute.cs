@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
-using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization.Default;
@@ -345,7 +346,8 @@ internal sealed class Execute : JobExecutionTestBase
     {
         // Arrange
         BudgetPermissionRequestExpiredIntegrationEvent eventData =
-            new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
+            new(MessageContext: MessageContextFactoryMock.Object.Current(),
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
 
         JobEntryTrigger trigger = new()
         {
@@ -405,7 +407,8 @@ internal sealed class Execute : JobExecutionTestBase
         Exception error = new(message: "This is test error");
 
         BudgetPermissionRequestExpiredIntegrationEvent eventData =
-            new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
+            new(MessageContext: MessageContextFactoryMock.Object.Current(),
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
 
         JobEntryTrigger trigger = new()
         {
@@ -467,7 +470,8 @@ internal sealed class Execute : JobExecutionTestBase
         Exception error = new(message: "This is test error");
 
         BudgetPermissionRequestExpiredIntegrationEvent eventData =
-            new(MessageContext: MessageContextFactoryMock.Object.Current(), BudgetPermissionRequestId: Guid.NewGuid());
+            new(MessageContext: MessageContextFactoryMock.Object.Current(),
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
 
         JobEntryTrigger trigger = new()
         {

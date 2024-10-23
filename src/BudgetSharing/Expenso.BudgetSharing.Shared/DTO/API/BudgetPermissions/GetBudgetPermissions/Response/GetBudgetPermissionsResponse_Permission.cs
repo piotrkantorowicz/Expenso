@@ -1,4 +1,4 @@
-namespace Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
+namespace Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
 
 public sealed record GetBudgetPermissionsResponse_Permission(
     Guid ParticipantId,

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
-using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
@@ -26,7 +27,7 @@ internal abstract class
         _jobInstanceRepository = new Mock<IJobInstanceRepository>();
 
         _eventTrigger = new BudgetPermissionRequestExpiredIntegrationEvent(MessageContext: null!,
-            BudgetPermissionRequestId: Guid.NewGuid());
+            Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: _eventTrigger);
         _clockMock = new Mock<IClock>();
