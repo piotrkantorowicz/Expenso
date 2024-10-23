@@ -21,6 +21,7 @@ internal sealed class UpdatePreferenceCommandValidator : CommandValidator<Update
         RuleFor(expression: x => x.Payload!)
             .NotNull()
             .WithMessage(errorMessage: "The command payload must not be null.")
-            .SetValidator(validator: updatePreferenceCommandValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.Payload!).SetValidator(validator: updatePreferenceCommandValidator));
     }
 }

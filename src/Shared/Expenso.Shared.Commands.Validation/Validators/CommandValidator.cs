@@ -6,6 +6,10 @@ public abstract class CommandValidator<TCommand> : AbstractValidator<TCommand> w
 {
     protected CommandValidator(MessageContextValidator messageContextValidator)
     {
-        RuleFor(expression: x => x.MessageContext).SetValidator(validator: messageContextValidator);
+        RuleFor(expression: x => x.MessageContext)
+            .NotNull()
+            .WithMessage(errorMessage: "Message context must be provided.")
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.MessageContext).SetValidator(validator: messageContextValidator));
     }
 }

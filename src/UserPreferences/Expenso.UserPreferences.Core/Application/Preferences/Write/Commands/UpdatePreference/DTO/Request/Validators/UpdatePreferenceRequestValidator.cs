@@ -18,19 +18,23 @@ internal sealed class UpdatePreferenceRequestValidator : AbstractValidator<Updat
         ArgumentNullException.ThrowIfNull(argument: generalPreferenceValidator,
             paramName: nameof(generalPreferenceValidator));
 
-        RuleFor(expression: x => x.FinancePreference!)
+        RuleFor(expression: x => x.FinancePreference)
             .NotNull()
             .WithMessage(errorMessage: "The finance preference must not be empty.")
-            .SetValidator(validator: financePreferenceValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.FinancePreference!).SetValidator(validator: financePreferenceValidator));
 
-        RuleFor(expression: x => x.NotificationPreference!)
+        RuleFor(expression: x => x.NotificationPreference)
             .NotNull()
             .WithMessage(errorMessage: "The notification preference must not be empty.")
-            .SetValidator(validator: notificationPreferenceValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.NotificationPreference!)
+                    .SetValidator(validator: notificationPreferenceValidator));
 
-        RuleFor(expression: x => x.GeneralPreference!)
+        RuleFor(expression: x => x.GeneralPreference)
             .NotNull()
             .WithMessage(errorMessage: "The general preference must not be empty.")
-            .SetValidator(validator: generalPreferenceValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.GeneralPreference!).SetValidator(validator: generalPreferenceValidator));
     }
 }
