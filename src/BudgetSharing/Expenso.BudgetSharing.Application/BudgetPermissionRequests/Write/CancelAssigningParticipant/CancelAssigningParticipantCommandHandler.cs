@@ -26,13 +26,14 @@ internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler
     {
         BudgetPermissionRequest? budgetPermissionRequest =
             await _budgetPermissionRequestRepository.GetByIdAsync(
-                permissionId: BudgetPermissionRequestId.New(value: command.BudgetPermissionRequestId),
+                permissionId: BudgetPermissionRequestId.New(value: command.Payload?.BudgetPermissionRequestId),
                 cancellationToken: cancellationToken);
 
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with ID {command.BudgetPermissionRequestId} hasn't been found");
+                message:
+                $"Budget permission request with ID {command.Payload?.BudgetPermissionRequestId} hasn't been found");
         }
 
         budgetPermissionRequest.Cancel(clock: _clock);

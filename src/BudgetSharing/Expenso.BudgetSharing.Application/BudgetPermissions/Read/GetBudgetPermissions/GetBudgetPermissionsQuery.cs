@@ -5,11 +5,5 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
 
-public sealed record GetBudgetPermissionsQuery(
-    IMessageContext MessageContext,
-    Guid? BudgetId = null,
-    Guid? OwnerId = null,
-    Guid? ParticipantId = null,
-    bool? ForCurrentUser = null,
-    GetBudgetPermissionsRequest_PermissionType? PermissionType = null)
+public sealed record GetBudgetPermissionsQuery(IMessageContext MessageContext, GetBudgetPermissionsRequest? Payload)
     : IQuery<IReadOnlyCollection<GetBudgetPermissionsResponse>>;

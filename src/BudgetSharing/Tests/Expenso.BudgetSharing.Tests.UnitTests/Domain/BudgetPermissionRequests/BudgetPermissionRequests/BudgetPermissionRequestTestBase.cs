@@ -34,7 +34,7 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
 
         BudgetPermissionRequest testCandidate = BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: _defaultPermissionType,
-            expirationDays: Expiration, clock: _clockMock.Object);
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: Expiration), clock: _clockMock.Object);
 
         if (!emitDomainEvents)
         {

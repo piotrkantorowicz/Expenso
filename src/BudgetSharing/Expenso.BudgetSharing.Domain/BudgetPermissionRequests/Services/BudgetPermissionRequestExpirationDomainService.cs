@@ -17,7 +17,7 @@ internal sealed class BudgetPermissionRequestExpirationDomainService : IBudgetPe
                                                  paramName: nameof(budgetPermissionRequestRepository));
     }
 
-    public async Task MarkBudgetPermissionRequestAsExpireAsync(Guid budgetPermissionRequestId,
+    public async Task MarkBudgetPermissionRequestAsExpireAsync(Guid? budgetPermissionRequestId,
         CancellationToken cancellationToken)
     {
         BudgetPermissionRequest? budgetPermissionRequest =

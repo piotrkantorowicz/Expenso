@@ -15,9 +15,9 @@ internal sealed class MemberHasAlreadyOpenedBudgetPermissionRequests : IBusiness
     public MemberHasAlreadyOpenedBudgetPermissionRequests(PersonId participantId, BudgetId budgetId,
         PermissionType permissionType, IReadOnlyCollection<BudgetPermissionRequest> budgetPermissionRequests)
     {
-        _participantId = participantId;
-        _budgetId = budgetId;
-        _permissionType = permissionType;
+        _participantId = participantId ?? throw new ArgumentNullException(paramName: nameof(participantId));
+        _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
+        _permissionType = permissionType ?? throw new ArgumentNullException(paramName: nameof(permissionType));
         _budgetPermissionRequests = budgetPermissionRequests;
     }
 

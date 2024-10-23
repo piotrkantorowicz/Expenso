@@ -13,7 +13,7 @@ internal sealed class BudgetPermissionMustExistsToBeAbleToCreateBudgetPermission
         BudgetId budgetId)
     {
         _budgetPermission = budgetPermission;
-        _budgetId = budgetId;
+        _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
     }
 
     public string Message =>

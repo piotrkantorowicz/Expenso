@@ -1,11 +1,11 @@
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Request;
 
-namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Request.Maps;
+namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Maps;
 
 public sealed class GetBudgetPermissionsRequestMap
 {
-    public static PermissionType MapTo(GetBudgetPermissionsRequest_PermissionType permissionType)
+    public static PermissionType? MapTo(GetBudgetPermissionsRequest_PermissionType? permissionType)
     {
         return permissionType switch
         {
@@ -13,8 +13,7 @@ public sealed class GetBudgetPermissionsRequestMap
             GetBudgetPermissionsRequest_PermissionType.Owner => PermissionType.Owner,
             GetBudgetPermissionsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             GetBudgetPermissionsRequest_PermissionType.Reviewer => PermissionType.Reviewer,
-            _ => throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,
-                message: null)
+            _ => null
         };
     }
 }

@@ -18,6 +18,7 @@ internal sealed class ConfirmAssigningParticipantCommandHandler : ICommandHandle
     public async Task HandleAsync(ConfirmAssigningParticipantCommand command, CancellationToken cancellationToken)
     {
         await _confirmParticipantionDomainService.ConfirmParticipantAsync(
-            budgetPermissionRequestId: command.BudgetPermissionRequestId, cancellationToken: cancellationToken);
+            budgetPermissionRequestId: command.Payload?.BudgetPermissionRequestId,
+            cancellationToken: cancellationToken);
     }
 }

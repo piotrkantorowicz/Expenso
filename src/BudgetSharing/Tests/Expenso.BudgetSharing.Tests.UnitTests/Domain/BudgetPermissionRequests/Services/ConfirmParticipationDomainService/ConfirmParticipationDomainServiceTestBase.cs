@@ -33,7 +33,8 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
             personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
-            permissionType: PermissionType.SubOwner, expirationDays: 3, clock: _clockMock.Object);
+            permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3),
+            clock: _clockMock.Object);
 
         PersonId ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetPermissionRequestId = _budgetPermissionRequest.Id;

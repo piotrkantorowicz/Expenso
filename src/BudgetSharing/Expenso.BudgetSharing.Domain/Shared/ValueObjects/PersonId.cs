@@ -13,7 +13,7 @@ public sealed record PersonId
 
     public Guid Value { get; }
 
-    public static PersonId New(Guid value)
+    public static PersonId New(Guid? value)
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
@@ -21,7 +21,7 @@ public sealed record PersonId
                 BusinessRule: new EmptyIdentifierCannotBeProcessed(identifier: value, type: typeof(PersonId)))
         ]);
 
-        return new PersonId(value: value);
+        return new PersonId(value: value!.Value);
     }
 
     public static PersonId? Nullable(Guid? value)

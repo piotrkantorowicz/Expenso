@@ -48,7 +48,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         // Act
         Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: PermissionType.None,
-            expirationDays: Expiration, clock: _clockMock.Object));
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: Expiration), clock: _clockMock.Object));
 
         // Assert
         action
@@ -67,7 +67,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         // Act
         Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: _defaultPermissionType,
-            expirationDays: 0, clock: _clockMock.Object));
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0), clock: _clockMock.Object));
 
         // Assert
         action

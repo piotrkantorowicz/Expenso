@@ -10,8 +10,8 @@ internal sealed class ExpirationDateMustBeGreaterThanSubmissionDate : IBusinessR
 
     public ExpirationDateMustBeGreaterThanSubmissionDate(DateAndTime submissionDate, DateAndTime expirationDate)
     {
-        _submissionDate = submissionDate;
-        _expirationDate = expirationDate;
+        _submissionDate = submissionDate ?? throw new ArgumentNullException(paramName: nameof(submissionDate));
+        _expirationDate = expirationDate ?? throw new ArgumentNullException(paramName: nameof(expirationDate));
     }
 
     public string Message =>

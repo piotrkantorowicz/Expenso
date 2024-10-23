@@ -5,5 +5,5 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 
-public sealed record GetPreferenceQuery(IMessageContext MessageContext, GetPreferenceRequest Payload)
+public sealed record GetPreferenceQuery(IMessageContext MessageContext, GetPreferenceRequest? Payload)
     : IQuery<GetPreferenceResponse>;

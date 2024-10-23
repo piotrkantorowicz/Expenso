@@ -38,7 +38,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
         _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
     }
 
-    public async Task ConfirmParticipantAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
+    public async Task ConfirmParticipantAsync(Guid? budgetPermissionRequestId, CancellationToken cancellationToken)
     {
         BudgetPermissionRequest? permissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
             permissionId: BudgetPermissionRequestId.New(value: budgetPermissionRequestId),

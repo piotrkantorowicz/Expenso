@@ -9,7 +9,7 @@ internal sealed class OnlyExistingUserCanBeAssignedAsBudgetParticipant : IBusine
 
     public OnlyExistingUserCanBeAssignedAsBudgetParticipant(string email, string? userId)
     {
-        _email = email;
+        _email = email ?? throw new ArgumentNullException(paramName: nameof(email));
         _userId = userId;
     }
 

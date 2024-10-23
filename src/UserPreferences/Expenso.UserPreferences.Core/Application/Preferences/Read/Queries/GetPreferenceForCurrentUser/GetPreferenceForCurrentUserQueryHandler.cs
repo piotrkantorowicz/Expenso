@@ -40,7 +40,7 @@ internal sealed class
         PreferenceQuerySpecification querySpecification = new()
         {
             UserId = currentUserId,
-            PreferenceType = query.Payload.PreferenceType
+            PreferenceType = query.Payload?.PreferenceType
                 .SafeCast<PreferenceTypes, GetPreferenceForCurrentUserRequest_PreferenceTypes>(),
             UseTracking = false
         };

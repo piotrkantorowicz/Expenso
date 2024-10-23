@@ -169,7 +169,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
-            ownerId: _ownerId, personId: _participantId, permissionType: permissionType, expirationDays: 10,
+            ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 10),
             clock: _clockMock.Object);
 
         _budgetPermissionRequestRepositoryMock
@@ -207,9 +208,11 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         IReadOnlyCollection<BudgetPermissionRequest> otherBudgetPermissionRequests =
         [
             BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                permissionType: PermissionType.Reviewer, expirationDays: 4, clock: _clockMock.Object),
+                permissionType: PermissionType.Reviewer, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
+                clock: _clockMock.Object),
             BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                permissionType: PermissionType.SubOwner, expirationDays: 7, clock: _clockMock.Object)
+                permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7),
+                clock: _clockMock.Object)
         ];
 
         _budgetPermissionRequestRepositoryMock
@@ -244,7 +247,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value:
             [
                 BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                    permissionType: PermissionType.Owner, expirationDays: 4, clock: _clockMock.Object)
+                    permissionType: PermissionType.Owner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
+                    clock: _clockMock.Object)
             ]);
 
         // Act

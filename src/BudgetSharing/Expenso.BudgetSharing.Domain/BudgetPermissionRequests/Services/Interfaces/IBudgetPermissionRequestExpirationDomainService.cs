@@ -2,5 +2,5 @@
 
 public interface IBudgetPermissionRequestExpirationDomainService
 {
-    Task MarkBudgetPermissionRequestAsExpireAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken);
+    Task MarkBudgetPermissionRequestAsExpireAsync(Guid? budgetPermissionRequestId, CancellationToken cancellationToken);
 }

@@ -4,8 +4,4 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission;
 
-public sealed record AddPermissionCommand(
-    IMessageContext MessageContext,
-    Guid BudgetPermissionId,
-    Guid ParticipantId,
-    AddPermissionRequest AddPermissionRequest) : ICommand;
+public sealed record AddPermissionCommand(IMessageContext MessageContext, AddPermissionRequest? Payload) : ICommand;
