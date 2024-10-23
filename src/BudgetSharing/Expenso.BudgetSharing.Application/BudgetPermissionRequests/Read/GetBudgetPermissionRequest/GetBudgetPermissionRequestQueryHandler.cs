@@ -36,7 +36,8 @@ internal sealed class
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with ID {query.Payload} hasn't been found");
+                message:
+                $"Budget permission request with ID {query.Payload?.BudgetPermissionRequestId} hasn't been found");
         }
 
         GetBudgetPermissionRequestResponse budgetPermissionRequestResponse =

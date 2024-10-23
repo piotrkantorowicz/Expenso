@@ -25,9 +25,9 @@ public sealed record BudgetPermissionRequestStatusTracker
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetPermissionRequestStatusMustBePendingAtTheBeginingRule(status: status)),
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanSubmissionDate(expirationDate: expirationDate,
                     submissionDate: submissionDate))
         ]);
@@ -61,7 +61,7 @@ public sealed record BudgetPermissionRequestStatusTracker
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(
                     budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
         ]);
@@ -74,7 +74,7 @@ public sealed record BudgetPermissionRequestStatusTracker
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(
                     budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
         ]);
@@ -87,7 +87,7 @@ public sealed record BudgetPermissionRequestStatusTracker
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
                     budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
         ]);

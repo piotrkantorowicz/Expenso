@@ -19,7 +19,7 @@ public sealed class Permission
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new ParticipantPermissionTypeMustHaveValue(permissionType: permissionType,
                     participantId: participantId), ThrowException: true)
         ]);

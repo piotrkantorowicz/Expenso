@@ -12,6 +12,7 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
     [SetUp]
     public void SetUp()
     {
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
     }
 
     protected const int Expiration = 3;
@@ -26,12 +27,10 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
     protected readonly PermissionType _defaultPermissionType = PermissionType.Reviewer;
 
     protected readonly PersonId _defaultPersonId =
-        PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+        PersonId.New(value: new Guid(g: "be3220e9-54da-4013-a0dd-72db7ef3b53e"));
 
     protected BudgetPermissionRequest CreateTestCandidate(bool emitDomainEvents = false)
     {
-        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
-
         BudgetPermissionRequest testCandidate = BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: _defaultPermissionType,
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: Expiration), clock: _clockMock.Object);
