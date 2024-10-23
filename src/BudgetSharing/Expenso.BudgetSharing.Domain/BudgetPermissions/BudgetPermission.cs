@@ -73,12 +73,12 @@ public sealed class BudgetPermission : IAggregateRoot
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(BusinessRule: new BudgetMustHasDistinctPermissionsForUsers(budgetId: BudgetId,
+            new BusinessRuleCheck(BusinessRule: new BudgetMustHasDistinctPermissionsForUsers(budgetId: BudgetId,
                 participantId: participantId, permissions: Permissions)),
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetCanHasOnlyOneOwnerPermission(budgetId: BudgetId,
                     permissionType: permission.PermissionType, permissions: Permissions), ThrowException: true),
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetCanHasOnlyOwnerPermissionForItsOwner(budgetId: BudgetId,
                     participantId: participantId, ownerId: OwnerId, permissionType: permission.PermissionType),
                 ThrowException: true)
@@ -97,10 +97,10 @@ public sealed class BudgetPermission : IAggregateRoot
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetMustContainsPermissionForProvidedUser(budgetId: BudgetId,
                     participantId: participantId, permission: permission), ThrowException: true),
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OwnerPermissionCannotBeRemoved(budgetId: BudgetId,
                     permissionType: permission?.PermissionType), ThrowException: true)
         ]);
@@ -116,7 +116,7 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetPermissionCannotBeBlockedIfItIsAlreadyBlocked(budgetPermissionId: Id,
                     blockInfo: Blocker))
         ]);
@@ -133,7 +133,7 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetPermissionCannotBeUnblockedIfItIsNotBlocked(budgetPermissionId: Id,
                     blockInfo: Blocker))
         ]);

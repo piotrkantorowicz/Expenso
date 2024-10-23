@@ -47,10 +47,10 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetPermissionMustExistsToBeAbleToCreateBudgetPermissionRequest(budgetId: budgetId,
                     budgetPermission: budgetPermission)),
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new ParticipantEmailShouldBeAValidEmailAddress(email: email, budgetId: budgetId))
         ]);
 
@@ -59,7 +59,7 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyExistingUserCanBeAssignedAsBudgetParticipant(email: email!, userId: user?.UserId))
         ]);
 
@@ -67,7 +67,7 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new MemberHasAlreadyAssignedToRequestedBudget(participantId: participantId,
                     budgetPermission: budgetPermission), ThrowException: true)
         ]);
@@ -81,16 +81,16 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new ParticipantPermissionTypeMustHaveValue(permissionType: permissionType,
                     participantId: participantId), ThrowException: true)
         ]);
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: _clock)),
-            new BusinesRuleCheck(BusinessRule: new MemberHasAlreadyOpenedBudgetPermissionRequests(
+            new BusinessRuleCheck(BusinessRule: new MemberHasAlreadyOpenedBudgetPermissionRequests(
                 participantId: participantId, budgetId: budgetId, permissionType: permissionType!,
                 budgetPermissionRequests: budgetPermissionRequests))
         ]);

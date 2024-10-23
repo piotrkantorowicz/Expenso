@@ -72,7 +72,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(
                     budgetId: budgetPermission.BudgetId, ownerId: budgetPermission.OwnerId,
                     permissionTypeFromRequest: permissionRequest.PermissionType,
