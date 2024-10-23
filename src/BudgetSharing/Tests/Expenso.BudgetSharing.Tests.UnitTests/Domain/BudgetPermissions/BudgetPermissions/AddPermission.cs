@@ -68,7 +68,26 @@ internal sealed class AddPermission : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"None permission type {permissionType.Value} cannot be processed.");
+            .WithDetails(expectedWildcardPattern: $"Permission type cannot be empty for participant {participantId}.");
+    }
+
+    [Test]
+    public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsNull()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate();
+        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PermissionType? permissionType = null;
+
+        // Act
+        Action act = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
+
+        // Assert
+        act
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(expectedWildcardPattern: $"Permission type cannot be empty for participant {participantId}.");
     }
 
     [Test]

@@ -55,6 +55,6 @@ internal sealed class Create : PermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"None permission type {permissionType.Value} cannot be processed.");
+            .WithDetails(expectedWildcardPattern: $"Permission type cannot be empty for participant {participantId}.");
     }
 }

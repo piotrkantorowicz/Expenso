@@ -1,0 +1,3 @@
+﻿namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.ExpireAssignParticipant.DTO;
+
+public sealed record ExpireAssigningParticipantRequest(Guid BudgetPermissionRequestId);

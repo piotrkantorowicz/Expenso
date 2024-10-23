@@ -16,11 +16,9 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         string requestPath =
             $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 4]}";
 
-        AddPermissionRequest addPermissionRequest = new(PermissionType: AddPermissionRequest_PermissionType.Reviewer);
-
         // Act
-        HttpResponseMessage response =
-            await _httpClient.PostAsJsonAsync(requestUri: requestPath, value: addPermissionRequest);
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+            value: AddPermissionRequest_PermissionType.Reviewer);
 
         // Assert
         AssertResponseNoContent(response: response);

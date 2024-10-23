@@ -1,5 +1,4 @@
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request.Maps;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Maps;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
@@ -21,20 +20,19 @@ internal sealed class AddPermissionCommandHandler : ICommandHandler<AddPermissio
 
     public async Task HandleAsync(AddPermissionCommand command, CancellationToken cancellationToken)
     {
-        (_, Guid budgetPermissionId, Guid participantId, AddPermissionRequest addPermissionRequest) = command;
-
-        BudgetPermission? budgetPermission =
-            await _budgetPermissionRepository.GetByIdAsync(id: BudgetPermissionId.New(value: budgetPermissionId),
-                cancellationToken: cancellationToken);
+        BudgetPermission? budgetPermission = await _budgetPermissionRepository.GetByIdAsync(
+            id: BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId),
+            cancellationToken: cancellationToken);
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException(message: $"Budget permission with ID {budgetPermissionId} hasn't been found");
+            throw new NotFoundException(
+                message: $"Budget permission with ID {command.Payload?.BudgetPermissionId} hasn't been found");
         }
 
-        budgetPermission.AddPermission(participantId: PersonId.New(value: participantId),
+        budgetPermission.AddPermission(participantId: PersonId.New(value: command.Payload?.ParticipantId),
             permissionType: AddPermissionRequestMap.ToPermissionType(
-                addPermissionRequestPermissionType: addPermissionRequest.PermissionType));
+                addPermissionRequestPermissionType: command.Payload?.PermissionType));
 
         await _budgetPermissionRepository.UpdateAsync(budgetPermission: budgetPermission,
             cancellationToken: cancellationToken);

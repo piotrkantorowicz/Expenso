@@ -1,5 +1,5 @@
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Maps;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response.Maps;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
@@ -27,7 +27,7 @@ internal sealed class
     {
         BudgetPermissionRequestFilter filter = new()
         {
-            Id = BudgetPermissionRequestId.Nullable(value: query.BudgetPermissionRequestId)
+            Id = BudgetPermissionRequestId.Nullable(value: query.Payload?.BudgetPermissionRequestId)
         };
 
         BudgetPermissionRequest? budgetPermissionRequest =
@@ -36,7 +36,7 @@ internal sealed class
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(
-                message: $"Budget permission request with ID {query.BudgetPermissionRequestId} hasn't been found");
+                message: $"Budget permission request with ID {query.Payload} hasn't been found");
         }
 
         GetBudgetPermissionRequestResponse budgetPermissionRequestResponse =

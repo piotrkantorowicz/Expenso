@@ -1,0 +1,3 @@
+﻿namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.ConfirmAssigningParticipant.DTO;
+
+public sealed record ConfirmAssigningParticipantRequest(Guid BudgetPermissionRequestId);

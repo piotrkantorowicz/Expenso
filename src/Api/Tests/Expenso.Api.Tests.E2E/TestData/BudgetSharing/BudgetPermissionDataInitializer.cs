@@ -6,9 +6,10 @@ using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignPar
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Response;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
-using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
-using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission.DTO.Request;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -42,14 +43,13 @@ internal static class BudgetPermissionDataInitializer
             CreateBudgetPermissionResponse? createBudgetPermissionResponse =
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
                     command: new CreateBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
-                        CreateBudgetPermissionRequest: new CreateBudgetPermissionRequest(BudgetPermissionId: null,
-                            BudgetId: budgetId, OwnerId: UserDataInitializer.UserIds[index: 0])),
-                    cancellationToken: cancellationToken);
+                        Payload: new CreateBudgetPermissionRequest(BudgetPermissionId: null, BudgetId: budgetId,
+                            OwnerId: UserDataInitializer.UserIds[index: 0])), cancellationToken: cancellationToken);
 
             AssignParticipantResponse? assignParticipantResponse =
                 await commandDispatcher.SendAsync<AssignParticipantCommand, AssignParticipantResponse>(
                     command: new AssignParticipantCommand(MessageContext: messageContextFactory.Current(),
-                        AssignParticipantRequest: new AssignParticipantRequest(BudgetId: budgetId, Email: email,
+                        Payload: new AssignParticipantRequest(BudgetId: budgetId, Email: email,
                             PermissionType: permissionType, ExpirationDays: expiration)),
                     cancellationToken: cancellationToken);
 
@@ -59,13 +59,14 @@ internal static class BudgetPermissionDataInitializer
 
         await commandDispatcher.SendAsync(
             command: new AddPermissionCommand(MessageContext: messageContextFactory.Current(),
-                BudgetPermissionId: BudgetPermissionIds[index: 0], ParticipantId: UserDataInitializer.UserIds[index: 3],
-                AddPermissionRequest: new AddPermissionRequest(
+                Payload: new AddPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 0],
+                    ParticipantId: UserDataInitializer.UserIds[index: 3],
                     PermissionType: AddPermissionRequest_PermissionType.Reviewer)),
             cancellationToken: cancellationToken);
 
         await commandDispatcher.SendAsync(
             command: new DeleteBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
-                BudgetPermissionId: BudgetPermissionIds[index: 2]), cancellationToken: cancellationToken);
+                Payload: new DeleteBudgetPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 2])),
+            cancellationToken: cancellationToken);
     }
 }

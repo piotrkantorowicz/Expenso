@@ -1,11 +1,12 @@
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 
-namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request.Maps;
+namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Maps;
 
 internal sealed class AssignParticipantRequestMap
 {
-    public static PermissionType ToPermissionType(
-        AssignParticipantRequest_PermissionType assignParticipantRequestPermissionType)
+    public static PermissionType? ToPermissionType(
+        AssignParticipantRequest_PermissionType? assignParticipantRequestPermissionType)
     {
         return assignParticipantRequestPermissionType switch
         {
@@ -13,8 +14,7 @@ internal sealed class AssignParticipantRequestMap
             AssignParticipantRequest_PermissionType.Owner => PermissionType.Owner,
             AssignParticipantRequest_PermissionType.SubOwner => PermissionType.SubOwner,
             AssignParticipantRequest_PermissionType.Reviewer => PermissionType.Reviewer,
-            _ => throw new ArgumentOutOfRangeException(paramName: nameof(assignParticipantRequestPermissionType),
-                actualValue: assignParticipantRequestPermissionType, message: null)
+            _ => null
         };
     }
 }

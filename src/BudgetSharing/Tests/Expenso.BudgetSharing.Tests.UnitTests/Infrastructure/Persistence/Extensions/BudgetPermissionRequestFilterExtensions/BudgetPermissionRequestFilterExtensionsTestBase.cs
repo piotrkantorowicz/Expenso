@@ -27,9 +27,7 @@ internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : Domain
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,
             budgetId: _budgetId, ownerId: _ownerId, personId: _participantId, permissionType: _permissionType,
-            clock: _clockMock.Object, expirationDays: 5);
-
-        ;
+            clock: _clockMock.Object, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 5));
     }
 
     protected BudgetId _budgetId = null!;

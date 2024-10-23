@@ -24,9 +24,9 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
     {
         PreferenceQuerySpecification querySpecification = new()
         {
-            PreferenceId = query.Payload.PreferenceId,
-            PreferenceType =
-                query.Payload.PreferenceType.SafeCast<PreferenceTypes, GetPreferenceRequest_PreferenceTypes>(),
+            PreferenceId = query.Payload?.PreferenceId,
+            PreferenceType = query.Payload?.PreferenceType
+                .SafeCast<PreferenceTypes, GetPreferenceRequest_PreferenceTypes>(),
             UseTracking = false
         };
 
