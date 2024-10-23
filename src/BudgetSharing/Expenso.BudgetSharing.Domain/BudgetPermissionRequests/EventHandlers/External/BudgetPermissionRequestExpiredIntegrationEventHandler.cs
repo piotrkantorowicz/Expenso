@@ -1,5 +1,5 @@
 ﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
-using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.Shared.Integration.Events;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External;
@@ -23,6 +23,6 @@ internal sealed class
         CancellationToken cancellationToken)
     {
         await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpireAsync(
-            budgetPermissionRequestId: @event.BudgetPermissionRequestId, cancellationToken: cancellationToken);
+            budgetPermissionRequestId: @event.Payload?.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

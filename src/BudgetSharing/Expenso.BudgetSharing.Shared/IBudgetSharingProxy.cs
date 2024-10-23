@@ -1,5 +1,5 @@
-using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Request;
-using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
 
 namespace Expenso.BudgetSharing.Shared;
 

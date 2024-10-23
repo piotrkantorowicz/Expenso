@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.Shared.Commands;
 
-namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.ExpireAssignParticipant;
+namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.ExpireAssigningParticipant;
 
 internal sealed class ExpireAssigningParticipantCommandHandler : ICommandHandler<ExpireAssigningParticipantCommand>
 {

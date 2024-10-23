@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 

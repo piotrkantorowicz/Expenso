@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
 using Expenso.BudgetSharing.Shared;
-using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Request;
-using Expenso.BudgetSharing.Shared.DTO.API.GetBudgetPermissions.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
