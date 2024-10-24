@@ -63,7 +63,7 @@ internal sealed class Block : BudgetPermissionTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_Deleted()
+    public void Should_ThrowDomainRuleValidationException_When_TryToBlockAlreadyBlocked()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
