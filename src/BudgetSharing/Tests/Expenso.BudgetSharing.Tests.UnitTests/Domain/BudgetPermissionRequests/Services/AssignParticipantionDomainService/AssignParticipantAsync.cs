@@ -170,8 +170,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
 
         BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
             ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
-            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 10),
-            clock: _clockMock.Object);
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 10), submissionDate: _clockMock.Object.UtcNow);
 
         _budgetPermissionRequestRepositoryMock
             .Setup(expression: x =>
@@ -209,10 +208,10 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         [
             BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                 permissionType: PermissionType.Reviewer, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
-                clock: _clockMock.Object),
+                submissionDate: _clockMock.Object.UtcNow),
             BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                 permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7),
-                clock: _clockMock.Object)
+                submissionDate: _clockMock.Object.UtcNow)
         ];
 
         _budgetPermissionRequestRepositoryMock
@@ -248,7 +247,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             [
                 BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                     permissionType: PermissionType.Owner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
-                    clock: _clockMock.Object)
+                    submissionDate: _clockMock.Object.UtcNow)
             ]);
 
         // Act

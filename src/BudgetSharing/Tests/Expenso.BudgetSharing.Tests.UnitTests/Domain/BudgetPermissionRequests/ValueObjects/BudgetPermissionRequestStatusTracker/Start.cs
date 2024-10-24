@@ -23,7 +23,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
         // Act
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker result =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: _clockMock.Object.UtcNow,
                 expirationDate: expirationDate, status: status);
 
         // Assert
@@ -54,7 +54,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
 
         Action action = () =>
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: _clockMock.Object.UtcNow,
                 expirationDate: expirationDate, status: status);
 
         // Assert
@@ -79,7 +79,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
 
         Action action = () =>
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: _clockMock.Object.UtcNow,
                 expirationDate: expirationDate, status: status);
 
         // Assert
