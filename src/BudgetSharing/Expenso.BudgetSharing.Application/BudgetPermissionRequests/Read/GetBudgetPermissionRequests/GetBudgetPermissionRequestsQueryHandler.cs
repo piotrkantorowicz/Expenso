@@ -1,7 +1,5 @@
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Request.Maps;
+using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Maps;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response.Maps;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
@@ -31,11 +29,9 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
     public async Task<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>?> HandleAsync(
         GetBudgetPermissionRequestsQuery query, CancellationToken cancellationToken)
     {
-        (_, Guid? budgetId, Guid? participantId, Guid? ownerId, bool? forCurrentUser,
-            GetBudgetPermissionRequestsRequest_Status? status,
-            GetBudgetPermissionRequestsRequest_PermissionType? permissionType) = query;
+        Guid? participantId = query.Payload?.ParticipantId;
 
-        if (forCurrentUser is true)
+        if (query.Payload?.ForCurrentUser is true)
         {
             participantId =
                 Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId, result: out Guid userId)
@@ -45,13 +41,11 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
 
         BudgetPermissionRequestFilter filter = new()
         {
-            BudgetId = BudgetId.Nullable(value: budgetId),
+            BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
             ParticipantId = PersonId.Nullable(value: participantId),
-            OwnerId = PersonId.Nullable(value: ownerId),
-            Status = status.HasValue ? GetBudgetPermissionRequestsRequestMap.MapTo(status: status.Value) : null,
-            PermissionType = permissionType.HasValue
-                ? GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: permissionType.Value)
-                : null
+            OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
+            Status = GetBudgetPermissionRequestsRequestMap.MapTo(status: query.Payload?.Status),
+            PermissionType = GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
         };
 
         IReadOnlyCollection<BudgetPermissionRequest> budgetPermissionRequests =

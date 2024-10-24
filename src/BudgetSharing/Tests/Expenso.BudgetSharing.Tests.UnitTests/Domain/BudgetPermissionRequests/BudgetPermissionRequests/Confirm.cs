@@ -16,7 +16,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Confirm(clock: _clockMock.Object);
+        TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
         TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
@@ -34,10 +34,10 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Confirm(clock: _clockMock.Object);
+        TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Act
-        Action action = () => TestCandidate.Confirm(clock: _clockMock.Object);
+        Action action = () => TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
         action
@@ -54,10 +54,10 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Cancel(clock: _clockMock.Object);
+        TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Act
-        Action action = () => TestCandidate.Confirm(clock: _clockMock.Object);
+        Action action = () => TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
         action
@@ -77,7 +77,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         TestCandidate.Expire();
 
         // Act
-        Action action = () => TestCandidate.Confirm(clock: _clockMock.Object);
+        Action action = () => TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
         action
@@ -87,5 +87,26 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
             .WithDetails(
                 expectedWildcardPattern:
                 $"Only pending budget permission request {TestCandidate.Id} can be made confirmed.");
+    }
+
+    [Test]
+    public void
+        Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestConfirmationDateIsLessOrEqualThanSubmitted()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate(delay: 3);
+        DateTimeOffset confirmationDate = _clockMock.Object.UtcNow;
+
+        // Act
+        Action action = () => TestCandidate.Confirm(confirmationDate: confirmationDate);
+
+        // Assert
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Confirmation date {confirmationDate} must be greater than submission date: {TestCandidate.StatusTracker.SubmissionDate}.");
     }
 }

@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Request;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -6,4 +6,4 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudget
 
 public sealed record CreateBudgetPermissionCommand(
     IMessageContext MessageContext,
-    CreateBudgetPermissionRequest CreateBudgetPermissionRequest) : ICommand;
+    CreateBudgetPermissionRequest? Payload) : ICommand;

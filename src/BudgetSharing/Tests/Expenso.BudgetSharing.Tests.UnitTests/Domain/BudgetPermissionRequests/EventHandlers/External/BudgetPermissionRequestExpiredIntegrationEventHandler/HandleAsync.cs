@@ -1,4 +1,5 @@
-﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
@@ -12,10 +13,10 @@ internal sealed class HandleAsync : BudgetPermissionRequestExpiredIntegrationEve
         // Arrange
         // Act
         // Assert
-        Assert.DoesNotThrowAsync(code: () =>
-            TestCandidate.HandleAsync(
-                @event: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: MessageContextFactoryMock.Object.Current(),
-                    BudgetPermissionRequestId: Guid.NewGuid()), cancellationToken: default));
+        Assert.DoesNotThrowAsync(code: () => TestCandidate.HandleAsync(
+            @event: new BudgetPermissionRequestExpiredIntegrationEvent(
+                MessageContext: MessageContextFactoryMock.Object.Current(),
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid())),
+            cancellationToken: default));
     }
 }

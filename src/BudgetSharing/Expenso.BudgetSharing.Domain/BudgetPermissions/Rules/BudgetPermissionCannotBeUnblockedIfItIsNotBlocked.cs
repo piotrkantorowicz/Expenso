@@ -17,10 +17,10 @@ internal sealed class BudgetPermissionCannotBeUnblockedIfItIsNotBlocked : IBusin
             budgetPermissionId ?? throw new ArgumentNullException(paramName: nameof(budgetPermissionId));
     }
 
-    public string Message => $"Budget permission with ID {_budgetPermissionId} is not deleted.";
+    public string Message => $"Budget permission with ID {_budgetPermissionId} is not blocked.";
 
     public bool IsBroken()
     {
-        return _blockInfo?.IsBlocked is not true;
+        return _blockInfo?.IsBlocked is false or null;
     }
 }

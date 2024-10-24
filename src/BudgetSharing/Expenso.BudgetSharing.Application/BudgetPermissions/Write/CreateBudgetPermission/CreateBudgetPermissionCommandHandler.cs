@@ -1,8 +1,8 @@
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Response;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
 using Expenso.Shared.Commands;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission;
@@ -22,26 +22,26 @@ internal sealed class
     public async Task<CreateBudgetPermissionResponse> HandleAsync(CreateBudgetPermissionCommand command,
         CancellationToken cancellationToken)
     {
-        (_, (Guid? budgetPermissionId, Guid budgetId, Guid ownerId)) = command;
         BudgetPermission budgetPermission;
 
-        if (budgetPermissionId.HasValue)
+        if (command.Payload?.BudgetPermissionId is { } budgetPermissionId)
         {
-            BudgetPermissionId typedBudgetPermissionId = BudgetPermissionId.New(value: budgetPermissionId.Value);
+            BudgetPermissionId typedBudgetPermissionId = BudgetPermissionId.New(value: budgetPermissionId);
 
             budgetPermission =
                 await _budgetPermissionRepository.GetByIdAsync(id: typedBudgetPermissionId,
                     cancellationToken: cancellationToken) ?? BudgetPermission.Create(
-                    budgetPermissionId: typedBudgetPermissionId, budgetId: BudgetId.New(value: budgetId),
-                    ownerId: PersonId.New(value: ownerId));
+                    budgetPermissionId: typedBudgetPermissionId,
+                    budgetId: BudgetId.New(value: command.Payload?.BudgetId),
+                    ownerId: PersonId.New(value: command.Payload?.OwnerId));
         }
         else
         {
-            budgetPermission = BudgetPermission.Create(budgetId: BudgetId.New(value: budgetId),
-                ownerId: PersonId.New(value: ownerId));
+            budgetPermission = BudgetPermission.Create(budgetId: BudgetId.New(value: command.Payload?.BudgetId),
+                ownerId: PersonId.New(value: command.Payload?.OwnerId));
         }
 
-        budgetPermission.AddPermission(participantId: PersonId.New(value: ownerId),
+        budgetPermission.AddPermission(participantId: PersonId.New(value: command.Payload?.OwnerId),
             permissionType: PermissionType.Owner);
 
         await _budgetPermissionRepository.AddOrUpdateAsync(budgetPermission: budgetPermission,

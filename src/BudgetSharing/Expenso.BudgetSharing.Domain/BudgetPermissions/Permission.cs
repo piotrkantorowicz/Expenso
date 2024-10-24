@@ -15,22 +15,24 @@ public sealed class Permission
         PermissionType = default!;
     }
 
-    private Permission(PersonId participantId, PermissionType permissionType)
+    private Permission(PersonId participantId, PermissionType? permissionType)
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(BusinessRule: new NonePermissionTypeCannotBeProcessed(permissionType: permissionType))
+            new BusinessRuleCheck(
+                BusinessRule: new ParticipantPermissionTypeMustHaveValue(permissionType: permissionType,
+                    participantId: participantId))
         ]);
 
         ParticipantId = participantId;
-        PermissionType = permissionType;
+        PermissionType = permissionType!;
     }
 
     public PersonId ParticipantId { get; }
 
     public PermissionType PermissionType { get; }
 
-    internal static Permission Create(PersonId participantId, PermissionType permissionType)
+    internal static Permission Create(PersonId participantId, PermissionType? permissionType)
     {
         return new Permission(participantId: participantId, permissionType: permissionType);
     }

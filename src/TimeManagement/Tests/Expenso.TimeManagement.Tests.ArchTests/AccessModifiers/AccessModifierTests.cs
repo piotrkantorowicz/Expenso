@@ -15,7 +15,6 @@ internal sealed class AccessModifierTests : TestBase
         "Response",
         "Query",
         "Command",
-        "Contract",
         "IntegrationEvent",
         "AllowedEvents"
     ];

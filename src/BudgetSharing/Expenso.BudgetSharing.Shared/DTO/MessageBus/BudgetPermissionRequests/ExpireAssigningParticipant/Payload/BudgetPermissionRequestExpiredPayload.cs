@@ -1,0 +1,3 @@
+﻿namespace Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
+
+public sealed record BudgetPermissionRequestExpiredPayload(Guid BudgetPermissionRequestId);

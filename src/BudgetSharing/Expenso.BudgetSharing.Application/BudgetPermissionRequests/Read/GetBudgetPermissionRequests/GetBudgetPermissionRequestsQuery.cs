@@ -7,10 +7,4 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBud
 
 public sealed record GetBudgetPermissionRequestsQuery(
     IMessageContext MessageContext,
-    Guid? BudgetId = null,
-    Guid? ParticipantId = null,
-    Guid? OwnerId = null,
-    bool? ForCurrentUser = null,
-    GetBudgetPermissionRequestsRequest_Status? Status = null,
-    GetBudgetPermissionRequestsRequest_PermissionType? PermissionType = null)
-    : IQuery<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>>;
+    GetBudgetPermissionRequestsRequest? Payload) : IQuery<IReadOnlyCollection<GetBudgetPermissionRequestsResponse>>;

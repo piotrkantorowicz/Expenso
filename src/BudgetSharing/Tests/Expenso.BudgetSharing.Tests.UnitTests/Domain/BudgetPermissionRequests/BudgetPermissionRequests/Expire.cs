@@ -35,7 +35,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Cancel(clock: _clockMock.Object);
+        TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Act
         Action action = () => TestCandidate.Expire();
@@ -55,7 +55,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Confirm(clock: _clockMock.Object);
+        TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Act
         Action action = () => TestCandidate.Expire();

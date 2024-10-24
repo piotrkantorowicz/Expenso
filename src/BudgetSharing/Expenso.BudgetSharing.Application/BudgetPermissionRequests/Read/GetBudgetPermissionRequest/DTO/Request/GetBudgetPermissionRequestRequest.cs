@@ -1,0 +1,3 @@
+﻿namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Request;
+
+public sealed record GetBudgetPermissionRequestRequest(Guid BudgetPermissionRequestId);

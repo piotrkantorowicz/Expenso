@@ -7,4 +7,4 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetP
 
 public sealed record GetPreferenceForCurrentUserQuery(
     IMessageContext MessageContext,
-    GetPreferenceForCurrentUserRequest Payload) : IQuery<GetPreferenceForCurrentUserResponse>;
+    GetPreferenceForCurrentUserRequest? Payload) : IQuery<GetPreferenceForCurrentUserResponse>;

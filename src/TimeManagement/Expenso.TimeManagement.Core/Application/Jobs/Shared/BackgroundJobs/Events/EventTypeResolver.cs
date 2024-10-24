@@ -1,4 +1,4 @@
-﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 
 namespace Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 
