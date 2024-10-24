@@ -20,8 +20,7 @@ internal abstract class SettingsServiceTestBase : TestBase<SettingsService<TestS
         _configuration = new ConfigurationBuilder().AddInMemoryCollection(initialData: _myConfiguration).Build();
 
         TestCandidate = new SettingsService<TestSettings>(validators: _validatorsMock.Object,
-            configuration: _configuration,
-            logger: _loggerMock.Object);
+            configuration: _configuration, logger: _loggerMock.Object, fluentValidators: []);
     }
 
     private readonly IDictionary<string, string?> _myConfiguration = new Dictionary<string, string?>

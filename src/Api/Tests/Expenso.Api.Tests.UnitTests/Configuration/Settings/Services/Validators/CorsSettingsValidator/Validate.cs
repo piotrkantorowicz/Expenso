@@ -1,22 +1,13 @@
 ﻿using Expenso.Api.Configuration.Settings;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.CorsSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : CorsSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: "Cors settings are required.");
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_EnabledFlagIsNull()
     {
@@ -27,12 +18,11 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _corsSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        string error = validationResult[key: nameof(CorsSettings.Enabled)];
-        error.Should().Be(expected: "Cors enabled flag must be provided.");
+        validationResult.AssertSingleError(propertyName: nameof(CorsSettings.Enabled),
+            errorMessage: "Cors enabled flag must be provided.");
     }
 
     [Test]
@@ -41,16 +31,15 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         // Arrange
         _corsSettings = _corsSettings with
         {
-            AllowedOrigins = []
+            AllowedOrigins = Array.Empty<string>()
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _corsSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        string error = validationResult[key: nameof(CorsSettings.AllowedOrigins)];
-        error.Should().Be(expected: "AllowedOrigins cannot be null or empty.");
+        validationResult.AssertSingleError(propertyName: nameof(CorsSettings.AllowedOrigins),
+            errorMessage: "AllowedOrigins cannot be null or empty.");
     }
 
     [Test]
@@ -63,21 +52,21 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _corsSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        string error = validationResult[key: nameof(CorsSettings.AllowedOrigins)];
-        error.Should().Be(expected: "Origin cannot be empty and must be a valid URL.");
+        validationResult.AssertSingleError(propertyName: $"{nameof(CorsSettings.AllowedOrigins)}[0]",
+            errorMessage: "Origin cannot be empty and must be a valid URL.");
     }
 
     [Test]
     public void Should_NotReturnValidationErrors_When_CorsSettingsAreValid()
     {
+        // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _corsSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.Should().BeEmpty();
+        validationResult.AssertNoErrors();
     }
 }

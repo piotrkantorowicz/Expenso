@@ -102,7 +102,7 @@ public static class StringExtensions
             (char.IsLetterOrDigit(c: ch) || specialCharacters.Contains(value: ch)) && !char.IsWhiteSpace(c: ch));
     }
 
-    public static bool IsValidUrl(this string url)
+    public static bool IsValidUrl(this string? url)
     {
         return Uri.TryCreate(uriString: url, uriKind: UriKind.Absolute, result: out Uri? uriResult) &&
                (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);

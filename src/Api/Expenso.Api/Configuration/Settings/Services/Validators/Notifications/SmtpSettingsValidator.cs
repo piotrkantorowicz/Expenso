@@ -1,59 +1,42 @@
 ﻿using Expenso.Communication.Shared.DTO.Settings.Email;
-using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
 
-internal sealed class SmtpSettingsValidator : ISettingsValidator<SmtpSettings>
+internal sealed class SmtpSettingsValidator : AbstractValidator<SmtpSettings>
 {
-    public IDictionary<string, string> Validate(SmtpSettings? settings)
+    public SmtpSettingsValidator()
     {
-        Dictionary<string, string> errors = new();
+        RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "SMTP settings are required.");
 
-        if (settings is null)
-        {
-            errors.Add(key: nameof(settings).Pascalize(), value: "SMTP settings are required.");
+        RuleFor(expression: x => x.Host)
+            .NotEmpty()
+            .WithMessage(errorMessage: "SMTP host must be provided and cannot be empty.")
+            .DependentRules(action: () => RuleFor(expression: x => x.Host)
+                .Must(predicate: host => host.IsValidHost())
+                .WithMessage(errorMessage: "SMTP host must be a valid DNS name, IPv4, or IPv6 address."));
 
-            return errors;
-        }
+        RuleFor(expression: x => x.Port)
+            .GreaterThan(valueToCompare: 0)
+            .WithMessage(errorMessage: "SMTP port must be a valid integer between 1 and 65535.");
 
-        if (string.IsNullOrWhiteSpace(value: settings.Host))
-        {
-            errors.Add(key: nameof(settings.Host), value: "SMTP host must be provided and cannot be empty.");
-        }
-        else if (!settings.Host.IsValidHost())
-        {
-            errors.Add(key: nameof(settings.Host), value: "SMTP host must be a valid DNS name, IPv4, or IPv6 address.");
-        }
+        RuleFor(expression: x => x.Username)
+            .NotEmpty()
+            .WithMessage(errorMessage: "SMTP username must be provided and cannot be empty.")
+            .DependentRules(action: () => RuleFor(expression: x => x.Username)
+                .Must(predicate: username => username.IsValidUsername())
+                .WithMessage(
+                    errorMessage: "SMTP username must be between 3 and 30 characters long and start with a letter."));
 
-        if (settings.Port <= 0 || !settings.Port.IsValidPort())
-        {
-            errors.Add(key: nameof(settings.Port), value: "SMTP port must be a valid integer between 1 and 65535.");
-        }
-
-        if (string.IsNullOrWhiteSpace(value: settings.Username))
-        {
-            errors.Add(key: nameof(settings.Username), value: "SMTP username must be provided and cannot be empty.");
-        }
-        else if (!settings.Username.IsValidUsername())
-        {
-            errors.Add(key: nameof(settings.Username),
-                value: "SMTP username must be between 3 and 30 characters long and start with a letter.");
-        }
-
-        if (string.IsNullOrWhiteSpace(value: settings.Password))
-        {
-            errors.Add(key: nameof(settings.Password), value: "SMTP password must be provided and cannot be empty.");
-        }
-        else if (!settings.Password.IsValidPassword(minLength: 8, maxLength: 20))
-        {
-            errors.Add(key: nameof(settings.Password),
-                value:
-                "SMTP password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character.");
-        }
-
-        return errors;
+        RuleFor(expression: x => x.Password)
+            .NotEmpty()
+            .WithMessage(errorMessage: "SMTP password must be provided and cannot be empty.")
+            .DependentRules(action: () => RuleFor(expression: x => x.Password)
+                .Must(predicate: password => password.IsValidPassword(minLength: 8, maxLength: 20))
+                .WithMessage(
+                    errorMessage:
+                    "SMTP password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character."));
     }
 }

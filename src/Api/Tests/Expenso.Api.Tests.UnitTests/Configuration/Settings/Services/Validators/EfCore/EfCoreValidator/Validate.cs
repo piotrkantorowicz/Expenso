@@ -1,24 +1,13 @@
-﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.EfCoreValidator;
+﻿using Expenso.Shared.Database.EfCore.Settings;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
+
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.EfCoreValidator;
 
 [TestFixture]
 internal sealed class Validate : EfCoreSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Arrange
-        _efCoreSettings = null!;
-
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "EfCore settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_ConnectionParametersIsNull()
     {
@@ -29,13 +18,11 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ConnectionParameters must be provided and cannot be null.";
-        string error = validationResult[key: nameof(_efCoreSettings.ConnectionParameters)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.ConnectionParameters),
+            errorMessage: "ConnectionParameters must be provided and cannot be null.");
     }
 
     [Test]
@@ -51,13 +38,13 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Host must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_efCoreSettings.ConnectionParameters.Host)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(EfCoreSettings.ConnectionParameters)}.{nameof(EfCoreSettings.ConnectionParameters.Host)}",
+            errorMessage: "Host must be provided and cannot be empty.");
     }
 
     [Test]
@@ -70,13 +57,11 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "InMemory flag must be provided.";
-        string error = validationResult[key: nameof(_efCoreSettings.InMemory)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.InMemory),
+            errorMessage: "InMemory flag must be provided.");
     }
 
     [Test]
@@ -89,13 +74,11 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "UseMigration flag must be provided.";
-        string error = validationResult[key: nameof(_efCoreSettings.UseMigration)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.UseMigration),
+            errorMessage: "UseMigration flag must be provided.");
     }
 
     [Test]
@@ -108,13 +91,11 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "UseSeeding flag must be provided.";
-        string error = validationResult[key: nameof(_efCoreSettings.UseSeeding)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.UseSeeding),
+            errorMessage: "UseSeeding flag must be provided.");
     }
 
     [Test]
@@ -122,9 +103,9 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _efCoreSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }

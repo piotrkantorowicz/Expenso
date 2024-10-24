@@ -1,65 +1,37 @@
 ﻿using Expenso.Communication.Shared.DTO.Settings.Email;
-using Expenso.Shared.System.Configuration.Validators;
-using Expenso.Shared.System.Types.TypesExtensions;
-using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
 
-internal sealed class EmailNotificationSettingsValidator : ISettingsValidator<EmailNotificationSettings>
+internal sealed class EmailNotificationSettingsValidator : AbstractValidator<EmailNotificationSettings>
 {
-    public IDictionary<string, string> Validate(EmailNotificationSettings? settings)
+    public EmailNotificationSettingsValidator(SmtpSettingsValidator smtpSettingsValidator)
     {
-        Dictionary<string, string> errors = new();
+        ArgumentNullException.ThrowIfNull(argument: smtpSettingsValidator);
+        RuleFor(expression: x => x.Enabled).NotNull().WithMessage(errorMessage: "Email enabled flag must be provided.");
 
-        if (settings is null)
+        When(predicate: x => x.Enabled == true, action: () =>
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Email notification settings are required.");
+            RuleFor(expression: x => x.From)
+                .NotEmpty()
+                .WithMessage(errorMessage: "Email 'From' address must be provided and cannot be empty.")
+                .DependentRules(action: () => RuleFor(expression: x => x.From)
+                    .EmailAddress()
+                    .WithMessage(errorMessage: "Email 'From' address must be a valid email address."));
 
-            return errors;
-        }
+            RuleFor(expression: x => x.ReplyTo)
+                .NotEmpty()
+                .WithMessage(errorMessage: "Email 'ReplyTo' address must be provided and cannot be empty.")
+                .DependentRules(action: () => RuleFor(expression: x => x.ReplyTo)
+                    .EmailAddress()
+                    .WithMessage(errorMessage: "Email 'ReplyTo' address must be a valid email address."));
 
-        if (settings.Enabled is null)
-        {
-            errors.Add(key: nameof(settings.Enabled), value: "Email enabled flag must be provided.");
-
-            return errors;
-        }
-
-        if (settings.Enabled is false)
-        {
-            return errors;
-        }
-
-        if (string.IsNullOrWhiteSpace(value: settings.From))
-        {
-            errors.Add(key: nameof(settings.From), value: "Email 'From' address must be provided and cannot be empty.");
-        }
-        else if (!settings.From.IsValidEmail())
-        {
-            errors.Add(key: nameof(settings.From), value: "Email 'From' address must be a valid email address.");
-        }
-
-        if (string.IsNullOrWhiteSpace(value: settings.ReplyTo))
-        {
-            errors.Add(key: nameof(settings.ReplyTo),
-                value: "Email 'ReplyTo' address must be provided and cannot be empty.");
-        }
-        else if (!settings.ReplyTo.IsValidEmail())
-        {
-            errors.Add(key: nameof(settings.ReplyTo), value: "Email 'ReplyTo' address must be a valid email address.");
-        }
-
-        if (settings.Smtp is null)
-        {
-            errors.Add(key: nameof(settings.Smtp), value: "Smtp must be provided and cannot be null.");
-        }
-        else
-        {
-            errors.Merge(items: new SmtpSettingsValidator().Validate(settings: settings.Smtp));
-        }
-
-        return errors;
+            RuleFor(expression: x => x.Smtp)
+                .NotNull()
+                .WithMessage(errorMessage: "Smtp must be provided and cannot be null.")
+                .DependentRules(action: () => RuleFor(expression: x => x.Smtp!)
+                    .SetValidator(validator: smtpSettingsValidator));
+        });
     }
 }

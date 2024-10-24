@@ -26,7 +26,9 @@ internal abstract class EfCoreSettingsValidatorTestBase : TestBase<EfCoreSetting
             UseSeeding = true
         };
 
-        TestCandidate = new EfCoreSettingsValidator();
+        TestCandidate = new EfCoreSettingsValidator(
+            connectionParametersValidator:
+            new Api.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator());
     }
 
     protected EfCoreSettings _efCoreSettings = null!;

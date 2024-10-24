@@ -1,4 +1,8 @@
-﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
+
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
 
 [TestFixture]
 internal sealed class Validate : ConnectionParametersValidatorTestBase
@@ -13,13 +17,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Host must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_connectionParameters.Host)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Host),
+            errorMessage: "Host must be provided and cannot be empty.");
     }
 
     [Test]
@@ -32,13 +34,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Host must be a valid DNS name or IP address.";
-        string error = validationResult[key: nameof(_connectionParameters.Host)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Host),
+            errorMessage: "Host must be a valid DNS name or IP address.");
     }
 
     [Test]
@@ -51,13 +51,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Port must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_connectionParameters.Port)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Port),
+            errorMessage: "Port must be provided and cannot be empty.");
     }
 
     [Test]
@@ -70,13 +68,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Port must be a valid integer between 1 and 65535.";
-        string error = validationResult[key: nameof(_connectionParameters.Port)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Port),
+            errorMessage: "Port must be a valid integer between 1 and 65535.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -90,13 +86,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "DefaultDatabase must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_connectionParameters.DefaultDatabase)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
+            errorMessage: "DefaultDatabase must be provided and cannot be empty.");
     }
 
     [Test]
@@ -109,16 +103,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "DefaultDatabase must be an alphanumeric string between 1 and 100 characters.";
-
-        string error = validationResult[key: nameof(_connectionParameters.DefaultDatabase)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
+            errorMessage: "DefaultDatabase must be an alphanumeric string between 1 and 100 characters.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -131,13 +120,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Database must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_connectionParameters.Database)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Database),
+            errorMessage: "Database must be provided and cannot be empty.");
     }
 
     [Test]
@@ -150,16 +137,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "Database must be an alphanumeric string between 1 and 100 characters.";
-
-        string error = validationResult[key: nameof(_connectionParameters.Database)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Database),
+            errorMessage: "Database must be an alphanumeric string between 1 and 100 characters.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -172,13 +154,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "User must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_connectionParameters.User)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.User),
+            errorMessage: "User must be provided and cannot be empty.");
     }
 
     [Test]
@@ -191,16 +171,12 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "User must be a valid alphanumeric string starting with a letter and between 3 and 30 characters.";
-
-        string error = validationResult[key: nameof(_connectionParameters.User)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.User),
+            errorMessage:
+            "User must be a valid alphanumeric string starting with a letter and between 3 and 30 characters.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -213,13 +189,11 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Password must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_connectionParameters.Password)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Password),
+            errorMessage: "Password must be provided and cannot be empty.");
     }
 
     [Test]
@@ -232,16 +206,12 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "Password must be between 8 and 30 characters, contain an upper and lower case letter, a digit, and a special character, with no spaces.";
-
-        string error = validationResult[key: nameof(_connectionParameters.Password)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Password),
+            errorMessage:
+            "Password must be between 8 and 30 characters, contain an upper and lower case letter, a digit, and a special character, with no spaces.");
     }
 
     [Test]
@@ -249,9 +219,9 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _connectionParameters);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }

@@ -32,7 +32,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload",
+        validationResult.AssertSingleError(propertyName: nameof(command.Payload),
             errorMessage: "The command payload must not be null.");
     }
 
@@ -49,7 +49,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "PreferenceId",
+        validationResult.AssertSingleError(propertyName: nameof(_updatePreferenceCommand.PreferenceId),
             errorMessage: "The preference ID must not be empty.");
     }
 
@@ -67,7 +67,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference)}",
             errorMessage: "The finance preference must not be empty.");
     }
 
@@ -87,7 +89,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference.MaxNumberOfFinancePlanReviewers)}",
             errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
@@ -107,7 +111,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfFinancePlanReviewers",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference.MaxNumberOfFinancePlanReviewers)}",
             errorMessage: "The number of finance plan reviewers must be between 0 and 10.");
     }
 
@@ -127,7 +133,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners)}",
             errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
@@ -147,7 +155,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference)}.{nameof(_updatePreferenceCommand.Payload.FinancePreference.MaxNumberOfSubFinancePlanSubOwners)}",
             errorMessage: "The number of finance plan sub-owners must be between 0 and 5.");
     }
 
@@ -165,7 +175,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.NotificationPreference",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.NotificationPreference)}",
             errorMessage: "The notification preference must not be empty.");
     }
 
@@ -185,7 +197,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.NotificationPreference)}.{nameof(_updatePreferenceCommand.Payload.NotificationPreference.SendFinanceReportInterval)}",
             errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
@@ -205,7 +219,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.NotificationPreference.SendFinanceReportInterval",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.NotificationPreference)}.{nameof(_updatePreferenceCommand.Payload.NotificationPreference.SendFinanceReportInterval)}",
             errorMessage: "The interval for sending the finance report must be between 0 and 31 days.");
     }
 
@@ -223,7 +239,9 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.GeneralPreference",
+        validationResult.AssertSingleError(
+            propertyName:
+            $"{nameof(_updatePreferenceCommand.Payload)}.{nameof(_updatePreferenceCommand.Payload.GeneralPreference)}",
             errorMessage: "The general preference must not be empty.");
     }
 }

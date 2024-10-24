@@ -1,47 +1,26 @@
-﻿using Expenso.Shared.System.Configuration.Validators;
-using Expenso.Shared.System.Types.TypesExtensions.Validations;
+﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
-internal sealed class CorsSettingsValidator : ISettingsValidator<CorsSettings>
+internal sealed class CorsSettingsValidator : AbstractValidator<CorsSettings>
 {
-    public IDictionary<string, string> Validate(CorsSettings? settings)
+    public CorsSettingsValidator()
     {
-        Dictionary<string, string> errors = new();
+        RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "Cors settings are required.");
+        RuleFor(expression: x => x.Enabled).NotNull().WithMessage(errorMessage: "Cors enabled flag must be provided.");
 
-        if (settings is null)
+        When(predicate: x => x.Enabled == true, action: () =>
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Cors settings are required.");
+            RuleFor(expression: x => x.AllowedOrigins)
+                .NotEmpty()
+                .WithMessage(errorMessage: "AllowedOrigins cannot be null or empty.");
 
-            return errors;
-        }
-
-        if (settings.Enabled is null)
-        {
-            errors.Add(key: nameof(settings.Enabled), value: "Cors enabled flag must be provided.");
-
-            return errors;
-        }
-
-        if (settings is { Enabled: true, AllowedOrigins: null or [] })
-        {
-            errors.Add(key: nameof(settings.AllowedOrigins), value: "AllowedOrigins cannot be null or empty.");
-        }
-        else if (settings is { Enabled: true, AllowedOrigins.Length: > 0 })
-        {
-            foreach (string allowedOrigin in settings.AllowedOrigins)
-            {
-                if (string.IsNullOrWhiteSpace(value: allowedOrigin) ||
-                    (allowedOrigin is not "*" && !allowedOrigin.IsValidUrl()))
-                {
-                    errors.Add(key: nameof(settings.AllowedOrigins),
-                        value: "Origin cannot be empty and must be a valid URL.");
-                }
-            }
-        }
-
-        return errors;
+            RuleForEach(expression: x => x.AllowedOrigins)
+                .Must(predicate: origin =>
+                    !string.IsNullOrWhiteSpace(value: origin) && (origin == "*" || origin.IsValidUrl()))
+                .WithMessage(errorMessage: "Origin cannot be empty and must be a valid URL.");
+        });
     }
 }

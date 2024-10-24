@@ -1,62 +1,36 @@
 ﻿using Expenso.Shared.System.Configuration.Settings.Files;
-using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
-internal sealed class FilesSettingsValidator : ISettingsValidator<FilesSettings>
+internal sealed class FilesSettingsValidator : AbstractValidator<FilesSettings>
 {
-    public IDictionary<string, string> Validate(FilesSettings? settings)
+    public FilesSettingsValidator()
     {
-        Dictionary<string, string> errors = new();
+        RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "File settings are required.");
 
-        if (settings is null)
-        {
-            errors.Add(key: nameof(settings).Pascalize(), value: "File settings are required.");
+        RuleFor(expression: x => x.StorageType)
+            .Must(predicate: storageType => Enum.IsDefined(enumType: typeof(FileStorageType), value: storageType))
+            .WithMessage(errorMessage: "StorageType must be a valid value.");
 
-            return errors;
-        }
+        RuleFor(expression: x => x.RootPath)
+            .Must(predicate: rootPath => string.IsNullOrWhiteSpace(value: rootPath) || rootPath.IsValidRootPath())
+            .WithMessage(errorMessage: "RootPath must be a valid absolute path.");
 
-        if (!Enum.IsDefined(enumType: typeof(FileStorageType), value: settings.StorageType))
-        {
-            errors.Add(key: nameof(settings.StorageType), value: "StorageType must be a valid value.");
-        }
+        RuleFor(expression: x => x.ImportDirectory)
+            .NotEmpty()
+            .WithMessage(errorMessage: "ImportDirectory must be provided and cannot be empty.")
+            .DependentRules(action: () => RuleFor(expression: x => x.ImportDirectory)
+                .Must(predicate: importDirectory => importDirectory.IsValidRelativePath())
+                .WithMessage(errorMessage: "ImportDirectory must be a valid relative path."));
 
-        if (!string.IsNullOrWhiteSpace(value: settings.RootPath) && !settings.RootPath.IsValidRootPath())
-        {
-            errors.Add(key: nameof(settings.RootPath), value: "RootPath must be a valid absolute path.");
-        }
-
-        if (string.IsNullOrWhiteSpace(value: settings.ImportDirectory))
-        {
-            errors.Add(key: nameof(settings.ImportDirectory),
-                value: "ImportDirectory must be provided and cannot be empty.");
-        }
-        else
-        {
-            if (!settings.ImportDirectory.IsValidRelativePath())
-            {
-                errors.Add(key: nameof(settings.ImportDirectory),
-                    value: "ImportDirectory must be a valid relative path.");
-            }
-        }
-
-        if (string.IsNullOrWhiteSpace(value: settings.ReportsDirectory))
-        {
-            errors.Add(key: nameof(settings.ReportsDirectory),
-                value: "ReportsDirectory must be provided and cannot be empty.");
-        }
-        else
-        {
-            if (!settings.ReportsDirectory.IsValidRelativePath())
-            {
-                errors.Add(key: nameof(settings.ReportsDirectory),
-                    value: "ReportsDirectory must be a valid relative path.");
-            }
-        }
-
-        return errors;
+        RuleFor(expression: x => x.ReportsDirectory)
+            .NotEmpty()
+            .WithMessage(errorMessage: "ReportsDirectory must be provided and cannot be empty.")
+            .DependentRules(action: () => RuleFor(expression: x => x.ReportsDirectory)
+                .Must(predicate: reportsDirectory => reportsDirectory.IsValidRelativePath())
+                .WithMessage(errorMessage: "ReportsDirectory must be a valid relative path."));
     }
 }

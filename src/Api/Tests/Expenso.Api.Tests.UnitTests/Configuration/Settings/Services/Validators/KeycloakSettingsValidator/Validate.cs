@@ -1,22 +1,12 @@
-﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
+
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : KeycloakSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_KeycloakSettingsAreNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Keycloak settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_AuthServerUrlIsNull()
     {
@@ -24,13 +14,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.AuthServerUrl = null;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Authorization server URL must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_keycloakSettings.AuthServerUrl)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.AuthServerUrl),
+            errorMessage: "Authorization server URL must be provided and cannot be empty.");
     }
 
     [Test]
@@ -40,13 +28,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.AuthServerUrl = "invalid-url";
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Authorization server URL must be a valid HTTP or HTTPS URL.";
-        string error = validationResult[key: nameof(_keycloakSettings.AuthServerUrl)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.AuthServerUrl),
+            errorMessage: "Authorization server URL must be a valid HTTP or HTTPS URL.");
     }
 
     [Test, TestCase(arg: null), TestCase(arg: ""), TestCase(arg: "   ")]
@@ -56,13 +42,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.Realm = realm!;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Realm must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_keycloakSettings.Realm)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Realm),
+            errorMessage: "Realm must be provided and cannot be empty.");
     }
 
     [Test]
@@ -72,16 +56,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.Realm = "123";
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "Realm must be an alpha string with a length between 5 and 50 characters.";
-
-        string error = validationResult[key: nameof(_keycloakSettings.Realm)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Realm),
+            errorMessage: "Realm must be an alpha string with a length between 5 and 50 characters.");
     }
 
     [Test, TestCase(arg: null), TestCase(arg: "")]
@@ -91,13 +70,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.Resource = resource!;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Resource (client ID) must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_keycloakSettings.Resource)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Resource),
+            errorMessage: "Resource (client ID) must be provided and cannot be empty.");
     }
 
     [Test]
@@ -107,16 +84,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.Resource = "Invalid#Resource";
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-
-        const string expectedValidationMessage =
-            "Resource (client ID) must be an alpha string with a length between 5 and 100 characters.";
-
-        string error = validationResult[key: nameof(_keycloakSettings.Resource)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Resource),
+            errorMessage: "Resource (client ID) must be an alpha string with a length between 5 and 100 characters.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -126,13 +98,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.SslRequired = sslRequired!;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SSL requirement must be specified and cannot be empty.";
-        string error = validationResult[key: nameof(_keycloakSettings.SslRequired)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.SslRequired),
+            errorMessage: "SSL requirement must be specified and cannot be empty.");
     }
 
     [Test]
@@ -142,13 +112,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.SslRequired = "INVALID";
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "SSL requirement must be one of the predefined values.";
-        string error = validationResult[key: nameof(_keycloakSettings.SslRequired)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.SslRequired),
+            errorMessage: "SSL requirement must be one of the predefined values.");
     }
 
     [Test]
@@ -158,13 +126,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.VerifyTokenAudience = null;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "VerifyTokenAudience must be specified.";
-        string error = validationResult[key: nameof(_keycloakSettings.VerifyTokenAudience)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.VerifyTokenAudience),
+            errorMessage: "Token audience must be specified.");
     }
 
     [Test]
@@ -174,13 +140,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.Credentials = null!;
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Client secret must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_keycloakSettings.Credentials)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Credentials),
+            errorMessage: "Client secret must be provided and cannot be empty.");
     }
 
     [Test]
@@ -190,13 +154,12 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         _keycloakSettings.Credentials.Secret = "invalid-guid";
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Client secret must be a valid GUID format.";
-        string error = validationResult[key: nameof(_keycloakSettings.Credentials.Secret)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(
+            propertyName: $"{nameof(_keycloakSettings.Credentials)}.{nameof(_keycloakSettings.Credentials.Secret)}",
+            errorMessage: "Client secret must be a valid GUID format.");
     }
 
     [Test]
@@ -204,9 +167,9 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _keycloakSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }
