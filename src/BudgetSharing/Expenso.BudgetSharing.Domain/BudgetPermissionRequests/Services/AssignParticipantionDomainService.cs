@@ -68,7 +68,7 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
         [
             new BusinessRuleCheck(
                 BusinessRule: new MemberHasAlreadyAssignedToRequestedBudget(participantId: participantId,
-                    budgetPermission: budgetPermission), ThrowException: true)
+                    budgetPermission: budgetPermission))
         ]);
 
         IReadOnlyCollection<BudgetPermissionRequest> budgetPermissionRequests =

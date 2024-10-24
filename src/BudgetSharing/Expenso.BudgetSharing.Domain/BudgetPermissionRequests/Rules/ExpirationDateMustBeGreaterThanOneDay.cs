@@ -11,8 +11,8 @@ internal sealed class ExpirationDateMustBeGreaterThanOneDay : IBusinessRule
 
     public ExpirationDateMustBeGreaterThanOneDay(DateAndTime expirationDate, IClock clock)
     {
-        _expirationDate = expirationDate;
-        _clock = clock;
+        _expirationDate = expirationDate ?? throw new ArgumentNullException(paramName: nameof(expirationDate));
+        _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
     }
 
     public string Message => $"Expiration date {_expirationDate.Value} must be greater than one day.";

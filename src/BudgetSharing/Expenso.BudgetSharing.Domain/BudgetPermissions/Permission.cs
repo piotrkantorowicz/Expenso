@@ -21,7 +21,7 @@ public sealed class Permission
         [
             new BusinessRuleCheck(
                 BusinessRule: new ParticipantPermissionTypeMustHaveValue(permissionType: permissionType,
-                    participantId: participantId), ThrowException: true)
+                    participantId: participantId))
         ]);
 
         ParticipantId = participantId;
