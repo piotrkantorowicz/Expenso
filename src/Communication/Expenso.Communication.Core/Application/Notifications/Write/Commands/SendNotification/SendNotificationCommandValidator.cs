@@ -16,6 +16,7 @@ internal sealed class SendNotificationCommandValidator : CommandValidator<SendNo
         RuleFor(expression: x => x.Payload!)
             .NotNull()
             .WithMessage(errorMessage: "Send notification request is required.")
-            .SetValidator(validator: sendNotificationRequestValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.Payload!).SetValidator(validator: sendNotificationRequestValidator));
     }
 }

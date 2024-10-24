@@ -17,6 +17,7 @@ internal sealed class RegisterJobEntryCommandValidator : CommandValidator<Regist
         RuleFor(expression: x => x.Payload!)
             .NotNull()
             .WithMessage(errorMessage: "The command payload must not be null.")
-            .SetValidator(validator: registerJobEntryRequestValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.Payload!).SetValidator(validator: registerJobEntryRequestValidator));
     }
 }

@@ -16,12 +16,16 @@ internal sealed class SendNotificationRequestValidator : AbstractValidator<SendN
         RuleFor(expression: x => x.NotificationContext!)
             .NotNull()
             .WithMessage(errorMessage: "Notification context is required.")
-            .SetValidator(validator: sendNotificationRequestNotificationContextValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.NotificationContext!)
+                    .SetValidator(validator: sendNotificationRequestNotificationContextValidator));
 
         RuleFor(expression: x => x.NotificationType!)
             .NotNull()
             .WithMessage(errorMessage: "Notification type is required.")
-            .SetValidator(validator: sendNotificationRequestNotificationTypeValidator);
+            .DependentRules(action: () =>
+                RuleFor(expression: x => x.NotificationType!)
+                    .SetValidator(validator: sendNotificationRequestNotificationTypeValidator));
 
         RuleFor(expression: x => x.Content)
             .NotEmpty()
