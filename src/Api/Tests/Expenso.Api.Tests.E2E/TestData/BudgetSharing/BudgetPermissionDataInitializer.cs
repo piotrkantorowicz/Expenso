@@ -24,21 +24,21 @@ internal static class BudgetPermissionDataInitializer
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
-        IList<(Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType, int expiration)>
+        IList<(Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType)>
             budgetPermissionRequestIds =
             [
                 (new Guid(g: "527336da-3371-45a9-9b9f-bbd42d01ffc2"), FakeIamProxy.ExistingEmails[1],
-                    AssignParticipantRequest_PermissionType.SubOwner, 3),
+                    AssignParticipantRequest_PermissionType.SubOwner),
                 (new Guid(g: "e33f3920-d004-4702-a876-f723f6a61cf3"), FakeIamProxy.ExistingEmails[1],
-                    AssignParticipantRequest_PermissionType.Reviewer, 2),
+                    AssignParticipantRequest_PermissionType.Reviewer),
                 (new Guid(g: "8663a59b-396e-41b9-9aee-163a6d51bcf9"), FakeIamProxy.ExistingEmails[2],
-                    AssignParticipantRequest_PermissionType.SubOwner, 5)
+                    AssignParticipantRequest_PermissionType.SubOwner)
             ];
 
         BudgetIds.AddRange(collection: budgetPermissionRequestIds.Select(selector: x => x.budgetId));
 
-        foreach ((Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType, int expiration)
-                 in budgetPermissionRequestIds)
+        foreach ((Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType) in
+                 budgetPermissionRequestIds)
         {
             CreateBudgetPermissionResponse? createBudgetPermissionResponse =
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
@@ -50,8 +50,7 @@ internal static class BudgetPermissionDataInitializer
                 await commandDispatcher.SendAsync<AssignParticipantCommand, AssignParticipantResponse>(
                     command: new AssignParticipantCommand(MessageContext: messageContextFactory.Current(),
                         Payload: new AssignParticipantRequest(BudgetId: budgetId, Email: email,
-                            PermissionType: permissionType, ExpirationDays: expiration)),
-                    cancellationToken: cancellationToken);
+                            PermissionType: permissionType)), cancellationToken: cancellationToken);
 
             BudgetPermissionIds.Add(item: createBudgetPermissionResponse!.BudgetPermissionId);
             BudgetPermissionRequestIds.Add(item: assignParticipantResponse!.BudgetPermissionRequestId);

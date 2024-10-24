@@ -26,7 +26,8 @@ internal abstract class
         _jobEntryStatusReposiotry = new Mock<IJobEntryStatusRepository>();
         _jobInstanceRepository = new Mock<IJobInstanceRepository>();
 
-        _eventTrigger = new BudgetPermissionRequestExpiredIntegrationEvent(MessageContext: null!,
+        _eventTrigger = new BudgetPermissionRequestExpiredIntegrationEvent(
+            MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: _eventTrigger);

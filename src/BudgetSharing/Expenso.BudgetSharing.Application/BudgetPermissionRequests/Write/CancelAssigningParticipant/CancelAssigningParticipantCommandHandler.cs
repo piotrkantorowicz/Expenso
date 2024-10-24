@@ -36,7 +36,7 @@ internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler
                 $"Budget permission request with ID {command.Payload?.BudgetPermissionRequestId} hasn't been found");
         }
 
-        budgetPermissionRequest.Cancel(clock: _clock);
+        budgetPermissionRequest.Cancel(cancellationDate: _clock.UtcNow);
 
         await _budgetPermissionRequestRepository.UpdateAsync(permission: budgetPermissionRequest,
             cancellationToken: cancellationToken);

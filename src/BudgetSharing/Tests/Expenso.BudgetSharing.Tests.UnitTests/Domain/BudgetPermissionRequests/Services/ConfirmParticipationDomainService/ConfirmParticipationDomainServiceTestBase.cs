@@ -26,16 +26,17 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _userPreferencesProxyMock = new Mock<IUserPreferencesProxy>();
         _clockMock = new Mock<IClock>();
 
-        _clockMock
-            .Setup(expression: x => x.UtcNow)
-            .Returns(value: new DateTimeOffset(year: 2024, month: 1, day: 1, hour: 0, minute: 0, second: 0,
-                offset: TimeSpan.Zero));
+        DateTimeOffset submissionDate = new(year: 2024, month: 1, day: 1, hour: 6, minute: 0, second: 0,
+            offset: TimeSpan.Zero);
+
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate);
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
             personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
             permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3),
-            clock: _clockMock.Object);
+            submissionDate: _clockMock.Object.UtcNow);
 
+        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate.AddMinutes(minutes: 30));
         PersonId ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetPermissionRequestId = _budgetPermissionRequest.Id;
         _budgetId = _budgetPermissionRequest.BudgetId;
@@ -57,13 +58,13 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermission.GetUncommittedChanges();
     }
 
+    private Mock<IClock> _clockMock = null!;
     protected BudgetId _budgetId = null!;
     protected BudgetPermission _budgetPermission = null!;
     protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
     protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
-    private Mock<IClock> _clockMock = null!;
     protected GetPreferencesResponse _getPreferenceResponse = null!;
     protected Mock<IUserPreferencesProxy> _userPreferencesProxyMock = null!;
 }

@@ -28,7 +28,7 @@ internal abstract class
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
             personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
             permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3),
-            clock: _clockMock.Object);
+            submissionDate: _clockMock.Object.UtcNow);
 
         TestCandidate =
             new BudgetSharing.Domain.BudgetPermissionRequests.Services.BudgetPermissionRequestExpirationDomainService(

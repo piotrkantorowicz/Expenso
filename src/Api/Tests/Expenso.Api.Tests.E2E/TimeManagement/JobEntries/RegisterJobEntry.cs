@@ -22,7 +22,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         [
             new RegisterJobEntryRequest_JobEntryTrigger(EventType: AllowedEvents.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: null!,
+                    MessageContext: MessageContextFactoryMock.Object.Current(),
                     Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
@@ -60,7 +60,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         [
             new RegisterJobEntryRequest_JobEntryTrigger(EventType: AllowedEvents.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: null!,
+                    MessageContext: MessageContextFactoryMock.Object.Current(),
                     Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 

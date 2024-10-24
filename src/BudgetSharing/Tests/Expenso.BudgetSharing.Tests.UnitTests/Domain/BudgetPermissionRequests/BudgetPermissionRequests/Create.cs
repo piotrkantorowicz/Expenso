@@ -16,10 +16,8 @@ internal sealed class Create : BudgetPermissionRequestTestBase
     public void Should_CreateBudgetPermissionRequest()
     {
         // Arrange
-        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: new DateTime(year: 2021, month: 1, day: 1));
-
         // Act
-        TestCandidate = CreateTestCandidate(emitDomainEvents: true);
+        TestCandidate = CreateTestCandidate(emitDomainEvents: true, delay: 0);
 
         // Assert
         TestCandidate.Id.Should().NotBeNull();
@@ -29,8 +27,9 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Pending);
 
         TestCandidate
-            .StatusTracker.ExpirationDate.Should()
-            .Be(expected: DateAndTime.New(value: _clockMock.Object.UtcNow.AddDays(days: Expiration)));
+            .StatusTracker.ExpirationDate.Value.Should()
+            .BeCloseTo(nearbyTime: DateAndTime.New(value: _clockMock.Object.UtcNow.AddDays(days: Expiration)).Value,
+                precision: TimeSpan.FromMilliseconds(value: 1000));
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -48,7 +47,8 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         // Act
         Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: PermissionType.None,
-            expirationDate: _clockMock.Object.UtcNow.AddDays(days: Expiration), clock: _clockMock.Object));
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: Expiration),
+            submissionDate: _clockMock.Object.UtcNow));
 
         // Assert
         action
@@ -67,7 +67,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         // Act
         Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: _defaultPermissionType,
-            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0), clock: _clockMock.Object));
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0), submissionDate: _clockMock.Object.UtcNow));
 
         // Assert
         action

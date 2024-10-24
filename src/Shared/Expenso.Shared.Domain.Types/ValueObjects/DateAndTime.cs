@@ -74,4 +74,9 @@ public sealed record DateAndTime
     {
         return Value < start.Value || Value > end.Value;
     }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

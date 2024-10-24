@@ -13,14 +13,13 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
     public void Should_SetExpireStatus()
     {
         // Arrange
-        DateTimeOffset currentTime = DateTimeOffset.UtcNow;
-        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
-        DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
+        DateTimeOffset submissionDate = DateTimeOffset.UtcNow.AddMinutes(minutes: -30);
+        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: DateTimeOffset.UtcNow);
 
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: submissionDate,
+                expirationDate: submissionDate.AddDays(days: 1),
                 status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                     .Pending);
 
@@ -38,18 +37,17 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
     public void Should_ThrowDomainRuleValidationException_When_AlreadyConfirmed()
     {
         // Arrange
-        DateTimeOffset currentTime = DateTimeOffset.UtcNow;
-        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
-        DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
+        DateTimeOffset submissionDate = DateTimeOffset.UtcNow.AddMinutes(minutes: -30);
+        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: DateTimeOffset.UtcNow);
 
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: submissionDate,
+                expirationDate: submissionDate.AddDays(days: 1),
                 status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                     .Pending);
 
-        statusTracker.Confirm(clock: _clockMock.Object);
+        statusTracker.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Act
         Action action = () => statusTracker.Expire();
@@ -68,18 +66,17 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
     public void Should_ThrowDomainRuleValidationException_When_Cancelled()
     {
         // Arrange
-        DateTimeOffset currentTime = DateTimeOffset.UtcNow;
-        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
-        DateAndTime expirationDate = DateAndTime.New(value: currentTime.AddDays(days: 1));
+        DateTimeOffset submissionDate = DateTimeOffset.UtcNow.AddMinutes(minutes: -30);
+        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: DateTimeOffset.UtcNow);
 
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
-                expirationDate: expirationDate,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: submissionDate,
+                expirationDate: submissionDate.AddDays(days: 1),
                 status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                     .Pending);
 
-        statusTracker.Cancel(clock: _clockMock.Object);
+        statusTracker.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Act
         Action action = () => statusTracker.Expire();
@@ -104,7 +101,7 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
 
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker statusTracker =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
-                budgetPermissionRequestId: _budgetPermissionRequestId, clock: _clockMock.Object,
+                budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: _clockMock.Object.UtcNow,
                 expirationDate: expirationDate,
                 status: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                     .Pending);

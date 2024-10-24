@@ -24,10 +24,9 @@ internal sealed class
     {
         BudgetPermission budgetPermission;
 
-        if (command.Payload?.BudgetPermissionId.HasValue is true)
+        if (command.Payload?.BudgetPermissionId is { } budgetPermissionId)
         {
-            BudgetPermissionId typedBudgetPermissionId =
-                BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId);
+            BudgetPermissionId typedBudgetPermissionId = BudgetPermissionId.New(value: budgetPermissionId);
 
             budgetPermission =
                 await _budgetPermissionRepository.GetByIdAsync(id: typedBudgetPermissionId,

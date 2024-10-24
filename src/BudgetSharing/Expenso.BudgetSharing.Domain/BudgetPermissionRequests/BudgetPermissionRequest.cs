@@ -6,7 +6,6 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.ValueObjects;
-using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
@@ -32,7 +31,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
         PersonId ownerId, PermissionType permissionType, BudgetPermissionRequestStatus status,
-        DateAndTime expirationDate, IClock clock)
+        DateAndTime expirationDate, DateAndTime submissionDate)
     {
         Id = id;
         BudgetId = budgetId;
@@ -40,8 +39,8 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         OwnerId = ownerId;
         PermissionType = permissionType;
 
-        StatusTracker = BudgetPermissionRequestStatusTracker.Start(budgetPermissionRequestId: Id, clock: clock,
-            expirationDate: expirationDate, status: status);
+        StatusTracker = BudgetPermissionRequestStatusTracker.Start(budgetPermissionRequestId: Id,
+            submissionDate: submissionDate, expirationDate: expirationDate, status: status);
 
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
@@ -69,27 +68,28 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     }
 
     internal static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,
-        PermissionType permissionType, DateAndTime expirationDate, IClock clock,
+        PermissionType permissionType, DateAndTime expirationDate, DateAndTime submissionDate,
         BudgetPermissionRequestId? budgetPermissionRequestId = null)
     {
         return new BudgetPermissionRequest(
             id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
             ownerId: ownerId, participantId: personId, permissionType: permissionType,
-            status: BudgetPermissionRequestStatus.Pending, expirationDate: expirationDate, clock: clock);
+            status: BudgetPermissionRequestStatus.Pending, expirationDate: expirationDate,
+            submissionDate: submissionDate);
     }
 
-    public void Confirm(IClock clock)
+    public void Confirm(DateAndTime confirmationDate)
     {
-        StatusTracker.Confirm(clock: clock);
+        StatusTracker.Confirm(confirmationDate: confirmationDate);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestConfirmedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
             PermissionType: PermissionType));
     }
 
-    public void Cancel(IClock clock)
+    public void Cancel(DateAndTime cancellationDate)
     {
-        StatusTracker.Cancel(clock: clock);
+        StatusTracker.Cancel(cancellationDate: cancellationDate);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestCancelledEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
