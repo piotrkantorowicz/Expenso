@@ -30,7 +30,7 @@ internal sealed class Unblock : BudgetPermissionTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_Deleted()
+    public void Should_ThrowDomainRuleValidationException_When_TryToUnblockAlreadyUnblocked()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();

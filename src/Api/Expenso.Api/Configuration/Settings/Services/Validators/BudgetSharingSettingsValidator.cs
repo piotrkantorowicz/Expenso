@@ -7,6 +7,9 @@ namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
 internal sealed class BudgetSharingSettingsValidator : ISettingsValidator<BudgetSharingSettings>
 {
+    private const int MinExpirationDays = 1;
+    private const int MaxExpirationDays = 7;
+
     public IDictionary<string, string> Validate(BudgetSharingSettings? settings)
     {
         Dictionary<string, string> errors = new();
@@ -18,10 +21,9 @@ internal sealed class BudgetSharingSettingsValidator : ISettingsValidator<Budget
             return errors;
         }
 
-        if (settings.ExpirationDays is <= 0 or > 7)
+        if (settings.ExpirationDays is <= MinExpirationDays or > MaxExpirationDays)
         {
-            errors.Add(key: nameof(settings.ExpirationDays),
-                value: "Expiration days must greater than 0 and less than 7.");
+            errors.Add(key: nameof(settings.ExpirationDays), value: "Expiration days must be between 1 and 7 days.");
         }
 
         return errors;

@@ -21,23 +21,23 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Pending;
 
         // Act
-        BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker result =
+        TestCandidate =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker.Start(
                 budgetPermissionRequestId: _budgetPermissionRequestId, submissionDate: _clockMock.Object.UtcNow,
                 expirationDate: expirationDate, status: status);
 
         // Assert
-        result.Should().NotBeNull();
-        result.ExpirationDate.Should().Be(expected: expirationDate);
-        result.SubmissionDate.Value.Should().Be(expected: currentTime);
+        TestCandidate.Should().NotBeNull();
+        TestCandidate.ExpirationDate.Should().Be(expected: expirationDate);
+        TestCandidate.SubmissionDate.Value.Should().Be(expected: currentTime);
 
-        result
+        TestCandidate
             .Status.Should()
             .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                 .Pending);
 
-        result.ConfirmationDate.Should().BeNull();
-        result.CancellationDate.Should().BeNull();
+        TestCandidate.ConfirmationDate.Should().BeNull();
+        TestCandidate.CancellationDate.Should().BeNull();
     }
 
     [Test, TestCase(arg: "None"), TestCase(arg: "Confirmed"), TestCase(arg: "Cancelled"), TestCase(arg: "Expired")]
