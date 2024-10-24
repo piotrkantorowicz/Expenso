@@ -1,4 +1,5 @@
-﻿using Expenso.IAM.Core.Acl.Keycloak;
+﻿using Expenso.Api.Configuration.Settings.Services.Validators.Keycloak;
+using Expenso.IAM.Core.Acl.Keycloak;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Keycloak.AuthServices.Common;
@@ -8,7 +9,7 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators
 [TestFixture]
 internal abstract class
     KeycloakSettingsValidatorTestBase : TestBase<
-    Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator>
+    Api.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -26,7 +27,9 @@ internal abstract class
             }
         };
 
-        TestCandidate = new Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator();
+        TestCandidate =
+            new Api.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator(
+                credentialsValidator: new CredentialsValidator());
     }
 
     protected KeycloakSettings _keycloakSettings = null!;

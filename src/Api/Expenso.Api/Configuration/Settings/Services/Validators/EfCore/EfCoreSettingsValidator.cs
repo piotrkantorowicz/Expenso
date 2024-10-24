@@ -1,49 +1,31 @@
 ﻿using Expenso.Shared.Database.EfCore.Settings;
-using Expenso.Shared.System.Configuration.Validators;
-using Expenso.Shared.System.Types.TypesExtensions;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators.EfCore;
 
-internal sealed class EfCoreSettingsValidator : ISettingsValidator<EfCoreSettings>
+internal sealed class EfCoreSettingsValidator : AbstractValidator<EfCoreSettings>
 {
-    public IDictionary<string, string> Validate(EfCoreSettings? settings)
+    public EfCoreSettingsValidator(ConnectionParametersValidator connectionParametersValidator)
     {
-        Dictionary<string, string> errors = new();
+        ArgumentNullException.ThrowIfNull(argument: connectionParametersValidator);
+        RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "EfCore settings are required.");
 
-        if (settings is null)
-        {
-            errors.Add(key: nameof(settings).Pascalize().Pascalize(), value: "EfCore settings are required.");
+        RuleFor(expression: x => x.ConnectionParameters)
+            .NotNull()
+            .WithMessage(errorMessage: "ConnectionParameters must be provided and cannot be null.")
+            .DependentRules(action: () =>
+            {
+                RuleFor(expression: x => x.ConnectionParameters!)
+                    .SetValidator(validator: connectionParametersValidator);
+            });
 
-            return errors;
-        }
+        RuleFor(expression: x => x.InMemory).NotNull().WithMessage(errorMessage: "InMemory flag must be provided.");
 
-        if (settings.ConnectionParameters is null)
-        {
-            errors.Add(key: nameof(settings.ConnectionParameters),
-                value: "ConnectionParameters must be provided and cannot be null.");
-        }
-        else
-        {
-            errors.Merge(items: new ConnectionParametersValidator().Validate(settings: settings.ConnectionParameters));
-        }
+        RuleFor(expression: x => x.UseMigration)
+            .NotNull()
+            .WithMessage(errorMessage: "UseMigration flag must be provided.");
 
-        if (settings.InMemory is null)
-        {
-            errors.Add(key: nameof(settings.InMemory), value: "InMemory flag must be provided.");
-        }
-
-        if (settings.UseMigration is null)
-        {
-            errors.Add(key: nameof(settings.UseMigration), value: "UseMigration flag must be provided.");
-        }
-
-        if (settings.UseSeeding is null)
-        {
-            errors.Add(key: nameof(settings.UseSeeding), value: "UseSeeding flag must be provided.");
-        }
-
-        return errors;
+        RuleFor(expression: x => x.UseSeeding).NotNull().WithMessage(errorMessage: "UseSeeding flag must be provided.");
     }
 }

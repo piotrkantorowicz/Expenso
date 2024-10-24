@@ -24,7 +24,12 @@ internal abstract class NotificationSettingsValidatorTestBase : TestBase<Notific
             Push = new PushNotificationSettings(Enabled: true)
         };
 
-        TestCandidate = new NotificationSettingsValidator();
+        TestCandidate = new NotificationSettingsValidator(
+            emailNotificationSettingsValidator: new EmailNotificationSettingsValidator(
+                smtpSettingsValidator:
+                new Api.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator()),
+            inAppNotificationSettingsValidator: new InAppNotificationSettingsValidator(),
+            pushNotificationSettingsValidator: new PushNotificationSettingsValidator());
     }
 
     protected NotificationSettings _notificationSettings = null!;

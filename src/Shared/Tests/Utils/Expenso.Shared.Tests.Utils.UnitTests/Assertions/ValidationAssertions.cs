@@ -4,7 +4,7 @@ using FluentValidation.Results;
 
 namespace Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
-public static class CommandValidationAssertions
+public static class ValidationAssertions
 {
     public static void AssertNoErrors(this ValidationResult validationResult)
     {

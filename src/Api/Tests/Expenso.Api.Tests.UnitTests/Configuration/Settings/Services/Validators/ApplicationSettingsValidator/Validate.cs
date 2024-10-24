@@ -1,22 +1,12 @@
-﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.ApplicationSettingsValidator;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
+
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.ApplicationSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : ApplicationSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Application settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_InstanceIdIsNull()
     {
@@ -27,13 +17,11 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _applicationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Instance ID must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_applicationSettings.InstanceId)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.InstanceId),
+            errorMessage: "Instance ID must be provided and cannot be empty.");
     }
 
     [Test]
@@ -46,13 +34,11 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _applicationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Instance ID must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_applicationSettings.InstanceId)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.InstanceId),
+            errorMessage: "Instance ID must be provided and cannot be empty.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -65,13 +51,11 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _applicationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Name must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_applicationSettings.Name)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Name),
+            errorMessage: "Name must be provided and cannot be empty.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -84,13 +68,11 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _applicationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Version must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_applicationSettings.Version)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Version),
+            errorMessage: "Version must be provided and cannot be empty.");
     }
 
     [Test]
@@ -103,27 +85,27 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _applicationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
         string assemblyVersion = typeof(Program).Assembly.GetName().Version?.ToString()!;
         string[] assemblyVersionParts = assemblyVersion.Split(separator: '.');
 
         string expectedValidationMessage =
             $"Version mismatch. Expected: [{assemblyVersionParts[0]}.{assemblyVersionParts[1]}.{assemblyVersionParts[2]}], but got: [2.0.0].";
 
-        string error = validationResult[key: nameof(_applicationSettings.Version)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Version),
+            errorMessage: expectedValidationMessage);
     }
 
     [Test]
     public void Should_ReturnEmptyValidationResult_When_ValidSettingsProvided()
     {
+        // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _applicationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }

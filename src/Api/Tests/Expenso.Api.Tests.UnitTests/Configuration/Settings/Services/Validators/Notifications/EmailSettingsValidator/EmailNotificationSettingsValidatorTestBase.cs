@@ -14,7 +14,9 @@ internal abstract class EmailNotificationSettingsValidatorTestBase : TestBase<Em
             Smtp: new SmtpSettings(Host: "smtp.valid-host.com", Port: 587, Ssl: false, Username: "validuser",
                 Password: "ValidPassword1!"), From: "valid@example.com", ReplyTo: "replyto@example.com");
 
-        TestCandidate = new EmailNotificationSettingsValidator();
+        TestCandidate = new EmailNotificationSettingsValidator(
+            smtpSettingsValidator:
+            new Api.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator());
     }
 
     protected EmailNotificationSettings _emailNotificationSettings = null!;

@@ -1,63 +1,40 @@
 ﻿using Expenso.Communication.Shared.DTO.Settings;
-using Expenso.Shared.System.Configuration.Validators;
-using Expenso.Shared.System.Types.TypesExtensions;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
 
-internal sealed class NotificationSettingsValidator : ISettingsValidator<NotificationSettings>
+internal sealed class NotificationSettingsValidator : AbstractValidator<NotificationSettings>
 {
-    public IDictionary<string, string> Validate(NotificationSettings? settings)
+    public NotificationSettingsValidator(EmailNotificationSettingsValidator emailNotificationSettingsValidator,
+        InAppNotificationSettingsValidator inAppNotificationSettingsValidator,
+        PushNotificationSettingsValidator pushNotificationSettingsValidator)
     {
-        Dictionary<string, string> errors = new();
+        ArgumentNullException.ThrowIfNull(argument: emailNotificationSettingsValidator);
+        ArgumentNullException.ThrowIfNull(argument: inAppNotificationSettingsValidator);
+        ArgumentNullException.ThrowIfNull(argument: pushNotificationSettingsValidator);
+        RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "Notification settings are required.");
+        RuleFor(expression: x => x.Enabled).NotNull().WithMessage(errorMessage: "Enabled flag must be provided.");
 
-        if (settings is null)
+        When(predicate: x => x.Enabled == true, action: () =>
         {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Notification settings are required.");
+            RuleFor(expression: x => x.Email)
+                .NotNull()
+                .WithMessage(errorMessage: "Email notification settings must be provided.")
+                .DependentRules(action: () =>
+                    RuleFor(expression: x => x.Email!).SetValidator(validator: emailNotificationSettingsValidator));
 
-            return errors;
-        }
+            RuleFor(expression: x => x.InApp)
+                .NotNull()
+                .WithMessage(errorMessage: "In-app notification settings must be provided.")
+                .DependentRules(action: () =>
+                    RuleFor(expression: x => x.InApp!).SetValidator(validator: inAppNotificationSettingsValidator));
 
-        if (settings.Enabled is null)
-        {
-            errors.Add(key: nameof(settings.Enabled), value: "Enabled flag must be provided.");
-
-            return errors;
-        }
-
-        if (settings.Enabled is false)
-        {
-            return errors;
-        }
-
-        if (settings.Email is null)
-        {
-            errors.Add(key: nameof(settings.Email), value: "Email notification settings must be provided.");
-        }
-        else
-        {
-            errors.Merge(items: new EmailNotificationSettingsValidator().Validate(settings: settings.Email));
-        }
-
-        if (settings.InApp is null)
-        {
-            errors.Add(key: nameof(settings.InApp), value: "In-app notification settings must be provided.");
-        }
-        else
-        {
-            errors.Merge(items: new InAppNotificationSettingsValidator().Validate(settings: settings.InApp));
-        }
-
-        if (settings.Push is null)
-        {
-            errors.Add(key: nameof(settings.Push), value: "Push notification settings must be provided.");
-        }
-        else
-        {
-            errors.Merge(items: new PushNotificationSettingsValidator().Validate(settings: settings.Push));
-        }
-
-        return errors;
+            RuleFor(expression: x => x.Push)
+                .NotNull()
+                .WithMessage(errorMessage: "Push notification settings must be provided.")
+                .DependentRules(action: () =>
+                    RuleFor(expression: x => x.Push!).SetValidator(validator: pushNotificationSettingsValidator));
+        });
     }
 }
