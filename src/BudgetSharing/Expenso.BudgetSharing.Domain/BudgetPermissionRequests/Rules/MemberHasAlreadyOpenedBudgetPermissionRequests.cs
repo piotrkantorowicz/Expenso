@@ -7,7 +7,7 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 internal sealed class MemberHasAlreadyOpenedBudgetPermissionRequests : IBusinessRule
 {
     private readonly BudgetId _budgetId;
-    private readonly IReadOnlyCollection<BudgetPermissionRequest>? _budgetPermissionRequests;
+    private readonly IReadOnlyCollection<BudgetPermissionRequest> _budgetPermissionRequests;
     private readonly PersonId _participantId;
     private readonly PermissionType _permissionType;
     private IEnumerable<BudgetPermissionRequestId> _budgetPermissionRequestIds = [];
@@ -18,7 +18,9 @@ internal sealed class MemberHasAlreadyOpenedBudgetPermissionRequests : IBusiness
         _participantId = participantId ?? throw new ArgumentNullException(paramName: nameof(participantId));
         _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
         _permissionType = permissionType ?? throw new ArgumentNullException(paramName: nameof(permissionType));
-        _budgetPermissionRequests = budgetPermissionRequests;
+
+        _budgetPermissionRequests = budgetPermissionRequests ??
+                                    throw new ArgumentNullException(paramName: nameof(budgetPermissionRequests));
     }
 
     public string Message =>
@@ -26,7 +28,7 @@ internal sealed class MemberHasAlreadyOpenedBudgetPermissionRequests : IBusiness
 
     public bool IsBroken()
     {
-        if (_budgetPermissionRequests is null || _budgetPermissionRequests.Count is 0)
+        if (_budgetPermissionRequests.Count is 0)
         {
             return false;
         }

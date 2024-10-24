@@ -78,6 +78,6 @@ internal sealed class Block : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is already deleted.");
+            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is already blocked.");
     }
 }

@@ -26,6 +26,11 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _budgetPermission);
 
+        _budgetPermissionRequestRepositoryMock
+            .Setup(expression: x =>
+                x.GetUncompletedByPersonIdAsync(_budgetId, _participantId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: []);
+
         // Act
         BudgetPermissionRequest budgetPermissionRequest = await TestCandidate.AssignParticipantAsync(
             budgetId: _budgetId, email: _email, permissionType: _permissionType, expirationDays: ExpirationDays,
