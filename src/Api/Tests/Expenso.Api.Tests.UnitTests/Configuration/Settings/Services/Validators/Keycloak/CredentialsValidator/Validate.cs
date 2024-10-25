@@ -22,7 +22,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
     }
 
     [Test, TestCase(arg: "1232"), TestCase(arg: "invalid-guid"), TestCase(arg: "00000000-0000-0000-0000-00000000000g")]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_RealmIsInvalid(string invalidSecret)
+    public void Should_ReturnValidationResultWithCorrectMessage_When_SecretIsInvalid(string invalidSecret)
     {
         // Arrange
         _credentials.Secret = invalidSecret;
