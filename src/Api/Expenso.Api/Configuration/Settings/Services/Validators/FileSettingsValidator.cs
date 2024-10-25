@@ -12,7 +12,7 @@ internal sealed class FilesSettingsValidator : AbstractValidator<FilesSettings>
         RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "File settings are required.");
 
         RuleFor(expression: x => x.StorageType)
-            .Must(predicate: storageType => Enum.IsDefined(enumType: typeof(FileStorageType), value: storageType))
+            .IsInEnum()
             .WithMessage(errorMessage: "StorageType must be a valid value.");
 
         RuleFor(expression: x => x.RootPath)

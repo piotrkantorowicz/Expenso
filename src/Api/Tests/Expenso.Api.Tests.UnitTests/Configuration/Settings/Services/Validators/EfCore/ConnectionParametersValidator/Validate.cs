@@ -90,7 +90,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
 
         // Assert
         validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
-            errorMessage: "DefaultDatabase must be provided and cannot be empty.");
+            errorMessage: "Default database must be provided and cannot be empty.");
     }
 
     [Test]
@@ -107,7 +107,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
 
         // Assert
         validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
-            errorMessage: "DefaultDatabase must be an alphanumeric string between 1 and 100 characters.");
+            errorMessage: "Default database must be an alphanumeric string between 1 and 100 characters.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]

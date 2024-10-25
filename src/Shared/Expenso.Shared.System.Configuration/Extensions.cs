@@ -11,7 +11,7 @@ namespace Expenso.Shared.System.Configuration;
 
 public static class Extensions
 {
-    public static IServiceCollection AddSettings(this IServiceCollection services, Assembly[] assemblies)
+    public static IServiceCollection AddSettings(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         services.Scan(action: selector =>
             selector

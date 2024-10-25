@@ -28,12 +28,12 @@ internal sealed class ConnectionParametersValidator : AbstractValidator<Connecti
 
         RuleFor(expression: x => x.DefaultDatabase)
             .NotEmpty()
-            .WithMessage(errorMessage: "DefaultDatabase must be provided and cannot be empty.")
+            .WithMessage(errorMessage: "Default database must be provided and cannot be empty.")
             .DependentRules(action: () => RuleFor(expression: x => x.DefaultDatabase)
                 .Must(predicate: db =>
                     db.IsAlphaNumericAndSpecialCharactersString(minLength: 1, maxLength: 100, specialCharacters: "_-"))
                 .WithMessage(
-                    errorMessage: "DefaultDatabase must be an alphanumeric string between 1 and 100 characters."));
+                    errorMessage: "Default database must be an alphanumeric string between 1 and 100 characters."));
 
         RuleFor(expression: x => x.Database)
             .NotEmpty()

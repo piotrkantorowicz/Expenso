@@ -21,11 +21,11 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
             errorMessage: "Client secret must be provided and cannot be empty.");
     }
 
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_RealmIsInvalid()
+    [Test, TestCase(arg: "1232"), TestCase(arg: "invalid-guid"), TestCase(arg: "00000000-0000-0000-0000-00000000000g")]
+    public void Should_ReturnValidationResultWithCorrectMessage_When_RealmIsInvalid(string invalidSecret)
     {
         // Arrange
-        _credentials.Secret = "1232";
+        _credentials.Secret = invalidSecret;
 
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _credentials);

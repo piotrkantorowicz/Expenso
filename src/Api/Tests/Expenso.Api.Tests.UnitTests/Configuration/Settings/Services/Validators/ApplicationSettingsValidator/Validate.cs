@@ -79,20 +79,21 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
     public void Should_ReturnValidationResultWithCorrectMessage_When_VersionMismatch()
     {
         // Arrange
+        Version providedVersion = Version.Parse(input: "2.0.0");
+
         _applicationSettings = _applicationSettings with
         {
-            Version = "2.0.0"
+            Version = providedVersion.ToString()
         };
 
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        string assemblyVersion = typeof(Program).Assembly.GetName().Version?.ToString()!;
-        string[] assemblyVersionParts = assemblyVersion.Split(separator: '.');
+        Version assemblyVersion = typeof(Program).Assembly.GetName().Version!;
 
         string expectedValidationMessage =
-            $"Version mismatch. Expected: [{assemblyVersionParts[0]}.{assemblyVersionParts[1]}.{assemblyVersionParts[2]}], but got: [2.0.0].";
+            $"Version mismatch. Expected: [{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}], but got: [{providedVersion}].";
 
         validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Version),
             errorMessage: expectedValidationMessage);

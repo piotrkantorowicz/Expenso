@@ -56,7 +56,7 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
 
         // Assert
         validationResult.AssertSingleError(propertyName: $"{nameof(CorsSettings.AllowedOrigins)}[0]",
-            errorMessage: "Origin cannot be empty and must be a valid URL.");
+            errorMessage: "Origin cannot be empty and must be a valid URL or '*'.");
     }
 
     [Test]

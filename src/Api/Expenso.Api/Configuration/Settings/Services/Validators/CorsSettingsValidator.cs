@@ -20,7 +20,7 @@ internal sealed class CorsSettingsValidator : AbstractValidator<CorsSettings>
             RuleForEach(expression: x => x.AllowedOrigins)
                 .Must(predicate: origin =>
                     !string.IsNullOrWhiteSpace(value: origin) && (origin == "*" || origin.IsValidUrl()))
-                .WithMessage(errorMessage: "Origin cannot be empty and must be a valid URL.");
+                .WithMessage(errorMessage: "Origin cannot be empty and must be a valid URL or '*'.");
         });
     }
 }

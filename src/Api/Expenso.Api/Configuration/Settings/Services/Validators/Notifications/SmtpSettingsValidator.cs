@@ -19,7 +19,7 @@ internal sealed class SmtpSettingsValidator : AbstractValidator<SmtpSettings>
                 .WithMessage(errorMessage: "SMTP host must be a valid DNS name, IPv4, or IPv6 address."));
 
         RuleFor(expression: x => x.Port)
-            .GreaterThan(valueToCompare: 0)
+            .Must(predicate: x => x.IsValidPort())
             .WithMessage(errorMessage: "SMTP port must be a valid integer between 1 and 65535.");
 
         RuleFor(expression: x => x.Username)

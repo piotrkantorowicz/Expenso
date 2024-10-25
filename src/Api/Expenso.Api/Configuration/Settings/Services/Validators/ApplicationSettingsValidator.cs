@@ -23,22 +23,24 @@ internal sealed class ApplicationSettingsValidator : AbstractValidator<Applicati
             .NotEmpty()
             .WithMessage(errorMessage: "Version must be provided and cannot be empty.")
             .DependentRules(action: () => RuleFor(expression: x => x.Version)
-                .Must(predicate: (settings, version) =>
+                .Must(predicate: (_, version) =>
                 {
-                    string? assemblyVersion = typeof(Program).Assembly.GetName().Version?.ToString();
+                    Version? assemblyVersion = typeof(Program).Assembly.GetName().Version;
 
-                    return Version.TryParse(input: version, result: out Version? settingsVer) &&
-                           Version.TryParse(input: assemblyVersion, result: out Version? assemblyVer) &&
-                           settingsVer.Major == assemblyVer.Major && settingsVer.Minor == assemblyVer.Minor &&
-                           settingsVer.Build == assemblyVer.Build;
+                    if (assemblyVersion == null || !Version.TryParse(input: version, result: out Version? settingsVer))
+                    {
+                        return false;
+                    }
+
+                    return settingsVer.Major == assemblyVersion.Major && settingsVer.Minor == assemblyVersion.Minor &&
+                           settingsVer.Build == assemblyVersion.Build;
                 })
                 .WithMessage(messageProvider: settings =>
                 {
-                    string assemblyVersion = typeof(Program).Assembly.GetName().Version?.ToString()!;
-                    string[] assemblyVersionParts = assemblyVersion.Split(separator: '.');
+                    Version assemblyVersion = typeof(Program).Assembly.GetName().Version!;
 
                     return
-                        $"Version mismatch. Expected: [{assemblyVersionParts[0]}.{assemblyVersionParts[1]}.{assemblyVersionParts[2]}], but got: [{settings.Version}].";
+                        $"Version mismatch. Expected: [{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}], but got: [{settings.Version}].";
                 }));
     }
 }
