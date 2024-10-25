@@ -5,7 +5,7 @@ using FluentValidation.Results;
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.NoResult;
 
 [TestFixture]
-internal sealed class HandleAsync : CommandHandlerFluentValidationDecoratorTestBase
+internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 {
     [Test]
     public async Task Should_ThrowValidationException_When_ValidationErrorsOccurred()

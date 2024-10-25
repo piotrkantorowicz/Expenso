@@ -1,5 +1,3 @@
-using System.Text;
-
 using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
@@ -51,11 +49,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(
-            propertyName: new StringBuilder()
-                .Append(value: nameof(command.Payload))
-                .Append(value: ".")
-                .Append(value: nameof(command.Payload.UserId))
-                .ToString(), errorMessage: "The user ID must not be empty.");
+        validationResult.AssertSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.UserId)}",
+            errorMessage: "The user ID must not be empty.");
     }
 }

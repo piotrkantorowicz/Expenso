@@ -31,7 +31,7 @@ internal sealed class PreStartupContainer : IPreStartupContainer, IDisposable, I
         _serviceProvider?.Dispose();
     }
 
-    public void Build(IConfiguration configuration, IEnumerable<Assembly> assemblies)
+    public void Build(IConfiguration configuration, Assembly[] assemblies)
     {
         ServiceCollection serviceCollection = [];
         serviceCollection.AddSingleton(implementationInstance: configuration);

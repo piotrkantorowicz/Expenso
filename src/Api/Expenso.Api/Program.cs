@@ -24,7 +24,7 @@ Modules.RegisterModules(moduleFactories:
 PreStartupContainer preStartupContainer = new();
 
 preStartupContainer.Build(configuration: webApplicationBuilder.Configuration,
-    assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]));
+    assemblies: Modules.GetRequiredModulesAssemblies(merge: [typeof(Program).Assembly]).ToArray());
 
 AppConfigurationManager appConfigurationManager = new(preStartupContainer: preStartupContainer);
 appConfigurationManager.Configure(serviceCollection: webApplicationBuilder.Services);

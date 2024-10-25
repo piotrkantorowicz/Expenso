@@ -3,6 +3,8 @@ using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
 using FluentValidation;
 
+using Keycloak.AuthServices.Common;
+
 namespace Expenso.Api.Configuration.Settings.Services.Validators.Keycloak;
 
 internal sealed class KeycloakSettingsValidator : AbstractValidator<KeycloakSettings>
@@ -14,7 +16,7 @@ internal sealed class KeycloakSettingsValidator : AbstractValidator<KeycloakSett
         "NONE"
     ];
 
-    public KeycloakSettingsValidator(CredentialsValidator credentialsValidator)
+    public KeycloakSettingsValidator(IValidator<KeycloakClientInstallationCredentials> credentialsValidator)
     {
         ArgumentNullException.ThrowIfNull(argument: credentialsValidator);
         RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "Keycloak settings are required.");
@@ -59,7 +61,7 @@ internal sealed class KeycloakSettingsValidator : AbstractValidator<KeycloakSett
 
         RuleFor(expression: x => x.Credentials)
             .NotNull()
-            .WithMessage(errorMessage: "Client secret must be provided and cannot be empty.")
+            .WithMessage(errorMessage: "Client credentials must be provided and cannot be empty.")
             .DependentRules(action: () =>
                 RuleFor(expression: x => x.Credentials).SetValidator(validator: credentialsValidator));
     }

@@ -2,6 +2,8 @@
 using Expenso.Communication.Shared.DTO.Settings.Email;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using FluentValidation;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.EmailSettingsValidator;
 
 [TestFixture]
@@ -14,9 +16,8 @@ internal abstract class EmailNotificationSettingsValidatorTestBase : TestBase<Em
             Smtp: new SmtpSettings(Host: "smtp.valid-host.com", Port: 587, Ssl: false, Username: "validuser",
                 Password: "ValidPassword1!"), From: "valid@example.com", ReplyTo: "replyto@example.com");
 
-        TestCandidate = new EmailNotificationSettingsValidator(
-            smtpSettingsValidator:
-            new Api.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator());
+        Mock<IValidator<SmtpSettings>> smtpSettingsValidatorMock = new();
+        TestCandidate = new EmailNotificationSettingsValidator(smtpSettingsValidator: smtpSettingsValidatorMock.Object);
     }
 
     protected EmailNotificationSettings _emailNotificationSettings = null!;

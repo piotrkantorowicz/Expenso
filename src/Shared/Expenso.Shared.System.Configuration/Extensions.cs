@@ -2,7 +2,8 @@ using System.Reflection;
 
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Configuration.Services;
-using Expenso.Shared.System.Configuration.Validators;
+
+using FluentValidation;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,14 +11,14 @@ namespace Expenso.Shared.System.Configuration;
 
 public static class Extensions
 {
-    public static IServiceCollection AddSettings(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    public static IServiceCollection AddSettings(this IServiceCollection services, Assembly[] assemblies)
     {
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(ISettingsValidator<>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IValidator<>)))
                 .AsImplementedInterfaces()
-                .WithScopedLifetime());
+                .WithSingletonLifetime());
 
         services.Scan(action: selector =>
             selector

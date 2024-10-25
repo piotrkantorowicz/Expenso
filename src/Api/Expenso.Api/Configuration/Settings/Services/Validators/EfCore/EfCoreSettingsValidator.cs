@@ -6,7 +6,7 @@ namespace Expenso.Api.Configuration.Settings.Services.Validators.EfCore;
 
 internal sealed class EfCoreSettingsValidator : AbstractValidator<EfCoreSettings>
 {
-    public EfCoreSettingsValidator(ConnectionParametersValidator connectionParametersValidator)
+    public EfCoreSettingsValidator(IValidator<ConnectionParameters> connectionParametersValidator)
     {
         ArgumentNullException.ThrowIfNull(argument: connectionParametersValidator);
         RuleFor(expression: x => x).NotNull().WithMessage(errorMessage: "EfCore settings are required.");
@@ -14,11 +14,8 @@ internal sealed class EfCoreSettingsValidator : AbstractValidator<EfCoreSettings
         RuleFor(expression: x => x.ConnectionParameters)
             .NotNull()
             .WithMessage(errorMessage: "ConnectionParameters must be provided and cannot be null.")
-            .DependentRules(action: () =>
-            {
-                RuleFor(expression: x => x.ConnectionParameters!)
-                    .SetValidator(validator: connectionParametersValidator);
-            });
+            .DependentRules(action: () => RuleFor(expression: x => x.ConnectionParameters!)
+                .SetValidator(validator: connectionParametersValidator));
 
         RuleFor(expression: x => x.InMemory).NotNull().WithMessage(errorMessage: "InMemory flag must be provided.");
 

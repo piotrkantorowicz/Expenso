@@ -26,28 +26,6 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
     }
 
     [Test]
-    public void Should_MergeValidationResult_When_ConnectionParametersHasErrors()
-    {
-        // Arrange
-        _efCoreSettings = _efCoreSettings with
-        {
-            ConnectionParameters = _efCoreSettings.ConnectionParameters! with
-            {
-                Host = string.Empty
-            }
-        };
-
-        // Act
-        ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
-
-        // Assert
-        validationResult.AssertSingleError(
-            propertyName:
-            $"{nameof(EfCoreSettings.ConnectionParameters)}.{nameof(EfCoreSettings.ConnectionParameters.Host)}",
-            errorMessage: "Host must be provided and cannot be empty.");
-    }
-
-    [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_InMemoryIsNull()
     {
         // Arrange

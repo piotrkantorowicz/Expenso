@@ -2,6 +2,8 @@
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using FluentValidation;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.EfCoreValidator;
 
 [TestFixture]
@@ -26,9 +28,10 @@ internal abstract class EfCoreSettingsValidatorTestBase : TestBase<EfCoreSetting
             UseSeeding = true
         };
 
+        Mock<IValidator<ConnectionParameters>> connectionParametersValidatorMock = new();
+
         TestCandidate = new EfCoreSettingsValidator(
-            connectionParametersValidator:
-            new Api.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator());
+            connectionParametersValidator: connectionParametersValidatorMock.Object);
     }
 
     protected EfCoreSettings _efCoreSettings = null!;

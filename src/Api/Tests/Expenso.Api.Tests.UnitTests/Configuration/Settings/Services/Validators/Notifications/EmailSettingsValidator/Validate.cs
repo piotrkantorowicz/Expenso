@@ -127,27 +127,6 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
     }
 
     [Test]
-    public void Should_MergeValidationResult_When_SmtpHasErrors()
-    {
-        // Arrange
-        _emailNotificationSettings = _emailNotificationSettings with
-        {
-            Smtp = _emailNotificationSettings.Smtp! with
-            {
-                Host = string.Empty
-            }
-        };
-
-        // Act
-        ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
-
-        // Assert
-        validationResult.AssertSingleError(
-            propertyName: $"{nameof(EmailNotificationSettings.Smtp)}.{nameof(EmailNotificationSettings.Smtp.Host)}",
-            errorMessage: "SMTP host must be provided and cannot be empty.");
-    }
-
-    [Test]
     public void Should_ReturnEmptyValidationResult_When_EmailNotificationSettingsAreValid()
     {
         // Arrange

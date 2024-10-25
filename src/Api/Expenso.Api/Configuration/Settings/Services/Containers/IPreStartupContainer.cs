@@ -4,7 +4,7 @@ namespace Expenso.Api.Configuration.Settings.Services.Containers;
 
 internal interface IPreStartupContainer
 {
-    void Build(IConfiguration configuration, IEnumerable<Assembly> assemblies);
+    void Build(IConfiguration configuration, Assembly[] assemblies);
 
     T? Resolve<T>();
 

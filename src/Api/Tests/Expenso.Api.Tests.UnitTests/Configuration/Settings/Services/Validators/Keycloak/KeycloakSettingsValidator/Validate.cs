@@ -2,7 +2,7 @@
 
 using FluentValidation.Results;
 
-namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : KeycloakSettingsValidatorTestBase
@@ -144,22 +144,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
 
         // Assert
         validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Credentials),
-            errorMessage: "Client secret must be provided and cannot be empty.");
-    }
-
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_CredentialsSecretIsInvalid()
-    {
-        // Arrange
-        _keycloakSettings.Credentials.Secret = "invalid-guid";
-
-        // Act
-        ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
-
-        // Assert
-        validationResult.AssertSingleError(
-            propertyName: $"{nameof(_keycloakSettings.Credentials)}.{nameof(_keycloakSettings.Credentials.Secret)}",
-            errorMessage: "Client secret must be a valid GUID format.");
+            errorMessage: "Client credentials must be provided and cannot be empty.");
     }
 
     [Test]

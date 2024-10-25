@@ -10,7 +10,7 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidation
 
 [TestFixture]
 internal abstract class
-    CommandHandlerFluentValidationDecoratorTestBase : TestBase<CommandHandlerFluentValidationDecorator<TestCommand>>
+    CommandHandlerValidationDecoratorTestBase : TestBase<CommandHandlerValidationDecorator<TestCommand>>
 {
     [SetUp]
     protected void Setup()
@@ -21,8 +21,7 @@ internal abstract class
         _validator = new Mock<IValidator<TestCommand>>();
         Mock<ICommandHandler<TestCommand>> handler = new();
 
-        TestCandidate =
-            new CommandHandlerFluentValidationDecorator<TestCommand>(validators: [_validator.Object],
+        TestCandidate = new CommandHandlerValidationDecorator<TestCommand>(validators: [_validator.Object],
                 decorated: handler.Object);
     }
 

@@ -60,27 +60,6 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
     }
 
     [Test]
-    public void Should_MergeValidationResult_When_EmailHasErrors()
-    {
-        // Arrange
-        _notificationSettings = _notificationSettings with
-        {
-            Email = _notificationSettings.Email! with
-            {
-                From = string.Empty
-            }
-        };
-
-        // Act
-        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
-
-        // Assert
-        validationResult.AssertSingleError(
-            propertyName: $"{nameof(NotificationSettings.Email)}.{nameof(NotificationSettings.Email.From)}",
-            errorMessage: "Email 'From' address must be provided and cannot be empty.");
-    }
-
-    [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_InAppIsNull()
     {
         // Arrange

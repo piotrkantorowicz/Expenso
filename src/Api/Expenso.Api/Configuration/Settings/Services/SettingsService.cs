@@ -2,7 +2,6 @@
 using Expenso.Shared.System.Configuration.Exceptions;
 using Expenso.Shared.System.Configuration.Services;
 using Expenso.Shared.System.Configuration.Settings;
-using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Logging;
 
 using FluentValidation;
@@ -13,19 +12,17 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
 {
     private readonly IConfiguration _configuration;
     private readonly ILoggerService<SettingsService<TSettings>> _logger;
-    private readonly IEnumerable<ISettingsValidator<TSettings>> _validators;
-    private readonly IEnumerable<IValidator<TSettings>> _fluentValidators;
+    private readonly IEnumerable<IValidator<TSettings>> _validators;
     private bool _binded;
     private TSettings? _settings;
     private bool _validated;
 
-    public SettingsService(IEnumerable<ISettingsValidator<TSettings>> validators, IConfiguration configuration,
-        ILoggerService<SettingsService<TSettings>> logger, IEnumerable<IValidator<TSettings>> fluentValidators)
+    public SettingsService(IConfiguration configuration, ILoggerService<SettingsService<TSettings>> logger,
+        IEnumerable<IValidator<TSettings>> validators)
     {
-        _validators = validators ?? throw new ArgumentNullException(paramName: nameof(validators));
         _configuration = configuration ?? throw new ArgumentNullException(paramName: nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
-        _fluentValidators = fluentValidators ?? throw new ArgumentNullException(paramName: nameof(fluentValidators));
+        _validators = validators ?? throw new ArgumentNullException(paramName: nameof(validators));
     }
 
     public void Validate()
@@ -42,43 +39,6 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
         }
 
         Dictionary<string, string> errors = _validators
-            .Select(selector: x => x.Validate(settings: _settings!))
-            .SelectMany(selector: x => x)
-            .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
-
-        if (errors.Count > 0)
-        {
-            SettingsValidationException exception = new(errorDictionary: errors);
-
-            _logger.LogError(eventId: LoggingUtils.ConfigurationError,
-                message: "Validation failed for settings of type {SettingsType}. Errors: {ValidationErrors}",
-                exception: exception, messageContext: null, typeof(TSettings).Name,
-                string.Join(separator: ", ", values: errors.Select(selector: e => $"{e.Key}: {e.Value}")));
-
-            throw exception;
-        }
-
-        _logger.LogInfo(eventId: LoggingUtils.ConfigurationInformation,
-            message: "Settings of type {SettingsType} have been successfully validated", messageContext: null,
-            typeof(TSettings).Name);
-
-        _validated = true;
-    }
-
-    public void FluentValidate()
-    {
-        if (!_binded)
-        {
-            SettingsHasNotBeenBoundYetException exception = new(settingsName: typeof(TSettings).Name);
-
-            _logger.LogError(eventId: LoggingUtils.ConfigurationError,
-                message: "Settings of type {SettingsType} have not been bound yet", exception: exception,
-                messageContext: null, typeof(TSettings).Name);
-
-            throw exception;
-        }
-
-        Dictionary<string, string> errors = _fluentValidators
             .Select(selector: x => x.Validate(instance: _settings!))
             .SelectMany(selector: x => x.Errors)
             .GroupBy(keySelector: x => x.PropertyName)

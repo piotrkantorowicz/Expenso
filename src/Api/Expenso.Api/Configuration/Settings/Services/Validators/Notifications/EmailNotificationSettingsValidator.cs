@@ -6,7 +6,7 @@ namespace Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
 
 internal sealed class EmailNotificationSettingsValidator : AbstractValidator<EmailNotificationSettings>
 {
-    public EmailNotificationSettingsValidator(SmtpSettingsValidator smtpSettingsValidator)
+    public EmailNotificationSettingsValidator(IValidator<SmtpSettings> smtpSettingsValidator)
     {
         ArgumentNullException.ThrowIfNull(argument: smtpSettingsValidator);
         RuleFor(expression: x => x.Enabled).NotNull().WithMessage(errorMessage: "Email enabled flag must be provided.");

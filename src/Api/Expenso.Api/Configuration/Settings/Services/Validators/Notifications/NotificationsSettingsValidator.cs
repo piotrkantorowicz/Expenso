@@ -1,4 +1,7 @@
 ﻿using Expenso.Communication.Shared.DTO.Settings;
+using Expenso.Communication.Shared.DTO.Settings.Email;
+using Expenso.Communication.Shared.DTO.Settings.InApp;
+using Expenso.Communication.Shared.DTO.Settings.Push;
 
 using FluentValidation;
 
@@ -6,9 +9,9 @@ namespace Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
 
 internal sealed class NotificationSettingsValidator : AbstractValidator<NotificationSettings>
 {
-    public NotificationSettingsValidator(EmailNotificationSettingsValidator emailNotificationSettingsValidator,
-        InAppNotificationSettingsValidator inAppNotificationSettingsValidator,
-        PushNotificationSettingsValidator pushNotificationSettingsValidator)
+    public NotificationSettingsValidator(IValidator<EmailNotificationSettings> emailNotificationSettingsValidator,
+        IValidator<InAppNotificationSettings> inAppNotificationSettingsValidator,
+        IValidator<PushNotificationSettings> pushNotificationSettingsValidator)
     {
         ArgumentNullException.ThrowIfNull(argument: emailNotificationSettingsValidator);
         ArgumentNullException.ThrowIfNull(argument: inAppNotificationSettingsValidator);
