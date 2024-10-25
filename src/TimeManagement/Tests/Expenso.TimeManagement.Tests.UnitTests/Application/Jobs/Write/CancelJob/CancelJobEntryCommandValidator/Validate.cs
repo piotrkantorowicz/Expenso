@@ -30,7 +30,7 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload",
+        validationResult.AssertSingleError(propertyName: nameof(_cancelJobCommand.Payload),
             errorMessage: "The command payload must not be null.");
     }
 
@@ -45,7 +45,8 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: "Payload.JobEntryId",
+        validationResult.AssertSingleError(
+            propertyName: $"{nameof(_cancelJobCommand.Payload)}.{nameof(_cancelJobCommand.Payload.JobEntryId)}",
             errorMessage: "The job entry id must not be null or empty.");
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Expenso.Shared.System.Configuration.Exceptions;
-using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Logging;
+
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
@@ -12,15 +14,15 @@ internal sealed class Validate : SettingsServiceTestBase
     {
         // Arrange
         TestCandidate.Bind(sectionName: "TestSection");
-        Mock<ISettingsValidator<TestSettings>> validatorMock = new();
+        Mock<IValidator<TestSettings>> validatorMock = new();
 
         validatorMock
             .Setup(expression: v => v.Validate(It.IsAny<TestSettings>()))
-            .Returns(value: new Dictionary<string, string>());
+            .Returns(value: new ValidationResult());
 
         _validatorsMock
             .Setup(expression: v => v.GetEnumerator())
-            .Returns(value: new List<ISettingsValidator<TestSettings>>
+            .Returns(value: new List<IValidator<TestSettings>>
             {
                 validatorMock.Object
             }.GetEnumerator());
@@ -41,17 +43,20 @@ internal sealed class Validate : SettingsServiceTestBase
         // Arrange
         TestCandidate.Bind(sectionName: "TestSection");
 
-        Dictionary<string, string> errors = new()
+        ValidationResult validationResult = new()
         {
-            { "TestKey", "TestError" }
+            Errors =
+            {
+                new ValidationFailure(propertyName: "TestKey", errorMessage: "TestError")
+            }
         };
 
-        Mock<ISettingsValidator<TestSettings>> validatorMock = new();
-        validatorMock.Setup(expression: v => v.Validate(It.IsAny<TestSettings>())).Returns(value: errors);
+        Mock<IValidator<TestSettings>> validatorMock = new();
+        validatorMock.Setup(expression: v => v.Validate(It.IsAny<TestSettings>())).Returns(value: validationResult);
 
         _validatorsMock
             .Setup(expression: v => v.GetEnumerator())
-            .Returns(value: new List<ISettingsValidator<TestSettings>>
+            .Returns(value: new List<IValidator<TestSettings>>
             {
                 validatorMock.Object
             }.GetEnumerator());

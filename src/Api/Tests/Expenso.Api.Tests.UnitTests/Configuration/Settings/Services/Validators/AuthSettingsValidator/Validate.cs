@@ -1,24 +1,13 @@
 ﻿using Expenso.Shared.System.Configuration.Settings.Auth;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.AuthSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : AuthSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Auth settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_AuthServerIsInvalid()
     {
@@ -29,22 +18,21 @@ internal sealed class Validate : AuthSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _authSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _authSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "AuthServer must be a valid value.";
-        string error = validationResult[key: nameof(_authSettings.AuthServer)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_authSettings.AuthServer),
+            errorMessage: "AuthServer must be a valid value.");
     }
 
     [Test]
     public void Should_ReturnEmptyValidationResult_When_ValidSettingsProvided()
     {
+        // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _authSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _authSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }

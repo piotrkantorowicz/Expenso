@@ -2,8 +2,9 @@
 using Expenso.Shared.System.Configuration.Exceptions;
 using Expenso.Shared.System.Configuration.Services;
 using Expenso.Shared.System.Configuration.Settings;
-using Expenso.Shared.System.Configuration.Validators;
 using Expenso.Shared.System.Logging;
+
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services;
 
@@ -11,17 +12,17 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
 {
     private readonly IConfiguration _configuration;
     private readonly ILoggerService<SettingsService<TSettings>> _logger;
-    private readonly IEnumerable<ISettingsValidator<TSettings>> _validators;
+    private readonly IEnumerable<IValidator<TSettings>> _validators;
     private bool _binded;
     private TSettings? _settings;
     private bool _validated;
 
-    public SettingsService(IEnumerable<ISettingsValidator<TSettings>> validators, IConfiguration configuration,
-        ILoggerService<SettingsService<TSettings>> logger)
+    public SettingsService(IConfiguration configuration, ILoggerService<SettingsService<TSettings>> logger,
+        IEnumerable<IValidator<TSettings>> validators)
     {
-        _validators = validators ?? throw new ArgumentNullException(paramName: nameof(validators));
         _configuration = configuration ?? throw new ArgumentNullException(paramName: nameof(configuration));
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
+        _validators = validators ?? throw new ArgumentNullException(paramName: nameof(validators));
     }
 
     public void Validate()
@@ -38,9 +39,12 @@ internal sealed class SettingsService<TSettings> : ISettingsService<TSettings> w
         }
 
         Dictionary<string, string> errors = _validators
-            .Select(selector: x => x.Validate(settings: _settings!))
-            .SelectMany(selector: x => x)
-            .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.Value);
+            .Select(selector: x => x.Validate(instance: _settings!))
+            .SelectMany(selector: x => x.Errors)
+            .GroupBy(keySelector: x => x.PropertyName)
+            .ToDictionary(keySelector: g => g.Key,
+                elementSelector: g =>
+                    string.Join(separator: Environment.NewLine, values: g.Select(selector: e => e.ErrorMessage)));
 
         if (errors.Count > 0)
         {

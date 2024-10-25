@@ -1,24 +1,13 @@
 ﻿using Expenso.Shared.System.Configuration.Settings.Files;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.FileSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : FileSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_filesSettingsAreNull()
-    {
-        // Arrange
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: null!);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "File settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_StorageTypeIsInvalid()
     {
@@ -29,13 +18,11 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "StorageType must be a valid value.";
-        string error = validationResult[key: nameof(_filesSettings.StorageType)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.StorageType),
+            errorMessage: "StorageType must be a valid value.");
     }
 
     [Test]
@@ -48,13 +35,11 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "RootPath must be a valid absolute path.";
-        string error = validationResult[key: nameof(_filesSettings.RootPath)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.RootPath),
+            errorMessage: "RootPath must be a valid absolute path.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -68,13 +53,11 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ImportDirectory must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_filesSettings.ImportDirectory)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ImportDirectory),
+            errorMessage: "ImportDirectory must be provided and cannot be empty.");
     }
 
     [Test]
@@ -87,13 +70,11 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ImportDirectory must be a valid relative path.";
-        string error = validationResult[key: nameof(_filesSettings.ImportDirectory)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ImportDirectory),
+            errorMessage: "ImportDirectory must be a valid relative path.");
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: "")]
@@ -107,13 +88,11 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ReportsDirectory must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_filesSettings.ReportsDirectory)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ReportsDirectory),
+            errorMessage: "ReportsDirectory must be provided and cannot be empty.");
     }
 
     [Test]
@@ -126,13 +105,11 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "ReportsDirectory must be a valid relative path.";
-        string error = validationResult[key: nameof(_filesSettings.ReportsDirectory)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ReportsDirectory),
+            errorMessage: "ReportsDirectory must be a valid relative path.");
     }
 
     [Test]
@@ -140,9 +117,9 @@ internal sealed class Validate : FileSettingsValidatorTestBase
     {
         // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _filesSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }

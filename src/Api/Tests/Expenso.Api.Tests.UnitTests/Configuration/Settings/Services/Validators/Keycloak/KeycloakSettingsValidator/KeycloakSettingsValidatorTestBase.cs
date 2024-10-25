@@ -1,14 +1,16 @@
 ﻿using Expenso.IAM.Core.Acl.Keycloak;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using FluentValidation;
+
 using Keycloak.AuthServices.Common;
 
-namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.KeycloakSettingsValidator;
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator;
 
 [TestFixture]
 internal abstract class
     KeycloakSettingsValidatorTestBase : TestBase<
-    Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator>
+    Api.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator>
 {
     [SetUp]
     public void SetUp()
@@ -26,7 +28,11 @@ internal abstract class
             }
         };
 
-        TestCandidate = new Api.Configuration.Settings.Services.Validators.KeycloakSettingsValidator();
+        Mock<IValidator<KeycloakClientInstallationCredentials>> credentialsValidatorMock = new();
+
+        TestCandidate =
+            new Api.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator(
+                credentialsValidator: credentialsValidatorMock.Object);
     }
 
     protected KeycloakSettings _keycloakSettings = null!;

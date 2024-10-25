@@ -14,10 +14,10 @@ public static class Extensions
         services.AddValidatorsFromAssemblies(assemblies: assemblies);
 
         services.TryDecorate(serviceType: typeof(ICommandHandler<>),
-            decoratorType: typeof(CommandHandlerFluentValidationDecorator<>));
+            decoratorType: typeof(CommandHandlerValidationDecorator<>));
 
         services.TryDecorate(serviceType: typeof(ICommandHandler<,>),
-            decoratorType: typeof(CommandHandlerFluentValidationDecorator<>));
+            decoratorType: typeof(CommandHandlerValidationDecorator<>));
 
         return services;
     }

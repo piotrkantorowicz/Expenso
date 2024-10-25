@@ -8,7 +8,7 @@ using Moq;
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.Result;
 
 [TestFixture]
-internal sealed class HandleAsync : CommandHandlerFluentValidationDecoratorTestBase
+internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 {
     [Test]
     public async Task Should_ReturnCorrectResult_When_NoValidationErrorsOccurred()

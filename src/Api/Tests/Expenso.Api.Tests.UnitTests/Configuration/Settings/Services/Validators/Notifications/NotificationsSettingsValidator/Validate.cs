@@ -1,25 +1,14 @@
-﻿namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.
+﻿using Expenso.Communication.Shared.DTO.Settings;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+
+using FluentValidation.Results;
+
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.
     NotificationsSettingsValidator;
 
 [TestFixture]
 internal sealed class Validate : NotificationSettingsValidatorTestBase
 {
-    [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_When_SettingsIsNull()
-    {
-        // Arrange
-        _notificationSettings = null!;
-
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Notification settings are required.";
-        string error = validationResult[key: "Settings"];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
     [Test]
     public void Should_ReturnValidationResultWithCorrectMessage_When_EnabledIsNull()
     {
@@ -30,13 +19,11 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Enabled flag must be provided.";
-        string error = validationResult[key: nameof(_notificationSettings.Enabled)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_notificationSettings.Enabled),
+            errorMessage: "Enabled flag must be provided.");
     }
 
     [Test]
@@ -49,10 +36,10 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 
     [Test]
@@ -65,35 +52,11 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email notification settings must be provided.";
-        string error = validationResult[key: nameof(_notificationSettings.Email)];
-        error.Should().Be(expected: expectedValidationMessage);
-    }
-
-    [Test]
-    public void Should_MergeValidationResult_When_EmailHasErrors()
-    {
-        // Arrange
-        _notificationSettings = _notificationSettings with
-        {
-            Email = _notificationSettings.Email! with
-            {
-                From = string.Empty
-            }
-        };
-
-        // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
-
-        // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Email 'From' address must be provided and cannot be empty.";
-        string error = validationResult[key: nameof(_notificationSettings.Email.From)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_notificationSettings.Email),
+            errorMessage: "Email notification settings must be provided.");
     }
 
     [Test]
@@ -106,13 +69,11 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "In-app notification settings must be provided.";
-        string error = validationResult[key: nameof(_notificationSettings.InApp)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(NotificationSettings.InApp),
+            errorMessage: "In-app notification settings must be provided.");
     }
 
     [Test]
@@ -125,23 +86,20 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         };
 
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.Should().NotBeNullOrEmpty();
-        const string expectedValidationMessage = "Push notification settings must be provided.";
-        string error = validationResult[key: nameof(_notificationSettings.Push)];
-        error.Should().Be(expected: expectedValidationMessage);
+        validationResult.AssertSingleError(propertyName: nameof(_notificationSettings.Push),
+            errorMessage: "Push notification settings must be provided.");
     }
 
     [Test]
     public void Should_ReturnEmptyValidationResult_When_NotificationSettingsAreValid()
     {
-        // Arrange
         // Act
-        IDictionary<string, string> validationResult = TestCandidate.Validate(settings: _notificationSettings);
+        ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.Should().BeNullOrEmpty();
+        validationResult.AssertNoErrors();
     }
 }

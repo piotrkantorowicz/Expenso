@@ -4,13 +4,13 @@ using FluentValidation;
 
 namespace Expenso.Shared.Commands.Validation;
 
-internal sealed class CommandHandlerFluentValidationDecorator<TCommand> : ICommandHandler<TCommand>
+internal sealed class CommandHandlerValidationDecorator<TCommand> : ICommandHandler<TCommand>
     where TCommand : class, ICommand
 {
     private readonly ICommandHandler<TCommand> _decorated;
     private readonly IEnumerable<IValidator<TCommand>> _validators;
 
-    public CommandHandlerFluentValidationDecorator(IEnumerable<IValidator<TCommand>> validators,
+    public CommandHandlerValidationDecorator(IEnumerable<IValidator<TCommand>> validators,
         ICommandHandler<TCommand> decorated)
     {
         _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));
@@ -36,13 +36,13 @@ internal sealed class CommandHandlerFluentValidationDecorator<TCommand> : IComma
     }
 }
 
-internal sealed class CommandHandlerFluentValidationDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
+internal sealed class CommandHandlerValidationDecorator<TCommand, TResult> : ICommandHandler<TCommand, TResult>
     where TCommand : class, ICommand where TResult : class
 {
     private readonly ICommandHandler<TCommand, TResult> _decorated;
     private readonly IEnumerable<IValidator<TCommand>> _validators;
 
-    public CommandHandlerFluentValidationDecorator(IEnumerable<IValidator<TCommand>> validators,
+    public CommandHandlerValidationDecorator(IEnumerable<IValidator<TCommand>> validators,
         ICommandHandler<TCommand, TResult> decorated)
     {
         _decorated = decorated ?? throw new ArgumentNullException(paramName: nameof(decorated));

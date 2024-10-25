@@ -1,28 +1,15 @@
 ﻿using Expenso.Shared.System.Configuration.Settings.Auth;
-using Expenso.Shared.System.Configuration.Validators;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators;
 
-internal sealed class AuthSettingsValidator : ISettingsValidator<AuthSettings>
+internal sealed class AuthSettingsValidator : AbstractValidator<AuthSettings>
 {
-    public IDictionary<string, string> Validate(AuthSettings? settings)
+    public AuthSettingsValidator()
     {
-        Dictionary<string, string> errors = new();
-
-        if (settings is null)
-        {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Auth settings are required.");
-
-            return errors;
-        }
-
-        if (!Enum.IsDefined(enumType: typeof(AuthServer), value: settings.AuthServer))
-        {
-            errors.Add(key: nameof(settings.AuthServer), value: "AuthServer must be a valid value.");
-        }
-
-        return errors;
+        RuleFor(expression: x => x.AuthServer)
+            .Must(predicate: authServer => Enum.IsDefined(enumType: typeof(AuthServer), value: authServer))
+            .WithMessage(errorMessage: "AuthServer must be a valid value.");
     }
 }

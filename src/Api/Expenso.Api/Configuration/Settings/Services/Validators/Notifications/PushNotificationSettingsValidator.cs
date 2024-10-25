@@ -1,28 +1,13 @@
 ﻿using Expenso.Communication.Shared.DTO.Settings.Push;
-using Expenso.Shared.System.Configuration.Validators;
 
-using Humanizer;
+using FluentValidation;
 
 namespace Expenso.Api.Configuration.Settings.Services.Validators.Notifications;
 
-internal sealed class PushNotificationSettingsValidator : ISettingsValidator<PushNotificationSettings>
+internal sealed class PushNotificationSettingsValidator : AbstractValidator<PushNotificationSettings>
 {
-    public IDictionary<string, string> Validate(PushNotificationSettings? settings)
+    public PushNotificationSettingsValidator()
     {
-        Dictionary<string, string> errors = new();
-
-        if (settings is null)
-        {
-            errors.Add(key: nameof(settings).Pascalize(), value: "Push notification settings are required.");
-
-            return errors;
-        }
-
-        if (settings.Enabled is null)
-        {
-            errors.Add(key: nameof(settings.Enabled), value: "Push enabled flag must be provided.");
-        }
-
-        return errors;
+        RuleFor(expression: x => x.Enabled).NotNull().WithMessage(errorMessage: "Push enabled flag must be provided.");
     }
 }

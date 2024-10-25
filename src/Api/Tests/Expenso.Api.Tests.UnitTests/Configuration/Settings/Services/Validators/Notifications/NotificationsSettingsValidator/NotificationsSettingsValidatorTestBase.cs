@@ -5,6 +5,8 @@ using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Communication.Shared.DTO.Settings.Push;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using FluentValidation;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.
     NotificationsSettingsValidator;
 
@@ -24,7 +26,14 @@ internal abstract class NotificationSettingsValidatorTestBase : TestBase<Notific
             Push = new PushNotificationSettings(Enabled: true)
         };
 
-        TestCandidate = new NotificationSettingsValidator();
+        Mock<IValidator<EmailNotificationSettings>> emailNotificationSettingsValidatorMock = new();
+        Mock<IValidator<InAppNotificationSettings>> inAppNotificationSettingsValidatorMock = new();
+        Mock<IValidator<PushNotificationSettings>> pushNotificationSettingsValidatorMock = new();
+
+        TestCandidate = new NotificationSettingsValidator(
+            emailNotificationSettingsValidator: emailNotificationSettingsValidatorMock.Object,
+            inAppNotificationSettingsValidator: inAppNotificationSettingsValidatorMock.Object,
+            pushNotificationSettingsValidator: pushNotificationSettingsValidatorMock.Object);
     }
 
     protected NotificationSettings _notificationSettings = null!;
