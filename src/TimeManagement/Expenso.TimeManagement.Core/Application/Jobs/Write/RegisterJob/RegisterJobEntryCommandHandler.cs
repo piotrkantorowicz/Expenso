@@ -2,6 +2,7 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
+using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 using Expenso.TimeManagement.Shared.DTO.Request;
@@ -97,7 +98,7 @@ internal sealed class
         return triggers
             .Select(selector: x =>
             {
-                Type eventType = eventTypeResolver.Resolve(eventName: x.EventType!);
+                Type eventType = eventTypeResolver.Resolve(eventName: (AllowedEventType)x.EventType!);
 
                 return new JobEntryTrigger
                 {

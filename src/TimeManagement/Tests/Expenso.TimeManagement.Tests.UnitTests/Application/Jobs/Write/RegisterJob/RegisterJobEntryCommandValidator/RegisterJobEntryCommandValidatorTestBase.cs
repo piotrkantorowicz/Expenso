@@ -10,6 +10,7 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Request.Validators;
+using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Shared.DTO.Request;
 
 using Moq;
@@ -41,18 +42,19 @@ internal abstract class
         _eventTypeResolver = new Mock<IEventTypeResolver>();
 
         _eventTypeResolver
-            .Setup(expression: x => x.IsAllowable(AllowedEvents.BudgetPermissionRequestExpired))
+            .Setup(expression: x => x.IsAllowable(AllowedEventType.BudgetPermissionRequestExpired))
             .Returns(value: true);
 
         _eventTypeResolver
-            .Setup(expression: x => x.Resolve(AllowedEvents.BudgetPermissionRequestExpired))
+            .Setup(expression: x => x.Resolve(AllowedEventType.BudgetPermissionRequestExpired))
             .Returns(value: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
 
         IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
         string eventData = _serializer.Object.Serialize(value: eventTrigger);
 
         RegisterJobEntryRequest_JobEntryTrigger jobEntryTrigger =
-            new(EventType: AllowedEvents.BudgetPermissionRequestExpired, EventData: eventData);
+            new(EventType: RegisterJobEntryRequest_JobEntryTrigger_AllowedEventType.BudgetPermissionRequestExpired,
+                EventData: eventData);
 
         RegisterJobEntryRequest payload = new(MaxRetries: 5, JobEntryTriggers: [jobEntryTrigger], Interval: null,
             RunAt: _clockMock.Object.UtcNow);

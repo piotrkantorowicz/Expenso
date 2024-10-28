@@ -1,5 +1,4 @@
-﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
-using Expenso.Shared.System.Types.Exceptions;
+﻿using Expenso.Shared.System.Types.Exceptions;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Shared.DTO.Request;
@@ -94,7 +93,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             Payload: new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
             [
                 new RegisterJobEntryRequest_JobEntryTrigger(
-                    EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
+                    EventType: RegisterJobEntryRequest_JobEntryTrigger_AllowedEventType.BudgetPermissionRequestExpired,
                     EventData: _serializer.Object.Serialize(value: _eventTrigger))
             ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 

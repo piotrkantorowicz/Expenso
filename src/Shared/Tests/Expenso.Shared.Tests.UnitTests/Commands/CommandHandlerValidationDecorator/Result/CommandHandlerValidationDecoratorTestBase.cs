@@ -6,7 +6,7 @@ using FluentValidation;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.Result;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
 
 [TestFixture]
 internal abstract class

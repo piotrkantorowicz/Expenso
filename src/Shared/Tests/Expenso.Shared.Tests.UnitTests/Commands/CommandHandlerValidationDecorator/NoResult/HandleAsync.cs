@@ -2,7 +2,7 @@ using Expenso.Shared.System.Types.Exceptions;
 
 using FluentValidation.Results;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.NoResult;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.NoResult;
 
 [TestFixture]
 internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase

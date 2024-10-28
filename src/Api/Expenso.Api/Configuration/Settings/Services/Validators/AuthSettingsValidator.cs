@@ -9,7 +9,7 @@ internal sealed class AuthSettingsValidator : AbstractValidator<AuthSettings>
     public AuthSettingsValidator()
     {
         RuleFor(expression: x => x.AuthServer)
-            .Must(predicate: authServer => Enum.IsDefined(enumType: typeof(AuthServer), value: authServer))
+            .IsInEnum()
             .WithMessage(errorMessage: "AuthServer must be a valid value.");
     }
 }
