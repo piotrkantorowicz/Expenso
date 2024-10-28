@@ -14,29 +14,22 @@ internal sealed class EventTypeResolver : IEventTypeResolver
         ArgumentNullException.ThrowIfNull(argument: logger);
         ArgumentNullException.ThrowIfNull(argument: timeManagementSettings);
 
-        if (timeManagementSettings.AllowedEvents is null)
+        if (timeManagementSettings.AllowedEvents is null or [])
         {
             logger.LogWarning(message: "No allowed events are defined in the settings");
 
             return;
         }
 
-        foreach (AllowedEventType allowedEventType in timeManagementSettings.AllowedEvents)
+        foreach (AllowedEventType allowedEventType in timeManagementSettings.AllowedEvents.Where(predicate: x =>
+                     x is not AllowedEventType.None))
         {
-            Type? type = allowedEventType switch
+            Type type = allowedEventType switch
             {
                 AllowedEventType.BudgetPermissionRequestExpired =>
                     typeof(BudgetPermissionRequestExpiredIntegrationEvent),
-                AllowedEventType.None => null,
                 _ => throw new InvalidEventTypeException(type: allowedEventType)
             };
-
-            if (type is null)
-            {
-                logger.LogWarning(message: "No type is defined for event type {EventType}", allowedEventType);
-
-                continue;
-            }
 
             _allowedEventTypes.Add(key: allowedEventType, value: type);
         }
