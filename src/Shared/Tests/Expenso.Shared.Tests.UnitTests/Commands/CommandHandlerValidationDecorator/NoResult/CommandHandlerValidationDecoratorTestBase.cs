@@ -22,7 +22,7 @@ internal abstract class
         Mock<ICommandHandler<TestCommand>> handler = new();
 
         TestCandidate = new CommandHandlerValidationDecorator<TestCommand>(validators: [_validator.Object],
-                decorated: handler.Object);
+            decorated: handler.Object);
     }
 
     protected TestCommand _testCommand = null!;

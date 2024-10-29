@@ -24,8 +24,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         getUserResponse.Should().NotBeNull();
         getUserResponse.Should().BeEquivalentTo(expectation: _getUserByIdResponse);
 
-        _queryDispatcherMock.Verify(expression: x =>
-            x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
+        _queryDispatcherMock.Verify(
+            expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 

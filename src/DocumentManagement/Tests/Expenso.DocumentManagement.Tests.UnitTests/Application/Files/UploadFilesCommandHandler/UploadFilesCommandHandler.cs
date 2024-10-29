@@ -16,8 +16,7 @@ internal abstract class
         _directoryPathResolverMock = new Mock<IDirectoryPathResolver>();
 
         TestCandidate = new Core.Application.Files.Write.UploadFiles.UploadFilesCommandHandler(
-            fileStorage: _fileStorageMock.Object,
-            directoryPathResolver: _directoryPathResolverMock.Object);
+            fileStorage: _fileStorageMock.Object, directoryPathResolver: _directoryPathResolverMock.Object);
     }
 
     protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;

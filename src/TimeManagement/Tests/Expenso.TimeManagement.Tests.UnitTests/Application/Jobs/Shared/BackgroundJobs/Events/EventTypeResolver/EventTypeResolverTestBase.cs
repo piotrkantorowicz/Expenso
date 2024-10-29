@@ -11,8 +11,6 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.Backgro
 internal abstract class
     EventTypeResolverTestBase : TestBase<Core.Application.Jobs.Shared.BackgroundJobs.Events.EventTypeResolver>
 {
-    private static readonly AllowedEventType[] DefaultAllowedEvents = [AllowedEventType.BudgetPermissionRequestExpired];
-    
     [SetUp]
     public void Setup()
     {
@@ -20,7 +18,7 @@ internal abstract class
 
         _timeManagementSettings = new TimeManagementSettings
         {
-            AllowedEvents =DefaultAllowedEvents
+            AllowedEvents = DefaultAllowedEvents
         };
 
         TestCandidate =
@@ -28,6 +26,7 @@ internal abstract class
                 timeManagementSettings: _timeManagementSettings);
     }
 
+    private static readonly AllowedEventType[] DefaultAllowedEvents = [AllowedEventType.BudgetPermissionRequestExpired];
     protected Mock<ILogger<Core.Application.Jobs.Shared.BackgroundJobs.Events.EventTypeResolver>> _loggerMock = null!;
     protected TimeManagementSettings _timeManagementSettings = null!;
 }

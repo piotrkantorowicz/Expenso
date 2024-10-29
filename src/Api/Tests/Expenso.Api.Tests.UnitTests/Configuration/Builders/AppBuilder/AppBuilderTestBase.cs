@@ -34,7 +34,7 @@ internal abstract class AppBuilderTestBase : TestBase<Api.Configuration.Builders
     protected void CreateTestCandiate()
     {
         TestCandidate = new Api.Configuration.Builders.AppBuilder(appBuilder: _webApplicationBuilder,
-            configuration: _configurationMock.Object,
-            serviceCollection: _serviceCollection, appConfigurationManager: _configurationManagerMock.Object);
+            configuration: _configurationMock.Object, serviceCollection: _serviceCollection,
+            appConfigurationManager: _configurationManagerMock.Object);
     }
 }

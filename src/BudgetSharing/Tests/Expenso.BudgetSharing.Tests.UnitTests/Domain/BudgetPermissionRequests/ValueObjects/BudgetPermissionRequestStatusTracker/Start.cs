@@ -35,6 +35,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
             .Status.Should()
             .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                 .Pending);
+
         result.ConfirmationDate.Should().BeNull();
         result.CancellationDate.Should().BeNull();
     }

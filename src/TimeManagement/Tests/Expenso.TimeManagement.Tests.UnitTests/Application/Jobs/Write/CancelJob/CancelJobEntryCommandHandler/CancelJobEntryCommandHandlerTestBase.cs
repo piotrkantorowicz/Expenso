@@ -28,8 +28,7 @@ internal abstract class
         };
 
         TestCandidate = new Core.Application.Jobs.Write.CancelJob.CancelJobEntryCommandHandler(
-            jobEntryRepository: _jobEntryRepositoryMock.Object,
-            jobStatusRepository: _jobEntryStatusReposiotry.Object);
+            jobEntryRepository: _jobEntryRepositoryMock.Object, jobStatusRepository: _jobEntryStatusReposiotry.Object);
     }
 
     protected CancelJobEntryCommand _cancelJobEntryCommand = null!;

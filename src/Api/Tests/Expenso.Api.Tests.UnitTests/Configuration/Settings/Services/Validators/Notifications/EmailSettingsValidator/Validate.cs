@@ -1,5 +1,4 @@
-﻿using Expenso.Communication.Shared.DTO.Settings.Email;
-using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using FluentValidation.Results;
 

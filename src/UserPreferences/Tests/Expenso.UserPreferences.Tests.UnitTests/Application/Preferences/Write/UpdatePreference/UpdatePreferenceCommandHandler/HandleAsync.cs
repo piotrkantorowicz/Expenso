@@ -17,7 +17,8 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            PreferenceId: _id, Payload: new UpdatePreferenceRequest(
+            PreferenceId: _id,
+            Payload: new UpdatePreferenceRequest(
                 FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
@@ -65,7 +66,8 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            PreferenceId: _id, Payload: new UpdatePreferenceRequest(
+            PreferenceId: _id,
+            Payload: new UpdatePreferenceRequest(
                 FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),

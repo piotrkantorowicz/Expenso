@@ -105,8 +105,8 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
             {
                 Participants =
                 [
-                    new PersonNotificationModel(Person: new GetUserByIdResponse(UserId: Guid.NewGuid().ToString(),
-                            Firstname: "Francisco",
+                    new PersonNotificationModel(
+                        Person: new GetUserByIdResponse(UserId: Guid.NewGuid().ToString(), Firstname: "Francisco",
                             Lastname: "Yue", Username: "francisco224", Email: "francisco224@email.com"),
                         CanSendNotification: true)
                 ]

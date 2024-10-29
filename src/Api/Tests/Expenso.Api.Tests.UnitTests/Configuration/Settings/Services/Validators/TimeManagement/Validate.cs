@@ -75,7 +75,8 @@ internal sealed class Validate : TimeManagementSettingsValidatorTestBase
         // Arrange
         _timeManagementSettings = new TimeManagementSettings
         {
-            AllowedEvents = Enumerable.Repeat(AllowedEventType.BudgetPermissionRequestExpired, 101).ToArray()
+            AllowedEvents =
+                Enumerable.Repeat(element: AllowedEventType.BudgetPermissionRequestExpired, count: 101).ToArray()
         };
 
         // Act

@@ -29,7 +29,7 @@ internal abstract class SettingsServiceTestBase : TestBase<SettingsService<TestS
         [key: "Test:Name"] = "Name",
         [key: "Test:IsEnabled"] = "True"
     };
-    
+
     protected Mock<ILoggerService<SettingsService<TestSettings>>> _loggerMock = null!;
     protected IServiceCollection _serviceCollection = null!;
     protected IConfiguration _configuration = null!;

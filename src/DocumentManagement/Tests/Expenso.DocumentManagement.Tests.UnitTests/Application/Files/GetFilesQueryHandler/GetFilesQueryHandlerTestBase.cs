@@ -19,8 +19,8 @@ internal abstract class
         _fileSystemMock = new Mock<IFileSystem>();
 
         TestCandidate = new Core.Application.Files.Read.GetFiles.GetFilesQueryHandler(
-            directoryPathResolver: _directoryPathResolverMock.Object,
-            fileStorage: _fileStorageMock.Object, fileSystem: _fileSystemMock.Object);
+            directoryPathResolver: _directoryPathResolverMock.Object, fileStorage: _fileStorageMock.Object,
+            fileSystem: _fileSystemMock.Object);
     }
 
     protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;

@@ -38,7 +38,7 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
 
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
-                    It.IsAny<CancellationToken>()))
+                It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found."));
 
         // Act

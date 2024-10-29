@@ -32,6 +32,7 @@ internal sealed class Cancel : BudgetPermissionRequestStatusTrackerTestBase
             .Status.Should()
             .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                 .Cancelled);
+
         statusTracker.CancellationDate.Should().NotBeNull();
         statusTracker.CancellationDate!.Value.Should().Be(expected: currentTime);
     }

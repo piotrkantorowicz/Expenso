@@ -37,8 +37,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
             UseTracking: true, PreferenceType: PreferenceTypes.All);
 
         Preference? dbPreference = await _preferencesRepository.GetAsync(
-            preferenceQuerySpecification: preferenceQuerySpecification,
-            cancellationToken: cancellationToken);
+            preferenceQuerySpecification: preferenceQuerySpecification, cancellationToken: cancellationToken);
 
         if (dbPreference is null)
         {

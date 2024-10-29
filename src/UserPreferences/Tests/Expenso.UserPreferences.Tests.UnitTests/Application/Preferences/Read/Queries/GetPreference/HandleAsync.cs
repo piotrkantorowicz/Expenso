@@ -31,8 +31,8 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
-        _preferenceRepositoryMock.Verify(expression: x =>
-            x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceTypes>()),
+        _preferenceRepositoryMock.Verify(
+            expression: x => x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceTypes>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 

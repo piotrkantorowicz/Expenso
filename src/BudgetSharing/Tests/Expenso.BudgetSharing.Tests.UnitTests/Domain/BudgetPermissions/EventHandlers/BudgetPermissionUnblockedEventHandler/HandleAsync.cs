@@ -23,7 +23,7 @@ internal sealed class HandleAsync : HandleAsyncBase<
     {
         TestCandidate =
             new BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal.BudgetPermissionUnblockedEventHandler(
-                communicationProxy: _communicationProxyMock.Object,
-            notificationSettings: _notificationSettings, iamProxyService: _iIamProxyServiceMock.Object);
+                communicationProxy: _communicationProxyMock.Object, notificationSettings: _notificationSettings,
+                iamProxyService: _iIamProxyServiceMock.Object);
     }
 }
