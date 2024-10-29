@@ -58,7 +58,7 @@ internal sealed class Validate : TimeManagementSettingsValidatorTestBase
         // Arrange
         _timeManagementSettings = new TimeManagementSettings
         {
-            AllowedEvents = [AllowedEventType.BudgetPermissionRequestExpired, (AllowedEventType)100]
+            AllowedEvents = [AllowedEventType.BudgetPermissionRequestExpired, (AllowedEventType)int.MaxValue]
         };
 
         // Act
@@ -75,7 +75,7 @@ internal sealed class Validate : TimeManagementSettingsValidatorTestBase
         // Arrange
         _timeManagementSettings = new TimeManagementSettings
         {
-            AllowedEvents = Enumerable.Range(start: 0, count: 101).Select(selector: x => (AllowedEventType)x).ToArray()
+            AllowedEvents = Enumerable.Repeat(AllowedEventType.BudgetPermissionRequestExpired, 101).ToArray()
         };
 
         // Act
