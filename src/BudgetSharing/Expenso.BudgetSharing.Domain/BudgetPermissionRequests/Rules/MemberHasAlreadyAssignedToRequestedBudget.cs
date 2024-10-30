@@ -11,7 +11,7 @@ internal sealed class MemberHasAlreadyAssignedToRequestedBudget : IBusinessRule
 
     public MemberHasAlreadyAssignedToRequestedBudget(PersonId participantId, BudgetPermission? budgetPermission)
     {
-        _participantId = participantId;
+        _participantId = participantId ?? throw new ArgumentNullException(paramName: nameof(participantId));
         _budgetPermission = budgetPermission;
     }
 

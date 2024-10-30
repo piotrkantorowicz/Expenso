@@ -1,16 +1,11 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
-using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.BudgetSharing.Domain.Shared.Base;
-using Expenso.BudgetSharing.Domain.Shared.Rules;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
-using Expenso.Shared.Domain.Types.Model;
-using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
-using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
@@ -35,26 +30,17 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     }
 
     private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
-        PersonId ownerId, PermissionType permissionType, BudgetPermissionRequestStatus status, int expirationDays,
-        IClock clock)
+        PersonId ownerId, PermissionType permissionType, BudgetPermissionRequestStatus status,
+        DateAndTime expirationDate, DateAndTime submissionDate)
     {
-        DateAndTime expirationDate = DateAndTime.New(value: clock.UtcNow.AddDays(days: expirationDays));
-
-        DomainModelState.CheckBusinessRules(businessRules:
-        [
-            new BusinesRuleCheck(BusinessRule: new NonePermissionTypeCannotBeProcessed(permissionType: permissionType)),
-            new BusinesRuleCheck(
-                BusinessRule: new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: clock))
-        ]);
-
         Id = id;
         BudgetId = budgetId;
         ParticipantId = participantId;
         OwnerId = ownerId;
         PermissionType = permissionType;
 
-        StatusTracker = BudgetPermissionRequestStatusTracker.Start(budgetPermissionRequestId: Id, clock: clock,
-            expirationDate: expirationDate, status: status);
+        StatusTracker = BudgetPermissionRequestStatusTracker.Start(budgetPermissionRequestId: Id,
+            submissionDate: submissionDate, expirationDate: expirationDate, status: status);
 
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
@@ -81,28 +67,29 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         return _domainEventsSource.GetDomainEvents();
     }
 
-    public static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,
-        PermissionType permissionType, int expirationDays, IClock clock,
+    internal static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,
+        PermissionType permissionType, DateAndTime expirationDate, DateAndTime submissionDate,
         BudgetPermissionRequestId? budgetPermissionRequestId = null)
     {
         return new BudgetPermissionRequest(
             id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
             ownerId: ownerId, participantId: personId, permissionType: permissionType,
-            status: BudgetPermissionRequestStatus.Pending, expirationDays: expirationDays, clock: clock);
+            status: BudgetPermissionRequestStatus.Pending, expirationDate: expirationDate,
+            submissionDate: submissionDate);
     }
 
-    public void Confirm(IClock clock)
+    public void Confirm(DateAndTime confirmationDate)
     {
-        StatusTracker.Confirm(clock: clock);
+        StatusTracker.Confirm(confirmationDate: confirmationDate);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestConfirmedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
             PermissionType: PermissionType));
     }
 
-    public void Cancel(IClock clock)
+    public void Cancel(DateAndTime cancellationDate)
     {
-        StatusTracker.Cancel(clock: clock);
+        StatusTracker.Cancel(cancellationDate: cancellationDate);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestCancelledEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,

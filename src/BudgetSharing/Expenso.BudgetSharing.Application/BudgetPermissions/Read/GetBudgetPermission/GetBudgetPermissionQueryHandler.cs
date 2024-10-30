@@ -1,5 +1,5 @@
+using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission.DTO.Maps;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission.DTO.Response;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission.DTO.Response.Maps;
 using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
@@ -23,11 +23,9 @@ internal sealed class
     public async Task<GetBudgetPermissionResponse?> HandleAsync(GetBudgetPermissionQuery query,
         CancellationToken cancellationToken)
     {
-        (_, Guid budgetPermissionId) = query;
-
         BudgetPermissionFilter filter = new()
         {
-            Id = BudgetPermissionId.Nullable(value: budgetPermissionId)
+            Id = BudgetPermissionId.Nullable(value: query.Payload?.BudgetPermissionId)
         };
 
         BudgetPermission? budgetPermission =
@@ -36,7 +34,7 @@ internal sealed class
         if (budgetPermission is null)
         {
             throw new NotFoundException(
-                message: $" Budget permission with ID {query.BudgetPermissionId} hasn't been found");
+                message: $" Budget permission with ID {query.Payload?.BudgetPermissionId} hasn't been found");
         }
 
         GetBudgetPermissionResponse budgetPermissionResponse =

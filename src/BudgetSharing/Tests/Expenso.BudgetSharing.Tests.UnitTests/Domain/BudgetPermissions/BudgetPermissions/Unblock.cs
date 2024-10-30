@@ -30,7 +30,7 @@ internal sealed class Unblock : BudgetPermissionTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_Deleted()
+    public void Should_ThrowDomainRuleValidationException_When_TryToUnblockAlreadyUnblocked()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
@@ -43,6 +43,6 @@ internal sealed class Unblock : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is not deleted.");
+            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is not blocked.");
     }
 }

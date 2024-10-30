@@ -2,12 +2,13 @@
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
-using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 
 public sealed record BudgetPermissionRequestStatusTracker
 {
+    // ReSharper disable once UnusedMember.Local
+    // Required for EF Core 
     private BudgetPermissionRequestStatusTracker()
     {
         BudgetPermissionRequestId = default!;
@@ -18,16 +19,14 @@ public sealed record BudgetPermissionRequestStatusTracker
         Status = default!;
     }
 
-    private BudgetPermissionRequestStatusTracker(BudgetPermissionRequestId budgetPermissionRequestId, IClock clock,
-        DateAndTime expirationDate, BudgetPermissionRequestStatus status)
+    private BudgetPermissionRequestStatusTracker(BudgetPermissionRequestId budgetPermissionRequestId,
+        DateAndTime submissionDate, DateAndTime expirationDate, BudgetPermissionRequestStatus status)
     {
-        DateAndTime submissionDate = DateAndTime.New(value: clock.UtcNow);
-
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new BudgetPermissionRequestStatusMustBePendingAtTheBeginingRule(status: status)),
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanSubmissionDate(expirationDate: expirationDate,
                     submissionDate: submissionDate))
         ]);
@@ -51,35 +50,41 @@ public sealed record BudgetPermissionRequestStatusTracker
     public BudgetPermissionRequestStatus Status { get; private set; }
 
     public static BudgetPermissionRequestStatusTracker Start(BudgetPermissionRequestId budgetPermissionRequestId,
-        IClock clock, DateAndTime expirationDate, BudgetPermissionRequestStatus status)
+        DateAndTime submissionDate, DateAndTime expirationDate, BudgetPermissionRequestStatus status)
     {
         return new BudgetPermissionRequestStatusTracker(budgetPermissionRequestId: budgetPermissionRequestId,
-            clock: clock, expirationDate: expirationDate, status: status);
+            submissionDate: submissionDate, expirationDate: expirationDate, status: status);
     }
 
-    public void Cancel(IClock clock)
+    public void Cancel(DateAndTime cancellationDate)
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeCancelled(
-                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
+                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status)),
+            new BusinessRuleCheck(
+                BusinessRule: new CancellationDateMustBeGreaterThanSubmissionDate(cancellationDate: cancellationDate,
+                    submissionDate: SubmissionDate))
         ]);
 
-        CancellationDate = DateAndTime.New(value: clock.UtcNow);
+        CancellationDate = cancellationDate;
         Status = BudgetPermissionRequestStatus.Cancelled;
     }
 
-    public void Confirm(IClock clock)
+    public void Confirm(DateAndTime confirmationDate)
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeConfirmed(
-                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
+                    budgetPermissionRequestId: BudgetPermissionRequestId, status: Status)),
+            new BusinessRuleCheck(
+                BusinessRule: new ConfirmationDateMustBeGreaterThanSubmissionDate(confirmationDate: confirmationDate,
+                    submissionDate: SubmissionDate))
         ]);
 
-        ConfirmationDate = DateAndTime.New(value: clock.UtcNow);
+        ConfirmationDate = confirmationDate;
         Status = BudgetPermissionRequestStatus.Confirmed;
     }
 
@@ -87,7 +92,7 @@ public sealed record BudgetPermissionRequestStatusTracker
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new OnlyPendingBudgetPermissionRequestCanBeMadeExpired(
                     budgetPermissionRequestId: BudgetPermissionRequestId, status: Status))
         ]);

@@ -13,15 +13,15 @@ public sealed record BudgetId
 
     public Guid Value { get; }
 
-    public static BudgetId New(Guid value)
+    public static BudgetId New(Guid? value)
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new EmptyIdentifierCannotBeProcessed(identifier: value, type: typeof(BudgetId)))
         ]);
 
-        return new BudgetId(value: value);
+        return new BudgetId(value: value!.Value);
     }
 
     public static BudgetId? Nullable(Guid? value)

@@ -6,6 +6,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
+using Expenso.Shared.Domain.Types.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Shared;
@@ -38,7 +39,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
         _clock = clock ?? throw new ArgumentNullException(paramName: nameof(clock));
     }
 
-    public async Task ConfirmParticipantAsync(Guid budgetPermissionRequestId, CancellationToken cancellationToken)
+    public async Task ConfirmParticipantAsync(Guid? budgetPermissionRequestId, CancellationToken cancellationToken)
     {
         BudgetPermissionRequest? permissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
             permissionId: BudgetPermissionRequestId.New(value: budgetPermissionRequestId),
@@ -72,7 +73,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(
                     budgetId: budgetPermission.BudgetId, ownerId: budgetPermission.OwnerId,
                     permissionTypeFromRequest: permissionRequest.PermissionType,
@@ -80,7 +81,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
                     currentPermissions: budgetPermission.Permissions.ToList().AsReadOnly()))
         ]);
 
-        permissionRequest.Confirm(clock: _clock);
+        permissionRequest.Confirm(confirmationDate: DateAndTime.New(value: _clock.UtcNow));
 
         budgetPermission.AddPermission(participantId: permissionRequest.ParticipantId,
             permissionType: permissionRequest.PermissionType);

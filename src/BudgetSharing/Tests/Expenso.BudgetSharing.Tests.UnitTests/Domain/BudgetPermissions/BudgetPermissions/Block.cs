@@ -63,7 +63,7 @@ internal sealed class Block : BudgetPermissionTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_Deleted()
+    public void Should_ThrowDomainRuleValidationException_When_TryToBlockAlreadyBlocked()
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
@@ -78,6 +78,6 @@ internal sealed class Block : BudgetPermissionTestBase
             .Should()
             .Throw<DomainRuleValidationException>()
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is already deleted.");
+            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is already blocked.");
     }
 }

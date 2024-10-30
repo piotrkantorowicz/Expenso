@@ -16,7 +16,7 @@ public sealed record DateAndTime
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinesRuleCheck(
+            new BusinessRuleCheck(
                 BusinessRule: new EmptyDateTimeCannotBeProcessed(dateTimeOffset: value, type: typeof(DateAndTime)))
         ]);
 
@@ -73,5 +73,10 @@ public sealed record DateAndTime
     public bool OutOfRange(DateAndTime start, DateAndTime end)
     {
         return Value < start.Value || Value > end.Value;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

@@ -1,6 +1,6 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Request;
-using Expenso.BudgetSharing.Shared.DTO.API.CreateBudgetPermission.Response;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Request;
+using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Response;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 

@@ -4,6 +4,6 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfa
 
 public interface IAssignParticipantionDomainService
 {
-    Task<BudgetPermissionRequest> AssignParticipantAsync(BudgetId budgetId, string email, PermissionType permissionType,
-        int expirationDays, CancellationToken cancellationToken);
+    Task<BudgetPermissionRequest> AssignParticipantAsync(BudgetId budgetId, string? email,
+        PermissionType? permissionType, int expirationDays, CancellationToken cancellationToken);
 }

@@ -1,0 +1,3 @@
+﻿namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.CancelAssigningParticipant.DTO;
+
+public sealed record CancelAssigningParticipantRequest(Guid BudgetPermissionRequestId);

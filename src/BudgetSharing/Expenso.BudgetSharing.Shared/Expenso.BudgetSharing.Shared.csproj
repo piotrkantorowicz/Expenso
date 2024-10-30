@@ -21,4 +21,8 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="DTO\API\BudgetPermissions\"/>
+    </ItemGroup>
+
 </Project>

@@ -10,7 +10,7 @@ internal sealed class OwnerPermissionCannotBeRemoved : IBusinessRule
 
     public OwnerPermissionCannotBeRemoved(BudgetId budgetId, PermissionType? permissionType)
     {
-        _budgetId = budgetId;
+        _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));
         _permissionType = permissionType;
     }
 

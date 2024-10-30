@@ -18,8 +18,8 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
             value: new AssignParticipantRequest(BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 1],
-                Email: FakeIamProxy.ExistingEmails[2], PermissionType: AssignParticipantRequest_PermissionType.Reviewer,
-                ExpirationDays: 3));
+                Email: FakeIamProxy.ExistingEmails[2],
+                PermissionType: AssignParticipantRequest_PermissionType.Reviewer));
 
         // Assert
         AssertResponseCreated(response: response);

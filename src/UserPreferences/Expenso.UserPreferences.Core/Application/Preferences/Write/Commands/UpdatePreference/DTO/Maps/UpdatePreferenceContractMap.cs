@@ -1,32 +1,30 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
-using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences;
-using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
-using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
+using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences.Payload;
+using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences.Payload;
+using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences.Payload;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Maps;
 
 internal static class UpdatePreferenceContractMap
 {
-    public static FinancePreferenceUpdatedIntegrationEvent_FinancePreference MapTo(FinancePreference financePreference)
+    public static FinancePreferenceUpdatedPayload MapTo(Guid userId, FinancePreference financePreference)
     {
-        return new FinancePreferenceUpdatedIntegrationEvent_FinancePreference(
+        return new FinancePreferenceUpdatedPayload(UserId: userId,
             AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
             MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
             AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
             MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
-    public static NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference MapTo(
-        NotificationPreference notificationPreference)
+    public static NotificationPreferenceUpdatedPayload MapTo(Guid userId, NotificationPreference notificationPreference)
     {
-        return new NotificationPreferenceUpdatedIntegrationEvent_NotificationPreference(
+        return new NotificationPreferenceUpdatedPayload(UserId: userId,
             SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
             SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
-    public static GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference MapTo(GeneralPreference generalPreference)
+    public static GeneralPreferenceUpdatedPayload MapTo(Guid userId, GeneralPreference generalPreference)
     {
-        return new GeneralPreferenceUpdatedIntegrationEvent_GeneralPreference(
-            UseDarkMode: generalPreference.UseDarkMode);
+        return new GeneralPreferenceUpdatedPayload(UserId: userId, UseDarkMode: generalPreference.UseDarkMode);
     }
 }

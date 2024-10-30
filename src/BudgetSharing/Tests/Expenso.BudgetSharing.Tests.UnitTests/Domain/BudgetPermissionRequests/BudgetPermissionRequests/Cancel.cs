@@ -1,6 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Domain.Types.Exceptions;
+using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
@@ -16,7 +17,7 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        TestCandidate.Cancel(clock: _clockMock.Object);
+        TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Assert
         TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Cancelled);
@@ -34,10 +35,10 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Cancel(clock: _clockMock.Object);
+        TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Act
-        Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);
+        Action action = () => TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Assert
         action
@@ -54,10 +55,10 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        TestCandidate.Confirm(clock: _clockMock.Object);
+        TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Act
-        Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);
+        Action action = () => TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Assert
         action
@@ -77,7 +78,7 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         TestCandidate.Expire();
 
         // Act
-        Action action = () => TestCandidate.Cancel(clock: _clockMock.Object);
+        Action action = () => TestCandidate.Cancel(cancellationDate: _clockMock.Object.UtcNow);
 
         // Assert
         action
@@ -87,5 +88,26 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
             .WithDetails(
                 expectedWildcardPattern:
                 $"Only pending budget permission request {TestCandidate.Id} can be made cancelled.");
+    }
+
+    [Test]
+    public void
+        Should_ThrowDomainRuleValidationException_When_BudgetPermissionRequestCancelledDateIsLessOrEqualThanSubmitted()
+    {
+        // Arrange
+        TestCandidate = CreateTestCandidate(delay: 10);
+        DateAndTime cancellationDate = _clockMock.Object.UtcNow;
+
+        // Act
+        Action action = () => TestCandidate.Cancel(cancellationDate: cancellationDate);
+
+        // Assert
+        action
+            .Should()
+            .Throw<DomainRuleValidationException>()
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetails(
+                expectedWildcardPattern:
+                $"Cancellation date {cancellationDate} must be greater than submission date: {TestCandidate.StatusTracker.SubmissionDate}.");
     }
 }

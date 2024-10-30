@@ -1,0 +1,3 @@
+namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Response;
+
+public sealed record CreateBudgetPermissionResponse(Guid BudgetPermissionId);
