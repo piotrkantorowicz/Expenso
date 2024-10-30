@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
 using Microsoft.Extensions.Logging;

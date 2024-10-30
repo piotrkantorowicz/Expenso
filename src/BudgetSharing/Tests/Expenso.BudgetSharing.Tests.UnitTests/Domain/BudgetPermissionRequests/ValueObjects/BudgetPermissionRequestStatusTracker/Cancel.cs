@@ -14,7 +14,6 @@ internal sealed class Cancel : BudgetPermissionRequestStatusTrackerTestBase
         // Arrange
         DateTimeOffset cancellationDate = _clockMock.Object.UtcNow;
 
-
         // Act
         TestCandidate.Cancel(cancellationDate: cancellationDate);
 

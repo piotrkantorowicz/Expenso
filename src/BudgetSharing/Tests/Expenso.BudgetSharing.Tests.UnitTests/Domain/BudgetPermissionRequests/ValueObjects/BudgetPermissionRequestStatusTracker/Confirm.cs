@@ -14,7 +14,6 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         // Arrange
         DateTimeOffset confirmationDate = _clockMock.Object.UtcNow;
 
-
         // Act
         TestCandidate.Confirm(confirmationDate: confirmationDate);
 

@@ -13,7 +13,6 @@ internal sealed class Expire : BudgetPermissionRequestStatusTrackerTestBase
     {
         // Arrange
 
-
         // Act
         TestCandidate.Expire();
 
