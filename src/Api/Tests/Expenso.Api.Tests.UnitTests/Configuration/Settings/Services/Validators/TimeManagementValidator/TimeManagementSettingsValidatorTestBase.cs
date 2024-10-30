@@ -2,7 +2,7 @@
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
-namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagement;
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagementValidator;
 
 [TestFixture]
 internal abstract class TimeManagementSettingsValidatorTestBase : TestBase<TimeManagementSettingsValidator>

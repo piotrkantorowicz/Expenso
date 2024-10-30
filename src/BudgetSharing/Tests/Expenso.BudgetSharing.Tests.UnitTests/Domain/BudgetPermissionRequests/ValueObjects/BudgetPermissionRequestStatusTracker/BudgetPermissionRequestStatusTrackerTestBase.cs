@@ -34,7 +34,7 @@ internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<
 
     protected Mock<IClock> _clockMock = null!;
 
-    protected DateTimeOffset SetupTestDates()
+    private DateTimeOffset SetupTestDates()
     {
         DateTimeOffset submissionDate = DateTimeOffset.UtcNow.AddMinutes(minutes: -30);
         _clockMock.Setup(expression: c => c.UtcNow).Returns(value: DateTimeOffset.UtcNow);

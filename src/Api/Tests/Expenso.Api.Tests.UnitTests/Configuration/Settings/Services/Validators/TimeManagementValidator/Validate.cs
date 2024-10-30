@@ -3,7 +3,7 @@ using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
 using FluentValidation.Results;
 
-namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagement;
+namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagementValidator;
 
 [TestFixture]
 internal sealed class Validate : TimeManagementSettingsValidatorTestBase

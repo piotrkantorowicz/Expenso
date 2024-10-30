@@ -4,5 +4,5 @@ namespace Expenso.BudgetSharing.Application.Shared.Settings;
 
 public sealed record BudgetSharingSettings : ISettings
 {
-    public int ExpirationDays { get; init; }
+    public int? ExpirationDays { get; init; }
 }

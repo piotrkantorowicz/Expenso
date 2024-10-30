@@ -33,7 +33,7 @@ internal sealed class
                 budgetId: BudgetId.New(value: command.Payload?.BudgetId), email: command.Payload?.Email,
                 permissionType: AssignParticipantRequestMap.ToPermissionType(
                     assignParticipantRequestPermissionType: command.Payload?.PermissionType),
-                expirationDays: _budgetSharingSettings.ExpirationDays, cancellationToken: cancellationToken);
+                expirationDays: _budgetSharingSettings.ExpirationDays!.Value, cancellationToken: cancellationToken);
 
         return new AssignParticipantResponse(BudgetPermissionRequestId: budgetPermissionRequest.Id.Value);
     }
