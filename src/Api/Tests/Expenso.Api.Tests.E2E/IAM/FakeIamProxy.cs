@@ -17,7 +17,7 @@ internal sealed class FakeIamProxy : IIamProxy
 
     private readonly IReadOnlyCollection<UserRepresentation> _users =
     [
-        new UserRepresentation
+        new()
         {
             Id = UserDataInitializer.UserIds[index: 0].ToString(),
             FirstName = "Sergio",
@@ -25,7 +25,7 @@ internal sealed class FakeIamProxy : IIamProxy
             Username = "SHuang",
             Email = ExistingEmails[0]
         },
-        new UserRepresentation
+        new()
         {
             Id = new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(),
             FirstName = "Krishna",
@@ -33,7 +33,7 @@ internal sealed class FakeIamProxy : IIamProxy
             Username = "KLeee",
             Email = ExistingEmails[1]
         },
-        new UserRepresentation
+        new()
         {
             Id = new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(),
             FirstName = "Vincent",

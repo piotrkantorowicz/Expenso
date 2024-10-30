@@ -12,7 +12,7 @@ internal sealed class Validate : BudgetSharingValidatorTestBase
     public void Should_ReturnValidationResultWithCorrectMessage_When_ExpirationDaysIsNotProvided()
     {
         // Arrange
-        BudgetSharingSettings settings = new BudgetSharingSettings
+        BudgetSharingSettings settings = new()
         {
             ExpirationDays = null
         };
@@ -29,7 +29,7 @@ internal sealed class Validate : BudgetSharingValidatorTestBase
     public void Should_ReturnValidationResultWithCorrectMessage_When_ExpirationDaysIsOutOfRange(int? invalidValue)
     {
         // Arrange
-        BudgetSharingSettings settings = new BudgetSharingSettings
+        BudgetSharingSettings settings = new()
         {
             ExpirationDays = invalidValue
         };
@@ -46,7 +46,7 @@ internal sealed class Validate : BudgetSharingValidatorTestBase
     public void Should_ReturnEmptyValidationResult_When_ExpirationDaysIsWithinRange()
     {
         // Arrange
-        BudgetSharingSettings settings = new BudgetSharingSettings
+        BudgetSharingSettings settings = new()
         {
             ExpirationDays = 5
         };
