@@ -1,5 +1,4 @@
-﻿using Expenso.Shared.Database.EfCore.Settings;
-using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using FluentValidation.Results;
 

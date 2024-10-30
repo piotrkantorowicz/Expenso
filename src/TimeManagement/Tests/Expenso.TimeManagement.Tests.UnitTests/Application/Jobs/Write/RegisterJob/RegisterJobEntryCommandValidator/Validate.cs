@@ -1,8 +1,11 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
+using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Shared.DTO.Request;
 
 using FluentValidation.Results;
+
+using Moq;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandValidator;
 
@@ -249,11 +252,10 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
     }
 
     [Test]
-    public void Should_ReturnValidationResultWithCorrectMessage_WhenEventTriggerDateIsNotSerializableToType()
+    public void Should_ReturnValidationResultWithCorrectMessage_WhenEventTriggerDataIsNotSerializableToType()
     {
         // Arrange
-        const string invalidEventData = "InvalidEventType";
-        _eventTypeResolver.Setup(expression: x => x.IsAllowable(invalidEventData)).Returns(value: false);
+        _eventTypeResolver.Setup(expression: x => x.IsAllowable(It.IsAny<AllowedEventType>())).Returns(value: false);
 
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _registerJobEntryCommand with
@@ -264,7 +266,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
                 [
                     _registerJobEntryCommand.Payload.JobEntryTriggers!.First() with
                     {
-                        EventType = invalidEventData
+                        EventData = "InvalidEventType"
                     }
                 ]
             }

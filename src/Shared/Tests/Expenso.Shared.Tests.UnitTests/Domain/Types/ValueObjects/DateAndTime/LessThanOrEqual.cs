@@ -9,6 +9,7 @@ internal sealed class LessThanOrEqual : TestBase<Shared.Domain.Types.ValueObject
         // Arrange
         Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
             Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
+
         DateTimeOffset other = dateTimeOffset.Value;
 
         // Act
@@ -24,6 +25,7 @@ internal sealed class LessThanOrEqual : TestBase<Shared.Domain.Types.ValueObject
         // Arrange
         Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
             Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
+
         DateTimeOffset other = dateTimeOffset.Value.AddHours(hours: -1);
 
         // Act

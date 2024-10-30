@@ -20,7 +20,7 @@ internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<
         TestCandidate =
             new Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandValidator(
                 messageContextValidator: new MessageContextValidator(),
-            preferenceRequestValidator: new CreatePreferenceRequestValidator());
+                preferenceRequestValidator: new CreatePreferenceRequestValidator());
     }
 
     protected CreatePreferenceCommand _createPreferenceCommand = null!;

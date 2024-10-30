@@ -28,8 +28,8 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
         _createPreferenceResponse = new CreatePreferenceResponse(PreferenceId: _id);
 
         TestCandidate = new Core.Application.Proxy.UserPreferencesProxy(
-            commandDispatcher: _commandDispatcherMock.Object,
-            queryDispatcher: _queryDispatcherMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
+            commandDispatcher: _commandDispatcherMock.Object, queryDispatcher: _queryDispatcherMock.Object,
+            messageContextFactory: MessageContextFactoryMock.Object);
     }
 
     protected Mock<ICommandDispatcher> _commandDispatcherMock = null!;

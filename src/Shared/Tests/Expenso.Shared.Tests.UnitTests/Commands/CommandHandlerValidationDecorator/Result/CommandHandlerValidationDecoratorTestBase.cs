@@ -6,7 +6,7 @@ using FluentValidation;
 
 using Moq;
 
-namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerFluentValidationDecorator.Result;
+namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
 
 [TestFixture]
 internal abstract class
@@ -23,8 +23,7 @@ internal abstract class
         _handler = new Mock<ICommandHandler<TestCommand, TestCommandResult>>();
 
         TestCandidate = new CommandHandlerValidationDecorator<TestCommand, TestCommandResult>(
-            validators: [_validator.Object],
-                decorated: _handler.Object);
+            validators: [_validator.Object], decorated: _handler.Object);
     }
 
     protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _handler = null!;

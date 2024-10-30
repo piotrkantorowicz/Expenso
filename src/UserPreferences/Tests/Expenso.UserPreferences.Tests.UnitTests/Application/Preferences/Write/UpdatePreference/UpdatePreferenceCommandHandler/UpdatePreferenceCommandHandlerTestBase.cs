@@ -20,8 +20,8 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<
         _messageBrokerMock = new Mock<IMessageBroker>();
 
         TestCandidate = new Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandHandler(
-            preferencesRepository: _preferenceRepositoryMock.Object,
-            messageBroker: _messageBrokerMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
+            preferencesRepository: _preferenceRepositoryMock.Object, messageBroker: _messageBrokerMock.Object,
+            messageContextFactory: MessageContextFactoryMock.Object);
     }
 
     protected Mock<IMessageBroker> _messageBrokerMock = null!;

@@ -32,6 +32,7 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
             .Status.Should()
             .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
                 .Confirmed);
+
         statusTracker.ConfirmationDate.Should().NotBeNull();
         statusTracker.ConfirmationDate!.Value.Should().Be(expected: currentTime);
     }

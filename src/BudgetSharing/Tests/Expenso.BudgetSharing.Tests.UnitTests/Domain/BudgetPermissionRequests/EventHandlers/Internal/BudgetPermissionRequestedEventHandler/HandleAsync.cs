@@ -21,7 +21,8 @@ internal sealed class HandleAsync : HandleAsyncBase<
     protected override void InitTestCandidate()
     {
         TestCandidate =
-            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.BudgetPermissionRequestedEventHandler(communicationProxy: _communicationProxyMock.Object,
-            notificationSettings: _notificationSettings, iamProxyService: _iIamProxyServiceMock.Object);
+            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.
+                BudgetPermissionRequestedEventHandler(communicationProxy: _communicationProxyMock.Object,
+                    notificationSettings: _notificationSettings, iamProxyService: _iIamProxyServiceMock.Object);
     }
 }

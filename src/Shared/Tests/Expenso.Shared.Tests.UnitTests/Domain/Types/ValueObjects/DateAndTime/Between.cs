@@ -9,6 +9,7 @@ internal sealed class Between : TestBase<Shared.Domain.Types.ValueObjects.DateAn
         // Arrange
         Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
             Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
+
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: -1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 1);
 
@@ -25,6 +26,7 @@ internal sealed class Between : TestBase<Shared.Domain.Types.ValueObjects.DateAn
         // Arrange
         Shared.Domain.Types.ValueObjects.DateAndTime dateTimeOffset =
             Shared.Domain.Types.ValueObjects.DateAndTime.New(value: DateTimeOffset.Now);
+
         DateTimeOffset start = dateTimeOffset.Value.AddHours(hours: 1);
         DateTimeOffset end = dateTimeOffset.Value.AddHours(hours: 2);
 

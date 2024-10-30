@@ -26,10 +26,10 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<
         TestCandidate =
             new Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator(
                 messageContextValidator: new MessageContextValidator(),
-            updatePreferenceCommandValidator: new UpdatePreferenceRequestValidator(
-                financePreferenceValidator: new UpdatePreferenceRequest_FinancePreferenceValidator(),
-                notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),
-                generalPreferenceValidator: new UpdatePreferenceRequest_GeneralPreferenceValidator()));
+                updatePreferenceCommandValidator: new UpdatePreferenceRequestValidator(
+                    financePreferenceValidator: new UpdatePreferenceRequest_FinancePreferenceValidator(),
+                    notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),
+                    generalPreferenceValidator: new UpdatePreferenceRequest_GeneralPreferenceValidator()));
     }
 
     protected UpdatePreferenceCommand _updatePreferenceCommand = null!;

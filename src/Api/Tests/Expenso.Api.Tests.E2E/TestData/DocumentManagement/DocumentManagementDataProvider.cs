@@ -16,13 +16,12 @@ internal static class DocumentManagementDataInitializer
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
         UploadFilesCommand command = new(MessageContext: messageContextFactory.Current(),
-            Payload: new UploadFilesRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null,
-                Files:
-                [
-                    new UploadFilesRequest_File(Name: "Import-1", Content: await GetFileAsync(fileName: Addresses)),
-                    new UploadFilesRequest_File(Name: "Import-2", Content: await GetFileAsync(fileName: Snakes)),
-                    new UploadFilesRequest_File(Name: "Import-3", Content: await GetFileAsync(fileName: SnakesV2))
-                ], FileType: UploadFilesRequest_FileType.Import));
+            Payload: new UploadFilesRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null, Files:
+            [
+                new UploadFilesRequest_File(Name: "Import-1", Content: await GetFileAsync(fileName: Addresses)),
+                new UploadFilesRequest_File(Name: "Import-2", Content: await GetFileAsync(fileName: Snakes)),
+                new UploadFilesRequest_File(Name: "Import-3", Content: await GetFileAsync(fileName: SnakesV2))
+            ], FileType: UploadFilesRequest_FileType.Import));
 
         await commandDispatcher.SendAsync(command: command, cancellationToken: cancellationToken);
     }

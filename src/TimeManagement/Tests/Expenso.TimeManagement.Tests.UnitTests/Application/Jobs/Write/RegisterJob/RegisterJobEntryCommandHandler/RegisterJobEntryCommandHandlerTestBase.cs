@@ -6,6 +6,7 @@ using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
+using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 using Expenso.TimeManagement.Shared.DTO.Request;
 
@@ -36,7 +37,7 @@ internal abstract class
         _eventTypeResolver = new Mock<IEventTypeResolver>();
 
         _eventTypeResolver
-            .Setup(expression: x => x.Resolve(It.IsAny<string>()))
+            .Setup(expression: x => x.Resolve(It.IsAny<AllowedEventType>()))
             .Returns(value: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
 
         _registerJobEntryCommand = new RegisterJobEntryCommand(
@@ -44,7 +45,8 @@ internal abstract class
                 MaxRetries: 5, JobEntryTriggers:
                 [
                     new RegisterJobEntryRequest_JobEntryTrigger(
-                        EventType: typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName,
+                        EventType: RegisterJobEntryRequest_JobEntryTrigger_AllowedEventType
+                            .BudgetPermissionRequestExpired,
                         EventData: _serializer.Object.Serialize(value: _eventTrigger))
                 ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 

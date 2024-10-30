@@ -19,8 +19,8 @@ internal abstract class
         _fileSystemMock = new Mock<IFileSystem>();
 
         TestCandidate = new Core.Application.Files.Write.DeleteFiles.DeleteFilesCommandHandler(
-            fileStorage: _fileStorageMock.Object,
-            directoryPathResolver: _directoryPathResolverMock.Object, fileSystem: _fileSystemMock.Object);
+            fileStorage: _fileStorageMock.Object, directoryPathResolver: _directoryPathResolverMock.Object,
+            fileSystem: _fileSystemMock.Object);
     }
 
     protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;

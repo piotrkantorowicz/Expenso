@@ -26,16 +26,16 @@ internal sealed class IamProxy : IIamProxy
     public async Task<GetUserByIdResponse?> GetUserByIdAsync(string userId,
         CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(query: new GetUserByIdQuery(
-            MessageContext: _messageContextFactory.Current(),
+        return await _queryDispatcher.QueryAsync(
+            query: new GetUserByIdQuery(MessageContext: _messageContextFactory.Current(),
                 Payload: new GetUserByIdRequest(UserId: userId)), cancellationToken: cancellationToken);
     }
 
     public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(string email,
         CancellationToken cancellationToken = default)
     {
-        return await _queryDispatcher.QueryAsync(query: new GetUserByEmailQuery(
-            MessageContext: _messageContextFactory.Current(),
+        return await _queryDispatcher.QueryAsync(
+            query: new GetUserByEmailQuery(MessageContext: _messageContextFactory.Current(),
                 Payload: new GetUserByEmailRequest(Email: email)), cancellationToken: cancellationToken);
     }
 }

@@ -33,7 +33,8 @@ internal sealed class AccessModifierTests : TestBase
 
     private static readonly string[] NamespacesToExclude =
     [
-        "Expenso.TimeManagement.Core.Persistence.EfCore.Migrations"
+        "Expenso.TimeManagement.Core.Persistence.EfCore.Migrations",
+        "Expenso.TimeManagement.Core.Application.Shared.Settings"
     ];
 
     [Test]

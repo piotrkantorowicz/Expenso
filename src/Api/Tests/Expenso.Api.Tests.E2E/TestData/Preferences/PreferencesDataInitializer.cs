@@ -31,7 +31,8 @@ internal static class PreferencesDataInitializer
 
         await commandDispatcher.SendAsync(
             command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                PreferenceId: PreferenceIds[index: 0], Payload: new UpdatePreferenceRequest(
+                PreferenceId: PreferenceIds[index: 0],
+                Payload: new UpdatePreferenceRequest(
                     FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
                         MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,
                         MaxNumberOfFinancePlanReviewers: 5),

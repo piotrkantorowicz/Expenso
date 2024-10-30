@@ -10,4 +10,5 @@ public static class SectionNames
     public const string Notifications = "Notifications";
     public const string Otlp = "Otlp";
     public const string Cors = "Cors";
+    public const string TimeManagement = "TimeManagement";
 }

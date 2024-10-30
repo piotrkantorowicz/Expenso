@@ -17,8 +17,7 @@ internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathR
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTime.UtcNow);
 
         TestCandidate = new Core.Application.Shared.Services.Acl.Disk.DirectoryPathResolver(
-            directoryInfoService: _directoryInfoServiceMock.Object,
-            clock: _clockMock.Object);
+            directoryInfoService: _directoryInfoServiceMock.Object, clock: _clockMock.Object);
     }
 
     protected Mock<IClock> _clockMock = null!;

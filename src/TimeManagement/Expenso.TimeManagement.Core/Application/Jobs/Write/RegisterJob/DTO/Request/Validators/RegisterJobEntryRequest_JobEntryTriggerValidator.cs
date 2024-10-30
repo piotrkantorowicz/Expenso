@@ -1,6 +1,7 @@
 ﻿using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
+using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Shared.DTO.Request;
 
 using FluentValidation;
@@ -23,13 +24,13 @@ internal sealed class
             RuleFor(expression: x => x)
                 .Must(predicate: trigger =>
                 {
-                    if (!eventTypeResolver.IsAllowable(eventName: trigger.EventType!))
+                    if (!eventTypeResolver.IsAllowable(eventName: (AllowedEventType)trigger.EventType!))
                     {
                         return false;
                     }
 
                     return serializer.Deserialize(value: trigger.EventData!,
-                        type: eventTypeResolver.Resolve(eventName: trigger.EventType!),
+                        type: eventTypeResolver.Resolve(eventName: (AllowedEventType)trigger.EventType!),
                         settings: DefaultSerializerOptions.DefaultSettings) is not null;
                 })
                 .WithMessage(errorMessage: "EventData must be serializable to provided EventType.");
