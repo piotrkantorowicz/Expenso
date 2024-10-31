@@ -18,14 +18,14 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.BudgetId), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.OwnerId), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.ParticipantId), arg2: true),
-     TestCase(arg1: nameof(BudgetPermissionRequestFilter.PermissionType), arg2: true),
-     TestCase(arg1: nameof(BudgetPermissionRequestFilter.Status), arg2: true),
+     TestCase(arg1: nameof(BudgetPermissionRequestFilter.PermissionTypes), arg2: true),
+     TestCase(arg1: nameof(BudgetPermissionRequestFilter.Statuses), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.Id), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.BudgetId), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.OwnerId), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.ParticipantId), arg2: false),
-     TestCase(arg1: nameof(BudgetPermissionRequestFilter.PermissionType), arg2: false),
-     TestCase(arg1: nameof(BudgetPermissionRequestFilter.Status), arg2: false)]
+     TestCase(arg1: nameof(BudgetPermissionRequestFilter.PermissionTypes), arg2: false),
+     TestCase(arg1: nameof(BudgetPermissionRequestFilter.Statuses), arg2: false)]
     public void Should_ReturnExpectedResult_When_FilterPropertyMatches(string propertyName, bool expectedResult)
     {
         // Arrange
@@ -79,24 +79,24 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
                 {
                     ParticipantId = PersonId.New(value: Guid.NewGuid())
                 },
-            nameof(BudgetPermissionRequestFilter.PermissionType) when expectedResult => new
+            nameof(BudgetPermissionRequestFilter.PermissionTypes) when expectedResult => new
                 BudgetPermissionRequestFilter
                 {
-                    PermissionType = _permissionType
+                    PermissionTypes = [_permissionType]
                 },
-            nameof(BudgetPermissionRequestFilter.PermissionType)when expectedResult is false => new
+            nameof(BudgetPermissionRequestFilter.PermissionTypes)when expectedResult is false => new
                 BudgetPermissionRequestFilter
                 {
-                    PermissionType = PermissionType.Owner
+                    PermissionTypes = [PermissionType.Owner]
                 },
-            nameof(BudgetPermissionRequestFilter.Status)when expectedResult => new BudgetPermissionRequestFilter
+            nameof(BudgetPermissionRequestFilter.Statuses)when expectedResult => new BudgetPermissionRequestFilter
             {
-                Status = _status
+                Statuses = [_status]
             },
-            nameof(BudgetPermissionRequestFilter.Status)when expectedResult is false => new
+            nameof(BudgetPermissionRequestFilter.Statuses)when expectedResult is false => new
                 BudgetPermissionRequestFilter
                 {
-                    Status = BudgetPermissionRequestStatus.Confirmed
+                    Statuses = [BudgetPermissionRequestStatus.Confirmed]
                 },
             _ => throw new ArgumentOutOfRangeException(paramName: nameof(propertyName), actualValue: propertyName,
                 message: "Unsupported property.")

@@ -44,8 +44,8 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
             BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
             ParticipantId = PersonId.Nullable(value: participantId),
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
-            Status = GetBudgetPermissionRequestsRequestMap.MapTo(status: query.Payload?.Status),
-            PermissionType = GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
+            Statuses = GetBudgetPermissionRequestsRequestMap.MapTo(status: query.Payload?.Status),
+            PermissionTypes = GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
         };
 
         IReadOnlyCollection<BudgetPermissionRequest> budgetPermissionRequests =

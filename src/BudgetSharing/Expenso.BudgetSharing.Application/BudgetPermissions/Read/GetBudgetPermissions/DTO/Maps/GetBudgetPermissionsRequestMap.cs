@@ -3,17 +3,32 @@ using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermission
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Maps;
 
-public sealed class GetBudgetPermissionsRequestMap
+public static class GetBudgetPermissionsRequestMap
 {
-    public static PermissionType? MapTo(GetBudgetPermissionsRequest_PermissionType? permissionType)
+    public static PermissionType[] MapTo(GetBudgetPermissionsRequest_PermissionType? permissionType)
     {
-        return permissionType switch
+        if (permissionType is null or GetBudgetPermissionsRequest_PermissionType.None)
         {
-            GetBudgetPermissionsRequest_PermissionType.None => PermissionType.None,
-            GetBudgetPermissionsRequest_PermissionType.Owner => PermissionType.Owner,
-            GetBudgetPermissionsRequest_PermissionType.SubOwner => PermissionType.SubOwner,
-            GetBudgetPermissionsRequest_PermissionType.Reviewer => PermissionType.Reviewer,
-            _ => null
-        };
+            return [PermissionType.None];
+        }
+
+        ICollection<PermissionType> permissionTypes = [];
+
+        if (permissionType.Value.HasFlag(flag: GetBudgetPermissionsRequest_PermissionType.Owner))
+        {
+            permissionTypes.Add(item: PermissionType.Owner);
+        }
+
+        if (permissionType.Value.HasFlag(flag: GetBudgetPermissionsRequest_PermissionType.SubOwner))
+        {
+            permissionTypes.Add(item: PermissionType.SubOwner);
+        }
+
+        if (permissionType.Value.HasFlag(flag: GetBudgetPermissionsRequest_PermissionType.Reviewer))
+        {
+            permissionTypes.Add(item: PermissionType.Reviewer);
+        }
+
+        return permissionTypes.ToArray();
     }
 }

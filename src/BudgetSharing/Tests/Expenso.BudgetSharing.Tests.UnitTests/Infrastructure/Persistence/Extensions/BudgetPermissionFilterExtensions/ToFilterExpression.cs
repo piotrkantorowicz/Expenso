@@ -25,9 +25,9 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
      TestCase(arg1: nameof(BudgetPermissionFilter.ParticipantId), arg2: false, arg3: true),
      TestCase(arg1: nameof(BudgetPermissionFilter.ParticipantId), arg2: false, arg3: false),
      TestCase(arg1: nameof(BudgetPermissionFilter.ParticipantId), arg2: true, arg3: false),
-     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionType), arg2: false, arg3: true),
-     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionType), arg2: false, arg3: false),
-     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionType), arg2: true, arg3: false)]
+     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionTypes), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionTypes), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.PermissionTypes), arg2: true, arg3: false)]
     public void Should_ReturnExpectedResult_When_FilterPropertyMatches(string propertyName, bool expectedResult,
         bool blocked)
     {
@@ -79,13 +79,13 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
             {
                 ParticipantId = PersonId.New(value: Guid.NewGuid())
             },
-            nameof(BudgetPermissionFilter.PermissionType) when expectedResult => new BudgetPermissionFilter
+            nameof(BudgetPermissionFilter.PermissionTypes) when expectedResult => new BudgetPermissionFilter
             {
-                PermissionType = _permissionType
+                PermissionTypes = [_permissionType]
             },
-            nameof(BudgetPermissionFilter.PermissionType)when expectedResult is false => new BudgetPermissionFilter
+            nameof(BudgetPermissionFilter.PermissionTypes)when expectedResult is false => new BudgetPermissionFilter
             {
-                PermissionType = PermissionType.Owner
+                PermissionTypes = [PermissionType.Owner]
             },
             _ => throw new ArgumentOutOfRangeException(paramName: nameof(propertyName), actualValue: propertyName,
                 message: "Unsupported property.")
