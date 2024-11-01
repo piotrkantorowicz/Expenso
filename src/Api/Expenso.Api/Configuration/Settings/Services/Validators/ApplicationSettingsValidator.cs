@@ -22,25 +22,24 @@ internal sealed class ApplicationSettingsValidator : AbstractValidator<Applicati
         RuleFor(expression: x => x.Version)
             .NotEmpty()
             .WithMessage(errorMessage: "Version must be provided and cannot be empty.")
-            .DependentRules(action: () => RuleFor(expression: x => x.Version)
-                .Must(predicate: (_, version) =>
+            .Must(predicate: (_, version) =>
+            {
+                Version? assemblyVersion = typeof(Program).Assembly.GetName().Version;
+
+                if (assemblyVersion == null || !Version.TryParse(input: version, result: out Version? settingsVer))
                 {
-                    Version? assemblyVersion = typeof(Program).Assembly.GetName().Version;
+                    return false;
+                }
 
-                    if (assemblyVersion == null || !Version.TryParse(input: version, result: out Version? settingsVer))
-                    {
-                        return false;
-                    }
+                return settingsVer.Major == assemblyVersion.Major && settingsVer.Minor == assemblyVersion.Minor &&
+                       settingsVer.Build == assemblyVersion.Build;
+            })
+            .WithMessage(messageProvider: settings =>
+            {
+                Version assemblyVersion = typeof(Program).Assembly.GetName().Version!;
 
-                    return settingsVer.Major == assemblyVersion.Major && settingsVer.Minor == assemblyVersion.Minor &&
-                           settingsVer.Build == assemblyVersion.Build;
-                })
-                .WithMessage(messageProvider: settings =>
-                {
-                    Version assemblyVersion = typeof(Program).Assembly.GetName().Version!;
-
-                    return
-                        $"Version mismatch. Expected: [{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}], but got: [{settings.Version}].";
-                }));
+                return
+                    $"Version mismatch. Expected: [{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}], but got: [{settings.Version}].";
+            });
     }
 }

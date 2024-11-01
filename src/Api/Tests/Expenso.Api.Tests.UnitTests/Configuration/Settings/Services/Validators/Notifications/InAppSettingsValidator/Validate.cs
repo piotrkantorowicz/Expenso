@@ -18,7 +18,7 @@ internal sealed class Validate : InAppNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _inAppNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_inAppNotificationSettings.Enabled),
+        validationResult.AssertIsSingleError(propertyName: nameof(_inAppNotificationSettings.Enabled),
             errorMessage: "In-app enabled flag must be provided.");
     }
 

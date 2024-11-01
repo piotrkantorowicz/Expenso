@@ -17,7 +17,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.AuthServerUrl),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_keycloakSettings.AuthServerUrl),
             errorMessage: "Authorization server URL must be provided and cannot be empty.");
     }
 
@@ -31,7 +31,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.AuthServerUrl),
+        validationResult.AssertIsSingleError(propertyName: nameof(_keycloakSettings.AuthServerUrl),
             errorMessage: "Authorization server URL must be a valid HTTP or HTTPS URL.");
     }
 
@@ -45,7 +45,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Realm),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_keycloakSettings.Realm),
             errorMessage: "Realm must be provided and cannot be empty.");
     }
 
@@ -59,7 +59,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Realm),
+        validationResult.AssertIsSingleError(propertyName: nameof(_keycloakSettings.Realm),
             errorMessage: "Realm must be an alpha string with a length between 5 and 50 characters.");
     }
 
@@ -73,7 +73,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Resource),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_keycloakSettings.Resource),
             errorMessage: "Resource (client ID) must be provided and cannot be empty.");
     }
 
@@ -87,7 +87,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Resource),
+        validationResult.AssertIsSingleError(propertyName: nameof(_keycloakSettings.Resource),
             errorMessage: "Resource (client ID) must be an alpha string with a length between 5 and 100 characters.");
     }
 
@@ -101,7 +101,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.SslRequired),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_keycloakSettings.SslRequired),
             errorMessage: "SSL requirement must be specified and cannot be empty.");
     }
 
@@ -115,7 +115,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.SslRequired),
+        validationResult.AssertIsSingleError(propertyName: nameof(_keycloakSettings.SslRequired),
             errorMessage: "SSL requirement must be one of the predefined values.");
     }
 
@@ -129,7 +129,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.VerifyTokenAudience),
+        validationResult.AssertIsSingleError(propertyName: nameof(_keycloakSettings.VerifyTokenAudience),
             errorMessage: "Token audience must be specified.");
     }
 
@@ -143,7 +143,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _keycloakSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_keycloakSettings.Credentials),
+        validationResult.AssertIsSingleError(propertyName: nameof(_keycloakSettings.Credentials),
             errorMessage: "Client credentials must be provided and cannot be empty.");
     }
 

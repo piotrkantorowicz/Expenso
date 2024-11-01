@@ -18,7 +18,7 @@ internal sealed class Validate : PushNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _pushNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_pushNotificationSettings.Enabled),
+        validationResult.AssertIsSingleError(propertyName: nameof(_pushNotificationSettings.Enabled),
             errorMessage: "Push enabled flag must be provided.");
     }
 

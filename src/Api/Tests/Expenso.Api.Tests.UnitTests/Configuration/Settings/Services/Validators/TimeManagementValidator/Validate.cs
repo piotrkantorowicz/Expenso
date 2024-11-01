@@ -48,7 +48,7 @@ internal sealed class Validate : TimeManagementSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _timeManagementSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_timeManagementSettings.AllowedEvents),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_timeManagementSettings.AllowedEvents),
             errorMessage: "Allowed events must be provided.");
     }
 
@@ -65,7 +65,7 @@ internal sealed class Validate : TimeManagementSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _timeManagementSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: $"{nameof(_timeManagementSettings.AllowedEvents)}[1]",
+        validationResult.AssertIsSingleError(propertyName: $"{nameof(_timeManagementSettings.AllowedEvents)}[1]",
             errorMessage: "Allowed events must be valid values.");
     }
 
@@ -83,7 +83,7 @@ internal sealed class Validate : TimeManagementSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _timeManagementSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_timeManagementSettings.AllowedEvents),
+        validationResult.AssertIsSingleError(propertyName: nameof(_timeManagementSettings.AllowedEvents),
             errorMessage: "Too many allowed events specified. Maximum is 100.");
     }
 }

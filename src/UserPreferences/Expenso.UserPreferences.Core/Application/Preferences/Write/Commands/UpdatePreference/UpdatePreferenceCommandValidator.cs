@@ -18,10 +18,9 @@ internal sealed class UpdatePreferenceCommandValidator : CommandValidator<Update
             .NotEmpty()
             .WithMessage(errorMessage: "The preference ID must not be empty.");
 
-        RuleFor(expression: x => x.Payload!)
+        RuleFor(expression: x => x.Payload)
             .NotNull()
             .WithMessage(errorMessage: "The command payload must not be null.")
-            .DependentRules(action: () =>
-                RuleFor(expression: x => x.Payload!).SetValidator(validator: updatePreferenceCommandValidator));
+            .SetValidator(validator: updatePreferenceCommandValidator!);
     }
 }

@@ -21,7 +21,7 @@ internal sealed class Validate : BudgetSharingValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: settings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(settings.ExpirationDays),
+        validationResult.AssertIsSingleError(propertyName: nameof(settings.ExpirationDays),
             errorMessage: "Expiration days must be provided.");
     }
 
@@ -38,7 +38,7 @@ internal sealed class Validate : BudgetSharingValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: settings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(settings.ExpirationDays),
+        validationResult.AssertIsSingleError(propertyName: nameof(settings.ExpirationDays),
             errorMessage: "Expiration days must be between 1 and 7 days.");
     }
 

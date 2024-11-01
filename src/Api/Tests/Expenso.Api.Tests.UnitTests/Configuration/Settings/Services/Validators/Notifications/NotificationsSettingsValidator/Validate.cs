@@ -22,7 +22,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_notificationSettings.Enabled),
+        validationResult.AssertIsSingleError(propertyName: nameof(_notificationSettings.Enabled),
             errorMessage: "Enabled flag must be provided.");
     }
 
@@ -55,7 +55,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_notificationSettings.Email),
+        validationResult.AssertIsSingleError(propertyName: nameof(_notificationSettings.Email),
             errorMessage: "Email notification settings must be provided.");
     }
 
@@ -72,7 +72,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(NotificationSettings.InApp),
+        validationResult.AssertIsSingleError(propertyName: nameof(NotificationSettings.InApp),
             errorMessage: "In-app notification settings must be provided.");
     }
 
@@ -89,7 +89,7 @@ internal sealed class Validate : NotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _notificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_notificationSettings.Push),
+        validationResult.AssertIsSingleError(propertyName: nameof(_notificationSettings.Push),
             errorMessage: "Push notification settings must be provided.");
     }
 

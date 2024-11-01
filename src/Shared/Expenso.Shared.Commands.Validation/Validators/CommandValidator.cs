@@ -9,7 +9,6 @@ public abstract class CommandValidator<TCommand> : AbstractValidator<TCommand> w
         RuleFor(expression: x => x.MessageContext)
             .NotNull()
             .WithMessage(errorMessage: "Message context must be provided.")
-            .DependentRules(action: () =>
-                RuleFor(expression: x => x.MessageContext).SetValidator(validator: messageContextValidator));
+            .SetValidator(validator: messageContextValidator);
     }
 }

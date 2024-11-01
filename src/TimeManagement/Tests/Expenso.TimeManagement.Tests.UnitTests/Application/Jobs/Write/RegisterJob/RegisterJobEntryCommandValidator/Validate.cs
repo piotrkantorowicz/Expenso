@@ -70,7 +70,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_registerJobEntryCommand.Payload),
+        validationResult.AssertIsSingleError(propertyName: nameof(_registerJobEntryCommand.Payload),
             errorMessage: "The command payload must not be null.");
     }
 
@@ -88,7 +88,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.MaxRetries)}",
             errorMessage: "Max retries for job entry must be greater than 0.");
@@ -109,7 +109,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_registerJobEntryCommand.Payload),
+        validationResult.AssertIsSingleError(propertyName: nameof(_registerJobEntryCommand.Payload),
             errorMessage:
             "At least one value must be provided: Interval for periodic jobs or RunAt for single run jobs.");
     }
@@ -129,7 +129,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_registerJobEntryCommand.Payload),
+        validationResult.AssertIsSingleError(propertyName: nameof(_registerJobEntryCommand.Payload),
             errorMessage: "RunAt and Interval cannot be used together.");
     }
 
@@ -150,7 +150,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.RunAt)}",
             errorMessage: $"RunAt must be a future time. Provided: {runAt}.");
@@ -171,7 +171,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.Interval)}",
             errorMessage:
@@ -192,7 +192,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.JobEntryTriggers)}",
             errorMessage: "Job entry triggers are required.");
@@ -218,7 +218,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.JobEntryTriggers)}[0].{nameof(JobEntryTrigger.EventData)}",
             errorMessage: "Event data is required.");
@@ -245,7 +245,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
 
         // Assert
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.JobEntryTriggers)}[0].{nameof(JobEntryTrigger.EventType)}",
             errorMessage: "Event type is required.");
@@ -273,7 +273,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         });
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(_registerJobEntryCommand.Payload)}.{nameof(_registerJobEntryCommand.Payload.JobEntryTriggers)}[0]",
             errorMessage: "EventData must be serializable to provided EventType.");

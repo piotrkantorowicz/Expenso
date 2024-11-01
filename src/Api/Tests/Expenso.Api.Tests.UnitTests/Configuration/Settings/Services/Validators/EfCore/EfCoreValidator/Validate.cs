@@ -20,7 +20,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.ConnectionParameters),
+        validationResult.AssertIsSingleError(propertyName: nameof(_efCoreSettings.ConnectionParameters),
             errorMessage: "ConnectionParameters must be provided and cannot be null.");
     }
 
@@ -37,7 +37,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.InMemory),
+        validationResult.AssertIsSingleError(propertyName: nameof(_efCoreSettings.InMemory),
             errorMessage: "InMemory flag must be provided.");
     }
 
@@ -54,7 +54,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.UseMigration),
+        validationResult.AssertIsSingleError(propertyName: nameof(_efCoreSettings.UseMigration),
             errorMessage: "UseMigration flag must be provided.");
     }
 
@@ -71,7 +71,7 @@ internal sealed class Validate : EfCoreSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _efCoreSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_efCoreSettings.UseSeeding),
+        validationResult.AssertIsSingleError(propertyName: nameof(_efCoreSettings.UseSeeding),
             errorMessage: "UseSeeding flag must be provided.");
     }
 

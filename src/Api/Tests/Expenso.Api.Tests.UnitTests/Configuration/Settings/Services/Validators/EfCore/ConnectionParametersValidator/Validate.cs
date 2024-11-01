@@ -20,7 +20,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Host),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_connectionParameters.Host),
             errorMessage: "Host must be provided and cannot be empty.");
     }
 
@@ -37,7 +37,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Host),
+        validationResult.AssertIsSingleError(propertyName: nameof(_connectionParameters.Host),
             errorMessage: "Host must be a valid DNS name or IP address.");
     }
 
@@ -54,7 +54,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Port),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_connectionParameters.Port),
             errorMessage: "Port must be provided and cannot be empty.");
     }
 
@@ -71,7 +71,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Port),
+        validationResult.AssertIsSingleError(propertyName: nameof(_connectionParameters.Port),
             errorMessage: "Port must be a valid integer between 1 and 65535.");
     }
 
@@ -89,7 +89,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
             errorMessage: "Default database must be provided and cannot be empty.");
     }
 
@@ -106,7 +106,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
+        validationResult.AssertIsSingleError(propertyName: nameof(_connectionParameters.DefaultDatabase),
             errorMessage: "Default database must be an alphanumeric string between 1 and 100 characters.");
     }
 
@@ -123,7 +123,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Database),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_connectionParameters.Database),
             errorMessage: "Database must be provided and cannot be empty.");
     }
 
@@ -140,7 +140,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Database),
+        validationResult.AssertIsSingleError(propertyName: nameof(_connectionParameters.Database),
             errorMessage: "Database must be an alphanumeric string between 1 and 100 characters.");
     }
 
@@ -157,7 +157,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.User),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_connectionParameters.User),
             errorMessage: "User must be provided and cannot be empty.");
     }
 
@@ -174,7 +174,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.User),
+        validationResult.AssertIsSingleError(propertyName: nameof(_connectionParameters.User),
             errorMessage:
             "User must be a valid alphanumeric string starting with a letter and between 3 and 30 characters.");
     }
@@ -192,7 +192,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Password),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_connectionParameters.Password),
             errorMessage: "Password must be provided and cannot be empty.");
     }
 
@@ -209,7 +209,7 @@ internal sealed class Validate : ConnectionParametersValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _connectionParameters);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_connectionParameters.Password),
+        validationResult.AssertIsSingleError(propertyName: nameof(_connectionParameters.Password),
             errorMessage:
             "Password must be between 8 and 30 characters, contain an upper and lower case letter, a digit, and a special character, with no spaces.");
     }

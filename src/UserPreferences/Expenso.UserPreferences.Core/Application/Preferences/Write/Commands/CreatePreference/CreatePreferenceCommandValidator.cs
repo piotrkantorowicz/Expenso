@@ -17,7 +17,6 @@ internal sealed class CreatePreferenceCommandValidator : CommandValidator<Create
         RuleFor(expression: x => x.Payload)
             .NotNull()
             .WithMessage(errorMessage: "The command payload must not be null.")
-            .DependentRules(action: () =>
-                RuleFor(expression: x => x.Payload!).SetValidator(validator: preferenceRequestValidator));
+            .SetValidator(validator: preferenceRequestValidator!);
     }
 }

@@ -22,15 +22,13 @@ internal sealed class FilesSettingsValidator : AbstractValidator<FilesSettings>
         RuleFor(expression: x => x.ImportDirectory)
             .NotEmpty()
             .WithMessage(errorMessage: "ImportDirectory must be provided and cannot be empty.")
-            .DependentRules(action: () => RuleFor(expression: x => x.ImportDirectory)
-                .Must(predicate: importDirectory => importDirectory.IsValidRelativePath())
-                .WithMessage(errorMessage: "ImportDirectory must be a valid relative path."));
+            .Must(predicate: importDirectory => importDirectory.IsValidRelativePath())
+            .WithMessage(errorMessage: "ImportDirectory must be a valid relative path.");
 
         RuleFor(expression: x => x.ReportsDirectory)
             .NotEmpty()
             .WithMessage(errorMessage: "ReportsDirectory must be provided and cannot be empty.")
-            .DependentRules(action: () => RuleFor(expression: x => x.ReportsDirectory)
-                .Must(predicate: reportsDirectory => reportsDirectory.IsValidRelativePath())
-                .WithMessage(errorMessage: "ReportsDirectory must be a valid relative path."));
+            .Must(predicate: reportsDirectory => reportsDirectory.IsValidRelativePath())
+            .WithMessage(errorMessage: "ReportsDirectory must be a valid relative path.");
     }
 }

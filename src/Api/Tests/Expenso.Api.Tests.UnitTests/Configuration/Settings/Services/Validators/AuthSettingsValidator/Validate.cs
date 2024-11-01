@@ -21,7 +21,7 @@ internal sealed class Validate : AuthSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _authSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_authSettings.AuthServer),
+        validationResult.AssertIsSingleError(propertyName: nameof(_authSettings.AuthServer),
             errorMessage: "AuthServer must be a valid value.");
     }
 

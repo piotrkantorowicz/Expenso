@@ -14,8 +14,7 @@ internal sealed class BudgetSharingSettingsValidator : AbstractValidator<BudgetS
         RuleFor(expression: settings => settings.ExpirationDays)
             .NotEmpty()
             .WithMessage(errorMessage: "Expiration days must be provided.")
-            .DependentRules(action: () => RuleFor(expression: settings => settings.ExpirationDays)
-                .InclusiveBetween(from: MinExpirationDays, to: MaxExpirationDays)
-                .WithMessage(errorMessage: "Expiration days must be between 1 and 7 days."));
+            .InclusiveBetween(from: MinExpirationDays, to: MaxExpirationDays)
+            .WithMessage(errorMessage: "Expiration days must be between 1 and 7 days.");
     }
 }

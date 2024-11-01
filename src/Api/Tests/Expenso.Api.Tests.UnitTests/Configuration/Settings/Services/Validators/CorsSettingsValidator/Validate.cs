@@ -21,7 +21,7 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(CorsSettings.Enabled),
+        validationResult.AssertIsSingleError(propertyName: nameof(CorsSettings.Enabled),
             errorMessage: "Cors enabled flag must be provided.");
     }
 
@@ -38,7 +38,7 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(CorsSettings.AllowedOrigins),
+        validationResult.AssertIsSingleError(propertyName: nameof(CorsSettings.AllowedOrigins),
             errorMessage: "AllowedOrigins cannot be null or empty.");
     }
 
@@ -55,7 +55,7 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _corsSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: $"{nameof(CorsSettings.AllowedOrigins)}[0]",
+        validationResult.AssertIsSingleError(propertyName: $"{nameof(CorsSettings.AllowedOrigins)}[0]",
             errorMessage: "Origin cannot be empty and must be a valid URL or '*'.");
     }
 
