@@ -20,7 +20,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Host),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_smtpSettings.Host),
             errorMessage: "SMTP host must be provided and cannot be empty.");
     }
 
@@ -37,7 +37,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Host),
+        validationResult.AssertIsSingleError(propertyName: nameof(_smtpSettings.Host),
             errorMessage: "SMTP host must be a valid DNS name, IPv4, or IPv6 address.");
     }
 
@@ -54,7 +54,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Port),
+        validationResult.AssertIsSingleError(propertyName: nameof(_smtpSettings.Port),
             errorMessage: "SMTP port must be a valid integer between 1 and 65535.");
     }
 
@@ -71,7 +71,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Username),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_smtpSettings.Username),
             errorMessage: "SMTP username must be provided and cannot be empty.");
     }
 
@@ -88,7 +88,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Username),
+        validationResult.AssertIsSingleError(propertyName: nameof(_smtpSettings.Username),
             errorMessage: "SMTP username must be between 3 and 30 characters long and start with a letter.");
     }
 
@@ -105,7 +105,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Password),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_smtpSettings.Password),
             errorMessage: "SMTP password must be provided and cannot be empty.");
     }
 
@@ -122,7 +122,7 @@ internal sealed class Validate : SmtpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _smtpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_smtpSettings.Password),
+        validationResult.AssertIsSingleError(propertyName: nameof(_smtpSettings.Password),
             errorMessage:
             "SMTP password must be between 8 and 20 characters long, with at least one uppercase letter, one lowercase letter, one digit, and one special character.");
     }

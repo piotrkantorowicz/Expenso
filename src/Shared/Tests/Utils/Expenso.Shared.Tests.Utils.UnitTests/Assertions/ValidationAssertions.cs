@@ -12,7 +12,7 @@ public static class ValidationAssertions
         validationResult.Errors.Should().BeNullOrEmpty();
     }
 
-    public static void AssertSingleError(this ValidationResult validationResult, string propertyName,
+    public static void AssertIsSingleError(this ValidationResult validationResult, string propertyName,
         string errorMessage)
     {
         validationResult.Should().NotBeNull();
@@ -21,6 +21,19 @@ public static class ValidationAssertions
         validationResult.Errors.Should().HaveCount(expected: 1);
         validationResult.Errors[index: 0].PropertyName.Should().Be(expected: propertyName);
         validationResult.Errors[index: 0].ErrorMessage.Should().Be(expected: errorMessage);
+    }
+
+    public static void AssertContainsSingleError(this ValidationResult validationResult, string propertyName,
+        string errorMessage)
+    {
+        validationResult.Should().NotBeNull();
+        validationResult.IsValid.Should().BeFalse();
+        validationResult.Errors.Should().NotBeEmpty();
+        validationResult.Errors.Should().HaveCountGreaterThan(expected: 0);
+
+        validationResult
+            .Errors.Should()
+            .ContainSingle(predicate: x => x.PropertyName == propertyName && x.ErrorMessage == errorMessage);
     }
 
     public static void AssertManyErrors(this ValidationResult validationResult, IDictionary<string, string> errors)

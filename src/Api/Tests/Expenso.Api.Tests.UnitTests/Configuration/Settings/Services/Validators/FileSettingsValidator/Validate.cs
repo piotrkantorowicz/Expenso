@@ -21,7 +21,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.StorageType),
+        validationResult.AssertIsSingleError(propertyName: nameof(_filesSettings.StorageType),
             errorMessage: "StorageType must be a valid value.");
     }
 
@@ -38,7 +38,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.RootPath),
+        validationResult.AssertIsSingleError(propertyName: nameof(_filesSettings.RootPath),
             errorMessage: "RootPath must be a valid absolute path.");
     }
 
@@ -56,7 +56,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ImportDirectory),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_filesSettings.ImportDirectory),
             errorMessage: "ImportDirectory must be provided and cannot be empty.");
     }
 
@@ -73,7 +73,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ImportDirectory),
+        validationResult.AssertIsSingleError(propertyName: nameof(_filesSettings.ImportDirectory),
             errorMessage: "ImportDirectory must be a valid relative path.");
     }
 
@@ -91,7 +91,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ReportsDirectory),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_filesSettings.ReportsDirectory),
             errorMessage: "ReportsDirectory must be provided and cannot be empty.");
     }
 
@@ -108,7 +108,7 @@ internal sealed class Validate : FileSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _filesSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_filesSettings.ReportsDirectory),
+        validationResult.AssertIsSingleError(propertyName: nameof(_filesSettings.ReportsDirectory),
             errorMessage: "ReportsDirectory must be a valid relative path.");
     }
 

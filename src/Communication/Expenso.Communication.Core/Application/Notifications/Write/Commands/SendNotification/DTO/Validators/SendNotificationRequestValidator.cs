@@ -13,19 +13,15 @@ internal sealed class SendNotificationRequestValidator : AbstractValidator<SendN
         ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestNotificationContextValidator);
         ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestNotificationTypeValidator);
 
-        RuleFor(expression: x => x.NotificationContext!)
+        RuleFor(expression: x => x.NotificationContext)
             .NotNull()
             .WithMessage(errorMessage: "Notification context is required.")
-            .DependentRules(action: () =>
-                RuleFor(expression: x => x.NotificationContext!)
-                    .SetValidator(validator: sendNotificationRequestNotificationContextValidator));
+            .SetValidator(validator: sendNotificationRequestNotificationContextValidator!);
 
-        RuleFor(expression: x => x.NotificationType!)
+        RuleFor(expression: x => x.NotificationType)
             .NotNull()
             .WithMessage(errorMessage: "Notification type is required.")
-            .DependentRules(action: () =>
-                RuleFor(expression: x => x.NotificationType!)
-                    .SetValidator(validator: sendNotificationRequestNotificationTypeValidator));
+            .SetValidator(validator: sendNotificationRequestNotificationTypeValidator!);
 
         RuleFor(expression: x => x.Content)
             .NotEmpty()

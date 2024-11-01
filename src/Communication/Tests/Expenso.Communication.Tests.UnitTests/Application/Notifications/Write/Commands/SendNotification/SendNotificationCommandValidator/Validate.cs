@@ -21,7 +21,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(SendNotificationCommand.Payload),
+        validationResult.AssertIsSingleError(propertyName: nameof(SendNotificationCommand.Payload),
             errorMessage: "Send notification request is required.");
     }
 
@@ -38,7 +38,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName: $"{nameof(command.Payload)}.{nameof(SendNotificationRequest.NotificationContext)}",
             errorMessage: "Notification context is required.");
     }
@@ -56,7 +56,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName: $"{nameof(command.Payload)}.{nameof(SendNotificationRequest.NotificationType)}",
             errorMessage: "Notification type is required.");
     }
@@ -75,7 +75,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(command.Payload)}.{nameof(SendNotificationRequest.NotificationContext)}.{nameof(SendNotificationRequest.NotificationContext.To)}",
             errorMessage: "To is required.");
@@ -95,7 +95,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName:
             $"{nameof(command.Payload)}.{nameof(SendNotificationRequest.NotificationContext)}.{nameof(SendNotificationRequest.NotificationContext.From)}",
             errorMessage: "From is required.");
@@ -115,7 +115,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
+        validationResult.AssertIsSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
             errorMessage: "Content is required.");
     }
 
@@ -133,7 +133,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
+        validationResult.AssertIsSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
             errorMessage: "Content must be less than 2500 characters.");
     }
 
@@ -151,7 +151,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(
+        validationResult.AssertIsSingleError(
             propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.NotificationType)}",
             errorMessage: "At least one notification type is required.");
     }

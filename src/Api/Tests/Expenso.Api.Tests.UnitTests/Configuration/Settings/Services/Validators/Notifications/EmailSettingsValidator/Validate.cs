@@ -20,7 +20,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_emailNotificationSettings.Enabled),
+        validationResult.AssertIsSingleError(propertyName: nameof(_emailNotificationSettings.Enabled),
             errorMessage: "Email enabled flag must be provided.");
     }
 
@@ -53,7 +53,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_emailNotificationSettings.From),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_emailNotificationSettings.From),
             errorMessage: "Email 'From' address must be provided and cannot be empty.");
     }
 
@@ -70,7 +70,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_emailNotificationSettings.From),
+        validationResult.AssertIsSingleError(propertyName: nameof(_emailNotificationSettings.From),
             errorMessage: "Email 'From' address must be a valid email address.");
     }
 
@@ -87,7 +87,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_emailNotificationSettings.ReplyTo),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_emailNotificationSettings.ReplyTo),
             errorMessage: "Email 'ReplyTo' address must be provided and cannot be empty.");
     }
 
@@ -104,7 +104,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_emailNotificationSettings.ReplyTo),
+        validationResult.AssertIsSingleError(propertyName: nameof(_emailNotificationSettings.ReplyTo),
             errorMessage: "Email 'ReplyTo' address must be a valid email address.");
     }
 
@@ -121,7 +121,7 @@ internal sealed class Validate : EmailNotificationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _emailNotificationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_emailNotificationSettings.Smtp),
+        validationResult.AssertIsSingleError(propertyName: nameof(_emailNotificationSettings.Smtp),
             errorMessage: "Smtp must be provided and cannot be null.");
     }
 

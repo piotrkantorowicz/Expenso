@@ -14,8 +14,7 @@ internal sealed class EfCoreSettingsValidator : AbstractValidator<EfCoreSettings
         RuleFor(expression: x => x.ConnectionParameters)
             .NotNull()
             .WithMessage(errorMessage: "ConnectionParameters must be provided and cannot be null.")
-            .DependentRules(action: () => RuleFor(expression: x => x.ConnectionParameters!)
-                .SetValidator(validator: connectionParametersValidator));
+            .SetValidator(validator: connectionParametersValidator!);
 
         RuleFor(expression: x => x.InMemory).NotNull().WithMessage(errorMessage: "InMemory flag must be provided.");
 

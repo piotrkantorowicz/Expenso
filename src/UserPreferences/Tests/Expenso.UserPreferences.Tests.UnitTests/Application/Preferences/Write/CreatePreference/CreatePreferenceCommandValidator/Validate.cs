@@ -32,7 +32,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(command.Payload),
+        validationResult.AssertIsSingleError(propertyName: nameof(command.Payload),
             errorMessage: "The command payload must not be null.");
     }
 
@@ -49,7 +49,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.UserId)}",
+        validationResult.AssertIsSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.UserId)}",
             errorMessage: "The user ID must not be empty.");
     }
 }

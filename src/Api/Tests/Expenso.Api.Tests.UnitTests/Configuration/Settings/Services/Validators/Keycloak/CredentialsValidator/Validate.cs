@@ -17,7 +17,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _credentials);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_credentials.Secret),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_credentials.Secret),
             errorMessage: "Client secret must be provided and cannot be empty.");
     }
 
@@ -31,7 +31,7 @@ internal sealed class Validate : KeycloakSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _credentials);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_credentials.Secret),
+        validationResult.AssertIsSingleError(propertyName: nameof(_credentials.Secret),
             errorMessage: "Client secret must be a valid GUID format.");
     }
 

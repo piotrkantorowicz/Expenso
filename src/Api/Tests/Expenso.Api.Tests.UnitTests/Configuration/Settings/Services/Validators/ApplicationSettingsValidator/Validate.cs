@@ -20,7 +20,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.InstanceId),
+        validationResult.AssertIsSingleError(propertyName: nameof(_applicationSettings.InstanceId),
             errorMessage: "Instance ID must be provided and cannot be empty.");
     }
 
@@ -37,7 +37,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.InstanceId),
+        validationResult.AssertIsSingleError(propertyName: nameof(_applicationSettings.InstanceId),
             errorMessage: "Instance ID must be provided and cannot be empty.");
     }
 
@@ -54,7 +54,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Name),
+        validationResult.AssertIsSingleError(propertyName: nameof(_applicationSettings.Name),
             errorMessage: "Name must be provided and cannot be empty.");
     }
 
@@ -71,7 +71,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _applicationSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Version),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_applicationSettings.Version),
             errorMessage: "Version must be provided and cannot be empty.");
     }
 
@@ -95,7 +95,7 @@ internal sealed class Validate : ApplicationSettingsValidatorTestBase
         string expectedValidationMessage =
             $"Version mismatch. Expected: [{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Build}], but got: [{providedVersion}].";
 
-        validationResult.AssertSingleError(propertyName: nameof(_applicationSettings.Version),
+        validationResult.AssertIsSingleError(propertyName: nameof(_applicationSettings.Version),
             errorMessage: expectedValidationMessage);
     }
 

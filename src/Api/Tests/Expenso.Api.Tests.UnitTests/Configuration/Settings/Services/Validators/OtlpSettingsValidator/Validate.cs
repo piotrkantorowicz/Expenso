@@ -31,7 +31,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _otlpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_otlpSettings.ServiceName),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_otlpSettings.ServiceName),
             errorMessage: "Service name must be provided and cannot be empty.");
     }
 
@@ -48,7 +48,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _otlpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_otlpSettings.ServiceName),
+        validationResult.AssertIsSingleError(propertyName: nameof(_otlpSettings.ServiceName),
             errorMessage: "Service name can only contain alphanumeric characters and special characters.");
     }
 
@@ -65,7 +65,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _otlpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_otlpSettings.Endpoint),
+        validationResult.AssertContainsSingleError(propertyName: nameof(_otlpSettings.Endpoint),
             errorMessage: "Endpoint must be provided and cannot be empty.");
     }
 
@@ -82,7 +82,7 @@ internal sealed class Validate : OtlpSettingsValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: _otlpSettings);
 
         // Assert
-        validationResult.AssertSingleError(propertyName: nameof(_otlpSettings.Endpoint),
+        validationResult.AssertIsSingleError(propertyName: nameof(_otlpSettings.Endpoint),
             errorMessage: "Endpoint must be a valid URL.");
     }
 }

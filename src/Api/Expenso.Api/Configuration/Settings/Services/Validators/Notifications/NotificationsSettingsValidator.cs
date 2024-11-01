@@ -24,20 +24,17 @@ internal sealed class NotificationSettingsValidator : AbstractValidator<Notifica
             RuleFor(expression: x => x.Email)
                 .NotNull()
                 .WithMessage(errorMessage: "Email notification settings must be provided.")
-                .DependentRules(action: () =>
-                    RuleFor(expression: x => x.Email!).SetValidator(validator: emailNotificationSettingsValidator));
+                .SetValidator(validator: emailNotificationSettingsValidator!);
 
             RuleFor(expression: x => x.InApp)
                 .NotNull()
                 .WithMessage(errorMessage: "In-app notification settings must be provided.")
-                .DependentRules(action: () =>
-                    RuleFor(expression: x => x.InApp!).SetValidator(validator: inAppNotificationSettingsValidator));
+                .SetValidator(validator: inAppNotificationSettingsValidator!);
 
             RuleFor(expression: x => x.Push)
                 .NotNull()
                 .WithMessage(errorMessage: "Push notification settings must be provided.")
-                .DependentRules(action: () =>
-                    RuleFor(expression: x => x.Push!).SetValidator(validator: pushNotificationSettingsValidator));
+                .SetValidator(validator: pushNotificationSettingsValidator!);
         });
     }
 }
