@@ -115,7 +115,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertIsSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
+        validationResult.AssertIsSingleError(
+            propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
             errorMessage: "Content is required.");
     }
 
@@ -133,7 +134,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         ValidationResult validationResult = TestCandidate.Validate(instance: command);
 
         // Assert
-        validationResult.AssertIsSingleError(propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
+        validationResult.AssertIsSingleError(
+            propertyName: $"{nameof(command.Payload)}.{nameof(command.Payload.Content)}",
             errorMessage: "Content must be less than 2500 characters.");
     }
 

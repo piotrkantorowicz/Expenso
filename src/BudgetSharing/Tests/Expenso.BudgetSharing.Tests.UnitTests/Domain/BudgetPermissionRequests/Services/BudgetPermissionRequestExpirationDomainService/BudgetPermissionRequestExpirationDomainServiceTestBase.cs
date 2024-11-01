@@ -14,8 +14,6 @@ internal abstract class
     BudgetPermissionRequestExpirationDomainServiceTestBase : DomainTestBase<
     IBudgetPermissionRequestExpirationDomainService>
 {
-    private const int DefaultExpirationDays = 3;
-
     [SetUp]
     public void Setup()
     {
@@ -37,6 +35,7 @@ internal abstract class
                 budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object);
     }
 
+    private const int DefaultExpirationDays = 3;
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;
     private Mock<IClock> _clockMock = null!;
