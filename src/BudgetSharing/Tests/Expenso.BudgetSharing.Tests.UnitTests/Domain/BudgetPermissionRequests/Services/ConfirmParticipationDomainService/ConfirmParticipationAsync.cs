@@ -3,6 +3,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
@@ -32,7 +33,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Setup(expression: x =>
                 x.GetPreferences(
                     new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
-                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<CancellationToken>()))
+                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<IMessageContext>(),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse);
 
         // Act
@@ -127,7 +129,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Setup(expression: x =>
                 x.GetPreferences(
                     new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
-                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<CancellationToken>()))
+                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<IMessageContext>(),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
         // Act
@@ -160,7 +163,8 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Setup(expression: x =>
                 x.GetPreferences(
                     new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
-                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<CancellationToken>()))
+                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<IMessageContext>(),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse with
             {
                 FinancePreference = new GetPreferencesResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,

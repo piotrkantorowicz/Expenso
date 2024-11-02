@@ -12,7 +12,10 @@ public abstract class TestBase<T> where T : class
     public virtual void OneTimeSetUp()
     {
         MessageContextFactoryMock = new Mock<IMessageContextFactory>();
-        MessageContextFactoryMock.Setup(expression: x => x.Current(It.IsAny<Guid?>())).Returns(value: _messageContext);
+
+        MessageContextFactoryMock
+            .Setup(expression: x => x.Current(It.IsAny<Guid?>(), It.IsAny<string?>()))
+            .Returns(value: _messageContext);
     }
 
     [OneTimeTearDown]

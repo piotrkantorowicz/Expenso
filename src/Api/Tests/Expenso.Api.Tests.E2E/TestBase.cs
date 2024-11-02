@@ -14,7 +14,10 @@ internal abstract class TestBase
     public virtual Task SetUpAsync()
     {
         MessageContextFactoryMock = new Mock<IMessageContextFactory>();
-        MessageContextFactoryMock.Setup(expression: x => x.Current(It.IsAny<Guid?>())).Returns(value: _messageContext);
+
+        MessageContextFactoryMock
+            .Setup(expression: x => x.Current(It.IsAny<Guid?>(), It.IsAny<string?>()))
+            .Returns(value: _messageContext);
         _httpClient = WebApp.Instance.GetHttpClient();
 
         return Task.CompletedTask;

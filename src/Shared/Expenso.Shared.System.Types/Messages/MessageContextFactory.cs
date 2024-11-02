@@ -1,5 +1,6 @@
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.ExecutionContext;
+using Expenso.Shared.System.Types.ExecutionContext.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ internal sealed class MessageContextFactory : IMessageContextFactory
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(paramName: nameof(serviceProvider));
     }
 
-    public IMessageContext Current(Guid? messageId = null)
+    public IMessageContext Current(Guid? messageId = null, string? moduleId = null)
     {
         using IServiceScope scope = _serviceProvider.CreateScope();
 
@@ -23,7 +24,23 @@ internal sealed class MessageContextFactory : IMessageContextFactory
             scope.ServiceProvider.GetRequiredService<IExecutionContextAccessor>();
 
         IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
+        IExecutionContext? executionContext = executionContextAccessor.Get();
 
-        return new MessageContext(executionContext: executionContextAccessor.Get(), clock: clock, messageId: messageId);
+        Guid requestedBy = Guid.TryParse(input: executionContext?.UserContext?.UserId, result: out Guid id)
+            ? id
+            : Guid.Empty;
+
+        return new MessageContext(messageId: messageId ?? Guid.NewGuid(),
+            correlationId: executionContext?.CorrelationId ?? Guid.Empty, requestedBy: requestedBy,
+            timestamp: clock.UtcNow, module: moduleId ?? executionContext?.ModuleId ?? "Unknown");
+    }
+
+    public IMessageContext FromParent(IMessageContext parent, string? moduleId, Guid? messageId = null)
+    {
+        using IServiceScope scope = _serviceProvider.CreateScope();
+        IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
+
+        return new MessageContext(messageId: messageId ?? Guid.NewGuid(), correlationId: parent.CorrelationId,
+            requestedBy: parent.RequestedBy, timestamp: clock.UtcNow, module: moduleId ?? "Unknown");
     }
 }

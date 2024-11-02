@@ -9,6 +9,7 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.IAM.Core.Application.Proxy;
@@ -26,27 +27,33 @@ internal sealed class IamProxy : IIamProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
+    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByIdQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            query: new GetUserByIdQuery(MessageContext:             messageContext is null
+            ? _messageContextFactory.Current(moduleId: Names.IamModule)
+            : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 
-    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
+    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByEmailQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            query: new GetUserByEmailQuery(            MessageContext: messageContext is null
+                ? _messageContextFactory.Current(moduleId: Names.IamModule)
+                : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUsersQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            query: new GetUsersQuery(            MessageContext: messageContext is null
+                ? _messageContextFactory.Current(moduleId: Names.IamModule)
+                : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 }

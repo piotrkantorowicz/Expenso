@@ -10,6 +10,7 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -48,24 +49,24 @@ internal sealed class FakeIamProxy : IIamProxy
         }
     ];
 
-    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
-        CancellationToken cancellationToken)
+    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,IMessageContext? messageContext = null,
+        CancellationToken cancellationToken = default)
     {
         return GetUserByIdResponseMap.MapTo(user: await Task.FromResult(
             result: _users.FirstOrDefault(predicate: x => x.Id == request.UserId) ??
                     throw new NotFoundException(message: $"User with id {request.UserId} not found.")));
     }
 
-    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
-        CancellationToken cancellationToken)
+    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,IMessageContext? messageContext = null,
+        CancellationToken cancellationToken = default)
     {
         return GetUserByEmailResponseMap.MapTo(user: await Task.FromResult(
             result: _users.FirstOrDefault(predicate: x => x.Email == request.Email) ??
                     throw new NotFoundException(message: $"User with email {request.Email} not found.")));
     }
 
-    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
-        CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,IMessageContext? messageContext = null,
+        CancellationToken cancellationToken = default)
     {
         if (request.Limit <= 0)
         {
