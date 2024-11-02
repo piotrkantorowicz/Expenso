@@ -39,6 +39,7 @@ using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermission
 using Expenso.Shared.Commands;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Microsoft.AspNetCore.Http;
@@ -52,6 +53,8 @@ namespace Expenso.BudgetSharing.Api;
 
 public sealed class BudgetSharingModule : IModuleDefinition
 {
+    public string ModuleName => Names.BudgetSharingModule;
+
     public string ModulePrefix => "/budget-sharing";
 
     public IReadOnlyCollection<Assembly> GetModuleAssemblies()

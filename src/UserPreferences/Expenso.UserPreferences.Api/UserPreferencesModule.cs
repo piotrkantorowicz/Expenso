@@ -3,6 +3,7 @@ using System.Reflection;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
@@ -32,6 +33,8 @@ namespace Expenso.UserPreferences.Api;
 
 public sealed class UserPreferencesModule : IModuleDefinition
 {
+    public string ModuleName => Names.UserPreferencesModule;
+
     public string ModulePrefix => "/user-preferences";
 
     public IReadOnlyCollection<Assembly> GetModuleAssemblies()

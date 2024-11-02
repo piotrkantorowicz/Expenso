@@ -239,6 +239,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "keycloak", "keycloak", "{14
 		docker\keycloak\expenso_realm.json = docker\keycloak\expenso_realm.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Modules.Constants", "src\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj", "{803A29FC-E125-4F22-8EC9-80FCA890020B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -505,6 +507,10 @@ Global
 		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B63AA70F-832A-45A4-9C90-EBAA33D0680A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{803A29FC-E125-4F22-8EC9-80FCA890020B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{803A29FC-E125-4F22-8EC9-80FCA890020B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{803A29FC-E125-4F22-8EC9-80FCA890020B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{803A29FC-E125-4F22-8EC9-80FCA890020B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7282BA62-2026-4B42-8A11-581AB03F589C} = {F3AA041E-331E-4B9B-80E6-A984C496E476}
@@ -604,5 +610,6 @@ Global
 		{F4B0300E-F25D-4FBE-BF8E-0A39BB31A0C2} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
 		{08B7797C-2290-40C0-839D-2D571E39ADB1} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
 		{14CE8E46-0D8A-44C2-9444-6AA98FF8F7DC} = {AE3687CF-FED7-492C-9F5D-3294B0CEA1D0}
+		{803A29FC-E125-4F22-8EC9-80FCA890020B} = {FFA9EF65-A2AD-48AC-812B-42BFF705571C}
 	EndGlobalSection
 EndGlobal

@@ -2,6 +2,7 @@
 using Expenso.BudgetSharing.Api;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Extensions.RequestPathExtensions;
@@ -68,12 +69,12 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().Be(expected: "BudgetSharingModule");
+        result.Should().Be(expected: Names.BudgetSharingModule);
 
         _loggerMock.Verify(
             expression: logger => logger.LogDebug(LoggingUtils.GeneralInformation,
                 It.Is<string>(message =>
-                    message.Contains($"Module found: {nameof(BudgetSharingModule)} for request path: {requestPath}")),
+                    message.Contains($"Module found: {Names.BudgetSharingModule} for request path: {requestPath}")),
                 It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
     }
 

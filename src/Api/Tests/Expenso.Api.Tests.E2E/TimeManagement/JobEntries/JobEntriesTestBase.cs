@@ -1,4 +1,5 @@
-﻿using Expenso.Shared.System.Types.Clock;
+﻿using Expenso.Shared.System.Modules.Constants;
+using Expenso.Shared.System.Types.Clock;
 using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -38,19 +39,19 @@ internal abstract class JobEntriesTestBase : TestBase
 
     protected override void AssertResponseOk(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: "TimeManagementModule");
+        AssertModuleHeader(response: response, moduleName: Names.TimeManagementModule);
         base.AssertResponseOk(response: response);
     }
 
     protected override void AssertResponseCreated(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: "TimeManagementModule");
+        AssertModuleHeader(response: response, moduleName: Names.TimeManagementModule);
         base.AssertResponseCreated(response: response);
     }
 
     protected override void AssertResponseNoContent(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: "TimeManagementModule");
+        AssertModuleHeader(response: response, moduleName: Names.TimeManagementModule);
         base.AssertResponseNoContent(response: response);
     }
 }
