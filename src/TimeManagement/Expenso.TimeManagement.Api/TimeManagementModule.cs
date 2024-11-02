@@ -2,6 +2,7 @@
 
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.TimeManagement.Core;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
@@ -22,6 +23,8 @@ namespace Expenso.TimeManagement.Api;
 
 public sealed class TimeManagementModule : IModuleDefinition
 {
+    public string ModuleName => Names.TimeManagementModule;
+
     public string ModulePrefix => "/time-management";
 
     public IReadOnlyCollection<Assembly> GetModuleAssemblies()

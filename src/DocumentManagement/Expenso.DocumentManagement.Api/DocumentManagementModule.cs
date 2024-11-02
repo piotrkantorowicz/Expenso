@@ -3,6 +3,7 @@ using System.Reflection;
 using Expenso.DocumentManagement.Core;
 using Expenso.DocumentManagement.Shared;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace Expenso.DocumentManagement.Api;
 
 public sealed class DocumentManagementModule : IModuleDefinition
 {
+    public string ModuleName => Names.DocumentManagementModule;
+
     public string ModulePrefix => "/document-management";
 
     public IReadOnlyCollection<Assembly> GetModuleAssemblies()

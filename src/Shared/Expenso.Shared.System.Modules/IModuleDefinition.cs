@@ -7,7 +7,7 @@ namespace Expenso.Shared.System.Modules;
 
 public interface IModuleDefinition
 {
-    string ModuleName => GetType().Name;
+    string ModuleName { get; }
 
     string ModulePrefix { get; }
 

@@ -3,6 +3,7 @@
 using Expenso.IAM.Core;
 using Expenso.IAM.Shared;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace Expenso.IAM.Api;
 
 public sealed class IamModule : IModuleDefinition
 {
+    public string ModuleName => Names.IamModule;
+
     public string ModulePrefix => "/users";
 
     public IReadOnlyCollection<Assembly> GetModuleAssemblies()

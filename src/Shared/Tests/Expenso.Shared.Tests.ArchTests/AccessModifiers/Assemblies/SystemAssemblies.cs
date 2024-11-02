@@ -3,6 +3,7 @@ using Expenso.Shared.System.Expressions;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Metrics;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 
@@ -19,6 +20,7 @@ internal static class SystemAssemblies
     private static readonly Assembly LoggingSerilog = typeof(Extensions).Assembly;
     private static readonly Assembly Metrics = typeof(OtlpSettings).Assembly;
     private static readonly Assembly Modules = typeof(IModuleDefinition).Assembly;
+    private static readonly Assembly ModulesNames = typeof(Names).Assembly;
     private static readonly Assembly Serialization = typeof(ISerializer).Assembly;
     private static readonly Assembly Tasks = typeof(TaskExtensions).Assembly;
     private static readonly Assembly Types = typeof(IClock).Assembly;
@@ -33,7 +35,8 @@ internal static class SystemAssemblies
         [key: nameof(Modules)] = Modules,
         [key: nameof(Serialization)] = Serialization,
         [key: nameof(Tasks)] = Tasks,
-        [key: nameof(Types)] = Types
+        [key: nameof(Types)] = Types,
+        [key: nameof(ModulesNames)] = ModulesNames
     };
 
     public static IReadOnlyDictionary<string, Assembly> GetAssemblies()

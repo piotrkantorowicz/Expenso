@@ -1,3 +1,5 @@
+using Expenso.Shared.System.Modules.Constants;
+
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
 [TestFixture]
@@ -17,19 +19,19 @@ internal abstract class PreferencesTestBase : TestBase
 
     protected override void AssertResponseOk(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: "UserPreferencesModule");
+        AssertModuleHeader(response: response, moduleName: Names.UserPreferencesModule);
         base.AssertResponseOk(response: response);
     }
 
     protected override void AssertResponseCreated(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: "UserPreferencesModule");
+        AssertModuleHeader(response: response, moduleName: Names.UserPreferencesModule);
         base.AssertResponseCreated(response: response);
     }
 
     protected override void AssertResponseNoContent(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: "UserPreferencesModule");
+        AssertModuleHeader(response: response, moduleName: Names.UserPreferencesModule);
         base.AssertResponseNoContent(response: response);
     }
 }

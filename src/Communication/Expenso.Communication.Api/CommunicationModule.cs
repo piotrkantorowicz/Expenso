@@ -3,6 +3,7 @@
 using Expenso.Communication.Core;
 using Expenso.Communication.Shared;
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.System.Modules.Constants;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace Expenso.Communication.Api;
 
 public sealed class CommunicationModule : IModuleDefinition
 {
+    public string ModuleName => Names.CommunicationModule;
+
     public string ModulePrefix => "/communication";
 
     public IReadOnlyCollection<Assembly> GetModuleAssemblies()
