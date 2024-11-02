@@ -16,7 +16,7 @@ internal sealed class HandleAsync : GetUserByIdQueryQueryHandlerTestBase
             Payload: new GetUserByIdRequest(UserId: _userId));
 
         _userServiceMock
-            .Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByIdAsync(new GetUserByIdRequest(_userId), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByIdResponse);
 
         // Act
@@ -35,7 +35,8 @@ internal sealed class HandleAsync : GetUserByIdQueryQueryHandlerTestBase
         GetUserByIdQuery query = new(MessageContext: _messageContextMock.Object,
             Payload: new GetUserByIdRequest(UserId: _userId));
 
-        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))!
+        _userServiceMock.Setup(expression: x =>
+                x.GetUserByIdAsync(new GetUserByIdRequest(_userId), It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
 
         // Act

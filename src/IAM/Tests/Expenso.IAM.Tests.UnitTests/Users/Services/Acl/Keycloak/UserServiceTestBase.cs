@@ -1,5 +1,5 @@
 ﻿using Expenso.IAM.Core.Acl.Keycloak;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;

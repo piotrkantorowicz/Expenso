@@ -1,10 +1,13 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
+using Expenso.IAM.Shared.DTO.GetUsers.Request;
+using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -23,19 +26,27 @@ internal sealed class IamProxy : IIamProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<GetUserByIdResponse?> GetUserByIdAsync(string userId,
+    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByIdQuery(MessageContext: _messageContextFactory.Current(),
-                Payload: new GetUserByIdRequest(UserId: userId)), cancellationToken: cancellationToken);
+            query: new GetUserByIdQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            cancellationToken: cancellationToken);
     }
 
-    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(string email,
+    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByEmailQuery(MessageContext: _messageContextFactory.Current(),
-                Payload: new GetUserByEmailRequest(Email: email)), cancellationToken: cancellationToken);
+            query: new GetUserByEmailQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            cancellationToken: cancellationToken);
+    }
+
+    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+        CancellationToken cancellationToken)
+    {
+        return await _queryDispatcher.QueryAsync(
+            query: new GetUsersQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
+            cancellationToken: cancellationToken);
     }
 }

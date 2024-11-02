@@ -4,6 +4,8 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 using Expenso.Shared.Domain.Types.ValueObjects;
 
+using Moq;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.EventHandlers.
     BudgetPermissionBlockedEventHandler;
 
@@ -12,6 +14,17 @@ internal sealed class HandleAsync : HandleAsyncBase<
     BudgetSharing.Domain.BudgetPermissions.EventHandlers.Internal.BudgetPermissionBlockedEventHandler,
     BudgetPermissionBlockedEvent>
 {
+    public override async Task Should_SendNotification_For_Recipients()
+    {
+        await Should_SendNotification_For_Recipients_Internal(notificationCount: Times.AtLeast(callCount: 3));
+    }
+
+    public override async Task Should_Call_GetUserNotificationAvailability_With_MessageContext()
+    {
+        await Should_Call_GetUserNotificationAvailability_With_MessageContext_Internal(
+            notificationCount: Times.AtLeast(callCount: 3));
+    }
+
     protected override BudgetPermissionBlockedEvent CreateEvent()
     {
         return new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),

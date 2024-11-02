@@ -1,4 +1,5 @@
-﻿using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
+﻿using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -22,9 +23,8 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             ]);
 
         // Act
-        GetUserByEmailResponse getUser =
-            await TestCandidate.GetUserByEmailAsync(email: _userEmail,
-                cancellationToken: It.IsAny<CancellationToken>());
+        GetUserByEmailResponse getUser = await TestCandidate.GetUserByEmailAsync(
+            request: new GetUserByEmailRequest(Email: _userEmail), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUser.Should().NotBeNull();
@@ -49,7 +49,8 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>());
+            await TestCandidate.GetUserByEmailAsync(request: new GetUserByEmailRequest(Email: _userEmail),
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         action

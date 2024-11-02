@@ -6,6 +6,6 @@ namespace Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 
 public interface IIamProxyService
 {
-    Task<UserNotificationModel> GetUserNotificationAvailability(IMessageContext messageContext, PersonId ownerId,
+    Task<NotificationRecipients> GetUserNotificationAvailability(IMessageContext messageContext, PersonId ownerId,
         IReadOnlyCollection<PersonId> participantIds, CancellationToken cancellationToken);
 }

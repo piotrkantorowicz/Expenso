@@ -1,8 +1,13 @@
 using Expenso.IAM.Core.Acl.Keycloak;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
+using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
+using Expenso.IAM.Shared.DTO.GetUsers.Request;
+using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin;
@@ -24,14 +29,15 @@ internal sealed class UserService : IUserService
             keycloakUserClient ?? throw new ArgumentNullException(paramName: nameof(keycloakUserClient));
     }
 
-    public async Task<GetUserByIdResponse> GetUserByIdAsync(string? userId, CancellationToken cancellationToken)
+    public async Task<GetUserByIdResponse> GetUserByIdAsync(GetUserByIdRequest? request,
+        CancellationToken cancellationToken)
     {
         UserRepresentation keycloakUser = await _keycloakUserClient.GetUserAsync(realm: _keycloakSettings.Realm,
-            userId: userId ?? string.Empty, cancellationToken: cancellationToken);
+            userId: request?.UserId ?? string.Empty, cancellationToken: cancellationToken);
 
         if (keycloakUser is null)
         {
-            throw new NotFoundException(message: $"User with ID {userId} not found");
+            throw new NotFoundException(message: $"User with ID {request?.UserId} not found");
         }
 
         GetUserByIdResponse getUserResponse = GetUserByIdResponseMap.MapTo(user: keycloakUser);
@@ -39,23 +45,34 @@ internal sealed class UserService : IUserService
         return getUserResponse;
     }
 
-    public async Task<GetUserByEmailResponse> GetUserByEmailAsync(string? email, CancellationToken cancellationToken)
+    public async Task<GetUserByEmailResponse> GetUserByEmailAsync(GetUserByEmailRequest? request,
+        CancellationToken cancellationToken)
     {
         List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(
             realm: _keycloakSettings.Realm, parameters: new GetUsersRequestParameters
             {
-                Email = email
+                Email = request?.Email
             }, cancellationToken: cancellationToken)).ToList();
 
         UserRepresentation? user = keycloakUsers.Count is 0 ? null : keycloakUsers.Single();
 
         if (user is null)
         {
-            throw new NotFoundException(message: $"User with email {email} not found");
+            throw new NotFoundException(message: $"User with email {request?.Email} not found");
         }
 
         GetUserByEmailResponse getUserResponse = GetUserByEmailResponseMap.MapTo(user: user);
 
         return getUserResponse;
+    }
+
+    public async Task<IReadOnlyCollection<GetUsersResponse>> GetUsers(GetUsersRequest? request,
+        CancellationToken cancellationToken)
+    {
+        List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(
+            realm: _keycloakSettings.Realm, parameters: GetUsersRequestMap.MapTo(request: request),
+            cancellationToken: cancellationToken)).ToList();
+
+        return GetUsersResponseMap.MapTo(user: keycloakUsers);
     }
 }
