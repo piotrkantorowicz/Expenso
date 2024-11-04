@@ -6,62 +6,40 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBud
 
 public static class GetBudgetPermissionRequestsRequestMap
 {
+    private static readonly Dictionary<GetBudgetPermissionRequestsRequest_PermissionType, PermissionType>
+        PermissionTypeMap = new()
+        {
+            { GetBudgetPermissionRequestsRequest_PermissionType.Owner, PermissionType.Owner },
+            { GetBudgetPermissionRequestsRequest_PermissionType.SubOwner, PermissionType.SubOwner },
+            { GetBudgetPermissionRequestsRequest_PermissionType.Reviewer, PermissionType.Reviewer }
+        };
+
+    private static readonly Dictionary<GetBudgetPermissionRequestsRequest_Status, BudgetPermissionRequestStatus>
+        StatusMap = new()
+        {
+            { GetBudgetPermissionRequestsRequest_Status.Pending, BudgetPermissionRequestStatus.Pending },
+            { GetBudgetPermissionRequestsRequest_Status.Confirmed, BudgetPermissionRequestStatus.Confirmed },
+            { GetBudgetPermissionRequestsRequest_Status.Cancelled, BudgetPermissionRequestStatus.Cancelled },
+            { GetBudgetPermissionRequestsRequest_Status.Expired, BudgetPermissionRequestStatus.Expired }
+        };
+
     public static PermissionType[] MapTo(GetBudgetPermissionRequestsRequest_PermissionType? permissionType)
     {
-        if (permissionType is null or GetBudgetPermissionRequestsRequest_PermissionType.None)
-        {
-            return [PermissionType.None];
-        }
-
-        ICollection<PermissionType> permissionTypes = [];
-
-        if (permissionType.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_PermissionType.Owner))
-        {
-            permissionTypes.Add(item: PermissionType.Owner);
-        }
-
-        if (permissionType.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_PermissionType.SubOwner))
-        {
-            permissionTypes.Add(item: PermissionType.SubOwner);
-        }
-
-        if (permissionType.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_PermissionType.Reviewer))
-        {
-            permissionTypes.Add(item: PermissionType.Reviewer);
-        }
-
-        return permissionTypes.ToArray();
+        return permissionType is null or GetBudgetPermissionRequestsRequest_PermissionType.None
+            ? ( [PermissionType.None])
+            : PermissionTypeMap
+                .Where(predicate: kv => permissionType.Value.HasFlag(flag: kv.Key))
+                .Select(selector: kv => kv.Value)
+                .ToArray();
     }
 
     public static BudgetPermissionRequestStatus[] MapTo(GetBudgetPermissionRequestsRequest_Status? status)
     {
-        if (status is null or GetBudgetPermissionRequestsRequest_Status.None)
-        {
-            return [BudgetPermissionRequestStatus.None];
-        }
-
-        ICollection<BudgetPermissionRequestStatus> budgetPermissionRequestStatus = [];
-
-        if (status.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_Status.Pending))
-        {
-            budgetPermissionRequestStatus.Add(item: BudgetPermissionRequestStatus.Pending);
-        }
-
-        if (status.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_Status.Confirmed))
-        {
-            budgetPermissionRequestStatus.Add(item: BudgetPermissionRequestStatus.Confirmed);
-        }
-
-        if (status.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_Status.Cancelled))
-        {
-            budgetPermissionRequestStatus.Add(item: BudgetPermissionRequestStatus.Cancelled);
-        }
-
-        if (status.Value.HasFlag(flag: GetBudgetPermissionRequestsRequest_Status.Expired))
-        {
-            budgetPermissionRequestStatus.Add(item: BudgetPermissionRequestStatus.Expired);
-        }
-
-        return budgetPermissionRequestStatus.ToArray();
+        return status is null or GetBudgetPermissionRequestsRequest_Status.None
+            ? ( [BudgetPermissionRequestStatus.None])
+            : StatusMap
+                .Where(predicate: kv => status.Value.HasFlag(flag: kv.Key))
+                .Select(selector: kv => kv.Value)
+                .ToArray();
     }
 }

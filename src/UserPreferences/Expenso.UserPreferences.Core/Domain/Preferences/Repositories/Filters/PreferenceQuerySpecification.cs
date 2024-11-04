@@ -11,6 +11,13 @@ internal sealed record PreferenceQuerySpecification(
     bool? UseTracking = null,
     PreferenceTypes? PreferenceType = null)
 {
+    private static readonly Dictionary<PreferenceTypes, Expression<Func<Preference, object>>> PreferenceTypeMap = new()
+    {
+        { PreferenceTypes.Finance, x => x.FinancePreference! },
+        { PreferenceTypes.Notification, x => x.NotificationPreference! },
+        { PreferenceTypes.General, x => x.GeneralPreference! }
+    };
+
     public Expression<Func<Preference, bool>> Filter()
     {
         Expression<Func<Preference, bool>> predicate = p => true;
@@ -32,24 +39,11 @@ internal sealed record PreferenceQuerySpecification(
 
     public IEnumerable<Expression<Func<Preference, object>>> Include()
     {
-        List<Expression<Func<Preference, object>>> includes = [];
         PreferenceTypes preferenceTypes = PreferenceType ?? PreferenceTypes.None;
 
-        if (preferenceTypes.HasFlag(flag: PreferenceTypes.Finance))
-        {
-            includes.Add(item: x => x.FinancePreference!);
-        }
-
-        if (preferenceTypes.HasFlag(flag: PreferenceTypes.Notification))
-        {
-            includes.Add(item: x => x.NotificationPreference!);
-        }
-
-        if (preferenceTypes.HasFlag(flag: PreferenceTypes.General))
-        {
-            includes.Add(item: x => x.GeneralPreference!);
-        }
-
-        return includes.ToArray();
+        return PreferenceTypeMap
+            .Where(predicate: kv => preferenceTypes.HasFlag(flag: kv.Key))
+            .Select(selector: kv => kv.Value)
+            .ToArray();
     }
 }

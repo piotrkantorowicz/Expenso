@@ -7,5 +7,6 @@ public enum GetBudgetPermissionRequestsResponse_Status
     Pending = 1,
     Confirmed = 2,
     Cancelled = 4,
-    Expired = 8
+    Expired = 8,
+    All = Pending | Confirmed | Cancelled | Expired
 }
