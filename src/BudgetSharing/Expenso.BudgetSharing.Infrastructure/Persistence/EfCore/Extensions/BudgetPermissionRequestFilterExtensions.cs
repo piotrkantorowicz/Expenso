@@ -37,16 +37,16 @@ public static class BudgetPermissionRequestFilterExtensions
                 rightExpression: x => x.OwnerId == filter.OwnerId);
         }
 
-        if (filter.Status is not null)
+        if (filter.Statuses is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.StatusTracker.Status == filter.Status);
+                rightExpression: x => filter.Statuses.Contains(x.StatusTracker.Status));
         }
 
-        if (filter.PermissionType is not null)
+        if (filter.PermissionTypes is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.PermissionType == filter.PermissionType);
+                rightExpression: x => filter.PermissionTypes.Contains(x.PermissionType));
         }
 
         return predicate;

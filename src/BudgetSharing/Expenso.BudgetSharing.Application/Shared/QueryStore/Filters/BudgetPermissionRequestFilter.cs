@@ -8,5 +8,5 @@ public sealed record BudgetPermissionRequestFilter(
     BudgetId? BudgetId = null,
     PersonId? ParticipantId = null,
     PersonId? OwnerId = null,
-    BudgetPermissionRequestStatus? Status = null,
-    PermissionType? PermissionType = null);
+    BudgetPermissionRequestStatus[]? Statuses = null,
+    PermissionType[]? PermissionTypes = null);

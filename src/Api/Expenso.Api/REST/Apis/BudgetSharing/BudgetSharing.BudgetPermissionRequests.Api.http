@@ -4,8 +4,8 @@ Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetBudgetPermissionRequests
-GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests?status=1&
-    budgetId=fab3cf10-e0da-4bcb-b41c-dfbba1382215
+GET {{apiHostAddress}}/{{budgetSharingRoute}}/budget-permission-requests?permissionType=2&
+    budgetId=fab3cf10-e0da-4bcb-b41c-dfbba1382215&status=1
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 

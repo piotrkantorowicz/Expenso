@@ -44,7 +44,7 @@ internal sealed class
             BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
             ParticipantId = PersonId.Nullable(value: participantId),
-            PermissionType = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
+            PermissionTypes = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
         };
 
         IReadOnlyList<BudgetPermission> budgetPermissions =
