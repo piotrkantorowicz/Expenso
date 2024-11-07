@@ -67,6 +67,12 @@ internal sealed class FakeIamProxy : IIamProxy
     public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
         CancellationToken cancellationToken)
     {
+        if (request.Limit <= 0)
+        {
+            throw new ArgumentException(message: "Limit cannot be negative or equal to 0",
+                paramName: nameof(request.Limit));
+        }
+
         return GetUsersResponseMap.MapTo(user: await Task.FromResult(result: _users
             .Where(predicate: request.Exact ? PredicateExact : PredicateRelative)
             .Take(count: request.Limit ?? int.MaxValue)
@@ -74,16 +80,31 @@ internal sealed class FakeIamProxy : IIamProxy
 
         bool PredicateRelative(UserRepresentation x)
         {
-            return x.Email?.Contains(value: request.Email ?? string.Empty) == true ||
-                   x.FirstName?.Contains(value: request.Firstname ?? string.Empty) == true ||
-                   x.LastName?.Contains(value: request.Lastname ?? string.Empty) == true ||
-                   x.Username?.Contains(value: request.Username ?? string.Empty) == true;
+            return (string.IsNullOrWhiteSpace(value: request.Email) ||
+                    x.Email?.Contains(value: request.Email, comparisonType: StringComparison.OrdinalIgnoreCase) ==
+                    true) &&
+                   (string.IsNullOrWhiteSpace(value: request.Firstname) || x.FirstName?.Contains(
+                       value: request.Firstname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase) == true) &&
+                   (string.IsNullOrWhiteSpace(value: request.Lastname) || x.LastName?.Contains(value: request.Lastname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase) == true) &&
+                   (string.IsNullOrWhiteSpace(value: request.Username) || x.Username?.Contains(value: request.Username,
+                       comparisonType: StringComparison.OrdinalIgnoreCase) == true);
         }
 
         bool PredicateExact(UserRepresentation x)
         {
-            return x.Email == request.Email || x.FirstName == request.Firstname || x.LastName == request.Lastname ||
-                   x.Username == request.Username;
+            return (string.IsNullOrWhiteSpace(value: request.Email) || string.Equals(a: x.Email, b: request.Email,
+                       comparisonType: StringComparison.OrdinalIgnoreCase)) &&
+                   (string.IsNullOrWhiteSpace(value: request.Firstname) || string.Equals(a: x.FirstName,
+                       b: request.Firstname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase)) &&
+                   (string.IsNullOrWhiteSpace(value: request.Lastname) || string.Equals(a: x.LastName,
+                       b: request.Lastname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase)) &&
+                   (string.IsNullOrWhiteSpace(value: request.Username) || string.Equals(a: x.Username,
+                       b: request.Username,
+                       comparisonType: StringComparison.OrdinalIgnoreCase));
         }
     }
 }

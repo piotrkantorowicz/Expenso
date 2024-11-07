@@ -43,7 +43,7 @@ internal sealed class IamProxy : IIamProxy
     }
 
     public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUsersQuery(MessageContext: _messageContextFactory.Current(), Payload: request),

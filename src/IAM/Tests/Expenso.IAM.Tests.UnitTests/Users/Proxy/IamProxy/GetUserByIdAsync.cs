@@ -37,7 +37,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         string userId = Guid.NewGuid().ToString();
 
         _queryDispatcherMock
-            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == userId),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with ID {userId} not found."));
 

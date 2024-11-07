@@ -38,7 +38,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
             participantIds: @event.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly(),
             cancellationToken: cancellationToken);
 
-        if (notificationRecipients.Owner?.CanSendNotification is true)
+        if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
             message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
@@ -62,7 +62,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
             message.AppendLine(value: "Best regards,");
             message.AppendLine(value: "Expenso Team");
 
-            SendNotificationRequest ownerNotification = new(Subject: "Budget Permission Blocked",
+            SendNotificationRequest ownerNotification = new(Subject: "Budget Permission Unblocked",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
                     From: _notificationSettings.Email?.From ??
@@ -76,7 +76,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
 
         foreach (NotificationRecipient? participant in notificationRecipients.Participants)
         {
-            if (participant.CanSendNotification)
+            if (participant.CanSendNotifications)
             {
                 StringBuilder message = new();
                 message.Append(value: "Dear Participants,");
@@ -88,12 +88,9 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
                 message.AppendLine(value: "Below are the details of the unblocked permission:");
                 message.AppendLine();
 
-                if (notificationRecipients.Owner?.HasValue is true)
+                if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
                 {
-                    message
-                        .Append(value: "- Budget Owner: ")
-                        .Append(value: notificationRecipients.Owner.Fullname)
-                        .AppendLine();
+                    message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
                 }
 
                 message.AppendLine();
@@ -108,7 +105,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
                 message.AppendLine(value: "Best regards,");
                 message.AppendLine(value: "Expenso Team");
 
-                SendNotificationRequest participantNotification = new(Subject: "Budget Permission Blocked",
+                SendNotificationRequest participantNotification = new(Subject: "Budget Permission Unblocked",
                     Content: message.ToString(),
                     NotificationContext: new SendNotificationRequest_NotificationContext(
                         From: _notificationSettings.Email?.From ??

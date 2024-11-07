@@ -35,13 +35,13 @@ internal sealed class IamProxyService : IIamProxyService
             .Select(selector: x => new NotificationRecipient(UserId: x.UserId, Email: x.Email, Fullname: x.Fullname))
             .ToList();
 
-        GetUsersResponse? owner = users.FirstOrDefault(predicate: x => x.UserId == ownerId?.ToString());
+        GetUsersResponse? owner = users.FirstOrDefault(predicate: x => x.UserId == ownerId.ToString());
 
         if (owner is null)
         {
             _logger.LogWarning(eventId: LoggingUtils.GeneralWarning,
                 message:
-                "Cannot send notification to owner '{OwnerId}' as his notifications details could not be found",
+                "Cannot send notification to owner '{OwnerId}' as their notification details could not be found",
                 messageContext: messageContext, args: ownerId);
         }
 

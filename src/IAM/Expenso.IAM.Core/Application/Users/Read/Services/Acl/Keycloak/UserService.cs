@@ -66,7 +66,7 @@ internal sealed class UserService : IUserService
         return getUserResponse;
     }
 
-    public async Task<IReadOnlyCollection<GetUsersResponse>> GetUsers(GetUsersRequest? request,
+    public async Task<IReadOnlyCollection<GetUsersResponse>> GetUsersAsync(GetUsersRequest? request,
         CancellationToken cancellationToken)
     {
         List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(

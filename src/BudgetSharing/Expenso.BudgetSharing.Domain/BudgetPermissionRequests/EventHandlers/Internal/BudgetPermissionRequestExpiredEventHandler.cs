@@ -44,7 +44,7 @@ internal sealed class
         NotificationRecipient participant =
             notificationRecipients.Participants.FirstOrDefault() ?? NotificationRecipient.Empty;
 
-        if (notificationRecipients.Owner?.CanSendNotification is true)
+        if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
             message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
@@ -57,12 +57,9 @@ internal sealed class
             message.AppendLine(value: "Below are the details of the expired request:");
             message.AppendLine();
 
-            if (participant.HasValue)
+            if (participant.CanBeIncludedInNotifications)
             {
-                message
-                    .Append(value: "- Budget participant: ")
-                    .Append(value: participant.Fullname)
-                    .AppendLine();
+                message.AppendLine(handler: $"- Budget participant: {participant.Fullname}");
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -96,7 +93,7 @@ internal sealed class
                 cancellationToken: cancellationToken);
         }
 
-        if (participant.CanSendNotification)
+        if (participant.CanSendNotifications)
         {
             StringBuilder message = new();
             message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
@@ -105,12 +102,9 @@ internal sealed class
             message.AppendLine(value: "Below are the details of the expired request:");
             message.AppendLine();
 
-            if (notificationRecipients.Owner?.HasValue is true)
+            if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
             {
-                message
-                    .Append(value: "- Budget Owner: ")
-                    .Append(value: notificationRecipients.Owner.Fullname)
-                    .AppendLine();
+                message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();

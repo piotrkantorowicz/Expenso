@@ -16,6 +16,6 @@ internal sealed class GetUsersQueryHandler : IQueryHandler<GetUsersQuery, IReadO
     public async Task<IReadOnlyCollection<GetUsersResponse>?> HandleAsync(GetUsersQuery query,
         CancellationToken cancellationToken)
     {
-        return await _userService.GetUsers(request: query.Payload, cancellationToken: cancellationToken);
+        return await _userService.GetUsersAsync(request: query.Payload, cancellationToken: cancellationToken);
     }
 }

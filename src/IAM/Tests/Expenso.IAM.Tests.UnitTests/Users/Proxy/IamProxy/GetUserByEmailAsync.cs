@@ -35,11 +35,12 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         const string email = "email1@email.com";
+        const string errorMessage = $"User with email {email} not found";
 
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
                 It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found."));
+            .ThrowsAsync(exception: new NotFoundException(message: errorMessage));
 
         // Act
         Func<Task> action = async () =>
@@ -47,9 +48,6 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {email} not found");
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: errorMessage);
     }
 }

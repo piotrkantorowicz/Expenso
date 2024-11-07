@@ -38,7 +38,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
             participantIds: @event.Permissions.Select(selector: x => x.ParticipantId).ToList().AsReadOnly(),
             cancellationToken: cancellationToken);
 
-        if (notificationRecipients.Owner?.CanSendNotification is true)
+        if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
             message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
@@ -82,7 +82,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
 
         foreach (NotificationRecipient participant in notificationRecipients.Participants)
         {
-            if (participant.CanSendNotification)
+            if (participant.CanSendNotifications)
             {
                 StringBuilder message = new();
                 message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
@@ -91,12 +91,9 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
                 message.AppendLine(value: "Below are the details of the blocked permission:");
                 message.AppendLine();
 
-                if (notificationRecipients.Owner?.HasValue is true)
+                if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
                 {
-                    message
-                        .Append(value: "- Budget Owner: ")
-                        .Append(value: notificationRecipients.Owner.Fullname)
-                        .AppendLine();
+                    message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
                 }
 
                 message

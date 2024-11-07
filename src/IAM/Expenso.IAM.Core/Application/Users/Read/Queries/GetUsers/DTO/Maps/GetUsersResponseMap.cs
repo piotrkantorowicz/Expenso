@@ -13,7 +13,7 @@ public static class GetUsersResponseMap
 
     private static GetUsersResponse MapTo(UserRepresentation user)
     {
-        return new GetUsersResponse(UserId: user.Id!, Firstname: user.FirstName, Lastname: user.LastName,
-            Username: user.Username!, Email: user.Email!);
+        return new GetUsersResponse(UserId: user.Id, Firstname: user.FirstName, Lastname: user.LastName,
+            Username: user.Username, Email: user.Email);
     }
 }

@@ -48,8 +48,8 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             .ReturnsAsync(value: ArraySegment<UserRepresentation>.Empty);
 
         // Act
-        Func<Task> action = async () =>
-            await TestCandidate.GetUserByEmailAsync(request: new GetUserByEmailRequest(Email: _userEmail),
+        Func<Task> action = async () => await TestCandidate.GetUserByEmailAsync(
+            request: new GetUserByEmailRequest(Email: email),
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert

@@ -14,5 +14,6 @@ public interface IUserService
     Task<GetUserByEmailResponse> GetUserByEmailAsync(GetUserByEmailRequest? request,
         CancellationToken cancellationToken);
 
-    Task<IReadOnlyCollection<GetUsersResponse>> GetUsers(GetUsersRequest? request, CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<GetUsersResponse>> GetUsersAsync(GetUsersRequest? request,
+        CancellationToken cancellationToken);
 }
