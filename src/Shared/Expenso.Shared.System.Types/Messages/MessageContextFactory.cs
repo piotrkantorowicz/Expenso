@@ -30,9 +30,11 @@ internal sealed class MessageContextFactory : IMessageContextFactory
             ? id
             : Guid.Empty;
 
-        string resolvedModuleId = string.IsNullOrWhiteSpace(value: moduleId)
-            ? string.IsNullOrWhiteSpace(value: executionContext?.ModuleId) ? "Unknown" : executionContext.ModuleId
-            : moduleId;
+        string executionContextModuleId = !string.IsNullOrWhiteSpace(value: executionContext?.ModuleId)
+            ? executionContext.ModuleId
+            : "Unknown";
+
+        string resolvedModuleId = !string.IsNullOrWhiteSpace(value: moduleId) ? moduleId : executionContextModuleId;
 
         return new MessageContext(messageId: messageId ?? Guid.NewGuid(),
             correlationId: executionContext?.CorrelationId ?? Guid.Empty, requestedBy: requestedBy,
