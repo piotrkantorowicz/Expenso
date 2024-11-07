@@ -87,7 +87,7 @@ public static class StringExtensions
             return false;
         }
 
-        return target.All(predicate: ch => char.IsLetterOrDigit(c: ch));
+        return target.All(predicate: char.IsLetterOrDigit);
     }
 
     public static bool IsAlphaNumericAndSpecialCharactersString(this string? target, int minLength = 0,
