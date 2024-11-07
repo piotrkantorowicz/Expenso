@@ -3,10 +3,10 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
-namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryQueryHandler;
+namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryHandler;
 
 [TestFixture]
-internal sealed class HandleAsync : GetUserByEmailQueryQueryHandlerTestBase
+internal sealed class HandleAsync : GetUserByEmailQueryHandlerTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_SearchingByEmailAndUserExists()

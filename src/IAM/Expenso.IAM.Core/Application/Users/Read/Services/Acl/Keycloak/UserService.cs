@@ -73,6 +73,6 @@ internal sealed class UserService : IUserService
             realm: _keycloakSettings.Realm, parameters: GetUsersRequestMap.MapTo(request: request),
             cancellationToken: cancellationToken)).ToList();
 
-        return GetUsersResponseMap.MapTo(user: keycloakUsers);
+        return GetUsersResponseMap.MapTo(users: keycloakUsers);
     }
 }

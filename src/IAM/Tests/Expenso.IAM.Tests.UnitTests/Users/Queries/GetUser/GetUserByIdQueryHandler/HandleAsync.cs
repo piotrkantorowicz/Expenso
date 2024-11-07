@@ -3,10 +3,10 @@ using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
-namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryQueryHandler;
+namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryHandler;
 
 [TestFixture]
-internal sealed class HandleAsync : GetUserByIdQueryQueryHandlerTestBase
+internal sealed class HandleAsync : GetUserByIdQueryHandlerTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()

@@ -73,7 +73,7 @@ internal sealed class FakeIamProxy : IIamProxy
                 paramName: nameof(request.Limit));
         }
 
-        return GetUsersResponseMap.MapTo(user: await Task.FromResult(result: _users
+        return GetUsersResponseMap.MapTo(users: await Task.FromResult(result: _users
             .Where(predicate: request.Exact ? PredicateExact : PredicateRelative)
             .Take(count: request.Limit ?? int.MaxValue)
             .ToList()));
