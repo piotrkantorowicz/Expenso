@@ -34,11 +34,8 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetPreferencesQuery(
-                MessageContext: messageContext is null
-                    ? _messageContextFactory.Current(moduleId: Names.UserPreferencesModule)
-                    : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.UserPreferencesModule),
-                Payload: request),
-            cancellationToken: cancellationToken);
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.UserPreferencesModule), Payload: request), cancellationToken: cancellationToken);
     }
 
     public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest request,
@@ -46,10 +43,7 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
     {
         return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
             command: new CreatePreferenceCommand(
-                MessageContext: messageContext is null
-                    ? _messageContextFactory.Current(moduleId: Names.UserPreferencesModule)
-                    : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.UserPreferencesModule),
-                Payload: request),
-            cancellationToken: cancellationToken);
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.UserPreferencesModule), Payload: request), cancellationToken: cancellationToken);
     }
 }

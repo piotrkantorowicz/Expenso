@@ -17,7 +17,9 @@ internal abstract class TestBase
 
         MessageContextFactoryMock
             .Setup(expression: x => x.Current(It.IsAny<Guid?>(), It.IsAny<string?>()))
-            .Returns(value: _messageContext);
+            .Returns(value: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+                requestedBy: Guid.NewGuid(), timestamp: DateTimeOffset.Now, module: "TestModule"));
+
         _httpClient = WebApp.Instance.GetHttpClient();
 
         return Task.CompletedTask;
@@ -31,15 +33,6 @@ internal abstract class TestBase
 
         return Task.CompletedTask;
     }
-
-    private readonly MessageContext _messageContext = new()
-    {
-        MessageId = Guid.NewGuid(),
-        CorrelationId = Guid.NewGuid(),
-        RequestedBy = Guid.NewGuid(),
-        Timestamp = DateTimeOffset.Now,
-        ModuleId = "TestModule"
-    };
 
     protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;
 

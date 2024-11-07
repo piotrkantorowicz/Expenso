@@ -15,7 +15,8 @@ public abstract class TestBase<T> where T : class
 
         MessageContextFactoryMock
             .Setup(expression: x => x.Current(It.IsAny<Guid?>(), It.IsAny<string?>()))
-            .Returns(value: _messageContext);
+            .Returns(value: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+                requestedBy: Guid.NewGuid(), timestamp: DateTimeOffset.Now, module: "TestModule"));
     }
 
     [OneTimeTearDown]
@@ -24,9 +25,6 @@ public abstract class TestBase<T> where T : class
         MessageContextFactoryMock = null!;
         TestCandidate = null!;
     }
-
-    private readonly MessageContext _messageContext = new(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
-        requestedBy: Guid.NewGuid(), timestamp: DateTimeOffset.Now, module: "TestModule");
 
     protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;
 

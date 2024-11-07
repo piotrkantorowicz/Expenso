@@ -31,9 +31,7 @@ internal sealed class IamProxy : IIamProxy
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByIdQuery(MessageContext:             messageContext is null
-            ? _messageContextFactory.Current(moduleId: Names.IamModule)
-            : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
+            query: new GetUserByIdQuery(MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 
@@ -41,9 +39,7 @@ internal sealed class IamProxy : IIamProxy
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByEmailQuery(            MessageContext: messageContext is null
-                ? _messageContextFactory.Current(moduleId: Names.IamModule)
-                : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
+            query: new GetUserByEmailQuery(            MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 
@@ -51,9 +47,7 @@ internal sealed class IamProxy : IIamProxy
         CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUsersQuery(            MessageContext: messageContext is null
-                ? _messageContextFactory.Current(moduleId: Names.IamModule)
-                : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
+            query: new GetUsersQuery(           MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 }

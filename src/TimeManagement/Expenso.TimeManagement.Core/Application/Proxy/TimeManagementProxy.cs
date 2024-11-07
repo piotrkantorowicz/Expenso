@@ -21,15 +21,13 @@ internal sealed class TimeManagementProxy : ITimeManagementProxy
                                  throw new ArgumentNullException(paramName: nameof(messageContextFactory));
     }
 
-    public async Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest jobEntryRequest,
+    public async Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest request,
         IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<RegisterJobEntryCommand, RegisterJobEntryResponse>(
             command: new RegisterJobEntryCommand(
-                MessageContext: messageContext is null
-                    ? _messageContextFactory.Current(moduleId: Names.TimeManagementModule)
-                    : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.TimeManagementModule),
-                Payload: jobEntryRequest), cancellationToken: cancellationToken);
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.TimeManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 }

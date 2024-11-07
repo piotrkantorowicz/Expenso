@@ -25,27 +25,21 @@ internal sealed class CommunicationProxy : ICommunicationProxy
     {
         await _commandDispatcher.SendAsync(
             command: new SendNotificationCommand(
-                MessageContext: messageContext is null
-                    ? _messageContextFactory.Current(moduleId: Names.CommunicationModule)
-                    : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.CommunicationModule),
-                Payload: request),
-            cancellationToken: cancellationToken);
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.CommunicationModule), Payload: request), cancellationToken: cancellationToken);
     }
 
     public async Task SendNotificationsAsync(IReadOnlyCollection<SendNotificationRequest> requests,
-        IMessageContext? messageContext = null,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         List<Task> sendNotificationTasks = [];
 
-        foreach (SendNotificationRequest request in requests)
-        {
-            sendNotificationTasks.Add(item: _commandDispatcher.SendAsync(command: new SendNotificationCommand(
-                MessageContext: messageContext is null
-                    ? _messageContextFactory.Current(moduleId: Names.CommunicationModule)
-                    : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.CommunicationModule),
-                    Payload: request), cancellationToken: cancellationToken));
-        }
+        sendNotificationTasks.AddRange(collection: requests.Select(selector: request =>
+            _commandDispatcher.SendAsync(
+                command: new SendNotificationCommand(
+                    MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                        moduleId: Names.CommunicationModule), Payload: request),
+                cancellationToken: cancellationToken)));
 
         await Task.WhenAll(tasks: sendNotificationTasks);
     }

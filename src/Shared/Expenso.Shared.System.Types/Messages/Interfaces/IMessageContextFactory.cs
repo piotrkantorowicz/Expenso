@@ -4,5 +4,5 @@ public interface IMessageContextFactory
 {
     IMessageContext Current(Guid? messageId = null, string? moduleId = null);
 
-    IMessageContext FromParent(IMessageContext parent, string? moduleId, Guid? messageId = null);
+    IMessageContext FromParent(IMessageContext? parent, string? moduleId, Guid? messageId = null);
 }

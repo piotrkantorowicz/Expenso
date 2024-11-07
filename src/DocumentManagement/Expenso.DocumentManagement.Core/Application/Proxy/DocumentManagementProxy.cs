@@ -30,36 +30,30 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest getFileRequest,
-        IMessageContext? messageContext = null,
-        CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest request,
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetFilesQuery(
-                MessageContext: messageContext is null
-                    ? _messageContextFactory.Current(moduleId: Names.DocumentManagementModule)
-                    : _messageContextFactory.FromParent(parent: messageContext,
-                        moduleId: Names.DocumentManagementModule), Payload: getFileRequest),
-            cancellationToken: cancellationToken);
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 
-    public async Task UploadFilesAsync(UploadFilesRequest uploadFilesRequest, IMessageContext? messageContext = null,
+    public async Task UploadFilesAsync(UploadFilesRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(command: new UploadFilesCommand(
-            MessageContext: messageContext is null
-                ? _messageContextFactory.Current(moduleId: Names.DocumentManagementModule)
-                : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.DocumentManagementModule),
-                Payload: uploadFilesRequest), cancellationToken: cancellationToken);
+        await _commandDispatcher.SendAsync(
+            command: new UploadFilesCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 
-    public async Task DeleteFilesAsync(DeleteFilesRequest deleteFilesRequest, IMessageContext? messageContext = null,
+    public async Task DeleteFilesAsync(DeleteFilesRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
-        await _commandDispatcher.SendAsync(command: new DeleteFilesCommand(
-            MessageContext: messageContext is null
-                ? _messageContextFactory.Current(moduleId: Names.DocumentManagementModule)
-                : _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.DocumentManagementModule),
-                Payload: deleteFilesRequest), cancellationToken: cancellationToken);
+        await _commandDispatcher.SendAsync(
+            command: new DeleteFilesCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 }
