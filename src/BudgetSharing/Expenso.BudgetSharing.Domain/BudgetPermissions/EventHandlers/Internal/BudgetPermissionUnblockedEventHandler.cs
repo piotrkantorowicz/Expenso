@@ -74,12 +74,12 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
                 cancellationToken: cancellationToken);
         }
 
-        foreach (NotificationRecipient? participant in notificationRecipients.Participants)
+        foreach (NotificationRecipient participant in notificationRecipients.Participants)
         {
             if (participant.CanSendNotifications)
             {
                 StringBuilder message = new();
-                message.Append(value: "Dear Participants,");
+                message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
                 message.AppendLine();
 
                 message.AppendLine(
@@ -90,7 +90,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
 
                 if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
                 {
-                    message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
+                    message.Append(value: "- Budget Owner: ").AppendLine(value: notificationRecipients.Owner.Fullname);
                 }
 
                 message.AppendLine();

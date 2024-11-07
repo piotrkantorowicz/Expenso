@@ -33,15 +33,13 @@ internal sealed class BudgetPermissionWithdrawnEventHandler : IDomainEventHandle
 
     public async Task HandleAsync(BudgetPermissionWithdrawnEvent @event, CancellationToken cancellationToken)
     {
-        NotificationRecipients notificationRecipients =
-            await _iamProxyService.GetUserNotificationAvailability(messageContext: @event.MessageContext,
-                ownerId: @event.OwnerId, participantIds:
-                [
-                    @event.ParticipantId
-                ], cancellationToken: cancellationToken);
+        NotificationRecipients notificationRecipients = await _iamProxyService.GetUserNotificationAvailability(
+            messageContext: @event.MessageContext, ownerId: @event.OwnerId, participantIds:
+            [
+                @event.ParticipantId
+            ], cancellationToken: cancellationToken);
 
-        NotificationRecipient participant =
-            notificationRecipients.Participants.FirstOrDefault() ?? NotificationRecipient.Empty;
+        NotificationRecipient? participant = notificationRecipients.Participants.FirstOrDefault();
 
         if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
@@ -55,9 +53,9 @@ internal sealed class BudgetPermissionWithdrawnEventHandler : IDomainEventHandle
             message.AppendLine(value: "Below are the details of the withdrawn permission:");
             message.AppendLine();
 
-            if (participant.CanBeIncludedInNotifications)
+            if (participant?.CanBeIncludedInNotifications is true)
             {
-                message.AppendLine(handler: $"- Budget participant: {participant.Fullname}");
+                message.Append(value: "- Budget participant: ").AppendLine(value: participant.Fullname);
             }
 
             message.Append(value: "- Withdrawn permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -85,7 +83,7 @@ internal sealed class BudgetPermissionWithdrawnEventHandler : IDomainEventHandle
                 cancellationToken: cancellationToken);
         }
 
-        if (participant.CanSendNotifications)
+        if (participant?.CanSendNotifications is true)
         {
             StringBuilder message = new();
             message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
@@ -96,7 +94,7 @@ internal sealed class BudgetPermissionWithdrawnEventHandler : IDomainEventHandle
 
             if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
             {
-                message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
+                message.AppendLine(value: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
             }
 
             message.Append(value: "- Withdrawn permission: ").Append(value: @event.PermissionType).AppendLine();

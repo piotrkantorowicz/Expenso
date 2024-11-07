@@ -93,7 +93,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
 
                 if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
                 {
-                    message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
+                    message.Append(value: "- Budget Owner: ").AppendLine(value: notificationRecipients.Owner.Fullname);
                 }
 
                 message

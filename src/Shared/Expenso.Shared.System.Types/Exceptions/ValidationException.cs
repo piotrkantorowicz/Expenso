@@ -33,7 +33,7 @@ public class ValidationException : Exception
 
         foreach ((string key, string value) in errorDictionary)
         {
-            stringBuilder.AppendLine(handler: $"{key.Pascalize()}: {value}");
+            stringBuilder.AppendLine(value: $"{key.Pascalize()}: {value}");
         }
 
         Details = stringBuilder.ToString();

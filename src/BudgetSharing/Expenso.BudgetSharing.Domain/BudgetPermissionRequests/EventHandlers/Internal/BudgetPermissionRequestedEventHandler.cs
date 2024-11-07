@@ -40,8 +40,7 @@ internal sealed class BudgetPermissionRequestedEventHandler : IDomainEventHandle
                     @event.ParticipantId
                 ], cancellationToken: cancellationToken);
 
-        NotificationRecipient participant =
-            notificationRecipients.Participants.FirstOrDefault() ?? NotificationRecipient.Empty;
+        NotificationRecipient? participant = notificationRecipients.Participants.FirstOrDefault();
 
         if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
@@ -56,9 +55,9 @@ internal sealed class BudgetPermissionRequestedEventHandler : IDomainEventHandle
             message.AppendLine(value: "Below are the details of the request:");
             message.AppendLine();
 
-            if (participant.CanBeIncludedInNotifications)
+            if (participant?.CanBeIncludedInNotifications is true)
             {
-                message.AppendLine(handler: $"- Budget participant: {participant.Fullname}");
+                message.Append(value: "- Budget participant: ").AppendLine(value: participant.Fullname);
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -92,7 +91,7 @@ internal sealed class BudgetPermissionRequestedEventHandler : IDomainEventHandle
                 cancellationToken: cancellationToken);
         }
 
-        if (participant.CanSendNotifications)
+        if (participant?.CanSendNotifications is true)
         {
             StringBuilder message = new();
             message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
@@ -103,7 +102,7 @@ internal sealed class BudgetPermissionRequestedEventHandler : IDomainEventHandle
 
             if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
             {
-                message.AppendLine(handler: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
+                message.AppendLine(value: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
