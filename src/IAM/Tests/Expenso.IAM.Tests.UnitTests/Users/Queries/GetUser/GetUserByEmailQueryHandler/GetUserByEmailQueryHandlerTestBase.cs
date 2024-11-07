@@ -1,15 +1,16 @@
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
-namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryQueryHandler;
+namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryHandler;
 
 [TestFixture]
-internal abstract class GetUserByEmailQueryQueryHandlerTestBase : TestBase<GetUserByEmailQueryHandler>
+internal abstract class
+    GetUserByEmailQueryHandlerTestBase : TestBase<
+    Core.Application.Users.Read.Queries.GetUserByEmail.GetUserByEmailQueryHandler>
 {
     [SetUp]
     public void SetUp()
@@ -28,7 +29,10 @@ internal abstract class GetUserByEmailQueryQueryHandlerTestBase : TestBase<GetUs
         _getUserByEmailResponse = GetUserByEmailResponseMap.MapTo(user: user);
         _userServiceMock = new Mock<IUserService>();
         _messageContextMock = new Mock<IMessageContext>();
-        TestCandidate = new GetUserByEmailQueryHandler(userService: _userServiceMock.Object);
+
+        TestCandidate =
+            new Core.Application.Users.Read.Queries.GetUserByEmail.GetUserByEmailQueryHandler(
+                userService: _userServiceMock.Object);
     }
 
     protected GetUserByEmailResponse _getUserByEmailResponse = null!;

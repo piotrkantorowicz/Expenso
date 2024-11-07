@@ -1,4 +1,4 @@
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
 using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;

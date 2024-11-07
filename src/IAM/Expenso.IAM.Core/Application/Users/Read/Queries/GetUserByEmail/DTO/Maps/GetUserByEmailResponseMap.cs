@@ -2,7 +2,7 @@
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
-namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 
 public static class GetUserByEmailResponseMap
 {

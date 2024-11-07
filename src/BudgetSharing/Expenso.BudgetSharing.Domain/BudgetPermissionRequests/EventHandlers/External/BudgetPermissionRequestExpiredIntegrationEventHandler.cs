@@ -23,6 +23,6 @@ internal sealed class
         CancellationToken cancellationToken)
     {
         await _budgetPermissionRequestExpirationDomainService.MarkBudgetPermissionRequestAsExpireAsync(
-            budgetPermissionRequestId: @event.Payload?.BudgetPermissionRequestId, cancellationToken: cancellationToken);
+            budgetPermissionRequestId: @event.Payload.BudgetPermissionRequestId, cancellationToken: cancellationToken);
     }
 }

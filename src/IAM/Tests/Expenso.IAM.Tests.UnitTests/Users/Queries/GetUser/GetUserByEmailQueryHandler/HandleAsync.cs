@@ -3,10 +3,10 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
-namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryQueryHandler;
+namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryHandler;
 
 [TestFixture]
-internal sealed class HandleAsync : GetUserByEmailQueryQueryHandlerTestBase
+internal sealed class HandleAsync : GetUserByEmailQueryHandlerTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_SearchingByEmailAndUserExists()
@@ -16,7 +16,8 @@ internal sealed class HandleAsync : GetUserByEmailQueryQueryHandlerTestBase
             Payload: new GetUserByEmailRequest(Email: _userEmail));
 
         _userServiceMock
-            .Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.GetUserByEmailAsync(new GetUserByEmailRequest(_userEmail), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         // Act
@@ -35,7 +36,8 @@ internal sealed class HandleAsync : GetUserByEmailQueryQueryHandlerTestBase
         GetUserByEmailQuery query = new(MessageContext: _messageContextMock.Object,
             Payload: new GetUserByEmailRequest(Email: _userEmail));
 
-        _userServiceMock.Setup(expression: x => x.GetUserByEmailAsync(_userEmail, It.IsAny<CancellationToken>()))!
+        _userServiceMock.Setup(expression: x =>
+                x.GetUserByEmailAsync(new GetUserByEmailRequest(_userEmail), It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
 
         // Act

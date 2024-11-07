@@ -15,6 +15,6 @@ internal sealed class GetUserByIdQueryQueryHandler : IQueryHandler<GetUserByIdQu
 
     public async Task<GetUserByIdResponse?> HandleAsync(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        return await _userService.GetUserByIdAsync(userId: query.Payload?.UserId, cancellationToken: cancellationToken);
+        return await _userService.GetUserByIdAsync(request: query.Payload, cancellationToken: cancellationToken);
     }
 }

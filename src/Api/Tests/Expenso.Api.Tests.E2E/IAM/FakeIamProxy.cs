@@ -1,9 +1,14 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 using Expenso.IAM.Shared;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
+using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
+using Expenso.IAM.Shared.DTO.GetUsers.Request;
+using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -43,17 +48,63 @@ internal sealed class FakeIamProxy : IIamProxy
         }
     ];
 
-    public async Task<GetUserByIdResponse?> GetUserByIdAsync(string userId, CancellationToken cancellationToken)
+    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
+        CancellationToken cancellationToken)
     {
         return GetUserByIdResponseMap.MapTo(user: await Task.FromResult(
-            result: _users.FirstOrDefault(predicate: x => x.Id == userId) ??
-                    throw new NotFoundException(message: $"User with id {userId} not found.")));
+            result: _users.FirstOrDefault(predicate: x => x.Id == request.UserId) ??
+                    throw new NotFoundException(message: $"User with id {request.UserId} not found.")));
     }
 
-    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
+        CancellationToken cancellationToken)
     {
         return GetUserByEmailResponseMap.MapTo(user: await Task.FromResult(
-            result: _users.FirstOrDefault(predicate: x => x.Email == email) ??
-                    throw new NotFoundException(message: $"User with email {email} not found.")));
+            result: _users.FirstOrDefault(predicate: x => x.Email == request.Email) ??
+                    throw new NotFoundException(message: $"User with email {request.Email} not found.")));
+    }
+
+    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (request.Limit <= 0)
+        {
+            throw new ArgumentException(message: "Limit cannot be negative or equal to 0",
+                paramName: nameof(request.Limit));
+        }
+
+        return GetUsersResponseMap.MapTo(users: await Task.FromResult(result: _users
+            .Where(predicate: request.Exact ? PredicateExact : PredicateRelative)
+            .Take(count: request.Limit ?? int.MaxValue)
+            .ToList()));
+
+        bool PredicateRelative(UserRepresentation x)
+        {
+            return (string.IsNullOrWhiteSpace(value: request.Email) ||
+                    x.Email?.Contains(value: request.Email, comparisonType: StringComparison.OrdinalIgnoreCase) ==
+                    true) &&
+                   (string.IsNullOrWhiteSpace(value: request.Firstname) || x.FirstName?.Contains(
+                       value: request.Firstname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase) == true) &&
+                   (string.IsNullOrWhiteSpace(value: request.Lastname) || x.LastName?.Contains(value: request.Lastname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase) == true) &&
+                   (string.IsNullOrWhiteSpace(value: request.Username) || x.Username?.Contains(value: request.Username,
+                       comparisonType: StringComparison.OrdinalIgnoreCase) == true);
+        }
+
+        bool PredicateExact(UserRepresentation x)
+        {
+            return (string.IsNullOrWhiteSpace(value: request.Email) || string.Equals(a: x.Email, b: request.Email,
+                       comparisonType: StringComparison.OrdinalIgnoreCase)) &&
+                   (string.IsNullOrWhiteSpace(value: request.Firstname) || string.Equals(a: x.FirstName,
+                       b: request.Firstname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase)) &&
+                   (string.IsNullOrWhiteSpace(value: request.Lastname) || string.Equals(a: x.LastName,
+                       b: request.Lastname,
+                       comparisonType: StringComparison.OrdinalIgnoreCase)) &&
+                   (string.IsNullOrWhiteSpace(value: request.Username) || string.Equals(a: x.Username,
+                       b: request.Username,
+                       comparisonType: StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

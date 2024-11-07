@@ -3,10 +3,10 @@ using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
-namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryQueryHandler;
+namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryHandler;
 
 [TestFixture]
-internal sealed class HandleAsync : GetUserByIdQueryQueryHandlerTestBase
+internal sealed class HandleAsync : GetUserByIdQueryHandlerTestBase
 {
     [Test]
     public async Task Should_ReturnUser_When_SearchingByIdAndUserExists()
@@ -16,7 +16,7 @@ internal sealed class HandleAsync : GetUserByIdQueryQueryHandlerTestBase
             Payload: new GetUserByIdRequest(UserId: _userId));
 
         _userServiceMock
-            .Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByIdAsync(new GetUserByIdRequest(_userId), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByIdResponse);
 
         // Act
@@ -35,7 +35,8 @@ internal sealed class HandleAsync : GetUserByIdQueryQueryHandlerTestBase
         GetUserByIdQuery query = new(MessageContext: _messageContextMock.Object,
             Payload: new GetUserByIdRequest(UserId: _userId));
 
-        _userServiceMock.Setup(expression: x => x.GetUserByIdAsync(_userId, It.IsAny<CancellationToken>()))!
+        _userServiceMock.Setup(expression: x =>
+                x.GetUserByIdAsync(new GetUserByIdRequest(_userId), It.IsAny<CancellationToken>()))!
             .ReturnsAsync(value: null);
 
         // Act

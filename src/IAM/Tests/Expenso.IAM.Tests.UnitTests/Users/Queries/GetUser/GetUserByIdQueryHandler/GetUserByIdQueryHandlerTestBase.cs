@@ -1,3 +1,4 @@
+using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
@@ -5,12 +6,11 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
-namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryQueryHandler;
+namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryHandler;
 
 [TestFixture]
-internal abstract class
-    GetUserByIdQueryQueryHandlerTestBase : TestBase<
-    Core.Application.Users.Read.Queries.GetUserById.GetUserByIdQueryQueryHandler>
+internal abstract class GetUserByIdQueryHandlerTestBase : TestBase<
+    GetUserByIdQueryQueryHandler>
 {
     [SetUp]
     public void SetUp()
@@ -31,7 +31,7 @@ internal abstract class
         _messageContextMock = new Mock<IMessageContext>();
 
         TestCandidate =
-            new Core.Application.Users.Read.Queries.GetUserById.GetUserByIdQueryQueryHandler(
+            new GetUserByIdQueryQueryHandler(
                 userService: _userServiceMock.Object);
     }
 

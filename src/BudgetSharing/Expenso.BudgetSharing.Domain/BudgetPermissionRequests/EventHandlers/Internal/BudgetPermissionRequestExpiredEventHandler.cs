@@ -34,20 +34,19 @@ internal sealed class
 
     public async Task HandleAsync(BudgetPermissionRequestExpiredEvent @event, CancellationToken cancellationToken)
     {
-        (PersonNotificationModel? owner, IReadOnlyCollection<PersonNotificationModel> participants) =
+        NotificationRecipients notificationRecipients =
             await _iamProxyService.GetUserNotificationAvailability(messageContext: @event.MessageContext,
                 ownerId: @event.OwnerId, participantIds:
                 [
                     @event.ParticipantId
                 ], cancellationToken: cancellationToken);
 
-        PersonNotificationModel? participant =
-            participants.FirstOrDefault(predicate: x => x.Person?.UserId == @event.ParticipantId.ToString());
+        NotificationRecipient? participant = notificationRecipients.Participants.FirstOrDefault();
 
-        if (owner?.CanSendNotification is true)
+        if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: owner.Person!.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
             message.AppendLine();
 
             message.AppendLine(
@@ -57,12 +56,9 @@ internal sealed class
             message.AppendLine(value: "Below are the details of the expired request:");
             message.AppendLine();
 
-            if (participant?.Person is not null)
+            if (participant?.CanBeIncludedInNotifications is true)
             {
-                message
-                    .Append(value: "- Budget participant: ")
-                    .Append(value: participant.Person?.Fullname)
-                    .AppendLine();
+                message.Append(value: "- Budget participant: ").AppendLine(value: participant.Fullname);
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -89,25 +85,25 @@ internal sealed class
                 NotificationContext: new SendNotificationRequest_NotificationContext(
                     From: _notificationSettings.Email?.From ??
                           throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
-                    To: owner.Person!.Email),
+                    To: notificationRecipients.Owner.Email!),
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
                 cancellationToken: cancellationToken);
         }
 
-        if (participant?.CanSendNotification is true)
+        if (participant?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: participant.Person?.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
             message.AppendLine();
             message.AppendLine(value: "We regret to inform you that your budget permission request has expired.");
             message.AppendLine(value: "Below are the details of the expired request:");
             message.AppendLine();
 
-            if (owner?.Person is not null)
+            if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
             {
-                message.Append(value: "- Budget Owner: ").Append(value: owner.Person?.Fullname).AppendLine();
+                message.AppendLine(value: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -135,7 +131,7 @@ internal sealed class
                 NotificationContext: new SendNotificationRequest_NotificationContext(
                     From: _notificationSettings.Email?.From ??
                           throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
-                    To: participant.Person!.Email),
+                    To: participant.Email!),
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: participantNotification,

@@ -6,6 +6,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.Rules;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
@@ -54,7 +55,8 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
         ]);
 
         GetUserByEmailResponse? user =
-            await _iamProxy.GetUserByEmailAsync(email: email!, cancellationToken: cancellationToken);
+            await _iamProxy.GetUserByEmailAsync(request: new GetUserByEmailRequest(Email: email!),
+                cancellationToken: cancellationToken);
 
         DomainModelState.CheckBusinessRules(businessRules:
         [

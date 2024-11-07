@@ -1,4 +1,5 @@
-﻿using Expenso.IAM.Shared.DTO.GetUserById.Response;
+﻿using Expenso.IAM.Shared.DTO.GetUserById.Request;
+using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
@@ -15,8 +16,8 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
             .ReturnsAsync(value: _user);
 
         // Act
-        GetUserByIdResponse getUser =
-            await TestCandidate.GetUserByIdAsync(userId: _userId, cancellationToken: It.IsAny<CancellationToken>());
+        GetUserByIdResponse getUser = await TestCandidate.GetUserByIdAsync(
+            request: new GetUserByIdRequest(UserId: _userId), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUser.Should().NotBeNull();
@@ -39,7 +40,8 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>());
+            await TestCandidate.GetUserByIdAsync(request: new GetUserByIdRequest(UserId: userId),
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         action

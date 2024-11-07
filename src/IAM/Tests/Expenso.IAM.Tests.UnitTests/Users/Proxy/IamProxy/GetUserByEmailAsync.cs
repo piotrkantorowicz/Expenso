@@ -1,4 +1,5 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail;
+using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -17,9 +18,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         // Act
-        GetUserByEmailResponse? getUserResponse =
-            await TestCandidate.GetUserByEmailAsync(email: _userEmail,
-                cancellationToken: It.IsAny<CancellationToken>());
+        GetUserByEmailResponse? getUserResponse = await TestCandidate.GetUserByEmailAsync(
+            request: new GetUserByEmailRequest(Email: _userEmail), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();
@@ -35,20 +35,19 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         const string email = "email1@email.com";
+        const string errorMessage = $"User with email {email} not found";
 
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
                 It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: $"User with email {email} not found."));
+            .ThrowsAsync(exception: new NotFoundException(message: errorMessage));
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.GetUserByEmailAsync(email: email, cancellationToken: It.IsAny<CancellationToken>());
+            await TestCandidate.GetUserByEmailAsync(request: new GetUserByEmailRequest(Email: email),
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {email} not found");
+        action.Should().ThrowAsync<NotFoundException>().WithMessage(expectedWildcardPattern: errorMessage);
     }
 }

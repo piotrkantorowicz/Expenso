@@ -1,7 +1,8 @@
 ﻿using Expenso.BudgetSharing.Domain.Shared.Shared.Notifications.Models;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
-using Expenso.IAM.Shared.DTO.GetUserById.Response;
+using Expenso.IAM.Shared.DTO.GetUsers.Request;
+using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -18,49 +19,36 @@ internal sealed class IamProxyService : IIamProxyService
         _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
     }
 
-    public async Task<UserNotificationModel> GetUserNotificationAvailability(IMessageContext messageContext,
+    // TODO: Consider using user preferences to determine if a user should receive notifications
+    public async Task<NotificationRecipients> GetUserNotificationAvailability(IMessageContext messageContext,
         PersonId ownerId, IReadOnlyCollection<PersonId> participantIds, CancellationToken cancellationToken)
     {
-        GetUserByIdResponse? owner =
-            await _iamProxy.GetUserByIdAsync(userId: ownerId.ToString(), cancellationToken: cancellationToken);
+        // As long as keycloak not support get many users by ids, we will get all users and filter them
+        // it is not optimal, but we don't have so many users in the system so it is fine for now
+        // there is a feature request to add get many users by ids in keycloak
+        // https://github.com/keycloak/keycloak/issues/12025
+        IReadOnlyCollection<GetUsersResponse> users = await _iamProxy.GetUsersAsync(
+            request: new GetUsersRequest(Limit: int.MaxValue), cancellationToken: cancellationToken) ?? [];
 
-        bool canSendNotificationToOwner = true;
+        ICollection<NotificationRecipient> participantsNotificationModels = users
+            .Where(predicate: x => participantIds.Select(selector: y => y.ToString()).Contains(value: x.UserId))
+            .Select(selector: x => new NotificationRecipient(UserId: x.UserId, Email: x.Email, Fullname: x.Fullname))
+            .ToList();
+
+        GetUsersResponse? owner = users.FirstOrDefault(predicate: x => x.UserId == ownerId.ToString());
 
         if (owner is null)
         {
             _logger.LogWarning(eventId: LoggingUtils.GeneralWarning,
-                message: "Cannot send notification to owner '{OwnerId}' as their email could not be found",
+                message:
+                "Cannot send notification to owner '{OwnerId}' as their notification details could not be found",
                 messageContext: messageContext, args: ownerId);
-
-            canSendNotificationToOwner = false;
         }
 
-        ICollection<PersonNotificationModel> participantsNotificationModels = [];
-
-        // TODO: Implement get many users endpoint in IAM
-        foreach (PersonId participantId in participantIds)
-        {
-            GetUserByIdResponse? participant = await _iamProxy.GetUserByIdAsync(userId: participantId.ToString(),
-                cancellationToken: cancellationToken);
-
-            bool canSendNotificationToParticipant = true;
-
-            if (participant is null)
-            {
-                _logger.LogWarning(eventId: LoggingUtils.GeneralWarning,
-                    message:
-                    "Cannot send notification to participant {ParticipantId} as their email could not be found",
-                    messageContext: messageContext, args: participantId);
-
-                canSendNotificationToParticipant = false;
-            }
-
-            participantsNotificationModels.Add(item: new PersonNotificationModel(Person: participant,
-                CanSendNotification: canSendNotificationToParticipant));
-        }
-
-        return new UserNotificationModel(
-            Owner: new PersonNotificationModel(Person: owner, CanSendNotification: canSendNotificationToOwner),
+        return new NotificationRecipients(
+            Owner: owner is null
+                ? NotificationRecipient.Empty
+                : new NotificationRecipient(UserId: owner.UserId, Email: owner.Email, Fullname: owner.Fullname),
             Participants: participantsNotificationModels.ToList().AsReadOnly());
     }
 }

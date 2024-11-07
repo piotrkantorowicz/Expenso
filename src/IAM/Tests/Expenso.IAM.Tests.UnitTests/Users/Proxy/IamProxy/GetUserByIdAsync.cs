@@ -1,4 +1,5 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById;
+using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 
@@ -17,8 +18,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
             .ReturnsAsync(value: _getUserByIdResponse);
 
         // Act
-        GetUserByIdResponse? getUserResponse =
-            await TestCandidate.GetUserByIdAsync(userId: _userId, cancellationToken: It.IsAny<CancellationToken>());
+        GetUserByIdResponse? getUserResponse = await TestCandidate.GetUserByIdAsync(
+            request: new GetUserByIdRequest(UserId: _userId), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUserResponse.Should().NotBeNull();
@@ -36,13 +37,14 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         string userId = Guid.NewGuid().ToString();
 
         _queryDispatcherMock
-            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == _userId),
+            .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == userId),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with ID {userId} not found."));
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.GetUserByIdAsync(userId: userId, cancellationToken: It.IsAny<CancellationToken>());
+            await TestCandidate.GetUserByIdAsync(request: new GetUserByIdRequest(UserId: userId),
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         action

@@ -77,7 +77,7 @@ public static class StringExtensions
             return false;
         }
 
-        return target.All(predicate: ch => char.IsLetter(c: ch) && !char.IsWhiteSpace(c: ch));
+        return target.All(predicate: char.IsLetter);
     }
 
     public static bool IsAlphaNumericString(this string? target, int minLength = 0, int maxLength = int.MaxValue)
@@ -87,7 +87,7 @@ public static class StringExtensions
             return false;
         }
 
-        return target.All(predicate: ch => char.IsLetterOrDigit(c: ch) && !char.IsWhiteSpace(c: ch));
+        return target.All(predicate: char.IsLetterOrDigit);
     }
 
     public static bool IsAlphaNumericAndSpecialCharactersString(this string? target, int minLength = 0,
@@ -98,8 +98,7 @@ public static class StringExtensions
             return false;
         }
 
-        return target.All(predicate: ch =>
-            (char.IsLetterOrDigit(c: ch) || specialCharacters.Contains(value: ch)) && !char.IsWhiteSpace(c: ch));
+        return target.All(predicate: ch => char.IsLetterOrDigit(c: ch) || specialCharacters.Contains(value: ch));
     }
 
     public static bool IsValidUrl(this string? url)
