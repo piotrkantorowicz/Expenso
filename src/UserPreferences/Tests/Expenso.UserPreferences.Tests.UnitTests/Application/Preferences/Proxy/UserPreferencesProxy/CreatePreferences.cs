@@ -17,9 +17,7 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
             .Setup(expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
                 new CreatePreferenceCommand(
                     MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
-                        It.IsAny<Guid>()),
-                    createPreferenceRequest),
-                It.IsAny<CancellationToken>()))
+                        It.IsAny<Guid>()), createPreferenceRequest), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _createPreferenceResponse);
 
         // Act
@@ -31,9 +29,10 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
         preference.Should().BeEquivalentTo(expectation: _createPreferenceResponse);
 
         _commandDispatcherMock.Verify(
-            expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(new CreatePreferenceCommand(
-                MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
-                    It.IsAny<Guid>()),
-                    new CreatePreferenceRequest(_userId)), It.IsAny<CancellationToken>()), times: Times.Once);
+            expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
+                new CreatePreferenceCommand(
+                    MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
+                        It.IsAny<Guid>()), new CreatePreferenceRequest(_userId)), It.IsAny<CancellationToken>()),
+            times: Times.Once);
     }
 }

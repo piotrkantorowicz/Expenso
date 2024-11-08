@@ -19,7 +19,7 @@ internal sealed class GetBudgetPermissionsAsync : BudgetSharingProxyTestBase
 
         List<GetBudgetPermissionsResponse> response =
         [
-            new GetBudgetPermissionsResponse(Id: Guid.NewGuid(), BudgetId: Guid.NewGuid(), OwnerId: Guid.NewGuid(),
+            new(Id: Guid.NewGuid(), BudgetId: Guid.NewGuid(), OwnerId: Guid.NewGuid(),
                 Permissions: new List<GetBudgetPermissionsResponse_Permission>
                 {
                     new(ParticipantId: Guid.NewGuid(),

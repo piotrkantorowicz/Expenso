@@ -17,17 +17,17 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     public void Should_NotThrow()
     {
         // Arrange
+        TEvent @event = CreateEvent();
+
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
-                _defaultOwnerId, new[]
+            .Setup(expression: x => x.GetUserNotificationAvailability(
+                It.Is<IMessageContext>(mc => mc == @event.MessageContext), _defaultOwnerId, new[]
                     {
                         _defaultParticipantId
                     }
                     .ToList()
                     .AsReadOnly(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _defaultNotificationRecipients);
-
-        TEvent @event = CreateEvent();
 
         // Assert
         Assert.DoesNotThrowAsync(code: () => TestCandidate.HandleAsync(@event: @event, cancellationToken: default));
@@ -43,9 +43,11 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     public async Task Should_SendNotificationToOwner_When_ParticipantHasNotBeenFound()
     {
         // Arrange
+        TEvent @event = CreateEvent();
+
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
-                _defaultOwnerId, new[]
+            .Setup(expression: x => x.GetUserNotificationAvailability(
+                It.Is<IMessageContext>(mc => mc == @event.MessageContext), _defaultOwnerId, new[]
                     {
                         _defaultParticipantId
                     }
@@ -56,15 +58,13 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
                 Participants = new List<NotificationRecipient>()
             });
 
-        TEvent @event = CreateEvent();
-
         // Act
         await TestCandidate.HandleAsync(@event: @event, cancellationToken: default);
 
         // Assert
         _communicationProxyMock.Verify(
-            expression: x =>
-                x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(), It.IsAny<CancellationToken>()),
+            expression: x => x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(),
+                It.Is<IMessageContext>(mc => mc == @event.MessageContext), It.IsAny<CancellationToken>()),
             times: Times.Once);
     }
 
@@ -80,9 +80,11 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
     protected async Task Should_SendNotification_For_Recipients_Internal(Times notificationCount)
     {
         // Arrange
+        TEvent @event = CreateEvent();
+
         _iIamProxyServiceMock
-            .Setup(expression: x => x.GetUserNotificationAvailability(MessageContextFactoryMock.Object.Current(null),
-                _defaultOwnerId, new[]
+            .Setup(expression: x => x.GetUserNotificationAvailability(
+                It.Is<IMessageContext>(mc => mc == @event.MessageContext), _defaultOwnerId, new[]
                     {
                         _defaultParticipantId
                     }
@@ -90,15 +92,13 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
                     .AsReadOnly(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _defaultNotificationRecipients);
 
-        TEvent @event = CreateEvent();
-
         // Act
         await TestCandidate.HandleAsync(@event: @event, cancellationToken: default);
 
         // Assert
         _communicationProxyMock.Verify(
-            expression: x =>
-                x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(), It.IsAny<CancellationToken>()),
+            expression: x => x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(),
+                It.Is<IMessageContext>(mc => mc == @event.MessageContext), It.IsAny<CancellationToken>()),
             times: notificationCount);
     }
 
@@ -125,8 +125,8 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
             times: Times.Once);
 
         _communicationProxyMock.Verify(
-            expression: x =>
-                x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(), It.IsAny<CancellationToken>()),
+            expression: x => x.SendNotificationAsync(It.IsAny<SendNotificationRequest>(),
+                It.Is<IMessageContext>(mc => mc == @event.MessageContext), It.IsAny<CancellationToken>()),
             times: notificationCount);
     }
 }

@@ -77,7 +77,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
-                cancellationToken: cancellationToken);
+                messageContext: @event.MessageContext, cancellationToken: cancellationToken);
         }
 
         foreach (NotificationRecipient participant in notificationRecipients.Participants)
@@ -122,7 +122,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
                     NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
                 await _communicationProxy.SendNotificationAsync(request: participantNotification,
-                    cancellationToken: cancellationToken);
+                    messageContext: @event.MessageContext, cancellationToken: cancellationToken);
             }
         }
     }

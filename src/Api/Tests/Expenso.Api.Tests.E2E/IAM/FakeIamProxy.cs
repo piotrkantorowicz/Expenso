@@ -23,7 +23,7 @@ internal sealed class FakeIamProxy : IIamProxy
 
     private readonly IReadOnlyCollection<UserRepresentation> _users =
     [
-        new UserRepresentation
+        new()
         {
             Id = UserDataInitializer.UserIds[index: 0].ToString(),
             FirstName = "Sergio",
@@ -31,7 +31,7 @@ internal sealed class FakeIamProxy : IIamProxy
             Username = "SHuang",
             Email = ExistingEmails[0]
         },
-        new UserRepresentation
+        new()
         {
             Id = new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(),
             FirstName = "Krishna",
@@ -39,7 +39,7 @@ internal sealed class FakeIamProxy : IIamProxy
             Username = "KLeee",
             Email = ExistingEmails[1]
         },
-        new UserRepresentation
+        new()
         {
             Id = new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(),
             FirstName = "Vincent",
@@ -49,24 +49,24 @@ internal sealed class FakeIamProxy : IIamProxy
         }
     ];
 
-    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,IMessageContext? messageContext = null,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return GetUserByIdResponseMap.MapTo(user: await Task.FromResult(
             result: _users.FirstOrDefault(predicate: x => x.Id == request.UserId) ??
                     throw new NotFoundException(message: $"User with id {request.UserId} not found.")));
     }
 
-    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,IMessageContext? messageContext = null,
-        CancellationToken cancellationToken = default)
+    public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return GetUserByEmailResponseMap.MapTo(user: await Task.FromResult(
             result: _users.FirstOrDefault(predicate: x => x.Email == request.Email) ??
                     throw new NotFoundException(message: $"User with email {request.Email} not found.")));
     }
 
-    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,IMessageContext? messageContext = null,
-        CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         if (request.Limit <= 0)
         {

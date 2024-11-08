@@ -9,8 +9,7 @@ using Keycloak.AuthServices.Sdk.Admin.Models;
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryHandler;
 
 [TestFixture]
-internal abstract class GetUserByIdQueryHandlerTestBase : TestBase<
-    GetUserByIdQueryQueryHandler>
+internal abstract class GetUserByIdQueryHandlerTestBase : TestBase<GetUserByIdQueryQueryHandler>
 {
     [SetUp]
     public void SetUp()
@@ -29,10 +28,7 @@ internal abstract class GetUserByIdQueryHandlerTestBase : TestBase<
         _getUserByIdResponse = GetUserByIdResponseMap.MapTo(user: user);
         _userServiceMock = new Mock<IUserService>();
         _messageContextMock = new Mock<IMessageContext>();
-
-        TestCandidate =
-            new GetUserByIdQueryQueryHandler(
-                userService: _userServiceMock.Object);
+        TestCandidate = new GetUserByIdQueryQueryHandler(userService: _userServiceMock.Object);
     }
 
     protected GetUserByIdResponse _getUserByIdResponse = null!;

@@ -49,8 +49,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
 
         // Act
         Func<Task> action = async () => await TestCandidate.GetUserByEmailAsync(
-            request: new GetUserByEmailRequest(Email: email),
-                cancellationToken: It.IsAny<CancellationToken>());
+            request: new GetUserByEmailRequest(Email: email), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         action

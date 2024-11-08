@@ -22,8 +22,7 @@ internal sealed class TimeManagementProxy : ITimeManagementProxy
     }
 
     public async Task<RegisterJobEntryResponse?> RegisterJobEntry(RegisterJobEntryRequest request,
-        IMessageContext? messageContext = null,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<RegisterJobEntryCommand, RegisterJobEntryResponse>(
             command: new RegisterJobEntryCommand(

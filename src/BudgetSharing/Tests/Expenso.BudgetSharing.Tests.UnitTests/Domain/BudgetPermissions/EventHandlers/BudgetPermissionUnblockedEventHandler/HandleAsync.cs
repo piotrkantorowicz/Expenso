@@ -23,7 +23,7 @@ internal sealed class HandleAsync : HandleAsyncBase<
         await Should_Call_GetUserNotificationAvailability_With_MessageContext_Internal(
             notificationCount: Times.AtLeast(callCount: 3));
     }
-    
+
     protected override BudgetPermissionUnblockedEvent CreateEvent()
     {
         return new BudgetPermissionUnblockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),

@@ -4,6 +4,7 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using FluentAssertions;
 
@@ -21,7 +22,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         // Arrange
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
-                It.IsAny<CancellationToken>()))
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
@@ -89,8 +90,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         _iamProxyMock
-            .Setup(expression: x =>
-                x.GetUserByEmailAsync(new GetUserByEmailRequest(_email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new NotFoundException(message: $"User with email {_email} not found"));
 
         // Act
@@ -114,8 +115,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         _iamProxyMock
-            .Setup(expression: x =>
-                x.GetUserByEmailAsync(new GetUserByEmailRequest(_email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse with
             {
                 UserId = "db9aUuZIcbRkWg3"
@@ -140,8 +141,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
     {
         // Arrange
         _iamProxyMock
-            .Setup(expression: x =>
-                x.GetUserByEmailAsync(new GetUserByEmailRequest(_email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermission.AddPermission(participantId: _participantId, permissionType: _permissionType);
@@ -171,8 +172,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
     {
         // Arrange
         _iamProxyMock
-            .Setup(expression: x =>
-                x.GetUserByEmailAsync(new GetUserByEmailRequest(_email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
@@ -208,8 +209,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
     {
         // Arrange
         _iamProxyMock
-            .Setup(expression: x =>
-                x.GetUserByEmailAsync(new GetUserByEmailRequest(_email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock
@@ -245,8 +246,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
     {
         // Arrange
         _iamProxyMock
-            .Setup(expression: x =>
-                x.GetUserByEmailAsync(new GetUserByEmailRequest(_email), It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
+                It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUserByEmailResponse);
 
         _budgetPermissionRepositoryMock

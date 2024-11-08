@@ -12,8 +12,7 @@ internal abstract class BudgetSharingProxyTestBase : TestBase<BudgetSharing.Appl
     public void SetUp()
     {
         TestCandidate = new BudgetSharing.Application.Proxy.BudgetSharingProxy(
-            queryDispatcher: _queryDispatcherMock.Object,
-            messageContextFactory: MessageContextFactoryMock.Object);
+            queryDispatcher: _queryDispatcherMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
 
     protected readonly Mock<IQueryDispatcher> _queryDispatcherMock = new();
