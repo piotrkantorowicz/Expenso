@@ -34,12 +34,11 @@ internal sealed class
 
     public async Task HandleAsync(BudgetPermissionRequestExpiredEvent @event, CancellationToken cancellationToken)
     {
-        NotificationRecipients notificationRecipients =
-            await _iamProxyService.GetUserNotificationAvailability(messageContext: @event.MessageContext,
-                ownerId: @event.OwnerId, participantIds:
-                [
-                    @event.ParticipantId
-                ], cancellationToken: cancellationToken);
+        NotificationRecipients notificationRecipients = await _iamProxyService.GetUserNotificationAvailability(
+            messageContext: @event.MessageContext, ownerId: @event.OwnerId, participantIds:
+            [
+                @event.ParticipantId
+            ], cancellationToken: cancellationToken);
 
         NotificationRecipient? participant = notificationRecipients.Participants.FirstOrDefault();
 
@@ -89,7 +88,7 @@ internal sealed class
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
-                cancellationToken: cancellationToken);
+                messageContext: @event.MessageContext, cancellationToken: cancellationToken);
         }
 
         if (participant?.CanSendNotifications is true)
@@ -135,7 +134,7 @@ internal sealed class
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: participantNotification,
-                cancellationToken: cancellationToken);
+                messageContext: @event.MessageContext, cancellationToken: cancellationToken);
         }
     }
 }

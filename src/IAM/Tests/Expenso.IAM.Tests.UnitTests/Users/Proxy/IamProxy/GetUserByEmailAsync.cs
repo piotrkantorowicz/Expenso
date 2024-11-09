@@ -31,7 +31,7 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     }
 
     [Test]
-    public void Should_ReturnNull_When_UserDoesNotExists()
+    public void Should_ThrowsNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         const string email = "email1@email.com";

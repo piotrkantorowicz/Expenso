@@ -16,7 +16,6 @@ internal sealed class GetUserByEmailQueryHandler : IQueryHandler<GetUserByEmailQ
     public async Task<GetUserByEmailResponse?> HandleAsync(GetUserByEmailQuery query,
         CancellationToken cancellationToken)
     {
-        return await _userService.GetUserByEmailAsync(request: query.Payload,
-            cancellationToken: cancellationToken);
+        return await _userService.GetUserByEmailAsync(request: query.Payload, cancellationToken: cancellationToken);
     }
 }

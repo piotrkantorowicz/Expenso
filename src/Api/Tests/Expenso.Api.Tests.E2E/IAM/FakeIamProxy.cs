@@ -10,6 +10,7 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -22,7 +23,7 @@ internal sealed class FakeIamProxy : IIamProxy
 
     private readonly IReadOnlyCollection<UserRepresentation> _users =
     [
-        new UserRepresentation
+        new()
         {
             Id = UserDataInitializer.UserIds[index: 0].ToString(),
             FirstName = "Sergio",
@@ -30,7 +31,7 @@ internal sealed class FakeIamProxy : IIamProxy
             Username = "SHuang",
             Email = ExistingEmails[0]
         },
-        new UserRepresentation
+        new()
         {
             Id = new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(),
             FirstName = "Krishna",
@@ -38,7 +39,7 @@ internal sealed class FakeIamProxy : IIamProxy
             Username = "KLeee",
             Email = ExistingEmails[1]
         },
-        new UserRepresentation
+        new()
         {
             Id = new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(),
             FirstName = "Vincent",
@@ -49,7 +50,7 @@ internal sealed class FakeIamProxy : IIamProxy
     ];
 
     public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
-        CancellationToken cancellationToken)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return GetUserByIdResponseMap.MapTo(user: await Task.FromResult(
             result: _users.FirstOrDefault(predicate: x => x.Id == request.UserId) ??
@@ -57,7 +58,7 @@ internal sealed class FakeIamProxy : IIamProxy
     }
 
     public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
-        CancellationToken cancellationToken)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return GetUserByEmailResponseMap.MapTo(user: await Task.FromResult(
             result: _users.FirstOrDefault(predicate: x => x.Email == request.Email) ??
@@ -65,7 +66,7 @@ internal sealed class FakeIamProxy : IIamProxy
     }
 
     public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
-        CancellationToken cancellationToken)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         if (request.Limit <= 0)
         {

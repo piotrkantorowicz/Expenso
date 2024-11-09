@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
@@ -29,18 +30,20 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
     }
 
     public async Task<GetPreferencesResponse?> GetPreferences(GetPreferencesRequest request,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetPreferencesQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
-            cancellationToken: cancellationToken);
+            query: new GetPreferencesQuery(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.UserPreferencesModule), Payload: request), cancellationToken: cancellationToken);
     }
 
     public async Task<CreatePreferenceResponse?> CreatePreferencesAsync(CreatePreferenceRequest request,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-            command: new CreatePreferenceCommand(MessageContext: _messageContextFactory.Current(), Payload: request),
-            cancellationToken: cancellationToken);
+            command: new CreatePreferenceCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.UserPreferencesModule), Payload: request), cancellationToken: cancellationToken);
     }
 }

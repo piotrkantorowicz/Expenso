@@ -89,7 +89,7 @@ internal sealed class
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: ownerNotification,
-                cancellationToken: cancellationToken);
+                messageContext: @event.MessageContext, cancellationToken: cancellationToken);
         }
 
         if (participant?.CanSendNotifications is true)
@@ -135,7 +135,7 @@ internal sealed class
                 NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
 
             await _communicationProxy.SendNotificationAsync(request: participantNotification,
-                cancellationToken: cancellationToken);
+                messageContext: @event.MessageContext, cancellationToken: cancellationToken);
         }
     }
 }

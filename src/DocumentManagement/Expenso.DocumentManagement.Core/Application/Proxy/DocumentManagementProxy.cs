@@ -8,6 +8,7 @@ using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Proxy;
@@ -29,27 +30,30 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
         _queryDispatcher = queryDispatcher ?? throw new ArgumentNullException(paramName: nameof(queryDispatcher));
     }
 
-    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest getFileRequest,
-        CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<GetFilesResponse>?> GetFilesAsync(GetFileRequest request,
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetFilesQuery(MessageContext: _messageContextFactory.Current(), Payload: getFileRequest),
-            cancellationToken: cancellationToken);
+            query: new GetFilesQuery(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 
-    public async Task UploadFilesAsync(UploadFilesRequest uploadFilesRequest,
+    public async Task UploadFilesAsync(UploadFilesRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(
-            command: new UploadFilesCommand(MessageContext: _messageContextFactory.Current(),
-                Payload: uploadFilesRequest), cancellationToken: cancellationToken);
+            command: new UploadFilesCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 
-    public async Task DeleteFilesAsync(DeleteFilesRequest deleteFilesRequest,
+    public async Task DeleteFilesAsync(DeleteFilesRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(
-            command: new DeleteFilesCommand(MessageContext: _messageContextFactory.Current(),
-                Payload: deleteFilesRequest), cancellationToken: cancellationToken);
+            command: new DeleteFilesCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
     }
 }

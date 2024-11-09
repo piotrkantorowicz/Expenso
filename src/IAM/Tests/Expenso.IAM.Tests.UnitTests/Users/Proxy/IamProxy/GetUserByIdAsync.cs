@@ -31,7 +31,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     }
 
     [Test]
-    public void Should_ReturnNull_When_UserDoesNotExists()
+    public void Should_ThrowsNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();

@@ -2,6 +2,7 @@
 using Expenso.Communication.Shared;
 using Expenso.Communication.Shared.DTO.API.SendNotification;
 using Expenso.Shared.Commands.Dispatchers;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Core.Application.Proxy;
@@ -19,25 +20,26 @@ internal sealed class CommunicationProxy : ICommunicationProxy
                                  throw new ArgumentNullException(paramName: nameof(messageContextFactory));
     }
 
-    public async Task SendNotificationAsync(SendNotificationRequest request,
+    public async Task SendNotificationAsync(SendNotificationRequest request, IMessageContext? messageContext = null,
         CancellationToken cancellationToken = default)
     {
         await _commandDispatcher.SendAsync(
-            command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(), Payload: request),
-            cancellationToken: cancellationToken);
+            command: new SendNotificationCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: Names.CommunicationModule), Payload: request), cancellationToken: cancellationToken);
     }
 
     public async Task SendNotificationsAsync(IReadOnlyCollection<SendNotificationRequest> requests,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         List<Task> sendNotificationTasks = [];
 
-        foreach (SendNotificationRequest request in requests)
-        {
-            sendNotificationTasks.Add(item: _commandDispatcher.SendAsync(
-                command: new SendNotificationCommand(MessageContext: _messageContextFactory.Current(),
-                    Payload: request), cancellationToken: cancellationToken));
-        }
+        sendNotificationTasks.AddRange(collection: requests.Select(selector: request =>
+            _commandDispatcher.SendAsync(
+                command: new SendNotificationCommand(
+                    MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                        moduleId: Names.CommunicationModule), Payload: request),
+                cancellationToken: cancellationToken)));
 
         await Task.WhenAll(tasks: sendNotificationTasks);
     }

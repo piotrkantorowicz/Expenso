@@ -10,6 +10,7 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Database\Expenso.Shared.Database.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Domain\Expenso.BudgetSharing.Domain.csproj"/>
         <ProjectReference Include="..\Expenso.BudgetSharing.Shared\Expenso.BudgetSharing.Shared.csproj"/>
     </ItemGroup>

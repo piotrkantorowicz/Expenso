@@ -12,9 +12,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(
-                    new GetPreferencesQuery(MessageContextFactoryMock.Object.Current(null),
+            .Setup(expression: x => x.QueryAsync(new GetPreferencesQuery(
+                    MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
+                        It.IsAny<Guid>()),
                         new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequest_PreferenceTypes>())),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferencesExternalResponse);
@@ -29,10 +29,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         preference.Should().NotBeNull();
         preference.Should().BeEquivalentTo(expectation: _getPreferencesExternalResponse);
 
-        _queryDispatcherMock.Verify(
-            expression: x =>
-                x.QueryAsync(
-                    new GetPreferencesQuery(MessageContextFactoryMock.Object.Current(null),
+        _queryDispatcherMock.Verify(expression: x => x.QueryAsync(new GetPreferencesQuery(
+                MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
+                    It.IsAny<Guid>()),
                         new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequest_PreferenceTypes>())),
                     It.IsAny<CancellationToken>()), times: Times.Once);
     }
@@ -42,9 +41,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
     {
         // Arrange
         _queryDispatcherMock
-            .Setup(expression: x =>
-                x.QueryAsync(
-                    new GetPreferencesQuery(MessageContextFactoryMock.Object.Current(null),
+            .Setup(expression: x => x.QueryAsync(new GetPreferencesQuery(
+                    MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
+                        It.IsAny<Guid>()),
                         new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequest_PreferenceTypes>())),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
@@ -58,10 +57,9 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         // Assert
         preference.Should().BeNull();
 
-        _queryDispatcherMock.Verify(
-            expression: x =>
-                x.QueryAsync(
-                    new GetPreferencesQuery(MessageContextFactoryMock.Object.Current(null),
+        _queryDispatcherMock.Verify(expression: x => x.QueryAsync(new GetPreferencesQuery(
+                MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
+                    It.IsAny<Guid>()),
                         new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequest_PreferenceTypes>())),
                     It.IsAny<CancellationToken>()), times: Times.Once);
     }

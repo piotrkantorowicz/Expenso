@@ -9,6 +9,7 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.IAM.Core.Application.Proxy;
@@ -27,26 +28,29 @@ internal sealed class IamProxy : IIamProxy
     }
 
     public async Task<GetUserByIdResponse?> GetUserByIdAsync(GetUserByIdRequest request,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByIdQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
-            cancellationToken: cancellationToken);
+            query: new GetUserByIdQuery(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule),
+                Payload: request), cancellationToken: cancellationToken);
     }
 
     public async Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUserByEmailQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
-            cancellationToken: cancellationToken);
+            query: new GetUserByEmailQuery(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule),
+                Payload: request), cancellationToken: cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
-        CancellationToken cancellationToken = default)
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
-            query: new GetUsersQuery(MessageContext: _messageContextFactory.Current(), Payload: request),
-            cancellationToken: cancellationToken);
+            query: new GetUsersQuery(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule),
+                Payload: request), cancellationToken: cancellationToken);
     }
 }
