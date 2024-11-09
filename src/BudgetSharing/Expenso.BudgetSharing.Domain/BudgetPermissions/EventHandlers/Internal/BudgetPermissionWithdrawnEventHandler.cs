@@ -110,7 +110,7 @@ internal sealed class BudgetPermissionWithdrawnEventHandler : IDomainEventHandle
             message.AppendLine(value: "Best regards,");
             message.AppendLine(value: "Expenso Team");
 
-            SendNotificationRequest participantNotification = new(Subject: "Budget Permission Granted",
+            SendNotificationRequest participantNotification = new(Subject: "Budget Permission Withdrawn",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(
                     From: _notificationSettings.Email?.From ??
