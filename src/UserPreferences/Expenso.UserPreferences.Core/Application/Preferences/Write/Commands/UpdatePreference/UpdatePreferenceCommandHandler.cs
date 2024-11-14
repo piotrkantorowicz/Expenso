@@ -1,6 +1,7 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
@@ -41,7 +42,8 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
         if (dbPreference is null)
         {
-            throw new NotFoundException(message: $"User preferences with ID {command.PreferenceId} haven't been found");
+            throw new NotFoundException(resourceName: "User preference", identifierType: IdentifierType.PrimaryId(),
+                identifier: command.PreferenceId);
         }
 
         IEnumerable<Task> integrationMessagesTasks = Update(preference: dbPreference,

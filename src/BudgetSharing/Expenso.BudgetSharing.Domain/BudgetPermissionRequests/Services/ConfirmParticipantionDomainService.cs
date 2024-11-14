@@ -9,6 +9,7 @@ using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.UserPreferences.Shared;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
@@ -47,8 +48,8 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         if (permissionRequest is null)
         {
-            throw new NotFoundException(
-                message: $"Budget permission request with ID {budgetPermissionRequestId} hasn't been found.");
+            throw new NotFoundException(resourceName: nameof(BudgetPermissionRequest),
+                identifierType: IdentifierType.PrimaryId(), identifier: budgetPermissionRequestId);
         }
 
         BudgetPermission? budgetPermission =
@@ -57,8 +58,8 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException(
-                message: $"Budget permission with ID {permissionRequest.BudgetId} hasn't been found.");
+            throw new NotFoundException(resourceName: nameof(BudgetPermission),
+                identifierType: IdentifierType.Custom(value: "Budget ID"), identifier: permissionRequest.BudgetId);
         }
 
         GetPreferencesResponse? preference = await _userPreferencesProxy.GetPreferences(
@@ -67,8 +68,8 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         if (preference?.FinancePreference is null)
         {
-            throw new NotFoundException(
-                message: $"Finance preferences for user {budgetPermission.OwnerId} haven't been found.");
+            throw new NotFoundException(resourceName: nameof(preference.FinancePreference),
+                identifierType: IdentifierType.Custom(value: "User ID"), identifier: budgetPermission.OwnerId);
         }
 
         DomainModelState.CheckBusinessRules(businessRules:

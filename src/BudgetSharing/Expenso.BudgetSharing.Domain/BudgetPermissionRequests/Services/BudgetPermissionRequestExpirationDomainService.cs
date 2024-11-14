@@ -2,6 +2,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
@@ -27,8 +28,8 @@ internal sealed class BudgetPermissionRequestExpirationDomainService : IBudgetPe
 
         if (budgetPermissionRequest is null)
         {
-            throw new NotFoundException(
-                message: $"Budget permission request with ID {budgetPermissionRequestId} hasn't been found.");
+            throw new NotFoundException(resourceName: nameof(BudgetPermissionRequest),
+                identifierType: IdentifierType.PrimaryId(), identifier: budgetPermissionRequestId);
         }
 
         budgetPermissionRequest.Expire();

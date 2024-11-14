@@ -4,6 +4,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.CancelAssigningParticipant;
 
@@ -31,9 +32,8 @@ internal sealed class CancelAssigningParticipantCommandHandler : ICommandHandler
 
         if (budgetPermissionRequest is null)
         {
-            throw new NotFoundException(
-                message:
-                $"Budget permission request with ID {command.Payload?.BudgetPermissionRequestId} hasn't been found");
+            throw new NotFoundException(resourceName: nameof(BudgetPermissionRequest),
+                identifierType: IdentifierType.PrimaryId(), identifier: command.Payload?.BudgetPermissionRequestId);
         }
 
         budgetPermissionRequest.Cancel(cancellationDate: _clock.UtcNow);

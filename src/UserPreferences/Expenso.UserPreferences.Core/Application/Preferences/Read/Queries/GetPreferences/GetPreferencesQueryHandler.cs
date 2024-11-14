@@ -33,7 +33,7 @@ internal sealed class GetPreferencesQueryHandler : IQueryHandler<GetPreferencesQ
         };
 
         Preference preference = await _preferencesRepository.GetAsync(preferenceQuerySpecification: querySpecification,
-            cancellationToken: cancellationToken) ?? throw new NotFoundException(message: "Preferences not found");
+            cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference));
 
         return GetPreferencesResponseMap.MapTo(preference: preference);
     }

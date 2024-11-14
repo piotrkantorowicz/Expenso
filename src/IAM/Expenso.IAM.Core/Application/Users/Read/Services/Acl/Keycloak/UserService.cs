@@ -9,6 +9,7 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -37,7 +38,8 @@ internal sealed class UserService : IUserService
 
         if (keycloakUser is null)
         {
-            throw new NotFoundException(message: $"User with ID {request?.UserId} not found");
+            throw new NotFoundException(resourceName: "User", identifierType: IdentifierType.PrimaryId(),
+                identifier: request?.UserId);
         }
 
         GetUserByIdResponse getUserResponse = GetUserByIdResponseMap.MapTo(user: keycloakUser);
@@ -58,7 +60,8 @@ internal sealed class UserService : IUserService
 
         if (user is null)
         {
-            throw new NotFoundException(message: $"User with email {request?.Email} not found");
+            throw new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
+                identifier: request?.Email);
         }
 
         GetUserByEmailResponse getUserResponse = GetUserByEmailResponseMap.MapTo(user: user);

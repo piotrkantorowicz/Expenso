@@ -1,5 +1,6 @@
 ﻿using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Maps;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
@@ -44,7 +45,8 @@ internal sealed class
 
         if (jobType is null)
         {
-            throw new NotFoundException(message: $"Job instance with ID {jobInstanceId} not found");
+            throw new NotFoundException(resourceName: nameof(JobInstance), identifierType: IdentifierType.PrimaryId(),
+                identifier: jobInstanceId);
         }
 
         Guid jobStatusId = JobEntryStatus.Running.Id;
@@ -54,39 +56,31 @@ internal sealed class
 
         if (runningJobStatus is null)
         {
-            throw new NotFoundException(message: $"Job status with ID {jobStatusId} not found");
+            throw new NotFoundException(resourceName: nameof(JobEntryStatus),
+                identifierType: IdentifierType.PrimaryId(), identifier: jobStatusId);
         }
 
-        JobEntry? jobEntry = CreateJobEntry(jobEntry: entryCommand.Payload, jobInstance: jobType,
+        JobEntry jobEntry = CreateJobEntry(jobEntry: entryCommand.Payload, jobInstance: jobType,
             jobEntryStatus: runningJobStatus, eventTypeResolver: _eventTypeResolver);
-
-        if (jobEntry is null)
-        {
-            throw new NotFoundException(message: "Unable to create job entry from request");
-        }
 
         await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);
 
         return RegisterJobEntryResponseMap.MapToJobEntry(jobEntry: jobEntry);
     }
 
-    private static JobEntry? CreateJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,
+    private static JobEntry CreateJobEntry(RegisterJobEntryRequest? jobEntry, JobInstance? jobInstance,
         JobEntryStatus? jobEntryStatus, IEventTypeResolver eventTypeResolver)
     {
-        if (jobEntry is null)
-        {
-            return null;
-        }
-
         return new JobEntry
         {
             Id = Guid.NewGuid(),
             JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(paramName: nameof(jobInstance)),
-            CronExpression = jobEntry.Interval?.GetCronExpression(),
-            RunAt = jobEntry.RunAt,
-            MaxRetries = jobEntry.MaxRetries,
+            CronExpression = jobEntry?.Interval?.GetCronExpression(),
+            RunAt = jobEntry?.RunAt,
+            MaxRetries = jobEntry?.MaxRetries,
             JobEntryStatusId = jobEntryStatus?.Id ?? throw new ArgumentNullException(paramName: nameof(jobEntryStatus)),
-            Triggers = CreateJobEntryTriggers(triggers: jobEntry.JobEntryTriggers, eventTypeResolver: eventTypeResolver)
+            Triggers = CreateJobEntryTriggers(triggers: jobEntry?.JobEntryTriggers,
+                eventTypeResolver: eventTypeResolver)
         };
     }
 

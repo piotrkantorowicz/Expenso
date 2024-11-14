@@ -34,7 +34,7 @@ internal sealed class
         if (Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId,
                 result: out Guid currentUserId) is false)
         {
-            throw new NotFoundException(message: "Preferences not found");
+            throw new NotFoundException(resourceName: nameof(Preference));
         }
 
         PreferenceQuerySpecification querySpecification = new()
@@ -47,7 +47,7 @@ internal sealed class
 
         Preference preference =
             await _preferencesRepository.GetAsync(preferenceQuerySpecification: querySpecification,
-                cancellationToken: cancellationToken) ?? throw new NotFoundException(message: "Preferences not found");
+                cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference));
 
         return GetPreferenceForCurrentUserResponseMap.MapTo(preference: preference);
     }
