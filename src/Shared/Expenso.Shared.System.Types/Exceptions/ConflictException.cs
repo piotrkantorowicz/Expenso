@@ -23,6 +23,13 @@ public sealed class ConflictException : Exception
             restOfMessage: "already exists");
     }
 
+    public static ConflictException MultipleRecordsFound(string resourceName, IdentifierType? identifierType = null,
+        object? identifier = null)
+    {
+        return new ConflictException(resourceName: resourceName, identifierType: identifierType, identifier: identifier,
+            restOfMessage: "Multiple records found with the same identifier.");
+    }
+
     private static string BuildMessage(string resourceName, IdentifierType? identifierType, object? identifier,
         string restOfMessage)
     {

@@ -1,5 +1,6 @@
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Maps;
@@ -34,7 +35,9 @@ internal sealed class
         if (Guid.TryParse(input: _executionContextAccessor.Get()?.UserContext?.UserId,
                 result: out Guid currentUserId) is false)
         {
-            throw new NotFoundException(resourceName: nameof(Preference));
+            throw new NotFoundException(
+                message:
+                $"Unable to retrieve preference due to invalid user ID format: {_executionContextAccessor.Get()?.UserContext?.UserId}");
         }
 
         PreferenceQuerySpecification querySpecification = new()
@@ -47,7 +50,8 @@ internal sealed class
 
         Preference preference =
             await _preferencesRepository.GetAsync(preferenceQuerySpecification: querySpecification,
-                cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference));
+                cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference),
+                identifierType: IdentifierType.Query(), identifier: querySpecification);
 
         return GetPreferenceForCurrentUserResponseMap.MapTo(preference: preference);
     }

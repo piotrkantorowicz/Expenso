@@ -39,7 +39,7 @@ internal sealed class
         if (dbUserPreferencesExists)
         {
             throw ConflictException.AlreadyExists(resourceName: nameof(Preference),
-                identifierType: IdentifierType.Custom(value: "User ID"), identifier: userId);
+                identifierType: IdentifierType.Query(), identifier: querySpecification);
         }
 
         Preference preferenceToCreate = PreferenceFactory.Create(userId: userId);

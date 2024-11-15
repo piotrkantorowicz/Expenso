@@ -4,6 +4,7 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using FluentAssertions;
@@ -92,7 +93,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         _iamProxyMock
             .Setup(expression: x => x.GetUserByEmailAsync(new GetUserByEmailRequest(_email),
                 It.IsAny<IMessageContext>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: $"User with email {_email} not found"));
+            .ThrowsAsync(exception: new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
+                identifier: _email));
 
         // Act
         Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
@@ -103,7 +105,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {_email} not found.");
+            .WithMessage(expectedWildcardPattern: $"User with email {_email} hasn't been found.");
     }
 
     [Test]

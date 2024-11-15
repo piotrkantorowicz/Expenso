@@ -2,6 +2,7 @@
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
@@ -35,12 +36,13 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
     {
         // Arrange
         const string email = "email1@email.com";
-        const string errorMessage = $"User with email {email} not found";
+        const string errorMessage = $"User with email {email} hasn't been found.";
 
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
                 It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: errorMessage));
+            .ThrowsAsync(exception: new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
+                identifier: email));
 
         // Act
         Func<Task> action = async () =>

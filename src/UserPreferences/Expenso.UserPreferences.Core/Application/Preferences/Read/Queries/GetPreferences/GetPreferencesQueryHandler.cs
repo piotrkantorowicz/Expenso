@@ -1,5 +1,6 @@
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences.DTO.Maps;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
@@ -32,8 +33,10 @@ internal sealed class GetPreferencesQueryHandler : IQueryHandler<GetPreferencesQ
             UseTracking = false
         };
 
-        Preference preference = await _preferencesRepository.GetAsync(preferenceQuerySpecification: querySpecification,
-            cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference));
+        Preference preference =
+            await _preferencesRepository.GetAsync(preferenceQuerySpecification: querySpecification,
+                cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference),
+                identifierType: IdentifierType.Query(), identifier: querySpecification);
 
         return GetPreferencesResponseMap.MapTo(preference: preference);
     }

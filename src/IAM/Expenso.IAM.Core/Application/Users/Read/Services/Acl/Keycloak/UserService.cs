@@ -64,6 +64,12 @@ internal sealed class UserService : IUserService
                 identifier: request?.Email);
         }
 
+        if (keycloakUsers.Count > 1)
+        {
+            throw ConflictException.MultipleRecordsFound(resourceName: "User", identifierType: IdentifierType.Email(),
+                identifier: request?.Email);
+        }
+
         GetUserByEmailResponse getUserResponse = GetUserByEmailResponseMap.MapTo(user: user);
 
         return getUserResponse;
