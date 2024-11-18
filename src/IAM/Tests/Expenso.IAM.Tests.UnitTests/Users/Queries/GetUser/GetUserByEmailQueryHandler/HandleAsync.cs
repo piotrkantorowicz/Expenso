@@ -2,6 +2,7 @@ using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryHandler;
 
@@ -49,19 +50,26 @@ internal sealed class HandleAsync : GetUserByEmailQueryHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_QueryIsEmpty()
+    public async Task Should_ThrowNotFoundException_When_QueryIsEmpty()
     {
         // Arrange
         GetUserByEmailQuery query = new(MessageContext: _messageContextMock.Object, Payload: null);
+
+        _userServiceMock
+            .Setup(expression: x => x.GetUserByEmailAsync(null, It.IsAny<CancellationToken>()))
+            .ThrowsAsync(exception: new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
+                identifier: _userEmail));
 
         // Act
         Func<Task> action = async () =>
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User not found. Payload: {query.Payload?.GetType().Name}");
+            .WithMessage(expectedWildcardPattern: $"User with email {_userEmail} hasn't been found.")
+            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
+                                             (string?)x.Identifier == _userEmail);
     }
 }

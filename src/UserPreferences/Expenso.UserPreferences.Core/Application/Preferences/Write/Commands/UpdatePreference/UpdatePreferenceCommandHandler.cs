@@ -42,7 +42,7 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
 
         if (dbPreference is null)
         {
-            throw new NotFoundException(resourceName: "User preference", identifierType: IdentifierType.Query(),
+            throw new NotFoundException(resourceName: nameof(Preference), identifierType: IdentifierType.Query(),
                 identifier: preferenceQuerySpecification);
         }
 

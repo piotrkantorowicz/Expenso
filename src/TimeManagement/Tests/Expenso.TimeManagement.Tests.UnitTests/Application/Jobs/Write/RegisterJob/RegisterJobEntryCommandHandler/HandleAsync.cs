@@ -1,4 +1,5 @@
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Shared.DTO.Request;
@@ -67,7 +68,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowNoFoundException_When_JobInstanceNotFound()
+    public async Task Should_ThrowNoFoundException_When_JobInstanceNotFound()
     {
         // Arrange
         _jobInstanceRepository
@@ -79,14 +80,18 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job instance with ID {JobInstance.Default.Id} not found.");
+            .WithMessage(
+                expectedWildcardPattern: $"{nameof(JobInstance)} with ID {JobInstance.Default.Id} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(JobInstance) && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (Guid?)x.Identifier == JobInstance.Default.Id);
     }
 
     [Test]
-    public void Should_ThrowNoFoundException_When_JobRunningStatusNotFound()
+    public async Task Should_ThrowNoFoundException_When_JobRunningStatusNotFound()
     {
         // Arrange
         RegisterJobEntryCommand entryCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(),
@@ -111,38 +116,14 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job status with ID {JobEntryStatus.Running.Id} not found.");
-    }
-
-    [Test]
-    public void Should_ThrowNoFoundException_When_RegisterJobEntryRequestIsNull()
-    {
-        // Arrange
-        RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
-        {
-            Payload = null
-        };
-
-        _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
-            .ReturnsAsync(value: JobInstance.Default);
-
-        _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
-            .ReturnsAsync(value: JobEntryStatus.Running);
-
-        // Act
-        Func<Task> action = async () =>
-            await TestCandidate.HandleAsync(entryCommand: entryCommand,
-                cancellationToken: It.IsAny<CancellationToken>());
-
-        // Assert
-        action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: "Unable to create job entry from request.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"{nameof(JobEntryStatus)} with ID {JobEntryStatus.Running.Id} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(JobEntryStatus) && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (Guid?)x.Identifier == JobEntryStatus.Running.Id);
     }
 }

@@ -73,7 +73,7 @@ internal sealed class SaveAsync : FileStorageTestBase
     }
 
     [Test]
-    public void Should_ThrowFileHasNotBeenFoundException_WhenDirectoryPathIsNullOrWhiteSpace()
+    public async Task Should_ThrowFileHasNotBeenFoundException_WhenDirectoryPathIsNullOrWhiteSpace()
     {
         // Arrange
         string directoryPath = string.Empty;
@@ -91,15 +91,15 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<EmptyPathException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "Path cannot be empty.");
+            .Where(exceptionExpression: x => x.Details == "Path cannot be empty.");
     }
 
     [Test]
-    public void Should_ThrowFileHasNotBeenFoundException_WhenFilePathIsNullOrWhiteSpace()
+    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFilePathIsNullOrWhiteSpace()
     {
         // Arrange
         const string directoryPath = "directoryPath";
@@ -117,7 +117,7 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<EmptyFileNameException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
@@ -125,7 +125,7 @@ internal sealed class SaveAsync : FileStorageTestBase
     }
 
     [Test]
-    public void Should_ThrowFileHasNotBeenFoundException_WhenFileContentIsNull()
+    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFileContentIsNull()
     {
         // Arrange
         const string directoryPath = "directoryPath";
@@ -137,7 +137,7 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent!, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<EmptyFileContentException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
@@ -145,7 +145,7 @@ internal sealed class SaveAsync : FileStorageTestBase
     }
 
     [Test]
-    public void Should_ThrowFileHasNotBeenFoundException_WhenFileContentIsEmpty()
+    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFileContentIsEmpty()
     {
         // Arrange
         const string directoryPath = "directoryPath";
@@ -157,7 +157,7 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<EmptyFileContentException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")

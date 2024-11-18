@@ -61,7 +61,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_BudgetPermissionHasNotExists()
+    public async Task Should_ThrowDomainRuleValidationException_When_BudgetPermissionHasNotExists()
     {
         // Arrange
         _budgetPermissionRepositoryMock
@@ -74,16 +74,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetailsAsync(
                 expectedWildcardPattern:
                 $"Unable to create budget permission request for not existent budget permission. Budget {_budgetId}.");
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_UserIsNotFound()
+    public async Task Should_ThrowNotFoundException_When_UserIsNotFound()
     {
         // Arrange
         _budgetPermissionRepositoryMock
@@ -102,14 +103,16 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {_email} hasn't been found.");
+            .WithMessage(expectedWildcardPattern: $"User with email {_email} hasn't been found.")
+            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
+                                             (string?)x.Identifier == _email);
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_UnknownUserIdentifierReturned()
+    public async Task Should_ThrowDomainRuleValidationException_When_UnknownUserIdentifierReturned()
     {
         // Arrange
         _budgetPermissionRepositoryMock
@@ -130,16 +133,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetailsAsync(
                 expectedWildcardPattern:
                 $"Budget participant must be the existing system user, but provided user with ID {_getUserByEmailResponse.Email} hasn't been found in the system.");
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_MemberHasAlreadyAssignedToRequestedBudget()
+    public async Task Should_ThrowDomainRuleValidationException_When_MemberHasAlreadyAssignedToRequestedBudget()
     {
         // Arrange
         _iamProxyMock
@@ -159,16 +163,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetailsAsync(
                 expectedWildcardPattern:
                 $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}.");
     }
 
     [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]
-    public void
+    public async Task
         Should_ThrowDomainRuleValidationException_When_MemberHasAlreadyOpenedBudgetPermissionRequestsWithSamePermission(
             PermissionType permissionType)
     {
@@ -197,16 +202,17 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetailsAsync(
                 expectedWildcardPattern:
                 $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}.");
     }
 
     [Test]
-    public void
+    public async Task
         Should_CreateBudgetPermissionRequest_When_UserisAssigningAsOwnerButHasOpenedRequestsForReviewerOrSubOwner()
     {
         // Arrange
@@ -235,14 +241,16 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: otherBudgetPermissionRequests);
 
         // Act
-        // Assert
-        Assert.DoesNotThrowAsync(code: () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
             permissionType: PermissionType.Owner, expirationDays: ExpirationDays,
-            cancellationToken: It.IsAny<CancellationToken>()));
+            cancellationToken: It.IsAny<CancellationToken>());
+
+        // Assert
+        await action.Should().NotThrowAsync();
     }
 
     [Test, TestCaseSource(sourceName: nameof(NoOwnerPermissionTypes))]
-    public void
+    public async Task
         Should_CreateBudgetPermissionRequest_When_UserisAssigningAsSubOwnerOrReviewerButHasOpenedRequestsForOwner(
             PermissionType permissionType)
     {
@@ -267,9 +275,11 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             ]);
 
         // Act
-        // Assert
-        Assert.DoesNotThrowAsync(code: () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
             permissionType: permissionType, expirationDays: ExpirationDays,
-            cancellationToken: It.IsAny<CancellationToken>()));
+            cancellationToken: It.IsAny<CancellationToken>());
+
+        // Assert
+        await action.Should().NotThrowAsync();
     }
 }

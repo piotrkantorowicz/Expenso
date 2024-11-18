@@ -1,6 +1,7 @@
 ﻿using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
@@ -37,7 +38,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_UserDoesNotExists()
+    public async Task Should_ThrowNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         const string email = "email@email.com";
@@ -52,10 +53,12 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             request: new GetUserByEmailRequest(Email: email), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {email} not found.");
+            .WithMessage(expectedWildcardPattern: $"User with email {email} hasn't been found.")
+            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
+                                             (string?)x.Identifier == email);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(),

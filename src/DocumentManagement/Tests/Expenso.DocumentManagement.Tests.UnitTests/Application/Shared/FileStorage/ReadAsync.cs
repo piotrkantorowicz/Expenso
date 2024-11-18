@@ -36,7 +36,7 @@ internal sealed class ReadAsync : FileStorageTestBase
     }
 
     [Test]
-    public void Should_ThrowFileHasNotBeenFoundException_WhenFileDoesNotExist()
+    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFileDoesNotExist()
     {
         // Arrange
         const string path = "path";
@@ -46,10 +46,10 @@ internal sealed class ReadAsync : FileStorageTestBase
         Func<Task> action = () => TestCandidate.ReadAsync(path: path, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<FileHasNotBeenFoundException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: x => x.Details == "File not found.");
+            .Where(exceptionExpression: x => x.Details == "File hasn't been found.");
     }
 }

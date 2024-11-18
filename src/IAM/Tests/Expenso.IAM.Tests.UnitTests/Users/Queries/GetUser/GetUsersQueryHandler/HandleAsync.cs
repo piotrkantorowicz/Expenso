@@ -28,7 +28,7 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowException_When_ServiceThrowsException()
+    public async Task Should_ThrowException_When_ServiceThrowsException()
     {
         // Arrange
         GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Payload: new GetUsersRequest());
@@ -41,7 +41,7 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
         Func<Task> action = async () =>
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
-        action.Should().ThrowAsync<Exception>().WithMessage(expectedWildcardPattern: "Service error");
+        await action.Should().ThrowAsync<Exception>().WithMessage(expectedWildcardPattern: "Service error");
     }
 
     [Test]

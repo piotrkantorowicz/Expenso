@@ -1,6 +1,7 @@
 ﻿using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
@@ -29,7 +30,7 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_UserDoesNotExists()
+    public async Task Should_ThrowNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();
@@ -44,10 +45,13 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with ID {userId} not found.");
+            .WithMessage(expectedWildcardPattern: $"User with ID {userId} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == "User" && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (string?)x.Identifier == userId);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUserAsync(It.IsAny<string>(), userId, false, It.IsAny<CancellationToken>()),

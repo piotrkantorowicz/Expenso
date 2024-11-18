@@ -21,15 +21,17 @@ internal sealed class BudgetPermissionRequestExpirationDomainService : IBudgetPe
     public async Task MarkBudgetPermissionRequestAsExpireAsync(Guid? budgetPermissionRequestId,
         CancellationToken cancellationToken)
     {
-        BudgetPermissionRequest? budgetPermissionRequest =
-            await _budgetPermissionRequestRepository.GetByIdAsync(
-                permissionId: BudgetPermissionRequestId.New(value: budgetPermissionRequestId),
+        BudgetPermissionRequestId typedBudgetPermissionRequestId =
+            BudgetPermissionRequestId.New(value: budgetPermissionRequestId);
+
+        BudgetPermissionRequest? budgetPermissionRequest = await _budgetPermissionRequestRepository.GetByIdAsync(
+            permissionId: typedBudgetPermissionRequestId,
                 cancellationToken: cancellationToken);
 
         if (budgetPermissionRequest is null)
         {
             throw new NotFoundException(resourceName: nameof(BudgetPermissionRequest),
-                identifierType: IdentifierType.PrimaryId(), identifier: budgetPermissionRequestId);
+                identifierType: IdentifierType.PrimaryId(), identifier: typedBudgetPermissionRequestId);
         }
 
         budgetPermissionRequest.Expire();

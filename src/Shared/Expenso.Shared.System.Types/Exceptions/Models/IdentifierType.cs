@@ -1,6 +1,6 @@
 ﻿namespace Expenso.Shared.System.Types.Exceptions.Models;
 
-public sealed class IdentifierType
+public sealed record IdentifierType
 {
     private IdentifierType(string value)
     {

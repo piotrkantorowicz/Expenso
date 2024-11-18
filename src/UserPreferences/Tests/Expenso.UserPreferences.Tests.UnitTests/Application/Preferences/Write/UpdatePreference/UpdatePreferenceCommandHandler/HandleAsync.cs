@@ -1,6 +1,8 @@
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
@@ -62,7 +64,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
+    public async Task Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
@@ -87,12 +89,15 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         Func<Task> act = () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        act
+        await act
             .Should()
-            .ThrowAsync<ConflictException>()
+            .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"User preferences for user with ID {command.PreferenceId} or with own ID: {command.PreferenceId} haven't been found.");
+                $"{nameof(Preference)} with query {preferenceQuerySpecification} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(Preference) && x.IdentifierType == IdentifierType.Query() &&
+                (PreferenceQuerySpecification?)x.Identifier == preferenceQuerySpecification);
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(preferenceQuerySpecification, It.IsAny<CancellationToken>()),

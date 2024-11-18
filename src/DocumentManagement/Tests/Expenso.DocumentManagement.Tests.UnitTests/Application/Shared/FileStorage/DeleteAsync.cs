@@ -25,7 +25,7 @@ internal sealed class DeleteAsync : FileStorageTestBase
     }
 
     [Test]
-    public void Should_ThrowFileHasNotBeenFoundException_WhenFileDoesNotExist()
+    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFileDoesNotExist()
     {
         // Arrange
         const string path = "path";
@@ -35,10 +35,10 @@ internal sealed class DeleteAsync : FileStorageTestBase
         Func<Task> action = () => TestCandidate.DeleteAsync(path: path, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<FileHasNotBeenFoundException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "File not found.");
+            .Where(exceptionExpression: ex => ex.Details == "File hasn't been found.");
     }
 }

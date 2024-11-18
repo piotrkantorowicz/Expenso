@@ -32,7 +32,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     }
 
     [Test]
-    public void Should_ThrowsNotFoundException_When_UserDoesNotExists()
+    public async Task Should_ThrowsNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();
@@ -49,9 +49,12 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with ID {userId} hasn't been found.");
+            .WithMessage(expectedWildcardPattern: $"User with ID {userId} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == "User" && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (string?)x.Identifier == userId);
     }
 }

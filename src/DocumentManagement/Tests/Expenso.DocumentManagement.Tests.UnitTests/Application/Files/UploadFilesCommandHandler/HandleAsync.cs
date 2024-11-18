@@ -45,7 +45,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
     }
 
     [Test]
-    public void Should_ThrowEmptyFileContentException_When_FileContentIsEmpty()
+    public async Task Should_ThrowEmptyFileContentException_When_FileContentIsEmpty()
     {
         // Arrange
         Guid userId = Guid.NewGuid();
@@ -65,7 +65,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         Func<Task> action = () => TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<EmptyFileContentException>()
             .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
