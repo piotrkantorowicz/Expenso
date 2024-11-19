@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.DTO.Maps;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
@@ -37,7 +38,8 @@ internal sealed class
 
         if (dbUserPreferencesExists)
         {
-            throw new ConflictException(message: $"Preferences for user with ID {userId} already exists");
+            throw ConflictException.AlreadyExists(resourceName: nameof(Preference),
+                identifierType: IdentifierType.Query(), identifier: querySpecification);
         }
 
         Preference preferenceToCreate = PreferenceFactory.Create(userId: userId);

@@ -4,6 +4,7 @@ using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Types.Constants;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
@@ -121,7 +122,8 @@ internal sealed class JobExecution : IJobExecution
                     {
                         CrontabSchedule.ParseOptions options = new()
                         {
-                            IncludingSeconds = jobEntry.CronExpression.Split(separator: ' ').Length == 6
+                            IncludingSeconds =
+                                jobEntry.CronExpression.Split(separator: Characters.Separator).Length == 6
                         };
 
                         CrontabSchedule? schedule =

@@ -4,6 +4,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.RemovePermission;
 
@@ -25,8 +26,8 @@ internal sealed class RemovePermissionCommandHandler : ICommandHandler<RemovePer
 
         if (budgetPermission is null)
         {
-            throw new NotFoundException(
-                message: $"Budget permission with ID {command.Payload?.BudgetPermissionId} hasn't been found");
+            throw new NotFoundException(resourceName: nameof(BudgetPermission),
+                identifierType: IdentifierType.PrimaryId(), identifier: command.Payload?.BudgetPermissionId);
         }
 
         budgetPermission.RemovePermission(participantId: PersonId.New(value: command.Payload?.ParticipantId));

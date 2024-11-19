@@ -1,5 +1,7 @@
-﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
+﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 using FluentAssertions;
 
@@ -32,7 +34,7 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_BudgetPermissionRequestIsNull()
+    public async Task Should_ThrowNotFoundException_When_BudgetPermissionRequestIsNull()
     {
         // Arrange
         BudgetPermissionRequestId budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
@@ -47,11 +49,14 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
                 budgetPermissionRequestId: budgetPermissionRequestId.Value, cancellationToken: CancellationToken.None);
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission request with ID {budgetPermissionRequestId} hasn't been found.");
+                $"{nameof(BudgetPermissionRequest)} with ID {budgetPermissionRequestId} hasn't been found.")
+            .Where(exceptionExpression: x => x.ResourceName == nameof(BudgetPermissionRequest) &&
+                                             x.IdentifierType == IdentifierType.PrimaryId() &&
+                                             (BudgetPermissionRequestId?)x.Identifier == budgetPermissionRequestId);
     }
 }

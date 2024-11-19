@@ -1,6 +1,8 @@
 ﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 
+using FluentAssertions;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
 
@@ -8,15 +10,17 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
 internal sealed class HandleAsync : BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase
 {
     [Test]
-    public void Should_NotThrow()
+    public async Task Should_NotThrow()
     {
         // Arrange
         // Act
-        // Assert
-        Assert.DoesNotThrowAsync(code: () => TestCandidate.HandleAsync(
+        Func<Task> action = () => TestCandidate.HandleAsync(
             @event: new BudgetPermissionRequestExpiredIntegrationEvent(
                 MessageContext: MessageContextFactoryMock.Object.Current(),
                 Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid())),
-            cancellationToken: default));
+            cancellationToken: default);
+
+        // Assert
+        await action.Should().NotThrowAsync();
     }
 }

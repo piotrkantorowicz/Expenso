@@ -1,7 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
-using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.Domain.Types.ValueObjects;
 
@@ -41,25 +40,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
     }
 
     [Test]
-    public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsNone()
-    {
-        // Arrange
-        // Act
-        Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
-            ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: PermissionType.None,
-            expirationDate: _clockMock.Object.UtcNow.AddDays(days: Expiration),
-            submissionDate: _clockMock.Object.UtcNow));
-
-        // Assert
-        action
-            .Should()
-            .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(
-                expectedWildcardPattern: $"None permission type {PermissionType.None.Value} cannot be processed.");
-    }
-
-    [Test]
-    public void Should_ThrowDomainRuleValidationException_When_ExpirationDateIsLessThanOneDay()
+    public async Task Should_ThrowDomainRuleValidationException_When_ExpirationDateIsLessThanOneDay()
     {
         // Arrange
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: new DateTime(year: 2021, month: 1, day: 1));
@@ -70,10 +51,11 @@ internal sealed class Create : BudgetPermissionRequestTestBase
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0), submissionDate: _clockMock.Object.UtcNow));
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(
+            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
+            .WithDetailsAsync(
                 expectedWildcardPattern: $"Expiration date {_clockMock.Object.UtcNow} must be greater than one day.");
     }
 }

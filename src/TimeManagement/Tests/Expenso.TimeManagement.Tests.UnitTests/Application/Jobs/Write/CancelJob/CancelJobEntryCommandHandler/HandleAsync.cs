@@ -1,4 +1,5 @@
 ﻿using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 
 using FluentAssertions;
@@ -32,7 +33,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowNoFoundException_When_JobEntryNotFound()
+    public async Task Should_ThrowNoFoundException_When_JobEntryNotFound()
     {
         // Arrange
         _jobEntryRepositoryMock
@@ -44,14 +45,17 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job entry with ID {_jobEntryId} not found.");
+            .WithMessage(expectedWildcardPattern: $"{nameof(JobEntry)} with ID {_jobEntryId} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(JobEntry) && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (Guid?)x.Identifier == _jobEntryId);
     }
 
     [Test]
-    public void Should_ThrowNoFoundException_When_JobRunningStatusNotFound()
+    public async Task Should_ThrowNoFoundException_When_JobRunningStatusNotFound()
     {
         // Arrange
         _jobEntryStatusReposiotry
@@ -67,9 +71,14 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert        
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"Job status with ID {JobEntryStatus.Cancelled.Id} not found.");
+            .WithMessage(
+                expectedWildcardPattern:
+                $"{nameof(JobEntryStatus)} with ID {JobEntryStatus.Cancelled.Id} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(JobEntryStatus) && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (Guid?)x.Identifier == JobEntryStatus.Cancelled.Id);
     }
 }

@@ -53,7 +53,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     }
 
     [Test]
-    public void Should_RegisterJobEntry_ViaProxy()
+    public async Task Should_RegisterJobEntry_ViaProxy()
     {
         // Arrange
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
@@ -66,7 +66,9 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
 
         // Act
+        Func<Task> action = () => _timeManagementProxy.RegisterJobEntry(jobEntryRequest: jobEntryRequest);
+        
         // Assert
-        Assert.DoesNotThrowAsync(code: () => _timeManagementProxy.RegisterJobEntry(jobEntryRequest: jobEntryRequest));
+        await action.Should().NotThrowAsync();
     }
 }

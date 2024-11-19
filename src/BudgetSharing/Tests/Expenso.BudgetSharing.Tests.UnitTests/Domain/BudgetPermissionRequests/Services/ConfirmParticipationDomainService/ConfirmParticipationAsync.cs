@@ -84,7 +84,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission request with ID {_budgetPermissionRequestId} hasn't been found.");
+                $"BudgetPermissionRequest with ID {_budgetPermissionRequestId} hasn't been found.");
     }
 
     [Test]
@@ -110,7 +110,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Budget permission with ID {_budgetPermissionRequest.BudgetId} hasn't been found.");
+                $"BudgetPermission with Budget ID {_budgetPermissionRequest.BudgetId} hasn't been found.");
     }
 
     [Test]
@@ -144,7 +144,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ThrowAsync<NotFoundException>()
             .WithMessage(
                 expectedWildcardPattern:
-                $"Finance preferences for user {_budgetPermission.OwnerId} haven't been found.");
+                $"FinancePreference with User ID {_budgetPermission.OwnerId} hasn't been found.");
     }
 
     [Test]

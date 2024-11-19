@@ -1,5 +1,6 @@
 ﻿using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
@@ -27,7 +28,8 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
         if (jobEntry is null)
         {
-            throw new NotFoundException(message: $"Job entry with ID {command.Payload?.JobEntryId} not found.");
+            throw new NotFoundException(resourceName: nameof(JobEntry), identifierType: IdentifierType.PrimaryId(),
+                identifier: command.Payload?.JobEntryId);
         }
 
         Guid jobStatusId = JobEntryStatus.Cancelled.Id;
@@ -37,7 +39,8 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
         if (cancelledStatus is null)
         {
-            throw new NotFoundException(message: $"Job status with ID {jobStatusId} not found.");
+            throw new NotFoundException(resourceName: nameof(JobEntryStatus),
+                identifierType: IdentifierType.PrimaryId(), identifier: jobStatusId);
         }
 
         jobEntry.JobStatus = cancelledStatus;

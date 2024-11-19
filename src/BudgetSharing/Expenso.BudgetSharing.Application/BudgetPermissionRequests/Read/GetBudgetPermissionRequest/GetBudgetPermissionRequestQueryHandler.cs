@@ -6,6 +6,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest;
 
@@ -35,9 +36,8 @@ internal sealed class
 
         if (budgetPermissionRequest is null)
         {
-            throw new NotFoundException(
-                message:
-                $"Budget permission request with ID {query.Payload?.BudgetPermissionRequestId} hasn't been found");
+            throw new NotFoundException(resourceName: nameof(BudgetPermissionRequest),
+                identifierType: IdentifierType.PrimaryId(), identifier: query.Payload?.BudgetPermissionRequestId);
         }
 
         GetBudgetPermissionRequestResponse budgetPermissionRequestResponse =

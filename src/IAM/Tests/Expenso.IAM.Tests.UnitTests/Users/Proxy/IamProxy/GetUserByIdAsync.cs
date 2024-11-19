@@ -2,6 +2,7 @@
 using Expenso.IAM.Shared.DTO.GetUserById.Request;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
@@ -31,7 +32,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     }
 
     [Test]
-    public void Should_ThrowsNotFoundException_When_UserDoesNotExists()
+    public async Task Should_ThrowsNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         string userId = Guid.NewGuid().ToString();
@@ -39,7 +40,8 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == userId),
                 It.IsAny<CancellationToken>()))
-            .ThrowsAsync(exception: new NotFoundException(message: $"User with ID {userId} not found."));
+            .ThrowsAsync(exception: new NotFoundException(resourceName: "User",
+                identifierType: IdentifierType.PrimaryId(), identifier: userId));
 
         // Act
         Func<Task> action = async () =>
@@ -47,9 +49,12 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with ID {userId} not found");
+            .WithMessage(expectedWildcardPattern: $"User with ID {userId} hasn't been found.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == "User" && x.IdentifierType == IdentifierType.PrimaryId() &&
+                (string?)x.Identifier == userId);
     }
 }

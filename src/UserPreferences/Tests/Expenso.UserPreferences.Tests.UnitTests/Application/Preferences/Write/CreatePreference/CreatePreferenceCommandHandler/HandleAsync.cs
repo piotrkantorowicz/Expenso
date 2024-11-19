@@ -1,4 +1,5 @@
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
@@ -41,16 +42,20 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     }
 
     [Test]
-    public void Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
+    public async Task Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
     {
         // Arrange
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new CreatePreferenceRequest(UserId: _userId));
 
+        PreferenceQuerySpecification querySpecification = new()
+        {
+            UserId = _userId,
+            UseTracking = false
+        };
+
         _preferenceRepositoryMock
-            .Setup(expression: x =>
-                x.ExistsAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
-                    It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.ExistsAsync(querySpecification, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: true);
 
         // Act
@@ -58,10 +63,13 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
         Func<Task> act = () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        act
+        await act
             .Should()
             .ThrowAsync<ConflictException>()
             .WithMessage(
-                expectedWildcardPattern: $"Preferences for user with ID {command.Payload?.UserId} already exists.");
+                expectedWildcardPattern: $"{nameof(Preference)} with query {querySpecification} already exists.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(Preference) && x.IdentifierType == IdentifierType.Query() &&
+                (PreferenceQuerySpecification?)x.Identifier == querySpecification);
     }
 }

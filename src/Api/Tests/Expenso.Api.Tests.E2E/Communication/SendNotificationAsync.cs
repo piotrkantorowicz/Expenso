@@ -8,7 +8,7 @@ namespace Expenso.Api.Tests.E2E.Communication;
 internal sealed class SendNotificationAsync : CommunicationTestBase
 {
     [Test]
-    public void Should_SendNotification_And_NotThrow()
+    public async Task Should_SendNotification_And_NotThrow()
     {
         // Arrange
         SendNotificationRequest request = new(Subject: "Subject", Content: "Body",
@@ -16,9 +16,11 @@ internal sealed class SendNotificationAsync : CommunicationTestBase
             NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: true, InApp: true));
 
         // Act
-        // Assert
-        Assert.DoesNotThrowAsync(code: () =>
+        Func<Task> action = () =>
             _communicationProxy.SendNotificationAsync(request: request,
-                cancellationToken: It.IsAny<CancellationToken>()));
+                cancellationToken: It.IsAny<CancellationToken>());
+
+        // Assert
+        await action.Should().NotThrowAsync();
     }
 }

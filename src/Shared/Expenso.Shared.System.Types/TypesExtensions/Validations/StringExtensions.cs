@@ -3,6 +3,8 @@ using System.Net.Mail;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
+using Expenso.Shared.System.Types.Constants;
+
 namespace Expenso.Shared.System.Types.TypesExtensions.Validations;
 
 public static class StringExtensions
@@ -28,7 +30,7 @@ public static class StringExtensions
 
     public static bool IsValidHost(this string? host)
     {
-        if (string.IsNullOrWhiteSpace(value: host) || host.Length > 255 || host.Contains(value: ' '))
+        if (string.IsNullOrWhiteSpace(value: host) || host.Length > 255 || host.Contains(value: Characters.Separator))
         {
             return false;
         }
@@ -56,7 +58,8 @@ public static class StringExtensions
         bool hasDigit = password.Any(predicate: char.IsDigit);
         bool hasSpecialChar = password.Any(predicate: "!@#$%^&*()_+[]{}|;:,.<>?".Contains);
 
-        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar && !password.Contains(value: ' ');
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar &&
+               !password.Contains(value: Characters.Separator);
     }
 
     public static bool IsValidUsername(this string? username, int minLength = 3, int maxLength = 30)
@@ -157,7 +160,9 @@ public static class StringExtensions
     {
         const string dnsPattern = "^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$";
 
-        return host.Split(separator: '.').All(predicate: label => Regex.IsMatch(input: label, pattern: dnsPattern));
+        return host
+            .Split(separator: Characters.Dot)
+            .All(predicate: label => Regex.IsMatch(input: label, pattern: dnsPattern));
     }
 
     private static bool IsValidIPv4Host(string host)

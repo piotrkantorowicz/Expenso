@@ -1,6 +1,7 @@
 ﻿using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
@@ -37,7 +38,7 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_UserDoesNotExists()
+    public async Task Should_ThrowNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
         const string email = "email@email.com";
@@ -52,10 +53,53 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             request: new GetUserByEmailRequest(Email: email), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        action
+        await action
             .Should()
             .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {email} not found.");
+            .WithMessage(expectedWildcardPattern: $"User with email {email} hasn't been found.")
+            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
+                                             (string?)x.Identifier == email);
+
+        _keycloakUserClientMock.Verify(
+            expression: x => x.GetUsersAsync(It.IsAny<string>(),
+                It.Is<GetUsersRequestParameters>(y => y.Email == email), It.IsAny<CancellationToken>()),
+            times: Times.Once);
+    }
+
+    [Test]
+    public async Task Should_ThrowNotFoundException_When_UserDoesNotHaveUniqueIdentyifier()
+    {
+        // Arrange
+        const string email = "email@email.com";
+
+        _keycloakUserClientMock
+            .Setup(expression: x => x.GetUsersAsync(It.IsAny<string>(),
+                It.Is<GetUsersRequestParameters>(y => y.Email == email), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value:
+            [
+                new UserRepresentation
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "carolhussain@email.com"
+                },
+                new UserRepresentation
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "carolhussain@email.com"
+                }
+            ]);
+
+        // Act
+        Func<Task> action = async () => await TestCandidate.GetUserByEmailAsync(
+            request: new GetUserByEmailRequest(Email: email), cancellationToken: It.IsAny<CancellationToken>());
+
+        // Assert
+        await action
+            .Should()
+            .ThrowAsync<ConflictException>()
+            .WithMessage(expectedWildcardPattern: $"User with email {email} hasn't been uniquely identified.")
+            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
+                                             (string?)x.Identifier == email);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(),
