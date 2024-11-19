@@ -64,7 +64,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     }
 
     [Test]
-    public async Task Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
+    public async Task Should_ThrowNotFoundException_When_PreferenceDoesNotExist()
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),

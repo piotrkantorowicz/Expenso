@@ -73,7 +73,7 @@ internal sealed class SaveAsync : FileStorageTestBase
     }
 
     [Test]
-    public async Task Should_ThrowFileHasNotBeenFoundException_WhenDirectoryPathIsNullOrWhiteSpace()
+    public async Task Should_ThrowEmptyPathException_WhenDirectoryPathIsNullOrWhiteSpace()
     {
         // Arrange
         string directoryPath = string.Empty;
@@ -99,7 +99,7 @@ internal sealed class SaveAsync : FileStorageTestBase
     }
 
     [Test]
-    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFilePathIsNullOrWhiteSpace()
+    public async Task Should_ThrowEmptyFileNameException_WhenFilePathIsNullOrWhiteSpace()
     {
         // Arrange
         const string directoryPath = "directoryPath";
@@ -145,7 +145,7 @@ internal sealed class SaveAsync : FileStorageTestBase
     }
 
     [Test]
-    public async Task Should_ThrowFileHasNotBeenFoundException_WhenFileContentIsEmpty()
+    public async Task Should_ThrowEmptyFileContentException_WhenFileContentIsEmpty()
     {
         // Arrange
         const string directoryPath = "directoryPath";
