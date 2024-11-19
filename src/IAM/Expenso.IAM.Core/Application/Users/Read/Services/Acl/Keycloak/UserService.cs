@@ -56,17 +56,17 @@ internal sealed class UserService : IUserService
                 Email = request?.Email
             }, cancellationToken: cancellationToken)).ToList();
 
-        UserRepresentation? user = keycloakUsers.Count is 0 ? null : keycloakUsers.Single();
-
-        if (user is null)
-        {
-            throw new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
-                identifier: request?.Email);
-        }
-
         if (keycloakUsers.Count > 1)
         {
             throw ConflictException.MultipleRecordsFound(resourceName: "User", identifierType: IdentifierType.Email(),
+                identifier: request?.Email);
+        }
+        
+        UserRepresentation? user = keycloakUsers.Count is 0 ? null : keycloakUsers.Single();
+        
+        if (user is null)
+        {
+            throw new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
                 identifier: request?.Email);
         }
 
