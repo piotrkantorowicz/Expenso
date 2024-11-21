@@ -6,13 +6,13 @@ using Expenso.Shared.System.Tasks;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 
-public sealed class BudgetPermissionMustBeUniquilyIdentified : IBusinessRule
+public sealed class BudgetPermissionMustBeUniquelyIdentified : IBusinessRule
 {
     private readonly BudgetPermissionId _budgetPermissionId;
     private readonly BudgetId _budgetId;
     private readonly IBudgetPermissionRepository _budgetPermissionRepository;
 
-    public BudgetPermissionMustBeUniquilyIdentified(BudgetPermissionId budgetPermissionId, BudgetId budgetId,
+    public BudgetPermissionMustBeUniquelyIdentified(BudgetPermissionId budgetPermissionId, BudgetId budgetId,
         IBudgetPermissionRepository budgetPermissionRepository)
     {
         _budgetPermissionId =

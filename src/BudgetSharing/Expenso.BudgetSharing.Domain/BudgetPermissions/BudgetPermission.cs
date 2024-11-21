@@ -38,7 +38,7 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinessRuleCheck(BusinessRule: new BudgetPermissionMustBeUniquilyIdentified(budgetPermissionId: id,
+            new BusinessRuleCheck(BusinessRule: new BudgetPermissionMustBeUniquelyIdentified(budgetPermissionId: id,
                 budgetId: budgetId, budgetPermissionRepository: budgetPermissionRepository))
         ]);
 

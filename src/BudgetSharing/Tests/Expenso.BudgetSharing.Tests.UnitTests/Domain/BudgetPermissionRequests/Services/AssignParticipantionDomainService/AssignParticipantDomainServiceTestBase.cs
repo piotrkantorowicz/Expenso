@@ -31,7 +31,6 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
 
         _budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
         _participantId = PersonId.New(value: Guid.NewGuid());
-        _participantId = PersonId.New(value: Guid.NewGuid());
         _budgetId = BudgetId.New(value: Guid.NewGuid());
         _ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");

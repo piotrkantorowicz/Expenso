@@ -18,7 +18,7 @@ public sealed record BudgetCode
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinessRuleCheck(
-                BusinessRule: new EmptyIdentifierCannotBeProcessed<string>(identifier: value, type: typeof(BudgetId)))
+                BusinessRule: new EmptyIdentifierCannotBeProcessed<string>(identifier: value, type: typeof(BudgetCode)))
         ]);
 
         return new BudgetCode(value: value!);
@@ -26,7 +26,7 @@ public sealed record BudgetCode
 
     public static BudgetCode? Nullable(string? value)
     {
-        return value is null ? null : new BudgetCode(value: value);
+        return value is null ? null : New(value: value.Trim());
     }
 
     public override string ToString()

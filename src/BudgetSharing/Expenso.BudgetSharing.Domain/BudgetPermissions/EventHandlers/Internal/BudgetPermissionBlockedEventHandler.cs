@@ -47,9 +47,14 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
             message.AppendLine(
                 value: "We are writing to inform you that a budget permission has been blocked for your budget.");
             message.AppendLine();
-            message.AppendLine(value: "Below are the details of the deleted permission:");
+            message.AppendLine(value: "Below are the details of the blocked permission:");
             message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
-            message.Append(value: "- Affected participants: All participants").AppendLine();
+
+            message
+                .Append(value: "- Affected participants: ")
+                .Append(value: notificationRecipients.Participants.Count)
+                .Append(value: " participant(s)")
+                .AppendLine();
 
             message
                 .Append(value: "- Blocked date: ")
@@ -102,7 +107,7 @@ internal sealed class BudgetPermissionBlockedEventHandler : IDomainEventHandler<
             }
 
             message
-                .Append(value: "- Deletion date: ")
+                .Append(value: "- Blocked date: ")
                 .Append(value: @event.BlockDate?.Value.ToString(format: "MMMM dd, yyyy"))
                 .AppendLine();
 

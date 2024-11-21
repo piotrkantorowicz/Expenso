@@ -46,15 +46,23 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
 
             message.AppendLine(
                 value: "We are writing to inform you that a budget permission has been unblocked for your budget.");
+
             message.AppendLine();
             message.AppendLine(value: "Below are the details of the unblocked permission:");
             message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
-            message.Append(value: "- Affected participants: All participants").AppendLine();
+
+            message
+                .Append(value: "- Affected participants: ")
+                .Append(value: notificationRecipients.Participants.Count)
+                .Append(value: " participant(s)")
+                .AppendLine();
+
             message.AppendLine();
 
             message.AppendLine(
                 value:
                 "If this unblocking was unintentional or if you require further assistance, please do not hesitate to reach out to us.");
+
             message.AppendLine();
             message.AppendLine(value: "Thank you for your attention to this matter.");
             message.AppendLine();

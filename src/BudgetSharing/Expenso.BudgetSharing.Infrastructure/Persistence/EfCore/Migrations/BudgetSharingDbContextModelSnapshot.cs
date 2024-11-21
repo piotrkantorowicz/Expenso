@@ -66,9 +66,6 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
                     b.HasIndex("BudgetId")
                         .IsUnique();
 
-                    b.HasIndex("BudgetId", "BudgetCode")
-                        .IsUnique();
-
                     b.ToTable("BudgetPermissions", "BudgetSharing");
                 });
 

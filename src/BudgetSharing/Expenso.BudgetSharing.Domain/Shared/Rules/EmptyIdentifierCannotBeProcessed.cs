@@ -29,7 +29,7 @@ internal sealed class EmptyIdentifierCannotBeProcessed<T> : IBusinessRule
             Guid guidIdentifier => guidIdentifier == Guid.Empty,
             string stringIdentifier => string.IsNullOrWhiteSpace(value: stringIdentifier),
             int intIdentifier => intIdentifier == 0,
-            _ => false
+            _ => throw new InvalidOperationException(message: $"Unsupported identifier type: {typeof(T)}")
         };
     }
 }

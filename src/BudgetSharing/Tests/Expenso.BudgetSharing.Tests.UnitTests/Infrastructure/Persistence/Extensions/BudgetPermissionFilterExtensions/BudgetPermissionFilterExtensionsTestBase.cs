@@ -24,15 +24,15 @@ internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBas
 
         budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByIdAsync(_budgetPermissionId, default))
-            .ReturnsAsync(value: (BudgetPermission?)null);
+            .ReturnsAsync(value: null);
 
         budgetPermissionRepositoryMock
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, default))
-            .ReturnsAsync(value: (BudgetPermission?)null);
+            .ReturnsAsync(value: null);
 
         _budgetPermission = BudgetPermission.Create(budgetPermissionId: _budgetPermissionId, budgetId: _budgetId,
             ownerId: _ownerId, budgetCode: _budgetCode,
-            budgetPermissionRepository: new Mock<IBudgetPermissionRepository>().Object);
+            budgetPermissionRepository: budgetPermissionRepositoryMock.Object);
 
         _budgetPermission.AddPermission(participantId: _participantId, permissionType: _permissionType);
     }
