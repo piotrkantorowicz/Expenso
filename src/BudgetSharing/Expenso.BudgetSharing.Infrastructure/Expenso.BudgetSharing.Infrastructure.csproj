@@ -30,4 +30,10 @@
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
+
+    <ItemGroup>
+        <Compile Remove="Persistence\EfCore\Migrations\20241120060842_AddNaturalBudgetIdentifier.cs"/>
+        <Compile Remove="Persistence\EfCore\Migrations\20241120060842_AddNaturalBudgetIdentifier.Designer.cs"/>
+    </ItemGroup>
+
 </Project>

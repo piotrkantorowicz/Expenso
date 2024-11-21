@@ -44,7 +44,8 @@ internal static class BudgetPermissionDataInitializer
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
                     command: new CreateBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
                         Payload: new CreateBudgetPermissionRequest(BudgetPermissionId: null, BudgetId: budgetId,
-                            OwnerId: UserDataInitializer.UserIds[index: 0])), cancellationToken: cancellationToken);
+                            OwnerId: UserDataInitializer.UserIds[index: 0], BudgetCode: "BUDGET_CODE_1")),
+                    cancellationToken: cancellationToken);
 
             AssignParticipantResponse? assignParticipantResponse =
                 await commandDispatcher.SendAsync<AssignParticipantCommand, AssignParticipantResponse>(

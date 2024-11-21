@@ -5,6 +5,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.UserPreferences.Shared;
@@ -33,14 +34,19 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
             personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
-            permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3),
-            submissionDate: _clockMock.Object.UtcNow);
+            budgetCode: BudgetCode.New(value: "BUDGET_CODE_1"), permissionType: PermissionType.SubOwner,
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3), submissionDate: _clockMock.Object.UtcNow);
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate.AddMinutes(minutes: 30));
         PersonId ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetPermissionRequestId = _budgetPermissionRequest.Id;
         _budgetId = _budgetPermissionRequest.BudgetId;
-        _budgetPermission = BudgetPermission.Create(budgetId: _budgetPermissionRequest.BudgetId, ownerId: ownerId);
+
+        _budgetPermission = BudgetPermission.Create(budgetPermissionId: BudgetPermissionId.New(value: Guid.NewGuid()),
+            budgetId: _budgetPermissionRequest.BudgetId, ownerId: ownerId,
+            budgetCode: _budgetPermissionRequest.BudgetCode,
+            budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
+
         _budgetPermission.AddPermission(participantId: ownerId, permissionType: PermissionType.Owner);
 
         _getPreferenceResponse = new GetPreferencesResponse(Id: Guid.NewGuid(), UserId: ownerId.Value,

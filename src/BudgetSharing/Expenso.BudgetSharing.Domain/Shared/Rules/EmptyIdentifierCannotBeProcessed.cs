@@ -4,12 +4,12 @@ using Expenso.Shared.Domain.Types.Rules;
 
 namespace Expenso.BudgetSharing.Domain.Shared.Rules;
 
-internal sealed class EmptyIdentifierCannotBeProcessed : IBusinessRule
+internal sealed class EmptyIdentifierCannotBeProcessed<T> : IBusinessRule
 {
-    private readonly Guid? _identifier;
+    private readonly T? _identifier;
     private readonly MemberInfo? _type;
 
-    public EmptyIdentifierCannotBeProcessed(Guid? identifier, MemberInfo? type = null)
+    public EmptyIdentifierCannotBeProcessed(T? identifier, MemberInfo? type = null)
     {
         _identifier = identifier;
         _type = type;
@@ -19,6 +19,17 @@ internal sealed class EmptyIdentifierCannotBeProcessed : IBusinessRule
 
     public bool IsBroken()
     {
-        return _identifier is null || _identifier == Guid.Empty;
+        if (_identifier is null)
+        {
+            return true;
+        }
+
+        return _identifier switch
+        {
+            Guid guidIdentifier => guidIdentifier == Guid.Empty,
+            string stringIdentifier => string.IsNullOrWhiteSpace(value: stringIdentifier),
+            int intIdentifier => intIdentifier == 0,
+            _ => false
+        };
     }
 }

@@ -8,4 +8,5 @@ internal sealed record BudgetPermissionRequestCancelledEvent(
     IMessageContext MessageContext,
     PersonId OwnerId,
     PersonId ParticipantId,
+    BudgetCode BudgetCode,
     PermissionType PermissionType) : IDomainEvent;

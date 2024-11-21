@@ -24,9 +24,23 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
         builder.HasIndex(indexExpression: x => x.BudgetId).IsUnique();
 
         builder
+            .HasIndex(indexExpression: x => new
+            {
+                x.BudgetId,
+                x.BudgetCode
+            })
+            .IsUnique();
+
+        builder
             .Property(propertyExpression: x => x.BudgetId)
             .HasConversion(convertToProviderExpression: x => x.Value,
                 convertFromProviderExpression: x => BudgetId.New(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.BudgetCode)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => BudgetCode.New(x))
             .IsRequired();
 
         builder

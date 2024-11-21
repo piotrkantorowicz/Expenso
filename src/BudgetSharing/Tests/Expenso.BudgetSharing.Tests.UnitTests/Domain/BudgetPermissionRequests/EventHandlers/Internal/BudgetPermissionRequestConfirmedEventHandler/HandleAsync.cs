@@ -13,14 +13,14 @@ internal sealed class HandleAsync : HandleAsyncBase<
     protected override BudgetPermissionRequestConfirmedEvent CreateEvent()
     {
         return new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            BudgetCode: _budgetCode,
             OwnerId: _defaultOwnerId, ParticipantId: _defaultParticipantId, PermissionType: PermissionType.SubOwner);
     }
 
     protected override void InitTestCandidate()
     {
         TestCandidate =
-            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.
-                BudgetPermissionRequestConfirmedEventHandler(communicationProxy: _communicationProxyMock.Object,
+            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.BudgetPermissionRequestConfirmedEventHandler(communicationProxy: _communicationProxyMock.Object,
                     notificationSettings: _notificationSettings, iamProxyService: _iIamProxyServiceMock.Object);
     }
 }

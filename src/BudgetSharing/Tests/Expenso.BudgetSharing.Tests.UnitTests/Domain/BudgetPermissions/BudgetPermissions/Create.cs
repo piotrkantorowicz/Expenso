@@ -30,6 +30,7 @@ internal sealed class Create : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetCode: TestCandidate.BudgetCode,
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.OwnerId,
                 PermissionType: PermissionType.Owner)
         ]);

@@ -25,6 +25,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
         [
             new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
+                BudgetCode: TestCandidate.BudgetCode,
                 PermissionType: TestCandidate.PermissionType)
         ]);
     }

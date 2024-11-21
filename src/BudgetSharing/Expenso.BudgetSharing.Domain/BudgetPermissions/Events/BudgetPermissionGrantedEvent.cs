@@ -8,4 +8,5 @@ internal sealed record BudgetPermissionGrantedEvent(
     IMessageContext MessageContext,
     PersonId OwnerId,
     PersonId ParticipantId,
+    BudgetCode BudgetCode,
     PermissionType PermissionType) : IDomainEvent;

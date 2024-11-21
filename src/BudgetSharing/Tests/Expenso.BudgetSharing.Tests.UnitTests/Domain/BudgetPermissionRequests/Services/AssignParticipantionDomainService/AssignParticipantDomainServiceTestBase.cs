@@ -2,6 +2,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
@@ -28,14 +29,20 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
             .Returns(value: new DateTimeOffset(year: 2024, month: 1, day: 1, hour: 0, minute: 0, second: 0,
                 offset: TimeSpan.Zero));
 
+        _budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
+        _participantId = PersonId.New(value: Guid.NewGuid());
         _participantId = PersonId.New(value: Guid.NewGuid());
         _budgetId = BudgetId.New(value: Guid.NewGuid());
         _ownerId = PersonId.New(value: Guid.NewGuid());
+        _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
 
         _getUserByEmailResponse = new GetUserByEmailResponse(UserId: _participantId.Value.ToString(),
             Firstname: "Valentina", Lastname: "Long", Username: "vLong", Email: "email@email.com");
 
-        _budgetPermission = BudgetPermission.Create(budgetId: _budgetId, ownerId: _ownerId);
+        _budgetPermission = BudgetPermission.Create(budgetPermissionId: _budgetPermissionId, budgetId: _budgetId,
+            ownerId: _ownerId, budgetCode: _budgetCode,
+            budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
+
         _email = _getUserByEmailResponse.Email;
 
         TestCandidate = new BudgetSharing.Domain.BudgetPermissionRequests.Services.AssignParticipantionDomainService(
@@ -75,7 +82,9 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
     ];
 
     protected readonly PermissionType _permissionType = PermissionType.SubOwner;
+    protected BudgetPermissionId _budgetPermissionId = null!;
     protected BudgetId _budgetId = null!;
+    protected BudgetCode _budgetCode = null!;
     protected BudgetPermission _budgetPermission = null!;
     protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;

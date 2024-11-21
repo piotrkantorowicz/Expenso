@@ -7,4 +7,5 @@ namespace Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 internal sealed record BudgetPermissionUnblockedEvent(
     IMessageContext MessageContext,
     PersonId OwnerId,
+    BudgetCode BudgetCode,
     IReadOnlyCollection<Permission> Permissions) : IDomainEvent;

@@ -45,19 +45,19 @@ internal sealed class
         if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).AppendLine(value: ",");
             message.AppendLine();
 
             message.AppendLine(
                 value:
                 "We are writing to inform you that a budget permission request associated with your budget has expired.");
-
-            message.AppendLine(value: "Below are the details of the expired request:");
             message.AppendLine();
+            message.AppendLine(value: "Below are the details of the expired request:");
+            message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
 
             if (participant?.CanBeIncludedInNotifications is true)
             {
-                message.Append(value: "- Budget participant: ").AppendLine(value: participant.Fullname);
+                message.Append(value: "- Budget participant: ").Append(value: participant.Fullname).AppendLine();
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -66,13 +66,11 @@ internal sealed class
                 .Append(value: "- Expiration date: ")
                 .Append(value: @event.ExpirationDate?.Value.ToString(format: "MMMM dd, yyyy"))
                 .AppendLine();
-
             message.AppendLine();
 
             message.AppendLine(
                 value:
                 "If you believe this request should still be processed or if you need further assistance, please reach out to us.");
-
             message.AppendLine();
             message.AppendLine(value: "Thank you for your attention to this matter.");
             message.AppendLine();
@@ -94,15 +92,19 @@ internal sealed class
         if (participant?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: participant.Fullname).AppendLine(value: ",");
             message.AppendLine();
             message.AppendLine(value: "We regret to inform you that your budget permission request has expired.");
-            message.AppendLine(value: "Below are the details of the expired request:");
             message.AppendLine();
+            message.AppendLine(value: "We regret to inform you that your budget permission request has expired.");
+            message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
 
             if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
             {
-                message.AppendLine(value: $"- Budget Owner: {notificationRecipients.Owner.Fullname}");
+                message
+                    .Append(value: "- Budget Owner: ")
+                    .Append(value: notificationRecipients.Owner.Fullname)
+                    .AppendLine();
             }
 
             message.Append(value: "- Requested permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -111,7 +113,6 @@ internal sealed class
                 .Append(value: "- Expiration date: ")
                 .Append(value: @event.ExpirationDate?.Value.ToString(format: "MMMM dd, yyyy"))
                 .AppendLine();
-
             message.AppendLine();
 
             message.AppendLine(

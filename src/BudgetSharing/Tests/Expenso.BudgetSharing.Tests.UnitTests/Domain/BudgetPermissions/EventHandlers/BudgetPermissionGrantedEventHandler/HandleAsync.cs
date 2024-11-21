@@ -13,6 +13,7 @@ internal sealed class HandleAsync : HandleAsyncBase<
     protected override BudgetPermissionGrantedEvent CreateEvent()
     {
         return new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            BudgetCode: _budgetCode,
             OwnerId: _defaultOwnerId, ParticipantId: _defaultParticipantId, PermissionType: PermissionType.SubOwner);
     }
 

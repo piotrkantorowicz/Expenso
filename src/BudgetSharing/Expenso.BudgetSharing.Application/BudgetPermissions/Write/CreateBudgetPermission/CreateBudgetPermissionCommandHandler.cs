@@ -22,24 +22,14 @@ internal sealed class
     public async Task<CreateBudgetPermissionResponse> HandleAsync(CreateBudgetPermissionCommand command,
         CancellationToken cancellationToken)
     {
-        BudgetPermission budgetPermission;
+        BudgetPermissionId budgetPermissionId =
+            BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId ?? Guid.NewGuid());
 
-        if (command.Payload?.BudgetPermissionId is { } budgetPermissionId)
-        {
-            BudgetPermissionId typedBudgetPermissionId = BudgetPermissionId.New(value: budgetPermissionId);
-
-            budgetPermission =
-                await _budgetPermissionRepository.GetByIdAsync(id: typedBudgetPermissionId,
-                    cancellationToken: cancellationToken) ?? BudgetPermission.Create(
-                    budgetPermissionId: typedBudgetPermissionId,
-                    budgetId: BudgetId.New(value: command.Payload?.BudgetId),
-                    ownerId: PersonId.New(value: command.Payload?.OwnerId));
-        }
-        else
-        {
-            budgetPermission = BudgetPermission.Create(budgetId: BudgetId.New(value: command.Payload?.BudgetId),
-                ownerId: PersonId.New(value: command.Payload?.OwnerId));
-        }
+        BudgetPermission budgetPermission = BudgetPermission.Create(budgetPermissionId: budgetPermissionId,
+            budgetCode: BudgetCode.New(value: command.Payload?.BudgetCode),
+            budgetId: BudgetId.New(value: command.Payload?.BudgetId),
+            ownerId: PersonId.New(value: command.Payload?.OwnerId),
+            budgetPermissionRepository: _budgetPermissionRepository);
 
         budgetPermission.AddPermission(participantId: PersonId.New(value: command.Payload?.OwnerId),
             permissionType: PermissionType.Owner);

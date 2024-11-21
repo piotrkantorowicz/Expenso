@@ -21,6 +21,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
     {
         Id = default!;
         BudgetId = default!;
+        BudgetCode = default!;
         ParticipantId = default!;
         OwnerId = default!;
         PermissionType = default!;
@@ -29,12 +30,13 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
     }
 
-    private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, PersonId participantId,
-        PersonId ownerId, PermissionType permissionType, BudgetPermissionRequestStatus status,
+    private BudgetPermissionRequest(BudgetPermissionRequestId id, BudgetId budgetId, BudgetCode budgetCode,
+        PersonId participantId, PersonId ownerId, PermissionType permissionType, BudgetPermissionRequestStatus status,
         DateAndTime expirationDate, DateAndTime submissionDate)
     {
         Id = id;
         BudgetId = budgetId;
+        BudgetCode = budgetCode;
         ParticipantId = participantId;
         OwnerId = ownerId;
         PermissionType = permissionType;
@@ -47,12 +49,14 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: participantId,
-            PermissionType: permissionType, SubmissionDate: StatusTracker.SubmissionDate));
+            BudgetCode: BudgetCode, PermissionType: permissionType, SubmissionDate: StatusTracker.SubmissionDate));
     }
 
     public BudgetPermissionRequestId Id { get; }
 
     public BudgetId BudgetId { get; }
+
+    public BudgetCode BudgetCode { get; }
 
     public PersonId OwnerId { get; }
 
@@ -67,13 +71,13 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         return _domainEventsSource.GetDomainEvents();
     }
 
-    internal static BudgetPermissionRequest Create(BudgetId budgetId, PersonId ownerId, PersonId personId,
-        PermissionType permissionType, DateAndTime expirationDate, DateAndTime submissionDate,
+    internal static BudgetPermissionRequest Create(BudgetId budgetId, BudgetCode budgetCode, PersonId ownerId,
+        PersonId personId, PermissionType permissionType, DateAndTime expirationDate, DateAndTime submissionDate,
         BudgetPermissionRequestId? budgetPermissionRequestId = null)
     {
         return new BudgetPermissionRequest(
             id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
-            ownerId: ownerId, participantId: personId, permissionType: permissionType,
+            budgetCode: budgetCode, ownerId: ownerId, participantId: personId, permissionType: permissionType,
             status: BudgetPermissionRequestStatus.Pending, expirationDate: expirationDate,
             submissionDate: submissionDate);
     }
@@ -84,7 +88,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestConfirmedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
-            PermissionType: PermissionType));
+            BudgetCode: BudgetCode, PermissionType: PermissionType));
     }
 
     public void Cancel(DateAndTime cancellationDate)
@@ -93,7 +97,7 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestCancelledEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
-            PermissionType: PermissionType));
+            BudgetCode: BudgetCode, PermissionType: PermissionType));
     }
 
     public void Expire()
@@ -102,6 +106,6 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionRequestExpiredEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: ParticipantId,
-            PermissionType: PermissionType, ExpirationDate: StatusTracker.ExpirationDate));
+            BudgetCode: BudgetCode, PermissionType: PermissionType, ExpirationDate: StatusTracker.ExpirationDate));
     }
 }

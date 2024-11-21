@@ -1,4 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
@@ -30,12 +31,14 @@ internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermissi
     protected readonly PersonId _defaultOwnerId =
         PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
 
+    protected readonly BudgetCode _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
     protected Mock<IClock> _clockMock = null!;
 
     protected BudgetPermission CreateTestCandidate(bool createDefaultPermission = true, bool emitDomainEvents = false)
     {
         BudgetPermission testCandidate = BudgetPermission.Create(budgetPermissionId: _defaultBudgetPermissionId,
-            budgetId: _defaultBudgetId, ownerId: _defaultOwnerId);
+            budgetId: _defaultBudgetId, ownerId: _defaultOwnerId, budgetCode: _budgetCode,
+            budgetPermissionRepository: new Mock<IBudgetPermissionRepository>().Object);
 
         if (createDefaultPermission)
         {

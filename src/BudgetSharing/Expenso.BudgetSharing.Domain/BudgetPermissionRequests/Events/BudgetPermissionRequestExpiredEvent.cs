@@ -9,5 +9,6 @@ internal sealed record BudgetPermissionRequestExpiredEvent(
     IMessageContext MessageContext,
     PersonId OwnerId,
     PersonId ParticipantId,
+    BudgetCode BudgetCode,
     PermissionType PermissionType,
     DateAndTime? ExpirationDate) : IDomainEvent;

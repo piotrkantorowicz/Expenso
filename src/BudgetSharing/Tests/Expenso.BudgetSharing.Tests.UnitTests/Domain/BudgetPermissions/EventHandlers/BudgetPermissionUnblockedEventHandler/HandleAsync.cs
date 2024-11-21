@@ -27,6 +27,7 @@ internal sealed class HandleAsync : HandleAsyncBase<
     protected override BudgetPermissionUnblockedEvent CreateEvent()
     {
         return new BudgetPermissionUnblockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            BudgetCode: _budgetCode,
             OwnerId: _defaultOwnerId,
             Permissions:
             [Permission.Create(participantId: _defaultParticipantId, permissionType: PermissionType.SubOwner)]);

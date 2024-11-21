@@ -43,6 +43,7 @@ internal sealed class
         {
             BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
+            BudgetCode = BudgetCode.Nullable(value: query.Payload?.BudgetCode),
             ParticipantId = PersonId.Nullable(value: participantId),
             PermissionTypes = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
         };

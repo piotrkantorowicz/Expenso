@@ -97,8 +97,8 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
         ]);
 
         BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: budgetId,
-            ownerId: budgetPermission!.OwnerId, personId: participantId, permissionType: permissionType!,
-            expirationDate: expirationDate, submissionDate: submissionDate);
+            ownerId: budgetPermission!.OwnerId, budgetCode: budgetPermission.BudgetCode, personId: participantId,
+            permissionType: permissionType!, expirationDate: expirationDate, submissionDate: submissionDate);
 
         await _budgetPermissionRequestRepository.AddAsync(permission: budgetPermissionRequest,
             cancellationToken: cancellationToken);

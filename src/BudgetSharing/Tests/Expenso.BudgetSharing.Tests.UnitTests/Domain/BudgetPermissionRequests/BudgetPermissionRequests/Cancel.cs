@@ -26,6 +26,7 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         [
             new BudgetPermissionRequestCancelledEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
+                BudgetCode: TestCandidate.BudgetCode,
                 PermissionType: TestCandidate.PermissionType)
         ]);
     }

@@ -44,18 +44,18 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
         if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).AppendLine(value: ",");
             message.AppendLine();
 
             message.AppendLine(
                 value: "We are pleased to inform you that budget permission has been granted for your budget.");
-
-            message.AppendLine(value: "Below are the details of the granted permission:");
             message.AppendLine();
+            message.AppendLine(value: "Below are the details of the granted permission:");
+            message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
 
             if (participant?.CanBeIncludedInNotifications is true)
             {
-                message.Append(value: "- Budget participant: ").AppendLine(value: participant.Fullname);
+                message.Append(value: "- Budget participant: ").Append(value: participant.Fullname).AppendLine();
             }
 
             message.Append(value: "- Granted permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -64,7 +64,6 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
             message.AppendLine(
                 value:
                 "If you have any questions or need further assistance, please do not hesitate to reach out to us.");
-
             message.AppendLine();
             message.AppendLine(value: "Thank you for your attention to this matter.");
             message.AppendLine();
@@ -86,15 +85,19 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
         if (participant?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: participant.Fullname).AppendLine(value: ",");
             message.AppendLine();
             message.AppendLine(value: "We are pleased to inform you that budget permission has been granted to you.");
-            message.AppendLine(value: "Below are the details of the granted permission:");
             message.AppendLine();
+            message.AppendLine(value: "Below are the details of the granted permission:");
+            message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
 
             if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
             {
-                message.Append(value: "- Budget Owner: ").AppendLine(value: notificationRecipients.Owner.Fullname);
+                message
+                    .Append(value: "- Budget Owner: ")
+                    .Append(value: notificationRecipients.Owner.Fullname)
+                    .AppendLine();
             }
 
             message.Append(value: "- Granted permission: ").Append(value: @event.PermissionType).AppendLine();
@@ -102,13 +105,12 @@ internal sealed class BudgetPermissionGrantedEventHandler : IDomainEventHandler<
 
             message.AppendLine(
                 value: "If you have any questions or need further assistance, please feel free to reach out to us.");
-
             message.AppendLine();
             message.AppendLine(value: "Thank you for your attention and participation.");
             message.AppendLine();
             message.AppendLine(value: "Best regards,");
             message.AppendLine(value: "Expenso Team");
-
+            
             SendNotificationRequest participantNotification = new(Subject: "Budget Permission Granted",
                 Content: message.ToString(),
                 NotificationContext: new SendNotificationRequest_NotificationContext(

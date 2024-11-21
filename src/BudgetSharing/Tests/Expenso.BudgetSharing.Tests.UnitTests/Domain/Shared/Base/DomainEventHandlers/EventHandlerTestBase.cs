@@ -38,6 +38,7 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
 
         _defaultOwnerId = PersonId.New(value: Guid.NewGuid());
         _defaultParticipantId = PersonId.New(value: Guid.NewGuid());
+        _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
 
         _defaultNotificationRecipients = new NotificationRecipients(
             Owner: new NotificationRecipient(UserId: _defaultOwnerId.ToString(), Fullname: "Laura Ramirez",
@@ -57,6 +58,7 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
     protected NotificationRecipients _defaultNotificationRecipients = null!;
     protected PersonId _defaultOwnerId = null!;
     protected PersonId _defaultParticipantId = null!;
+    protected BudgetCode _budgetCode = null!;
     protected Mock<IIamProxyService> _iIamProxyServiceMock = null!;
     protected NotificationSettings _notificationSettings = null!;
 

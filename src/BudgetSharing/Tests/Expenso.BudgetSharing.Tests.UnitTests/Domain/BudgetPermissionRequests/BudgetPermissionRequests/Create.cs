@@ -34,6 +34,7 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         [
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
+                BudgetCode: TestCandidate.BudgetCode,
                 PermissionType: TestCandidate.PermissionType,
                 SubmissionDate: TestCandidate.StatusTracker.SubmissionDate)
         ]);
@@ -47,8 +48,9 @@ internal sealed class Create : BudgetPermissionRequestTestBase
 
         // Act
         Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
-            ownerId: _defaultOwnerId, personId: _defaultPersonId, permissionType: _defaultPermissionType,
-            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0), submissionDate: _clockMock.Object.UtcNow));
+            ownerId: _defaultOwnerId, personId: _defaultPersonId, budgetCode: _budgetCode,
+            permissionType: _defaultPermissionType, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0),
+            submissionDate: _clockMock.Object.UtcNow));
 
         // Assert
         await action

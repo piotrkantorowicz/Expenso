@@ -25,6 +25,7 @@ internal sealed class Unblock : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionUnblockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetCode: TestCandidate.BudgetCode,
                 OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         ]);
     }

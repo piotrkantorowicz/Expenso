@@ -1,4 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
+using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared;
@@ -25,16 +26,25 @@ public sealed class BudgetPermission : IAggregateRoot
     {
         Id = default!;
         BudgetId = default!;
+        BudgetCode = default!;
         OwnerId = default!;
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
         Permissions = new List<Permission>();
     }
 
-    private BudgetPermission(BudgetPermissionId id, BudgetId budgetId, PersonId ownerId)
+    private BudgetPermission(BudgetPermissionId id, BudgetId budgetId, BudgetCode budgetCode, PersonId ownerId,
+        IBudgetPermissionRepository budgetPermissionRepository)
     {
+        DomainModelState.CheckBusinessRules(businessRules:
+        [
+            new BusinessRuleCheck(BusinessRule: new BudgetPermissionMustBeUniquilyIdentified(budgetPermissionId: id,
+                budgetId: budgetId, budgetPermissionRepository: budgetPermissionRepository))
+        ]);
+
         Id = id;
         BudgetId = budgetId;
+        BudgetCode = budgetCode;
         OwnerId = ownerId;
         _domainEventsSource = new DomainEventsSource();
         _messageContextFactory = MessageContextFactoryResolver.Resolve();
@@ -44,6 +54,8 @@ public sealed class BudgetPermission : IAggregateRoot
     public BudgetPermissionId Id { get; }
 
     public BudgetId BudgetId { get; }
+
+    public BudgetCode BudgetCode { get; }
 
     public PersonId OwnerId { get; }
 
@@ -56,15 +68,11 @@ public sealed class BudgetPermission : IAggregateRoot
         return _domainEventsSource.GetDomainEvents();
     }
 
-    public static BudgetPermission Create(BudgetPermissionId budgetPermissionId, BudgetId budgetId, PersonId ownerId)
+    public static BudgetPermission Create(BudgetPermissionId budgetPermissionId, BudgetId budgetId,
+        BudgetCode budgetCode, PersonId ownerId, IBudgetPermissionRepository budgetPermissionRepository)
     {
-        return new BudgetPermission(id: budgetPermissionId, budgetId: budgetId, ownerId: ownerId);
-    }
-
-    public static BudgetPermission Create(BudgetId budgetId, PersonId ownerId)
-    {
-        return new BudgetPermission(id: BudgetPermissionId.New(value: Guid.NewGuid()), budgetId: budgetId,
-            ownerId: ownerId);
+        return new BudgetPermission(id: budgetPermissionId, budgetId: budgetId, budgetCode: budgetCode,
+            ownerId: ownerId, budgetPermissionRepository: budgetPermissionRepository);
     }
 
     public void AddPermission(PersonId participantId, PermissionType? permissionType)
@@ -88,7 +96,7 @@ public sealed class BudgetPermission : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionGrantedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: participantId,
-            PermissionType: permissionType!));
+            BudgetCode: BudgetCode, PermissionType: permissionType!));
     }
 
     public void RemovePermission(PersonId participantId)
@@ -109,7 +117,7 @@ public sealed class BudgetPermission : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionWithdrawnEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: permission.ParticipantId,
-            PermissionType: permission.PermissionType));
+            BudgetCode: BudgetCode, PermissionType: permission.PermissionType));
     }
 
     public void Block(IClock? clock = null)
@@ -126,7 +134,7 @@ public sealed class BudgetPermission : IAggregateRoot
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionBlockedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId,
             BlockDate: DateAndTime.New(value: Blocker.BlockDate.GetValueOrDefault(defaultValue: DateTimeOffset.UtcNow)),
-            Permissions: Permissions.ToList().AsReadOnly()));
+            BudgetCode: BudgetCode, Permissions: Permissions.ToList().AsReadOnly()));
     }
 
     public void Unblock()
@@ -141,7 +149,7 @@ public sealed class BudgetPermission : IAggregateRoot
         Blocker = null;
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionUnblockedEvent(
-            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId,
+            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, BudgetCode: BudgetCode,
             Permissions: Permissions.ToList().AsReadOnly().ToList().AsReadOnly()));
     }
 }

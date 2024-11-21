@@ -25,6 +25,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         [
             new BudgetPermissionRequestExpiredEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
+                BudgetCode: TestCandidate.BudgetCode,
                 PermissionType: TestCandidate.PermissionType,
                 ExpirationDate: TestCandidate.StatusTracker.ExpirationDate)
         ]);

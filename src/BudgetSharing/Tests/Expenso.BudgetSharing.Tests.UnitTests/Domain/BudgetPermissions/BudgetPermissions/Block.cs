@@ -31,6 +31,7 @@ internal sealed class Block : BudgetPermissionTestBase
             new BudgetPermissionBlockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 BlockDate: DateAndTime.New(
                     value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
+                BudgetCode: TestCandidate.BudgetCode,
                 OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         ]);
     }
@@ -58,6 +59,7 @@ internal sealed class Block : BudgetPermissionTestBase
                 OwnerId: TestCandidate.OwnerId,
                 BlockDate: DateAndTime.New(
                     value: TestCandidate.Blocker!.BlockDate.GetValueOrDefault(defaultValue: _clockMock.Object.UtcNow)),
+                BudgetCode: TestCandidate.BudgetCode,
                 Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         ]);
     }
