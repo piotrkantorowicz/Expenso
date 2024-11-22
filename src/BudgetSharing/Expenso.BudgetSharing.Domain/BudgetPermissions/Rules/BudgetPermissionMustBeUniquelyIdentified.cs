@@ -10,10 +10,12 @@ public sealed class BudgetPermissionMustBeUniquelyIdentified : IBusinessRule
 {
     private readonly BudgetPermissionId _budgetPermissionId;
     private readonly BudgetId _budgetId;
+    private readonly PersonId _ownerId;
+    private readonly BudgetCode _budgetCode;
     private readonly IBudgetPermissionRepository _budgetPermissionRepository;
 
     public BudgetPermissionMustBeUniquelyIdentified(BudgetPermissionId budgetPermissionId, BudgetId budgetId,
-        IBudgetPermissionRepository budgetPermissionRepository)
+        PersonId ownerId, BudgetCode budgetCode, IBudgetPermissionRepository budgetPermissionRepository)
     {
         _budgetPermissionId =
             budgetPermissionId ?? throw new ArgumentNullException(paramName: nameof(budgetPermissionId));
@@ -22,21 +24,19 @@ public sealed class BudgetPermissionMustBeUniquelyIdentified : IBusinessRule
 
         _budgetPermissionRepository = budgetPermissionRepository ??
                                       throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
+
+        _ownerId = ownerId ?? throw new ArgumentNullException(paramName: nameof(ownerId));
+        _budgetCode = budgetCode ?? throw new ArgumentNullException(paramName: nameof(budgetCode));
     }
 
     public string Message =>
-        $"A budget permission must be uniquely identified by its ID {_budgetPermissionId} and Budget ID {_budgetId}.";
+        $"A budget permission must be uniquely identified by its ID {_budgetPermissionId} and Budget ID {_budgetId} and combination of Owner ID {_ownerId} and Budget Code {_budgetCode}.";
 
     public bool IsBroken()
     {
-        BudgetPermission? budgetPermissionFetchedById = _budgetPermissionRepository
-            .GetByIdAsync(budgetPermissionId: _budgetPermissionId, cancellationToken: default)
-            .RunAsSync();
-
-        BudgetPermission? budgetPermissionFetchedByBudgetId = _budgetPermissionRepository
-            .GetByBudgetIdAsync(budgetId: _budgetId, cancellationToken: default)
-            .RunAsSync();
-
-        return budgetPermissionFetchedById is not null || budgetPermissionFetchedByBudgetId is not null;
+        return _budgetPermissionRepository
+            .IsUnique(budgetPermissionId: _budgetPermissionId, budgetId: _budgetId, ownerId: _ownerId,
+                budgetCode: _budgetCode, cancellationToken: default)
+            .RunAsSync() is false;
     }
 }

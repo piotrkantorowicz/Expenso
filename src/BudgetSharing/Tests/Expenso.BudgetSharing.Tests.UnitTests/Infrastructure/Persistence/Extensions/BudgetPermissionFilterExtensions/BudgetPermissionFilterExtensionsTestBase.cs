@@ -15,7 +15,7 @@ internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBas
     public void SetUp()
     {
         _budgetId = BudgetId.New(value: Guid.NewGuid());
-        _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
+        _budgetCode = BudgetCode.New(value: "BDGT/34/12/2024");
         _ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
         _participantId = PersonId.New(value: Guid.NewGuid());
@@ -23,12 +23,9 @@ internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBas
         Mock<IBudgetPermissionRepository> budgetPermissionRepositoryMock = new();
 
         budgetPermissionRepositoryMock
-            .Setup(expression: x => x.GetByIdAsync(_budgetPermissionId, default))
-            .ReturnsAsync(value: null);
-
-        budgetPermissionRepositoryMock
-            .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, default))
-            .ReturnsAsync(value: null);
+            .Setup(expression: x => x.IsUnique(_budgetPermissionId, _budgetId, _ownerId,
+                _budgetCode, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: true);
 
         _budgetPermission = BudgetPermission.Create(budgetPermissionId: _budgetPermissionId, budgetId: _budgetId,
             ownerId: _ownerId, budgetCode: _budgetCode,

@@ -13,7 +13,7 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permissions";
-        const string budgetCode = "BUDGET_CODE_1";
+        const string budgetCode = "BDGT/11/12/2024";
         Guid budgetPermissionId = Guid.NewGuid();
         Guid budgetId = Guid.NewGuid();
 

@@ -9,6 +9,9 @@ public interface IBudgetPermissionRepository
 
     Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken);
 
+    Task<bool> IsUnique(BudgetPermissionId budgetPermissionId, BudgetId budgetId, PersonId ownerId,
+        BudgetCode budgetCode, CancellationToken cancellationToken);
+
     Task AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);
 
     Task UpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken);

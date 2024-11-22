@@ -32,6 +32,15 @@ internal sealed class BudgetPermissionRepository : IBudgetPermissionRepository
             .SingleOrDefaultAsync(predicate: x => x.BudgetId == budgetId, cancellationToken: cancellationToken);
     }
 
+    public async Task<bool> IsUnique(BudgetPermissionId budgetPermissionId, BudgetId budgetId, PersonId ownerId,
+        BudgetCode budgetCode, CancellationToken cancellationToken)
+    {
+        return await _budgetSharingDbContext.BudgetPermissions.AnyAsync(
+            predicate: x =>
+                x.Id == budgetPermissionId || x.BudgetId == budgetId ||
+                (x.OwnerId == ownerId && x.BudgetCode == budgetCode), cancellationToken: cancellationToken) is false;
+    }
+
     public async Task AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)
     {
         if (_budgetSharingDbContext.GetEntryState(entity: budgetPermission) == EntityState.Detached)

@@ -33,10 +33,15 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
         _participantId = PersonId.New(value: Guid.NewGuid());
         _budgetId = BudgetId.New(value: Guid.NewGuid());
         _ownerId = PersonId.New(value: Guid.NewGuid());
-        _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
+        _budgetCode = BudgetCode.New(value: "BDGT/1021/12/2024");
 
         _getUserByEmailResponse = new GetUserByEmailResponse(UserId: _participantId.Value.ToString(),
             Firstname: "Valentina", Lastname: "Long", Username: "vLong", Email: "email@email.com");
+
+        _budgetPermissionRepositoryMock
+            .Setup(expression: x => x.IsUnique(_budgetPermissionId, _budgetId, _ownerId,
+                _budgetCode, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: true);
 
         _budgetPermission = BudgetPermission.Create(budgetPermissionId: _budgetPermissionId, budgetId: _budgetId,
             ownerId: _ownerId, budgetCode: _budgetCode,

@@ -18,7 +18,7 @@ public sealed record BudgetId
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinessRuleCheck(
-                BusinessRule: new EmptyIdentifierCannotBeProcessed<Guid?>(identifier: value, type: typeof(BudgetId)))
+                BusinessRule: new EmptyIdentifierCannotBeProcessed(identifier: value, type: typeof(BudgetId)))
         ]);
 
         return new BudgetId(value: value!.Value);

@@ -27,7 +27,7 @@ internal abstract class
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
             personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
-            budgetCode: BudgetCode.New(value: "BUDGET_CODE_1"), permissionType: PermissionType.SubOwner,
+            budgetCode: BudgetCode.New(value: "BDGT/123/12/2024"), permissionType: PermissionType.SubOwner,
             expirationDate: baseDate.AddDays(days: DefaultExpirationDays), submissionDate: baseDate);
 
         TestCandidate =

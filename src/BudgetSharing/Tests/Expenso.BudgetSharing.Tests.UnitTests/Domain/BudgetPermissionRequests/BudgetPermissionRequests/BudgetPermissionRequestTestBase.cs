@@ -16,7 +16,7 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
         _defaultPersonId = PersonId.New(value: new Guid(g: "be3220e9-54da-4013-a0dd-72db7ef3b53e"));
         _defaultOwnerId = PersonId.New(value: new Guid(g: "fabfae93-2257-4bbc-ac90-8319d42c4836"));
         _defaultBudgetId = BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
-        _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
+        _budgetCode = BudgetCode.New(value: "BDGT/1004/12/2024");
         _defaultPermissionType = PermissionType.Reviewer;
     }
 

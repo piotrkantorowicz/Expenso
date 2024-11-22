@@ -39,7 +39,8 @@ public sealed class BudgetPermission : IAggregateRoot
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinessRuleCheck(BusinessRule: new BudgetPermissionMustBeUniquelyIdentified(budgetPermissionId: id,
-                budgetId: budgetId, budgetPermissionRepository: budgetPermissionRepository))
+                budgetId: budgetId, ownerId: ownerId, budgetCode: budgetCode,
+                budgetPermissionRepository: budgetPermissionRepository))
         ]);
 
         Id = id;
@@ -150,6 +151,6 @@ public sealed class BudgetPermission : IAggregateRoot
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionUnblockedEvent(
             MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, BudgetCode: BudgetCode,
-            Permissions: Permissions.ToList().AsReadOnly().ToList().AsReadOnly()));
+            Permissions: Permissions.ToList().AsReadOnly()));
     }
 }

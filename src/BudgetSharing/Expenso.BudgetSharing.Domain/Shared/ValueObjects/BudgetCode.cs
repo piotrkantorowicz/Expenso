@@ -17,8 +17,7 @@ public sealed record BudgetCode
     {
         DomainModelState.CheckBusinessRules(businessRules:
         [
-            new BusinessRuleCheck(
-                BusinessRule: new EmptyIdentifierCannotBeProcessed<string>(identifier: value, type: typeof(BudgetCode)))
+            new BusinessRuleCheck(BusinessRule: new BudgetCodeMustHasCorrectFormat(budgetCode: value!))
         ]);
 
         return new BudgetCode(value: value!);

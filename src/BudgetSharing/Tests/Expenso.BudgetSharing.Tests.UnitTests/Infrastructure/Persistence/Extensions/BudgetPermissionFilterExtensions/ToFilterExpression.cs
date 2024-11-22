@@ -72,7 +72,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
             },
             nameof(BudgetPermissionFilter.BudgetCode) when expectedResult is false => new BudgetPermissionFilter
             {
-                BudgetCode = BudgetCode.New(value: "BUDGET_CODE_OTHER")
+                BudgetCode = BudgetCode.New(value: "BDGT/65/12/2024")
             },
             nameof(BudgetPermissionFilter.OwnerId)when expectedResult => new BudgetPermissionFilter
             {

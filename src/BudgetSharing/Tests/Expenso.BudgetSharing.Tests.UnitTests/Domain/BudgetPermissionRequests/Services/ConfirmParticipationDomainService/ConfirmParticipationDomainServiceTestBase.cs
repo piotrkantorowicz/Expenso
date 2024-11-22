@@ -26,23 +26,30 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermissionRequestRepositoryMock = new Mock<IBudgetPermissionRequestRepository>();
         _userPreferencesProxyMock = new Mock<IUserPreferencesProxy>();
         _clockMock = new Mock<IClock>();
+        _budgetId = BudgetId.New(value: Guid.NewGuid());
+        BudgetPermissionId budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
+        PersonId ownerId = PersonId.New(value: Guid.NewGuid());
+        BudgetCode budgetCode = BudgetCode.New(value: "BDGT/11/12/2024");
 
         DateTimeOffset submissionDate = new(year: 2024, month: 1, day: 1, hour: 6, minute: 0, second: 0,
             offset: TimeSpan.Zero);
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate);
 
-        _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
-            personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
-            budgetCode: BudgetCode.New(value: "BUDGET_CODE_1"), permissionType: PermissionType.SubOwner,
-            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3), submissionDate: _clockMock.Object.UtcNow);
+        _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
+            personId: PersonId.New(value: Guid.NewGuid()), ownerId: ownerId, budgetCode: budgetCode,
+            permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3),
+            submissionDate: _clockMock.Object.UtcNow);
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate.AddMinutes(minutes: 30));
-        PersonId ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetPermissionRequestId = _budgetPermissionRequest.Id;
-        _budgetId = _budgetPermissionRequest.BudgetId;
 
-        _budgetPermission = BudgetPermission.Create(budgetPermissionId: BudgetPermissionId.New(value: Guid.NewGuid()),
+        _budgetPermissionRepositoryMock
+            .Setup(expression: x => x.IsUnique(budgetPermissionId, _budgetId, ownerId,
+                budgetCode, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: true);
+
+        _budgetPermission = BudgetPermission.Create(budgetPermissionId: budgetPermissionId,
             budgetId: _budgetPermissionRequest.BudgetId, ownerId: ownerId,
             budgetCode: _budgetPermissionRequest.BudgetCode,
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);

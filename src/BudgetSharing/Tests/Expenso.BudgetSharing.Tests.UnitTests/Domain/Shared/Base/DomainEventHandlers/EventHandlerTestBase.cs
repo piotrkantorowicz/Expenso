@@ -38,7 +38,7 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
 
         _defaultOwnerId = PersonId.New(value: Guid.NewGuid());
         _defaultParticipantId = PersonId.New(value: Guid.NewGuid());
-        _budgetCode = BudgetCode.New(value: "BUDGET_CODE_1");
+        _budgetCode = BudgetCode.New(value: "BDGT/55/12/2024");
 
         _defaultNotificationRecipients = new NotificationRecipients(
             Owner: new NotificationRecipient(UserId: _defaultOwnerId.ToString(), Fullname: "Laura Ramirez",

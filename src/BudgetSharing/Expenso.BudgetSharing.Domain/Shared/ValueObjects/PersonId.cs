@@ -18,7 +18,7 @@ public sealed record PersonId
         DomainModelState.CheckBusinessRules(businessRules:
         [
             new BusinessRuleCheck(
-                BusinessRule: new EmptyIdentifierCannotBeProcessed<Guid?>(identifier: value, type: typeof(PersonId)))
+                BusinessRule: new EmptyIdentifierCannotBeProcessed(identifier: value, type: typeof(PersonId)))
         ]);
 
         return new PersonId(value: value!.Value);

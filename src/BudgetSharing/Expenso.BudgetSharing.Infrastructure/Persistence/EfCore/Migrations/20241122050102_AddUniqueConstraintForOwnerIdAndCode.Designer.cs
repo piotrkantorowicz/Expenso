@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations;
 
 [DbContext(typeof(BudgetSharingDbContext))]
-[Migration("20241120060949_AddBudgetCode")]
-partial class AddBudgetCode
+[Migration("20241122050102_AddUniqueConstraintForOwnerIdAndCode")]
+partial class AddUniqueConstraintForOwnerIdAndCode
 {
     /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,9 @@ partial class AddBudgetCode
             b.HasKey("Id");
 
             b.HasIndex("BudgetId")
+                .IsUnique();
+
+            b.HasIndex("OwnerId", "BudgetCode")
                 .IsUnique();
 
             b.ToTable("BudgetPermissions", "BudgetSharing");

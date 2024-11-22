@@ -8,153 +8,155 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations
+namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Migrations;
+
+[DbContext(typeof(BudgetSharingDbContext))]
+partial class BudgetSharingDbContextModelSnapshot : ModelSnapshot
 {
-    [DbContext(typeof(BudgetSharingDbContext))]
-    partial class BudgetSharingDbContextModelSnapshot : ModelSnapshot
+    protected override void BuildModel(ModelBuilder modelBuilder)
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasDefaultSchema("BudgetSharing")
-                .HasAnnotation("ProductVersion", "8.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+        modelBuilder
+            .HasDefaultSchema("BudgetSharing")
+            .HasAnnotation("ProductVersion", "8.0.8")
+            .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+        NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetPermissionRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetPermissionRequest", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<string>("BudgetCode")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("BudgetCode")
+                .IsRequired()
+                .HasColumnType("text");
 
-                    b.Property<Guid>("BudgetId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("BudgetId")
+                .HasColumnType("uuid");
 
-                    b.Property<Guid>("ParticipantId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("ParticipantId")
+                .HasColumnType("uuid");
 
-                    b.Property<int>("PermissionType")
-                        .HasColumnType("integer");
+            b.Property<int>("PermissionType")
+                .HasColumnType("integer");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.ToTable("BudgetPermissionRequests", "BudgetSharing");
-                });
+            b.ToTable("BudgetPermissionRequests", "BudgetSharing");
+        });
 
-            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissions.BudgetPermission", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+        modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissions.BudgetPermission", b =>
+        {
+            b.Property<Guid>("Id")
+                .HasColumnType("uuid");
 
-                    b.Property<string>("BudgetCode")
-                        .IsRequired()
-                        .HasColumnType("text");
+            b.Property<string>("BudgetCode")
+                .IsRequired()
+                .HasColumnType("text");
 
-                    b.Property<Guid>("BudgetId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("BudgetId")
+                .HasColumnType("uuid");
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid");
+            b.Property<Guid>("OwnerId")
+                .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+            b.HasKey("Id");
 
-                    b.HasIndex("BudgetId")
-                        .IsUnique();
+            b.HasIndex("BudgetId")
+                .IsUnique();
 
-                    b.ToTable("BudgetPermissions", "BudgetSharing");
-                });
+            b.HasIndex("OwnerId", "BudgetCode")
+                .IsUnique();
 
-            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetPermissionRequest", b =>
-                {
-                    b.OwnsOne("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker", "StatusTracker", b1 =>
-                        {
-                            b1.Property<Guid>("BudgetPermissionRequestId")
-                                .HasColumnType("uuid");
+            b.ToTable("BudgetPermissions", "BudgetSharing");
+        });
 
-                            b1.Property<DateTimeOffset?>("CancellationDate")
-                                .HasColumnType("timestamp with time zone");
+        modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.BudgetPermissionRequest", b =>
+        {
+            b.OwnsOne("Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatusTracker", "StatusTracker", b1 =>
+            {
+                b1.Property<Guid>("BudgetPermissionRequestId")
+                    .HasColumnType("uuid");
 
-                            b1.Property<DateTimeOffset?>("ConfirmationDate")
-                                .HasColumnType("timestamp with time zone");
+                b1.Property<DateTimeOffset?>("CancellationDate")
+                    .HasColumnType("timestamp with time zone");
 
-                            b1.Property<DateTimeOffset>("ExpirationDate")
-                                .HasColumnType("timestamp with time zone");
+                b1.Property<DateTimeOffset?>("ConfirmationDate")
+                    .HasColumnType("timestamp with time zone");
 
-                            b1.Property<int>("Status")
-                                .HasColumnType("integer")
-                                .HasColumnName("status");
+                b1.Property<DateTimeOffset>("ExpirationDate")
+                    .HasColumnType("timestamp with time zone");
 
-                            b1.Property<DateTimeOffset>("SubmissionDate")
-                                .HasColumnType("timestamp with time zone");
+                b1.Property<int>("Status")
+                    .HasColumnType("integer")
+                    .HasColumnName("status");
 
-                            b1.HasKey("BudgetPermissionRequestId");
+                b1.Property<DateTimeOffset>("SubmissionDate")
+                    .HasColumnType("timestamp with time zone");
 
-                            b1.ToTable("BudgetPermissionRequests", "BudgetSharing");
+                b1.HasKey("BudgetPermissionRequestId");
 
-                            b1.WithOwner()
-                                .HasForeignKey("BudgetPermissionRequestId");
-                        });
+                b1.ToTable("BudgetPermissionRequests", "BudgetSharing");
 
-                    b.Navigation("StatusTracker")
-                        .IsRequired();
-                });
+                b1.WithOwner()
+                    .HasForeignKey("BudgetPermissionRequestId");
+            });
 
-            modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissions.BudgetPermission", b =>
-                {
-                    b.OwnsMany("Expenso.BudgetSharing.Domain.BudgetPermissions.Permission", "Permissions", b1 =>
-                        {
-                            b1.Property<Guid>("BudgetPermissionId")
-                                .HasColumnType("uuid");
+            b.Navigation("StatusTracker")
+                .IsRequired();
+        });
 
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer");
+        modelBuilder.Entity("Expenso.BudgetSharing.Domain.BudgetPermissions.BudgetPermission", b =>
+        {
+            b.OwnsMany("Expenso.BudgetSharing.Domain.BudgetPermissions.Permission", "Permissions", b1 =>
+            {
+                b1.Property<Guid>("BudgetPermissionId")
+                    .HasColumnType("uuid");
 
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
+                b1.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer");
 
-                            b1.Property<Guid>("ParticipantId")
-                                .HasColumnType("uuid");
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
-                            b1.Property<int>("PermissionType")
-                                .HasColumnType("integer");
+                b1.Property<Guid>("ParticipantId")
+                    .HasColumnType("uuid");
 
-                            b1.HasKey("BudgetPermissionId", "Id");
+                b1.Property<int>("PermissionType")
+                    .HasColumnType("integer");
 
-                            b1.ToTable("Permissions", "BudgetSharing");
+                b1.HasKey("BudgetPermissionId", "Id");
 
-                            b1.WithOwner()
-                                .HasForeignKey("BudgetPermissionId");
-                        });
+                b1.ToTable("Permissions", "BudgetSharing");
 
-                    b.OwnsOne("Expenso.Shared.Domain.Types.ValueObjects.Blocker", "Blocker", b1 =>
-                        {
-                            b1.Property<Guid>("BudgetPermissionId")
-                                .HasColumnType("uuid");
+                b1.WithOwner()
+                    .HasForeignKey("BudgetPermissionId");
+            });
 
-                            b1.Property<DateTimeOffset?>("BlockDate")
-                                .HasColumnType("timestamp with time zone");
+            b.OwnsOne("Expenso.Shared.Domain.Types.ValueObjects.Blocker", "Blocker", b1 =>
+            {
+                b1.Property<Guid>("BudgetPermissionId")
+                    .HasColumnType("uuid");
 
-                            b1.Property<bool>("IsBlocked")
-                                .HasColumnType("boolean");
+                b1.Property<DateTimeOffset?>("BlockDate")
+                    .HasColumnType("timestamp with time zone");
 
-                            b1.HasKey("BudgetPermissionId");
+                b1.Property<bool>("IsBlocked")
+                    .HasColumnType("boolean");
 
-                            b1.ToTable("BudgetPermissions", "BudgetSharing");
+                b1.HasKey("BudgetPermissionId");
 
-                            b1.WithOwner()
-                                .HasForeignKey("BudgetPermissionId");
-                        });
+                b1.ToTable("BudgetPermissions", "BudgetSharing");
 
-                    b.Navigation("Blocker");
+                b1.WithOwner()
+                    .HasForeignKey("BudgetPermissionId");
+            });
 
-                    b.Navigation("Permissions");
-                });
+            b.Navigation("Blocker");
+
+            b.Navigation("Permissions");
+        });
 #pragma warning restore 612, 618
-        }
     }
 }
