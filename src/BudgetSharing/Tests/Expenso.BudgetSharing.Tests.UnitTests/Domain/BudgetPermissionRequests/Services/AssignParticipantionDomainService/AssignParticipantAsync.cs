@@ -41,7 +41,6 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        budgetPermissionRequest.Id.Should().NotBeNull();
         budgetPermissionRequest.BudgetId.Should().Be(expected: _budgetId);
         budgetPermissionRequest.ParticipantId.Should().Be(expected: _participantId);
         budgetPermissionRequest.PermissionType.Should().Be(expected: _permissionType);
@@ -55,7 +54,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         [
             new BudgetPermissionRequestedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: budgetPermissionRequest.OwnerId, ParticipantId: budgetPermissionRequest.ParticipantId,
-                PermissionType: budgetPermissionRequest.PermissionType,
+                PermissionType: budgetPermissionRequest.PermissionType, BudgetCode: budgetPermissionRequest.BudgetCode,
                 SubmissionDate: budgetPermissionRequest.StatusTracker.SubmissionDate)
         ]);
     }
@@ -188,7 +187,7 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
-            ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
+            budgetCode: _budgetCode, ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: 10), submissionDate: _clockMock.Object.UtcNow);
 
         _budgetPermissionRequestRepositoryMock
@@ -228,11 +227,11 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
         IReadOnlyCollection<BudgetPermissionRequest> otherBudgetPermissionRequests =
         [
             BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                permissionType: PermissionType.Reviewer, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
-                submissionDate: _clockMock.Object.UtcNow),
+                budgetCode: _budgetCode, permissionType: PermissionType.Reviewer,
+                expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4), submissionDate: _clockMock.Object.UtcNow),
             BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7),
-                submissionDate: _clockMock.Object.UtcNow)
+                budgetCode: _budgetCode, permissionType: PermissionType.SubOwner,
+                expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7), submissionDate: _clockMock.Object.UtcNow)
         ];
 
         _budgetPermissionRequestRepositoryMock
@@ -270,8 +269,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value:
             [
                 BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                    permissionType: PermissionType.Owner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
-                    submissionDate: _clockMock.Object.UtcNow)
+                    budgetCode: _budgetCode, permissionType: PermissionType.Owner,
+                    expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4), submissionDate: _clockMock.Object.UtcNow)
             ]);
 
         // Act

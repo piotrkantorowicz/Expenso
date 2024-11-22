@@ -16,6 +16,9 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
     [TestCase(arg1: nameof(BudgetPermissionFilter.BudgetId), arg2: false, arg3: true),
      TestCase(arg1: nameof(BudgetPermissionFilter.BudgetId), arg2: false, arg3: false),
      TestCase(arg1: nameof(BudgetPermissionFilter.BudgetId), arg2: true, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.BudgetCode), arg2: false, arg3: true),
+     TestCase(arg1: nameof(BudgetPermissionFilter.BudgetCode), arg2: false, arg3: false),
+     TestCase(arg1: nameof(BudgetPermissionFilter.BudgetCode), arg2: true, arg3: false),
      TestCase(arg1: nameof(BudgetPermissionFilter.Id), arg2: false, arg3: true),
      TestCase(arg1: nameof(BudgetPermissionFilter.Id), arg2: false, arg3: false),
      TestCase(arg1: nameof(BudgetPermissionFilter.Id), arg2: true, arg3: false),
@@ -62,6 +65,14 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
             nameof(BudgetPermissionFilter.BudgetId) when expectedResult is false => new BudgetPermissionFilter
             {
                 BudgetId = BudgetId.New(value: Guid.NewGuid())
+            },
+            nameof(BudgetPermissionFilter.BudgetCode) when expectedResult => new BudgetPermissionFilter
+            {
+                BudgetCode = _budgetCode
+            },
+            nameof(BudgetPermissionFilter.BudgetCode) when expectedResult is false => new BudgetPermissionFilter
+            {
+                BudgetCode = BudgetCode.New(value: "BDGT/65/12/2024")
             },
             nameof(BudgetPermissionFilter.OwnerId)when expectedResult => new BudgetPermissionFilter
             {

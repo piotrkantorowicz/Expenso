@@ -9,6 +9,11 @@ namespace Expenso.Shared.System.Types.TypesExtensions.Validations;
 
 public static class StringExtensions
 {
+    private const string BudgetCodePattern = @"^BDGT\/([1-9][0-9]{0,4})\/([1-9]|1[0-2])\/2[0-9]{3}$";
+    private const string DnsPattern = "^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$";
+    private static readonly char[] RelativePathAdditionalInvalidChars = [':', '*', '?', '"', '<', '>', '|'];
+    private static readonly char[] RootPathAdditionalInvalidChars = ['*', '?', '"', '<', '>', '|'];
+
     public static bool IsValidEmail(this string? email)
     {
         if (string.IsNullOrWhiteSpace(value: email))
@@ -117,11 +122,10 @@ public static class StringExtensions
             return false;
         }
 
-        char[] additionalInvalidChars = [':', '*', '?', '"', '<', '>', '|'];
-
-        if (path.Any(predicate: pathChar =>
-                char.IsControl(c: pathChar) || GetInvalidPathChars(additionalInvalidChars: additionalInvalidChars)
-                    .Contains(value: pathChar)))
+        if (path.Any(predicate: pathChar => char.IsControl(c: pathChar) ||
+                                            GetInvalidPathChars(
+                                                    additionalInvalidChars: RelativePathAdditionalInvalidChars)
+                                                .Contains(value: pathChar)))
         {
             return false;
         }
@@ -136,10 +140,8 @@ public static class StringExtensions
             return false;
         }
 
-        char[] additionalInvalidChars = ['*', '?', '"', '<', '>', '|'];
-
         if (path.Any(predicate: pathChar =>
-                GetInvalidPathChars(additionalInvalidChars: additionalInvalidChars).Contains(value: pathChar)))
+                GetInvalidPathChars(additionalInvalidChars: RootPathAdditionalInvalidChars).Contains(value: pathChar)))
         {
             return false;
         }
@@ -156,13 +158,17 @@ public static class StringExtensions
         }
     }
 
+    public static bool IsValidBudgetCode(this string? budgetCode)
+    {
+        return !string.IsNullOrWhiteSpace(value: budgetCode) &&
+               Regex.IsMatch(input: budgetCode, pattern: BudgetCodePattern);
+    }
+
     private static bool IsValidDnsHost(string host)
     {
-        const string dnsPattern = "^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$";
-
         return host
             .Split(separator: Characters.Dot)
-            .All(predicate: label => Regex.IsMatch(input: label, pattern: dnsPattern));
+            .All(predicate: label => Regex.IsMatch(input: label, pattern: DnsPattern));
     }
 
     private static bool IsValidIPv4Host(string host)

@@ -53,6 +53,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
         AssertDomainEventPublished(aggregateRoot: _budgetPermissionRequest, expectedDomainEvents:
         [
             new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetCode: _budgetPermissionRequest.BudgetCode,
                 OwnerId: _budgetPermissionRequest.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
         ]);
@@ -60,6 +61,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
         AssertDomainEventPublished(aggregateRoot: _budgetPermission, expectedDomainEvents:
         [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+                BudgetCode: _budgetPermissionRequest.BudgetCode,
                 OwnerId: _budgetPermission.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
         ]);

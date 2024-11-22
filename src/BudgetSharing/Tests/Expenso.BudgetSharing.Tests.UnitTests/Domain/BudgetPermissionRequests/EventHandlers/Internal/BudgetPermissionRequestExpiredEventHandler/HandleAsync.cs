@@ -14,6 +14,7 @@ internal sealed class HandleAsync : HandleAsyncBase<
     protected override BudgetPermissionRequestExpiredEvent CreateEvent()
     {
         return new BudgetPermissionRequestExpiredEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
+            BudgetCode: _budgetCode,
             OwnerId: _defaultOwnerId, ParticipantId: _defaultParticipantId, PermissionType: PermissionType.SubOwner,
             ExpirationDate: DateAndTime.New(value: _clock.Object.UtcNow.AddDays(days: 2)));
     }
@@ -21,8 +22,7 @@ internal sealed class HandleAsync : HandleAsyncBase<
     protected override void InitTestCandidate()
     {
         TestCandidate =
-            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.
-                BudgetPermissionRequestExpiredEventHandler(communicationProxy: _communicationProxyMock.Object,
+            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.Internal.BudgetPermissionRequestExpiredEventHandler(communicationProxy: _communicationProxyMock.Object,
                     notificationSettings: _notificationSettings, iamProxyService: _iIamProxyServiceMock.Object);
     }
 }

@@ -42,6 +42,7 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
         BudgetPermissionRequestFilter filter = new()
         {
             BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
+            BudgetCode = BudgetCode.Nullable(value: query.Payload?.BudgetCode),
             ParticipantId = PersonId.Nullable(value: participantId),
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
             Statuses = GetBudgetPermissionRequestsRequestMap.MapTo(status: query.Payload?.Status),

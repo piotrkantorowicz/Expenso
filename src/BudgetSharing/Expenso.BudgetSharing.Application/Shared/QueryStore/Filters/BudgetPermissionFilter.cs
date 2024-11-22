@@ -6,6 +6,7 @@ namespace Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 public sealed record BudgetPermissionFilter(
     BudgetPermissionId? Id = null,
     BudgetId? BudgetId = null,
+    BudgetCode? BudgetCode = null,
     PersonId? OwnerId = null,
     PersonId? ParticipantId = null,
     PermissionType[]? PermissionTypes = null);

@@ -20,7 +20,7 @@ internal sealed class RestoreBudgetPermissionCommandHandler : ICommandHandler<Re
     public async Task HandleAsync(RestoreBudgetPermissionCommand command, CancellationToken cancellationToken)
     {
         BudgetPermission? budgetPermission = await _budgetPermissionRepository.GetByIdAsync(
-            id: BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId),
+            budgetPermissionId: BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId),
             cancellationToken: cancellationToken);
 
         if (budgetPermission is null)

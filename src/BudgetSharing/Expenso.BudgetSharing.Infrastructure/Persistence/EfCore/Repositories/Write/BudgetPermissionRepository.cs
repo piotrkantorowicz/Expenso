@@ -17,11 +17,12 @@ internal sealed class BudgetPermissionRepository : IBudgetPermissionRepository
                                   throw new ArgumentNullException(paramName: nameof(budgetSharingDbContext));
     }
 
-    public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId id, CancellationToken cancellationToken)
+    public async Task<BudgetPermission?> GetByIdAsync(BudgetPermissionId budgetPermissionId,
+        CancellationToken cancellationToken)
     {
         return await _budgetSharingDbContext
             .BudgetPermissions.Include(navigationPropertyPath: x => x.Permissions)
-            .SingleOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
+            .SingleOrDefaultAsync(predicate: x => x.Id == budgetPermissionId, cancellationToken: cancellationToken);
     }
 
     public async Task<BudgetPermission?> GetByBudgetIdAsync(BudgetId budgetId, CancellationToken cancellationToken)
@@ -29,6 +30,15 @@ internal sealed class BudgetPermissionRepository : IBudgetPermissionRepository
         return await _budgetSharingDbContext
             .BudgetPermissions.Include(navigationPropertyPath: x => x.Permissions)
             .SingleOrDefaultAsync(predicate: x => x.BudgetId == budgetId, cancellationToken: cancellationToken);
+    }
+
+    public async Task<bool> IsUnique(BudgetPermissionId budgetPermissionId, BudgetId budgetId, PersonId ownerId,
+        BudgetCode budgetCode, CancellationToken cancellationToken)
+    {
+        return await _budgetSharingDbContext.BudgetPermissions.AnyAsync(
+            predicate: x =>
+                x.Id == budgetPermissionId || x.BudgetId == budgetId ||
+                (x.OwnerId == ownerId && x.BudgetCode == budgetCode), cancellationToken: cancellationToken) is false;
     }
 
     public async Task AddOrUpdateAsync(BudgetPermission budgetPermission, CancellationToken cancellationToken)

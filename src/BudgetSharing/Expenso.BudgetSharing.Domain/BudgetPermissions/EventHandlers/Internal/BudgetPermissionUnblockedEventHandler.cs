@@ -41,15 +41,22 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
         if (notificationRecipients.Owner?.CanSendNotifications is true)
         {
             StringBuilder message = new();
-            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).Append(value: ',');
+            message.Append(value: "Dear ").Append(value: notificationRecipients.Owner.Fullname).AppendLine(value: ",");
             message.AppendLine();
 
             message.AppendLine(
                 value: "We are writing to inform you that a budget permission has been unblocked for your budget.");
 
-            message.AppendLine(value: "Below are the details of the unblocked permission:");
             message.AppendLine();
-            message.Append(value: "- Affected participants: All participants").AppendLine();
+            message.AppendLine(value: "Below are the details of the unblocked permission:");
+            message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
+
+            message
+                .Append(value: "- Affected participants: ")
+                .Append(value: notificationRecipients.Participants.Count)
+                .Append(value: " participant(s)")
+                .AppendLine();
+
             message.AppendLine();
 
             message.AppendLine(
@@ -76,46 +83,52 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
 
         foreach (NotificationRecipient participant in notificationRecipients.Participants)
         {
-            if (participant.CanSendNotifications)
+            if (!participant.CanSendNotifications)
             {
-                StringBuilder message = new();
-                message.Append(value: "Dear ").Append(value: participant.Fullname).Append(value: ',');
-                message.AppendLine();
-
-                message.AppendLine(
-                    value: "We are pleased to inform you that a budget permission you had has been unblocked.");
-
-                message.AppendLine(value: "Below are the details of the unblocked permission:");
-                message.AppendLine();
-
-                if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
-                {
-                    message.Append(value: "- Budget Owner: ").AppendLine(value: notificationRecipients.Owner.Fullname);
-                }
-
-                message.AppendLine();
-
-                message.AppendLine(
-                    value:
-                    "If this unblocking was unintentional or if you require further assistance, please feel free to reach out to us.");
-
-                message.AppendLine();
-                message.AppendLine(value: "We appreciate your continued participation.");
-                message.AppendLine();
-                message.AppendLine(value: "Best regards,");
-                message.AppendLine(value: "Expenso Team");
-
-                SendNotificationRequest participantNotification = new(Subject: "Budget Permission Unblocked",
-                    Content: message.ToString(),
-                    NotificationContext: new SendNotificationRequest_NotificationContext(
-                        From: _notificationSettings.Email?.From ??
-                              throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
-                        To: participant.Email!),
-                    NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
-
-                await _communicationProxy.SendNotificationAsync(request: participantNotification,
-                    messageContext: @event.MessageContext, cancellationToken: cancellationToken);
+                continue;
             }
+
+            StringBuilder message = new();
+            message.Append(value: "Dear ").Append(value: participant.Fullname).AppendLine(value: ",");
+            message.AppendLine();
+
+            message.AppendLine(
+                value: "We are pleased to inform you that a budget permission you had has been unblocked.");
+
+            message.AppendLine();
+            message.AppendLine(value: "Below are the details of the unblocked permission:");
+            message.Append(value: "- Budget Code: ").Append(value: @event.BudgetCode).AppendLine();
+
+            if (notificationRecipients.Owner?.CanBeIncludedInNotifications is true)
+            {
+                message
+                    .Append(value: "- Budget Owner: ")
+                    .Append(value: notificationRecipients.Owner.Fullname)
+                    .AppendLine();
+            }
+
+            message.AppendLine();
+
+            message.AppendLine(
+                value:
+                "If this unblocking was unintentional or if you require further assistance, please feel free to reach out to us.");
+
+            message.AppendLine();
+            message.AppendLine(value: "We appreciate your continued participation.");
+            message.AppendLine();
+            message.AppendLine(value: "Best regards,");
+            message.AppendLine(value: "Expenso Team");
+
+            SendNotificationRequest participantNotification = new(Subject: "Budget Permission Unblocked",
+                Content: message.ToString(),
+                NotificationContext: new SendNotificationRequest_NotificationContext(
+                    From: _notificationSettings.Email?.From ??
+                          throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
+                    To: participant.Email!),
+                NotificationType: _notificationSettings.CreateNotificationTypeBasedOnSettings());
+
+            await _communicationProxy.SendNotificationAsync(request: participantNotification,
+                messageContext: @event.MessageContext, cancellationToken: cancellationToken);
         }
     }
 }

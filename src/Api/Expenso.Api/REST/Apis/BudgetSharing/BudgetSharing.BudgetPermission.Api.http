@@ -16,6 +16,7 @@ Authorization: Bearer {{apiAccessToken}}
 {
   "BudgetPermissionId": "57d3e8f7-2ff0-48e4-9684-93e893f10731",
   "BudgetId": "fab3cf10-e0da-4bcb-b41c-dfbba1382215",
+  "BudgetCode": "BUDGET_CODE_1",
   "OwnerId": "4c7a9020-398f-4d42-8cb4-cac1477a49ac"
 }
 

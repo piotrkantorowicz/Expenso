@@ -16,12 +16,14 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
 {
     [TestCase(arg1: nameof(BudgetPermissionRequestFilter.Id), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.BudgetId), arg2: true),
+     TestCase(arg1: nameof(BudgetPermissionRequestFilter.BudgetCode), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.OwnerId), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.ParticipantId), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.PermissionTypes), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.Statuses), arg2: true),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.Id), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.BudgetId), arg2: false),
+     TestCase(arg1: nameof(BudgetPermissionRequestFilter.BudgetCode), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.OwnerId), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.ParticipantId), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestFilter.PermissionTypes), arg2: false),
@@ -60,6 +62,15 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
                 BudgetPermissionRequestFilter
                 {
                     BudgetId = BudgetId.New(value: Guid.NewGuid())
+                },
+            nameof(BudgetPermissionRequestFilter.BudgetCode) when expectedResult => new BudgetPermissionRequestFilter
+            {
+                BudgetCode = _budgetCode
+            },
+            nameof(BudgetPermissionRequestFilter.BudgetCode) when expectedResult is false => new
+                BudgetPermissionRequestFilter
+                {
+                    BudgetCode = BudgetCode.New(value: "BDGT/151/12/2024")
                 },
             nameof(BudgetPermissionRequestFilter.OwnerId)when expectedResult => new BudgetPermissionRequestFilter
             {

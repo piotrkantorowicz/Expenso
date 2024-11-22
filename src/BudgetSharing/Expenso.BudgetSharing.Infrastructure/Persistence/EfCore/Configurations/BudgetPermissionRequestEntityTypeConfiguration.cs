@@ -27,6 +27,12 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
                 convertFromProviderExpression: x => BudgetId.New(x))
             .IsRequired();
 
+        builder
+            .Property(propertyExpression: x => x.BudgetCode)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => BudgetCode.New(x))
+            .IsRequired();
+
         builder.OwnsOne<BudgetPermissionRequestStatusTracker>(navigationExpression: x => x.StatusTracker,
             buildAction: statusTrackerBuilder =>
             {

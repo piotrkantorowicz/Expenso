@@ -36,15 +36,19 @@ internal static class BudgetPermissionDataInitializer
             ];
 
         BudgetIds.AddRange(collection: budgetPermissionRequestIds.Select(selector: x => x.budgetId));
+        int iteration = 0;
 
         foreach ((Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType) in
                  budgetPermissionRequestIds)
         {
+            iteration++;
+
             CreateBudgetPermissionResponse? createBudgetPermissionResponse =
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
                     command: new CreateBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
                         Payload: new CreateBudgetPermissionRequest(BudgetPermissionId: null, BudgetId: budgetId,
-                            OwnerId: UserDataInitializer.UserIds[index: 0])), cancellationToken: cancellationToken);
+                            OwnerId: UserDataInitializer.UserIds[index: 0], BudgetCode: $"BDGT/{iteration}/12/2024")),
+                    cancellationToken: cancellationToken);
 
             AssignParticipantResponse? assignParticipantResponse =
                 await commandDispatcher.SendAsync<AssignParticipantCommand, AssignParticipantResponse>(

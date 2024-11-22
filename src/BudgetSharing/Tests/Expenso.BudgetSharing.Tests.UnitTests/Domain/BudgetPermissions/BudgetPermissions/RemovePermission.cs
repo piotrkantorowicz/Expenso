@@ -27,7 +27,8 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionWithdrawnEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                OwnerId: TestCandidate.OwnerId, ParticipantId: participantId, PermissionType: PermissionType.SubOwner)
+                BudgetCode: TestCandidate.BudgetCode, OwnerId: TestCandidate.OwnerId, ParticipantId: participantId,
+                PermissionType: PermissionType.SubOwner)
         ]);
     }
 

@@ -19,6 +19,7 @@ internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : Domain
         _clockMock = new Mock<IClock>();
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
         _budgetId = BudgetId.New(value: Guid.NewGuid());
+        _budgetCode = BudgetCode.New(value: "BDGT/432/12/2024");
         _status = BudgetPermissionRequestStatus.Pending;
         _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
         _participantId = PersonId.New(value: Guid.NewGuid());
@@ -27,11 +28,13 @@ internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : Domain
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,
             budgetId: _budgetId, ownerId: _ownerId, personId: _participantId, permissionType: _permissionType,
-            submissionDate: _clockMock.Object.UtcNow, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 5));
+            budgetCode: _budgetCode, submissionDate: _clockMock.Object.UtcNow,
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 5));
     }
 
     private Mock<IClock> _clockMock = null!;
     protected BudgetId _budgetId = null!;
+    protected BudgetCode _budgetCode = null!;
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
     protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected PersonId _ownerId = null!;

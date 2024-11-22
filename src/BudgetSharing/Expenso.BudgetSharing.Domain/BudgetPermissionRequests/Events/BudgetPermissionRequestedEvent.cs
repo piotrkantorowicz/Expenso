@@ -9,5 +9,6 @@ internal sealed record BudgetPermissionRequestedEvent(
     IMessageContext MessageContext,
     PersonId OwnerId,
     PersonId ParticipantId,
+    BudgetCode BudgetCode,
     PermissionType PermissionType,
     DateAndTime SubmissionDate) : IDomainEvent;
