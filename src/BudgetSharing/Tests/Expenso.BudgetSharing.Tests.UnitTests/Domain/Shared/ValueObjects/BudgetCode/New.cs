@@ -19,6 +19,7 @@ internal sealed class New : BudgetCodeTestBase
 
         // Assert
         result.Should().NotBeNull();
+        result.Value.Should().Be(expected: value);
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "BDGT/0/12/2024"),
