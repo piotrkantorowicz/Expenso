@@ -70,8 +70,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
             message.AppendLine(value: "Expenso Team");
 
             SendNotificationRequest ownerNotification = new(Subject: "Budget Permission Unblocked",
-                Content: message.ToString(),
-                NotificationContext: new SendNotificationRequest_NotificationContext(
+                Content: message.ToString(), NotificationContext: new SendNotificationRequestNotificationContext(
                     From: _notificationSettings.Email?.From ??
                           throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
                     To: notificationRecipients.Owner.Email!),
@@ -120,8 +119,7 @@ internal sealed class BudgetPermissionUnblockedEventHandler : IDomainEventHandle
             message.AppendLine(value: "Expenso Team");
 
             SendNotificationRequest participantNotification = new(Subject: "Budget Permission Unblocked",
-                Content: message.ToString(),
-                NotificationContext: new SendNotificationRequest_NotificationContext(
+                Content: message.ToString(), NotificationContext: new SendNotificationRequestNotificationContext(
                     From: _notificationSettings.Email?.From ??
                           throw new ConfigurationValueMissedException(key: nameof(EmailNotificationSettings.From)),
                     To: participant.Email!),

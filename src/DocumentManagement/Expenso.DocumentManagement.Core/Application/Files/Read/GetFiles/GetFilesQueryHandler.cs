@@ -30,7 +30,7 @@ internal sealed class GetFilesQueryHandler : IQueryHandler<GetFilesQuery, IEnume
         Guid userId = query.Payload?.UserId ?? query.MessageContext.RequestedBy;
 
         string directoryPath = _directoryPathResolver.ResolvePath(
-            fileType: (FileType)(query.Payload?.FileType ?? GetFilesRequest_FileType.None), userId: userId.ToString(),
+            fileType: (FileType)(query.Payload?.FileType ?? GetFilesRequestFileType.None), userId: userId.ToString(),
             groups: query.Payload?.Groups);
 
         List<GetFilesResponse> filesResponses = [];
@@ -41,8 +41,8 @@ internal sealed class GetFilesQueryHandler : IQueryHandler<GetFilesQuery, IEnume
             byte[] fileContent = await _fileStorage.ReadAsync(path: filePath, cancellationToken: cancellationToken);
 
             filesResponses.Add(item: new GetFilesResponse(UserId: userId, FileName: fileName, FileContent: fileContent,
-                FilesResponseFileType: (GetFilesResponse_FileType)(query.Payload?.FileType ??
-                                                                   GetFilesRequest_FileType.None)));
+                FilesResponseFileType: (GetFilesResponseFileType)(query.Payload?.FileType ??
+                                                                  GetFilesRequestFileType.None)));
         }
 
         return filesResponses;

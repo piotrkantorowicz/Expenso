@@ -33,7 +33,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Setup(expression: x =>
                 x.GetPreferences(
                     new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
-                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<IMessageContext>(),
+                        GetPreferencesRequestPreferenceTypes.Finance), It.IsAny<IMessageContext>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse);
 
@@ -131,7 +131,7 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Setup(expression: x =>
                 x.GetPreferences(
                     new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
-                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<IMessageContext>(),
+                        GetPreferencesRequestPreferenceTypes.Finance), It.IsAny<IMessageContext>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
@@ -165,11 +165,11 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .Setup(expression: x =>
                 x.GetPreferences(
                     new GetPreferencesRequest(null, _budgetPermission.OwnerId.Value,
-                        GetPreferencesRequest_PreferenceTypes.Finance), It.IsAny<IMessageContext>(),
+                        GetPreferencesRequestPreferenceTypes.Finance), It.IsAny<IMessageContext>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferenceResponse with
             {
-                FinancePreference = new GetPreferencesResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
+                FinancePreference = new GetPreferencesResponseFinancePreference(AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: false,
                     MaxNumberOfFinancePlanReviewers: 0)
             });

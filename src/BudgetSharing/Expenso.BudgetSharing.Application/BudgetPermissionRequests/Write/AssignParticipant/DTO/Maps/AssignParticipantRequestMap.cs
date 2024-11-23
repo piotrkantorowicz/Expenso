@@ -6,14 +6,14 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Assig
 internal sealed class AssignParticipantRequestMap
 {
     public static PermissionType? ToPermissionType(
-        AssignParticipantRequest_PermissionType? assignParticipantRequestPermissionType)
+        AssignParticipantRequestPermissionType? assignParticipantRequestPermissionType)
     {
         return assignParticipantRequestPermissionType switch
         {
-            AssignParticipantRequest_PermissionType.None => PermissionType.None,
-            AssignParticipantRequest_PermissionType.Owner => PermissionType.Owner,
-            AssignParticipantRequest_PermissionType.SubOwner => PermissionType.SubOwner,
-            AssignParticipantRequest_PermissionType.Reviewer => PermissionType.Reviewer,
+            AssignParticipantRequestPermissionType.None => PermissionType.None,
+            AssignParticipantRequestPermissionType.Owner => PermissionType.Owner,
+            AssignParticipantRequestPermissionType.SubOwner => PermissionType.SubOwner,
+            AssignParticipantRequestPermissionType.Reviewer => PermissionType.Reviewer,
             _ => null
         };
     }

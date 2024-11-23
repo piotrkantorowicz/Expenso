@@ -12,8 +12,8 @@ internal abstract class SendNotificationCommandValidatorTestBase : TestBase<
     [SetUp]
     public void Setup()
     {
-        SendNotificationRequest_NotificationTypeValidator notificationTypeValidator = new();
-        SendNotificationRequest_NotificationContextValidator notificationContextValidator = new();
+        SendNotificationRequestNotificationTypeValidator notificationTypeValidator = new();
+        SendNotificationRequestNotificationContextValidator notificationContextValidator = new();
 
         SendNotificationRequestValidator sendNotificationRequestValidator =
             new(sendNotificationRequestNotificationContextValidator: notificationContextValidator,

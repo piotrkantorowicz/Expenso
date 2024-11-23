@@ -5,7 +5,7 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 
 internal static class UpdatePreferenceRequestMap
 {
-    public static FinancePreference? MapFrom(UpdatePreferenceRequest_FinancePreference? financePreference)
+    public static FinancePreference? MapFrom(UpdatePreferenceRequestFinancePreference? financePreference)
     {
         if (financePreference is null)
         {
@@ -21,7 +21,7 @@ internal static class UpdatePreferenceRequestMap
         };
     }
 
-    public static GeneralPreference? MapFrom(UpdatePreferenceRequest_GeneralPreference? generalPreference)
+    public static GeneralPreference? MapFrom(UpdatePreferenceRequestGeneralPreference? generalPreference)
     {
         if (generalPreference is null)
         {
@@ -34,8 +34,7 @@ internal static class UpdatePreferenceRequestMap
         };
     }
 
-    public static NotificationPreference? MapFrom(
-        UpdatePreferenceRequest_NotificationPreference? notificationPreference)
+    public static NotificationPreference? MapFrom(UpdatePreferenceRequestNotificationPreference? notificationPreference)
     {
         if (notificationPreference is null)
         {

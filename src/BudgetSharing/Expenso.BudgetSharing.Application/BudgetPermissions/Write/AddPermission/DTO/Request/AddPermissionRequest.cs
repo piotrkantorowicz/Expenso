@@ -3,4 +3,4 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermissio
 public sealed record AddPermissionRequest(
     Guid BudgetPermissionId,
     Guid ParticipantId,
-    AddPermissionRequest_PermissionType PermissionType);
+    AddPermissionRequestPermissionType PermissionType);

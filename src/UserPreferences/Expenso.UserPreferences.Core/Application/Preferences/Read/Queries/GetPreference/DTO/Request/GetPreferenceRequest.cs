@@ -2,4 +2,4 @@
 
 public sealed record GetPreferenceRequest(
     Guid? PreferenceId = null,
-    GetPreferenceRequest_PreferenceTypes? PreferenceType = null);
+    GetPreferenceRequestPreferenceTypes? PreferenceType = null);

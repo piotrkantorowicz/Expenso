@@ -5,9 +5,9 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Up
 internal sealed class UpdatePreferenceRequestValidator : AbstractValidator<UpdatePreferenceRequest>
 {
     public UpdatePreferenceRequestValidator(
-        UpdatePreferenceRequest_FinancePreferenceValidator financePreferenceValidator,
-        UpdatePreferenceRequest_NotificationPreferenceValidator notificationPreferenceValidator,
-        UpdatePreferenceRequest_GeneralPreferenceValidator generalPreferenceValidator)
+        UpdatePreferenceRequestFinancePreferenceValidator financePreferenceValidator,
+        UpdatePreferenceRequestNotificationPreferenceValidator notificationPreferenceValidator,
+        UpdatePreferenceRequestGeneralPreferenceValidator generalPreferenceValidator)
     {
         ArgumentNullException.ThrowIfNull(argument: financePreferenceValidator,
             paramName: nameof(financePreferenceValidator));

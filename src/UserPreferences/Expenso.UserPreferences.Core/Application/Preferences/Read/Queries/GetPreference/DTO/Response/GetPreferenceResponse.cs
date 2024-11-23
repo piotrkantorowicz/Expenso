@@ -3,6 +3,6 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetP
 public sealed record GetPreferenceResponse(
     Guid Id,
     Guid UserId,
-    GetPreferenceResponse_FinancePreference? FinancePreference,
-    GetPreferenceResponse_NotificationPreference? NotificationPreference,
-    GetPreferenceResponse_GeneralPreference? GeneralPreference);
+    GetPreferenceResponseFinancePreference? FinancePreference,
+    GetPreferenceResponseNotificationPreference? NotificationPreference,
+    GetPreferenceResponseGeneralPreference? GeneralPreference);

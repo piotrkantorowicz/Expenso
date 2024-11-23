@@ -26,7 +26,7 @@ internal sealed class DeleteFilesCommandHandler : ICommandHandler<DeleteFilesCom
     public async Task HandleAsync(DeleteFilesCommand command, CancellationToken cancellationToken)
     {
         string directoryPath = _directoryPathResolver.ResolvePath(
-            fileType: (FileType)(command.Payload?.FileType ?? DeleteFilesRequest_FileType.None),
+            fileType: (FileType)(command.Payload?.FileType ?? DeleteFilesRequestFileType.None),
             userId: (command.Payload?.UserId ?? command.MessageContext.RequestedBy).ToString(),
             groups: command.Payload?.Groups);
 

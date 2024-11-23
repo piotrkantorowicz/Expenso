@@ -20,58 +20,58 @@ internal static class GetBudgetPermissionRequestResponseMap
             ConfirmationDate: budgetPermissionRequest.StatusTracker.ConfirmationDate?.Value);
     }
 
-    private static GetBudgetPermissionRequestResponse_Status MapTo(
+    private static GetBudgetPermissionRequestResponseStatus MapTo(
         BudgetPermissionRequestStatus budgetPermissionRequestStatus)
     {
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.None)
         {
-            return GetBudgetPermissionRequestResponse_Status.None;
+            return GetBudgetPermissionRequestResponseStatus.None;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Pending)
         {
-            return GetBudgetPermissionRequestResponse_Status.Pending;
+            return GetBudgetPermissionRequestResponseStatus.Pending;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Cancelled)
         {
-            return GetBudgetPermissionRequestResponse_Status.Cancelled;
+            return GetBudgetPermissionRequestResponseStatus.Cancelled;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Confirmed)
         {
-            return GetBudgetPermissionRequestResponse_Status.Confirmed;
+            return GetBudgetPermissionRequestResponseStatus.Confirmed;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Expired)
         {
-            return GetBudgetPermissionRequestResponse_Status.Expired;
+            return GetBudgetPermissionRequestResponseStatus.Expired;
         }
 
         throw new ArgumentOutOfRangeException(paramName: nameof(budgetPermissionRequestStatus),
             actualValue: budgetPermissionRequestStatus, message: null);
     }
 
-    private static GetBudgetPermissionRequestResponse_PermissionType MapTo(PermissionType permissionType)
+    private static GetBudgetPermissionRequestResponsePermissionType MapTo(PermissionType permissionType)
     {
         if (permissionType == PermissionType.None)
         {
-            return GetBudgetPermissionRequestResponse_PermissionType.None;
+            return GetBudgetPermissionRequestResponsePermissionType.None;
         }
 
         if (permissionType == PermissionType.Owner)
         {
-            return GetBudgetPermissionRequestResponse_PermissionType.Owner;
+            return GetBudgetPermissionRequestResponsePermissionType.Owner;
         }
 
         if (permissionType == PermissionType.SubOwner)
         {
-            return GetBudgetPermissionRequestResponse_PermissionType.SubOwner;
+            return GetBudgetPermissionRequestResponsePermissionType.SubOwner;
         }
 
         if (permissionType == PermissionType.Reviewer)
         {
-            return GetBudgetPermissionRequestResponse_PermissionType.Reviewer;
+            return GetBudgetPermissionRequestResponsePermissionType.Reviewer;
         }
 
         throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,

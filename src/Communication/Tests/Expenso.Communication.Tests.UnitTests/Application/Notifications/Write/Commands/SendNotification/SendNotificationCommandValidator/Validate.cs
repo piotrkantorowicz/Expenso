@@ -31,7 +31,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content", NotificationContext: null,
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
@@ -49,7 +49,7 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
                 NotificationType: null!));
 
         // Act
@@ -67,8 +67,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: string.Empty),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: string.Empty),
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
@@ -87,8 +87,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: string.Empty, To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: string.Empty, To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
@@ -107,8 +107,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: content,
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
@@ -126,8 +126,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: new string(c: 'a', count: 2501),
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
@@ -145,8 +145,8 @@ internal sealed class Validate : SendNotificationCommandValidatorTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: false, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: false, Push: false,
                     InApp: false)));
 
         // Act

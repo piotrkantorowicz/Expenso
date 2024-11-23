@@ -18,8 +18,8 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: false,
                     InApp: false)));
 
         // Act
@@ -35,8 +35,8 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: false, Push: true,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: false, Push: true,
                     InApp: false)));
 
         // Act
@@ -52,8 +52,8 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: false, Push: false,
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: false, Push: false,
                     InApp: true)));
 
         // Act
@@ -69,8 +69,8 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
         // Arrange
         SendNotificationCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new SendNotificationRequest(Subject: "Subject", Content: "Content",
-                NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-                NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: true, InApp: true)));
+                NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+                NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: true, InApp: true)));
 
         // Act
         await TestCandidate.HandleAsync(command: command, cancellationToken: CancellationToken.None);

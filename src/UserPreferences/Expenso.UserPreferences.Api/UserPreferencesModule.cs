@@ -59,8 +59,8 @@ public sealed class UserPreferencesModule : IModuleDefinition
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
                 [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
-                [FromQuery] GetPreferenceRequest_PreferenceTypes preferenceType =
-                    GetPreferenceRequest_PreferenceTypes.None, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetPreferenceRequestPreferenceTypes preferenceType =
+                    GetPreferenceRequestPreferenceTypes.None, CancellationToken cancellationToken = default) =>
             {
                 GetPreferenceResponse? response = await handler.HandleAsync(
                     query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(),
@@ -76,8 +76,8 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromServices]
                 IQueryHandler<GetPreferenceForCurrentUserQuery, GetPreferenceForCurrentUserResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory,
-                [FromQuery] GetPreferenceForCurrentUserRequest_PreferenceTypes preferenceType =
-                    GetPreferenceForCurrentUserRequest_PreferenceTypes.None,
+                [FromQuery] GetPreferenceForCurrentUserRequestPreferenceTypes preferenceType =
+                    GetPreferenceForCurrentUserRequestPreferenceTypes.None,
                 CancellationToken cancellationToken = default) =>
             {
                 GetPreferenceForCurrentUserResponse? response = await handler.HandleAsync(
@@ -93,8 +93,8 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferencesResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? id = null,
                 [FromQuery] Guid? userId = null,
-                [FromQuery] GetPreferencesRequest_PreferenceTypes preferenceType =
-                    GetPreferencesRequest_PreferenceTypes.None, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetPreferencesRequestPreferenceTypes preferenceType =
+                    GetPreferencesRequestPreferenceTypes.None, CancellationToken cancellationToken = default) =>
             {
                 GetPreferencesResponse? response = await handler.HandleAsync(
                     query: new GetPreferencesQuery(MessageContext: messageContextFactory.Current(),

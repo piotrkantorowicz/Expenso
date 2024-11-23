@@ -38,7 +38,7 @@ internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
 
         GetFilesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetFileRequest(UserId: null, Groups: null, FileNames: files,
-                FileType: GetFilesRequest_FileType.Import));
+                FileType: GetFilesRequestFileType.Import));
 
         _directoryPathResolverMock
             .Setup(expression: x => x.ResolvePath((FileType)query.Payload!.FileType,
@@ -66,9 +66,9 @@ internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
             .BeEquivalentTo(expectation:
             [
                 new GetFilesResponse(UserId: query.MessageContext.RequestedBy, FileName: files[0],
-                    FileContent: byteContents[0], FilesResponseFileType: GetFilesResponse_FileType.Import),
+                    FileContent: byteContents[0], FilesResponseFileType: GetFilesResponseFileType.Import),
                 new GetFilesResponse(UserId: query.MessageContext.RequestedBy, FileName: files[1],
-                    FileContent: byteContents[1], FilesResponseFileType: GetFilesResponse_FileType.Import)
+                    FileContent: byteContents[1], FilesResponseFileType: GetFilesResponseFileType.Import)
             ]);
     }
 }

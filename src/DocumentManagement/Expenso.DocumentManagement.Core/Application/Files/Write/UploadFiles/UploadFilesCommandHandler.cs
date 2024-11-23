@@ -23,11 +23,11 @@ internal sealed class UploadFilesCommandHandler : ICommandHandler<UploadFilesCom
     public async Task HandleAsync(UploadFilesCommand command, CancellationToken cancellationToken)
     {
         string directoryPath = _directoryPathResolver.ResolvePath(
-            fileType: (FileType)(command.Payload?.FileType ?? UploadFilesRequest_FileType.None),
+            fileType: (FileType)(command.Payload?.FileType ?? UploadFilesRequestFileType.None),
             userId: (command.Payload?.UserId ?? command.MessageContext.RequestedBy).ToString(),
             groups: command.Payload?.Groups);
 
-        foreach (UploadFilesRequest_File file in command.Payload?.Files ?? [])
+        foreach (UploadFilesRequestFile file in command.Payload?.Files ?? [])
         {
             if (file.Content is null || file.Content.Length is 0)
             {

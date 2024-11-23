@@ -5,17 +5,17 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPerm
 
 public static class GetBudgetPermissionsRequestMap
 {
-    private static readonly Dictionary<GetBudgetPermissionsRequest_PermissionType, PermissionType> PermissionTypeMap =
+    private static readonly Dictionary<GetBudgetPermissionsRequestPermissionType, PermissionType> PermissionTypeMap =
         new()
         {
-            { GetBudgetPermissionsRequest_PermissionType.Owner, PermissionType.Owner },
-            { GetBudgetPermissionsRequest_PermissionType.SubOwner, PermissionType.SubOwner },
-            { GetBudgetPermissionsRequest_PermissionType.Reviewer, PermissionType.Reviewer }
+            { GetBudgetPermissionsRequestPermissionType.Owner, PermissionType.Owner },
+            { GetBudgetPermissionsRequestPermissionType.SubOwner, PermissionType.SubOwner },
+            { GetBudgetPermissionsRequestPermissionType.Reviewer, PermissionType.Reviewer }
         };
 
-    public static PermissionType[] MapTo(GetBudgetPermissionsRequest_PermissionType? permissionType)
+    public static PermissionType[] MapTo(GetBudgetPermissionsRequestPermissionType? permissionType)
     {
-        return permissionType is null or GetBudgetPermissionsRequest_PermissionType.None
+        return permissionType is null or GetBudgetPermissionsRequestPermissionType.None
             ? ( [PermissionType.None])
             : PermissionTypeMap
                 .Where(predicate: kv => permissionType.Value.HasFlag(flag: kv.Key))

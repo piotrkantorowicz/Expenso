@@ -12,8 +12,8 @@ internal sealed class SendNotificationAsync : CommunicationTestBase
     {
         // Arrange
         SendNotificationRequest request = new(Subject: "Subject", Content: "Body",
-            NotificationContext: new SendNotificationRequest_NotificationContext(From: "From", To: "To"),
-            NotificationType: new SendNotificationRequest_NotificationType(Email: true, Push: true, InApp: true));
+            NotificationContext: new SendNotificationRequestNotificationContext(From: "From", To: "To"),
+            NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: true, InApp: true));
 
         // Act
         Func<Task> action = () =>

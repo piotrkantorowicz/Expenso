@@ -44,7 +44,7 @@ internal sealed class
         {
             UserId = currentUserId,
             PreferenceType = query.Payload?.PreferenceType
-                .SafeCast<PreferenceTypes, GetPreferenceForCurrentUserRequest_PreferenceTypes>(),
+                .SafeCast<PreferenceTypes, GetPreferenceForCurrentUserRequestPreferenceTypes>(),
             UseTracking = false
         };
 

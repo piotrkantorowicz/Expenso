@@ -4,4 +4,4 @@ public sealed record GetFileRequest(
     Guid? UserId,
     string[]? Groups,
     string[] FileNames,
-    GetFilesRequest_FileType FileType);
+    GetFilesRequestFileType FileType);

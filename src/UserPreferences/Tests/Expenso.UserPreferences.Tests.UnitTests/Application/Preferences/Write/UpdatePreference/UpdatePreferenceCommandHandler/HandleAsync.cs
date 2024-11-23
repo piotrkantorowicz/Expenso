@@ -20,13 +20,13 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             PreferenceId: _id,
-            Payload: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
+            Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 5),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         PreferenceQuerySpecification preferenceQuerySpecification =
             new(PreferenceId: _id, UseTracking: true, PreferenceType: PreferenceTypes.All);
@@ -69,13 +69,13 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             PreferenceId: _id,
-            Payload: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: false,
+            Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 5),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         PreferenceQuerySpecification preferenceQuerySpecification =
             new(PreferenceId: _id, UseTracking: true, PreferenceType: PreferenceTypes.All);

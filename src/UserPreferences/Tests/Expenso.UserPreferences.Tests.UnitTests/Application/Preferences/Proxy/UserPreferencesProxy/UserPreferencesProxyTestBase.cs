@@ -22,12 +22,12 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
             MessageContextFactoryMock.Object.Current(messageId: It.IsAny<Guid?>(), moduleId: It.IsAny<string?>());
 
         _getPreferencesExternalResponse = new GetPreferencesResponse(Id: _id, UserId: _userId,
-            FinancePreference: new GetPreferencesResponse_FinancePreference(AllowAddFinancePlanSubOwners: false,
+            FinancePreference: new GetPreferencesResponseFinancePreference(AllowAddFinancePlanSubOwners: false,
                 MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: false,
                 MaxNumberOfFinancePlanReviewers: 0),
-            NotificationPreference: new GetPreferencesResponse_NotificationPreference(SendFinanceReportEnabled: true,
+            NotificationPreference: new GetPreferencesResponseNotificationPreference(SendFinanceReportEnabled: true,
                 SendFinanceReportInterval: 7),
-            GeneralPreference: new GetPreferencesResponse_GeneralPreference(UseDarkMode: false));
+            GeneralPreference: new GetPreferencesResponseGeneralPreference(UseDarkMode: false));
 
         _createPreferenceResponse = new CreatePreferenceResponse(PreferenceId: _id);
 

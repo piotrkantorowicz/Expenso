@@ -4,7 +4,7 @@ namespace Expenso.Communication.Shared.DTO.API.SendNotification.Extensions;
 
 public static class CreateNotificationRequestNotificationTypeExtensions
 {
-    public static SendNotificationRequest_NotificationType CreateNotificationTypeBasedOnSettings(
+    public static SendNotificationRequestNotificationType CreateNotificationTypeBasedOnSettings(
         this NotificationSettings? settings)
     {
         if (settings is null)
@@ -17,12 +17,12 @@ public static class CreateNotificationRequestNotificationTypeExtensions
             return Disable();
         }
 
-        return new SendNotificationRequest_NotificationType(Email: settings.Email?.Enabled,
+        return new SendNotificationRequestNotificationType(Email: settings.Email?.Enabled,
             InApp: settings.InApp?.Enabled, Push: settings.Push?.Enabled);
     }
 
-    private static SendNotificationRequest_NotificationType Disable()
+    private static SendNotificationRequestNotificationType Disable()
     {
-        return new SendNotificationRequest_NotificationType(Email: false, Push: false, InApp: false);
+        return new SendNotificationRequestNotificationType(Email: false, Push: false, InApp: false);
     }
 }

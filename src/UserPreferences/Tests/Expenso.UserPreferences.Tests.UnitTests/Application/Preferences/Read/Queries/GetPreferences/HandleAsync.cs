@@ -15,7 +15,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferencesRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
@@ -42,7 +42,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(UserId: _userId,
-                PreferenceType: It.IsAny<GetPreferencesRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
@@ -70,7 +70,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferencesRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
 
         // Act
         Func<Task> action = async () =>
@@ -86,7 +86,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(UserId: _userId,
-                PreferenceType: It.IsAny<GetPreferencesRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
 
         // Act
         Func<Task> action = async () =>

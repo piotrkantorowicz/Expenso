@@ -32,13 +32,13 @@ internal static class PreferencesDataInitializer
         await commandDispatcher.SendAsync(
             command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
                 PreferenceId: PreferenceIds[index: 0],
-                Payload: new UpdatePreferenceRequest(
-                    FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                        AllowAddFinancePlanSubOwners: true,
                         MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,
                         MaxNumberOfFinancePlanReviewers: 5),
-                    NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                    NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                         SendFinanceReportEnabled: true, SendFinanceReportInterval: 7),
-                    GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true))),
+                    GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true))),
             cancellationToken: cancellationToken);
     }
 }
