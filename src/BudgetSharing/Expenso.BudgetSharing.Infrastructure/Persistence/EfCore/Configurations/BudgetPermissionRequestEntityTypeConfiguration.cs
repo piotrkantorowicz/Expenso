@@ -14,6 +14,9 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
     {
         builder.ToTable(name: "BudgetPermissionRequests");
         builder.HasKey(keyExpression: x => x.Id);
+        builder.HasIndex(indexExpression: x => x.BudgetId);
+        builder.HasIndex(indexExpression: x => x.BudgetCode);
+        builder.HasIndex(indexExpression: x => x.ParticipantId);
 
         builder
             .Property(propertyExpression: x => x.Id)
@@ -31,6 +34,18 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
             .Property(propertyExpression: x => x.BudgetCode)
             .HasConversion(convertToProviderExpression: x => x.Value,
                 convertFromProviderExpression: x => BudgetCode.New(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.ParticipantId)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => PersonId.New(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.PermissionType)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => PermissionType.Create(x))
             .IsRequired();
 
         builder.OwnsOne<BudgetPermissionRequestStatusTracker>(navigationExpression: x => x.StatusTracker,
@@ -73,17 +88,5 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
                     .HasColumnName(name: "status")
                     .IsRequired();
             });
-
-        builder
-            .Property(propertyExpression: x => x.ParticipantId)
-            .HasConversion(convertToProviderExpression: x => x.Value,
-                convertFromProviderExpression: x => PersonId.New(x))
-            .IsRequired();
-
-        builder
-            .Property(propertyExpression: x => x.PermissionType)
-            .HasConversion(convertToProviderExpression: x => x.Value,
-                convertFromProviderExpression: x => PermissionType.Create(x))
-            .IsRequired();
     }
 }
