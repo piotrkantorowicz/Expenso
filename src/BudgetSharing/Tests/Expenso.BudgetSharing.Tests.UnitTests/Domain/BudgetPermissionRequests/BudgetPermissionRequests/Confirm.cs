@@ -1,6 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.Domain.Types.Exceptions;
+using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
@@ -96,7 +97,7 @@ internal sealed class Confirm : BudgetPermissionRequestTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate(delay: 3);
-        DateTimeOffset confirmationDate = _clockMock.Object.UtcNow;
+        DateAndTime confirmationDate = _clockMock.Object.UtcNow;
 
         // Act
         Action action = () => TestCandidate.Confirm(confirmationDate: confirmationDate);

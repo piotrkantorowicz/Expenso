@@ -26,8 +26,7 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
         [
             new BudgetPermissionRequestCancelledEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
                 OwnerId: TestCandidate.OwnerId, ParticipantId: TestCandidate.ParticipantId,
-                BudgetCode: TestCandidate.BudgetCode,
-                PermissionType: TestCandidate.PermissionType)
+                BudgetCode: TestCandidate.BudgetCode, PermissionType: TestCandidate.PermissionType)
         ]);
     }
 
@@ -109,6 +108,6 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
                 expectedWildcardPattern:
-                $"Cancellation date {cancellationDate} must be greater than submission date: {TestCandidate.StatusTracker.SubmissionDate}.");
+                $"Cancellation date {cancellationDate.Print(format: "o")} must be greater than submission date: {TestCandidate.StatusTracker.SubmissionDate.Print(format: "o")}.");
     }
 }

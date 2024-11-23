@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
 
@@ -75,8 +77,13 @@ public sealed record DateAndTime
         return Value < start.Value || Value > end.Value;
     }
 
+    public string Print(string format, CultureInfo? cultureInfo = null)
+    {
+        return Value.ToString(format: format, formatProvider: cultureInfo ?? CultureInfo.InvariantCulture);
+    }
+
     public override string ToString()
     {
-        return Value.ToString();
+        return Value.ToString(format: "o", formatProvider: CultureInfo.InvariantCulture);
     }
 }
