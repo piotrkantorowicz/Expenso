@@ -25,14 +25,14 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
 
         DeleteFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new DeleteFilesRequest(UserId: userId, Groups: null, FileNames: fileNames,
-                FileType: DeleteFilesRequest_FileType.Import));
+                FileType: DeleteFilesRequestFileType.Import));
 
         _fileStorageMock
             .Setup(expression: x => x.DeleteAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .Returns(value: Task.CompletedTask);
 
         _directoryPathResolverMock
-            .Setup(expression: x => x.ResolvePath((FileType)DeleteFilesRequest_FileType.Import, userId.ToString(),
+            .Setup(expression: x => x.ResolvePath((FileType)DeleteFilesRequestFileType.Import, userId.ToString(),
                 command.Payload!.Groups))
             .Returns(value: directoryPath);
 

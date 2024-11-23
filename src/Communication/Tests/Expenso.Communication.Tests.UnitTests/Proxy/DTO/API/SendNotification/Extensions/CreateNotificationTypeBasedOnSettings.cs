@@ -9,7 +9,7 @@ using FluentAssertions;
 namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.Extensions;
 
 [TestFixture]
-internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRequest_NotificationTypeExtensionsTestBase
+internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRequestNotificationTypeExtensionsTestBase
 {
     [Test]
     public void Should_Return_DisabledNotification_When_SettingsAreNull()
@@ -18,7 +18,7 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         NotificationSettings? settings = null;
 
         // Act
-        SendNotificationRequest_NotificationType result = settings.CreateNotificationTypeBasedOnSettings();
+        SendNotificationRequestNotificationType result = settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
         result.Email.Should().BeFalse();
@@ -36,7 +36,7 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         };
 
         // Act
-        SendNotificationRequest_NotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
+        SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
         result.Email.Should().BeFalse();
@@ -54,7 +54,7 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         };
 
         // Act
-        SendNotificationRequest_NotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
+        SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
         result.Email.Should().BeTrue();
@@ -75,7 +75,7 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         };
 
         // Act
-        SendNotificationRequest_NotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
+        SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
         result.Email.Should().BeFalse();
@@ -93,7 +93,7 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         };
 
         // Act
-        SendNotificationRequest_NotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
+        SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
         result.Email.Should().BeTrue();

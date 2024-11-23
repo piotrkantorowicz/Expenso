@@ -16,13 +16,13 @@ internal sealed class UpdatePreferences : PreferencesTestBase
 
         // Act
         HttpResponseMessage response = await _httpClient.PutAsJsonAsync(requestUri: requestPath,
-            value: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+            value: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 10),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 1),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: true)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         // Assert
         AssertResponseNoContent(response: response);

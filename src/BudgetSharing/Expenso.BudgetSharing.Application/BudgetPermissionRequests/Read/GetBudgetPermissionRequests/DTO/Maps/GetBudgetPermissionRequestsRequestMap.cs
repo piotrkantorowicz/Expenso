@@ -6,26 +6,26 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBud
 
 public static class GetBudgetPermissionRequestsRequestMap
 {
-    private static readonly Dictionary<GetBudgetPermissionRequestsRequest_PermissionType, PermissionType>
+    private static readonly Dictionary<GetBudgetPermissionRequestsRequestPermissionType, PermissionType>
         PermissionTypeMap = new()
         {
-            { GetBudgetPermissionRequestsRequest_PermissionType.Owner, PermissionType.Owner },
-            { GetBudgetPermissionRequestsRequest_PermissionType.SubOwner, PermissionType.SubOwner },
-            { GetBudgetPermissionRequestsRequest_PermissionType.Reviewer, PermissionType.Reviewer }
+            { GetBudgetPermissionRequestsRequestPermissionType.Owner, PermissionType.Owner },
+            { GetBudgetPermissionRequestsRequestPermissionType.SubOwner, PermissionType.SubOwner },
+            { GetBudgetPermissionRequestsRequestPermissionType.Reviewer, PermissionType.Reviewer }
         };
 
-    private static readonly Dictionary<GetBudgetPermissionRequestsRequest_Status, BudgetPermissionRequestStatus>
+    private static readonly Dictionary<GetBudgetPermissionRequestsRequestStatus, BudgetPermissionRequestStatus>
         StatusMap = new()
         {
-            { GetBudgetPermissionRequestsRequest_Status.Pending, BudgetPermissionRequestStatus.Pending },
-            { GetBudgetPermissionRequestsRequest_Status.Confirmed, BudgetPermissionRequestStatus.Confirmed },
-            { GetBudgetPermissionRequestsRequest_Status.Cancelled, BudgetPermissionRequestStatus.Cancelled },
-            { GetBudgetPermissionRequestsRequest_Status.Expired, BudgetPermissionRequestStatus.Expired }
+            { GetBudgetPermissionRequestsRequestStatus.Pending, BudgetPermissionRequestStatus.Pending },
+            { GetBudgetPermissionRequestsRequestStatus.Confirmed, BudgetPermissionRequestStatus.Confirmed },
+            { GetBudgetPermissionRequestsRequestStatus.Cancelled, BudgetPermissionRequestStatus.Cancelled },
+            { GetBudgetPermissionRequestsRequestStatus.Expired, BudgetPermissionRequestStatus.Expired }
         };
 
-    public static PermissionType[] MapTo(GetBudgetPermissionRequestsRequest_PermissionType? permissionType)
+    public static PermissionType[] MapTo(GetBudgetPermissionRequestsRequestPermissionType? permissionType)
     {
-        return permissionType is null or GetBudgetPermissionRequestsRequest_PermissionType.None
+        return permissionType is null or GetBudgetPermissionRequestsRequestPermissionType.None
             ? ( [PermissionType.None])
             : PermissionTypeMap
                 .Where(predicate: kv => permissionType.Value.HasFlag(flag: kv.Key))
@@ -33,9 +33,9 @@ public static class GetBudgetPermissionRequestsRequestMap
                 .ToArray();
     }
 
-    public static BudgetPermissionRequestStatus[] MapTo(GetBudgetPermissionRequestsRequest_Status? status)
+    public static BudgetPermissionRequestStatus[] MapTo(GetBudgetPermissionRequestsRequestStatus? status)
     {
-        return status is null or GetBudgetPermissionRequestsRequest_Status.None
+        return status is null or GetBudgetPermissionRequestsRequestStatus.None
             ? ( [BudgetPermissionRequestStatus.None])
             : StatusMap
                 .Where(predicate: kv => status.Value.HasFlag(flag: kv.Key))

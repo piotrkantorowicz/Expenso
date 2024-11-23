@@ -57,9 +57,9 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
     }
 
     private IEnumerable<Task> Update(Preference preference,
-        UpdatePreferenceRequest_GeneralPreference? updateGeneralPreference,
-        UpdatePreferenceRequest_FinancePreference? updateFinancePreference,
-        UpdatePreferenceRequest_NotificationPreference? updateNotificationPreference,
+        UpdatePreferenceRequestGeneralPreference? updateGeneralPreference,
+        UpdatePreferenceRequestFinancePreference? updateFinancePreference,
+        UpdatePreferenceRequestNotificationPreference? updateNotificationPreference,
         CancellationToken cancellationToken)
     {
         GeneralPreference? generalPreference =

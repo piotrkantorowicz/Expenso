@@ -19,8 +19,8 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
 
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
-            new RegisterJobEntryRequest_JobEntryTrigger(
-                EventType: RegisterJobEntryRequest_JobEntryTrigger_AllowedEventType.BudgetPermissionRequestExpired,
+            new RegisterJobEntryRequestJobEntryTrigger(
+                EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
                     MessageContext: MessageContextFactoryMock.Object.Current(),
                     Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
@@ -58,8 +58,8 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         // Arrange
         RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
         [
-            new RegisterJobEntryRequest_JobEntryTrigger(
-                EventType: RegisterJobEntryRequest_JobEntryTrigger_AllowedEventType.BudgetPermissionRequestExpired,
+            new RegisterJobEntryRequestJobEntryTrigger(
+                EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
                     MessageContext: MessageContextFactoryMock.Object.Current(),
                     Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))

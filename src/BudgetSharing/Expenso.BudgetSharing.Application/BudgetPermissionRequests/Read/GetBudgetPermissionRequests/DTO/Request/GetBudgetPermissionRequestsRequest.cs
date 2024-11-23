@@ -6,6 +6,6 @@ public sealed record GetBudgetPermissionRequestsRequest(
     Guid? ParticipantId = null,
     Guid? OwnerId = null,
     bool? ForCurrentUser = null,
-    GetBudgetPermissionRequestsRequest_Status Status = GetBudgetPermissionRequestsRequest_Status.All,
-    GetBudgetPermissionRequestsRequest_PermissionType PermissionType =
-        GetBudgetPermissionRequestsRequest_PermissionType.All);
+    GetBudgetPermissionRequestsRequestStatus Status = GetBudgetPermissionRequestsRequestStatus.All,
+    GetBudgetPermissionRequestsRequestPermissionType PermissionType =
+        GetBudgetPermissionRequestsRequestPermissionType.All);

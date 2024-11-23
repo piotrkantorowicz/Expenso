@@ -4,4 +4,4 @@ public sealed record GetBudgetPermissionsResponse(
     Guid Id,
     Guid BudgetId,
     Guid OwnerId,
-    ICollection<GetBudgetPermissionsResponse_Permission> Permissions);
+    ICollection<GetBudgetPermissionsResponsePermission> Permissions);

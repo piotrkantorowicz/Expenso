@@ -82,7 +82,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Payload = _updatePreferenceCommand.Payload! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: -1)
             }
@@ -104,7 +104,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Payload = _updatePreferenceCommand.Payload! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 11)
             }
@@ -126,7 +126,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Payload = _updatePreferenceCommand.Payload! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: -1, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 5)
             }
@@ -148,7 +148,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Payload = _updatePreferenceCommand.Payload! with
             {
-                FinancePreference = new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+                FinancePreference = new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 6, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 5)
             }
@@ -190,8 +190,8 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Payload = _updatePreferenceCommand.Payload! with
             {
-                NotificationPreference =
-                new UpdatePreferenceRequest_NotificationPreference(SendFinanceReportEnabled: true,
+                NotificationPreference = new UpdatePreferenceRequestNotificationPreference(
+                    SendFinanceReportEnabled: true,
                     SendFinanceReportInterval: -1)
             }
         });
@@ -212,8 +212,8 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
         {
             Payload = _updatePreferenceCommand.Payload! with
             {
-                NotificationPreference =
-                new UpdatePreferenceRequest_NotificationPreference(SendFinanceReportEnabled: true,
+                NotificationPreference = new UpdatePreferenceRequestNotificationPreference(
+                    SendFinanceReportEnabled: true,
                     SendFinanceReportInterval: 32)
             }
         });

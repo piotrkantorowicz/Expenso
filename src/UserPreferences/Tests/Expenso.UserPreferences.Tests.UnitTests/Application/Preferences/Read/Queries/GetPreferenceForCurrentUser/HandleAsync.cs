@@ -15,7 +15,7 @@ internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestB
         // Arrange
         GetPreferenceForCurrentUserQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceForCurrentUserRequest(
-                PreferenceType: It.IsAny<GetPreferenceForCurrentUserRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferenceForCurrentUserRequestPreferenceTypes>()));
 
         _userContextAccessorMock.Setup(expression: x => x.Get()).Returns(value: _executionContextMock.Object);
 
@@ -47,7 +47,7 @@ internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestB
         // Arrange
         GetPreferenceForCurrentUserQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceForCurrentUserRequest(
-                PreferenceType: It.IsAny<GetPreferenceForCurrentUserRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferenceForCurrentUserRequestPreferenceTypes>()));
 
         // Act
         Func<Task> action = () =>

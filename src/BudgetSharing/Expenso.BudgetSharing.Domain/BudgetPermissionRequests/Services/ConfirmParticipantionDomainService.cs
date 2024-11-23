@@ -64,7 +64,7 @@ internal sealed class ConfirmParticipantionDomainService : IConfirmParticipantio
 
         GetPreferencesResponse? preference = await _userPreferencesProxy.GetPreferences(
             getPreferenceRequest: new GetPreferencesRequest(UserId: budgetPermission.OwnerId.Value,
-                PreferenceType: GetPreferencesRequest_PreferenceTypes.Finance), cancellationToken: cancellationToken);
+                PreferenceType: GetPreferencesRequestPreferenceTypes.Finance), cancellationToken: cancellationToken);
 
         if (preference?.FinancePreference is null)
         {

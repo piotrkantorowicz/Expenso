@@ -29,7 +29,7 @@ internal sealed class GetPreferencesQueryHandler : IQueryHandler<GetPreferencesQ
             PreferenceId = query.Payload?.PreferenceId,
             UserId = query.Payload?.UserId,
             PreferenceType = query.Payload?.PreferenceType
-                .SafeCast<PreferenceTypes, GetPreferencesRequest_PreferenceTypes>(),
+                .SafeCast<PreferenceTypes, GetPreferencesRequestPreferenceTypes>(),
             UseTracking = false
         };
 

@@ -13,39 +13,39 @@ internal static class GetPreferencesResponseMap
             GeneralPreference: MapTo(generalPreference: preference.GeneralPreference));
     }
 
-    private static GetPreferencesResponse_FinancePreference? MapTo(FinancePreference? financePreference)
+    private static GetPreferencesResponseFinancePreference? MapTo(FinancePreference? financePreference)
     {
         if (financePreference is null)
         {
             return null;
         }
 
-        return new GetPreferencesResponse_FinancePreference(
+        return new GetPreferencesResponseFinancePreference(
             AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
             MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
             AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
             MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
-    private static GetPreferencesResponse_NotificationPreference? MapTo(NotificationPreference? notificationPreference)
+    private static GetPreferencesResponseNotificationPreference? MapTo(NotificationPreference? notificationPreference)
     {
         if (notificationPreference is null)
         {
             return null;
         }
 
-        return new GetPreferencesResponse_NotificationPreference(
+        return new GetPreferencesResponseNotificationPreference(
             SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
             SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
-    private static GetPreferencesResponse_GeneralPreference? MapTo(GeneralPreference? generalPreference)
+    private static GetPreferencesResponseGeneralPreference? MapTo(GeneralPreference? generalPreference)
     {
         if (generalPreference is null)
         {
             return null;
         }
 
-        return new GetPreferencesResponse_GeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
+        return new GetPreferencesResponseGeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
     }
 }

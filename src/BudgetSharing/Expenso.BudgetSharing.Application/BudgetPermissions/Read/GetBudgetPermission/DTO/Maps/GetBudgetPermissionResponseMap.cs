@@ -13,32 +13,32 @@ internal static class GetBudgetPermissionResponseMap
             Permissions: budgetPermission.Permissions.Select(selector: MapTo).ToList());
     }
 
-    private static GetBudgetPermissionResponse_Permission MapTo(Permission permission)
+    private static GetBudgetPermissionResponsePermission MapTo(Permission permission)
     {
-        return new GetBudgetPermissionResponse_Permission(ParticipantId: permission.ParticipantId.Value,
+        return new GetBudgetPermissionResponsePermission(ParticipantId: permission.ParticipantId.Value,
             PermissionType: MapTo(permissionType: permission.PermissionType));
     }
 
-    private static GetBudgetPermissionResponse_PermissionType MapTo(PermissionType permissionType)
+    private static GetBudgetPermissionResponsePermissionType MapTo(PermissionType permissionType)
     {
         if (permissionType == PermissionType.None)
         {
-            return GetBudgetPermissionResponse_PermissionType.None;
+            return GetBudgetPermissionResponsePermissionType.None;
         }
 
         if (permissionType == PermissionType.Owner)
         {
-            return GetBudgetPermissionResponse_PermissionType.Owner;
+            return GetBudgetPermissionResponsePermissionType.Owner;
         }
 
         if (permissionType == PermissionType.SubOwner)
         {
-            return GetBudgetPermissionResponse_PermissionType.SubOwner;
+            return GetBudgetPermissionResponsePermissionType.SubOwner;
         }
 
         if (permissionType == PermissionType.Reviewer)
         {
-            return GetBudgetPermissionResponse_PermissionType.Reviewer;
+            return GetBudgetPermissionResponsePermissionType.Reviewer;
         }
 
         throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,

@@ -22,8 +22,8 @@ internal sealed class SendNotificationCommandHandler : ICommandHandler<SendNotif
     {
         (IMessageContext messageContext, SendNotificationRequest? request) = command;
 
-        (string? subject, string content, SendNotificationRequest_NotificationContext? context,
-            SendNotificationRequest_NotificationType? type) = request!;
+        (string? subject, string content, SendNotificationRequestNotificationContext? context,
+            SendNotificationRequestNotificationType? type) = request!;
 
         (string from, string to, string[]? cc, string[]? bcc, string? replyTo) = context!;
 

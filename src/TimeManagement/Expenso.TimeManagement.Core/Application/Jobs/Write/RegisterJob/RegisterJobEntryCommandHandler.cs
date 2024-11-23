@@ -85,7 +85,7 @@ internal sealed class
     }
 
     private static JobEntryTrigger[] CreateJobEntryTriggers(
-        ICollection<RegisterJobEntryRequest_JobEntryTrigger>? triggers, IEventTypeResolver eventTypeResolver)
+        ICollection<RegisterJobEntryRequestJobEntryTrigger>? triggers, IEventTypeResolver eventTypeResolver)
     {
         triggers ??= [];
 

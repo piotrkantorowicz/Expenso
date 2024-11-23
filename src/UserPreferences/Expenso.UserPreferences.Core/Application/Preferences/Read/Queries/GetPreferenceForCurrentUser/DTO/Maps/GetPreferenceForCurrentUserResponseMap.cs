@@ -13,21 +13,21 @@ internal static class GetPreferenceForCurrentUserResponseMap
             GeneralPreference: MapTo(generalPreference: preference.GeneralPreference));
     }
 
-    private static GetPreferenceForCurrentUserResponse_FinancePreference? MapTo(FinancePreference? financePreference)
+    private static GetPreferenceForCurrentUserResponseFinancePreference? MapTo(FinancePreference? financePreference)
     {
         if (financePreference is null)
         {
             return null;
         }
 
-        return new GetPreferenceForCurrentUserResponse_FinancePreference(
+        return new GetPreferenceForCurrentUserResponseFinancePreference(
             AllowAddFinancePlanSubOwners: financePreference.AllowAddFinancePlanSubOwners,
             MaxNumberOfSubFinancePlanSubOwners: financePreference.MaxNumberOfSubFinancePlanSubOwners,
             AllowAddFinancePlanReviewers: financePreference.AllowAddFinancePlanReviewers,
             MaxNumberOfFinancePlanReviewers: financePreference.MaxNumberOfFinancePlanReviewers);
     }
 
-    private static GetPreferenceForCurrentUserResponse_NotificationPreference? MapTo(
+    private static GetPreferenceForCurrentUserResponseNotificationPreference? MapTo(
         NotificationPreference? notificationPreference)
     {
         if (notificationPreference is null)
@@ -35,18 +35,18 @@ internal static class GetPreferenceForCurrentUserResponseMap
             return null;
         }
 
-        return new GetPreferenceForCurrentUserResponse_NotificationPreference(
+        return new GetPreferenceForCurrentUserResponseNotificationPreference(
             SendFinanceReportEnabled: notificationPreference.SendFinanceReportEnabled,
             SendFinanceReportInterval: notificationPreference.SendFinanceReportInterval);
     }
 
-    private static GetPreferenceForCurrentUserResponse_GeneralPreference? MapTo(GeneralPreference? generalPreference)
+    private static GetPreferenceForCurrentUserResponseGeneralPreference? MapTo(GeneralPreference? generalPreference)
     {
         if (generalPreference is null)
         {
             return null;
         }
 
-        return new GetPreferenceForCurrentUserResponse_GeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
+        return new GetPreferenceForCurrentUserResponseGeneralPreference(UseDarkMode: generalPreference.UseDarkMode);
     }
 }

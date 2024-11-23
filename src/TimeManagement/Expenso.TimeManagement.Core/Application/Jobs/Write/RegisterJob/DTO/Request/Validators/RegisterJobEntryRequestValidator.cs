@@ -8,8 +8,8 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Req
 internal sealed class RegisterJobEntryRequestValidator : AbstractValidator<RegisterJobEntryRequest>
 {
     public RegisterJobEntryRequestValidator(
-        RegisterJobEntryRequest_JobEntryPeriodIntervalValidator jobEntryPeriodIntervalValidator,
-        RegisterJobEntryRequest_JobEntryTriggerValidator jobEntryTriggerValidator, IClock clock)
+        RegisterJobEntryRequestJobEntryPeriodIntervalValidator jobEntryPeriodIntervalValidator,
+        RegisterJobEntryRequestJobEntryTriggerValidator jobEntryTriggerValidator, IClock clock)
     {
         ArgumentNullException.ThrowIfNull(argument: jobEntryPeriodIntervalValidator,
             paramName: nameof(jobEntryPeriodIntervalValidator));

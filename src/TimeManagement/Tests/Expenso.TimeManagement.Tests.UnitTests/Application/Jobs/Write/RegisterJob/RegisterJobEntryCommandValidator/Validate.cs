@@ -32,7 +32,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             Payload = _registerJobEntryCommand.Payload! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(),
                 RunAt = null
             }
         });
@@ -123,7 +123,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             Payload = _registerJobEntryCommand.Payload! with
             {
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(),
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(),
                 RunAt = _clockMock.Object.UtcNow.AddSeconds(seconds: 15)
             }
         });
@@ -166,7 +166,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
             Payload = _registerJobEntryCommand.Payload! with
             {
                 RunAt = null,
-                Interval = new RegisterJobEntryRequest_JobEntryPeriodInterval(DayOfWeek: 8)
+                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(DayOfWeek: 8)
             }
         });
 
@@ -187,7 +187,7 @@ internal sealed class Validate : RegisterJobEntryCommandValidatorTestBase
         {
             Payload = _registerJobEntryCommand.Payload! with
             {
-                JobEntryTriggers = new List<RegisterJobEntryRequest_JobEntryTrigger>()
+                JobEntryTriggers = new List<RegisterJobEntryRequestJobEntryTrigger>()
             }
         });
 

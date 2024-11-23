@@ -4,4 +4,4 @@ public sealed record GetFilesResponse(
     Guid? UserId,
     string FileName,
     byte[] FileContent,
-    GetFilesResponse_FileType FilesResponseFileType);
+    GetFilesResponseFileType FilesResponseFileType);

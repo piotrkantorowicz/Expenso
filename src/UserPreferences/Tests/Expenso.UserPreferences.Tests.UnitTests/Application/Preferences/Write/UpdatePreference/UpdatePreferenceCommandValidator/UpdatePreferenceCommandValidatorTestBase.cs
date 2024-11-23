@@ -15,21 +15,21 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<
     {
         _updatePreferenceCommand = new UpdatePreferenceCommand(
             MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: Guid.NewGuid(),
-            Payload: new UpdatePreferenceRequest(
-                FinancePreference: new UpdatePreferenceRequest_FinancePreference(AllowAddFinancePlanSubOwners: true,
+            Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
+                    AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 2, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 5),
-                NotificationPreference: new UpdatePreferenceRequest_NotificationPreference(
+                NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
                     SendFinanceReportEnabled: true, SendFinanceReportInterval: 3),
-                GeneralPreference: new UpdatePreferenceRequest_GeneralPreference(UseDarkMode: false)));
+                GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: false)));
 
         TestCandidate =
             new Core.Application.Preferences.Write.Commands.UpdatePreference.UpdatePreferenceCommandValidator(
                 messageContextValidator: new MessageContextValidator(),
                 updatePreferenceCommandValidator: new UpdatePreferenceRequestValidator(
-                    financePreferenceValidator: new UpdatePreferenceRequest_FinancePreferenceValidator(),
-                    notificationPreferenceValidator: new UpdatePreferenceRequest_NotificationPreferenceValidator(),
-                    generalPreferenceValidator: new UpdatePreferenceRequest_GeneralPreferenceValidator()));
+                    financePreferenceValidator: new UpdatePreferenceRequestFinancePreferenceValidator(),
+                    notificationPreferenceValidator: new UpdatePreferenceRequestNotificationPreferenceValidator(),
+                    generalPreferenceValidator: new UpdatePreferenceRequestGeneralPreferenceValidator()));
     }
 
     protected UpdatePreferenceCommand _updatePreferenceCommand = null!;

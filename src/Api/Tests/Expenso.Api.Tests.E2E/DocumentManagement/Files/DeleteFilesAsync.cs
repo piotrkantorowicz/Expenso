@@ -14,7 +14,7 @@ internal sealed class DeleteFilesAsync : DocumentManagementTestBase
         Action deleteFilesAction = () =>
             _documentManagementProxy.DeleteFilesAsync(deleteFilesRequest: new DeleteFilesRequest(
                 UserId: UserDataInitializer.UserIds[index: 4], Groups: null, FileNames: ["Import-3"],
-                FileType: DeleteFilesRequest_FileType.Import));
+                FileType: DeleteFilesRequestFileType.Import));
 
         // Assert
         deleteFilesAction.Should().NotThrow();

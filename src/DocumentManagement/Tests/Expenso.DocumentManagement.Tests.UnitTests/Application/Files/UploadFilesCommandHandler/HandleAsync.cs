@@ -23,8 +23,8 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
 
         UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new UploadFilesRequest(UserId: userId, Groups: null,
-                Files: [new UploadFilesRequest_File(Name: fileName, Content: byteContent)],
-                FileType: UploadFilesRequest_FileType.Report));
+                Files: [new UploadFilesRequestFile(Name: fileName, Content: byteContent)],
+                FileType: UploadFilesRequestFileType.Report));
 
         _directoryPathResolverMock
             .Setup(expression: x => x.ResolvePath((FileType)command.Payload!.FileType, userId.ToString(), null))
@@ -54,8 +54,8 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
 
         UploadFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new UploadFilesRequest(UserId: userId, Groups: null,
-                Files: [new UploadFilesRequest_File(Name: fileName, Content: byteContent)],
-                FileType: UploadFilesRequest_FileType.Report));
+                Files: [new UploadFilesRequestFile(Name: fileName, Content: byteContent)],
+                FileType: UploadFilesRequestFileType.Report));
 
         _directoryPathResolverMock
             .Setup(expression: x => x.ResolvePath((FileType)command.Payload!.FileType, userId.ToString(), null))

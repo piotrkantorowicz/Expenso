@@ -26,58 +26,58 @@ internal static class GetBudgetPermissionRequestsResponseMap
             ConfirmationDate: budgetPermissionRequest.StatusTracker.ConfirmationDate?.Value);
     }
 
-    private static GetBudgetPermissionRequestsResponse_Status MapTo(
+    private static GetBudgetPermissionRequestsResponseStatus MapTo(
         BudgetPermissionRequestStatus budgetPermissionRequestStatus)
     {
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.None)
         {
-            return GetBudgetPermissionRequestsResponse_Status.None;
+            return GetBudgetPermissionRequestsResponseStatus.None;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Pending)
         {
-            return GetBudgetPermissionRequestsResponse_Status.Pending;
+            return GetBudgetPermissionRequestsResponseStatus.Pending;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Cancelled)
         {
-            return GetBudgetPermissionRequestsResponse_Status.Cancelled;
+            return GetBudgetPermissionRequestsResponseStatus.Cancelled;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Confirmed)
         {
-            return GetBudgetPermissionRequestsResponse_Status.Confirmed;
+            return GetBudgetPermissionRequestsResponseStatus.Confirmed;
         }
 
         if (budgetPermissionRequestStatus == BudgetPermissionRequestStatus.Expired)
         {
-            return GetBudgetPermissionRequestsResponse_Status.Expired;
+            return GetBudgetPermissionRequestsResponseStatus.Expired;
         }
 
         throw new ArgumentOutOfRangeException(paramName: nameof(budgetPermissionRequestStatus),
             actualValue: budgetPermissionRequestStatus, message: null);
     }
 
-    private static GetBudgetPermissionRequestsResponse_PermissionType MapTo(PermissionType permissionType)
+    private static GetBudgetPermissionRequestsResponsePermissionType MapTo(PermissionType permissionType)
     {
         if (permissionType == PermissionType.None)
         {
-            return GetBudgetPermissionRequestsResponse_PermissionType.None;
+            return GetBudgetPermissionRequestsResponsePermissionType.None;
         }
 
         if (permissionType == PermissionType.Owner)
         {
-            return GetBudgetPermissionRequestsResponse_PermissionType.Owner;
+            return GetBudgetPermissionRequestsResponsePermissionType.Owner;
         }
 
         if (permissionType == PermissionType.SubOwner)
         {
-            return GetBudgetPermissionRequestsResponse_PermissionType.SubOwner;
+            return GetBudgetPermissionRequestsResponsePermissionType.SubOwner;
         }
 
         if (permissionType == PermissionType.Reviewer)
         {
-            return GetBudgetPermissionRequestsResponse_PermissionType.Reviewer;
+            return GetBudgetPermissionRequestsResponsePermissionType.Reviewer;
         }
 
         throw new ArgumentOutOfRangeException(paramName: nameof(permissionType), actualValue: permissionType,

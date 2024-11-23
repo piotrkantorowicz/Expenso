@@ -24,21 +24,21 @@ internal static class BudgetPermissionDataInitializer
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
         IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
     {
-        IList<(Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType)>
+        IList<(Guid budgetId, string email, AssignParticipantRequestPermissionType permissionType)>
             budgetPermissionRequestIds =
             [
                 (new Guid(g: "527336da-3371-45a9-9b9f-bbd42d01ffc2"), FakeIamProxy.ExistingEmails[1],
-                    AssignParticipantRequest_PermissionType.SubOwner),
+                    AssignParticipantRequestPermissionType.SubOwner),
                 (new Guid(g: "e33f3920-d004-4702-a876-f723f6a61cf3"), FakeIamProxy.ExistingEmails[1],
-                    AssignParticipantRequest_PermissionType.Reviewer),
+                    AssignParticipantRequestPermissionType.Reviewer),
                 (new Guid(g: "8663a59b-396e-41b9-9aee-163a6d51bcf9"), FakeIamProxy.ExistingEmails[2],
-                    AssignParticipantRequest_PermissionType.SubOwner)
+                    AssignParticipantRequestPermissionType.SubOwner)
             ];
 
         BudgetIds.AddRange(collection: budgetPermissionRequestIds.Select(selector: x => x.budgetId));
         int iteration = 0;
 
-        foreach ((Guid budgetId, string email, AssignParticipantRequest_PermissionType permissionType) in
+        foreach ((Guid budgetId, string email, AssignParticipantRequestPermissionType permissionType) in
                  budgetPermissionRequestIds)
         {
             iteration++;
@@ -64,7 +64,7 @@ internal static class BudgetPermissionDataInitializer
             command: new AddPermissionCommand(MessageContext: messageContextFactory.Current(),
                 Payload: new AddPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 0],
                     ParticipantId: UserDataInitializer.UserIds[index: 3],
-                    PermissionType: AddPermissionRequest_PermissionType.Reviewer)),
+                    PermissionType: AddPermissionRequestPermissionType.Reviewer)),
             cancellationToken: cancellationToken);
 
         await commandDispatcher.SendAsync(

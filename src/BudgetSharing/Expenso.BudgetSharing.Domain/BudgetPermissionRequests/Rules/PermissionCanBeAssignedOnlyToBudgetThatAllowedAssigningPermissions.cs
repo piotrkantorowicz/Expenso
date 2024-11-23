@@ -12,12 +12,12 @@ internal sealed class PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAs
     private readonly PersonId _ownerId;
     private readonly PermissionType _permissionTypeFromRequest;
 
-    private readonly GetPreferencesResponse_FinancePreference
+    private readonly GetPreferencesResponseFinancePreference
         _preferenceExternalPreferenceResponseFinancePreferenceExternal;
 
     public PermissionCanBeAssignedOnlyToBudgetThatOwnerHasAllowedToAssigningPermissions(BudgetId budgetId,
         PersonId ownerId, PermissionType permissionTypeFromRequest,
-        GetPreferencesResponse_FinancePreference preferenceResponseFinancePreference,
+        GetPreferencesResponseFinancePreference preferenceResponseFinancePreference,
         IReadOnlyCollection<Permission> currentPermissions)
     {
         _budgetId = budgetId ?? throw new ArgumentNullException(paramName: nameof(budgetId));

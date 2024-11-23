@@ -15,8 +15,8 @@ internal sealed class UploadFilesAsync : DocumentManagementTestBase
             uploadFilesRequest: new UploadFilesRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null,
                 Files:
                 [
-                    new UploadFilesRequest_File(Name: "Import-4", Content: [0x00, 0x01, 0x02, 0x03, 0x04])
-                ], FileType: UploadFilesRequest_FileType.Import));
+                    new UploadFilesRequestFile(Name: "Import-4", Content: [0x00, 0x01, 0x02, 0x03, 0x04])
+                ], FileType: UploadFilesRequestFileType.Import));
 
         // Assert
         uploadFilesAction.Should().NotThrow();

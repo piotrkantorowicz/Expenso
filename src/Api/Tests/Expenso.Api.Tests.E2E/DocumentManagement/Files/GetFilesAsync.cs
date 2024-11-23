@@ -14,7 +14,7 @@ internal sealed class GetFilesAsync : DocumentManagementTestBase
         // Act
         IEnumerable<GetFilesResponse>? response = (await _documentManagementProxy.GetFilesAsync(
             getFileRequest: new GetFileRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null,
-                FileNames: ["Import-1", "Import-2"], FileType: GetFilesRequest_FileType.Import)))?.ToList();
+                FileNames: ["Import-1", "Import-2"], FileType: GetFilesRequestFileType.Import)))?.ToList();
 
         // Assert
         response?.Should().NotBeNull();

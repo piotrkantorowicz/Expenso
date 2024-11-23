@@ -112,10 +112,10 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
                 [FromQuery] Guid? participantId = null, [FromQuery] Guid? ownerId = null,
                 [FromQuery] bool? forCurrentUser = null,
-                [FromQuery] GetBudgetPermissionRequestsRequest_Status status =
-                    GetBudgetPermissionRequestsRequest_Status.All,
-                [FromQuery] GetBudgetPermissionRequestsRequest_PermissionType permissionType =
-                    GetBudgetPermissionRequestsRequest_PermissionType.All,
+                [FromQuery] GetBudgetPermissionRequestsRequestStatus status =
+                    GetBudgetPermissionRequestsRequestStatus.All,
+                [FromQuery] GetBudgetPermissionRequestsRequestPermissionType permissionType =
+                    GetBudgetPermissionRequestsRequestPermissionType.All,
                 CancellationToken cancellationToken = default) =>
             {
                 IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? getPreferences = await handler.HandleAsync(
@@ -221,8 +221,8 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
                 [FromQuery] Guid? ownerId = null, [FromQuery] Guid? participantId = null,
                 [FromQuery] bool? forCurrentUser = null,
-                [FromQuery] GetBudgetPermissionsRequest_PermissionType permissionType =
-                    GetBudgetPermissionsRequest_PermissionType.All, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetBudgetPermissionsRequestPermissionType permissionType =
+                    GetBudgetPermissionsRequestPermissionType.All, CancellationToken cancellationToken = default) =>
             {
                 IReadOnlyCollection<GetBudgetPermissionsResponse>? getPreferences = await handler.HandleAsync(
                     query: new GetBudgetPermissionsQuery(MessageContext: messageContextFactory.Current(),
@@ -283,7 +283,7 @@ public sealed class BudgetSharingModule : IModuleDefinition
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
                 [FromServices] ICommandHandler<AddPermissionCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
-                [FromRoute] Guid participantId, [FromBody] AddPermissionRequest_PermissionType permissionType,
+                [FromRoute] Guid participantId, [FromBody] AddPermissionRequestPermissionType permissionType,
                 CancellationToken cancellationToken = default) =>
             {
                 await handler.HandleAsync(

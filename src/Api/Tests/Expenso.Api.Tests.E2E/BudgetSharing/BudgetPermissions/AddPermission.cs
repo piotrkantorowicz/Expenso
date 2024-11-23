@@ -18,7 +18,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
-            value: AddPermissionRequest_PermissionType.Reviewer);
+            value: AddPermissionRequestPermissionType.Reviewer);
 
         // Assert
         AssertResponseNoContent(response: response);

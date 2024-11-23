@@ -53,8 +53,8 @@ internal abstract class
         IMessageContext messageContext = MessageContextFactoryMock.Object.Current();
         string eventData = _serializer.Object.Serialize(value: eventTrigger);
 
-        RegisterJobEntryRequest_JobEntryTrigger jobEntryTrigger =
-            new(EventType: RegisterJobEntryRequest_JobEntryTrigger_AllowedEventType.BudgetPermissionRequestExpired,
+        RegisterJobEntryRequestJobEntryTrigger jobEntryTrigger = new(
+            EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                 EventData: eventData);
 
         RegisterJobEntryRequest payload = new(MaxRetries: 5, JobEntryTriggers: [jobEntryTrigger], Interval: null,
@@ -62,9 +62,9 @@ internal abstract class
 
         _registerJobEntryCommand = new RegisterJobEntryCommand(MessageContext: messageContext, Payload: payload);
         MessageContextValidator messageContextValidator = new();
-        RegisterJobEntryRequest_JobEntryPeriodIntervalValidator periodIntervalValidator = new();
+        RegisterJobEntryRequestJobEntryPeriodIntervalValidator periodIntervalValidator = new();
 
-        RegisterJobEntryRequest_JobEntryTriggerValidator triggerValidator =
+        RegisterJobEntryRequestJobEntryTriggerValidator triggerValidator =
             new(serializer: _serializer.Object, eventTypeResolver: _eventTypeResolver.Object);
 
         RegisterJobEntryRequestValidator requestValidator = new(

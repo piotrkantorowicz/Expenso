@@ -57,7 +57,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermission.AddPermission(participantId: ownerId, permissionType: PermissionType.Owner);
 
         _getPreferenceResponse = new GetPreferencesResponse(Id: Guid.NewGuid(), UserId: ownerId.Value,
-            FinancePreference: new GetPreferencesResponse_FinancePreference(AllowAddFinancePlanSubOwners: true,
+            FinancePreference: new GetPreferencesResponseFinancePreference(AllowAddFinancePlanSubOwners: true,
                 MaxNumberOfSubFinancePlanSubOwners: 1, AllowAddFinancePlanReviewers: true,
                 MaxNumberOfFinancePlanReviewers: 3), NotificationPreference: null, GeneralPreference: null);
 

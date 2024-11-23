@@ -15,7 +15,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         // Arrange
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferenceRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferenceRequestPreferenceTypes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
@@ -42,7 +42,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         // Arrange
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferenceRequest_PreferenceTypes>()));
+                PreferenceType: It.IsAny<GetPreferenceRequestPreferenceTypes>()));
 
         // Act
         Func<Task> action = async () =>

@@ -7,8 +7,8 @@ namespace Expenso.Communication.Core.Application.Notifications.Write.Commands.Se
 internal sealed class SendNotificationRequestValidator : AbstractValidator<SendNotificationRequest>
 {
     public SendNotificationRequestValidator(
-        SendNotificationRequest_NotificationContextValidator sendNotificationRequestNotificationContextValidator,
-        SendNotificationRequest_NotificationTypeValidator sendNotificationRequestNotificationTypeValidator)
+        SendNotificationRequestNotificationContextValidator sendNotificationRequestNotificationContextValidator,
+        SendNotificationRequestNotificationTypeValidator sendNotificationRequestNotificationTypeValidator)
     {
         ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestNotificationContextValidator);
         ArgumentNullException.ThrowIfNull(argument: sendNotificationRequestNotificationTypeValidator);
