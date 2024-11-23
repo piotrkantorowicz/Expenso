@@ -31,17 +31,15 @@ internal sealed class RegisterJobEntryRequestValidator : AbstractValidator<Regis
             .Must(predicate: x => x.Interval is null || x.RunAt is null)
             .WithMessage(errorMessage: "RunAt and Interval cannot be used together.");
 
-        When(predicate: x => x.Interval is not null, action: () =>
-        {
-            RuleFor(expression: x => x.Interval!).SetValidator(validator: jobEntryPeriodIntervalValidator);
-        });
+        When(predicate: x => x.Interval is not null,
+            action: () =>
+                RuleFor(expression: x => x.Interval!).SetValidator(validator: jobEntryPeriodIntervalValidator));
 
-        When(predicate: x => x.RunAt is not null, action: () =>
-        {
-            RuleFor(expression: x => x.RunAt)
-                .Must(predicate: runAt => runAt >= clock.UtcNow)
-                .WithMessage(messageProvider: x => $"RunAt must be a future time. Provided: {x.RunAt}.");
-        });
+        When(predicate: x => x.RunAt is not null,
+            action: () =>
+                RuleFor(expression: x => x.RunAt)
+                    .Must(predicate: runAt => runAt >= clock.UtcNow)
+                    .WithMessage(messageProvider: x => $"RunAt must be a future time. Provided: {x.RunAt}."));
 
         RuleFor(expression: x => x.JobEntryTriggers)
             .NotNull()
