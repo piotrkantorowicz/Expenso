@@ -11,8 +11,7 @@ namespace Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob.DTO.Req
 internal sealed class
     RegisterJobEntryRequestJobEntryTriggerValidator : AbstractValidator<RegisterJobEntryRequestJobEntryTrigger>
 {
-    public RegisterJobEntryRequestJobEntryTriggerValidator(ISerializer serializer,
-        IEventTypeResolver eventTypeResolver)
+    public RegisterJobEntryRequestJobEntryTriggerValidator(ISerializer serializer, IEventTypeResolver eventTypeResolver)
     {
         ArgumentNullException.ThrowIfNull(argument: serializer, paramName: nameof(serializer));
         ArgumentNullException.ThrowIfNull(argument: eventTypeResolver, paramName: nameof(eventTypeResolver));
@@ -20,7 +19,6 @@ internal sealed class
         RuleFor(expression: x => x.EventData).NotEmpty().WithMessage(errorMessage: "Event data is required.");
 
         When(predicate: x => x.EventType is not null && x.EventData is not null, action: () =>
-        {
             RuleFor(expression: x => x)
                 .Must(predicate: trigger =>
                 {
@@ -33,7 +31,6 @@ internal sealed class
                         type: eventTypeResolver.Resolve(eventName: (AllowedEventType)trigger.EventType!),
                         settings: DefaultSerializerOptions.DefaultSettings) is not null;
                 })
-                .WithMessage(errorMessage: "EventData must be serializable to provided EventType.");
-        });
+                .WithMessage(errorMessage: "EventData must be serializable to provided EventType."));
     }
 }
