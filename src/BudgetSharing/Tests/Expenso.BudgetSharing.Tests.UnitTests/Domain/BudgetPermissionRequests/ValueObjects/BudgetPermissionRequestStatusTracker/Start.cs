@@ -70,9 +70,10 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
     public void Should_ThrowDomainRuleValidationException_When_ExpirationDateIsLessThanSubmissionDate()
     {
         // Arrange
-        DateAndTime currentTime = DateTimeOffset.UtcNow;
-        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: currentTime);
-        DateAndTime expirationDate = DateAndTime.New(value: currentTime.Value.AddDays(days: -1));
+        DateTimeOffset now = DateTimeOffset.UtcNow;
+        _clockMock.Setup(expression: c => c.UtcNow).Returns(value: now);
+        DateAndTime currentTime = DateAndTime.New(value: now);
+        DateAndTime expirationDate = DateAndTime.New(value: now.AddDays(days: -1));
 
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus status =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Pending;

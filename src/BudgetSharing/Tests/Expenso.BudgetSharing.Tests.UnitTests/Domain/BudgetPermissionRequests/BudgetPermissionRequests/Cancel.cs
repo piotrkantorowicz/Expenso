@@ -108,6 +108,6 @@ internal sealed class Cancel : BudgetPermissionRequestTestBase
             .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
             .WithDetails(
                 expectedWildcardPattern:
-                $"Cancellation date {cancellationDate.Print(format: "o")} must be greater than submission date: {TestCandidate.StatusTracker.SubmissionDate.Print(format: "o")}.");
+                $"Cancellation date {cancellationDate} must be greater than submission date: {TestCandidate.StatusTracker.SubmissionDate}.");
     }
 }
