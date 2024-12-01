@@ -16,6 +16,7 @@ internal static class GetBudgetPermissionsResponseMap
     {
         return new GetBudgetPermissionsResponse(Id: budgetPermission.Id.Value,
             BudgetId: budgetPermission.BudgetId.Value, OwnerId: budgetPermission.OwnerId.Value,
+            BudgetCode: budgetPermission.BudgetCode.Value,
             Permissions: budgetPermission.Permissions.Select(selector: MapTo).ToList());
     }
 

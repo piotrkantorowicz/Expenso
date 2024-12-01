@@ -12,6 +12,7 @@ internal static class GetBudgetPermissionRequestResponseMap
         return new GetBudgetPermissionRequestResponse(Id: budgetPermissionRequest.Id.Value,
             BudgetId: budgetPermissionRequest.BudgetId.Value,
             ParticipantId: budgetPermissionRequest.ParticipantId.Value,
+            BudgetCode: budgetPermissionRequest.BudgetCode.Value,
             PermissionType: MapTo(permissionType: budgetPermissionRequest.PermissionType),
             Status: MapTo(budgetPermissionRequestStatus: budgetPermissionRequest.StatusTracker.Status),
             ExpirationDate: budgetPermissionRequest.StatusTracker.ExpirationDate.Value,

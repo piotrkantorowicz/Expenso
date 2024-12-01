@@ -9,7 +9,7 @@ internal static class GetBudgetPermissionResponseMap
     public static GetBudgetPermissionResponse MapTo(BudgetPermission budgetPermission)
     {
         return new GetBudgetPermissionResponse(Id: budgetPermission.Id.Value, BudgetId: budgetPermission.BudgetId.Value,
-            OwnerId: budgetPermission.OwnerId.Value,
+            OwnerId: budgetPermission.OwnerId.Value, BudgetCode: budgetPermission.BudgetCode.Value,
             Permissions: budgetPermission.Permissions.Select(selector: MapTo).ToList());
     }
 
