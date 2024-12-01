@@ -4,6 +4,7 @@ public sealed record GetBudgetPermissionRequestResponse(
     Guid Id,
     Guid BudgetId,
     Guid ParticipantId,
+    string BudgetCode,
     GetBudgetPermissionRequestResponsePermissionType PermissionType,
     GetBudgetPermissionRequestResponseStatus Status,
     DateTimeOffset ExpirationDate,

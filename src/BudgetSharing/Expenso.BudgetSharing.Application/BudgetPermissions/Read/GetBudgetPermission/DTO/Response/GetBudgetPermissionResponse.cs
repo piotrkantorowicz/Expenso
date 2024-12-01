@@ -4,4 +4,5 @@ public record GetBudgetPermissionResponse(
     Guid Id,
     Guid BudgetId,
     Guid OwnerId,
+    string BudgetCode,
     ICollection<GetBudgetPermissionResponsePermission> Permissions);

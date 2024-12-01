@@ -46,7 +46,7 @@ internal sealed class JobExecution : IJobExecution
     {
         try
         {
-            DateTime jobExecutionStartTime = _clock.UtcNow.DateTime;
+            DateTimeOffset jobExecutionStartTime = _clock.UtcNow;
 
             JobInstance? jobInstance =
                 await _jobInstanceRepository.GetAsync(id: jobInstanceId, cancellationToken: stoppingToken);
@@ -129,7 +129,7 @@ internal sealed class JobExecution : IJobExecution
                         CrontabSchedule? schedule =
                             CrontabSchedule.Parse(expression: jobEntry.CronExpression, options: options);
 
-                        occurence = schedule?.GetNextOccurrence(baseTime: jobExecutionStartTime);
+                        occurence = schedule?.GetNextOccurrence(baseTime: jobExecutionStartTime.DateTime);
 
                         if (occurence is null)
                         {
