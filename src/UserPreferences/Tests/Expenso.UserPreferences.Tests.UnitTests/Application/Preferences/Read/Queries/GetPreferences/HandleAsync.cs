@@ -1,6 +1,6 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
@@ -15,11 +15,11 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferencesRequestPreferenceIncludes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceTypes>()),
+                x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -31,8 +31,8 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
-        _preferenceRepositoryMock.Verify(
-            expression: x => x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceTypes>()),
+        _preferenceRepositoryMock.Verify(expression: x =>
+            x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceIncludes>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -42,11 +42,11 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(UserId: _userId,
-                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferencesRequestPreferenceIncludes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
+                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -60,7 +60,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
 
         _preferenceRepositoryMock.Verify(
             expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
+                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -70,7 +70,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferencesRequestPreferenceIncludes>()));
 
         // Act
         Func<Task> action = async () =>
@@ -86,7 +86,7 @@ internal sealed class HandleAsync : GetPreferencesQueryHandlerTestBase
         // Arrange
         GetPreferencesQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferencesRequest(UserId: _userId,
-                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferencesRequestPreferenceIncludes>()));
 
         // Act
         Func<Task> action = async () =>

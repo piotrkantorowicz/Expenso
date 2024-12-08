@@ -3,7 +3,7 @@ using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
@@ -29,7 +29,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
                 GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         PreferenceQuerySpecification preferenceQuerySpecification =
-            new(PreferenceId: _id, UseTracking: true, PreferenceType: PreferenceTypes.All);
+            new(PreferenceId: _id, UseTracking: true, Includes: PreferenceIncludes.All);
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(preferenceQuerySpecification, It.IsAny<CancellationToken>()))
@@ -78,7 +78,7 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
                 GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         PreferenceQuerySpecification preferenceQuerySpecification =
-            new(PreferenceId: _id, UseTracking: true, PreferenceType: PreferenceTypes.All);
+            new(PreferenceId: _id, UseTracking: true, Includes: PreferenceIncludes.All);
 
         _preferenceRepositoryMock
             .Setup(expression: x => x.GetAsync(preferenceQuerySpecification, It.IsAny<CancellationToken>()))

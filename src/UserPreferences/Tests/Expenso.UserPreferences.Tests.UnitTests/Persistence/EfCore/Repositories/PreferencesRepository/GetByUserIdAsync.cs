@@ -1,5 +1,5 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
@@ -17,7 +17,7 @@ internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
         };
 
         // Act
-        Preference? preference = await TestCandidate.GetAsync(preferenceQuerySpecification: querySpecification,
+        Preference? preference = await TestCandidate.GetAsync(querySpecification: querySpecification,
             cancellationToken: default);
 
         // Assert

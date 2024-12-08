@@ -7,7 +7,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 
@@ -26,13 +26,11 @@ internal sealed class GetPreferenceQueryHandler : IQueryHandler<GetPreferenceQue
         PreferenceQuerySpecification querySpecification = new()
         {
             PreferenceId = query.Payload?.PreferenceId,
-            PreferenceType = query.Payload?.PreferenceType
-                .SafeCast<PreferenceTypes, GetPreferenceRequestPreferenceTypes>(),
+            Includes = query.Payload?.Includes.SafeCast<PreferenceIncludes, GetPreferenceRequestPreferenceIncludes>(),
             UseTracking = false
         };
 
-        Preference preference =
-            await _preferencesRepository.GetAsync(preferenceQuerySpecification: querySpecification,
+        Preference preference = await _preferencesRepository.GetAsync(querySpecification: querySpecification,
                 cancellationToken: cancellationToken) ?? throw new NotFoundException(resourceName: nameof(Preference),
                 identifierType: IdentifierType.Query(), identifier: querySpecification);
 

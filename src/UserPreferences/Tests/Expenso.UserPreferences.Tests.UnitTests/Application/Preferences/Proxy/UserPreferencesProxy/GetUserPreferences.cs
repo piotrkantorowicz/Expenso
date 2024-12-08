@@ -15,14 +15,14 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
             .Setup(expression: x => x.QueryAsync(new GetPreferencesQuery(
                     MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
                         It.IsAny<Guid>()),
-                    new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceTypes>())),
+                    new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceIncludes>())),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getPreferencesExternalResponse);
 
         // Act
         GetPreferencesResponse? preference = await TestCandidate.GetPreferences(
             getPreferenceRequest: new GetPreferencesRequest(PreferenceId: null, UserId: _userId,
-                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()),
+                Includes: It.IsAny<GetPreferencesRequestPreferenceIncludes>()),
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
@@ -32,7 +32,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         _queryDispatcherMock.Verify(expression: x => x.QueryAsync(new GetPreferencesQuery(
                 MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
                     It.IsAny<Guid>()),
-                new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceTypes>())),
+                new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceIncludes>())),
                     It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -44,14 +44,14 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
             .Setup(expression: x => x.QueryAsync(new GetPreferencesQuery(
                     MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
                         It.IsAny<Guid>()),
-                    new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceTypes>())),
+                    new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceIncludes>())),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
         // Act
         GetPreferencesResponse? preference = await TestCandidate.GetPreferences(
             getPreferenceRequest: new GetPreferencesRequest(PreferenceId: null, UserId: _userId,
-                PreferenceType: It.IsAny<GetPreferencesRequestPreferenceTypes>()),
+                Includes: It.IsAny<GetPreferencesRequestPreferenceIncludes>()),
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
@@ -60,7 +60,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
         _queryDispatcherMock.Verify(expression: x => x.QueryAsync(new GetPreferencesQuery(
                 MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
                     It.IsAny<Guid>()),
-                new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceTypes>())),
+                new GetPreferencesRequest(null, _userId, It.IsAny<GetPreferencesRequestPreferenceIncludes>())),
                     It.IsAny<CancellationToken>()), times: Times.Once);
     }
 }
