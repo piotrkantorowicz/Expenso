@@ -1,6 +1,6 @@
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.TimeManagement.Shared.DTO.Request;
-using Expenso.TimeManagement.Shared.DTO.Response;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
 namespace Expenso.TimeManagement.Shared;
 

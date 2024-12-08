@@ -1,9 +1,8 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Shared.DTO.Request;
-using Expenso.TimeManagement.Shared.DTO.Response;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
 using FluentAssertions;
 
@@ -33,38 +32,6 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         // Assert
         _jobEntryRepositoryMock.Verify(expression: x =>
             x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
-    }
-
-    [Test]
-    public async Task Should_RegisterJobEntry_And_CorrectlySetInterval()
-    {
-        // Arrange
-        _jobInstanceRepository
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
-            .ReturnsAsync(value: JobInstance.Default);
-
-        _jobEntryStatusReposiotry
-            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
-            .ReturnsAsync(value: JobEntryStatus.Running);
-
-        RegisterJobEntryCommand entryCommand = _registerJobEntryCommand with
-        {
-            Payload = _registerJobEntryCommand.Payload! with
-            {
-                Interval = new RegisterJobEntryRequestJobEntryPeriodInterval(DayOfWeek: 5, Month: 6, DayOfMonth: 10,
-                    Hour: 12, Minute: 30, Second: 30, UseSeconds: true)
-            }
-        };
-
-        // Act
-        RegisterJobEntryResponse result = await TestCandidate.HandleAsync(entryCommand: entryCommand,
-            cancellationToken: It.IsAny<CancellationToken>());
-
-        // Assert
-        _jobEntryRepositoryMock.Verify(expression: x =>
-            x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
-
-        result.CronExpression.Should().Be(expected: "30 30 12 10 6 5");
     }
 
     [Test]

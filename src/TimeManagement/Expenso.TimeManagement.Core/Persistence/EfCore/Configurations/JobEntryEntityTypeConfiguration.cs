@@ -21,8 +21,8 @@ internal sealed class JobEntryEntityTypeConfiguration : IEntityTypeConfiguration
 
         builder.Property(propertyExpression: x => x.CronExpression).IsRequired(required: false);
         builder.Property(propertyExpression: x => x.RunAt).IsRequired(required: false);
-        builder.Property(propertyExpression: x => x.IsCompleted).IsRequired(required: false);
-        builder.Property(propertyExpression: x => x.CurrentRetries).IsRequired(required: false);
+        builder.Property(propertyExpression: x => x.IsCompleted).IsRequired();
+        builder.Property(propertyExpression: x => x.CurrentRetries).IsRequired();
         builder.Property(propertyExpression: x => x.MaxRetries).IsRequired();
         builder.Property(propertyExpression: x => x.LastRun).IsRequired(required: false);
 

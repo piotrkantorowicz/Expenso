@@ -7,6 +7,7 @@ using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Constants;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
+using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
 
 using NCrontab;
 
@@ -59,8 +60,15 @@ internal sealed class JobExecution : IJobExecution
                 return;
             }
 
-            IReadOnlyCollection<JobEntry> jobEntries =
-                await _jobEntryRepository.GetActiveJobEntries(jobInstanceId: jobInstance.Id,
+            JobEntryQuerySpecification querySpecification = new()
+            {
+                JobInstanceId = jobInstanceId,
+                IsActive = true,
+                UseTracking = false
+            };
+
+            IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntries(
+                querySpecification: querySpecification,
                     cancellationToken: stoppingToken);
 
             if (jobEntries.Count == 0)
@@ -223,10 +231,9 @@ internal sealed class JobExecution : IJobExecution
                         "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
-                    jobEntry.JobStatus =
-                        jobEntry.MaxRetries is not null && jobEntry.MaxRetries >= (jobEntry.CurrentRetries ?? 0)
-                            ? jobStatuses.First(predicate: x => x.IsRetrying())
-                            : jobStatuses.First(predicate: x => x.IsFailed());
+                    jobEntry.JobStatus = jobEntry.MaxRetries > jobEntry.CurrentRetries
+                        ? jobStatuses.First(predicate: x => x.IsRetrying())
+                        : jobStatuses.First(predicate: x => x.IsFailed());
 
                     if (jobEntry.JobStatus.IsRetrying())
                     {

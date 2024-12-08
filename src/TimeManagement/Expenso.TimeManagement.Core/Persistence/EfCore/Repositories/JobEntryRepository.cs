@@ -1,6 +1,7 @@
 ﻿using Expenso.Shared.Database.EfCore.Queryable;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
+using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -16,26 +17,22 @@ internal sealed class JobEntryRepository : IJobEntryRepository
                                    throw new ArgumentNullException(paramName: nameof(timeManagementDbContext));
     }
 
-    public async Task<JobEntry?> GetJobEntry(Guid? jobEntryId, CancellationToken cancellationToken,
-        bool useTracking = false)
+    public async Task<JobEntry?> GetJobEntry(JobEntryQuerySpecification querySpecification,
+        CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
-            .JobEntries.Tracking(useTracking: useTracking)
-            .FirstOrDefaultAsync(
-                predicate: x =>
-                    x.Id == jobEntryId &&
-                    (x.JobStatus == JobEntryStatus.Running || x.JobStatus == JobEntryStatus.Retrying),
-                cancellationToken: cancellationToken);
+            .JobEntries.Tracking(useTracking: querySpecification.UseTracking)
+            .IncludeMany(includeExpression: querySpecification.Include())
+            .FirstOrDefaultAsync(predicate: querySpecification.Filter(), cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<JobEntry>> GetActiveJobEntries(Guid? jobInstanceId,
-        CancellationToken cancellationToken, bool useTracking = false)
+    public async Task<IReadOnlyCollection<JobEntry>> GetJobEntries(JobEntryQuerySpecification querySpecification,
+        CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
-            .JobEntries.Tracking(useTracking: useTracking)
-            .Where(predicate: x => x.JobInstanceId == jobInstanceId &&
-                                   (x.JobStatus == JobEntryStatus.Running || x.JobStatus == JobEntryStatus.Retrying) &&
-                                   x.Triggers.Count > 0)
+            .JobEntries.Tracking(useTracking: querySpecification.UseTracking)
+            .IncludeMany(includeExpression: querySpecification.Include())
+            .Where(predicate: querySpecification.Filter())
             .ToListAsync(cancellationToken: cancellationToken);
     }
 

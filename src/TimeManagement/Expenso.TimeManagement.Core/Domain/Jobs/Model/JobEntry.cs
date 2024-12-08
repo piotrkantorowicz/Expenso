@@ -12,11 +12,11 @@ internal sealed class JobEntry
 
     public DateTimeOffset? RunAt { get; init; }
 
-    public int? CurrentRetries { get; set; }
+    public int CurrentRetries { get; set; }
 
-    public int? MaxRetries { get; init; }
+    public int MaxRetries { get; init; }
 
-    public bool? IsCompleted { get; set; }
+    public bool IsCompleted { get; set; }
 
     public DateTimeOffset? LastRun { get; set; }
 

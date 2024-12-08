@@ -1,7 +1,7 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Shared.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
 using FluentValidation.Results;
 

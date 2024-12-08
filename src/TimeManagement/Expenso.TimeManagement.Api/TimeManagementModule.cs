@@ -1,16 +1,23 @@
 ﻿using System.Reflection;
 
 using Expenso.Shared.Commands;
+using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.TimeManagement.Core;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
+using Expenso.TimeManagement.Core.Application.Jobs.Read.GetJobEntries;
+using Expenso.TimeManagement.Core.Application.Jobs.Read.GetJobEntries.DTO.Request;
+using Expenso.TimeManagement.Core.Application.Jobs.Read.GetJobEntries.DTO.Response;
+using Expenso.TimeManagement.Core.Application.Jobs.Read.GetJobEntry;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJobEntry;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJobEntry.DTO.Request;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Shared;
-using Expenso.TimeManagement.Shared.DTO.Request;
-using Expenso.TimeManagement.Shared.DTO.Response;
+using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Request;
+using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Response;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,20 +52,42 @@ public sealed class TimeManagementModule : IModuleDefinition
 
     public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
-        EndpointRegistration cancelJobEndpointRegistration = new(Pattern: "cancel-job", Name: "CancelJob",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
-                [FromServices] ICommandHandler<CancelJobEntryCommand> handler,
-                [FromServices] IMessageContextFactory messageContextFactory, [FromBody] CancelJobEntryRequest model,
+        EndpointRegistration getJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}", Name: "GetJob",
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+                [FromServices] IQueryHandler<GetJobEntryQuery, GetJobEntryResponse> handler,
+                [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
+                [FromQuery] GetJobEntryRequestJobEntryIncludes? includes = null,
                 CancellationToken cancellationToken = default) =>
             {
-                await handler.HandleAsync(
-                    command: new CancelJobEntryCommand(MessageContext: messageContextFactory.Current(), Payload: model),
+                GetJobEntryResponse? response = await handler.HandleAsync(
+                    query: new GetJobEntryQuery(MessageContext: messageContextFactory.Current(),
+                        Payload: new GetJobEntryRequest(JobEntryId: id, Includes: includes)),
                     cancellationToken: cancellationToken);
 
-                return Results.NoContent();
+                return Results.Ok(value: response);
             });
 
-        EndpointRegistration registerJobEndpointRegistration = new(Pattern: "register-job", Name: "RegisterJob",
+        EndpointRegistration getJobEntriesEndpointRegistration = new(Pattern: "job-entries", Name: "GetJobs",
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
+                [FromServices] IQueryHandler<GetJobEntriesQuery, IReadOnlyCollection<GetJobEntriesResponse>> handler,
+                [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? jobEntryId = null,
+                [FromQuery] Guid? jobInstanceId = null, [FromQuery] Guid[]? jobEntryStatusIds = null,
+                [FromQuery] int? moreThanRetries = null, [FromQuery] bool? isCompleted = null,
+                [FromQuery] bool? hasRunned = null, [FromQuery] bool? isActive = null,
+                [FromQuery] bool? hasTriggers = null, [FromQuery] GetJobEntriesRequestJobEntryIncludes? includes = null,
+                CancellationToken cancellationToken = default) =>
+            {
+                IReadOnlyCollection<GetJobEntriesResponse>? response = await handler.HandleAsync(
+                    query: new GetJobEntriesQuery(MessageContext: messageContextFactory.Current(),
+                        Payload: new GetJobEntriesRequest(JobEntryId: jobEntryId, JobInstanceId: jobInstanceId,
+                            JobEntryStatusIds: jobEntryStatusIds, MoreThanRetries: moreThanRetries,
+                            IsCompleted: isCompleted, HasRunned: hasRunned, IsActive: isActive,
+                            HasTriggers: hasTriggers, Includes: includes)), cancellationToken: cancellationToken);
+
+                return Results.Ok(value: response);
+            });
+
+        EndpointRegistration registerJobEntryEndpointRegistration = new(Pattern: "job-entries", Name: "RegisterJob",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
                 [FromServices] ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] RegisterJobEntryRequest model,
@@ -68,9 +97,29 @@ public sealed class TimeManagementModule : IModuleDefinition
                     command: new RegisterJobEntryCommand(MessageContext: messageContextFactory.Current(),
                         Payload: model), cancellationToken: cancellationToken);
 
-                return Results.Ok(value: response);
+                return Results.CreatedAtRoute(routeName: getJobEntryEndpointRegistration.Name, routeValues: new
+                {
+                    id = response.JobEntryId
+                }, value: response);
             });
 
-        return [cancelJobEndpointRegistration, registerJobEndpointRegistration];
+        EndpointRegistration cancelJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}", Name: "CancelJob",
+            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete, Handler: async (
+                [FromServices] ICommandHandler<CancelJobEntryCommand> handler,
+                [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
+                CancellationToken cancellationToken = default) =>
+            {
+                await handler.HandleAsync(
+                    command: new CancelJobEntryCommand(MessageContext: messageContextFactory.Current(),
+                        Payload: new CancelJobEntryRequest(JobEntryId: id)), cancellationToken: cancellationToken);
+
+                return Results.NoContent();
+            });
+
+        return
+        [
+            getJobEntryEndpointRegistration, getJobEntriesEndpointRegistration, cancelJobEntryEndpointRegistration,
+            registerJobEntryEndpointRegistration
+        ];
     }
 }

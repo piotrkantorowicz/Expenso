@@ -1,6 +1,7 @@
 ﻿using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
 
 using FluentAssertions;
 
@@ -20,7 +21,8 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: JobEntryStatus.Cancelled);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetJobEntry(_jobEntryId, It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntry(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _jobEntry);
 
         // Act
@@ -37,7 +39,8 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
     {
         // Arrange
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetJobEntry(_jobEntryId, It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntry(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
         // Act
@@ -63,7 +66,8 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: null);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetJobEntry(_jobEntryId, It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntry(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _jobEntry);
 
         // Act

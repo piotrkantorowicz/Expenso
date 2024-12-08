@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJob.DTO.Request;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJobEntry.DTO.Request;
 
 using FluentValidation.Results;
 

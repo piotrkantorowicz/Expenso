@@ -1,0 +1,9 @@
+﻿namespace Expenso.TimeManagement.Core.Application.Jobs.Read.GetJobEntries.DTO.Request;
+
+public enum GetJobEntriesRequestJobEntryIncludes
+{
+    None = 0,
+    JobEntryStatus = 1,
+    JobEntryInstance = 2,
+    All = JobEntryStatus | JobEntryInstance
+}

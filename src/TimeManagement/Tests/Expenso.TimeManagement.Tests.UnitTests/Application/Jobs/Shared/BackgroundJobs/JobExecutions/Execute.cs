@@ -6,6 +6,7 @@ using Expenso.Shared.Integration.Events;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
 
 using FluentAssertions;
 
@@ -47,7 +48,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>());
 
         // Act
@@ -70,7 +72,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 new()
@@ -105,7 +108,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -150,7 +154,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -200,7 +205,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -237,7 +243,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -281,7 +288,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -324,7 +332,8 @@ internal sealed class Execute : JobExecutionTestBase
             .Throws(exception: error);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -372,7 +381,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -424,7 +434,9 @@ internal sealed class Execute : JobExecutionTestBase
             {
                 trigger
             },
-            JobStatus = JobEntryStatus.Running
+            JobStatus = JobEntryStatus.Retrying,
+            MaxRetries = 5,
+            CurrentRetries = 5
         };
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
@@ -434,7 +446,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -459,7 +472,7 @@ internal sealed class Execute : JobExecutionTestBase
                 "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
 
-        jobEntry.CurrentRetries.Should().Be(expected: null);
+        jobEntry.CurrentRetries.Should().Be(expected: 5);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Failed);
     }
 
@@ -498,7 +511,8 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x => x.GetActiveJobEntries(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x =>
+                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -523,7 +537,7 @@ internal sealed class Execute : JobExecutionTestBase
                 "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
 
-        jobEntry.CurrentRetries.Should().Be(expected: null);
+        jobEntry.CurrentRetries.Should().Be(expected: 1);
         jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Retrying);
     }
 }

@@ -6,10 +6,10 @@ using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
+using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Shared.DTO.Request;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
 using Moq;
 
@@ -18,7 +18,7 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.Register
 [TestFixture]
 internal abstract class
     RegisterJobEntryCommandHandlerTestBase : TestBase<
-    Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler>
+    Core.Application.Jobs.Write.RegisterJobEntry.RegisterJobEntryCommandHandler>
 {
     [SetUp]
     public void SetUp()
@@ -52,7 +52,7 @@ internal abstract class
                         EventData: _serializer.Object.Serialize(value: _eventTrigger))
                 ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
-        TestCandidate = new Core.Application.Jobs.Write.RegisterJob.RegisterJobEntryCommandHandler(
+        TestCandidate = new Core.Application.Jobs.Write.RegisterJobEntry.RegisterJobEntryCommandHandler(
             jobEntryRepository: _jobEntryRepositoryMock.Object, jobInstanceRepository: _jobInstanceRepository.Object,
             jobEntryStatusRepository: _jobEntryStatusReposiotry.Object, eventTypeResolver: _eventTypeResolver.Object);
     }
@@ -64,5 +64,5 @@ internal abstract class
     protected Mock<IJobInstanceRepository> _jobInstanceRepository = null!;
     protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
     protected Mock<ISerializer> _serializer = null!;
-    protected Mock<IEventTypeResolver> _eventTypeResolver = null!;
+    private Mock<IEventTypeResolver> _eventTypeResolver = null!;
 }
