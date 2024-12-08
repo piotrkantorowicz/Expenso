@@ -27,6 +27,7 @@ internal sealed class TimeManagementProxy : ITimeManagementProxy
         return await _commandDispatcher.SendAsync<RegisterJobEntryCommand, RegisterJobEntryResponse>(
             command: new RegisterJobEntryCommand(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.TimeManagementModule), Payload: request), cancellationToken: cancellationToken);
+                    moduleId: ModuleNames.TimeManagementModule), Payload: request),
+            cancellationToken: cancellationToken);
     }
 }
