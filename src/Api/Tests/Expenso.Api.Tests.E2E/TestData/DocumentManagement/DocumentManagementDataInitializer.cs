@@ -2,7 +2,9 @@ using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Core.Application.Files.Write.UploadFiles;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 using Expenso.Shared.Commands.Dispatchers;
-using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Modules.Constants;
+using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Types.Messages;
 
 namespace Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 
@@ -11,11 +13,14 @@ internal static class DocumentManagementDataInitializer
     private const string Addresses = "addresses";
     private const string Snakes = "snakes";
     private const string SnakesV2 = "snakes_v2";
+    private static readonly Guid CorrelationId = Guid.NewGuid();
 
-    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
-        IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
+    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
+        CancellationToken cancellationToken)
     {
-        UploadFilesCommand command = new(MessageContext: messageContextFactory.Current(),
+        UploadFilesCommand command = new(
+            MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.DocumentManagementModule),
             Payload: new UploadFilesRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null, Files:
             [
                 new UploadFilesRequestFile(Name: "Import-1", Content: await GetFileAsync(fileName: Addresses)),
