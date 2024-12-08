@@ -13,20 +13,22 @@ internal static class DocumentManagementDataInitializer
     private const string Addresses = "addresses";
     private const string Snakes = "snakes";
     private const string SnakesV2 = "snakes_v2";
-    private static readonly Guid CorrelationId = Guid.NewGuid();
 
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
         CancellationToken cancellationToken)
     {
+        Guid correlationId = Guid.NewGuid();
+
         UploadFilesCommand command = new(
-            MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
-                requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.DocumentManagementModule),
-            Payload: new UploadFilesRequest(UserId: UserDataInitializer.UserIds[index: 4], Groups: null, Files:
-            [
-                new UploadFilesRequestFile(Name: "Import-1", Content: await GetFileAsync(fileName: Addresses)),
-                new UploadFilesRequestFile(Name: "Import-2", Content: await GetFileAsync(fileName: Snakes)),
-                new UploadFilesRequestFile(Name: "Import-3", Content: await GetFileAsync(fileName: SnakesV2))
-            ], FileType: UploadFilesRequestFileType.Import));
+            MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: correlationId,
+                requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
+                module: ModuleNames.DocumentManagementModule), Payload: new UploadFilesRequest(
+                UserId: UserDataInitializer.UserIds[index: 4], Groups: null, Files:
+                [
+                    new UploadFilesRequestFile(Name: "Import-1", Content: await GetFileAsync(fileName: Addresses)),
+                    new UploadFilesRequestFile(Name: "Import-2", Content: await GetFileAsync(fileName: Snakes)),
+                    new UploadFilesRequestFile(Name: "Import-3", Content: await GetFileAsync(fileName: SnakesV2))
+                ], FileType: UploadFilesRequestFileType.Import));
 
         await commandDispatcher.SendAsync(command: command, cancellationToken: cancellationToken);
     }

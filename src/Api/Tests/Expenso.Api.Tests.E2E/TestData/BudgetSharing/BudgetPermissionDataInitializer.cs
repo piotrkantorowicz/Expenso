@@ -22,11 +22,12 @@ internal static class BudgetPermissionDataInitializer
     public static readonly List<Guid> BudgetPermissionRequestIds = [];
     public static readonly List<Guid> BudgetPermissionIds = [];
     public static readonly List<Guid> BudgetIds = [];
-    private static readonly Guid CorrelationId = Guid.NewGuid();
 
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
         CancellationToken cancellationToken)
     {
+        Guid correlationId = Guid.NewGuid();
+        
         IList<(Guid budgetId, string email, AssignParticipantRequestPermissionType permissionType)>
             budgetPermissionRequestIds =
             [
@@ -48,20 +49,20 @@ internal static class BudgetPermissionDataInitializer
 
             CreateBudgetPermissionResponse? createBudgetPermissionResponse =
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
-                    command: new CreateBudgetPermissionCommand(
-                        MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                    command: new CreateBudgetPermissionCommand(MessageContext: new MessageContext(
+                            messageId: Guid.NewGuid(), correlationId: correlationId,
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
-                            module: Names.BudgetSharingModule),
+                            module: ModuleNames.BudgetSharingModule),
                         Payload: new CreateBudgetPermissionRequest(BudgetPermissionId: null, BudgetId: budgetId,
                             OwnerId: UserDataInitializer.UserIds[index: 0], BudgetCode: $"BDGT/{iteration}/12/2024")),
                     cancellationToken: cancellationToken);
 
             AssignParticipantResponse? assignParticipantResponse =
                 await commandDispatcher.SendAsync<AssignParticipantCommand, AssignParticipantResponse>(
-                    command: new AssignParticipantCommand(
-                        MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                    command: new AssignParticipantCommand(MessageContext: new MessageContext(messageId: Guid.NewGuid(),
+                            correlationId: correlationId,
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
-                            module: Names.BudgetSharingModule),
+                            module: ModuleNames.BudgetSharingModule),
                         Payload: new AssignParticipantRequest(BudgetId: budgetId, Email: email,
                             PermissionType: permissionType)), cancellationToken: cancellationToken);
 
@@ -70,16 +71,16 @@ internal static class BudgetPermissionDataInitializer
         }
 
         await commandDispatcher.SendAsync(command: new AddPermissionCommand(
-                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
-                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.BudgetSharingModule),
+                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: correlationId,
+                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: ModuleNames.BudgetSharingModule),
                 Payload: new AddPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 0],
                     ParticipantId: UserDataInitializer.UserIds[index: 3],
                     PermissionType: AddPermissionRequestPermissionType.Reviewer)),
             cancellationToken: cancellationToken);
 
         await commandDispatcher.SendAsync(command: new DeleteBudgetPermissionCommand(
-                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
-                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.BudgetSharingModule),
+                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: correlationId,
+                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: ModuleNames.BudgetSharingModule),
                 Payload: new DeleteBudgetPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 2])),
             cancellationToken: cancellationToken);
     }
