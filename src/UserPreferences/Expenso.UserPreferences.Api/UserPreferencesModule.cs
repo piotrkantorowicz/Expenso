@@ -33,7 +33,7 @@ namespace Expenso.UserPreferences.Api;
 
 public sealed class UserPreferencesModule : IModuleDefinition
 {
-    public string ModuleName => Names.UserPreferencesModule;
+    public string ModuleName => ModuleNames.UserPreferencesModule;
 
     public string ModulePrefix => "/user-preferences";
 

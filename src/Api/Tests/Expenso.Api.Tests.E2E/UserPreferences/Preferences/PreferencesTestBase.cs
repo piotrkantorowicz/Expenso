@@ -19,19 +19,19 @@ internal abstract class PreferencesTestBase : TestBase
 
     protected override void AssertResponseOk(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.UserPreferencesModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.UserPreferencesModule);
         base.AssertResponseOk(response: response);
     }
 
     protected override void AssertResponseCreated(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.UserPreferencesModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.UserPreferencesModule);
         base.AssertResponseCreated(response: response);
     }
 
     protected override void AssertResponseNoContent(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.UserPreferencesModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.UserPreferencesModule);
         base.AssertResponseNoContent(response: response);
     }
 }

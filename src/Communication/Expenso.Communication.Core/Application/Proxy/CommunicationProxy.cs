@@ -26,7 +26,8 @@ internal sealed class CommunicationProxy : ICommunicationProxy
         await _commandDispatcher.SendAsync(
             command: new SendNotificationCommand(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.CommunicationModule), Payload: request), cancellationToken: cancellationToken);
+                    moduleId: ModuleNames.CommunicationModule), Payload: request),
+            cancellationToken: cancellationToken);
     }
 
     public async Task SendNotificationsAsync(IReadOnlyCollection<SendNotificationRequest> requests,
@@ -38,7 +39,7 @@ internal sealed class CommunicationProxy : ICommunicationProxy
             _commandDispatcher.SendAsync(
                 command: new SendNotificationCommand(
                     MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                        moduleId: Names.CommunicationModule), Payload: request),
+                        moduleId: ModuleNames.CommunicationModule), Payload: request),
                 cancellationToken: cancellationToken)));
 
         await Task.WhenAll(tasks: sendNotificationTasks);

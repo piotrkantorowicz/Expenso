@@ -35,7 +35,7 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
         return await _queryDispatcher.QueryAsync(
             query: new GetPreferencesQuery(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.UserPreferencesModule), Payload: request),
+                    moduleId: ModuleNames.UserPreferencesModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 
@@ -45,7 +45,7 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
         return await _commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
             command: new CreatePreferenceCommand(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.UserPreferencesModule), Payload: request),
+                    moduleId: ModuleNames.UserPreferencesModule), Payload: request),
             cancellationToken: cancellationToken);
     }
 }
