@@ -1,6 +1,8 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.Shared.Commands.Dispatchers;
-using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Modules.Constants;
+using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Types.Messages;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
@@ -12,15 +14,19 @@ namespace Expenso.Api.Tests.E2E.TestData.Preferences;
 internal static class PreferencesDataInitializer
 {
     public static readonly IList<Guid> PreferenceIds = new List<Guid>();
+    private static readonly Guid CorrelationId = Guid.NewGuid();
 
-    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
-        IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
+    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
+        CancellationToken cancellationToken)
     {
         foreach (Guid userId in UserDataInitializer.UserIds)
         {
             CreatePreferenceResponse? preference =
                 await commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-                    command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
+                    command: new CreatePreferenceCommand(
+                        MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                            requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
+                            module: Names.UserPreferencesModule),
                         Payload: new CreatePreferenceRequest(UserId: userId)), cancellationToken: cancellationToken);
 
             if (preference is not null)
@@ -29,11 +35,11 @@ internal static class PreferencesDataInitializer
             }
         }
 
-        await commandDispatcher.SendAsync(
-            command: new UpdatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                PreferenceId: PreferenceIds[index: 0],
-                Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
-                        AllowAddFinancePlanSubOwners: true,
+        await commandDispatcher.SendAsync(command: new UpdatePreferenceCommand(
+                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.UserPreferencesModule),
+                PreferenceId: PreferenceIds[index: 0], Payload: new UpdatePreferenceRequest(
+                    FinancePreference: new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: true,
                         MaxNumberOfSubFinancePlanSubOwners: 3, AllowAddFinancePlanReviewers: true,
                         MaxNumberOfFinancePlanReviewers: 5),
                     NotificationPreference: new UpdatePreferenceRequestNotificationPreference(

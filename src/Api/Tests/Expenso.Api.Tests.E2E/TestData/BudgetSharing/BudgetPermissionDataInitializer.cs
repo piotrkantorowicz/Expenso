@@ -11,7 +11,9 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPerm
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission.DTO.Request;
 using Expenso.Shared.Commands.Dispatchers;
-using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Modules.Constants;
+using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Types.Messages;
 
 namespace Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 
@@ -20,9 +22,10 @@ internal static class BudgetPermissionDataInitializer
     public static readonly List<Guid> BudgetPermissionRequestIds = [];
     public static readonly List<Guid> BudgetPermissionIds = [];
     public static readonly List<Guid> BudgetIds = [];
+    private static readonly Guid CorrelationId = Guid.NewGuid();
 
-    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher,
-        IMessageContextFactory messageContextFactory, CancellationToken cancellationToken)
+    public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
+        CancellationToken cancellationToken)
     {
         IList<(Guid budgetId, string email, AssignParticipantRequestPermissionType permissionType)>
             budgetPermissionRequestIds =
@@ -45,14 +48,20 @@ internal static class BudgetPermissionDataInitializer
 
             CreateBudgetPermissionResponse? createBudgetPermissionResponse =
                 await commandDispatcher.SendAsync<CreateBudgetPermissionCommand, CreateBudgetPermissionResponse>(
-                    command: new CreateBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
+                    command: new CreateBudgetPermissionCommand(
+                        MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                            requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
+                            module: Names.BudgetSharingModule),
                         Payload: new CreateBudgetPermissionRequest(BudgetPermissionId: null, BudgetId: budgetId,
                             OwnerId: UserDataInitializer.UserIds[index: 0], BudgetCode: $"BDGT/{iteration}/12/2024")),
                     cancellationToken: cancellationToken);
 
             AssignParticipantResponse? assignParticipantResponse =
                 await commandDispatcher.SendAsync<AssignParticipantCommand, AssignParticipantResponse>(
-                    command: new AssignParticipantCommand(MessageContext: messageContextFactory.Current(),
+                    command: new AssignParticipantCommand(
+                        MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                            requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
+                            module: Names.BudgetSharingModule),
                         Payload: new AssignParticipantRequest(BudgetId: budgetId, Email: email,
                             PermissionType: permissionType)), cancellationToken: cancellationToken);
 
@@ -60,15 +69,17 @@ internal static class BudgetPermissionDataInitializer
             BudgetPermissionRequestIds.Add(item: assignParticipantResponse!.BudgetPermissionRequestId);
         }
 
-        await commandDispatcher.SendAsync(
-            command: new AddPermissionCommand(MessageContext: messageContextFactory.Current(),
+        await commandDispatcher.SendAsync(command: new AddPermissionCommand(
+                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.BudgetSharingModule),
                 Payload: new AddPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 0],
                     ParticipantId: UserDataInitializer.UserIds[index: 3],
                     PermissionType: AddPermissionRequestPermissionType.Reviewer)),
             cancellationToken: cancellationToken);
 
-        await commandDispatcher.SendAsync(
-            command: new DeleteBudgetPermissionCommand(MessageContext: messageContextFactory.Current(),
+        await commandDispatcher.SendAsync(command: new DeleteBudgetPermissionCommand(
+                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: CorrelationId,
+                    requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: Names.BudgetSharingModule),
                 Payload: new DeleteBudgetPermissionRequest(BudgetPermissionId: BudgetPermissionIds[index: 2])),
             cancellationToken: cancellationToken);
     }
