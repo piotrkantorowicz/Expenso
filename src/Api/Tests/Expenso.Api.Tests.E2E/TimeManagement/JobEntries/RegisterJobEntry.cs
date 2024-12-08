@@ -1,7 +1,10 @@
 ﻿using System.Text.Json;
 
+using Expenso.Api.Tests.E2E.TestData;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
+using Expenso.Shared.System.Modules.Constants;
+using Expenso.Shared.System.Types.Messages;
 using Expenso.TimeManagement.Shared.DTO.Request;
 using Expenso.TimeManagement.Shared.DTO.Response;
 
@@ -17,18 +20,9 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "time-management/register-job";
 
-        RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
-        [
-            new RegisterJobEntryRequestJobEntryTrigger(
-                EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
-                EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: MessageContextFactoryMock.Object.Current(),
-                    Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
-        ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
-
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
-            value: jobEntryRequest);
+            value: CreateTestRequest());
 
         // Assert
         AssertResponseOk(response: response);
@@ -56,19 +50,26 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     public async Task Should_RegisterJobEntry_ViaProxy()
     {
         // Arrange
-        RegisterJobEntryRequest jobEntryRequest = new(MaxRetries: 5, JobEntryTriggers:
+        // Act
+        Func<Task> action = () => _timeManagementProxy.RegisterJobEntry(jobEntryRequest: CreateTestRequest(),
+            messageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+                requestedBy: TestClient.ClientId, timestamp: _clock.UtcNow, module: ModuleNames.TimeManagementModule));
+
+        // Assert
+        await action.Should().NotThrowAsync();
+    }
+
+    private RegisterJobEntryRequest CreateTestRequest()
+    {
+        return new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
         [
             new RegisterJobEntryRequestJobEntryTrigger(
                 EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: MessageContextFactoryMock.Object.Current(),
+                    MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+                        requestedBy: TestClient.ClientId, timestamp: _clock.UtcNow,
+                        module: ModuleNames.BudgetSharingModule),
                     Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
-        ], Interval: null, RunAt: _clockMock.Object.UtcNow.AddSeconds(seconds: 5));
-
-        // Act
-        Func<Task> action = () => _timeManagementProxy.RegisterJobEntry(jobEntryRequest: jobEntryRequest);
-        
-        // Assert
-        await action.Should().NotThrowAsync();
+        ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 5));
     }
 }

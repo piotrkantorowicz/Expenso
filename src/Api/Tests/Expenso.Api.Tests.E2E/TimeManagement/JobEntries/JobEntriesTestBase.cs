@@ -4,8 +4,6 @@ using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Moq;
-
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
 [TestFixture]
@@ -15,11 +13,7 @@ internal abstract class JobEntriesTestBase : TestBase
     public override Task SetUpAsync()
     {
         _timeManagementProxy = WebApp.Instance.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
-        _clockMock = new Mock<IClock>();
-
-        _clockMock
-            .Setup(expression: x => x.UtcNow)
-            .Returns(value: DateTimeOffset.UtcNow.AddMilliseconds(milliseconds: 500));
+        _clock = WebApp.Instance.ServiceProvider.GetRequiredService<IClock>();
 
         return base.SetUpAsync();
     }
@@ -28,13 +22,12 @@ internal abstract class JobEntriesTestBase : TestBase
     public override Task TearDownAsync()
     {
         _timeManagementProxy = null!;
-        _clockMock.Reset();
-        _clockMock = null!;
+        _clock = null!;
 
         return base.TearDownAsync();
     }
 
-    protected Mock<IClock> _clockMock = null!;
+    protected IClock _clock = null!;
     protected ITimeManagementProxy _timeManagementProxy = null!;
 
     protected override void AssertResponseOk(HttpResponseMessage response)

@@ -3,7 +3,7 @@ using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Database.EfCore.Settings;
-using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Clock;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,18 +20,16 @@ internal sealed class WebAppTestSetup
     {
         using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
         ICommandDispatcher commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
+        IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
-        IMessageContextFactory messageContextFactory =
-            scope.ServiceProvider.GetRequiredService<IMessageContextFactory>();
+        await PreferencesDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+            cancellationToken: default);
 
-        await PreferencesDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher,
-            messageContextFactory: messageContextFactory, cancellationToken: default);
+        await BudgetPermissionDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+            cancellationToken: default);
 
-        await BudgetPermissionDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher,
-            messageContextFactory: messageContextFactory, cancellationToken: default);
-
-        await DocumentManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher,
-            messageContextFactory: messageContextFactory, cancellationToken: default);
+        await DocumentManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+            cancellationToken: default);
     }
 
     [OneTimeTearDown]
