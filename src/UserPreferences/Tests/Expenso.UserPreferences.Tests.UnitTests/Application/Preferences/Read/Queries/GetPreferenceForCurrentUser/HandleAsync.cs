@@ -2,7 +2,7 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Response;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser;
 
@@ -15,13 +15,13 @@ internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestB
         // Arrange
         GetPreferenceForCurrentUserQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceForCurrentUserRequest(
-                PreferenceType: It.IsAny<GetPreferenceForCurrentUserRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferenceForCurrentUserRequestPreferenceIncludes>()));
 
         _userContextAccessorMock.Setup(expression: x => x.Get()).Returns(value: _executionContextMock.Object);
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
+                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -35,7 +35,7 @@ internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestB
 
         _preferenceRepositoryMock.Verify(
             expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceTypes>()),
+                x.GetAsync(new PreferenceQuerySpecification(null, _userId, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()), times: Times.Once);
 
         _userContextAccessorMock.Verify(expression: x => x.Get(), times: Times.Once);
@@ -47,7 +47,7 @@ internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestB
         // Arrange
         GetPreferenceForCurrentUserQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceForCurrentUserRequest(
-                PreferenceType: It.IsAny<GetPreferenceForCurrentUserRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferenceForCurrentUserRequestPreferenceIncludes>()));
 
         // Act
         Func<Task> action = () =>

@@ -1,7 +1,7 @@
 ﻿namespace Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 
 [Flags]
-public enum GetPreferencesRequestPreferenceTypes
+public enum GetPreferencesRequestPreferenceIncludes
 {
     None = 0,
     Finance = 1,

@@ -1,17 +1,17 @@
 ### GetPreference
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/0d002552-918f-4a1f-b114-7b4138147148?
-    preferenceType=Finance,Notification,General
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/f5f4e46d-4ec0-4abb-a631-3aa9603a4448?
+    includes=Finance,Notification,General
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetCurrentUserPreference
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user?preferenceType=Finance,Notification,General
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/current-user?includes=Finance,Notification,General
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
 ### GetPreferences
-GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?PreferenceId=0d002552-918f-4a1f-b114-7b4138147148&
-    preferenceType=Finance,Notification,General
+GET {{apiHostAddress}}/{{userPreferencesRoute}}/preferences?PreferenceId=f5f4e46d-4ec0-4abb-a631-3aa9603a4448&
+    includes=Finance,Notification,General
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 
@@ -25,7 +25,7 @@ Authorization: Bearer {{apiAccessToken}}
 }
 
 ### UpdatePreference
-PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/0d002552-918f-4a1f-b114-7b4138147148
+PUT {{apiHostAddress}}/{{userPreferencesRoute}}/preferences/f5f4e46d-4ec0-4abb-a631-3aa9603a4448
 Content-Type: application/json
 Authorization: Bearer {{apiAccessToken}}
 

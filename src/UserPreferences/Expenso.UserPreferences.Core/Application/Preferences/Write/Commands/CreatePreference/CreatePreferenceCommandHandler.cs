@@ -5,7 +5,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Create
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
@@ -32,8 +32,7 @@ internal sealed class
             UseTracking = false
         };
 
-        bool dbUserPreferencesExists =
-            await _preferencesRepository.ExistsAsync(preferenceQuerySpecification: querySpecification,
+        bool dbUserPreferencesExists = await _preferencesRepository.ExistsAsync(querySpecification: querySpecification,
                 cancellationToken: cancellationToken);
 
         if (dbUserPreferencesExists)

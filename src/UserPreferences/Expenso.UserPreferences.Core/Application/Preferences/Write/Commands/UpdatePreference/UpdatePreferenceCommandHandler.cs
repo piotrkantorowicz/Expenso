@@ -7,7 +7,7 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
@@ -35,10 +35,10 @@ internal sealed class UpdatePreferenceCommandHandler : ICommandHandler<UpdatePre
     public async Task HandleAsync(UpdatePreferenceCommand command, CancellationToken cancellationToken)
     {
         PreferenceQuerySpecification preferenceQuerySpecification = new(PreferenceId: command.PreferenceId,
-            UseTracking: true, PreferenceType: PreferenceTypes.All);
+            UseTracking: true, Includes: PreferenceIncludes.All);
 
         Preference? dbPreference = await _preferencesRepository.GetAsync(
-            preferenceQuerySpecification: preferenceQuerySpecification, cancellationToken: cancellationToken);
+            querySpecification: preferenceQuerySpecification, cancellationToken: cancellationToken);
 
         if (dbPreference is null)
         {

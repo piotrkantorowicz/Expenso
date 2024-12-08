@@ -2,7 +2,7 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
-using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreference;
 
@@ -15,11 +15,11 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         // Arrange
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferenceRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferenceRequestPreferenceIncludes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceTypes>()),
+                x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -31,8 +31,8 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
-        _preferenceRepositoryMock.Verify(
-            expression: x => x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceTypes>()),
+        _preferenceRepositoryMock.Verify(expression: x =>
+            x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceIncludes>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -42,7 +42,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         // Arrange
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetPreferenceRequest(PreferenceId: _id,
-                PreferenceType: It.IsAny<GetPreferenceRequestPreferenceTypes>()));
+                Includes: It.IsAny<GetPreferenceRequestPreferenceIncludes>()));
 
         // Act
         Func<Task> action = async () =>

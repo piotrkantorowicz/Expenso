@@ -33,7 +33,7 @@ namespace Expenso.UserPreferences.Api;
 
 public sealed class UserPreferencesModule : IModuleDefinition
 {
-    public string ModuleName => Names.UserPreferencesModule;
+    public string ModuleName => ModuleNames.UserPreferencesModule;
 
     public string ModulePrefix => "/user-preferences";
 
@@ -59,12 +59,12 @@ public sealed class UserPreferencesModule : IModuleDefinition
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
                 [FromServices] IQueryHandler<GetPreferenceQuery, GetPreferenceResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
-                [FromQuery] GetPreferenceRequestPreferenceTypes preferenceType =
-                    GetPreferenceRequestPreferenceTypes.None, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetPreferenceRequestPreferenceIncludes includes =
+                    GetPreferenceRequestPreferenceIncludes.None, CancellationToken cancellationToken = default) =>
             {
                 GetPreferenceResponse? response = await handler.HandleAsync(
                     query: new GetPreferenceQuery(MessageContext: messageContextFactory.Current(),
-                        Payload: new GetPreferenceRequest(PreferenceId: id, PreferenceType: preferenceType)),
+                        Payload: new GetPreferenceRequest(PreferenceId: id, Includes: includes)),
                     cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
@@ -76,13 +76,13 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromServices]
                 IQueryHandler<GetPreferenceForCurrentUserQuery, GetPreferenceForCurrentUserResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory,
-                [FromQuery] GetPreferenceForCurrentUserRequestPreferenceTypes preferenceType =
-                    GetPreferenceForCurrentUserRequestPreferenceTypes.None,
+                [FromQuery] GetPreferenceForCurrentUserRequestPreferenceIncludes includes =
+                    GetPreferenceForCurrentUserRequestPreferenceIncludes.None,
                 CancellationToken cancellationToken = default) =>
             {
                 GetPreferenceForCurrentUserResponse? response = await handler.HandleAsync(
                     query: new GetPreferenceForCurrentUserQuery(MessageContext: messageContextFactory.Current(),
-                        Payload: new GetPreferenceForCurrentUserRequest(PreferenceType: preferenceType)),
+                        Payload: new GetPreferenceForCurrentUserRequest(Includes: includes)),
                     cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
@@ -93,13 +93,13 @@ public sealed class UserPreferencesModule : IModuleDefinition
                 [FromServices] IQueryHandler<GetPreferencesQuery, GetPreferencesResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? id = null,
                 [FromQuery] Guid? userId = null,
-                [FromQuery] GetPreferencesRequestPreferenceTypes preferenceType =
-                    GetPreferencesRequestPreferenceTypes.None, CancellationToken cancellationToken = default) =>
+                [FromQuery] GetPreferencesRequestPreferenceIncludes includes =
+                    GetPreferencesRequestPreferenceIncludes.None, CancellationToken cancellationToken = default) =>
             {
                 GetPreferencesResponse? response = await handler.HandleAsync(
                     query: new GetPreferencesQuery(MessageContext: messageContextFactory.Current(),
-                        Payload: new GetPreferencesRequest(PreferenceId: id, UserId: userId,
-                            PreferenceType: preferenceType)), cancellationToken: cancellationToken);
+                        Payload: new GetPreferencesRequest(PreferenceId: id, UserId: userId, Includes: includes)),
+                    cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });

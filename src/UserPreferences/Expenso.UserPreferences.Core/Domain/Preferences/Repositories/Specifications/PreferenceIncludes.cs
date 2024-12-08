@@ -1,7 +1,7 @@
-﻿namespace Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Filters;
+﻿namespace Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
 [Flags]
-internal enum PreferenceTypes
+internal enum PreferenceIncludes
 {
     None = 0,
     Finance = 1,

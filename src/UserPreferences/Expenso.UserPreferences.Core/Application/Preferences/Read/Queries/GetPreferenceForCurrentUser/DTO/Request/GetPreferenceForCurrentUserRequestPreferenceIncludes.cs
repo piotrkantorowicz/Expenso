@@ -1,7 +1,7 @@
 ﻿namespace Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferenceForCurrentUser.DTO.Request;
 
 [Flags]
-public enum GetPreferenceForCurrentUserRequestPreferenceTypes
+public enum GetPreferenceForCurrentUserRequestPreferenceIncludes
 {
     None = 0,
     Finance = 1,
