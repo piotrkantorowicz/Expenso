@@ -32,7 +32,8 @@ internal sealed class IamProxy : IIamProxy
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUserByIdQuery(
-                MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule),
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: ModuleNames.IamModule),
                 Payload: request), cancellationToken: cancellationToken);
     }
 
@@ -41,7 +42,8 @@ internal sealed class IamProxy : IIamProxy
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUserByEmailQuery(
-                MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule),
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: ModuleNames.IamModule),
                 Payload: request), cancellationToken: cancellationToken);
     }
 
@@ -50,7 +52,8 @@ internal sealed class IamProxy : IIamProxy
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUsersQuery(
-                MessageContext: _messageContextFactory.FromParent(parent: messageContext, moduleId: Names.IamModule),
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: ModuleNames.IamModule),
                 Payload: request), cancellationToken: cancellationToken);
     }
 }

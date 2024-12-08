@@ -1,6 +1,6 @@
 ﻿namespace Expenso.Shared.System.Modules.Constants;
 
-public static class Names
+public static class ModuleNames
 {
     public const string IamModule = "IAM";
     public const string BudgetSharingModule = "BudgetSharing";

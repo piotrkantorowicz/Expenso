@@ -36,7 +36,8 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
         return await _queryDispatcher.QueryAsync(
             query: new GetFilesQuery(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
+                    moduleId: ModuleNames.DocumentManagementModule), Payload: request),
+            cancellationToken: cancellationToken);
     }
 
     public async Task UploadFilesAsync(UploadFilesRequest request, IMessageContext? messageContext = null,
@@ -45,7 +46,8 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
         await _commandDispatcher.SendAsync(
             command: new UploadFilesCommand(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
+                    moduleId: ModuleNames.DocumentManagementModule), Payload: request),
+            cancellationToken: cancellationToken);
     }
 
     public async Task DeleteFilesAsync(DeleteFilesRequest request, IMessageContext? messageContext = null,
@@ -54,6 +56,7 @@ internal sealed class DocumentManagementProxy : IDocumentManagementProxy
         await _commandDispatcher.SendAsync(
             command: new DeleteFilesCommand(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: Names.DocumentManagementModule), Payload: request), cancellationToken: cancellationToken);
+                    moduleId: ModuleNames.DocumentManagementModule), Payload: request),
+            cancellationToken: cancellationToken);
     }
 }

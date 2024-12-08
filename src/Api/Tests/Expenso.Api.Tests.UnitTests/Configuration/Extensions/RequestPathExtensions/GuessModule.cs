@@ -69,12 +69,13 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().Be(expected: Names.BudgetSharingModule);
+        result.Should().Be(expected: ModuleNames.BudgetSharingModule);
 
         _loggerMock.Verify(
             expression: logger => logger.LogDebug(LoggingUtils.GeneralInformation,
                 It.Is<string>(message =>
-                    message.Contains($"Module found: {Names.BudgetSharingModule} for request path: {requestPath}")),
+                    message.Contains(
+                        $"Module found: {ModuleNames.BudgetSharingModule} for request path: {requestPath}")),
                 It.IsAny<IMessageContext?>(), It.IsAny<object?[]>()), times: Times.Once);
     }
 

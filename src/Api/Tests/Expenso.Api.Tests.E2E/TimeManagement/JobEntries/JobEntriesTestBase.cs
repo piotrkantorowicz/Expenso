@@ -39,19 +39,19 @@ internal abstract class JobEntriesTestBase : TestBase
 
     protected override void AssertResponseOk(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.TimeManagementModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
         base.AssertResponseOk(response: response);
     }
 
     protected override void AssertResponseCreated(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.TimeManagementModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
         base.AssertResponseCreated(response: response);
     }
 
     protected override void AssertResponseNoContent(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.TimeManagementModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
         base.AssertResponseNoContent(response: response);
     }
 }

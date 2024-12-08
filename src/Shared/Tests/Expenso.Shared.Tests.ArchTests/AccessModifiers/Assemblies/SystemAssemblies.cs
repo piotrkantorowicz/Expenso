@@ -20,7 +20,7 @@ internal static class SystemAssemblies
     private static readonly Assembly LoggingSerilog = typeof(Extensions).Assembly;
     private static readonly Assembly Metrics = typeof(OtlpSettings).Assembly;
     private static readonly Assembly Modules = typeof(IModuleDefinition).Assembly;
-    private static readonly Assembly ModulesNames = typeof(Names).Assembly;
+    private static readonly Assembly ModulesNames = typeof(ModuleNames).Assembly;
     private static readonly Assembly Serialization = typeof(ISerializer).Assembly;
     private static readonly Assembly Tasks = typeof(TaskExtensions).Assembly;
     private static readonly Assembly Types = typeof(IClock).Assembly;

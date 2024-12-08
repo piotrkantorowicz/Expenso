@@ -14,7 +14,7 @@ namespace Expenso.DocumentManagement.Api;
 
 public sealed class DocumentManagementModule : IModuleDefinition
 {
-    public string ModuleName => Names.DocumentManagementModule;
+    public string ModuleName => ModuleNames.DocumentManagementModule;
 
     public string ModulePrefix => "/document-management";
 

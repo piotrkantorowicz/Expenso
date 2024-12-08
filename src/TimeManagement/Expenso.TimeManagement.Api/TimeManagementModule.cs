@@ -23,7 +23,7 @@ namespace Expenso.TimeManagement.Api;
 
 public sealed class TimeManagementModule : IModuleDefinition
 {
-    public string ModuleName => Names.TimeManagementModule;
+    public string ModuleName => ModuleNames.TimeManagementModule;
 
     public string ModulePrefix => "/time-management";
 

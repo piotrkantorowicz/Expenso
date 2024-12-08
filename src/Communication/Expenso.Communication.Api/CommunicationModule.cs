@@ -14,7 +14,7 @@ namespace Expenso.Communication.Api;
 
 public sealed class CommunicationModule : IModuleDefinition
 {
-    public string ModuleName => Names.CommunicationModule;
+    public string ModuleName => ModuleNames.CommunicationModule;
 
     public string ModulePrefix => "/communication";
 

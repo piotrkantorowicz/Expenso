@@ -14,7 +14,7 @@ namespace Expenso.IAM.Api;
 
 public sealed class IamModule : IModuleDefinition
 {
-    public string ModuleName => Names.IamModule;
+    public string ModuleName => ModuleNames.IamModule;
 
     public string ModulePrefix => "/users";
 

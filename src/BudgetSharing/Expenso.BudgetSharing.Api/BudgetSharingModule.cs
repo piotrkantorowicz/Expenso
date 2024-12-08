@@ -53,7 +53,7 @@ namespace Expenso.BudgetSharing.Api;
 
 public sealed class BudgetSharingModule : IModuleDefinition
 {
-    public string ModuleName => Names.BudgetSharingModule;
+    public string ModuleName => ModuleNames.BudgetSharingModule;
 
     public string ModulePrefix => "/budget-sharing";
 
@@ -95,12 +95,12 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
-                GetBudgetPermissionRequestResponse? getPreferences = await handler.HandleAsync(
+                GetBudgetPermissionRequestResponse? response = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestQuery(MessageContext: messageContextFactory.Current(),
                         Payload: new GetBudgetPermissionRequestRequest(BudgetPermissionRequestId: id)),
                     cancellationToken: cancellationToken);
 
-                return Results.Ok(value: getPreferences);
+                return Results.Ok(value: response);
             });
 
         EndpointRegistration getBudgetPermissionRequestsEndpointRegistration = new(
@@ -118,13 +118,13 @@ public sealed class BudgetSharingModule : IModuleDefinition
                     GetBudgetPermissionRequestsRequestPermissionType.All,
                 CancellationToken cancellationToken = default) =>
             {
-                IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? getPreferences = await handler.HandleAsync(
+                IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? response = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestsQuery(MessageContext: messageContextFactory.Current(),
                         Payload: new GetBudgetPermissionRequestsRequest(BudgetId: budgetId, BudgetCode: budgetCode,
                             ParticipantId: participantId, OwnerId: ownerId, ForCurrentUser: forCurrentUser,
                             Status: status, PermissionType: permissionType)), cancellationToken: cancellationToken);
 
-                return Results.Ok(value: getPreferences);
+                return Results.Ok(value: response);
             });
 
         EndpointRegistration assignParticipantEndpointRegistration = new(Pattern: "budget-permission-requests",
@@ -206,12 +206,12 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>
             {
-                GetBudgetPermissionResponse? getPreferences = await handler.HandleAsync(
+                GetBudgetPermissionResponse? response = await handler.HandleAsync(
                     query: new GetBudgetPermissionQuery(MessageContext: messageContextFactory.Current(),
                         Payload: new GetBudgetPermissionRequest(BudgetPermissionId: id)),
                     cancellationToken: cancellationToken);
 
-                return Results.Ok(value: getPreferences);
+                return Results.Ok(value: response);
             });
 
         EndpointRegistration getBudgetPermissionsEndpointRegistration = new(Pattern: "budget-permissions",

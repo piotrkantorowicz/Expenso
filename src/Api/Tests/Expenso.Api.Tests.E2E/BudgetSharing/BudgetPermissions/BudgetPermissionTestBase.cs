@@ -19,19 +19,19 @@ internal abstract class BudgetPermissionTestBase : TestBase
 
     protected override void AssertResponseOk(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.BudgetSharingModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
         base.AssertResponseOk(response: response);
     }
 
     protected override void AssertResponseCreated(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.BudgetSharingModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
         base.AssertResponseCreated(response: response);
     }
 
     protected override void AssertResponseNoContent(HttpResponseMessage response)
     {
-        AssertModuleHeader(response: response, moduleName: Names.BudgetSharingModule);
+        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
         base.AssertResponseNoContent(response: response);
     }
 }
