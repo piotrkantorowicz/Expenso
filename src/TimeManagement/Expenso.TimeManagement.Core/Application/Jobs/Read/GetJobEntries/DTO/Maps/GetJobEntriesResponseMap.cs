@@ -10,16 +10,34 @@ internal static class GetJobEntriesResponseMap
         return jobEntries.Select(selector: MapTo).ToList();
     }
 
-    public static GetJobEntriesResponse MapTo(JobEntry jobEntry)
+    private static GetJobEntriesResponse MapTo(JobEntry jobEntry)
     {
         return new GetJobEntriesResponse(JobEntryId: jobEntry.Id, CronExpression: jobEntry.CronExpression,
             CurrentRetries: jobEntry.CurrentRetries, MaxRetries: jobEntry.MaxRetries, IsCompleted: jobEntry.IsCompleted,
             RunAt: jobEntry.RunAt, LastRun: jobEntry.LastRun,
-            JobInstance: new GetJobEntriesResponseJobInstance(Id: jobEntry.JobInstance?.Id,
-                Name: jobEntry.JobInstance?.Name, RunningDelay: jobEntry.JobInstance?.RunningDelay),
-            JobStatus: new GetJobEntriesResponseJobEntryStatus(Id: jobEntry.JobStatus?.Id,
-                Name: jobEntry.JobStatus?.Name, Description: jobEntry.JobStatus?.Description),
-            Triggers: jobEntry.Triggers.Select(selector: trigger => new GetJobEntriesResponseJobEntryTrigger(
-                Id: trigger.Id, EventType: trigger?.EventType, EventData: trigger?.EventData)));
+            JobInstance: MapJobInstance(instance: jobEntry.JobInstance),
+            JobStatus: MapJobStatus(status: jobEntry.JobStatus), Triggers: MapTriggers(triggers: jobEntry.Triggers));
+    }
+
+    private static GetJobEntriesResponseJobInstance? MapJobInstance(JobInstance? instance)
+    {
+        return instance is null
+            ? null
+            : new GetJobEntriesResponseJobInstance(Id: instance.Id, Name: instance.Name,
+                RunningDelay: instance.RunningDelay);
+    }
+
+    private static GetJobEntriesResponseJobEntryStatus? MapJobStatus(JobEntryStatus? status)
+    {
+        return status is null
+            ? null
+            : new GetJobEntriesResponseJobEntryStatus(Id: status.Id, Name: status.Name,
+                Description: status.Description);
+    }
+
+    private static IEnumerable<GetJobEntriesResponseJobEntryTrigger> MapTriggers(IEnumerable<JobEntryTrigger> triggers)
+    {
+        return triggers?.Select(selector: trigger => new GetJobEntriesResponseJobEntryTrigger(
+            Id: trigger.Id, EventType: trigger.EventType, EventData: trigger.EventData)) ?? [];
     }
 }

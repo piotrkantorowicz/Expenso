@@ -1,5 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Shared.DTO.GetJobEntry.Request;
 
+[Flags]
 public enum GetJobEntryRequestJobEntryIncludes
 {
     None = 0,

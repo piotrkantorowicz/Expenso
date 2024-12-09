@@ -1,5 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
 
+[Flags]
 internal enum JobEntryIncludes
 {
     None = 0,

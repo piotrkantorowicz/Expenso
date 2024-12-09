@@ -68,8 +68,7 @@ internal sealed class JobExecution : IJobExecution
             };
 
             IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntries(
-                querySpecification: querySpecification,
-                    cancellationToken: stoppingToken);
+                querySpecification: querySpecification, cancellationToken: stoppingToken);
 
             if (jobEntries.Count == 0)
             {
@@ -231,9 +230,19 @@ internal sealed class JobExecution : IJobExecution
                         "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                         args: [jobEntry.Id, jobInstanceId]);
 
-                    jobEntry.JobStatus = jobEntry.MaxRetries > jobEntry.CurrentRetries
-                        ? jobStatuses.First(predicate: x => x.IsRetrying())
-                        : jobStatuses.First(predicate: x => x.IsFailed());
+                    JobEntryStatus? newStatus = jobEntry.MaxRetries > jobEntry.CurrentRetries
+                        ? jobStatuses.FirstOrDefault(predicate: x => x.IsRetrying())
+                        : jobStatuses.FirstOrDefault(predicate: x => x.IsFailed());
+
+                    if (newStatus is null)
+                    {
+                        _logger.LogError(eventId: LoggingUtils.BackgroundJobError,
+                            message: "Required job status not found for job entry {JobEntryId}", args: jobEntry.Id);
+
+                        return;
+                    }
+
+                    jobEntry.JobStatus = newStatus;
 
                     if (jobEntry.JobStatus.IsRetrying())
                     {

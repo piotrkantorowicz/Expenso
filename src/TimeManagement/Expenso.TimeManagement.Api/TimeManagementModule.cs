@@ -52,7 +52,7 @@ public sealed class TimeManagementModule : IModuleDefinition
 
     public IReadOnlyCollection<EndpointRegistration> CreateEndpoints()
     {
-        EndpointRegistration getJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}", Name: "GetJob",
+        EndpointRegistration getJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}", Name: "GetJobEntry",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
                 [FromServices] IQueryHandler<GetJobEntryQuery, GetJobEntryResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
@@ -67,7 +67,7 @@ public sealed class TimeManagementModule : IModuleDefinition
                 return Results.Ok(value: response);
             });
 
-        EndpointRegistration getJobEntriesEndpointRegistration = new(Pattern: "job-entries", Name: "GetJobs",
+        EndpointRegistration getJobEntriesEndpointRegistration = new(Pattern: "job-entries", Name: "GetJobEntries",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
                 [FromServices] IQueryHandler<GetJobEntriesQuery, IReadOnlyCollection<GetJobEntriesResponse>> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? jobEntryId = null,
@@ -87,7 +87,8 @@ public sealed class TimeManagementModule : IModuleDefinition
                 return Results.Ok(value: response);
             });
 
-        EndpointRegistration registerJobEntryEndpointRegistration = new(Pattern: "job-entries", Name: "RegisterJob",
+        EndpointRegistration registerJobEntryEndpointRegistration = new(Pattern: "job-entries",
+            Name: "RegisterJobEntry",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
                 [FromServices] ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] RegisterJobEntryRequest model,
@@ -103,7 +104,8 @@ public sealed class TimeManagementModule : IModuleDefinition
                 }, value: response);
             });
 
-        EndpointRegistration cancelJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}", Name: "CancelJob",
+        EndpointRegistration cancelJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}",
+            Name: "CancelJobEntry",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete, Handler: async (
                 [FromServices] ICommandHandler<CancelJobEntryCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,

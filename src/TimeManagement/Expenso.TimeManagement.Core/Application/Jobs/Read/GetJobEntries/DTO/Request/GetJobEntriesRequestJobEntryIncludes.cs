@@ -1,5 +1,6 @@
 ﻿namespace Expenso.TimeManagement.Core.Application.Jobs.Read.GetJobEntries.DTO.Request;
 
+[Flags]
 public enum GetJobEntriesRequestJobEntryIncludes
 {
     None = 0,
