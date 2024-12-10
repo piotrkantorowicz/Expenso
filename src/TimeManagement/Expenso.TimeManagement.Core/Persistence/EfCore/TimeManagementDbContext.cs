@@ -1,4 +1,4 @@
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
 using Microsoft.EntityFrameworkCore;
 

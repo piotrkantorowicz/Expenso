@@ -5,9 +5,9 @@ using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Constants;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 using NCrontab;
 

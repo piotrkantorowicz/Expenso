@@ -3,9 +3,9 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntry.DTO.Maps;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Request;
 using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Response;
 

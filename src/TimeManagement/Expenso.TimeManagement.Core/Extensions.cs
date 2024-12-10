@@ -7,7 +7,7 @@ using Expenso.Shared.System.Configuration.Sections;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.JobsExecutions;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 using Expenso.TimeManagement.Core.Persistence.EfCore;
 using Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
 

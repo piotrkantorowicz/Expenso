@@ -1,4 +1,4 @@
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Response;
 
 namespace Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntry.DTO.Maps;

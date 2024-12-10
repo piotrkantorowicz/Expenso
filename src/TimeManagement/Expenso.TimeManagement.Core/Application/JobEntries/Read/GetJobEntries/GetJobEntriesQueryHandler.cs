@@ -3,9 +3,9 @@ using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Maps;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Request;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 namespace Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries;
 

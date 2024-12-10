@@ -1,5 +1,5 @@
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
 namespace Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Maps;
 

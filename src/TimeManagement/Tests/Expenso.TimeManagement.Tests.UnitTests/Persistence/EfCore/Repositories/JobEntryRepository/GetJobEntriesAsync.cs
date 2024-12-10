@@ -1,5 +1,5 @@
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 using FluentAssertions;
 

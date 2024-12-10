@@ -1,7 +1,7 @@
 ﻿using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 using Expenso.TimeManagement.Core.Persistence.EfCore;
 using Expenso.TimeManagement.Core.Persistence.EfCore.Repositories;
 

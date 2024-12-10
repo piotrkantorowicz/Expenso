@@ -1,9 +1,9 @@
 ﻿using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories.Specifications;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 namespace Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry;
 
