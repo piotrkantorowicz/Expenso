@@ -1,6 +1,7 @@
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
+using Expenso.Api.Tests.E2E.TestData.TimeManagement;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Types.Clock;
@@ -29,6 +30,9 @@ internal sealed class WebAppTestSetup
             cancellationToken: default);
 
         await DocumentManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+            cancellationToken: default);
+
+        await TimeManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
             cancellationToken: default);
     }
 

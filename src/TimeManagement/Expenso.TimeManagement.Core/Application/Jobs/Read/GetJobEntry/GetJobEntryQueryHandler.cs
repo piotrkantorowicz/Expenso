@@ -30,7 +30,7 @@ internal sealed class GetJobEntryQueryHandler : IQueryHandler<GetJobEntryQuery, 
             UseTracking = false
         };
 
-        JobEntry? jobEntry = await _jobEntryRepository.GetJobEntry(querySpecification: querySpecification,
+        JobEntry? jobEntry = await _jobEntryRepository.GetJobEntryAsync(querySpecification: querySpecification,
             cancellationToken: cancellationToken);
 
         if (jobEntry is null)

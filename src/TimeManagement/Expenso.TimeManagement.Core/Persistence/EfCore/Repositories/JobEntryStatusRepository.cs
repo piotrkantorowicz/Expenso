@@ -23,7 +23,7 @@ internal sealed class JobEntryStatusRepository : IJobEntryStatusRepository
             .FirstOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken,
+    public async Task<IReadOnlyCollection<JobEntryStatus>> GetManyAsync(CancellationToken cancellationToken,
         bool useTracking = false)
     {
         return await _timeManagementDbContext

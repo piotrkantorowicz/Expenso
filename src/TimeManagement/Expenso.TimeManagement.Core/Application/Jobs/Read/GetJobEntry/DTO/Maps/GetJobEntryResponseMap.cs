@@ -7,7 +7,7 @@ internal static class GetJobEntryResponseMap
 {
     public static GetJobEntryResponse MapTo(JobEntry jobEntry)
     {
-        return new GetJobEntryResponse(JobEntryId: jobEntry.Id, CronExpression: jobEntry.CronExpression,
+        return new GetJobEntryResponse(Id: jobEntry.Id, CronExpression: jobEntry.CronExpression,
             CurrentRetries: jobEntry.CurrentRetries, MaxRetries: jobEntry.MaxRetries, IsCompleted: jobEntry.IsCompleted,
             RunAt: jobEntry.RunAt, LastRun: jobEntry.LastRun,
             JobInstance: MapJobInstance(instance: jobEntry.JobInstance),

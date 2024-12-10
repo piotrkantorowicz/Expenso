@@ -5,9 +5,10 @@ namespace Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
 internal interface IJobEntryRepository
 {
-    Task<JobEntry?> GetJobEntry(JobEntryQuerySpecification querySpecification, CancellationToken cancellationToken);
+    Task<JobEntry?> GetJobEntryAsync(JobEntryQuerySpecification querySpecification,
+        CancellationToken cancellationToken);
 
-    Task<IReadOnlyCollection<JobEntry>> GetJobEntries(JobEntryQuerySpecification querySpecification,
+    Task<IReadOnlyCollection<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification,
         CancellationToken cancellationToken);
 
     Task AddOrUpdateAsync(JobEntry jobEntry, CancellationToken cancellationToken);

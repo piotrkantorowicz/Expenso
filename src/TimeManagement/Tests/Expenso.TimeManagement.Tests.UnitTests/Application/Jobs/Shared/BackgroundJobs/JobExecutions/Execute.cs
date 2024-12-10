@@ -49,7 +49,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>());
 
         // Act
@@ -73,14 +73,14 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 new()
             });
 
         _jobEntryStatusRepositoryMock
-            .Setup(expression: x => x.GetAsync(It.IsAny<CancellationToken>(), true))
+            .Setup(expression: x => x.GetManyAsync(It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: new List<JobEntryStatus>());
 
         // Act
@@ -109,7 +109,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -155,7 +155,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -206,7 +206,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -244,7 +244,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -289,7 +289,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -333,7 +333,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -382,7 +382,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -447,7 +447,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry
@@ -512,7 +512,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntries(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: new List<JobEntry>
             {
                 jobEntry

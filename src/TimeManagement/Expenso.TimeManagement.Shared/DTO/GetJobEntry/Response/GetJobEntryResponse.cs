@@ -1,7 +1,7 @@
 ﻿namespace Expenso.TimeManagement.Shared.DTO.GetJobEntry.Response;
 
 public sealed record GetJobEntryResponse(
-    Guid JobEntryId,
+    Guid Id,
     string? CronExpression,
     int CurrentRetries,
     int MaxRetries,

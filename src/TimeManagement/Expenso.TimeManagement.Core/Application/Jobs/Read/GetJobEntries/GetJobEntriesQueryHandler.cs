@@ -36,8 +36,8 @@ internal sealed class
             Includes = query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntriesRequestJobEntryIncludes>()
         };
 
-        IReadOnlyCollection<JobEntry> jobEntries =
-            await _jobEntryRepository.GetJobEntries(querySpecification: querySpecification,
+        IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
+            querySpecification: querySpecification,
                 cancellationToken: cancellationToken);
 
         return GetJobEntriesResponseMap.MapTo(jobEntries: jobEntries);

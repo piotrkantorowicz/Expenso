@@ -17,7 +17,7 @@ internal sealed class JobEntryRepository : IJobEntryRepository
                                    throw new ArgumentNullException(paramName: nameof(timeManagementDbContext));
     }
 
-    public async Task<JobEntry?> GetJobEntry(JobEntryQuerySpecification querySpecification,
+    public async Task<JobEntry?> GetJobEntryAsync(JobEntryQuerySpecification querySpecification,
         CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
@@ -26,7 +26,7 @@ internal sealed class JobEntryRepository : IJobEntryRepository
             .FirstOrDefaultAsync(predicate: querySpecification.Filter(), cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<JobEntry>> GetJobEntries(JobEntryQuerySpecification querySpecification,
+    public async Task<IReadOnlyCollection<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification,
         CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext

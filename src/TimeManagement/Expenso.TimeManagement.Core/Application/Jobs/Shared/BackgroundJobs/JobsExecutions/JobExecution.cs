@@ -67,7 +67,7 @@ internal sealed class JobExecution : IJobExecution
                 UseTracking = false
             };
 
-            IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntries(
+            IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
                 querySpecification: querySpecification, cancellationToken: stoppingToken);
 
             if (jobEntries.Count == 0)
@@ -79,7 +79,7 @@ internal sealed class JobExecution : IJobExecution
             }
 
             IReadOnlyCollection<JobEntryStatus> jobStatuses =
-                await _jobEntryStatusRepository.GetAsync(cancellationToken: stoppingToken);
+                await _jobEntryStatusRepository.GetManyAsync(cancellationToken: stoppingToken);
 
             if (jobStatuses.Count == 0)
             {

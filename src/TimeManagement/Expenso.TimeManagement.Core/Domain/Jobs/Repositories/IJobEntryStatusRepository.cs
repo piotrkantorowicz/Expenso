@@ -6,5 +6,6 @@ internal interface IJobEntryStatusRepository
 {
     Task<JobEntryStatus?> GetAsync(Guid id, CancellationToken cancellationToken, bool useTracking = true);
 
-    Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken, bool useTracking = true);
+    Task<IReadOnlyCollection<JobEntryStatus>>
+        GetManyAsync(CancellationToken cancellationToken, bool useTracking = true);
 }

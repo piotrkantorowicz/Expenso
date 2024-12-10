@@ -22,7 +22,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntry(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntryAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _jobEntry);
 
         // Act
@@ -40,7 +40,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
         // Arrange
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntry(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntryAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: null);
 
         // Act
@@ -67,7 +67,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntry(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntryAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _jobEntry);
 
         // Act

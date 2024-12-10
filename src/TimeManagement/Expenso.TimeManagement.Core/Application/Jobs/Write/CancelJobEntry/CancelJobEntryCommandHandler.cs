@@ -31,7 +31,7 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
             UseTracking = true
         };
 
-        JobEntry? jobEntry = await _jobEntryRepository.GetJobEntry(querySpecification: querySpecification,
+        JobEntry? jobEntry = await _jobEntryRepository.GetJobEntryAsync(querySpecification: querySpecification,
             cancellationToken: cancellationToken);
 
         if (jobEntry is null)
