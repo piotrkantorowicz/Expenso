@@ -9,24 +9,26 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.Backgro
 
 [TestFixture]
 internal abstract class
-    EventTypeResolverTestBase : TestBase<Core.Application.Jobs.Shared.BackgroundJobs.Events.EventTypeResolver>
+    EventTypeResolverTestBase : TestBase<Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver>
 {
     [SetUp]
     public void Setup()
     {
-        _loggerMock = new Mock<ILogger<Core.Application.Jobs.Shared.BackgroundJobs.Events.EventTypeResolver>>();
+        _loggerMock = new Mock<ILogger<Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver>>();
 
         _timeManagementSettings = new TimeManagementSettings
         {
             AllowedEvents = DefaultAllowedEvents
         };
 
-        TestCandidate =
-            new Core.Application.Jobs.Shared.BackgroundJobs.Events.EventTypeResolver(logger: _loggerMock.Object,
+        TestCandidate = new Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver(
+            logger: _loggerMock.Object,
                 timeManagementSettings: _timeManagementSettings);
     }
 
     private static readonly AllowedEventType[] DefaultAllowedEvents = [AllowedEventType.BudgetPermissionRequestExpired];
-    protected Mock<ILogger<Core.Application.Jobs.Shared.BackgroundJobs.Events.EventTypeResolver>> _loggerMock = null!;
+
+    protected Mock<ILogger<Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver>> _loggerMock =
+        null!;
     protected TimeManagementSettings _timeManagementSettings = null!;
 }

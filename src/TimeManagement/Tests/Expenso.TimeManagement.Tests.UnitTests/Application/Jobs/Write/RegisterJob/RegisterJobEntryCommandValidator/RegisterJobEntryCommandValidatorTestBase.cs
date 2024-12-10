@@ -8,9 +8,9 @@ using Expenso.Shared.System.Serialization.Default;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.Utils.UnitTests;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry.DTO.Request.Validators;
+using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry.DTO.Request.Validators;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
@@ -21,7 +21,7 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.Register
 [TestFixture]
 internal abstract class
     RegisterJobEntryCommandValidatorTestBase : TestBase<
-    Core.Application.Jobs.Write.RegisterJobEntry.RegisterJobEntryCommandValidator>
+    Core.Application.JobEntries.Write.RegisterJobEntry.RegisterJobEntryCommandValidator>
 {
     [SetUp]
     public void SetUp()
@@ -71,7 +71,7 @@ internal abstract class
             jobEntryPeriodIntervalValidator: periodIntervalValidator, jobEntryTriggerValidator: triggerValidator,
             clock: _clockMock.Object);
 
-        TestCandidate = new Core.Application.Jobs.Write.RegisterJobEntry.RegisterJobEntryCommandValidator(
+        TestCandidate = new Core.Application.JobEntries.Write.RegisterJobEntry.RegisterJobEntryCommandValidator(
             messageContextValidator: messageContextValidator, registerJobEntryRequestValidator: requestValidator);
     }
 

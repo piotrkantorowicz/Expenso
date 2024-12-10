@@ -1,5 +1,5 @@
 ﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
+using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
 using FluentAssertions;

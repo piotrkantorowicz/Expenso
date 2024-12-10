@@ -5,8 +5,8 @@ using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.Expir
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.Events;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
+using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
@@ -18,7 +18,7 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.Register
 [TestFixture]
 internal abstract class
     RegisterJobEntryCommandHandlerTestBase : TestBase<
-    Core.Application.Jobs.Write.RegisterJobEntry.RegisterJobEntryCommandHandler>
+    Core.Application.JobEntries.Write.RegisterJobEntry.RegisterJobEntryCommandHandler>
 {
     [SetUp]
     public void SetUp()
@@ -52,7 +52,7 @@ internal abstract class
                         EventData: _serializer.Object.Serialize(value: _eventTrigger))
                 ], Interval: null, RunAt: _clockMock.Object.UtcNow));
 
-        TestCandidate = new Core.Application.Jobs.Write.RegisterJobEntry.RegisterJobEntryCommandHandler(
+        TestCandidate = new Core.Application.JobEntries.Write.RegisterJobEntry.RegisterJobEntryCommandHandler(
             jobEntryRepository: _jobEntryRepositoryMock.Object, jobInstanceRepository: _jobInstanceRepository.Object,
             jobEntryStatusRepository: _jobEntryStatusReposiotry.Object, eventTypeResolver: _eventTypeResolver.Object);
     }

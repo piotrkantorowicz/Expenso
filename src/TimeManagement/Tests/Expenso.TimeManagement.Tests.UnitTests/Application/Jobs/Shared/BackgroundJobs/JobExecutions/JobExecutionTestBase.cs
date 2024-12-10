@@ -3,7 +3,7 @@ using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.Tests.Utils.UnitTests;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs.JobsExecutions;
+using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.JobsExecutions;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 

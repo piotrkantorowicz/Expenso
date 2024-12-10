@@ -1,6 +1,6 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJobEntry;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.CancelJobEntry.DTO.Request;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry.DTO.Request;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
 
@@ -11,7 +11,7 @@ namespace Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Write.CancelJo
 [TestFixture]
 internal abstract class
     CancelJobEntryCommandHandlerTestBase : TestBase<
-    Core.Application.Jobs.Write.CancelJobEntry.CancelJobEntryCommandHandler>
+    Core.Application.JobEntries.Write.CancelJobEntry.CancelJobEntryCommandHandler>
 {
     [SetUp]
     public void SetUp()
@@ -28,7 +28,7 @@ internal abstract class
             Id = _jobEntryId.GetValueOrDefault(defaultValue: Guid.Empty)
         };
 
-        TestCandidate = new Core.Application.Jobs.Write.CancelJobEntry.CancelJobEntryCommandHandler(
+        TestCandidate = new Core.Application.JobEntries.Write.CancelJobEntry.CancelJobEntryCommandHandler(
             jobEntryRepository: _jobEntryRepositoryMock.Object, jobStatusRepository: _jobEntryStatusReposiotry.Object);
     }
 

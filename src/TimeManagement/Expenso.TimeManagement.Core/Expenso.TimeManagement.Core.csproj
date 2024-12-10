@@ -41,8 +41,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Application\Jobs\Read\GetJobEntries\DTO\"/>
-        <Folder Include="Application\Jobs\Read\GetJobEntry\DTO\"/>
+        <Folder Include="Application\JobEntries\Read\GetJobEntries\DTO\"/>
+        <Folder Include="Application\JobEntries\Read\GetJobEntry\DTO\"/>
     </ItemGroup>
 
 </Project>

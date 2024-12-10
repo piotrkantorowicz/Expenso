@@ -7,7 +7,7 @@ using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 

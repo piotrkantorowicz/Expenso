@@ -1,6 +1,6 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJobEntry;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Core.Domain.Jobs.Model;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
