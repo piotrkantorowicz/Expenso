@@ -70,4 +70,9 @@ internal abstract class JobEntryStatusRepositoryTestBase : TestBase<IJobEntrySta
     private Mock<ITimeManagementDbContext> _dbContextMock = null!;
     private Mock<DbSet<JobEntryStatus>> _jobEntryStatusesDbSetMock = null!;
     protected IList<JobEntryStatus> _jobEntryStatuses = null!;
+
+    protected void ClearJobEntryStatuses()
+    {
+        _jobEntryStatuses.Clear();
+    }
 }

@@ -47,9 +47,4 @@ internal sealed record PreferenceQuerySpecification(
             .Select(selector: kv => kv.Value)
             .ToArray();
     }
-
-    private bool EmptyFilter()
-    {
-        return (PreferenceId.HasValue || UserId.HasValue) is false;
-    }
 }

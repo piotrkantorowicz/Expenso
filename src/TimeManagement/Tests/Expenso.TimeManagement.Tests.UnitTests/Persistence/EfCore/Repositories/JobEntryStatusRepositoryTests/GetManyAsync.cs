@@ -24,7 +24,7 @@ internal sealed class GetManyAsync : JobEntryStatusRepositoryTestBase
     public async Task Should_ReturnEmpty_When_NoneExist()
     {
         // Arrange
-        _jobEntryStatuses.Clear();
+        ClearJobEntryStatuses();
 
         // Act
         IReadOnlyCollection<JobEntryStatus> jobEntryStatusCollection =
