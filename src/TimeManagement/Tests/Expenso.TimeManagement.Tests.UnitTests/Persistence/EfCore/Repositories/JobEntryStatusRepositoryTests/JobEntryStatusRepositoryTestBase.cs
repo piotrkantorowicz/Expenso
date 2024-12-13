@@ -20,7 +20,11 @@ internal abstract class JobEntryStatusRepositoryTestBase : TestBase<IJobEntrySta
     public void Setup()
     {
         _clockMock = new Mock<IClock>();
-        _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.Now);
+
+        _clockMock
+            .Setup(expression: x => x.UtcNow)
+            .Returns(value: new DateTimeOffset(year: 2024, month: 1, day: 1, hour: 12, minute: 0, second: 0,
+                offset: TimeSpan.Zero));
 
         _jobEntryStatuses = new List<JobEntryStatus>
         {

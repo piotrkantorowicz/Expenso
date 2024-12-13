@@ -33,7 +33,7 @@ internal sealed class GetAsync : JobEntryStatusRepositoryTestBase
     public async Task GetAsync_ShouldReturnNull_WhenStatusDoesNotExist(string id)
     {
         // Arrange
-        Guid jobEntryStatusId = Guid.NewGuid();
+        Guid jobEntryStatusId = Guid.Parse(input: id);
 
         // Act
         JobEntryStatus? jobEntryStatus = await TestCandidate.GetAsync(id: jobEntryStatusId, cancellationToken: default);
