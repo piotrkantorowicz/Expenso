@@ -54,9 +54,4 @@ public static class BudgetPermissionFilterExtensions
 
         return predicate;
     }
-
-    private static bool IsBlocked(BudgetPermission budgetPermission)
-    {
-        return budgetPermission.Blocker?.IsBlocked is true;
-    }
 }

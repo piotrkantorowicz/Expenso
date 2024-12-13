@@ -31,10 +31,10 @@ partial class TimeManagementDbContextModelSnapshot : ModelSnapshot
             b.Property<string>("CronExpression")
                 .HasColumnType("text");
 
-            b.Property<int?>("CurrentRetries")
+            b.Property<int>("CurrentRetries")
                 .HasColumnType("integer");
 
-            b.Property<bool?>("IsCompleted")
+            b.Property<bool>("IsCompleted")
                 .HasColumnType("boolean");
 
             b.Property<Guid>("JobEntryStatusId")
@@ -46,8 +46,7 @@ partial class TimeManagementDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTimeOffset?>("LastRun")
                 .HasColumnType("timestamp with time zone");
 
-            b.Property<int?>("MaxRetries")
-                .IsRequired()
+            b.Property<int>("MaxRetries")
                 .HasColumnType("integer");
 
             b.Property<DateTimeOffset?>("RunAt")

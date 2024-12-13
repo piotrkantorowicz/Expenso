@@ -1,0 +1,40 @@
+﻿using Expenso.Shared.Tests.Utils.UnitTests;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry.DTO.Request;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
+
+using Moq;
+
+namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.CancelJob.CancelJobEntryCommandHandler;
+
+[TestFixture]
+internal abstract class
+    CancelJobEntryCommandHandlerTestBase : TestBase<
+    Core.Application.JobEntries.Write.CancelJobEntry.CancelJobEntryCommandHandler>
+{
+    [SetUp]
+    public void SetUp()
+    {
+        _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
+        _jobEntryStatusReposiotry = new Mock<IJobEntryStatusRepository>();
+        _jobEntryId = Guid.NewGuid();
+
+        _cancelJobEntryCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
+
+        _jobEntry = new JobEntry
+        {
+            Id = _jobEntryId
+        };
+
+        TestCandidate = new Core.Application.JobEntries.Write.CancelJobEntry.CancelJobEntryCommandHandler(
+            jobEntryRepository: _jobEntryRepositoryMock.Object, jobStatusRepository: _jobEntryStatusReposiotry.Object);
+    }
+
+    protected CancelJobEntryCommand _cancelJobEntryCommand = null!;
+    protected JobEntry? _jobEntry;
+    protected Guid _jobEntryId;
+    protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
+    protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
+}

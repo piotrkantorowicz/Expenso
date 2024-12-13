@@ -94,7 +94,7 @@ internal abstract class PreferenceRepositoryTestBase : TestBase<IPreferencesRepo
     protected Mock<DbSet<Preference>> _preferenceDbSetMock = null!;
     private IList<Preference> _preferences = null!;
 
-    protected IEnumerable<Preference> Preferences => _preferences.AsReadOnly();
+    protected IList<Preference> Preferences => _preferences.AsReadOnly();
 
     protected void AddPreference(Preference preference)
     {

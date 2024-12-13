@@ -9,7 +9,7 @@ internal sealed class UpdateAsync : PreferenceRepositoryTestBase
     public async Task Should_UpdatePreference_When_PreferenceExists()
     {
         // Arrange
-        Preference dbPreference = Preferences.First();
+        Preference dbPreference = Preferences[index: 0];
 
         dbPreference.FinancePreference = new FinancePreference
         {

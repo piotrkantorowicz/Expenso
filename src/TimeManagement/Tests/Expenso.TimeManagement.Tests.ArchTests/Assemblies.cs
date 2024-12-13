@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 
 using Expenso.TimeManagement.Api;
-using Expenso.TimeManagement.Core.Application.Jobs.Shared.BackgroundJobs;
+using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs;
 using Expenso.TimeManagement.Shared;
 using Expenso.TimeManagement.Tests.ArchTests.AccessModifiers;
-using Expenso.TimeManagement.Tests.UnitTests.Application.Jobs.Shared.BackgroundJobs.JobExecutions;
+using Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.JobExecutions;
 
 namespace Expenso.TimeManagement.Tests.ArchTests;
 

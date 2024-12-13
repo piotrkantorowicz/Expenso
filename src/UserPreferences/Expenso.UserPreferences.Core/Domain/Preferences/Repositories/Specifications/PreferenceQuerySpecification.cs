@@ -13,11 +13,11 @@ internal sealed record PreferenceQuerySpecification(
 {
     private static readonly Dictionary<PreferenceIncludes, Expression<Func<Preference, object>>> PreferenceIncludesMap =
         new()
-    {
-        { PreferenceIncludes.Finance, x => x.FinancePreference! },
-        { PreferenceIncludes.Notification, x => x.NotificationPreference! },
-        { PreferenceIncludes.General, x => x.GeneralPreference! }
-    };
+        {
+            { PreferenceIncludes.Finance, x => x.FinancePreference! },
+            { PreferenceIncludes.Notification, x => x.NotificationPreference! },
+            { PreferenceIncludes.General, x => x.GeneralPreference! }
+        };
 
     public Expression<Func<Preference, bool>> Filter()
     {

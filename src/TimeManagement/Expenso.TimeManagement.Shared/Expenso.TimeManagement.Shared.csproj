@@ -21,4 +21,8 @@
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="DTO\RegisterJobEntry\"/>
+    </ItemGroup>
+
 </Project>

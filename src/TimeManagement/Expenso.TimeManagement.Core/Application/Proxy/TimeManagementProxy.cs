@@ -1,10 +1,10 @@
 ﻿using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.TimeManagement.Core.Application.Jobs.Write.RegisterJob;
+using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Shared;
-using Expenso.TimeManagement.Shared.DTO.Request;
-using Expenso.TimeManagement.Shared.DTO.Response;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
 namespace Expenso.TimeManagement.Core.Application.Proxy;
 

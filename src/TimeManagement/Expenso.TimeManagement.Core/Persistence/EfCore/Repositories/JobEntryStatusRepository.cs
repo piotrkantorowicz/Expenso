@@ -1,6 +1,6 @@
 using Expenso.Shared.Database.EfCore.Queryable;
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
-using Expenso.TimeManagement.Core.Domain.Jobs.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,10 +20,10 @@ internal sealed class JobEntryStatusRepository : IJobEntryStatusRepository
     {
         return await _timeManagementDbContext
             .JobEntryStatuses.Tracking(useTracking: useTracking)
-            .FirstOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
+            .SingleOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<JobEntryStatus>> GetAsync(CancellationToken cancellationToken,
+    public async Task<IReadOnlyCollection<JobEntryStatus>> GetManyAsync(CancellationToken cancellationToken,
         bool useTracking = false)
     {
         return await _timeManagementDbContext

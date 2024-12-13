@@ -1,4 +1,4 @@
-using Expenso.TimeManagement.Core.Domain.Jobs.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -28,8 +28,8 @@ internal sealed class TimeManagementDbContext : DbContext, ITimeManagementDbCont
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {
-        JobInstance? jobInstance =
-            await JobInstances.FirstOrDefaultAsync(predicate: x => x.Id == JobInstance.Default.Id,
+        JobInstance? jobInstance = await JobInstances.SingleOrDefaultAsync(
+            predicate: x => x.Id == JobInstance.Default.Id,
                 cancellationToken: cancellationToken);
 
         if (jobInstance is null)
@@ -45,8 +45,8 @@ internal sealed class TimeManagementDbContext : DbContext, ITimeManagementDbCont
 
         foreach (JobEntryStatus jobEntryStatus in jobEntryStatuses)
         {
-            JobEntryStatus? existingJobEntryStatus =
-                await JobEntryStatuses.FirstOrDefaultAsync(predicate: x => x.Id == jobEntryStatus.Id,
+            JobEntryStatus? existingJobEntryStatus = await JobEntryStatuses.SingleOrDefaultAsync(
+                predicate: x => x.Id == jobEntryStatus.Id,
                     cancellationToken: cancellationToken);
 
             if (existingJobEntryStatus is null)
