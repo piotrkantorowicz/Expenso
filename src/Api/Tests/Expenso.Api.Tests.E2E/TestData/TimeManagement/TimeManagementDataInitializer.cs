@@ -15,6 +15,7 @@ namespace Expenso.Api.Tests.E2E.TestData.TimeManagement;
 
 internal static class TimeManagementDataInitializer
 {
+    private const int NumberOfEntries = 3;
     public static readonly IList<Guid> JobEntriesIds = new List<Guid>();
 
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
@@ -22,7 +23,7 @@ internal static class TimeManagementDataInitializer
     {
         Guid correlationId = Guid.NewGuid();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < NumberOfEntries; i++)
         {
             RegisterJobEntryRequest request = new(MaxRetries: 5, JobEntryTriggers:
             [
@@ -45,10 +46,7 @@ internal static class TimeManagementDataInitializer
                             module: ModuleNames.TimeManagementModule), Payload: request),
                     cancellationToken: cancellationToken);
 
-            if (response is not null)
-            {
-                JobEntriesIds.Add(item: response.JobEntryId);
-            }
+            JobEntriesIds.Add(item: response!.JobEntryId);
         }
     }
 }

@@ -34,14 +34,14 @@ internal sealed class Validate : CancelJobEntryCommandValidatorTestBase
             errorMessage: "The command payload must not be null.");
     }
 
-    [Test, TestCase(arg: null), TestCase(arg: "00000000-0000-0000-0000-000000000000")]
+    [Test, TestCase(arg: "00000000-0000-0000-0000-000000000000")]
     public void Should_ReturnValidationResultWithCorrectMessage_When_JobEntryIdIsNullOrEmpty(string? jobEntryId)
     {
         // Arrange
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: _cancelJobCommand with
         {
-            Payload = new CancelJobEntryRequest(JobEntryId: jobEntryId is null ? null : new Guid(g: jobEntryId))
+            Payload = new CancelJobEntryRequest(JobEntryId: new Guid(g: jobEntryId!))
         });
 
         // Assert

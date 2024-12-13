@@ -3,15 +3,13 @@ using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 using FluentAssertions;
 
-using Moq;
-
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryRepository;
 
 [TestFixture]
 internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
 {
     [Test]
-    public async Task Should_ReturnJobEntries_When_JobEntryExistsExists()
+    public async Task Should_ReturnJobEntries_When_JobEntryExists()
     {
         // Arrange
         JobEntryQuerySpecification querySpecification = new()
@@ -21,8 +19,7 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
 
         // Act
         IReadOnlyCollection<JobEntry> jobEntries =
-            await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,
-                cancellationToken: It.IsAny<CancellationToken>());
+            await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification, cancellationToken: default);
 
         // Assert
         jobEntries.Should().NotBeNull();

@@ -42,8 +42,8 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
         Guid jobStatusId = JobEntryStatus.Cancelled.Id;
 
-        JobEntryStatus? cancelledStatus =
-            await _jobStatusRepository.GetAsync(id: jobStatusId, cancellationToken: cancellationToken);
+        JobEntryStatus? cancelledStatus = await _jobStatusRepository.GetAsync(id: jobStatusId, useTracking: true,
+            cancellationToken: cancellationToken);
 
         if (cancelledStatus is null)
         {

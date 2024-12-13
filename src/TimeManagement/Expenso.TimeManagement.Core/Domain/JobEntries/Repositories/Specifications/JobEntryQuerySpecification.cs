@@ -9,9 +9,10 @@ internal sealed record JobEntryQuerySpecification(
     Guid? JobEntryId = null,
     Guid? JobInstanceId = null,
     Guid[]? JobEntryStatusIds = null,
+    Guid[]? JobEntryTriggersIds = null,
     int? MoreThanRetries = null,
     bool? IsCompleted = null,
-    bool? HasRunned = null,
+    bool? HasRun = null,
     bool? IsActive = null,
     bool? HasTriggers = null,
     bool? UseTracking = null,
@@ -51,6 +52,12 @@ internal sealed record JobEntryQuerySpecification(
                 rightExpression: p => JobEntryStatusIds.Contains(p.JobEntryStatusId));
         }
 
+        if (JobEntryTriggersIds is not null && JobEntryTriggersIds.Length > 0)
+        {
+            predicate = AndExpression<JobEntry>.And(leftExpression: predicate,
+                rightExpression: p => p.Triggers.Any(t => JobEntryTriggersIds.Contains(t.Id)));
+        }
+
         if (MoreThanRetries.HasValue)
         {
             predicate = AndExpression<JobEntry>.And(leftExpression: predicate,
@@ -63,9 +70,9 @@ internal sealed record JobEntryQuerySpecification(
                 rightExpression: p => p.IsCompleted == IsCompleted.Value);
         }
 
-        if (HasRunned.HasValue)
+        if (HasRun.HasValue)
         {
-            predicate = HasRunned switch
+            predicate = HasRun switch
             {
                 true => AndExpression<JobEntry>.And(leftExpression: predicate, rightExpression: p => p.LastRun != null),
                 false => AndExpression<JobEntry>.And(leftExpression: predicate,

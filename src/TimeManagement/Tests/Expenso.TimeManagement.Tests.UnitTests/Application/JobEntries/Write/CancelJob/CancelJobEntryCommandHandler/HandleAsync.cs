@@ -22,7 +22,8 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x =>
-                x.GetJobEntryAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+                x.GetJobEntryAsync(It.Is<JobEntryQuerySpecification>(spec => spec.JobEntryId == _jobEntryId),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _jobEntry);
 
         // Act

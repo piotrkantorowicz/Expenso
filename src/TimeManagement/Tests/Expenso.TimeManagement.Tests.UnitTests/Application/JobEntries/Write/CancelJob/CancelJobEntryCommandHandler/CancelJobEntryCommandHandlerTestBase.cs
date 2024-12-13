@@ -25,7 +25,7 @@ internal abstract class
 
         _jobEntry = new JobEntry
         {
-            Id = _jobEntryId.GetValueOrDefault(defaultValue: Guid.Empty)
+            Id = _jobEntryId
         };
 
         TestCandidate = new Core.Application.JobEntries.Write.CancelJobEntry.CancelJobEntryCommandHandler(
@@ -34,7 +34,7 @@ internal abstract class
 
     protected CancelJobEntryCommand _cancelJobEntryCommand = null!;
     protected JobEntry? _jobEntry;
-    protected Guid? _jobEntryId;
+    protected Guid _jobEntryId;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusReposiotry = null!;
 }

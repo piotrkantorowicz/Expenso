@@ -6,7 +6,7 @@ public sealed record GetJobEntriesRequest(
     Guid[]? JobEntryStatusIds = null,
     int? MoreThanRetries = null,
     bool? IsCompleted = null,
-    bool? HasRunned = null,
+    bool? HasRun = null,
     bool? IsActive = null,
     bool? HasTriggers = null,
     GetJobEntriesRequestJobEntryIncludes? Includes = null);

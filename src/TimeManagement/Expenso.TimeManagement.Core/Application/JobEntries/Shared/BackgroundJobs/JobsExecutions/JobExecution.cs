@@ -49,8 +49,8 @@ internal sealed class JobExecution : IJobExecution
         {
             DateTimeOffset jobExecutionStartTime = _clock.UtcNow;
 
-            JobInstance? jobInstance =
-                await _jobInstanceRepository.GetAsync(id: jobInstanceId, cancellationToken: stoppingToken);
+            JobInstance? jobInstance = await _jobInstanceRepository.GetAsync(id: jobInstanceId, useTracking: true,
+                cancellationToken: stoppingToken);
 
             if (jobInstance is null)
             {
@@ -64,7 +64,7 @@ internal sealed class JobExecution : IJobExecution
             {
                 JobInstanceId = jobInstanceId,
                 IsActive = true,
-                UseTracking = false
+                UseTracking = true
             };
 
             IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
@@ -79,7 +79,7 @@ internal sealed class JobExecution : IJobExecution
             }
 
             IReadOnlyCollection<JobEntryStatus> jobStatuses =
-                await _jobEntryStatusRepository.GetManyAsync(cancellationToken: stoppingToken);
+                await _jobEntryStatusRepository.GetManyAsync(useTracking: true, cancellationToken: stoppingToken);
 
             if (jobStatuses.Count == 0)
             {

@@ -23,7 +23,7 @@ internal sealed class JobEntryRepository : IJobEntryRepository
         return await _timeManagementDbContext
             .JobEntries.Tracking(useTracking: querySpecification.UseTracking)
             .IncludeMany(includeExpression: querySpecification.Include())
-            .FirstOrDefaultAsync(predicate: querySpecification.Filter(), cancellationToken: cancellationToken);
+            .SingleOrDefaultAsync(predicate: querySpecification.Filter(), cancellationToken: cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification,

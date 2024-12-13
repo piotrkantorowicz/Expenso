@@ -296,7 +296,7 @@ internal sealed class Execute : JobExecutionTestBase
             });
 
         _serializerMock
-            .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType)!, null))
+            .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType!), null))
             .Returns(valueFunction: null!);
 
         // Act

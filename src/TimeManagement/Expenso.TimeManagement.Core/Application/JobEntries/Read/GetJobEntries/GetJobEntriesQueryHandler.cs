@@ -30,7 +30,7 @@ internal sealed class
             JobEntryStatusIds = query.Payload?.JobEntryStatusIds,
             MoreThanRetries = query.Payload?.MoreThanRetries,
             IsCompleted = query.Payload?.IsCompleted,
-            HasRunned = query.Payload?.HasRunned,
+            HasRun = query.Payload?.HasRun,
             IsActive = query.Payload?.IsActive,
             HasTriggers = query.Payload?.HasTriggers,
             Includes = query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntriesRequestJobEntryIncludes>()

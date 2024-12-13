@@ -2,7 +2,9 @@ using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
+using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
 using FluentAssertions;
 
@@ -27,12 +29,45 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: JobEntryStatus.Running);
 
         // Act
-        await TestCandidate.HandleAsync(entryCommand: _registerJobEntryCommand,
+        RegisterJobEntryResponse response = await TestCandidate.HandleAsync(command: _registerJobEntryCommand,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         _jobEntryRepositoryMock.Verify(expression: x =>
             x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
+
+        response.JobEntryId.Should().Be(expected: _jobEntryId);
+    }
+
+    [Test]
+    public async Task Should_ThrowConflictException_When_JobEntryAlreadyExists()
+    {
+        // Arrange
+        _jobInstanceRepository
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .ReturnsAsync(value: JobInstance.Default);
+
+        _jobEntryStatusReposiotry
+            .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
+            .ReturnsAsync(value: JobEntryStatus.Running);
+
+        _jobEntryRepositoryMock
+            .Setup(expression: x =>
+                x.GetJobEntryAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: new JobEntry
+            {
+                Id = _jobEntryId
+            });
+
+        // Act
+        Func<Task> action = async () => await TestCandidate.HandleAsync(command: _registerJobEntryCommand,
+            cancellationToken: It.IsAny<CancellationToken>());
+
+        // Assert
+        await action
+            .Should()
+            .ThrowAsync<ConflictException>()
+            .WithMessage(expectedWildcardPattern: $"Job entry with id {_jobEntryId} already exists.");
     }
 
     [Test]
@@ -44,7 +79,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> action = async () => await TestCandidate.HandleAsync(entryCommand: _registerJobEntryCommand,
+        Func<Task> action = async () => await TestCandidate.HandleAsync(command: _registerJobEntryCommand,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
@@ -80,8 +115,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.HandleAsync(entryCommand: entryCommand,
-                cancellationToken: It.IsAny<CancellationToken>());
+            await TestCandidate.HandleAsync(command: entryCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         await action

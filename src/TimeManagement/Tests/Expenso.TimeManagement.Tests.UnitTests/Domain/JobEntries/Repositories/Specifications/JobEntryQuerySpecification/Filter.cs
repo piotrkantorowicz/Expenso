@@ -49,10 +49,10 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
     public void Should_FilterByJobEntryStatusIds()
     {
         // Arrange
-        Guid[] jobEntryStatusIds = new[]
-        {
-            _jobEntries.First().JobEntryStatusId
-        };
+        Guid[] jobEntryStatusIds =
+        [
+            _jobEntries[index: 0].JobEntryStatusId
+        ];
 
         _jobEntryQuerySpecification =
             new Core.Domain.JobEntries.Repositories.Specifications.JobEntryQuerySpecification(
@@ -103,11 +103,11 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
     }
 
     [Test]
-    public void Should_FilterByHasRunned()
+    public void Should_FilterByHasRun()
     {
         // Arrange
         _jobEntryQuerySpecification =
-            new Core.Domain.JobEntries.Repositories.Specifications.JobEntryQuerySpecification(HasRunned: true);
+            new Core.Domain.JobEntries.Repositories.Specifications.JobEntryQuerySpecification(HasRun: true);
 
         // Act
         List<JobEntry> jobEntries =
@@ -132,6 +132,25 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
         // Assert
         jobEntries.Should().HaveCount(expected: 1);
         jobEntries.First().Triggers.Should().NotBeEmpty();
+    }
+
+    [Test]
+    public void Should_FilterByJobEntryTriggersIds()
+    {
+        // Arrange
+        Guid[] jobEntryTriggersIds = _jobEntries[index: 0].Triggers.Select(selector: x => x.Id).ToArray();
+
+        _jobEntryQuerySpecification =
+            new Core.Domain.JobEntries.Repositories.Specifications.JobEntryQuerySpecification(
+                JobEntryTriggersIds: jobEntryTriggersIds);
+
+        // Act
+        List<JobEntry> jobEntries =
+            _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
+
+        // Assert
+        jobEntries.Should().HaveCount(expected: 1);
+        jobEntries.First().Triggers.First().Id.Should().Be(expected: jobEntryTriggersIds.First());
     }
 
     [Test]

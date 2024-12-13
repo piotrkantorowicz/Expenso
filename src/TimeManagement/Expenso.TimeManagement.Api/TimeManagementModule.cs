@@ -73,7 +73,7 @@ public sealed class TimeManagementModule : IModuleDefinition
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? jobEntryId = null,
                 [FromQuery] Guid? jobInstanceId = null, [FromQuery] Guid[]? jobEntryStatusIds = null,
                 [FromQuery] int? moreThanRetries = null, [FromQuery] bool? isCompleted = null,
-                [FromQuery] bool? hasRunned = null, [FromQuery] bool? isActive = null,
+                [FromQuery] bool? hasRun = null, [FromQuery] bool? isActive = null,
                 [FromQuery] bool? hasTriggers = null, [FromQuery] GetJobEntriesRequestJobEntryIncludes? includes = null,
                 CancellationToken cancellationToken = default) =>
             {
@@ -81,7 +81,7 @@ public sealed class TimeManagementModule : IModuleDefinition
                     query: new GetJobEntriesQuery(MessageContext: messageContextFactory.Current(),
                         Payload: new GetJobEntriesRequest(JobEntryId: jobEntryId, JobInstanceId: jobInstanceId,
                             JobEntryStatusIds: jobEntryStatusIds, MoreThanRetries: moreThanRetries,
-                            IsCompleted: isCompleted, HasRunned: hasRunned, IsActive: isActive,
+                            IsCompleted: isCompleted, HasRun: hasRun, IsActive: isActive,
                             HasTriggers: hasTriggers, Includes: includes)), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);

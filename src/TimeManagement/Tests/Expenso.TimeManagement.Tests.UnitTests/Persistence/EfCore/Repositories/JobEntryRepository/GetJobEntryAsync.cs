@@ -3,8 +3,6 @@ using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 using FluentAssertions;
 
-using Moq;
-
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryRepository;
 
 [TestFixture]
@@ -22,7 +20,7 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
 
         // Act
         JobEntry? jobEntry = await TestCandidate.GetJobEntryAsync(querySpecification: querySpecification,
-            cancellationToken: It.IsAny<CancellationToken>());
+            cancellationToken: default);
 
         // Assert
         jobEntry.Should().NotBeNull();

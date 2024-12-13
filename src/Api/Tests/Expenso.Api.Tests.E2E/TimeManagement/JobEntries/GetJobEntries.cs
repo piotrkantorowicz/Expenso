@@ -1,4 +1,6 @@
-﻿namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
+﻿using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
+
+namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
 internal sealed class GetJobEntries : JobEntriesTestBase
 {
@@ -15,8 +17,8 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         // Assert
         AssertResponseOk(response: response);
 
-        IReadOnlyCollection<GetJobEntries>? responseContent =
-            await response.Content.ReadFromJsonAsync<IReadOnlyCollection<GetJobEntries>>();
+        IReadOnlyCollection<GetJobEntriesResponse>? responseContent =
+            await response.Content.ReadFromJsonAsync<IReadOnlyCollection<GetJobEntriesResponse>>();
 
         responseContent?.Should().NotBeNull();
     }

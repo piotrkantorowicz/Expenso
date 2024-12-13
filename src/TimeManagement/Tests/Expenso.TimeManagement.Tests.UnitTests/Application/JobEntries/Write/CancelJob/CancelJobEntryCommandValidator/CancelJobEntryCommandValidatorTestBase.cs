@@ -25,5 +25,5 @@ internal abstract class
     }
 
     protected CancelJobEntryCommand _cancelJobCommand = null!;
-    private Guid? _jobEntryId;
+    private Guid _jobEntryId;
 }

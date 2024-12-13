@@ -30,10 +30,7 @@ internal static class PreferencesDataInitializer
                             module: ModuleNames.UserPreferencesModule),
                         Payload: new CreatePreferenceRequest(UserId: userId)), cancellationToken: cancellationToken);
 
-            if (preference is not null)
-            {
-                PreferenceIds.Add(item: preference.PreferenceId);
-            }
+            PreferenceIds.Add(item: preference!.PreferenceId);
         }
 
         await commandDispatcher.SendAsync(command: new UpdatePreferenceCommand(

@@ -10,7 +10,6 @@ internal sealed class UpdateAsync : PreferenceRepositoryTestBase
     {
         // Arrange
         Preference dbPreference = Preferences[index: 0];
-        ;
 
         dbPreference.FinancePreference = new FinancePreference
         {

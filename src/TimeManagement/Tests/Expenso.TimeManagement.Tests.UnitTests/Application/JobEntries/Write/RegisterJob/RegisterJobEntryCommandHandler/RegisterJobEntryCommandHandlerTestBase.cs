@@ -43,9 +43,11 @@ internal abstract class
             .Setup(expression: x => x.Resolve(It.IsAny<AllowedEventType>()))
             .Returns(value: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
 
+        _jobEntryId = Guid.NewGuid();
+
         _registerJobEntryCommand = new RegisterJobEntryCommand(
             MessageContext: MessageContextFactoryMock.Object.Current(), Payload: new RegisterJobEntryRequest(
-                MaxRetries: 5, JobEntryTriggers:
+                JobEntryId: _jobEntryId, MaxRetries: 5, JobEntryTriggers:
                 [
                     new RegisterJobEntryRequestJobEntryTrigger(
                         EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType
@@ -58,6 +60,7 @@ internal abstract class
             jobEntryStatusRepository: _jobEntryStatusReposiotry.Object, eventTypeResolver: _eventTypeResolver.Object);
     }
 
+    protected Guid _jobEntryId;
     protected Mock<IClock> _clockMock = null!;
     protected BudgetPermissionRequestExpiredIntegrationEvent _eventTrigger = null!;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;

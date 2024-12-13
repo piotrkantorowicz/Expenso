@@ -2,8 +2,6 @@
 
 using FluentAssertions;
 
-using Moq;
-
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobInstanceRepository;
 
 [TestFixture]
@@ -16,8 +14,7 @@ internal sealed class GetAsync : JobInstanceRepositoryTestBase
         Guid jobInstanceId = JobInstanceIds[index: 0];
 
         // Act
-        JobInstance? jobInstance =
-            await TestCandidate.GetAsync(id: jobInstanceId, cancellationToken: It.IsAny<CancellationToken>());
+        JobInstance? jobInstance = await TestCandidate.GetAsync(id: jobInstanceId, cancellationToken: default);
 
         // Assert
         jobInstance.Should().NotBeNull();
@@ -31,8 +28,7 @@ internal sealed class GetAsync : JobInstanceRepositoryTestBase
         Guid jobInstanceId = Guid.NewGuid();
 
         // Act
-        JobInstance? jobInstance =
-            await TestCandidate.GetAsync(id: jobInstanceId, cancellationToken: It.IsAny<CancellationToken>());
+        JobInstance? jobInstance = await TestCandidate.GetAsync(id: jobInstanceId, cancellationToken: default);
 
         // Assert
         jobInstance.Should().BeNull();

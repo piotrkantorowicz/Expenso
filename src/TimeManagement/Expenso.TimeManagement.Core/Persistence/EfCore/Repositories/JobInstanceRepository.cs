@@ -20,6 +20,6 @@ internal sealed class JobInstanceRepository : IJobInstanceRepository
     {
         return await _timeManagementDbContext
             .JobInstances.Tracking(useTracking: useTracking)
-            .FirstOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
+            .SingleOrDefaultAsync(predicate: x => x.Id == id, cancellationToken: cancellationToken);
     }
 }

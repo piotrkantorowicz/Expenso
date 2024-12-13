@@ -5,6 +5,7 @@ using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.E
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
+using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
@@ -35,13 +36,13 @@ internal sealed class
                                  throw new ArgumentNullException(paramName: nameof(jobInstanceRepository));
     }
 
-    public async Task<RegisterJobEntryResponse> HandleAsync(RegisterJobEntryCommand entryCommand,
+    public async Task<RegisterJobEntryResponse> HandleAsync(RegisterJobEntryCommand command,
         CancellationToken cancellationToken)
     {
         Guid jobInstanceId = JobInstance.Default.Id;
 
-        JobInstance? jobType =
-            await _jobInstanceRepository.GetAsync(id: jobInstanceId, cancellationToken: cancellationToken);
+        JobInstance? jobType = await _jobInstanceRepository.GetAsync(id: jobInstanceId, useTracking: true,
+            cancellationToken: cancellationToken);
 
         if (jobType is null)
         {
@@ -51,8 +52,8 @@ internal sealed class
 
         Guid jobStatusId = JobEntryStatus.Running.Id;
 
-        JobEntryStatus? runningJobStatus =
-            await _jobEntryStatusRepository.GetAsync(id: jobStatusId, cancellationToken: cancellationToken);
+        JobEntryStatus? runningJobStatus = await _jobEntryStatusRepository.GetAsync(id: jobStatusId, useTracking: true,
+            cancellationToken: cancellationToken);
 
         if (runningJobStatus is null)
         {
@@ -60,7 +61,25 @@ internal sealed class
                 identifierType: IdentifierType.PrimaryId(), identifier: jobStatusId);
         }
 
-        JobEntry jobEntry = CreateJobEntry(jobEntry: entryCommand.Payload, jobInstance: jobType,
+        if (command.Payload?.JobEntryId is not null)
+        {
+            JobEntryQuerySpecification jobEntryQuerySpecification = new()
+            {
+                JobEntryId = command.Payload?.JobEntryId,
+                UseTracking = false
+            };
+
+            JobEntry? existingJobEntry = await _jobEntryRepository.GetJobEntryAsync(
+                querySpecification: jobEntryQuerySpecification, cancellationToken: cancellationToken);
+
+            if (existingJobEntry is not null)
+            {
+                throw new ConflictException(
+                    message: $"Job entry with id {command.Payload?.JobEntryId} already exists.");
+            }
+        }
+
+        JobEntry jobEntry = CreateJobEntry(jobEntry: command.Payload, jobInstance: jobType,
             jobEntryStatus: runningJobStatus, eventTypeResolver: _eventTypeResolver);
 
         await _jobEntryRepository.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: cancellationToken);
@@ -73,7 +92,7 @@ internal sealed class
     {
         return new JobEntry
         {
-            Id = Guid.NewGuid(),
+            Id = jobEntry?.JobEntryId ?? Guid.NewGuid(),
             JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(paramName: nameof(jobInstance)),
             CronExpression = jobEntry?.Interval?.GetCronExpression(),
             RunAt = jobEntry?.RunAt,
@@ -96,7 +115,7 @@ internal sealed class
 
                 return new JobEntryTrigger
                 {
-                    Id = x.JobEntryTriggerId ?? Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     EventType = eventType.AssemblyQualifiedName,
                     EventData = x.EventData
                 };
