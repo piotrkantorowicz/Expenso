@@ -1,4 +1,5 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
@@ -15,7 +16,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
     AssignParticipantionDomainService;
 
 [TestFixture]
-internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<IAssignParticipantionDomainService>
+internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBase<IAssignParticipationDomainService>
 {
     [SetUp]
     public void SetUp()
@@ -51,8 +52,7 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
 
         _email = _getUserByEmailResponse.Email;
 
-        TestCandidate = new BudgetSharing.Domain.BudgetPermissionRequests.Services.AssignParticipantionDomainService(
-            iamProxy: _iamProxyMock.Object,
+        TestCandidate = new AssignParticipationDomainService(iamProxy: _iamProxyMock.Object,
             budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object,
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
     }

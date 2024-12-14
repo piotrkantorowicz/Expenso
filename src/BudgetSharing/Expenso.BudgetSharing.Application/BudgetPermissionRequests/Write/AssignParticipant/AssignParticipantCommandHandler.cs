@@ -12,15 +12,15 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.Assig
 internal sealed class
     AssignParticipantCommandHandler : ICommandHandler<AssignParticipantCommand, AssignParticipantResponse>
 {
-    private readonly IAssignParticipantionDomainService _assignParticipantionDomainService;
+    private readonly IAssignParticipationDomainService _iAssignParticipationDomainService;
     private readonly BudgetSharingSettings _budgetSharingSettings;
 
-    public AssignParticipantCommandHandler(IAssignParticipantionDomainService assignParticipantionDomainService,
+    public AssignParticipantCommandHandler(IAssignParticipationDomainService iAssignParticipationDomainService,
         BudgetSharingSettings budgetSharingSettings)
     {
-        _assignParticipantionDomainService = assignParticipantionDomainService ??
+        _iAssignParticipationDomainService = iAssignParticipationDomainService ??
                                              throw new ArgumentNullException(
-                                                 paramName: nameof(assignParticipantionDomainService));
+                                                 paramName: nameof(iAssignParticipationDomainService));
 
         _budgetSharingSettings = budgetSharingSettings ??
                                  throw new ArgumentNullException(paramName: nameof(budgetSharingSettings));
@@ -30,7 +30,7 @@ internal sealed class
         CancellationToken cancellationToken)
     {
         BudgetPermissionRequest budgetPermissionRequest =
-            await _assignParticipantionDomainService.AssignParticipantAsync(
+            await _iAssignParticipationDomainService.AssignParticipantAsync(
                 budgetPermissionRequestId: BudgetPermissionRequestId.New(
                     value: command.Payload?.BudgetPermissionRequestId ?? Guid.NewGuid()),
                 budgetId: BudgetId.New(value: command.Payload?.BudgetId), email: command.Payload?.Email,

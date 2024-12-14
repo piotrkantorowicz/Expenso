@@ -15,7 +15,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
     AssignParticipantionDomainService;
 
 [TestFixture]
-internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTestBase
+internal sealed class AssignParticipationAsync : AssignParticipationDomainServiceTestBase
 {
     [Test]
     public async Task Should_CreateBudgetPermissionRequest_InPositiveCase()

@@ -42,7 +42,39 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     }
 
     [Test]
-    public async Task Should_ThrowConflictException_When_CreatingPreferenceAndPreferenceAlreadyExists()
+    public async Task Should_ThrowConflictException_When_CreatingPreferenceWithSameIdAlreadyExists()
+    {
+        // Arrange
+        CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Payload: new CreatePreferenceRequest(PreferenceId: _preferenceId, UserId: _userId));
+
+        PreferenceQuerySpecification querySpecification = new()
+        {
+            PreferenceId = _preferenceId,
+            UseTracking = false
+        };
+
+        _preferenceRepositoryMock
+            .Setup(expression: x => x.ExistsAsync(querySpecification, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: true);
+
+        // Act
+        // Assert
+        Func<Task> act = () =>
+            TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
+
+        await act
+            .Should()
+            .ThrowAsync<ConflictException>()
+            .WithMessage(
+                expectedWildcardPattern: $"{nameof(Preference)} with query {querySpecification} already exists.")
+            .Where(exceptionExpression: x =>
+                x.ResourceName == nameof(Preference) && x.IdentifierType == IdentifierType.Query() &&
+                (PreferenceQuerySpecification?)x.Identifier == querySpecification);
+    }
+    
+    [Test]
+    public async Task Should_ThrowConflictException_When_CreatingPreferenceForUserAlreadyExists()
     {
         // Arrange
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),

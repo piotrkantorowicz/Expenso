@@ -10,7 +10,7 @@ public static class Extensions
 {
     public static void AddDomain(this IServiceCollection services)
     {
-        services.AddScoped<IAssignParticipantionDomainService, AssignParticipantionDomainService>();
+        services.AddScoped<IAssignParticipationDomainService, AssignParticipationDomainService>();
         services.AddScoped<IConfirmParticipantionDomainService, ConfirmParticipantionDomainService>();
         services.AddScoped<IIamProxyService, IamProxyService>();
 

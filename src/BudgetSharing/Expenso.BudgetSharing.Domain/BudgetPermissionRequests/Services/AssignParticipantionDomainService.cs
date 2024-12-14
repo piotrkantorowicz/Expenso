@@ -16,14 +16,14 @@ using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class AssignParticipantionDomainService : IAssignParticipantionDomainService
+internal sealed class AssignParticipationDomainService : IAssignParticipationDomainService
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository;
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
     private readonly IClock _clock;
     private readonly IIamProxy _iamProxy;
 
-    public AssignParticipantionDomainService(IIamProxy iamProxy,
+    public AssignParticipationDomainService(IIamProxy iamProxy,
         IBudgetPermissionRequestRepository budgetPermissionRequestRepository, IClock clock,
         IBudgetPermissionRepository budgetPermissionRepository)
     {
