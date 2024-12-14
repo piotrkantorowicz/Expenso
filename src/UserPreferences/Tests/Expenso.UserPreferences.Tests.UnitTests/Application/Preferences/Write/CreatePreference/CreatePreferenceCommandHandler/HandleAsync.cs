@@ -17,7 +17,7 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     {
         // Arrange
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new CreatePreferenceRequest(UserId: _userId));
+            Payload: new CreatePreferenceRequest(PreferenceId: _preferenceId, UserId: _userId));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
@@ -46,7 +46,7 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
     {
         // Arrange
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new CreatePreferenceRequest(UserId: _userId));
+            Payload: new CreatePreferenceRequest(PreferenceId: _preferenceId, UserId: _userId));
 
         PreferenceQuerySpecification querySpecification = new()
         {

@@ -17,7 +17,8 @@ internal abstract class
     public void SetUp()
     {
         _userId = Guid.NewGuid();
-        _preference = PreferenceFactory.Create(userId: _userId);
+        _preferenceId = Guid.NewGuid();
+        _preference = PreferenceFactory.Create(preferenceId: _preferenceId, userId: _userId);
         _getPreferenceResponse = GetPreferenceForCurrentUserResponseMap.MapTo(preference: _preference);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _userContextAccessorMock = new Mock<IExecutionContextAccessor>();
@@ -36,6 +37,7 @@ internal abstract class
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
     protected Mock<IExecutionContextAccessor> _userContextAccessorMock = null!;
-    protected Mock<IUserContext> _userContextMock = null!;
     protected Guid _userId;
+    private Guid _preferenceId;
+    private Mock<IUserContext> _userContextMock = null!;
 }

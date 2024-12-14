@@ -27,9 +27,9 @@ internal static class BudgetPermissionDataInitializer
         CancellationToken cancellationToken)
     {
         Guid correlationId = Guid.NewGuid();
-        
+
         IList<(Guid budgetId, string email, AssignParticipantRequestPermissionType permissionType)>
-            budgetPermissionRequestIds =
+            budgetPermissionModels =
             [
                 (new Guid(g: "527336da-3371-45a9-9b9f-bbd42d01ffc2"), FakeIamProxy.ExistingEmails[1],
                     AssignParticipantRequestPermissionType.SubOwner),
@@ -39,11 +39,11 @@ internal static class BudgetPermissionDataInitializer
                     AssignParticipantRequestPermissionType.SubOwner)
             ];
 
-        BudgetIds.AddRange(collection: budgetPermissionRequestIds.Select(selector: x => x.budgetId));
+        BudgetIds.AddRange(collection: budgetPermissionModels.Select(selector: x => x.budgetId));
         int iteration = 0;
 
         foreach ((Guid budgetId, string email, AssignParticipantRequestPermissionType permissionType) in
-                 budgetPermissionRequestIds)
+                 budgetPermissionModels)
         {
             iteration++;
 
@@ -63,8 +63,9 @@ internal static class BudgetPermissionDataInitializer
                             correlationId: correlationId,
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
                             module: ModuleNames.BudgetSharingModule),
-                        Payload: new AssignParticipantRequest(BudgetId: budgetId, Email: email,
-                            PermissionType: permissionType)), cancellationToken: cancellationToken);
+                        Payload: new AssignParticipantRequest(BudgetPermissionRequestId: Guid.NewGuid(),
+                            BudgetId: budgetId,
+                            Email: email, PermissionType: permissionType)), cancellationToken: cancellationToken);
 
             BudgetPermissionIds.Add(item: createBudgetPermissionResponse!.BudgetPermissionId);
             BudgetPermissionRequestIds.Add(item: assignParticipantResponse!.BudgetPermissionRequestId);

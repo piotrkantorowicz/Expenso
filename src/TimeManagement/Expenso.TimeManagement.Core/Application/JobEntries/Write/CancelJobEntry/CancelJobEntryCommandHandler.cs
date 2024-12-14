@@ -24,13 +24,8 @@ internal sealed class CancelJobEntryCommandHandler : ICommandHandler<CancelJobEn
 
     public async Task HandleAsync(CancelJobEntryCommand command, CancellationToken cancellationToken)
     {
-        JobEntryQuerySpecification querySpecification = new()
-        {
-            JobEntryId = command.Payload?.JobEntryId,
-            IsActive = true,
-            UseTracking = true
-        };
-
+        JobEntryQuerySpecification querySpecification =
+            new(JobEntryId: command.Payload?.JobEntryId, IsActive: true, UseTracking: true);
         JobEntry? jobEntry = await _jobEntryRepository.GetJobEntryAsync(querySpecification: querySpecification,
             cancellationToken: cancellationToken);
 

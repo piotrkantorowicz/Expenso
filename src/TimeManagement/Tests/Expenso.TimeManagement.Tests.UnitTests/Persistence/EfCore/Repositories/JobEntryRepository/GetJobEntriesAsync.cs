@@ -12,10 +12,7 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
     public async Task Should_ReturnJobEntries_When_JobEntryExists()
     {
         // Arrange
-        JobEntryQuerySpecification querySpecification = new()
-        {
-            UseTracking = false
-        };
+        JobEntryQuerySpecification querySpecification = new(UseTracking: false);
 
         // Act
         IReadOnlyCollection<JobEntry> jobEntries =

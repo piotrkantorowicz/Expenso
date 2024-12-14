@@ -12,11 +12,7 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
     public async Task Should_ReturnJobEntry_When_JobEntryExists(Guid jobEntryId)
     {
         // Arrange
-        JobEntryQuerySpecification querySpecification = new()
-        {
-            JobEntryId = jobEntryId,
-            UseTracking = false
-        };
+        JobEntryQuerySpecification querySpecification = new(JobEntryId: jobEntryId, UseTracking: false);
 
         // Act
         JobEntry? jobEntry = await TestCandidate.GetJobEntryAsync(querySpecification: querySpecification,

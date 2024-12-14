@@ -3,6 +3,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignPar
 using Expenso.BudgetSharing.Application.Shared.Settings;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.Commands;
 
@@ -30,6 +31,8 @@ internal sealed class
     {
         BudgetPermissionRequest budgetPermissionRequest =
             await _assignParticipantionDomainService.AssignParticipantAsync(
+                budgetPermissionRequestId: BudgetPermissionRequestId.New(
+                    value: command.Payload?.BudgetPermissionRequestId ?? Guid.NewGuid()),
                 budgetId: BudgetId.New(value: command.Payload?.BudgetId), email: command.Payload?.Email,
                 permissionType: AssignParticipantRequestMap.ToPermissionType(
                     assignParticipantRequestPermissionType: command.Payload?.PermissionType),

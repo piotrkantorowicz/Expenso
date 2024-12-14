@@ -25,15 +25,10 @@ internal sealed class
         CancellationToken cancellationToken)
     {
         Guid userId = command.Payload!.UserId;
-
-        PreferenceQuerySpecification querySpecification = new()
-        {
-            UserId = userId,
-            UseTracking = false
-        };
+        PreferenceQuerySpecification querySpecification = new(UserId: command.Payload?.UserId, UseTracking: false);
 
         bool dbUserPreferencesExists = await _preferencesRepository.ExistsAsync(querySpecification: querySpecification,
-                cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken);
 
         if (dbUserPreferencesExists)
         {
@@ -41,7 +36,23 @@ internal sealed class
                 identifierType: IdentifierType.Query(), identifier: querySpecification);
         }
 
-        Preference preferenceToCreate = PreferenceFactory.Create(userId: userId);
+        if (command.Payload?.PreferenceId is not null)
+        {
+            querySpecification =
+                new PreferenceQuerySpecification(PreferenceId: command.Payload.PreferenceId, UseTracking: false);
+
+            bool dbPreferenceExists = await _preferencesRepository.ExistsAsync(querySpecification: querySpecification,
+                cancellationToken: cancellationToken);
+
+            if (dbPreferenceExists)
+            {
+                throw ConflictException.AlreadyExists(resourceName: nameof(Preference),
+                    identifierType: IdentifierType.Query(), identifier: querySpecification);
+            }
+        }
+
+        Preference preferenceToCreate =
+            PreferenceFactory.Create(preferenceId: command.Payload?.PreferenceId, userId: userId);
 
         Preference preference =
             await _preferencesRepository.CreateAsync(preference: preferenceToCreate,

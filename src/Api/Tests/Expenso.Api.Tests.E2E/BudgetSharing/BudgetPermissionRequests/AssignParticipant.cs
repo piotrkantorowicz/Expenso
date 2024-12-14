@@ -14,11 +14,12 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permission-requests";
+        Guid budgetPermissioRequestId = Guid.NewGuid();
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
-            value: new AssignParticipantRequest(BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 1],
-                Email: FakeIamProxy.ExistingEmails[2],
+            value: new AssignParticipantRequest(BudgetPermissionRequestId: budgetPermissioRequestId,
+                BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 1], Email: FakeIamProxy.ExistingEmails[2],
                 PermissionType: AssignParticipantRequestPermissionType.Reviewer));
 
         // Assert
@@ -27,7 +28,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         AssignParticipantResponse? responseContent =
             await response.Content.ReadFromJsonAsync<AssignParticipantResponse>();
 
-        responseContent?.BudgetPermissionRequestId.Should().NotBeEmpty();
+        responseContent?.BudgetPermissionRequestId.Should().Be(expected: budgetPermissioRequestId);
     }
 
     [Test]

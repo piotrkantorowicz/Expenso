@@ -32,7 +32,7 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
             expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
                 new CreatePreferenceCommand(
                     MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
-                        It.IsAny<Guid>()), new CreatePreferenceRequest(_userId)), It.IsAny<CancellationToken>()),
+                        It.IsAny<Guid>()), new CreatePreferenceRequest(_userId, null)), It.IsAny<CancellationToken>()),
             times: Times.Once);
     }
 }

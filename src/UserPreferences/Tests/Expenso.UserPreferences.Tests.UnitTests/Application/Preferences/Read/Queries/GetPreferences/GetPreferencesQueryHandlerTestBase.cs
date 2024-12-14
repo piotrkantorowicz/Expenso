@@ -13,15 +13,15 @@ internal abstract class GetPreferencesQueryHandlerTestBase : TestBase<GetPrefere
     [SetUp]
     public void SetUp()
     {
-        _id = Guid.NewGuid();
+        _preferenceId = Guid.NewGuid();
         _userId = Guid.NewGuid();
-        _preference = PreferenceFactory.Create(userId: _userId);
+        _preference = PreferenceFactory.Create(preferenceId: _preferenceId, userId: _userId);
         _getPreferenceResponse = GetPreferencesResponseMap.MapTo(preference: _preference);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         TestCandidate = new GetPreferencesQueryHandler(preferencesRepository: _preferenceRepositoryMock.Object);
     }
 
-    protected Guid _id;
+    protected Guid _preferenceId;
     protected Guid _userId;
     protected GetPreferencesResponse _getPreferenceResponse = null!;
     protected Preference _preference = null!;

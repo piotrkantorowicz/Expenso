@@ -12,11 +12,12 @@ internal sealed class CreatePreferences : PreferencesTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
         Guid userId = Guid.NewGuid();
+        Guid preferenceId = Guid.NewGuid();
         const string requestPath = "user-preferences/preferences";
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
-            value: new CreatePreferenceRequest(UserId: userId));
+            value: new CreatePreferenceRequest(PreferenceId: preferenceId, UserId: userId));
 
         // Assert
         AssertResponseCreated(response: response);
@@ -25,6 +26,7 @@ internal sealed class CreatePreferences : PreferencesTestBase
             await response.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
 
         responseContent.Should().NotBeNull();
+        responseContent?.PreferenceId.Should().Be(expected: preferenceId);
     }
 
     [Test]

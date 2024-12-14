@@ -23,22 +23,14 @@ internal sealed class
     public async Task<IReadOnlyCollection<GetJobEntriesResponse>?> HandleAsync(GetJobEntriesQuery query,
         CancellationToken cancellationToken)
     {
-        JobEntryQuerySpecification querySpecification = new()
-        {
-            JobEntryId = query.Payload?.JobEntryId,
-            JobInstanceId = query.Payload?.JobInstanceId,
-            JobEntryStatusIds = query.Payload?.JobEntryStatusIds,
-            MoreThanRetries = query.Payload?.MoreThanRetries,
-            IsCompleted = query.Payload?.IsCompleted,
-            HasRun = query.Payload?.HasRun,
-            IsActive = query.Payload?.IsActive,
-            HasTriggers = query.Payload?.HasTriggers,
-            Includes = query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntriesRequestJobEntryIncludes>()
-        };
+        JobEntryQuerySpecification querySpecification = new(JobEntryId: query.Payload?.JobEntryId,
+            JobInstanceId: query.Payload?.JobInstanceId, JobEntryStatusIds: query.Payload?.JobEntryStatusIds,
+            MoreThanRetries: query.Payload?.MoreThanRetries, IsCompleted: query.Payload?.IsCompleted,
+            HasRun: query.Payload?.HasRun, IsActive: query.Payload?.IsActive, HasTriggers: query.Payload?.HasTriggers,
+            Includes: query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntriesRequestJobEntryIncludes>());
 
         IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
-            querySpecification: querySpecification,
-                cancellationToken: cancellationToken);
+            querySpecification: querySpecification, cancellationToken: cancellationToken);
 
         return GetJobEntriesResponseMap.MapTo(jobEntries: jobEntries);
     }
