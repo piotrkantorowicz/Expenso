@@ -15,7 +15,8 @@ internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<
     public void SetUp()
     {
         _userId = Guid.NewGuid();
-        _preference = PreferenceFactory.Create(userId: _userId);
+        _preferenceId = Guid.NewGuid();
+        _preference = PreferenceFactory.Create(preferenceId: _preferenceId, userId: _userId);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _createPreferenceResponse = CreatePreferenceResponseMap.MapTo(preference: _preference);
 
@@ -28,4 +29,5 @@ internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;
     protected Guid _userId;
+    protected Guid _preferenceId;
 }

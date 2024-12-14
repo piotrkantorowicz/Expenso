@@ -14,12 +14,12 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     {
         // Arrange
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new GetPreferenceRequest(PreferenceId: _id,
+            Payload: new GetPreferenceRequest(PreferenceId: _preferenceId,
                 Includes: It.IsAny<GetPreferenceRequestPreferenceIncludes>()));
 
         _preferenceRepositoryMock
             .Setup(expression: x =>
-                x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceIncludes>()),
+                x.GetAsync(new PreferenceQuerySpecification(_preferenceId, null, false, It.IsAny<PreferenceIncludes>()),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _preference);
 
@@ -32,7 +32,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
         result.Should().BeEquivalentTo(expectation: _getPreferenceResponse);
 
         _preferenceRepositoryMock.Verify(expression: x =>
-            x.GetAsync(new PreferenceQuerySpecification(_id, null, false, It.IsAny<PreferenceIncludes>()),
+            x.GetAsync(new PreferenceQuerySpecification(_preferenceId, null, false, It.IsAny<PreferenceIncludes>()),
                 It.IsAny<CancellationToken>()), times: Times.Once);
     }
 
@@ -41,7 +41,7 @@ internal sealed class HandleAsync : GetPreferenceQueryHandlerTestBase
     {
         // Arrange
         GetPreferenceQuery query = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new GetPreferenceRequest(PreferenceId: _id,
+            Payload: new GetPreferenceRequest(PreferenceId: _preferenceId,
                 Includes: It.IsAny<GetPreferenceRequestPreferenceIncludes>()));
 
         // Act

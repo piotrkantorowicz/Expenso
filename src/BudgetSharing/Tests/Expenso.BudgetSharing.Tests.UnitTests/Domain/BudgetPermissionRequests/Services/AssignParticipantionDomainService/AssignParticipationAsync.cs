@@ -15,7 +15,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
     AssignParticipantionDomainService;
 
 [TestFixture]
-internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTestBase
+internal sealed class AssignParticipationAsync : AssignParticipationDomainServiceTestBase
 {
     [Test]
     public async Task Should_CreateBudgetPermissionRequest_InPositiveCase()
@@ -37,7 +37,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
 
         // Act
         BudgetPermissionRequest budgetPermissionRequest = await TestCandidate.AssignParticipantAsync(
-            budgetId: _budgetId, email: _email, permissionType: _permissionType, expirationDays: ExpirationDays,
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
+            permissionType: _permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
@@ -68,7 +69,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: _permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -97,7 +99,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
                 identifier: _email));
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: _permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -127,7 +130,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             });
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: _permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -157,7 +161,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: _budgetPermission);
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: _permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -186,7 +191,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .Setup(expression: x => x.GetByBudgetIdAsync(_budgetId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _budgetPermission);
 
-        BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
+        BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId,
             budgetCode: _budgetCode, ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: 10), submissionDate: _clockMock.Object.UtcNow);
 
@@ -196,7 +202,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: [otherBudgetPermissionRequest]);
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -226,10 +233,12 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
 
         IReadOnlyCollection<BudgetPermissionRequest> otherBudgetPermissionRequests =
         [
-            BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
+            BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId,
+                ownerId: _ownerId, personId: _participantId,
                 budgetCode: _budgetCode, permissionType: PermissionType.Reviewer,
                 expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4), submissionDate: _clockMock.Object.UtcNow),
-            BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
+            BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId,
+                ownerId: _ownerId, personId: _participantId,
                 budgetCode: _budgetCode, permissionType: PermissionType.SubOwner,
                 expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7), submissionDate: _clockMock.Object.UtcNow)
         ];
@@ -240,7 +249,8 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
             .ReturnsAsync(value: otherBudgetPermissionRequests);
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: PermissionType.Owner, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 
@@ -268,13 +278,15 @@ internal sealed class AssignParticipantAsync : AssignParticipantDomainServiceTes
                 x.GetUncompletedByPersonIdAsync(_budgetId, _participantId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value:
             [
-                BudgetPermissionRequest.Create(budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
+                BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,
+                    budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
                     budgetCode: _budgetCode, permissionType: PermissionType.Owner,
                     expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4), submissionDate: _clockMock.Object.UtcNow)
             ]);
 
         // Act
-        Func<Task> action = () => TestCandidate.AssignParticipantAsync(budgetId: _budgetId, email: _email,
+        Func<Task> action = () => TestCandidate.AssignParticipantAsync(
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, email: _email,
             permissionType: permissionType, expirationDays: ExpirationDays,
             cancellationToken: It.IsAny<CancellationToken>());
 

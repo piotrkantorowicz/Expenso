@@ -112,7 +112,7 @@ public sealed class UserPreferencesModule : IModuleDefinition
             {
                 CreatePreferenceResponse response = await handler.HandleAsync(
                     command: new CreatePreferenceCommand(MessageContext: messageContextFactory.Current(),
-                        Payload: new CreatePreferenceRequest(UserId: model.UserId)),
+                        Payload: new CreatePreferenceRequest(PreferenceId: model.PreferenceId, UserId: model.UserId)),
                     cancellationToken: cancellationToken);
 
                 return Results.CreatedAtRoute(routeName: getPreferenceEndpointRegistration.Name, routeValues: new

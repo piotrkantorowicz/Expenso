@@ -60,12 +60,8 @@ internal sealed class JobExecution : IJobExecution
                 return;
             }
 
-            JobEntryQuerySpecification querySpecification = new()
-            {
-                JobInstanceId = jobInstanceId,
-                IsActive = true,
-                UseTracking = true
-            };
+            JobEntryQuerySpecification querySpecification =
+                new(JobInstanceId: jobInstanceId, IsActive: true, UseTracking: true);
 
             IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
                 querySpecification: querySpecification, cancellationToken: stoppingToken);

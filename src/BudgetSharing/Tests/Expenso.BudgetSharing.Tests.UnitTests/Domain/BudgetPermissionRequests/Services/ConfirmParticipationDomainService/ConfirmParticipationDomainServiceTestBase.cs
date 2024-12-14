@@ -27,6 +27,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _userPreferencesProxyMock = new Mock<IUserPreferencesProxy>();
         _clockMock = new Mock<IClock>();
         _budgetId = BudgetId.New(value: Guid.NewGuid());
+        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
         BudgetPermissionId budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
         PersonId ownerId = PersonId.New(value: Guid.NewGuid());
         BudgetCode budgetCode = BudgetCode.New(value: "BDGT/11/12/2024");
@@ -36,13 +37,12 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate);
 
-        _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: _budgetId,
-            personId: PersonId.New(value: Guid.NewGuid()), ownerId: ownerId, budgetCode: budgetCode,
-            permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3),
-            submissionDate: _clockMock.Object.UtcNow);
+        _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,
+            budgetId: _budgetId, personId: PersonId.New(value: Guid.NewGuid()), ownerId: ownerId,
+            budgetCode: budgetCode, permissionType: PermissionType.SubOwner,
+            expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3), submissionDate: _clockMock.Object.UtcNow);
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate.AddMinutes(minutes: 30));
-        _budgetPermissionRequestId = _budgetPermissionRequest.Id;
 
         _budgetPermissionRepositoryMock
             .Setup(expression: x => x.IsUnique(budgetPermissionId, _budgetId, ownerId,

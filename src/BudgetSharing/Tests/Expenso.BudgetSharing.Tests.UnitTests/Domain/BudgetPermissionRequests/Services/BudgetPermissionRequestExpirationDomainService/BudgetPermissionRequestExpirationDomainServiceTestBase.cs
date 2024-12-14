@@ -1,6 +1,7 @@
 ﻿using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Types.Clock;
 
@@ -25,10 +26,12 @@ internal abstract class
 
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: baseDate);
 
-        _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: BudgetId.New(value: Guid.NewGuid()),
-            personId: PersonId.New(value: Guid.NewGuid()), ownerId: PersonId.New(value: Guid.NewGuid()),
-            budgetCode: BudgetCode.New(value: "BDGT/123/12/2024"), permissionType: PermissionType.SubOwner,
-            expirationDate: baseDate.AddDays(days: DefaultExpirationDays), submissionDate: baseDate);
+        _budgetPermissionRequest = BudgetPermissionRequest.Create(
+            budgetPermissionRequestId: BudgetPermissionRequestId.New(value: Guid.NewGuid()),
+            budgetId: BudgetId.New(value: Guid.NewGuid()), personId: PersonId.New(value: Guid.NewGuid()),
+            ownerId: PersonId.New(value: Guid.NewGuid()), budgetCode: BudgetCode.New(value: "BDGT/123/12/2024"),
+            permissionType: PermissionType.SubOwner, expirationDate: baseDate.AddDays(days: DefaultExpirationDays),
+            submissionDate: baseDate);
 
         TestCandidate =
             new BudgetSharing.Domain.BudgetPermissionRequests.Services.BudgetPermissionRequestExpirationDomainService(

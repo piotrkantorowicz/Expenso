@@ -1,5 +1,6 @@
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Shared;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
@@ -13,13 +14,14 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
     [SetUp]
     public void SetUp()
     {
+        _preferenceId = Guid.NewGuid();
         _userId = Guid.NewGuid();
         _id = Guid.NewGuid();
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
         _commandDispatcherMock = new Mock<ICommandDispatcher>();
 
-        _currentMessageContext =
-            MessageContextFactoryMock.Object.Current(messageId: It.IsAny<Guid?>(), moduleId: It.IsAny<string?>());
+        _currentMessageContext = MessageContextFactoryMock.Object.Current(messageId: It.IsAny<Guid?>(),
+            moduleId: ModuleNames.UserPreferencesModule);
 
         _getPreferencesExternalResponse = new GetPreferencesResponse(Id: _id, UserId: _userId,
             FinancePreference: new GetPreferencesResponseFinancePreference(AllowAddFinancePlanSubOwners: false,
@@ -43,4 +45,5 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
     private Guid _id;
     protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
     protected Guid _userId;
+    protected Guid _preferenceId;
 }

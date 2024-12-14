@@ -51,6 +51,8 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             .Setup(expression: x => x.GetAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: JobEntryStatus.Running);
 
+        JobEntryQuerySpecification jobEntryQuerySpecification = new(JobEntryId: _jobEntryId, UseTracking: false);
+
         _jobEntryRepositoryMock
             .Setup(expression: x =>
                 x.GetJobEntryAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
@@ -67,7 +69,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         await action
             .Should()
             .ThrowAsync<ConflictException>()
-            .WithMessage(expectedWildcardPattern: $"Job entry with id {_jobEntryId} already exists.");
+            .WithMessage(expectedWildcardPattern: $"JobEntry with query {jobEntryQuerySpecification} already exists.");
     }
 
     [Test]

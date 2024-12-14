@@ -4,7 +4,7 @@ namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Cr
 
 internal static class PreferenceFactory
 {
-    public static Preference Create(Guid userId, Guid? preferenceId = null)
+    public static Preference Create(Guid? preferenceId, Guid userId)
     {
         Guid id = preferenceId ?? Guid.NewGuid();
 

@@ -71,9 +71,9 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         return _domainEventsSource.GetDomainEvents();
     }
 
-    internal static BudgetPermissionRequest Create(BudgetId budgetId, BudgetCode budgetCode, PersonId ownerId,
-        PersonId personId, PermissionType permissionType, DateAndTime expirationDate, DateAndTime submissionDate,
-        BudgetPermissionRequestId? budgetPermissionRequestId = null)
+    internal static BudgetPermissionRequest Create(BudgetPermissionRequestId? budgetPermissionRequestId,
+        BudgetId budgetId, BudgetCode budgetCode, PersonId ownerId, PersonId personId, PermissionType permissionType,
+        DateAndTime expirationDate, DateAndTime submissionDate)
     {
         return new BudgetPermissionRequest(
             id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,

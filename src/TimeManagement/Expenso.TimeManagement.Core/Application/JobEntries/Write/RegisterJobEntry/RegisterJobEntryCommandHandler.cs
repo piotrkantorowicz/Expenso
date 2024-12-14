@@ -63,19 +63,16 @@ internal sealed class
 
         if (command.Payload?.JobEntryId is not null)
         {
-            JobEntryQuerySpecification jobEntryQuerySpecification = new()
-            {
-                JobEntryId = command.Payload?.JobEntryId,
-                UseTracking = false
-            };
+            JobEntryQuerySpecification jobEntryQuerySpecification =
+                new(JobEntryId: command.Payload?.JobEntryId, UseTracking: false);
 
             JobEntry? existingJobEntry = await _jobEntryRepository.GetJobEntryAsync(
                 querySpecification: jobEntryQuerySpecification, cancellationToken: cancellationToken);
 
             if (existingJobEntry is not null)
             {
-                throw new ConflictException(
-                    message: $"Job entry with id {command.Payload?.JobEntryId} already exists.");
+                throw ConflictException.AlreadyExists(resourceName: nameof(JobEntry),
+                    identifierType: IdentifierType.Query(), identifier: jobEntryQuerySpecification);
             }
         }
 

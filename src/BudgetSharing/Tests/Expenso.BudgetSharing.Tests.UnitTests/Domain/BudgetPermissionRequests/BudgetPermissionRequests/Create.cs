@@ -47,7 +47,8 @@ internal sealed class Create : BudgetPermissionRequestTestBase
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: new DateTime(year: 2021, month: 1, day: 1));
 
         // Act
-        Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(budgetId: _defaultBudgetId,
+        Func<Task> action = () => Task.FromResult(result: BudgetPermissionRequest.Create(
+            budgetPermissionRequestId: _defaultBudgetPermissionId, budgetId: _defaultBudgetId,
             ownerId: _defaultOwnerId, personId: _defaultPersonId, budgetCode: _budgetCode,
             permissionType: _defaultPermissionType, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 0),
             submissionDate: _clockMock.Object.UtcNow));

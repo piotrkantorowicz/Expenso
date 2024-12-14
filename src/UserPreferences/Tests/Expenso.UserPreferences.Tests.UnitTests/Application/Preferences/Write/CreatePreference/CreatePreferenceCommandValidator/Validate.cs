@@ -43,7 +43,7 @@ internal sealed class Validate : CreatePreferenceCommandValidatorTestBase
         Guid userId = Guid.Empty;
 
         CreatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new CreatePreferenceRequest(UserId: userId));
+            Payload: new CreatePreferenceRequest(PreferenceId: Guid.NewGuid(), UserId: userId));
 
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: command);

@@ -1,5 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
@@ -14,7 +16,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
     AssignParticipantionDomainService;
 
 [TestFixture]
-internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<IAssignParticipantionDomainService>
+internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBase<IAssignParticipationDomainService>
 {
     [SetUp]
     public void SetUp()
@@ -32,6 +34,7 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
         _budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
         _participantId = PersonId.New(value: Guid.NewGuid());
         _budgetId = BudgetId.New(value: Guid.NewGuid());
+        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
         _ownerId = PersonId.New(value: Guid.NewGuid());
         _budgetCode = BudgetCode.New(value: "BDGT/1021/12/2024");
 
@@ -49,8 +52,7 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
 
         _email = _getUserByEmailResponse.Email;
 
-        TestCandidate = new BudgetSharing.Domain.BudgetPermissionRequests.Services.AssignParticipantionDomainService(
-            iamProxy: _iamProxyMock.Object,
+        TestCandidate = new AssignParticipationDomainService(iamProxy: _iamProxyMock.Object,
             budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object,
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
     }
@@ -86,8 +88,8 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
     ];
 
     protected readonly PermissionType _permissionType = PermissionType.SubOwner;
-    protected BudgetPermissionId _budgetPermissionId = null!;
     protected BudgetId _budgetId = null!;
+    protected BudgetPermissionRequestId _budgetPermissionRequestId = null!;
     protected BudgetCode _budgetCode = null!;
     protected BudgetPermission _budgetPermission = null!;
     protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
@@ -98,4 +100,5 @@ internal abstract class AssignParticipantDomainServiceTestBase : DomainTestBase<
     protected Mock<IIamProxy> _iamProxyMock = null!;
     protected PersonId _ownerId = null!;
     protected PersonId _participantId = null!;
+    private BudgetPermissionId _budgetPermissionId = null!;
 }

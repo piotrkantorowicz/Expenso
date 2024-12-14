@@ -12,11 +12,7 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
     public async Task Should_ReturnJobEntry_When_JobEntryExists(Guid jobEntryId)
     {
         // Arrange
-        JobEntryQuerySpecification querySpecification = new()
-        {
-            JobEntryId = jobEntryId,
-            UseTracking = false
-        };
+        JobEntryQuerySpecification querySpecification = new(JobEntryId: jobEntryId, UseTracking: false);
 
         // Act
         JobEntry? jobEntry = await TestCandidate.GetJobEntryAsync(querySpecification: querySpecification,
@@ -25,5 +21,20 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
         // Assert
         jobEntry.Should().NotBeNull();
         jobEntry.Should().Be(expected: JobEntries.Single(predicate: x => x.Id == jobEntryId));
+    }
+
+    [Test]
+    public async Task Should_ReturnNull_When_JobEntryDoesNotExist()
+    {
+        // Arrange
+        Guid nonExistentId = Guid.NewGuid();
+        JobEntryQuerySpecification querySpecification = new(JobEntryId: nonExistentId, UseTracking: false);
+
+        // Act
+        JobEntry? jobEntry = await TestCandidate.GetJobEntryAsync(querySpecification: querySpecification,
+            cancellationToken: default);
+
+        // Assert
+        jobEntry.Should().BeNull();
     }
 }

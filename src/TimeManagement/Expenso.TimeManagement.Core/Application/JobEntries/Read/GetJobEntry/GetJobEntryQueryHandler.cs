@@ -23,12 +23,9 @@ internal sealed class GetJobEntryQueryHandler : IQueryHandler<GetJobEntryQuery, 
 
     public async Task<GetJobEntryResponse?> HandleAsync(GetJobEntryQuery query, CancellationToken cancellationToken)
     {
-        JobEntryQuerySpecification querySpecification = new()
-        {
-            JobEntryId = query.Payload?.JobEntryId,
-            Includes = query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntryRequestJobEntryIncludes>(),
-            UseTracking = false
-        };
+        JobEntryQuerySpecification querySpecification = new(JobEntryId: query.Payload?.JobEntryId,
+            Includes: query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntryRequestJobEntryIncludes>(),
+            UseTracking: false);
 
         JobEntry? jobEntry = await _jobEntryRepository.GetJobEntryAsync(querySpecification: querySpecification,
             cancellationToken: cancellationToken);

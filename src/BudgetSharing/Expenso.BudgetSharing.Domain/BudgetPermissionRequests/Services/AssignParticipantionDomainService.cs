@@ -1,6 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Repositories;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services.Interfaces;
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Repositories;
 using Expenso.BudgetSharing.Domain.Shared.Rules;
@@ -15,14 +16,14 @@ using Expenso.Shared.System.Types.Clock;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
-internal sealed class AssignParticipantionDomainService : IAssignParticipantionDomainService
+internal sealed class AssignParticipationDomainService : IAssignParticipationDomainService
 {
     private readonly IBudgetPermissionRepository _budgetPermissionRepository;
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
     private readonly IClock _clock;
     private readonly IIamProxy _iamProxy;
 
-    public AssignParticipantionDomainService(IIamProxy iamProxy,
+    public AssignParticipationDomainService(IIamProxy iamProxy,
         IBudgetPermissionRequestRepository budgetPermissionRequestRepository, IClock clock,
         IBudgetPermissionRepository budgetPermissionRepository)
     {
@@ -38,7 +39,8 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
         _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
     }
 
-    public async Task<BudgetPermissionRequest> AssignParticipantAsync(BudgetId budgetId, string? email,
+    public async Task<BudgetPermissionRequest> AssignParticipantAsync(
+        BudgetPermissionRequestId? budgetPermissionRequestId, BudgetId budgetId, string? email,
         PermissionType? permissionType, int expirationDays, CancellationToken cancellationToken)
     {
         BudgetPermission? budgetPermission =
@@ -96,7 +98,8 @@ internal sealed class AssignParticipantionDomainService : IAssignParticipantionD
                 budgetPermissionRequests: budgetPermissionRequests))
         ]);
 
-        BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(budgetId: budgetId,
+        BudgetPermissionRequest budgetPermissionRequest = BudgetPermissionRequest.Create(
+            budgetPermissionRequestId: budgetPermissionRequestId, budgetId: budgetId,
             ownerId: budgetPermission!.OwnerId, budgetCode: budgetPermission.BudgetCode, personId: participantId,
             permissionType: permissionType!, expirationDate: expirationDate, submissionDate: submissionDate);
 
