@@ -1,4 +1,6 @@
-﻿using Expenso.Shared.Queries;
+﻿using System.Reflection;
+
+using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
 
 namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;

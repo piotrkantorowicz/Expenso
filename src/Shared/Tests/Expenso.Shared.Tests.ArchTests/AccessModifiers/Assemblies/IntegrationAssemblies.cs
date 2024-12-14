@@ -1,4 +1,6 @@
-﻿using Expenso.Shared.Integration.Events;
+﻿using System.Reflection;
+
+using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.Events.Logging;
 using Expenso.Shared.Integration.MessageBroker;
 

@@ -1,4 +1,6 @@
-﻿using Expenso.Shared.Domain.Events;
+﻿using System.Reflection;
+
+using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Events.Logging;
 using Expenso.Shared.Domain.Types.Aggregates;
 

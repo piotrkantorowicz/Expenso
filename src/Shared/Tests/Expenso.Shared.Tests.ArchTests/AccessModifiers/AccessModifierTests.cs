@@ -5,7 +5,7 @@ using Expenso.Shared.Tests.Utils.ArchTests;
 
 using NUnit.Framework;
 
-namespace Expenso.Shared.Tests.ArchTests;
+namespace Expenso.Shared.Tests.ArchTests.AccessModifiers;
 
 [TestFixture]
 internal sealed class AccessModifierTests : AccessModifierTestBase
@@ -14,7 +14,8 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
         [
             "TestBase",
             "InMemoryFakeLogger",
-            "Assertions"
+            "Assertions",
+            "Extensions"
         ], notSealed:
         [
             "TestBase",
