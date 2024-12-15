@@ -31,6 +31,17 @@ internal abstract class LoggerServiceTestBase : TestBase<LoggerService<LoggerSer
             applicationSettings: _applicationSettings);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerFactoryMock?.Reset();
+        _loggerMock?.Reset();
+        _applicationSettings = null!;
+        _loggerFactoryMock = null!;
+        _loggerMock = null!;
+        TestCandidate = null!;
+    }
+
     private ApplicationSettings? _applicationSettings;
     private Mock<ILoggerFactory>? _loggerFactoryMock;
     protected Mock<ILogger<LoggerService<object>>>? _loggerMock;

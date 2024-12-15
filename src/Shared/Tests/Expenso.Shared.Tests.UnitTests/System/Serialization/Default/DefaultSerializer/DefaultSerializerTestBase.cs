@@ -21,6 +21,12 @@ internal abstract class DefaultSerializerTestBase : TestBase<Shared.System.Seria
         TestCandidate = new Shared.System.Serialization.Default.DefaultSerializer(logger: _loggerMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
     protected static readonly BasicTestObject BasicObject = new()
     {
         PrimaryId = new Guid(g: "dd37661a-dc23-45ca-9a33-e92568536a73"),

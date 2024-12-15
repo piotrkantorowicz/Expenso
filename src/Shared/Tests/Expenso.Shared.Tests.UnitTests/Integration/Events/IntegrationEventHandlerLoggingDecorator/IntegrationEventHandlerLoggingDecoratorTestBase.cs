@@ -14,7 +14,7 @@ internal abstract class
     IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testIntegrationEvent = new TestIntegrationEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
             MessageId: Guid.NewGuid(), Payload: "JYi9R7e7v2Qor");
@@ -25,6 +25,19 @@ internal abstract class
 
         TestCandidate = new IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>(logger: _loggerMock.Object,
             decorated: _integrationEventHandlerMock.Object, serializer: _serializerMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _integrationEventHandlerMock.Reset();
+        _serializerMock.Reset();
+        _testIntegrationEvent = null!;
+        _loggerMock = null!;
+        _integrationEventHandlerMock = null!;
+        _serializerMock = null!;
+        TestCandidate = null!;
     }
 
     protected Mock<IIntegrationEventHandler<TestIntegrationEvent>> _integrationEventHandlerMock = null!;

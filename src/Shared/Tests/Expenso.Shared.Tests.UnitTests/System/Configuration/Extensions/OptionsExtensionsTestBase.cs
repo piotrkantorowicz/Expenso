@@ -11,6 +11,12 @@ internal abstract class OptionsExtensionsTestBase : TestBase<IConfiguration>
         TestCandidate = new ConfigurationBuilder().AddInMemoryCollection(initialData: _myConfiguration).Build();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
     private readonly IDictionary<string, string?> _myConfiguration = new Dictionary<string, string?>
     {
         [key: "MyOptions:Option1"] = "Option1 value",

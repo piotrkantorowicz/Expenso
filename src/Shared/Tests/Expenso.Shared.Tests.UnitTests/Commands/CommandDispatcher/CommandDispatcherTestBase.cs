@@ -28,4 +28,10 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
         IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         TestCandidate = new Shared.Commands.Dispatchers.CommandDispatcher(serviceProvider: serviceProvider);
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

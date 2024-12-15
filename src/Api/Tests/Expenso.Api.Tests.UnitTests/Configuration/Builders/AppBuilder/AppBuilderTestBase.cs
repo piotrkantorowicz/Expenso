@@ -20,6 +20,17 @@ internal abstract class AppBuilderTestBase : TestBase<Api.Configuration.Builders
         _configurationMock = new Mock<IConfiguration>();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _configurationManagerMock.Reset();
+        _configurationMock.Reset();
+        _webApplicationBuilder = null!;
+        _configurationManagerMock = null!;
+        _serviceCollection = null!;
+        _configurationMock = null!;
+    }
+
     protected readonly CorsSettings _corsSettings = new()
     {
         Enabled = true,

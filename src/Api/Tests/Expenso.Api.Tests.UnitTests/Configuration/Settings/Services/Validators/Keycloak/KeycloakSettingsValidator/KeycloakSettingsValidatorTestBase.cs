@@ -35,5 +35,12 @@ internal abstract class
                 credentialsValidator: credentialsValidatorMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _keycloakSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected KeycloakSettings _keycloakSettings = null!;
 }

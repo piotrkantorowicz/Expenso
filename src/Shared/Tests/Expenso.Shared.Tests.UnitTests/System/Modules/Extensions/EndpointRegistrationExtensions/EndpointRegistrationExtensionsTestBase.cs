@@ -12,6 +12,12 @@ internal abstract class EndpointRegistrationExtensionsTestBase : TestBase<Endpoi
             AccessControl: AccessControl.Anonymous, HttpVerb: HttpVerb.Get, Handler: null);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
     private EndpointRegistration _endpointRegistration = null!;
 
     protected void CustomizeEndpointRegistration(string pattern)

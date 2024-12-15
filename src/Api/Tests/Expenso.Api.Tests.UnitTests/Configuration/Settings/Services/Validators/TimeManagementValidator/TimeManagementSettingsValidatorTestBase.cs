@@ -18,5 +18,12 @@ internal abstract class TimeManagementSettingsValidatorTestBase : TestBase<TimeM
         TestCandidate = new TimeManagementSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _timeManagementSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected TimeManagementSettings _timeManagementSettings = null!;
 }

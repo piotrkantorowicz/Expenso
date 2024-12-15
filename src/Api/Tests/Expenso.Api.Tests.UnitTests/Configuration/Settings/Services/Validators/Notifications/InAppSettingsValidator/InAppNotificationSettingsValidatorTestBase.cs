@@ -14,5 +14,12 @@ internal abstract class InAppNotificationSettingsValidatorTestBase : TestBase<In
         TestCandidate = new InAppNotificationSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _inAppNotificationSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected InAppNotificationSettings _inAppNotificationSettings = null!;
 }

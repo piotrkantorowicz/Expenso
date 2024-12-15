@@ -24,5 +24,12 @@ internal abstract class
         TestCandidate = new Api.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _connectionParameters = null!;
+        TestCandidate = null!;
+    }
+
     protected ConnectionParameters _connectionParameters = null!;
 }

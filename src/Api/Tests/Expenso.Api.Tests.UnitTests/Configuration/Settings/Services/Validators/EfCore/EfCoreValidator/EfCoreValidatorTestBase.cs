@@ -34,5 +34,12 @@ internal abstract class EfCoreSettingsValidatorTestBase : TestBase<EfCoreSetting
             connectionParametersValidator: connectionParametersValidatorMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _efCoreSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected EfCoreSettings _efCoreSettings = null!;
 }

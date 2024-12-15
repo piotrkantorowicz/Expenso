@@ -13,6 +13,12 @@ internal abstract class NpsqlDbContextFactoryTestBase : TestBase<NpsqlDbContextF
     {
         TestCandidate = new TestDbContextFactory();
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }
 
 internal sealed class TestDbContextFactory : NpsqlDbContextFactory<TestDbContext>;

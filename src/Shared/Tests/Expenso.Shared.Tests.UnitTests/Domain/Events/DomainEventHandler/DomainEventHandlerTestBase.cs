@@ -9,13 +9,22 @@ namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandler;
 internal abstract class DomainEventHandlerTestBase : TestBase<TestDomainEventHandler>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testDomainEvent = new TestDomainEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
             Id: Guid.NewGuid(), Name: "GiKyb3G");
 
         _loggerMock = new Mock<ILoggerService<TestDomainEventHandler>>();
         TestCandidate = new TestDomainEventHandler(logger: _loggerMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _loggerMock = null!;
+        _testDomainEvent = null!;
+        TestCandidate = null!;
     }
 
     protected Mock<ILoggerService<TestDomainEventHandler>> _loggerMock = null!;

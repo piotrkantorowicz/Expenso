@@ -19,5 +19,12 @@ internal abstract class
         TestCandidate = new Api.Configuration.Settings.Services.Validators.OtlpSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _otlpSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected OtlpSettings _otlpSettings = null!;
 }

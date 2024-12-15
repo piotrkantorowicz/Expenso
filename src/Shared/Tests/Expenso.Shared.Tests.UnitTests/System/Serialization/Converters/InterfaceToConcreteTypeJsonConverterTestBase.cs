@@ -17,6 +17,12 @@ internal abstract class InterfaceToConcreteTypeJsonConverterTestBase : TestBase<
         TestCandidate = new DefaultSerializer(logger: _loggerMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
     private readonly Mock<ILoggerService<DefaultSerializer>> _loggerMock = new();
 
     protected readonly JsonSerializerOptions _serializerOptions = new()

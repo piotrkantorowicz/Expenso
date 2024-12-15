@@ -12,7 +12,7 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerLoggingDecorator
 internal abstract class CommandHandlerLoggingDecoratorTestBase : TestBase<CommandHandlerLoggingDecorator<TestCommand>>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Payload: "JYi9R7e7v2Qor");
@@ -23,6 +23,19 @@ internal abstract class CommandHandlerLoggingDecoratorTestBase : TestBase<Comman
 
         TestCandidate = new CommandHandlerLoggingDecorator<TestCommand>(logger: _loggerMock.Object,
             decorated: _commandHandlerMock.Object, serializer: _serializerMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _commandHandlerMock.Reset();
+        _serializerMock.Reset();
+        _testCommand = null!;
+        _loggerMock = null!;
+        _commandHandlerMock = null!;
+        _serializerMock = null!;
+        TestCandidate = null!;
     }
 
     protected Mock<ICommandHandler<TestCommand>> _commandHandlerMock = null!;

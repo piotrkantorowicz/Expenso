@@ -20,5 +20,12 @@ internal abstract class FileSettingsValidatorTestBase : TestBase<FilesSettingsVa
         TestCandidate = new FilesSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _filesSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected FilesSettings _filesSettings = null!;
 }

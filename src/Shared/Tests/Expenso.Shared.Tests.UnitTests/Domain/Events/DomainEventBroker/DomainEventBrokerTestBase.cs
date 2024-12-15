@@ -26,4 +26,10 @@ internal abstract class DomainEventBrokerTestBase : TestBase<IDomainEventBroker>
         IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         TestCandidate = new Shared.Domain.Events.Dispatchers.DomainEventBroker(serviceProvider: serviceProvider);
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

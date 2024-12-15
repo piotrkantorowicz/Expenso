@@ -19,5 +19,12 @@ internal abstract class
         TestCandidate = new Api.Configuration.Settings.Services.Validators.CorsSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _corsSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected CorsSettings _corsSettings = null!;
 }

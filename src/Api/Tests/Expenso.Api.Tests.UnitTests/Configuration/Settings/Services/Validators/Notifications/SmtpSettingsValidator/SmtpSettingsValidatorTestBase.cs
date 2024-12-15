@@ -17,5 +17,12 @@ internal abstract class
         TestCandidate = new Api.Configuration.Settings.Services.Validators.Notifications.SmtpSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _smtpSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected SmtpSettings _smtpSettings = null!;
 }
