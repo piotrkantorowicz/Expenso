@@ -36,7 +36,7 @@ internal sealed class HandleAsync : CancelJobEntryCommandHandlerTestBase
     }
 
     [Test]
-    public async Task Should_ThrowNoFoundException_When_JobEntryNotFound()
+    public async Task Should_ThrowNotFoundException_When_JobEntryNotFound()
     {
         // Arrange
         _jobEntryRepositoryMock

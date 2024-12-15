@@ -17,13 +17,21 @@ internal abstract class
         _jobEntryId = Guid.NewGuid();
 
         _cancelJobCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId));
+            Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId.Value));
 
         TestCandidate = new Core.Application.JobEntries.Write.CancelJobEntry.CancelJobEntryCommandValidator(
             messageContextValidator: new MessageContextValidator(),
             cancelJobEntryRequestValidator: new CancelJobEntryRequestValidator());
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _cancelJobCommand = null!;
+        _jobEntryId = null!;
+        TestCandidate = null!;
+    }
+
     protected CancelJobEntryCommand _cancelJobCommand = null!;
-    private Guid _jobEntryId;
+    private Guid? _jobEntryId;
 }

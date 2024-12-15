@@ -32,6 +32,21 @@ internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : Domain
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: 5));
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _clockMock.Reset();
+        _clockMock = null!;
+        _budgetId = null!;
+        _budgetCode = null!;
+        _budgetPermissionRequest = null!;
+        _budgetPermissionRequestId = null!;
+        _ownerId = null!;
+        _participantId = null!;
+        _permissionType = null!;
+        _status = null!;
+    }
+
     private Mock<IClock> _clockMock = null!;
     protected BudgetId _budgetId = null!;
     protected BudgetCode _budgetCode = null!;

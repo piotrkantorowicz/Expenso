@@ -56,6 +56,8 @@ public abstract class AttributesTestBase : TestBase
             .BeClasses()
             .And()
             .Inherit(type: typeof(TestBase<>))
+            .And()
+            .HaveNameEndingWith(end: "TestBase")
             .GetTypes();
 
         AssertAllClassesContainTearDownMethod(testBaseClasses: unitTestTypes);
@@ -72,6 +74,8 @@ public abstract class AttributesTestBase : TestBase
             .BeClasses()
             .And()
             .Inherit(type: typeof(TestBase))
+            .And()
+            .HaveNameEndingWith(end: "TestBase")
             .GetTypes();
 
         AssertAllClassesContainTearDownMethod(testBaseClasses: archTestTypes);

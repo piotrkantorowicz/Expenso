@@ -16,5 +16,13 @@ internal abstract class FakePushServiceTestBase : TestBase<FakePushService>
         TestCandidate = new FakePushService(logger: _loggerServiceMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerServiceMock.Reset();
+        _loggerServiceMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<ILoggerService<FakePushService>> _loggerServiceMock = null!;
 }

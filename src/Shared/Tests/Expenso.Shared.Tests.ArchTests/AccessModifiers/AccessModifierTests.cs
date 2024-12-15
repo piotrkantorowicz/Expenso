@@ -31,6 +31,5 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
     {
     }
 
-    protected override IReadOnlyCollection<Assembly> TestClassesAssemblies { get; } =
-        AllAssemblies.GetAssembliesCollection();
+    protected override IReadOnlyCollection<Assembly> TestClassesAssemblies { get; } = AllAssemblies.GetAssemblies();
 }

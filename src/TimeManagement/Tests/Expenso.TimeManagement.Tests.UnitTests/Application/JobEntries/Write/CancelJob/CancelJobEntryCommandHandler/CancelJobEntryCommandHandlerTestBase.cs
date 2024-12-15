@@ -32,6 +32,18 @@ internal abstract class
             jobEntryRepository: _jobEntryRepositoryMock.Object, jobStatusRepository: _jobEntryStatusReposiotry.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _jobEntryRepositoryMock.Reset();
+        _jobEntryStatusReposiotry.Reset();
+        _jobEntryRepositoryMock = null!;
+        _jobEntryStatusReposiotry = null!;
+        _cancelJobEntryCommand = null!;
+        _jobEntry = null!;
+        TestCandidate = null!;
+    }
+
     protected CancelJobEntryCommand _cancelJobEntryCommand = null!;
     protected JobEntry? _jobEntry;
     protected Guid _jobEntryId;

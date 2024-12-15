@@ -25,6 +25,16 @@ internal abstract class CreatePreferenceCommandHandlerTestBase : TestBase<
                 preferencesRepository: _preferenceRepositoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _preferenceRepositoryMock.Reset();
+        _preferenceRepositoryMock = null!;
+        _createPreferenceResponse = null!;
+        _preference = null!;
+        TestCandidate = null!;
+    }
+
     protected CreatePreferenceResponse _createPreferenceResponse = null!;
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;

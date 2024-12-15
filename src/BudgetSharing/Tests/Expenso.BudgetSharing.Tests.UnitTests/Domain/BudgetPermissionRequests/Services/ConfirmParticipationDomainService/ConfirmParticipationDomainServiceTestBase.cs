@@ -71,6 +71,27 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermission.GetUncommittedChanges();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _budgetPermissionRepositoryMock.Reset();
+        _budgetPermissionRequestRepositoryMock.Reset();
+        _userPreferencesProxyMock.Reset();
+        _clockMock.Reset();
+        _budgetPermissionRequest = null!;
+        _budgetPermission = null!;
+        _budgetPermissionRequestId = null!;
+        _budgetId = null!;
+        _budgetPermissionRequest = null!;
+        _budgetPermissionRequestId = null!;
+        _budgetPermissionRepositoryMock = null!;
+        _budgetPermissionRequestRepositoryMock = null!;
+        _userPreferencesProxyMock = null!;
+        _clockMock = null!;
+        _budgetPermission = null!;
+        _getPreferenceResponse = null!;
+    }
+
     private Mock<IClock> _clockMock = null!;
     protected BudgetId _budgetId = null!;
     protected BudgetPermission _budgetPermission = null!;

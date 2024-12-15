@@ -35,5 +35,13 @@ internal abstract class SendNotificationCommandHandlerTestBase : TestBase<
                 notificationServiceFactory: _notificationServiceFactoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _notificationServiceFactoryMock.Reset();
+        _notificationServiceFactoryMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<INotificationServiceFactory> _notificationServiceFactoryMock = null!;
 }

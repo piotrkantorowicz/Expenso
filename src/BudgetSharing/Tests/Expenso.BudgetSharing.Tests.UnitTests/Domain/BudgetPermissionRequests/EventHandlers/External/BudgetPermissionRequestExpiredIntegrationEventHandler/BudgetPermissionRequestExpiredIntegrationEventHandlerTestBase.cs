@@ -7,8 +7,7 @@ namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
 
 [TestFixture]
-internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase : TestBase<BudgetSharing.Domain.
-    BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler>
+internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTestBase : TestBase<BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler>
 {
     [SetUp]
     public void SetUp()
@@ -16,10 +15,16 @@ internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTes
         _budgetPermissionRequestExpireDomainServiceMock = new Mock<IBudgetPermissionRequestExpirationDomainService>();
 
         TestCandidate =
-            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.
-                BudgetPermissionRequestExpiredIntegrationEventHandler(
+            new BudgetSharing.Domain.BudgetPermissionRequests.EventHandlers.External.BudgetPermissionRequestExpiredIntegrationEventHandler(
                     budgetPermissionRequestExpirationDomainService: _budgetPermissionRequestExpireDomainServiceMock
                         .Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _budgetPermissionRequestExpireDomainServiceMock = null!;
+        TestCandidate = null!;
     }
 
     private Mock<IBudgetPermissionRequestExpirationDomainService> _budgetPermissionRequestExpireDomainServiceMock =

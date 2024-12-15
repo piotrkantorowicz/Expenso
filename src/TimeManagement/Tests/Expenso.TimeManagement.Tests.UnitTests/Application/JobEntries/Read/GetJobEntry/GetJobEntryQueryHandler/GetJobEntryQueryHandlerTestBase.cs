@@ -31,6 +31,16 @@ internal abstract class
                 jobEntryRepository: _jobEntryRepositoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _jobEntryRepositoryMock.Reset();
+        _jobEntryRepositoryMock = null!;
+        _getJobEntryQuery = null!;
+        _jobEntry = null!;
+        TestCandidate = null!;
+    }
+
     protected GetJobEntryQuery _getJobEntryQuery = null!;
     protected JobEntry? _jobEntry;
     protected Guid _jobEntryId;

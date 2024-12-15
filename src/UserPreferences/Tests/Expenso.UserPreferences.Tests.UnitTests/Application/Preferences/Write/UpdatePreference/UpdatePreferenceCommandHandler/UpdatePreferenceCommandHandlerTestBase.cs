@@ -25,6 +25,16 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<
             messageContextFactory: MessageContextFactoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _preferenceRepositoryMock.Reset();
+        _messageBrokerMock.Reset();
+        _preferenceRepositoryMock = null!;
+        _messageBrokerMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IMessageBroker> _messageBrokerMock = null!;
     protected Preference _preference = null!;
     protected Mock<IPreferencesRepository> _preferenceRepositoryMock = null!;

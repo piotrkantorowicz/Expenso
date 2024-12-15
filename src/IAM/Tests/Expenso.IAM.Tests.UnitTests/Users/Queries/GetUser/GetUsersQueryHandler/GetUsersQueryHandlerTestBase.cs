@@ -44,8 +44,20 @@ internal abstract class
             new Core.Application.Users.Read.Queries.GetUsers.GetUsersQueryHandler(userService: _userServiceMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _messageContextMock.Reset();
+        _userServiceMock.Reset();
+        _getUserByIdResponse = null!;
+        _messageContextMock = null!;
+        _userServiceMock = null!;
+        _userId = null!;
+        TestCandidate = null!;
+    }
+
     protected IReadOnlyCollection<GetUsersResponse> _getUserByIdResponse = null!;
     protected Mock<IMessageContext> _messageContextMock = null!;
-    protected string _userId = null!;
     protected Mock<IUserService> _userServiceMock = null!;
+    private string _userId = null!;
 }

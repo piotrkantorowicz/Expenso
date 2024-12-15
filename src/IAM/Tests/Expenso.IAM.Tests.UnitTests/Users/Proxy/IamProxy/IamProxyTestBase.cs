@@ -38,6 +38,19 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
             messageContextFactory: MessageContextFactoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _queryDispatcherMock.Reset();
+        _getUserByIdResponse = null!;
+        _getUserByEmailResponse = null!;
+        _getUsersResponse = null!;
+        _queryDispatcherMock = null!;
+        _userId = null!;
+        _userEmail = null!;
+        TestCandidate = null!;
+    }
+
     protected GetUserByIdResponse _getUserByIdResponse = null!;
     protected GetUserByEmailResponse _getUserByEmailResponse = null!;
     protected IReadOnlyCollection<GetUsersResponse> _getUsersResponse = null!;

@@ -16,5 +16,13 @@ internal abstract class FakeInAppServiceTestBase : TestBase<FakeInAppService>
         TestCandidate = new FakeInAppService(logger: _loggerServiceMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerServiceMock.Reset();
+        _loggerServiceMock = null!;
+        TestCandidate = null!;
+    }
+    
     protected Mock<ILoggerService<FakeInAppService>> _loggerServiceMock = null!;
 }

@@ -32,6 +32,24 @@ internal abstract class
             executionContextAccessor: _userContextAccessorMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _preferenceRepositoryMock.Reset();
+        _userContextAccessorMock.Reset();
+        _userContextMock.Reset();
+        _executionContextMock.Reset();
+        _preference = null!;
+        _getPreferenceResponse = null!;
+        _preferenceRepositoryMock = null!;
+        _userContextAccessorMock = null!;
+        _userContextMock = null!;
+        _executionContextMock = null!;
+        _userId = default!;
+        _preferenceId = default!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IExecutionContext> _executionContextMock = null!;
     protected GetPreferenceForCurrentUserResponse _getPreferenceResponse = null!;
     protected Preference _preference = null!;

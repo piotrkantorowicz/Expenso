@@ -21,6 +21,18 @@ internal abstract class GetPreferencesQueryHandlerTestBase : TestBase<GetPrefere
         TestCandidate = new GetPreferencesQueryHandler(preferencesRepository: _preferenceRepositoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _preferenceRepositoryMock.Reset();
+        _preferenceRepositoryMock = null!;
+        _getPreferenceResponse = null!;
+        _preference = null!;
+        _preferenceId = default!;
+        _userId = default!;
+        TestCandidate = null!;
+    }
+
     protected Guid _preferenceId;
     protected Guid _userId;
     protected GetPreferencesResponse _getPreferenceResponse = null!;

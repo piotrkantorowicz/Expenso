@@ -37,6 +37,19 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
             keycloakSettings: new KeycloakSettings());
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _keycloakUserClientMock.Reset();
+        _keycloakUserClientMock = null!;
+        _getUserByIdResponse = null!;
+        _getUserByEmailResponse = null!;
+        _user = null!;
+        _userEmail = null!;
+        _userId = null!;
+        TestCandidate = null!;
+    }
+
     protected GetUserByIdResponse _getUserByIdResponse = null!;
     protected GetUserByEmailResponse _getUserByEmailResponse = null!;
     protected Mock<IKeycloakUserClient> _keycloakUserClientMock = null!;

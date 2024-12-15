@@ -23,5 +23,12 @@ internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<
                 preferenceRequestValidator: new CreatePreferenceRequestValidator());
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _createPreferenceCommand = null!;
+        TestCandidate = null!;
+    }
+
     protected CreatePreferenceCommand _createPreferenceCommand = null!;
 }

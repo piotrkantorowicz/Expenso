@@ -7,4 +7,10 @@ internal abstract class BudgetIdTestBase : DomainTestBase<BudgetSharing.Domain.S
     public void SetUp()
     {
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

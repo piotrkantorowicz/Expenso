@@ -14,7 +14,6 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
     [SetUp]
     public void SetUp()
     {
-        _preferenceId = Guid.NewGuid();
         _userId = Guid.NewGuid();
         _id = Guid.NewGuid();
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
@@ -38,12 +37,24 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
             messageContextFactory: MessageContextFactoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _commandDispatcherMock.Reset();
+        _queryDispatcherMock.Reset();
+        _currentMessageContext = null!;
+        _createPreferenceResponse = null!;
+        _getPreferencesExternalResponse = null!;
+        _id = default!;
+        _userId = default!;
+        TestCandidate = null!;
+    }
+
     protected IMessageContext _currentMessageContext = null!;
     protected Mock<ICommandDispatcher> _commandDispatcherMock = null!;
     protected CreatePreferenceResponse _createPreferenceResponse = null!;
     protected GetPreferencesResponse _getPreferencesExternalResponse = null!;
-    private Guid _id;
     protected Mock<IQueryDispatcher> _queryDispatcherMock = null!;
+    private Guid _id;
     protected Guid _userId;
-    protected Guid _preferenceId;
 }

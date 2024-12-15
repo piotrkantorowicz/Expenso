@@ -20,6 +20,12 @@ internal abstract class NotificationServiceFactoryTestBase : TestBase<INotificat
                 servicesDictionary: _servicesDictionary);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
     protected readonly IDictionary<string, INotificationService> _servicesDictionary =
         new Dictionary<string, INotificationService>
         {

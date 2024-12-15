@@ -60,6 +60,24 @@ internal abstract class
             jobEntryStatusRepository: _jobEntryStatusReposiotry.Object, eventTypeResolver: _eventTypeResolver.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _jobEntryRepositoryMock.Reset();
+        _jobEntryStatusReposiotry.Reset();
+        _jobInstanceRepository.Reset();
+        _clockMock.Reset();
+        _serializer.Reset();
+        _eventTypeResolver.Reset();
+        _jobEntryRepositoryMock = null!;
+        _jobEntryStatusReposiotry = null!;
+        _jobInstanceRepository = null!;
+        _clockMock = null!;
+        _serializer = null!;
+        _eventTypeResolver = null!;
+        TestCandidate = null!;
+    }
+
     protected Guid _jobEntryId;
     protected Mock<IClock> _clockMock = null!;
     protected BudgetPermissionRequestExpiredIntegrationEvent _eventTrigger = null!;

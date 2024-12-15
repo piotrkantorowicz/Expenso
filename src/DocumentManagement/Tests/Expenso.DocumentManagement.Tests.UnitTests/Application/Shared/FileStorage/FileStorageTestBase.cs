@@ -17,5 +17,13 @@ internal abstract class FileStorageTestBase : TestBase<IFileStorage>
         TestCandidate = new Core.Application.Shared.Services.Acl.Disk.FileStorage(fileSystem: _fileSystemMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _fileSystemMock.Reset();
+        _fileSystemMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IFileSystem> _fileSystemMock = null!;
 }

@@ -10,4 +10,10 @@ internal abstract class DomainEventsSourceTestBase : DomainTestBase<DomainEvents
     {
         TestCandidate = new DomainEventsSource();
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

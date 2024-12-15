@@ -21,11 +21,20 @@ internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermissi
             .Setup(expression: x => x.IsUnique(_defaultBudgetPermissionId, _defaultBudgetId, _defaultOwnerId,
                 _budgetCode, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: true);
-        
+
         _clockMock
             .Setup(expression: x => x.UtcNow)
             .Returns(value: new DateTimeOffset(year: 2021, month: 1, day: 1, hour: 0, minute: 0, second: 0,
                 offset: TimeSpan.Zero));
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _clockMock.Reset();
+        _budgetPermissionRepositoryMock.Reset();
+        _clockMock = null!;
+        _budgetPermissionRepositoryMock = null!;
     }
 
     protected readonly BudgetCode _budgetCode = BudgetCode.New(value: "BDGT/1234/5/2024");

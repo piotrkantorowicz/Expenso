@@ -57,6 +57,16 @@ internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBas
             budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _budgetPermissionRequestRepositoryMock.Reset();
+        _budgetPermissionRepositoryMock.Reset();
+        _iamProxyMock.Reset();
+        _clockMock.Reset();
+        TestCandidate = null!;
+    }
+
     protected const int ExpirationDays = 3;
 
     protected static readonly object[] PermissionTypes =

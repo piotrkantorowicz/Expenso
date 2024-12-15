@@ -9,4 +9,10 @@ internal abstract class PermissionTestBase : DomainTestBase<Permission>
     public void SetUp()
     {
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

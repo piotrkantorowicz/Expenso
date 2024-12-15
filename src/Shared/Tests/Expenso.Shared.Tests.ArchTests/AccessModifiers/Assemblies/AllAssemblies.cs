@@ -4,7 +4,7 @@ namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
 
 internal static class AllAssemblies
 {
-    public static IReadOnlyCollection<Assembly> GetAssembliesCollection()
+    public static IReadOnlyCollection<Assembly> GetAssemblies()
     {
         return new[]
             {
