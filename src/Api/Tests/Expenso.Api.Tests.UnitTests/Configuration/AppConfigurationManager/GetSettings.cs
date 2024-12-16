@@ -1,6 +1,6 @@
 ﻿using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.Shared.System.Configuration.Binders;
-using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 

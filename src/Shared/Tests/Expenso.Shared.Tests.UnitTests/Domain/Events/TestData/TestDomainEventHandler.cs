@@ -1,5 +1,6 @@
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 

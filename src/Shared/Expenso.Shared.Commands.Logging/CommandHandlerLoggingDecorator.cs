@@ -1,6 +1,7 @@
 using System.Diagnostics;
 
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Serialization;
 
 namespace Expenso.Shared.Commands.Logging;

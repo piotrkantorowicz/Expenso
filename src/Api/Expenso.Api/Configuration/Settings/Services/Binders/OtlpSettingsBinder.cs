@@ -1,7 +1,7 @@
 ﻿using Expenso.Shared.System.Configuration.Binders;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Configuration.Services;
-using Expenso.Shared.System.Metrics;
+using Expenso.Shared.System.Metrics.Settings;
 
 namespace Expenso.Api.Configuration.Settings.Services.Binders;
 

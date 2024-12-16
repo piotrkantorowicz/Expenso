@@ -1,5 +1,6 @@
 ﻿using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Modules;
 
 namespace Expenso.Api.Configuration.Extensions;

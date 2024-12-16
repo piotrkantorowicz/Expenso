@@ -8,7 +8,7 @@ using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore.Migrations;
 using Expenso.Shared.Database.EfCore.Settings;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Tasks;
 using Expenso.Shared.System.Types.ExecutionContext;

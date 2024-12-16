@@ -4,7 +4,6 @@ using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.Utils.ArchTests;
 
-[TestFixture]
 public abstract class AccessModifierTestBase : TestBase
 {
     private readonly string[] _notInternal;
@@ -34,11 +33,18 @@ public abstract class AccessModifierTestBase : TestBase
         types = _notInternal.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = _publicTypes?.Aggregate(seed: types,
-            func: (current, skippedTypeName) => current.And().ResideInNamespaceEndingWith(name: skippedTypeName));
+        if (_publicTypes is not null or [])
+        {
+            types = _publicTypes?.Aggregate(seed: types,
+                func: (current, skippedTypeName) =>
+                    current.And().NotResideInNamespaceContaining(name: skippedTypeName));
+        }
 
-        types = _namespacesToExclude?.Aggregate(seed: types,
-            func: (current, skippedNamespace) => current?.And().NotResideInNamespace(name: skippedNamespace));
+        if (_namespacesToExclude is not null or [])
+        {
+            types = _namespacesToExclude?.Aggregate(seed: types,
+                func: (current, skippedNamespace) => current?.And().NotResideInNamespace(name: skippedNamespace));
+        }
 
         AssertFailingTypes(result: types);
     }
@@ -60,8 +66,11 @@ public abstract class AccessModifierTestBase : TestBase
         types = _notSealed.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = _namespacesToExclude?.Aggregate(seed: types,
-            func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
+        if (_namespacesToExclude is not null or [])
+        {
+            types = _namespacesToExclude?.Aggregate(seed: types,
+                func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
+        }
 
         AssertFailingTypes(result: types);
     }
@@ -79,8 +88,11 @@ public abstract class AccessModifierTestBase : TestBase
         types = _notAbstract.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        types = _namespacesToExclude?.Aggregate(seed: types,
-            func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
+        if (_namespacesToExclude is not null or [])
+        {
+            types = _namespacesToExclude?.Aggregate(seed: types,
+                func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
+        }
 
         AssertFailingTypes(result: types);
     }

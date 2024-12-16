@@ -1,6 +1,6 @@
-﻿using Expenso.IAM.Core.Acl.Keycloak;
+﻿using Expenso.IAM.Core.Acl.Keycloak.Settings;
 using Expenso.Shared.System.Configuration.Binders;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Configuration.Services;
 
 namespace Expenso.Api.Configuration.Settings.Services.Binders;

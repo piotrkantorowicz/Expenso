@@ -22,7 +22,7 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
         ], notAbstract:
         [
             "Program"
-        ], publicTypes:
+        ], namespacesToExclude:
         [
             "Expenso.UserPreferences.Core.Persistence.EfCore.Migrations"
         ])

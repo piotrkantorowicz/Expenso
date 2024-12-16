@@ -18,7 +18,8 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "Program"
         ], publicTypes:
         [
-            "DTO"
+            "DTO",
+            "Settings"
         ])
     {
     }

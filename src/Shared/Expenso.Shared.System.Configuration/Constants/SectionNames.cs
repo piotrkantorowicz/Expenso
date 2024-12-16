@@ -1,4 +1,4 @@
-namespace Expenso.Shared.System.Configuration.Sections;
+namespace Expenso.Shared.System.Configuration.Constants;
 
 public static class SectionNames
 {

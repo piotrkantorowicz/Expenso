@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.System.Serialization;
-using Expenso.Shared.System.Serialization.Default;
+using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;

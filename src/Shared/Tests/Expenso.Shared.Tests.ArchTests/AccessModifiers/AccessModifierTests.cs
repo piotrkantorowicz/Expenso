@@ -15,7 +15,11 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "TestBase",
             "InMemoryFakeLogger",
             "Assertions",
-            "Extensions"
+            "Extensions",
+            "MessageContext",
+            "OrExpression",
+            "AndExpression",
+            "NpsqlDbContextFactory"
         ], notSealed:
         [
             "TestBase",
@@ -27,6 +31,17 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "Program",
             "Exception",
             "RichTestObject"
+        ], publicTypes:
+        [
+            "DTO",
+            "Settings",
+            "Validators",
+            "Exceptions",
+            "Constants",
+            "Domain",
+            "Modules",
+            "Helpers",
+            "Converters"
         ])
     {
     }

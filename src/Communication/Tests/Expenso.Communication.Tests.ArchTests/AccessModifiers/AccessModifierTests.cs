@@ -9,7 +9,8 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
 {
     public AccessModifierTests() : base(notInternal:
         [
-            "Module"
+            "Module",
+            "Extensions"
         ], notSealed:
         [
             "TestBase",

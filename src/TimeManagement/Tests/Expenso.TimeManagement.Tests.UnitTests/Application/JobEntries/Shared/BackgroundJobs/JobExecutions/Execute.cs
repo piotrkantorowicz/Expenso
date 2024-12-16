@@ -3,8 +3,8 @@
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.Integration.Events;
-using Expenso.Shared.System.Logging;
-using Expenso.Shared.System.Serialization.Default;
+using Expenso.Shared.System.Logging.Constants;
+using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 

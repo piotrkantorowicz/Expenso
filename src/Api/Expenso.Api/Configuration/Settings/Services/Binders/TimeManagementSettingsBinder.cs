@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.System.Configuration.Binders;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Configuration.Services;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 

@@ -1,6 +1,6 @@
 ﻿using Expenso.Shared.System.Configuration.Settings;
 
-namespace Expenso.Shared.System.Metrics;
+namespace Expenso.Shared.System.Metrics.Settings;
 
 public sealed record OtlpSettings : ISettings
 {

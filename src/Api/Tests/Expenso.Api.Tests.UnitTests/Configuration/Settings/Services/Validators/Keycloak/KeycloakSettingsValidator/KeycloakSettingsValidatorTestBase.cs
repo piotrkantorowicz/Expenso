@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Core.Acl.Keycloak;
+﻿using Expenso.IAM.Core.Acl.Keycloak.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using FluentValidation;

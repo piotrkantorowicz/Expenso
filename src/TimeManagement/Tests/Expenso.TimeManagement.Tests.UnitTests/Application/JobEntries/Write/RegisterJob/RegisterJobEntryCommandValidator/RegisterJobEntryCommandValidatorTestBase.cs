@@ -4,7 +4,7 @@ using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.Expir
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.System.Serialization;
-using Expenso.Shared.System.Serialization.Default;
+using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.Utils.UnitTests;

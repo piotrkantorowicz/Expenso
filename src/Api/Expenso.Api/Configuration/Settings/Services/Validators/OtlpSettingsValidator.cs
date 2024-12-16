@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Metrics;
+﻿using Expenso.Shared.System.Metrics.Settings;
 using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
 using FluentValidation;
