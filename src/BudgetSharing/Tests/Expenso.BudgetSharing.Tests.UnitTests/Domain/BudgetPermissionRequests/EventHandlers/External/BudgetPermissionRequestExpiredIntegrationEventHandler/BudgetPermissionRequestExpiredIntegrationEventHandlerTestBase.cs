@@ -23,6 +23,7 @@ internal abstract class BudgetPermissionRequestExpiredIntegrationEventHandlerTes
     [TearDown]
     public void TearDown()
     {
+        _budgetPermissionRequestExpireDomainServiceMock.Reset();
         _budgetPermissionRequestExpireDomainServiceMock = null!;
         TestCandidate = null!;
     }

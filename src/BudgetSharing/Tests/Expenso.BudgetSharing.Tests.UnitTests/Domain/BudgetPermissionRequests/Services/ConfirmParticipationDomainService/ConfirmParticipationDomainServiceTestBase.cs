@@ -82,8 +82,6 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermission = null!;
         _budgetPermissionRequestId = null!;
         _budgetId = null!;
-        _budgetPermissionRequest = null!;
-        _budgetPermissionRequestId = null!;
         _budgetPermissionRepositoryMock = null!;
         _budgetPermissionRequestRepositoryMock = null!;
         _userPreferencesProxyMock = null!;

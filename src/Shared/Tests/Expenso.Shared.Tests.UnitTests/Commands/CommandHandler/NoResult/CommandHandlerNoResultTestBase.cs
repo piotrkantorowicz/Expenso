@@ -21,8 +21,10 @@ internal abstract class CommandHandlerNoResultTestBase : TestBase<TestCommandHan
     [TearDown]
     public void TearDown()
     {
+        _loggerMock.Reset();
         _testCommand = null!;
         TestCandidate = null!;
+        _loggerMock = null!;
     }
 
     protected Mock<ILoggerService<TestCommandHandler>> _loggerMock = null!;

@@ -44,6 +44,7 @@ internal abstract class
         _budgetPermissionRequestRepositoryMock.Reset();
         _clockMock.Reset();
         _budgetPermissionRequestRepositoryMock = null!;
+        _budgetPermissionRequest = null!;
         _clockMock = null!;
         TestCandidate = null!;
     }

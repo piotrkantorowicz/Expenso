@@ -40,7 +40,6 @@ internal abstract class
     {
         _messageContextMock.Reset();
         _userServiceMock.Reset();
-        _getUserByEmailResponse = null!;
         _userEmail = null!;
         _getUserByEmailResponse = null!;
         _messageContextMock = null!;
