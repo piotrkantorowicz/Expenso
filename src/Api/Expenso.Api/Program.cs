@@ -49,6 +49,7 @@ new AppBuilder(appBuilder: webApplicationBuilder, configuration: webApplicationB
     .UseHttpsRedirection()
     .UseRequestsCorrelation()
     .UseRequestsLogging()
+    .UseRequestTimezone()
     .UseErrorHandler()
     .UseResolvers()
     .UseSwagger()

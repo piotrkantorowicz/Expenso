@@ -28,6 +28,10 @@ using Expenso.Shared.System.Metrics;
 using Expenso.Shared.System.Metrics.Settings;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
+using Expenso.Shared.System.Time;
+using Expenso.Shared.System.Time.Configuration;
+using Expenso.Shared.System.Time.Constants;
+using Expenso.Shared.System.Time.Extensions;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
 
@@ -88,6 +92,10 @@ internal sealed class AppBuilder : IAppBuilder
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
 
+        Clock clock = new();
+        _services.AddSingleton<IClock>(implementationInstance: clock);
+        _services.AddSingleton<ITimeZoneClock>(implementationInstance: clock);
+        
         _services
             .AddCommands(assemblies: assemblies)
             .AddCommandsValidations(assemblies: assemblies)
@@ -104,7 +112,15 @@ internal sealed class AppBuilder : IAppBuilder
             .AddMessageContext()
             .AddDefaultSerializer()
             .AddInternalLogging()
-            .AddOtlpMetrics(otlpSettings: otlpSettings);
+            .AddOtlpMetrics(otlpSettings: otlpSettings)
+            .AddRequestTimeZone(optionsAction: settings =>
+            {
+                settings.Id = TimezoneIds.Utc;
+                settings.EnableRequestToUtc = true;
+                settings.EnableResponseToLocal = true;
+                settings.DatesFormat = DateTimeFormats.Iso8601;
+                settings.MvcOptionType = MvcOptionType.MinimalApi;
+            }, timeZoneClock: clock);
 
         return this;
     }
@@ -247,10 +263,10 @@ internal sealed class AppBuilder : IAppBuilder
                 {
                     OnChallenge = async context =>
                     {
-                        context.HandleResponse();
                         const int statusCode = StatusCodes.Status401Unauthorized;
                         HttpContext httpContext = context.HttpContext;
                         RouteData routeData = httpContext.GetRouteData();
+                        context.HandleResponse();
 
                         ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
                             actionDescriptor: new ActionDescriptor());
