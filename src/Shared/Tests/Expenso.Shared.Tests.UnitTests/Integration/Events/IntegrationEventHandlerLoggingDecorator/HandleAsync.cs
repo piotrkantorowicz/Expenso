@@ -1,6 +1,10 @@
 using Expenso.Shared.System.Logging.Constants;
 
+using FluentAssertions;
+
 using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.Events.IntegrationEventHandlerLoggingDecorator;
 

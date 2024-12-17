@@ -4,6 +4,8 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Update
 
 using FluentValidation.Results;
 
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandValidator;
 

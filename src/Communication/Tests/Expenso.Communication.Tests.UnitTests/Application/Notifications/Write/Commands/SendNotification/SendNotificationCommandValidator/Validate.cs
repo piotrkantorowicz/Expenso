@@ -4,6 +4,8 @@ using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using FluentValidation.Results;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandValidator;
 

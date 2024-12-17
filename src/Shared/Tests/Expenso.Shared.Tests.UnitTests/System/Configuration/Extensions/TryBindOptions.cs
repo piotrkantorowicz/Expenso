@@ -1,5 +1,9 @@
 using Expenso.Shared.System.Configuration;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.System.Configuration.Extensions;
 
 [TestFixture]

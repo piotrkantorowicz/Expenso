@@ -1,5 +1,7 @@
 using Expenso.Shared.System.Modules.Constants;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
 [TestFixture]

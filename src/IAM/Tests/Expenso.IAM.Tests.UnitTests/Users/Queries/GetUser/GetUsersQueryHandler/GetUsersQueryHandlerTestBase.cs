@@ -2,8 +2,13 @@ using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUsersQueryHandler;
 

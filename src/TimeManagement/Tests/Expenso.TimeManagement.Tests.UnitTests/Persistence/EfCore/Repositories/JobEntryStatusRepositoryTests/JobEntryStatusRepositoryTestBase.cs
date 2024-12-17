@@ -11,6 +11,8 @@ using MockQueryable.Moq;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryStatusRepositoryTests;
 
 [TestFixture]

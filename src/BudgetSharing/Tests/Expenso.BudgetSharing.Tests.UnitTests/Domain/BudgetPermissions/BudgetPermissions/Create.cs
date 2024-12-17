@@ -6,6 +6,8 @@ using FluentAssertions;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
 [TestFixture]

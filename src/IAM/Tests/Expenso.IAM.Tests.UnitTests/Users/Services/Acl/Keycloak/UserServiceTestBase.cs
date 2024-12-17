@@ -5,9 +5,14 @@ using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Core.Application.Users.Read.Services.Acl.Keycloak;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
+using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 

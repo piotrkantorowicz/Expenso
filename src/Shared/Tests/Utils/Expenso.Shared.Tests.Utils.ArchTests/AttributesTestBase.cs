@@ -2,6 +2,8 @@
 
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using NetArchTest.Rules;
+
 using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.Utils.ArchTests;

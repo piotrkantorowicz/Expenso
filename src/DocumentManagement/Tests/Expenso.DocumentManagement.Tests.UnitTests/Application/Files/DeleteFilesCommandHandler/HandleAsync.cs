@@ -4,6 +4,8 @@ using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.DeleteFilesCommandHandler;
 
 [TestFixture]

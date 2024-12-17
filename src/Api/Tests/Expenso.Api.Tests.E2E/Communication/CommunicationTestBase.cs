@@ -1,6 +1,9 @@
-﻿using Expenso.Communication.Shared;
+﻿using Expenso.Api.Tests.E2E.Configuration;
+using Expenso.Communication.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.Communication;
 

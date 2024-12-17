@@ -3,6 +3,8 @@ using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using FluentValidation.Results;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.PushSettingsValidator;
 
 [TestFixture]

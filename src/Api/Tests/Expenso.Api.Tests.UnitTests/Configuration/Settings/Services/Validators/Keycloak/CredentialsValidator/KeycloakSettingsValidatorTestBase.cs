@@ -2,6 +2,8 @@
 
 using Keycloak.AuthServices.Common;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Keycloak.CredentialsValidator;
 
 [TestFixture]

@@ -6,6 +6,8 @@ using Expenso.Communication.Shared.DTO.Settings.Push;
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.Extensions;
 
 [TestFixture]

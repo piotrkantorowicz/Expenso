@@ -1,3 +1,4 @@
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
@@ -6,6 +7,10 @@ using Expenso.UserPreferences.Core.Persistence.EfCore;
 using Microsoft.EntityFrameworkCore;
 
 using MockQueryable.Moq;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 

@@ -12,6 +12,8 @@ using Expenso.Shared.System.Types.Clock;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     AssignParticipantionDomainService;
 

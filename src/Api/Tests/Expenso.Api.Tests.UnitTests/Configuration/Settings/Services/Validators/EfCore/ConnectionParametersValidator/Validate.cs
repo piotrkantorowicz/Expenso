@@ -2,6 +2,8 @@
 
 using FluentValidation.Results;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.EfCore.ConnectionParametersValidator;
 
 [TestFixture]

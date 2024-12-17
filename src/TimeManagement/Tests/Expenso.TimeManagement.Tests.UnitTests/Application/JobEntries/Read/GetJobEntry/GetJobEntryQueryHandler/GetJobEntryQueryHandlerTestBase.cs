@@ -6,6 +6,8 @@ using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Request;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Read.GetJobEntry.GetJobEntryQueryHandler;
 
 [TestFixture]

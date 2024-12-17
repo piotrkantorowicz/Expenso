@@ -1,4 +1,10 @@
-﻿namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
+﻿using Expenso.Shared.Tests.Utils.UnitTests;
+
+using FluentAssertions;
+
+using NUnit.Framework;
+
+namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
 [TestFixture]
 internal sealed class InRange : TestBase<Shared.Domain.Types.ValueObjects.DateAndTime>

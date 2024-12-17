@@ -4,6 +4,12 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreference;
 
 [TestFixture]

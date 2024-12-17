@@ -2,9 +2,14 @@ using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.UserPreferences.Shared;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 

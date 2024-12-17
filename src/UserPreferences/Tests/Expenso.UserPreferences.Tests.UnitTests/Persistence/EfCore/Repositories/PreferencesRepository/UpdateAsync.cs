@@ -1,5 +1,9 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
 [TestFixture]

@@ -5,6 +5,12 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Extensions.RequestPathExtensions;
 
 internal sealed class GuessModule : RequestPathExtensionTestBase

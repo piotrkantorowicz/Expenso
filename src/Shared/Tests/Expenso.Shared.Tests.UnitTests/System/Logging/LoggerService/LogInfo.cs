@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.System.Logging.LoggerService;
 
 [TestFixture]

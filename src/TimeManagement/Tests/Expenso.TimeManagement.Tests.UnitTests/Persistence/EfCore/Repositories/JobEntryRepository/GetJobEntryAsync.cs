@@ -3,6 +3,8 @@ using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryRepository;
 
 [TestFixture]

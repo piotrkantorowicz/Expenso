@@ -6,6 +6,12 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specification
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandHandler;
 

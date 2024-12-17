@@ -1,8 +1,11 @@
-﻿using Expenso.Shared.System.Modules.Constants;
+﻿using Expenso.Api.Tests.E2E.Configuration;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 

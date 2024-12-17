@@ -1,6 +1,10 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtensions.TestObjects;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtensions;
 
 [TestFixture]

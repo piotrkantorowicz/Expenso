@@ -1,9 +1,16 @@
+using System.Net;
+
 using Expenso.Api.Configuration.Auth.Claims;
 using Expenso.Api.Configuration.Execution.Middlewares;
+using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
+using FluentAssertions;
+
 using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E;
 

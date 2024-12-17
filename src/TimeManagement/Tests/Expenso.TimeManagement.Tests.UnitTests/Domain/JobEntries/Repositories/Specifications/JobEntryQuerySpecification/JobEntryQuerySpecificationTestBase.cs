@@ -1,5 +1,7 @@
 ﻿using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Domain.JobEntries.Repositories.Specifications.
     JobEntryQuerySpecification;
 

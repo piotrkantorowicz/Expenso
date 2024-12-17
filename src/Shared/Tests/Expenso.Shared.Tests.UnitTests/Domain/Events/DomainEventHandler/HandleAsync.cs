@@ -3,6 +3,8 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventHandler;
 
 [TestFixture]

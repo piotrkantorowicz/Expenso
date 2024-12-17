@@ -1,4 +1,7 @@
 using Expenso.Shared.System.Modules;
+using Expenso.Shared.Tests.Utils.UnitTests;
+
+using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Modules.Extensions.EndpointRegistrationExtensions;
 

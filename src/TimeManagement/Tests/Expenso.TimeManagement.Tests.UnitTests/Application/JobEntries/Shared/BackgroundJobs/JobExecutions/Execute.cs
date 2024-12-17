@@ -12,6 +12,8 @@ using FluentAssertions;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.JobExecutions;
 
 [TestFixture]

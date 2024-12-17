@@ -7,6 +7,8 @@ using Expenso.Shared.System.Types.Clock;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Extensions.
     BudgetPermissionRequestFilterExtensions;
 

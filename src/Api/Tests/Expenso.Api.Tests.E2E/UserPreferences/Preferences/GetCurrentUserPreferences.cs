@@ -1,5 +1,12 @@
+using System.Net;
+using System.Net.Http.Json;
+
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
+
+using FluentAssertions;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 

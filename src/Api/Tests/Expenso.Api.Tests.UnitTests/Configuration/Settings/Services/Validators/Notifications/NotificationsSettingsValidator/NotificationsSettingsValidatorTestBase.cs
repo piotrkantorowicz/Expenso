@@ -7,6 +7,10 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using FluentValidation;
 
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.Notifications.
     NotificationsSettingsValidator;
 

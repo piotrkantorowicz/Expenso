@@ -6,6 +6,8 @@ using FluentAssertions;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
 [TestFixture]

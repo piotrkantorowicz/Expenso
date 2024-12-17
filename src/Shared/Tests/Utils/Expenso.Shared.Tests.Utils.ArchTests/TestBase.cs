@@ -1,3 +1,7 @@
+using FluentAssertions;
+
+using NetArchTest.Rules;
+
 using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.Utils.ArchTests;

@@ -2,6 +2,8 @@ using Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.TestData;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.InMemoryMessageBroker;
 
 [TestFixture]

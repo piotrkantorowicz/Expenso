@@ -1,5 +1,7 @@
 using Expenso.BudgetSharing.Domain.Shared.Base;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base;
 
 [TestFixture]

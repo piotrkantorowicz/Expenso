@@ -2,6 +2,14 @@
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
+using It = Moq.It;
+
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
 [TestFixture]

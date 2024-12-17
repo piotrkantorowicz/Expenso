@@ -13,6 +13,8 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 
 [TestFixture]

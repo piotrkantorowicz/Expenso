@@ -2,6 +2,8 @@
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver;
 
 [TestFixture]

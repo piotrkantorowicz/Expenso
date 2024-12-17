@@ -6,6 +6,8 @@ using Expenso.Communication.Shared.DTO.API.SendNotification;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandHandler;
 

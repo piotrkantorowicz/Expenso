@@ -1,4 +1,7 @@
 using Expenso.Shared.Tests.UnitTests.Queries.TestData;
+using Expenso.Shared.Tests.Utils.UnitTests;
+
+using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryHandler;
 

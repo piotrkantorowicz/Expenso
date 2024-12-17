@@ -1,6 +1,10 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
 [TestFixture]

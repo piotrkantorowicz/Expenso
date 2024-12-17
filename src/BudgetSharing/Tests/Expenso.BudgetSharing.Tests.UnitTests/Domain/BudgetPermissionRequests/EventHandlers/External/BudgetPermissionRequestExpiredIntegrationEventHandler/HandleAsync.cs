@@ -3,6 +3,8 @@ using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.Expir
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
 

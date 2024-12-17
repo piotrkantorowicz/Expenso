@@ -1,4 +1,11 @@
-﻿using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
+﻿using System.Net;
+using System.Net.Http.Json;
+
+using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
+
+using FluentAssertions;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 

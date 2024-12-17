@@ -1,4 +1,8 @@
+using System.Reflection;
+
 using Expenso.Shared.Tests.Utils.ArchTests;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.ArchTests.AccessModifiers;
 

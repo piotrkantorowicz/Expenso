@@ -13,6 +13,8 @@ using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.RegisterJob.
     RegisterJobEntryCommandHandler;
 

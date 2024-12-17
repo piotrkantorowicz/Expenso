@@ -2,6 +2,8 @@ using Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNo
 using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Write.Commands.SendNotification.
     SendNotificationCommandValidator;
 

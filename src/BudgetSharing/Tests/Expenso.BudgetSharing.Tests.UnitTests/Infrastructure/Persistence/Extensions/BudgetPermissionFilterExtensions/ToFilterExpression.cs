@@ -8,6 +8,8 @@ using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Extensions;
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Extensions.BudgetPermissionFilterExtensions;
 
 [TestFixture]

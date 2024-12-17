@@ -5,6 +5,8 @@ using FluentAssertions;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryPathResolver;
 
 [TestFixture]

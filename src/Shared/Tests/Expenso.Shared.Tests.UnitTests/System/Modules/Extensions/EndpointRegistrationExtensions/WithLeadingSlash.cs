@@ -1,6 +1,10 @@
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Extensions;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.System.Modules.Extensions.EndpointRegistrationExtensions;
 
 [TestFixture]

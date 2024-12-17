@@ -1,4 +1,8 @@
-﻿namespace Expenso.Shared.Tests.UnitTests.System.Types.Helpers.StringHelper;
+﻿using FluentAssertions;
+
+using NUnit.Framework;
+
+namespace Expenso.Shared.Tests.UnitTests.System.Types.Helpers.StringHelper;
 
 [TestFixture]
 internal sealed class SafeJoin
