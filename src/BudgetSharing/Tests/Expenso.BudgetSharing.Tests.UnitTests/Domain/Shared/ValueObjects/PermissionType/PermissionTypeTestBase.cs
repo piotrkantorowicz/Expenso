@@ -7,4 +7,10 @@ internal abstract class PermissionTypeTestBase : DomainTestBase<BudgetSharing.Do
     public void SetUp()
     {
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

@@ -20,5 +20,12 @@ internal abstract class EmailNotificationSettingsValidatorTestBase : TestBase<Em
         TestCandidate = new EmailNotificationSettingsValidator(smtpSettingsValidator: smtpSettingsValidatorMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _emailNotificationSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected EmailNotificationSettings _emailNotificationSettings = null!;
 }

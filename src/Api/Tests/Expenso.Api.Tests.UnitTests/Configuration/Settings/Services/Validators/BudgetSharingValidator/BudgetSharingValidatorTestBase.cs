@@ -11,4 +11,10 @@ internal abstract class BudgetSharingValidatorTestBase : TestBase<BudgetSharingS
     {
         TestCandidate = new BudgetSharingSettingsValidator();
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

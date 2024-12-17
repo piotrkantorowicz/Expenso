@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Core.Acl.Keycloak;
+﻿using Expenso.IAM.Core.Acl.Keycloak.Settings;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserByEmail.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUserById.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
@@ -35,6 +35,19 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
 
         TestCandidate = new UserService(keycloakUserClient: _keycloakUserClientMock.Object,
             keycloakSettings: new KeycloakSettings());
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _keycloakUserClientMock.Reset();
+        _keycloakUserClientMock = null!;
+        _getUserByIdResponse = null!;
+        _getUserByEmailResponse = null!;
+        _user = null!;
+        _userEmail = null!;
+        _userId = null!;
+        TestCandidate = null!;
     }
 
     protected GetUserByIdResponse _getUserByIdResponse = null!;

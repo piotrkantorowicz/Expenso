@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Logging;
+﻿using Expenso.Shared.System.Logging.Constants;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 

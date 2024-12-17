@@ -13,7 +13,7 @@ internal abstract class
     DomainEventHandlerLoggingDecoratorTestBase : TestBase<DomainEventHandlerLoggingDecorator<TestDomainEvent>>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testDomainEvent = new TestDomainEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
             Id: Guid.NewGuid(), Name: "JYi9R7e7v2Qor");
@@ -24,6 +24,19 @@ internal abstract class
 
         TestCandidate = new DomainEventHandlerLoggingDecorator<TestDomainEvent>(logger: _loggerMock.Object,
             decorated: _domainEventHandlerMock.Object, serializer: _serializerMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _domainEventHandlerMock.Reset();
+        _serializerMock.Reset();
+        _testDomainEvent = null!;
+        _loggerMock = null!;
+        _domainEventHandlerMock = null!;
+        _serializerMock = null!;
+        TestCandidate = null!;
     }
 
     protected Mock<IDomainEventHandler<TestDomainEvent>> _domainEventHandlerMock = null!;

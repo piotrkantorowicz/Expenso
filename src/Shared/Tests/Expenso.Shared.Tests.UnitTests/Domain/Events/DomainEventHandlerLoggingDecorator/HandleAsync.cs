@@ -1,4 +1,4 @@
-using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
 using Moq;

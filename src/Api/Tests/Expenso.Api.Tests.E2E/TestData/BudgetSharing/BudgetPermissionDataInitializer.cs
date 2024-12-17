@@ -23,6 +23,7 @@ internal static class BudgetPermissionDataInitializer
     public static readonly List<Guid> BudgetPermissionIds = [];
     public static readonly List<Guid> BudgetIds = [];
 
+    // TODO: allow using proxy there
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
         CancellationToken cancellationToken)
     {
@@ -64,8 +65,8 @@ internal static class BudgetPermissionDataInitializer
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
                             module: ModuleNames.BudgetSharingModule),
                         Payload: new AssignParticipantRequest(BudgetPermissionRequestId: Guid.NewGuid(),
-                            BudgetId: budgetId,
-                            Email: email, PermissionType: permissionType)), cancellationToken: cancellationToken);
+                            BudgetId: budgetId, Email: email, PermissionType: permissionType)),
+                    cancellationToken: cancellationToken);
 
             BudgetPermissionIds.Add(item: createBudgetPermissionResponse!.BudgetPermissionId);
             BudgetPermissionRequestIds.Add(item: assignParticipantResponse!.BudgetPermissionRequestId);

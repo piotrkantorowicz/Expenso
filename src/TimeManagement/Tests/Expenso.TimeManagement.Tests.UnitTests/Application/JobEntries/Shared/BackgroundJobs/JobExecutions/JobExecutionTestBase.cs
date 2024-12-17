@@ -43,6 +43,26 @@ internal abstract class JobExecutionTestBase : TestBase<JobExecution>
             jobInstanceRepository: _jobInstanceRepositoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _jobEntryRepositoryMock.Reset();
+        _jobEntryStatusRepositoryMock.Reset();
+        _jobInstanceRepositoryMock.Reset();
+        _serializerMock.Reset();
+        _messageBrokerMock.Reset();
+        _clockMock.Reset();
+        _loggerMock = null!;
+        _jobEntryRepositoryMock = null!;
+        _jobEntryStatusRepositoryMock = null!;
+        _jobInstanceRepositoryMock = null!;
+        _serializerMock = null!;
+        _messageBrokerMock = null!;
+        _clockMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IClock> _clockMock = null!;
     protected Mock<IJobEntryRepository> _jobEntryRepositoryMock = null!;
     protected Mock<IJobEntryStatusRepository> _jobEntryStatusRepositoryMock = null!;

@@ -1,4 +1,4 @@
-﻿using Expenso.IAM.Core.Acl.Keycloak;
+﻿using Expenso.IAM.Core.Acl.Keycloak.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using FluentValidation;
@@ -33,6 +33,13 @@ internal abstract class
         TestCandidate =
             new Api.Configuration.Settings.Services.Validators.Keycloak.KeycloakSettingsValidator(
                 credentialsValidator: credentialsValidatorMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _keycloakSettings = null!;
+        TestCandidate = null!;
     }
 
     protected KeycloakSettings _keycloakSettings = null!;

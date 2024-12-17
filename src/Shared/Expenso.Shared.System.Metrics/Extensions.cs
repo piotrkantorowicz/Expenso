@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Expenso.Shared.System.Metrics.Settings;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;

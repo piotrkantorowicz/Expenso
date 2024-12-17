@@ -21,6 +21,16 @@ internal abstract class DbMigratorTestBase : TestBase<Shared.Database.EfCore.Mig
         TestCandidate = new Shared.Database.EfCore.Migrations.DbMigrator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _serviceScopeMock = null!;
+        _testDbContextMigrateMock = null!;
+        _testDbContextNoMigrateMock = null!;
+        _testDbContextNoSeedMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IServiceScope> _serviceScopeMock = null!;
     protected Mock<ITestDbContextMigrate> _testDbContextMigrateMock = null!;
     protected Mock<ITestDbContextNoMigrate> _testDbContextNoMigrateMock = null!;

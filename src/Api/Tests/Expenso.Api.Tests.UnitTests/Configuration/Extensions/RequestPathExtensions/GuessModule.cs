@@ -1,6 +1,6 @@
 ﻿using Expenso.Api.Configuration.Extensions;
 using Expenso.BudgetSharing.Api;
-using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;

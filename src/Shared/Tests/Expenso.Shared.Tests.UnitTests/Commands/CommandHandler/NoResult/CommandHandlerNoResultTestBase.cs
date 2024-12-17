@@ -9,13 +9,22 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandler.NoResult;
 internal abstract class CommandHandlerNoResultTestBase : TestBase<TestCommandHandler>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Payload: "laFrGWWfwLzmq");
 
         _loggerMock = new Mock<ILoggerService<TestCommandHandler>>();
         TestCandidate = new TestCommandHandler(logger: _loggerMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _testCommand = null!;
+        TestCandidate = null!;
+        _loggerMock = null!;
     }
 
     protected Mock<ILoggerService<TestCommandHandler>> _loggerMock = null!;

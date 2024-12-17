@@ -3,7 +3,7 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
 using Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
 using Expenso.Shared.System.Configuration;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Configuration.Settings.Files;
 
 using Microsoft.Extensions.Configuration;

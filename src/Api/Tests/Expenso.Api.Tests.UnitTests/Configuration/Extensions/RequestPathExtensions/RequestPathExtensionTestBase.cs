@@ -17,6 +17,7 @@ internal abstract class RequestPathExtensionTestBase
     [TearDown]
     public void Teardown()
     {
+        _loggerMock.Reset();
         Modules.Clear();
     }
 }

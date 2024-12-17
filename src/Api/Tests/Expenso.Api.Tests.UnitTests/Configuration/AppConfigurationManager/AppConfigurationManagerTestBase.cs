@@ -29,4 +29,14 @@ internal abstract class AppConfigurationManagerTestBase
         _appConfigurationManager =
             new Api.Configuration.AppConfigurationManager(preStartupContainer: _preStartupContainerMock.Object);
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _preStartupContainerMock.Reset();
+        _loggerMock.Reset();
+        _serviceCollectionMock.Reset();
+        _settingsBinderMock.Reset();
+        _appConfigurationManager = null!;
+    }
 }

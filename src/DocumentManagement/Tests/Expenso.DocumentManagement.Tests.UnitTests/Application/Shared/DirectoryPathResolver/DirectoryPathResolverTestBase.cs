@@ -20,6 +20,16 @@ internal abstract class DirectoryPathResolverTestBase : TestBase<IDirectoryPathR
             directoryInfoService: _directoryInfoServiceMock.Object, clock: _clockMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _directoryInfoServiceMock.Reset();
+        _clockMock.Reset();
+        _directoryInfoServiceMock = null!;
+        _clockMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IClock> _clockMock = null!;
     protected Mock<IDirectoryInfoService> _directoryInfoServiceMock = null!;
 }

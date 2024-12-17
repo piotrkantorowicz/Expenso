@@ -16,5 +16,13 @@ internal abstract class FakeEmailServiceTestBase : TestBase<FakeEmailService>
         TestCandidate = new FakeEmailService(logger: _loggerServiceMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerServiceMock.Reset();
+        _loggerServiceMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<ILoggerService<FakeEmailService>> _loggerServiceMock = null!;
 }

@@ -3,7 +3,7 @@ using Expenso.Shared.Database.EfCore.Memory;
 using Expenso.Shared.Database.EfCore.Npsql;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.JobsExecutions;

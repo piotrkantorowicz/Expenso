@@ -1,8 +1,9 @@
 ﻿using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Serialization;
-using Expenso.Shared.System.Serialization.Default;
+using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Constants;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;

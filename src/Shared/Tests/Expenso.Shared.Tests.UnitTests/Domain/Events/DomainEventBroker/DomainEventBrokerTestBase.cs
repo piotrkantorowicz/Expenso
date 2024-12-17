@@ -12,6 +12,8 @@ namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 [TestFixture]
 internal abstract class DomainEventBrokerTestBase : TestBase<IDomainEventBroker>
 {
+    private IServiceProvider? _serviceProvider;
+
     [SetUp]
     public void SetUp()
     {
@@ -23,7 +25,19 @@ internal abstract class DomainEventBrokerTestBase : TestBase<IDomainEventBroker>
             .AddInternalLogging();
 
         serviceCollection.AddSingleton<ApplicationSettings>();
-        IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-        TestCandidate = new Shared.Domain.Events.Dispatchers.DomainEventBroker(serviceProvider: serviceProvider);
+        _serviceProvider = serviceCollection.BuildServiceProvider();
+        TestCandidate = new Shared.Domain.Events.Dispatchers.DomainEventBroker(serviceProvider: _serviceProvider);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        if (_serviceProvider is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+
+        _serviceProvider = null;
+        TestCandidate = null!;
     }
 }

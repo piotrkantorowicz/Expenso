@@ -4,5 +4,5 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.Communication.Core.Application.Notifications.Write.Commands.SendNotification;
 
-public sealed record SendNotificationCommand(IMessageContext MessageContext, SendNotificationRequest? Payload)
+internal sealed record SendNotificationCommand(IMessageContext MessageContext, SendNotificationRequest? Payload)
     : ICommand;

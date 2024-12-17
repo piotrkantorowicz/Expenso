@@ -3,7 +3,7 @@ using Expenso.Shared.Database.EfCore.Memory;
 using Expenso.Shared.Database.EfCore.Npsql;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Persistence.EfCore;
 using Expenso.UserPreferences.Core.Persistence.EfCore.Repositories;

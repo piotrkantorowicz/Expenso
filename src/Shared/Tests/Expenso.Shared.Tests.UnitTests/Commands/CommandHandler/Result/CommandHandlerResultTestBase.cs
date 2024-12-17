@@ -6,12 +6,19 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandler.Result;
 internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandler>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Payload: "TkpxYGL8bVkwqDIo");
 
         TestCandidate = new TestCommandHandler();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+        _testCommand = null!;
     }
 
     protected TestCommand _testCommand = null!;

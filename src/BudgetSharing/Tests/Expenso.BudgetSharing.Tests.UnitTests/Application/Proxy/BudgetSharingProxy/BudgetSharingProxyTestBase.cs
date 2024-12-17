@@ -15,5 +15,11 @@ internal abstract class BudgetSharingProxyTestBase : TestBase<BudgetSharing.Appl
             queryDispatcher: _queryDispatcherMock.Object, messageContextFactory: MessageContextFactoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
     protected readonly Mock<IQueryDispatcher> _queryDispatcherMock = new();
 }

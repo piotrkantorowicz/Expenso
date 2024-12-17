@@ -35,6 +35,18 @@ internal abstract class
                 userService: _userServiceMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _messageContextMock.Reset();
+        _userServiceMock.Reset();
+        _userEmail = null!;
+        _getUserByEmailResponse = null!;
+        _messageContextMock = null!;
+        _userServiceMock = null!;
+        TestCandidate = null!;
+    }
+
     protected GetUserByEmailResponse _getUserByEmailResponse = null!;
     protected Mock<IMessageContext> _messageContextMock = null!;
     protected string _userEmail = null!;

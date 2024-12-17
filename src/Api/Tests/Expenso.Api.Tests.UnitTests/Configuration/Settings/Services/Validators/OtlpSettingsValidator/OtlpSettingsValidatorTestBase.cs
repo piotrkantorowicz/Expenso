@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Metrics;
+﻿using Expenso.Shared.System.Metrics.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.OtlpSettingsValidator;
@@ -17,6 +17,13 @@ internal abstract class
         };
 
         TestCandidate = new Api.Configuration.Settings.Services.Validators.OtlpSettingsValidator();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _otlpSettings = null!;
+        TestCandidate = null!;
     }
 
     protected OtlpSettings _otlpSettings = null!;

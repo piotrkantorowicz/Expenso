@@ -17,4 +17,10 @@ internal abstract class QueryDispatcherTestBase : TestBase<IQueryDispatcher>
 
         TestCandidate = new Shared.Queries.Dispatchers.QueryDispatcher(serviceProvider: serviceProvider);
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

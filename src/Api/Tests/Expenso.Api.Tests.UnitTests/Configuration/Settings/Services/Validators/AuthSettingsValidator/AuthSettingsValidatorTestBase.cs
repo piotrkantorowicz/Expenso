@@ -18,5 +18,12 @@ internal abstract class
         TestCandidate = new Api.Configuration.Settings.Services.Validators.AuthSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _authSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected AuthSettings _authSettings = null!;
 }

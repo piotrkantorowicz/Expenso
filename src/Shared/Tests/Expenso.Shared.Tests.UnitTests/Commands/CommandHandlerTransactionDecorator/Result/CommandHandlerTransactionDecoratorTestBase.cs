@@ -13,7 +13,7 @@ internal abstract class
     CommandHandlerTransactionDecorator<TestCommand, TestCommandResult>>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Payload: "JYi9R7e7v2Qor");
@@ -24,6 +24,17 @@ internal abstract class
         TestCandidate =
             new CommandHandlerTransactionDecorator<TestCommand, TestCommandResult>(unitOfWork: _unitOfWorkMock.Object,
                 decorated: _commandHandlerMock.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _unitOfWorkMock.Reset();
+        _commandHandlerMock.Reset();
+        _testCommand = null!;
+        _unitOfWorkMock = null!;
+        _commandHandlerMock = null!;
+        TestCandidate = null!;
     }
 
     protected Mock<ICommandHandler<TestCommand, TestCommandResult>> _commandHandlerMock = null!;

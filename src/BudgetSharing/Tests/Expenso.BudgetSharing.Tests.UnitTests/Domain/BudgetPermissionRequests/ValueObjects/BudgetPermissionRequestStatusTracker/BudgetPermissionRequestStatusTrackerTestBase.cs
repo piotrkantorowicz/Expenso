@@ -29,6 +29,14 @@ internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<
                     .Pending);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _clockMock.Reset();
+        _clockMock = null!;
+        TestCandidate = null!;
+    }
+
     protected BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId
         _budgetPermissionRequestId = null!;
 

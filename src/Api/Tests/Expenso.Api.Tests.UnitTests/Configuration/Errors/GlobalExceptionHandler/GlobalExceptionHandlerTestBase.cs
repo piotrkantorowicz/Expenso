@@ -16,6 +16,14 @@ internal abstract class GlobalExceptionHandlerTestBase : TestBase<Api.Configurat
         TestCandidate = new Api.Configuration.Errors.GlobalExceptionHandler(logger: _loggerMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock?.Reset();
+        _httpContext = null;
+        TestCandidate = null!;
+    }
+
     protected DefaultHttpContext? _httpContext;
     private Mock<ILoggerService<Api.Configuration.Errors.GlobalExceptionHandler>>? _loggerMock;
 

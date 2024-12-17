@@ -23,6 +23,18 @@ internal abstract class
             fileSystem: _fileSystemMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _fileStorageMock.Reset();
+        _directoryPathResolverMock.Reset();
+        _fileSystemMock.Reset();
+        _fileStorageMock = null!;
+        _directoryPathResolverMock = null!;
+        _fileSystemMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IDirectoryPathResolver> _directoryPathResolverMock = null!;
     protected Mock<IFileStorage> _fileStorageMock = null!;
     protected Mock<IFileSystem> _fileSystemMock = null!;

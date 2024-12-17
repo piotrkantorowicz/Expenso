@@ -4,7 +4,7 @@ using Expenso.Shared.System.Serialization.Converters;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
-namespace Expenso.Shared.System.Serialization.Default;
+namespace Expenso.Shared.System.Serialization.Default.Settings;
 
 public static class DefaultSerializerOptions
 {

@@ -20,5 +20,12 @@ internal abstract class
         TestCandidate = new Api.Configuration.Settings.Services.Validators.Keycloak.CredentialsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _credentials = null!;
+        TestCandidate = null!;
+    }
+
     protected KeycloakClientInstallationCredentials _credentials = null!;
 }

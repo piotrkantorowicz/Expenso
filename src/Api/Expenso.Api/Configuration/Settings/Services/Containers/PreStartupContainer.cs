@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
 
 using Expenso.Shared.System.Configuration;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Configuration.Settings.App;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Logging.Serilog;
-using Expenso.Shared.System.Metrics;
+using Expenso.Shared.System.Metrics.Settings;
 
 using Serilog;
 

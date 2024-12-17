@@ -26,4 +26,10 @@ internal abstract class SendNotificationCommandValidatorTestBase : TestBase<
                 messageContextValidator: messageContextValidator,
                 sendNotificationRequestValidator: sendNotificationRequestValidator);
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

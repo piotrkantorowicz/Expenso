@@ -13,7 +13,7 @@ internal abstract class
     QueryHandlerLoggingDecoratorTestBase : TestBase<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid());
         _loggerMock = new Mock<ILoggerService<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>>();
@@ -24,8 +24,21 @@ internal abstract class
             decorated: _queryHandlerMock.Object, serializer: _serializerMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _queryHandlerMock.Reset();
+        _serializerMock.Reset();
+        _testQuery = null!;
+        _loggerMock = null!;
+        _queryHandlerMock = null!;
+        _serializerMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<ILoggerService<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>> _loggerMock = null!;
     protected Mock<IQueryHandler<TestQuery, TestResponse>> _queryHandlerMock = null!;
-    private Mock<ISerializer> _serializerMock = null!;
     protected TestQuery _testQuery = null!;
+    private Mock<ISerializer> _serializerMock = null!;
 }

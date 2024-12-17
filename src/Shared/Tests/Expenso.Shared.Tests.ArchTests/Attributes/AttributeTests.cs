@@ -1,46 +1,17 @@
-﻿using Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
-using Expenso.Shared.Tests.Utils.UnitTests;
+﻿using System.Reflection;
+
+using Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;
+using Expenso.Shared.Tests.Utils.ArchTests;
+
+using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.ArchTests.Attributes;
 
 [TestFixture]
-internal sealed class AttributeTests : ArchTestTestBase
+internal sealed class AttributeTests : AttributesTestBase
 {
-    [Test]
-    public void Should_Passed_When_AllUnitTestClassesHaveTestFixtureAttribute()
-    {
-        ConditionList? unitTestTypes = NetArchTypes
-            .InAssemblies(assemblies: TestsAssemblies
-                .GetAssemblies()
-                .Select(selector: x => x.Value)
-                .Where(predicate: x => x.FullName?.Contains(value: "Unit") is true)
-                .ToArray())
-            .Should()
-            .BeClasses()
-            .And()
-            .Inherit(type: typeof(TestBase<>))
-            .And()
-            .NotHaveCustomAttribute(attribute: typeof(TestFixtureAttribute));
-
-        AssertFailingTypes(result: unitTestTypes);
-    }
-
-    [Test]
-    public void Should_Passed_When_AllArchTestClassesHaveTestFixtureAttribute()
-    {
-        ConditionList? archTestTypes = NetArchTypes
-            .InAssemblies(assemblies: TestsAssemblies
-                .GetAssemblies()
-                .Select(selector: x => x.Value)
-                .Where(predicate: x => x.FullName?.Contains(value: "Arch") is true)
-                .ToArray())
-            .Should()
-            .BeClasses()
-            .And()
-            .Inherit(type: typeof(ArchTestTestBase))
-            .And()
-            .NotHaveCustomAttribute(attribute: typeof(TestFixtureAttribute));
-
-        AssertFailingTypes(result: archTestTypes);
-    }
+    protected override IReadOnlyCollection<Assembly> TestClassesAssemblies { get; } = AllAssemblies
+        .GetAssemblies()
+        .Except(second: [typeof(AttributesTestBase).Assembly])
+        .ToArray();
 }

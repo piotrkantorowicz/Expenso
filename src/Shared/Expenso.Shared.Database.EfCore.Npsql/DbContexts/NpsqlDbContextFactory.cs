@@ -1,6 +1,6 @@
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

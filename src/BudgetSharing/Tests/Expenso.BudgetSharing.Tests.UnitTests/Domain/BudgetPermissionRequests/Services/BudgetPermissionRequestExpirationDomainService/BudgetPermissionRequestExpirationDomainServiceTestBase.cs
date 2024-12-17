@@ -38,6 +38,17 @@ internal abstract class
                 budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _budgetPermissionRequestRepositoryMock.Reset();
+        _clockMock.Reset();
+        _budgetPermissionRequestRepositoryMock = null!;
+        _budgetPermissionRequest = null!;
+        _clockMock = null!;
+        TestCandidate = null!;
+    }
+
     private const int DefaultExpirationDays = 3;
     protected BudgetPermissionRequest _budgetPermissionRequest = null!;
     protected Mock<IBudgetPermissionRequestRepository> _budgetPermissionRequestRepositoryMock = null!;

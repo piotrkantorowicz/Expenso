@@ -4,7 +4,7 @@ using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.Expir
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.System.Serialization;
-using Expenso.Shared.System.Serialization.Default;
+using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.Utils.UnitTests;
@@ -56,7 +56,7 @@ internal abstract class
 
         RegisterJobEntryRequestJobEntryTrigger jobEntryTrigger = new(
             EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
-                EventData: eventData);
+            EventData: eventData);
 
         RegisterJobEntryRequest payload = new(MaxRetries: 5, JobEntryTriggers: [jobEntryTrigger], Interval: null,
             RunAt: _clockMock.Object.UtcNow);
@@ -76,8 +76,20 @@ internal abstract class
             messageContextValidator: messageContextValidator, registerJobEntryRequestValidator: requestValidator);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _clockMock.Reset();
+        _serializer.Reset();
+        _eventTypeResolver.Reset();
+        _clockMock = null!;
+        _serializer = null!;
+        _eventTypeResolver = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IClock> _clockMock = null!;
     protected RegisterJobEntryCommand _registerJobEntryCommand = null!;
-    protected Mock<ISerializer> _serializer = null!;
     protected Mock<IEventTypeResolver> _eventTypeResolver = null!;
+    private Mock<ISerializer> _serializer = null!;
 }

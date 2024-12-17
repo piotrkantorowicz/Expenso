@@ -14,5 +14,12 @@ internal abstract class PushNotificationSettingsValidatorTestBase : TestBase<Pus
         TestCandidate = new PushNotificationSettingsValidator();
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _pushNotificationSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected PushNotificationSettings _pushNotificationSettings = null!;
 }

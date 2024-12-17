@@ -32,5 +32,12 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<
                     generalPreferenceValidator: new UpdatePreferenceRequestGeneralPreferenceValidator()));
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _updatePreferenceCommand = null!;
+        TestCandidate = null!;
+    }
+
     protected UpdatePreferenceCommand _updatePreferenceCommand = null!;
 }

@@ -22,13 +22,22 @@ internal abstract class
         };
 
         TestCandidate = new Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver(
-            logger: _loggerMock.Object,
-                timeManagementSettings: _timeManagementSettings);
+            logger: _loggerMock.Object, timeManagementSettings: _timeManagementSettings);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _loggerMock.Reset();
+        _loggerMock = null!;
+        _timeManagementSettings = null!;
+        TestCandidate = null!;
     }
 
     private static readonly AllowedEventType[] DefaultAllowedEvents = [AllowedEventType.BudgetPermissionRequestExpired];
 
-    protected Mock<ILogger<Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver>> _loggerMock =
+    private Mock<ILogger<Core.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver>> _loggerMock =
         null!;
-    protected TimeManagementSettings _timeManagementSettings = null!;
+
+    private TimeManagementSettings _timeManagementSettings = null!;
 }

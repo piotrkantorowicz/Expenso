@@ -2,9 +2,11 @@ using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.Api.Tests.E2E.TestData.TimeManagement;
+using Expenso.DocumentManagement.Shared;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Types.Clock;
+using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,11 @@ internal sealed class WebAppTestSetup
     {
         using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
         ICommandDispatcher commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
+
+        IDocumentManagementProxy documentManagementProxy =
+            scope.ServiceProvider.GetRequiredService<IDocumentManagementProxy>();
+
+        ITimeManagementProxy timeManagementProxy = scope.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
         IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
         await PreferencesDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
@@ -29,10 +36,10 @@ internal sealed class WebAppTestSetup
         await BudgetPermissionDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
             cancellationToken: default);
 
-        await DocumentManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
-            cancellationToken: default);
+        await DocumentManagementDataInitializer.InitializeAsync(documentManagementProxy: documentManagementProxy,
+            clock: clock, cancellationToken: default);
 
-        await TimeManagementDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+        await TimeManagementDataInitializer.InitializeAsync(timeManagementProxy: timeManagementProxy, clock: clock,
             cancellationToken: default);
     }
 

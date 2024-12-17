@@ -9,4 +9,10 @@ internal abstract class BudgetPermissionRequestStatusTestBase : DomainTestBase<
     public void SetUp()
     {
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
 }

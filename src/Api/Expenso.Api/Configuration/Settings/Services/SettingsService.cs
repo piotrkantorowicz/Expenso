@@ -3,6 +3,7 @@ using Expenso.Shared.System.Configuration.Exceptions;
 using Expenso.Shared.System.Configuration.Services;
 using Expenso.Shared.System.Configuration.Settings;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 using FluentValidation;
 

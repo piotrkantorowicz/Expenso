@@ -31,6 +31,19 @@ internal abstract class GetUserByIdQueryHandlerTestBase : TestBase<GetUserByIdQu
         TestCandidate = new GetUserByIdQueryQueryHandler(userService: _userServiceMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _messageContextMock.Reset();
+        _userServiceMock.Reset();
+        _getUserByIdResponse = null!;
+        _userId = null!;
+        _getUserByIdResponse = null!;
+        _messageContextMock = null!;
+        _userServiceMock = null!;
+        TestCandidate = null!;
+    }
+
     protected GetUserByIdResponse _getUserByIdResponse = null!;
     protected Mock<IMessageContext> _messageContextMock = null!;
     protected string _userId = null!;

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Expenso.Shared.System.Logging;
+namespace Expenso.Shared.System.Logging.Constants;
 
 public static class LoggingUtils
 {

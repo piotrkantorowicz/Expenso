@@ -10,7 +10,7 @@ public abstract class TestBase
         AssertFailingTypes(result: result?.GetTypes());
     }
 
-    private static void AssertFailingTypes(IEnumerable<Type>? result)
+    protected static void AssertFailingTypes(IEnumerable<Type>? result)
     {
         result?.Should().BeNullOrEmpty();
     }

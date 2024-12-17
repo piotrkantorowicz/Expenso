@@ -3,6 +3,7 @@ using System.Reflection;
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.MessageBroker.InMemory.Channels;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

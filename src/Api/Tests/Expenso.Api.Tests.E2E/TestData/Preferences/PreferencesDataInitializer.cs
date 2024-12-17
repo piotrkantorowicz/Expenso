@@ -15,6 +15,7 @@ internal static class PreferencesDataInitializer
 {
     public static readonly IList<Guid> PreferenceIds = new List<Guid>();
 
+    // TODO: allow using proxy there
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
         CancellationToken cancellationToken)
     {

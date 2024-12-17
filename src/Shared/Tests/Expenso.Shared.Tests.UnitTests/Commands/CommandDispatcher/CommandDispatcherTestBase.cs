@@ -13,6 +13,8 @@ namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 [TestFixture]
 internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
 {
+    private IServiceProvider? _serviceProvider;
+
     [SetUp]
     public void Setup()
     {
@@ -25,7 +27,19 @@ internal abstract class CommandDispatcherTestBase : TestBase<ICommandDispatcher>
             .AddInternalLogging();
 
         serviceCollection.AddSingleton<ApplicationSettings>();
-        IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-        TestCandidate = new Shared.Commands.Dispatchers.CommandDispatcher(serviceProvider: serviceProvider);
+        _serviceProvider = serviceCollection.BuildServiceProvider();
+        TestCandidate = new Shared.Commands.Dispatchers.CommandDispatcher(serviceProvider: _serviceProvider);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        if (_serviceProvider is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+
+        _serviceProvider = null;
+        TestCandidate = null!;
     }
 }

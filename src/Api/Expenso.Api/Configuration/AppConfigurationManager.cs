@@ -2,6 +2,7 @@
 using Expenso.Api.Configuration.Settings.Services.Containers;
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 namespace Expenso.Api.Configuration;
 

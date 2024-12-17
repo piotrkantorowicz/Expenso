@@ -36,5 +36,12 @@ internal abstract class NotificationSettingsValidatorTestBase : TestBase<Notific
             pushNotificationSettingsValidator: pushNotificationSettingsValidatorMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _notificationSettings = null!;
+        TestCandidate = null!;
+    }
+
     protected NotificationSettings _notificationSettings = null!;
 }

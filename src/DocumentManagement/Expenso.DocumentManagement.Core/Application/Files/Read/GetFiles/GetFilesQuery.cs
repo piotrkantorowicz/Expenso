@@ -5,5 +5,5 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.DocumentManagement.Core.Application.Files.Read.GetFiles;
 
-public sealed record GetFilesQuery(IMessageContext MessageContext, GetFileRequest? Payload)
+internal sealed record GetFilesQuery(IMessageContext MessageContext, GetFileRequest? Payload)
     : IQuery<IEnumerable<GetFilesResponse>>;

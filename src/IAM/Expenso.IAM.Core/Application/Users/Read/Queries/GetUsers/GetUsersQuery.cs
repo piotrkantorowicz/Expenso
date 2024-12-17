@@ -5,5 +5,5 @@ using Expenso.Shared.System.Types.Messages.Interfaces;
 
 namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 
-public sealed record GetUsersQuery(IMessageContext MessageContext, GetUsersRequest? Payload)
+internal sealed record GetUsersQuery(IMessageContext MessageContext, GetUsersRequest? Payload)
     : IQuery<IReadOnlyCollection<GetUsersResponse>>;

@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 using Expenso.Shared.System.Configuration.Binders;
-using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 

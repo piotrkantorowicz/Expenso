@@ -18,5 +18,13 @@ internal abstract class ExecutionContextAccessorTestBase : TestBase<IExecutionCo
                 httpContextAccessor: _httpContextAccessorMock.Object);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _httpContextAccessorMock.Reset();
+        _httpContextAccessorMock = null!;
+        TestCandidate = null!;
+    }
+
     protected Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
 }

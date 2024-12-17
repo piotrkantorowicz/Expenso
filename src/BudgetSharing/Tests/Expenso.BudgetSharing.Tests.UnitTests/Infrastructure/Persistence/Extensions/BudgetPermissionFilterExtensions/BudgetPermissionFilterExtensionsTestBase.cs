@@ -34,6 +34,18 @@ internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBas
         _budgetPermission.AddPermission(participantId: _participantId, permissionType: _permissionType);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _budgetId = null!;
+        _budgetCode = null!;
+        _budgetPermission = null!;
+        _budgetPermissionId = null!;
+        _ownerId = null!;
+        _participantId = null!;
+        _permissionType = null!;
+    }
+
     protected BudgetId _budgetId = null!;
     protected BudgetCode _budgetCode = null!;
     protected BudgetPermission _budgetPermission = null!;

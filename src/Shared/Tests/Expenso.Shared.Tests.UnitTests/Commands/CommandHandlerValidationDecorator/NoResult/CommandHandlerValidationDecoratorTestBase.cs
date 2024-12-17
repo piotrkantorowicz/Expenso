@@ -13,7 +13,7 @@ internal abstract class
     CommandHandlerValidationDecoratorTestBase : TestBase<CommandHandlerValidationDecorator<TestCommand>>
 {
     [SetUp]
-    protected void Setup()
+    public void Setup()
     {
         _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
             Payload: "JYi9R7e7v2Qor");
@@ -23,6 +23,15 @@ internal abstract class
 
         TestCandidate = new CommandHandlerValidationDecorator<TestCommand>(validators: [_validator.Object],
             decorated: handler.Object);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _validator.Reset();
+        _testCommand = null!;
+        _validator = null!;
+        TestCandidate = null!;
     }
 
     protected TestCommand _testCommand = null!;

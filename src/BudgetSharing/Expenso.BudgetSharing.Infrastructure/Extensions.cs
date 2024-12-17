@@ -11,7 +11,7 @@ using Expenso.Shared.Database.EfCore.Memory;
 using Expenso.Shared.Database.EfCore.Npsql;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration;
-using Expenso.Shared.System.Configuration.Sections;
+using Expenso.Shared.System.Configuration.Constants;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.System.Configuration.Exceptions;
-using Expenso.Shared.System.Logging;
+using Expenso.Shared.System.Logging.Constants;
 
 using FluentValidation;
 using FluentValidation.Results;

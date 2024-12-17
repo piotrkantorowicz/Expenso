@@ -29,6 +29,15 @@ internal abstract class DirectoryInfoServiceTestBase : TestBase<IDirectoryInfoSe
                 filesSettings: _filesSettings);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+        _fileSystemMock?.Reset();
+        _fileSystemMock = null!;
+        _filesSettings = null!;
+        TestCandidate = null!;
+    }
+
     private FilesSettings? _filesSettings;
     protected Mock<IFileSystem>? _fileSystemMock;
 }
