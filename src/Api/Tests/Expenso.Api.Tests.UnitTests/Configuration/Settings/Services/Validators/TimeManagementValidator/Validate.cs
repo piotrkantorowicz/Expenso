@@ -3,6 +3,8 @@ using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
 using FluentValidation.Results;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagementValidator;
 
 [TestFixture]

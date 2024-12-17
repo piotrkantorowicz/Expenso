@@ -1,4 +1,6 @@
-﻿using Expenso.Api.Tests.ArchTests.AccessModifiers;
+﻿using System.Reflection;
+
+using Expenso.Api.Tests.ArchTests.AccessModifiers;
 using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Api.Tests.UnitTests.Configuration.Execution.ExecutionContextAccessor;
 

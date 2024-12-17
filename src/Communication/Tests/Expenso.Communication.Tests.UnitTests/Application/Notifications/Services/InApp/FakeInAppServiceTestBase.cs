@@ -4,6 +4,8 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.InApp;
 
 [TestFixture]

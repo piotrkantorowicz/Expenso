@@ -7,6 +7,8 @@ using FluentAssertions;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.CancelJob.CancelJobEntryCommandHandler;
 
 [TestFixture]

@@ -1,3 +1,5 @@
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.BudgetId;
 
 [TestFixture]

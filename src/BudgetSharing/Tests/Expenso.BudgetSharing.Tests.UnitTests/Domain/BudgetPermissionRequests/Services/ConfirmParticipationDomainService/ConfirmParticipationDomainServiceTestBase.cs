@@ -13,6 +13,8 @@ using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
 

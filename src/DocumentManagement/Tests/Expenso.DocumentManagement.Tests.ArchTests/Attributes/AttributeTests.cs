@@ -2,6 +2,8 @@
 
 using Expenso.Shared.Tests.Utils.ArchTests;
 
+using NUnit.Framework;
+
 namespace Expenso.DocumentManagement.Tests.ArchTests.Attributes;
 
 [TestFixture]

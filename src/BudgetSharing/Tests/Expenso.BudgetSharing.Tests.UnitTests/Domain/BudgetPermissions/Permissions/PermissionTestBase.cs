@@ -1,5 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.Permissions;
 
 [TestFixture]

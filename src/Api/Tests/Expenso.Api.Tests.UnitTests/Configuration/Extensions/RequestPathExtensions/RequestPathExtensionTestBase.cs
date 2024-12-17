@@ -2,6 +2,10 @@
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Modules;
 
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Extensions.RequestPathExtensions;
 
 internal abstract class RequestPathExtensionTestBase

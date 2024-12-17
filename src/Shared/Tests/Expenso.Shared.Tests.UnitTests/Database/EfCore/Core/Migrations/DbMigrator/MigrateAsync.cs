@@ -2,6 +2,8 @@ using System.Reflection;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Core.Migrations.DbMigrator;
 
 [TestFixture]

@@ -1,5 +1,9 @@
 using Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 
 [TestFixture]

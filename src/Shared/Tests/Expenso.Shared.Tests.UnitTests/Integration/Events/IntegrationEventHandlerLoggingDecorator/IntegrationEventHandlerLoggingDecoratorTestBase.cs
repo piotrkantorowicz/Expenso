@@ -3,8 +3,11 @@ using Expenso.Shared.Integration.Events.Logging;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.TestData;
+using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.Events.IntegrationEventHandlerLoggingDecorator;
 

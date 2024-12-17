@@ -2,6 +2,8 @@
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagementValidator;
 
 [TestFixture]

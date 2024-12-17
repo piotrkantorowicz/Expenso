@@ -6,6 +6,8 @@ using Expenso.Shared.System.Types.Clock;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
 [TestFixture]

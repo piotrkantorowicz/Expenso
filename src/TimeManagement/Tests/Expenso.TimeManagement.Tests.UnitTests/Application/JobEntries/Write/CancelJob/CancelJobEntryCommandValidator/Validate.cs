@@ -3,6 +3,8 @@ using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry.DT
 
 using FluentValidation.Results;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.CancelJob.CancelJobEntryCommandValidator;
 
 [TestFixture]

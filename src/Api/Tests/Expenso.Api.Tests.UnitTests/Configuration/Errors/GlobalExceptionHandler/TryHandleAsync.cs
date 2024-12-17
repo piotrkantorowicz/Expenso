@@ -1,7 +1,11 @@
 using Expenso.Shared.Commands.Validation.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
 
+using FluentAssertions;
+
 using Microsoft.AspNetCore.Http;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandler;
 

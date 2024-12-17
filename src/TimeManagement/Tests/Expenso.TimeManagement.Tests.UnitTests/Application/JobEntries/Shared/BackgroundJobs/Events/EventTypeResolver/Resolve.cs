@@ -4,6 +4,8 @@ using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver;
 
 [TestFixture]

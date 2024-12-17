@@ -1,5 +1,7 @@
 using Expenso.Shared.Integration.Events;
 
+using FluentAssertions;
+
 namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.TestData;
 
 internal sealed class TestIntegrationEventHandler : IIntegrationEventHandler<TestIntegrationEvent>

@@ -5,6 +5,8 @@ using Expenso.Shared.Domain.Types.ValueObjects;
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.BudgetPermissionRequests;
 
 [TestFixture]

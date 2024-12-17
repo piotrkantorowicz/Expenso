@@ -3,8 +3,14 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
+using FluentAssertions;
+
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 

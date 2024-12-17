@@ -1,6 +1,12 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
 [TestFixture]

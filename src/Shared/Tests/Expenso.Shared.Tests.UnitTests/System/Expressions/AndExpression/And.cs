@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 using Expenso.Shared.System.Expressions.And;
 using Expenso.Shared.Tests.UnitTests.System.Expressions.TestData;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.System.Expressions.AndExpression;
 
 [TestFixture]

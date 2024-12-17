@@ -6,8 +6,13 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 

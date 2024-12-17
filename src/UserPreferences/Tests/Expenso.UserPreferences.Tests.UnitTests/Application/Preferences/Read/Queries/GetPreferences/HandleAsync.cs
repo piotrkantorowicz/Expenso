@@ -4,6 +4,12 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specification
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Read.Queries.GetPreferences;
 
 [TestFixture]

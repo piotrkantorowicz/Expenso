@@ -1,3 +1,7 @@
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.NpsqlDbContextFactory;
 
 [TestFixture]

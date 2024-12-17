@@ -4,6 +4,12 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryHandler;
 
 [TestFixture]

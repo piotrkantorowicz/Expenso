@@ -1,5 +1,9 @@
 using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
+using FluentAssertions;
+
+using NUnit.Framework;
+
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
 [TestFixture]

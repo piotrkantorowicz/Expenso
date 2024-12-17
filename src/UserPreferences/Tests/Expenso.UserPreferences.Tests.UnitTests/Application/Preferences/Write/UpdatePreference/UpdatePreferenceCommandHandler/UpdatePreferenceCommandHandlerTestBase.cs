@@ -1,7 +1,12 @@
 using Expenso.Shared.Integration.MessageBroker;
+using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
+
+using Moq;
+
+using NUnit.Framework;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;

@@ -2,6 +2,12 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
 [TestFixture]

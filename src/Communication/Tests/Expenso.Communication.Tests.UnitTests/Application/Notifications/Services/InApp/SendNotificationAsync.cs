@@ -1,6 +1,8 @@
 ﻿using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
+using NUnit.Framework;
+
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Services.InApp;
 
 [TestFixture]

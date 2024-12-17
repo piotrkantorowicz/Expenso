@@ -6,6 +6,8 @@ using Expenso.Shared.Domain.Types.ValueObjects;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.EventHandlers.
     BudgetPermissionBlockedEventHandler;
 

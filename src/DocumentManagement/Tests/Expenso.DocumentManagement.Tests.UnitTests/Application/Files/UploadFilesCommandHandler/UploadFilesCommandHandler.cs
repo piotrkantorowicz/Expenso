@@ -3,6 +3,8 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.UploadFilesCommandHandler;
 
 [TestFixture]

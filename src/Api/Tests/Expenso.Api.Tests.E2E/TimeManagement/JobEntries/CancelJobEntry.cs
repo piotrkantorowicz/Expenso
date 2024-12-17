@@ -1,4 +1,8 @@
-﻿using Expenso.Api.Tests.E2E.TestData.TimeManagement;
+﻿using System.Net;
+
+using Expenso.Api.Tests.E2E.TestData.TimeManagement;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 

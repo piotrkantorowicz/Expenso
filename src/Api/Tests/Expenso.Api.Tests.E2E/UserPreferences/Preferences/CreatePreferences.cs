@@ -1,5 +1,12 @@
+using System.Net;
+using System.Net.Http.Json;
+
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
+
+using FluentAssertions;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 

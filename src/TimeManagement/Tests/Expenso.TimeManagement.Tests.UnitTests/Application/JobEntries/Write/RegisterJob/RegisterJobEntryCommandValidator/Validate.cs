@@ -7,6 +7,8 @@ using FluentValidation.Results;
 
 using Moq;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.RegisterJob.
     RegisterJobEntryCommandValidator;
 

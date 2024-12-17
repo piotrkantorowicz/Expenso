@@ -1,7 +1,10 @@
 using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Dispatchers;
+using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.UnitTests.Queries.QueryDispatcher;
 

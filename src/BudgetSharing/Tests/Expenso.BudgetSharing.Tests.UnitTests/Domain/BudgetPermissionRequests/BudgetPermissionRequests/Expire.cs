@@ -4,6 +4,8 @@ using Expenso.Shared.Domain.Types.Exceptions;
 
 using FluentAssertions;
 
+using NUnit.Framework;
+
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.BudgetPermissionRequests;
 
 [TestFixture]

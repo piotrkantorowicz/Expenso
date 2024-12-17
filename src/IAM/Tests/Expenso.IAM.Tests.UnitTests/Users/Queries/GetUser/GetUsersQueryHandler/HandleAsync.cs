@@ -2,6 +2,12 @@ using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUsersQueryHandler;
 
 [TestFixture]

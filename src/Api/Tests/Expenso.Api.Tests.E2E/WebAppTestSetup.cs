@@ -1,3 +1,4 @@
+using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
@@ -12,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Npgsql;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E;
 

@@ -1,4 +1,8 @@
+using System.Net;
+
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
+
+using NUnit.Framework;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 

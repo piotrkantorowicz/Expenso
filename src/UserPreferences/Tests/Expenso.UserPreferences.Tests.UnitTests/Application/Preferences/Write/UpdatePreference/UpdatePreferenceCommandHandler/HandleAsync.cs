@@ -8,6 +8,12 @@ using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePref
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
 
+using FluentAssertions;
+
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;
 

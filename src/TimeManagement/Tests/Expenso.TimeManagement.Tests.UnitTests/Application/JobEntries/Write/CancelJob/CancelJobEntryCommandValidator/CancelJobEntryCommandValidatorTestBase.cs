@@ -4,6 +4,8 @@ using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry;
 using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry.DTO.Request;
 using Expenso.TimeManagement.Core.Application.JobEntries.Write.CancelJobEntry.DTO.Request.Validators;
 
+using NUnit.Framework;
+
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.CancelJob.CancelJobEntryCommandValidator;
 
 [TestFixture]

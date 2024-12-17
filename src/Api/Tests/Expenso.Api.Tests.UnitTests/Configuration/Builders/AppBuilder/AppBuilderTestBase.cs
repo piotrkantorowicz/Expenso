@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Moq;
+
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
 [TestFixture]

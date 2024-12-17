@@ -2,6 +2,8 @@
 using Expenso.Shared.System.Configuration.Settings.Files;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
+using NUnit.Framework;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.FileSettingsValidator;
 
 [TestFixture]
