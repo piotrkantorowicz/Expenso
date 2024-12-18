@@ -45,8 +45,8 @@ internal abstract class NotificationServiceFactoryTestBase : TestBase<INotificat
         TestCandidate = null!;
     }
 
-    private Mock<IInAppService> _inAppService;
-    private Mock<IEmailService> _emailService;
-    private Mock<IPushService> _pushService;
-    protected IDictionary<string, INotificationService> _servicesDictionary;
+    private Mock<IInAppService> _inAppService = null!;
+    private Mock<IEmailService> _emailService = null!;
+    private Mock<IPushService> _pushService = null!;
+    protected IDictionary<string, INotificationService> _servicesDictionary = null!;
 }

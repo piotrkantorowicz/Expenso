@@ -5,6 +5,7 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Pagination;
 
 namespace Expenso.IAM.Shared;
 
@@ -16,6 +17,6 @@ public interface IIamProxy
     Task<GetUserByEmailResponse?> GetUserByEmailAsync(GetUserByEmailRequest request,
         IMessageContext? messageContext = null, CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+    Task<IPagedList<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request, Paging? pagination = null,
         IMessageContext? messageContext = null, CancellationToken cancellationToken = default);
 }

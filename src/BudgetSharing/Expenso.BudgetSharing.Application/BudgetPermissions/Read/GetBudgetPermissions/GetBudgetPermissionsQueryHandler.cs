@@ -6,12 +6,13 @@ using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.ExecutionContext;
+using Expenso.Shared.System.Types.Pagination;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
 
 internal sealed class
     GetBudgetPermissionsQueryHandler : IQueryHandler<GetBudgetPermissionsQuery,
-    IReadOnlyCollection<GetBudgetPermissionsResponse>>
+    IPagedList<GetBudgetPermissionsResponse>>
 {
     private readonly IBudgetPermissionQueryStore _budgetPermissionStore;
     private readonly IExecutionContextAccessor _executionContextAccessor;
@@ -26,7 +27,7 @@ internal sealed class
                                     throw new ArgumentNullException(paramName: nameof(executionContextAccessor));
     }
 
-    public async Task<IReadOnlyCollection<GetBudgetPermissionsResponse>?> HandleAsync(GetBudgetPermissionsQuery query,
+    public async Task<IPagedList<GetBudgetPermissionsResponse>?> HandleAsync(GetBudgetPermissionsQuery query,
         CancellationToken cancellationToken)
     {
         Guid? participantId = query.Payload?.ParticipantId;
@@ -45,13 +46,14 @@ internal sealed class
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
             BudgetCode = BudgetCode.Nullable(value: query.Payload?.BudgetCode),
             ParticipantId = PersonId.Nullable(value: participantId),
-            PermissionTypes = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
+            PermissionTypes = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType),
+            Pagination = query.Pagination
         };
 
-        IReadOnlyList<BudgetPermission> budgetPermissions =
+        IPagedList<BudgetPermission> budgetPermissions =
             await _budgetPermissionStore.BrowseAsync(filter: filter, cancellationToken: cancellationToken);
 
-        IReadOnlyCollection<GetBudgetPermissionsResponse> budgetPermissionsResponse =
+        IPagedList<GetBudgetPermissionsResponse> budgetPermissionsResponse =
             GetBudgetPermissionsResponseMap.MapTo(budgetPermissions: budgetPermissions);
 
         return budgetPermissionsResponse;

@@ -1,4 +1,5 @@
 ﻿using Expenso.IAM.Shared.DTO.GetUsers.Request;
+using Expenso.Shared.System.Types.Pagination;
 
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
@@ -6,7 +7,7 @@ namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 
 public static class GetUsersRequestMap
 {
-    public static GetUsersRequestParameters MapTo(GetUsersRequest? request)
+    public static GetUsersRequestParameters MapTo(GetUsersRequest? request, Paging? pagination)
     {
         return new GetUsersRequestParameters
         {
@@ -15,8 +16,8 @@ public static class GetUsersRequestMap
             LastName = request?.Lastname,
             Email = request?.Email,
             Username = request?.Username,
-            Max = request?.Limit,
-            Exact = request?.Exact
+            Exact = request?.Exact,
+            Max = pagination?.Limit
         };
     }
 }

@@ -41,6 +41,7 @@ using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Pagination;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -107,19 +108,20 @@ public sealed class BudgetSharingModule : IModuleDefinition
             Pattern: "budget-permission-requests", Name: "GetBudgetPermissionRequests",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
                 [FromServices]
-                IQueryHandler<GetBudgetPermissionRequestsQuery,
-                    IReadOnlyCollection<GetBudgetPermissionRequestsResponse>> handler,
-                [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
+                IQueryHandler<GetBudgetPermissionRequestsQuery, IPagedList<GetBudgetPermissionRequestsResponse>>
+                    handler, [FromServices] IMessageContextFactory messageContextFactory,
+                [FromQuery] Guid? budgetId = null,
                 [FromQuery] Guid? participantId = null, [FromQuery] Guid? ownerId = null,
                 [FromQuery] bool? forCurrentUser = null, [FromQuery] string? budgetCode = null,
                 [FromQuery] GetBudgetPermissionRequestsRequestStatus status =
                     GetBudgetPermissionRequestsRequestStatus.All,
                 [FromQuery] GetBudgetPermissionRequestsRequestPermissionType permissionType =
-                    GetBudgetPermissionRequestsRequestPermissionType.All,
+                    GetBudgetPermissionRequestsRequestPermissionType.All, [FromQuery] Paging? pagination = null,
                 CancellationToken cancellationToken = default) =>
             {
-                IReadOnlyCollection<GetBudgetPermissionRequestsResponse>? response = await handler.HandleAsync(
+                IPagedList? response = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestsQuery(MessageContext: messageContextFactory.Current(),
+                        Pagination: pagination,
                         Payload: new GetBudgetPermissionRequestsRequest(BudgetId: budgetId, BudgetCode: budgetCode,
                             ParticipantId: participantId, OwnerId: ownerId, ForCurrentUser: forCurrentUser,
                             Status: status, PermissionType: permissionType)), cancellationToken: cancellationToken);
@@ -217,15 +219,17 @@ public sealed class BudgetSharingModule : IModuleDefinition
         EndpointRegistration getBudgetPermissionsEndpointRegistration = new(Pattern: "budget-permissions",
             Name: "GetBudgetPermissions", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
                 [FromServices]
-                IQueryHandler<GetBudgetPermissionsQuery, IReadOnlyCollection<GetBudgetPermissionsResponse>> handler,
+                IQueryHandler<GetBudgetPermissionsQuery, IPagedList<GetBudgetPermissionsResponse>> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? budgetId = null,
                 [FromQuery] Guid? ownerId = null, [FromQuery] Guid? participantId = null,
                 [FromQuery] string? budgetCode = null, [FromQuery] bool? forCurrentUser = null,
                 [FromQuery] GetBudgetPermissionsRequestPermissionType permissionType =
-                    GetBudgetPermissionsRequestPermissionType.All, CancellationToken cancellationToken = default) =>
+                    GetBudgetPermissionsRequestPermissionType.All, [FromQuery] Paging? pagination = null,
+                CancellationToken cancellationToken = default) =>
             {
-                IReadOnlyCollection<GetBudgetPermissionsResponse>? getPreferences = await handler.HandleAsync(
+                IPagedList? getPreferences = await handler.HandleAsync(
                     query: new GetBudgetPermissionsQuery(MessageContext: messageContextFactory.Current(),
+                        Pagination: pagination,
                         Payload: new GetBudgetPermissionsRequest(BudgetId: budgetId, OwnerId: ownerId,
                             BudgetCode: budgetCode, ParticipantId: participantId, PermissionType: permissionType,
                             ForCurrentUser: forCurrentUser)), cancellationToken: cancellationToken);

@@ -12,6 +12,7 @@ using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Pagination;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -68,19 +69,13 @@ internal sealed class FakeIamProxy : IIamProxy
                         identifier: request.Email)));
     }
 
-    public async Task<IReadOnlyCollection<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+    public async Task<IPagedList<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request, Paging? pagination = null,
         IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
-        if (request.Limit <= 0)
-        {
-            throw new ArgumentException(message: "Limit cannot be negative or equal to 0",
-                paramName: nameof(request.Limit));
-        }
-
-        return GetUsersResponseMap.MapTo(users: await Task.FromResult(result: _users
-            .Where(predicate: request.Exact ? PredicateExact : PredicateRelative)
-            .Take(count: request.Limit ?? int.MaxValue)
-            .ToList()));
+        return GetUsersResponseMap.MapTo(
+            users: await Task.FromResult(result: _users
+                .Where(predicate: request.Exact ? PredicateExact : PredicateRelative)
+                .ToList()), pagination: pagination);
 
         bool PredicateRelative(UserRepresentation x)
         {

@@ -1,4 +1,6 @@
 ﻿using Expenso.IAM.Shared.DTO.GetUsers.Response;
+using Expenso.Shared.System.Types.Collections;
+using Expenso.Shared.System.Types.Pagination;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -6,9 +8,9 @@ namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 
 public static class GetUsersResponseMap
 {
-    public static IReadOnlyCollection<GetUsersResponse> MapTo(IEnumerable<UserRepresentation> users)
+    public static IPagedList<GetUsersResponse> MapTo(IEnumerable<UserRepresentation> users, Paging? pagination)
     {
-        return new List<GetUsersResponse>(collection: users.Select(selector: MapTo)).AsReadOnly();
+        return users.Pagination(pagination: pagination).Map(map: MapTo);
     }
 
     public static GetUsersResponse MapTo(UserRepresentation user)

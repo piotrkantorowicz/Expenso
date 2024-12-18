@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 
 using FluentAssertions;
@@ -24,8 +25,8 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         // Assert
         AssertResponseOk(response: response);
 
-        IReadOnlyCollection<GetJobEntriesResponse>? responseContent =
-            await response.Content.ReadFromJsonAsync<IReadOnlyCollection<GetJobEntriesResponse>>();
+        IPagedList<GetJobEntriesResponse>? responseContent =
+            await response.Content.ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
 
         responseContent?.Should().NotBeNull();
     }

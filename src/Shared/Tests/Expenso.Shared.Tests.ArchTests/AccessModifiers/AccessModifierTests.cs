@@ -19,7 +19,9 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "MessageContext",
             "OrExpression",
             "AndExpression",
-            "NpsqlDbContextFactory"
+            "NpsqlDbContextFactory",
+            "Paged",
+            "Paging"
         ], notSealed:
         [
             "TestBase",

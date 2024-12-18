@@ -1,3 +1,4 @@
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
@@ -5,9 +6,9 @@ namespace Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.
 
 internal static class GetJobEntriesResponseMap
 {
-    public static IReadOnlyCollection<GetJobEntriesResponse> MapTo(IReadOnlyCollection<JobEntry> jobEntries)
+    public static IPagedList<GetJobEntriesResponse> MapTo(IPagedList<JobEntry> jobEntries)
     {
-        return jobEntries.Select(selector: MapTo).ToList();
+        return jobEntries.Map(map: MapTo);
     }
 
     private static GetJobEntriesResponse MapTo(JobEntry jobEntry)

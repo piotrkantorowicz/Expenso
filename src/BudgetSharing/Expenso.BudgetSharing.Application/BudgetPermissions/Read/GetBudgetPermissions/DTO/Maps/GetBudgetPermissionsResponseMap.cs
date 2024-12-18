@@ -1,15 +1,15 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
+using Expenso.Shared.System.Types.Pagination;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Maps;
 
 internal static class GetBudgetPermissionsResponseMap
 {
-    public static IReadOnlyCollection<GetBudgetPermissionsResponse> MapTo(
-        IEnumerable<BudgetPermission> budgetPermissions)
+    public static IPagedList<GetBudgetPermissionsResponse> MapTo(IPagedList<BudgetPermission> budgetPermissions)
     {
-        return budgetPermissions.Select(selector: MapTo).ToList();
+        return budgetPermissions.Map(map: MapTo);
     }
 
     private static GetBudgetPermissionsResponse MapTo(BudgetPermission budgetPermission)

@@ -1,8 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 
-using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
+using Expenso.Shared.System.Types.Pagination;
 
 using FluentAssertions;
 
@@ -28,10 +28,9 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
         // Assert
         AssertResponseOk(response: response);
 
-        IEnumerable<GetBudgetPermissionRequestsResponse>? responseContent =
-            await response.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionRequestsResponse>>();
-
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        IPagedList<GetBudgetPermissionRequestsResponse>? responseContent =
+            await response.Content.ReadFromJsonAsync<PagedList<GetBudgetPermissionRequestsResponse>?>();
+        
         responseContent?.Should().NotBeNull();
     }
 

@@ -1,6 +1,7 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
+using Expenso.Shared.System.Types.Pagination;
 
 using FluentAssertions;
 
@@ -21,15 +22,21 @@ internal sealed class GetUsersAsync : IamProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.IsAny<GetUsersQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUsersResponse);
+            .ReturnsAsync(value: PagedList<GetUsersResponse>.Create(items: _getUsersResponse, currentPage: 1,
+                resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        IReadOnlyCollection<GetUsersResponse>? getUsersResponse = await TestCandidate.GetUsersAsync(
-            request: new GetUsersRequest(), cancellationToken: It.IsAny<CancellationToken>());
+        IPagedList<GetUsersResponse>? getUsersResponse =
+            await TestCandidate.GetUsersAsync(request: new GetUsersRequest(),
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUsersResponse.Should().NotBeNull();
-        getUsersResponse.Should().BeEquivalentTo(expectation: _getUsersResponse);
+        getUsersResponse?.Should().NotBeNull();
+        getUsersResponse?.CurrentPage.Should().Be(expected: Paging.Default.Page);
+        getUsersResponse?.TotalPages.Should().Be(expected: Paging.Default.Page);
+        getUsersResponse?.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
+        getUsersResponse?.TotalResults.Should().Be(expected: _getUsersResponse.Count);
+        getUsersResponse?.Items.Should().BeEquivalentTo(expectation: _getUsersResponse);
 
         _queryDispatcherMock.Verify(
             expression: x => x.QueryAsync(It.IsAny<GetUsersQuery>(), It.IsAny<CancellationToken>()), times: Times.Once);
@@ -44,8 +51,8 @@ internal sealed class GetUsersAsync : IamProxyTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        IReadOnlyCollection<GetUsersResponse>? getUsersResponse = await TestCandidate.GetUsersAsync(
-            request: new GetUsersRequest(), cancellationToken: It.IsAny<CancellationToken>());
+        IPagedList? getUsersResponse = await TestCandidate.GetUsersAsync(request: new GetUsersRequest(),
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUsersResponse.Should().BeNull();

@@ -6,6 +6,7 @@ using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Pagination;
 
 namespace Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 
@@ -25,18 +26,20 @@ internal sealed class IamProxyService : IIamProxyService
         PersonId ownerId, IReadOnlyCollection<PersonId> participantIds, CancellationToken cancellationToken)
     {
         // As long as keycloak not support get many users by ids, we will get all users and filter them
-        // it is not optimal, but we don't have so many users in the system so it is fine for now
+        // it is not optimal, but we don't have so many users in the system, so it is fine, for now
         // there is a feature request to add get many users by ids in keycloak
         // https://github.com/keycloak/keycloak/issues/12025
-        IReadOnlyCollection<GetUsersResponse> users = await _iamProxy.GetUsersAsync(
-            request: new GetUsersRequest(Limit: int.MaxValue), cancellationToken: cancellationToken) ?? [];
+        IPagedList<GetUsersResponse> users = await _iamProxy.GetUsersAsync(request: new GetUsersRequest(),
+                                                 pagination: new Paging(page: 1, limit: int.MaxValue),
+                                                 cancellationToken: cancellationToken) ??
+                                             PagedList<GetUsersResponse>.AsEmpty;
 
         ICollection<NotificationRecipient> participantsNotificationModels = users
-            .Where(predicate: x => participantIds.Select(selector: y => y.ToString()).Contains(value: x.UserId))
+            .Items.Where(predicate: x => participantIds.Select(selector: y => y.ToString()).Contains(value: x.UserId))
             .Select(selector: x => new NotificationRecipient(UserId: x.UserId, Email: x.Email, Fullname: x.Fullname))
             .ToList();
 
-        GetUsersResponse? owner = users.FirstOrDefault(predicate: x => x.UserId == ownerId.ToString());
+        GetUsersResponse? owner = users.Items.FirstOrDefault(predicate: x => x.UserId == ownerId.ToString());
 
         if (owner is null)
         {

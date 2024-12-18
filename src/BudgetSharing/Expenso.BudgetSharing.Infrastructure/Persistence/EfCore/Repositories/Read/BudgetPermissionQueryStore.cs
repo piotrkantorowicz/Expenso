@@ -3,6 +3,7 @@ using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Extensions;
 using Expenso.Shared.Database.EfCore.Queryable;
+using Expenso.Shared.System.Types.Pagination;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -25,11 +26,10 @@ internal sealed class BudgetPermissionQueryStore : IBudgetPermissionQueryStore
             .SingleOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyList<BudgetPermission>> BrowseAsync(BudgetPermissionFilter filter,
+    public async Task<IPagedList<BudgetPermission>> BrowseAsync(BudgetPermissionFilter filter,
         CancellationToken cancellationToken)
     {
-        return await _budgetPermissionsQueryable
-            .Where(predicate: filter.ToFilterExpression())
-            .ToListAsync(cancellationToken: cancellationToken);
+        return await _budgetPermissionsQueryable.PaginationAsync(filter: filter.ToFilterExpression(),
+            pagination: filter.Pagination, cancellationToken: cancellationToken);
     }
 }

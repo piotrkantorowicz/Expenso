@@ -10,6 +10,7 @@ using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
+using Expenso.Shared.System.Types.Pagination;
 
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -61,9 +62,9 @@ internal sealed class UserService : IUserService
             throw ConflictException.MultipleRecordsFound(resourceName: "User", identifierType: IdentifierType.Email(),
                 identifier: request?.Email);
         }
-        
+
         UserRepresentation? user = keycloakUsers.Count is 0 ? null : keycloakUsers.Single();
-        
+
         if (user is null)
         {
             throw new NotFoundException(resourceName: "User", identifierType: IdentifierType.Email(),
@@ -75,13 +76,14 @@ internal sealed class UserService : IUserService
         return getUserResponse;
     }
 
-    public async Task<IReadOnlyCollection<GetUsersResponse>> GetUsersAsync(GetUsersRequest? request,
+    public async Task<IPagedList<GetUsersResponse>> GetUsersAsync(GetUsersRequest? request, Paging? pagination,
         CancellationToken cancellationToken)
     {
         List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(
-            realm: _keycloakSettings.Realm, parameters: GetUsersRequestMap.MapTo(request: request),
+            realm: _keycloakSettings.Realm,
+            parameters: GetUsersRequestMap.MapTo(request: request, pagination: pagination),
             cancellationToken: cancellationToken)).ToList();
 
-        return GetUsersResponseMap.MapTo(users: keycloakUsers);
+        return GetUsersResponseMap.MapTo(users: keycloakUsers, pagination: pagination);
     }
 }

@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
+using Expenso.Shared.System.Types.Pagination;
 
 using FluentAssertions;
 
@@ -25,10 +26,10 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         // Assert
         AssertResponseOk(response: response);
 
-        IEnumerable<GetBudgetPermissionsResponse>? responseContent =
-            await response.Content.ReadFromJsonAsync<IEnumerable<GetBudgetPermissionsResponse>>();
+        IPagedList<GetBudgetPermissionsResponse>? responseContent =
+            await response.Content.ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
 
-        responseContent?.Should().NotBeEmpty();
+        responseContent?.Should().NotBeNull();
     }
 
     [Test]

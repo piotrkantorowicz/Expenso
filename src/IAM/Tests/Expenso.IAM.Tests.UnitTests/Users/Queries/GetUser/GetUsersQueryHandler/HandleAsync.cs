@@ -1,6 +1,7 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
+using Expenso.Shared.System.Types.Pagination;
 
 using FluentAssertions;
 
@@ -17,30 +18,34 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     public async Task Should_ReturnUsers_When_WithNoFilterAndUserExists()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Payload: new GetUsersRequest());
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+            Payload: new GetUsersRequest());
+
         GetUsersRequest getUsersRequest = new();
 
         _userServiceMock
-            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _getUserByIdResponse);
+            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, Paging.Default, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: _getUsersResponse);
 
         // Act
-        IReadOnlyCollection<GetUsersResponse>? result =
+        IPagedList? result =
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(expectation: _getUserByIdResponse);
+        result.Should().BeEquivalentTo(expectation: _getUsersResponse);
     }
 
     [Test]
     public async Task Should_ThrowException_When_ServiceThrowsException()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Payload: new GetUsersRequest());
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+            Payload: new GetUsersRequest());
 
         _userServiceMock
-            .Setup(expression: x => x.GetUsersAsync(It.IsAny<GetUsersRequest>(), It.IsAny<CancellationToken>()))
+            .Setup(expression: x =>
+                x.GetUsersAsync(It.IsAny<GetUsersRequest>(), Paging.Default, It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new Exception(message: "Service error"));
 
         // Act & Assert
@@ -54,35 +59,39 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     public async Task Should_ReturnEmptyCollection_When_UsersHasNotBeenFound()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Payload: new GetUsersRequest());
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+            Payload: new GetUsersRequest());
+
         GetUsersRequest getUsersRequest = new();
 
-        _userServiceMock.Setup(expression: x => x.GetUsersAsync(getUsersRequest, It.IsAny<CancellationToken>()))!
-            .ReturnsAsync(value: []);
+        _userServiceMock
+            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, Paging.Default, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<GetUsersResponse>.AsEmpty);
 
         // Act
-        IReadOnlyCollection<GetUsersResponse>? result =
+        IPagedList<GetUsersResponse>? getUsersResponse =
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().BeEmpty();
+        getUsersResponse?.Items.Should().BeEmpty();
     }
 
     [Test]
     public async Task Should_ReturnEmptyCollection_When_RequestIsNull()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Payload: null);
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+            Payload: null);
 
         _userServiceMock
-            .Setup(expression: x => x.GetUsersAsync(null, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: []);
+            .Setup(expression: x => x.GetUsersAsync(null, Paging.Default, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<GetUsersResponse>.AsEmpty);
 
         // Act
-        IReadOnlyCollection<GetUsersResponse>? result =
+        IPagedList<GetUsersResponse>? getUsersResponse =
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().BeEmpty();
+        getUsersResponse?.Items.Should().BeEmpty();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Expenso.Shared.Database.EfCore.Queryable;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
@@ -26,14 +27,13 @@ internal sealed class JobEntryRepository : IJobEntryRepository
             .SingleOrDefaultAsync(predicate: querySpecification.Filter(), cancellationToken: cancellationToken);
     }
 
-    public async Task<IReadOnlyCollection<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification,
-        CancellationToken cancellationToken)
+    public async Task<IPagedList<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification,
+        Paging? pagination, CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
             .JobEntries.Tracking(useTracking: querySpecification.UseTracking)
-            .IncludeMany(includeExpression: querySpecification.Include())
-            .Where(predicate: querySpecification.Filter())
-            .ToListAsync(cancellationToken: cancellationToken);
+            .PaginationAsync(filter: querySpecification.Filter(), pagination: pagination,
+                cancellationToken: cancellationToken);
     }
 
     public async Task AddOrUpdateAsync(JobEntry jobEntry, CancellationToken cancellationToken)

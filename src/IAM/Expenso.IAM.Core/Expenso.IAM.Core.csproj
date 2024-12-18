@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries.Pagination\Expenso.Shared.Queries.Pagination.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
         <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj"/>
