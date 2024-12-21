@@ -22,8 +22,9 @@ internal sealed class GetUsersAsync : IamProxyTestBase
         // Arrange
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.IsAny<GetUsersQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: PagedList<GetUsersResponse>.Create(items: _getUsersResponse, currentPage: 1,
-                resultsPerPage: 10, totalPages: 1, totalResults: 1));
+            .ReturnsAsync(value: PagedList<GetUsersResponse>.Create(items: _getUsersResponse,
+                currentPage: Paging.Default.Page, resultsPerPage: Paging.Default.Limit, totalPages: Paging.Default.Page,
+                totalResults: _getUsersResponse.Count));
 
         // Act
         IPagedList<GetUsersResponse>? getUsersResponse =
@@ -51,8 +52,9 @@ internal sealed class GetUsersAsync : IamProxyTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        IPagedList? getUsersResponse = await TestCandidate.GetUsersAsync(request: new GetUsersRequest(),
-            cancellationToken: It.IsAny<CancellationToken>());
+        IPagedList<GetUsersResponse>? getUsersResponse =
+            await TestCandidate.GetUsersAsync(request: new GetUsersRequest(),
+                cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUsersResponse.Should().BeNull();

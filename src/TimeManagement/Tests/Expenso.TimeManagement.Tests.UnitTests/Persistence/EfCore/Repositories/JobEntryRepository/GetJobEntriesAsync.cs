@@ -29,4 +29,22 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
         jobEntries.TotalResults.Should().Be(expected: _jobEntriesIds.Count);
         jobEntries.Items.Should().HaveCount(expected: _jobEntriesIds.Count);
     }
+
+    [Test]
+    public async Task Should_ReturnCorrectPage_When_CustomPaginationProvided()
+    {
+        // Arrange
+        JobEntryQuerySpecification querySpecification = new(UseTracking: false);
+        Paging? customPaging = new(page: 2, limit: 5);
+
+        // Act 
+        IPagedList<JobEntry> jobEntries = await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,
+            pagination: customPaging, cancellationToken: default);
+
+        // Assert
+        jobEntries.Should().NotBeNull();
+        jobEntries.CurrentPage.Should().Be(expected: 2);
+        jobEntries.ResultsPerPage.Should().Be(expected: 5);
+        jobEntries.Items.Should().HaveCountLessOrEqualTo(expected: 5);
+    }
 }

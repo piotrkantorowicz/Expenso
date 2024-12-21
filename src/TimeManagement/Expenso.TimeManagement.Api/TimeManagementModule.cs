@@ -78,9 +78,9 @@ public sealed class TimeManagementModule : IModuleDefinition
                 [FromQuery] bool? hasTriggers = null, [FromQuery] GetJobEntriesRequestJobEntryIncludes? includes = null,
                 [FromQuery] Paging? pagination = null, CancellationToken cancellationToken = default) =>
             {
-                IPagedList? response = await handler.HandleAsync(
+                IPagedList<GetJobEntriesResponse>? response = await handler.HandleAsync(
                     query: new GetJobEntriesQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination,
+                        Pagination: pagination ?? Paging.Default,
                         Payload: new GetJobEntriesRequest(JobEntryId: jobEntryId, JobInstanceId: jobInstanceId,
                             JobEntryStatusIds: jobEntryStatusIds, MoreThanRetries: moreThanRetries,
                             IsCompleted: isCompleted, HasRun: hasRun, IsActive: isActive, HasTriggers: hasTriggers,

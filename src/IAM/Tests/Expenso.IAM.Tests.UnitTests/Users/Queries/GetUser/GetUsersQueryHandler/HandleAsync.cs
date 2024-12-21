@@ -28,7 +28,7 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
             .ReturnsAsync(value: _getUsersResponse);
 
         // Act
-        IPagedList? result =
+        IPagedList<GetUsersResponse>? result =
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert

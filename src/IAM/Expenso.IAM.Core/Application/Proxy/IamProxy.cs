@@ -52,7 +52,7 @@ internal sealed class IamProxy : IIamProxy
         return await _queryDispatcher.QueryAsync(
             query: new GetUsersQuery(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: ModuleNames.IamModule), Pagination: pagination, Payload: request),
+                    moduleId: ModuleNames.IamModule), Pagination: pagination ?? Paging.Default, Payload: request),
             cancellationToken: cancellationToken);
     }
 }

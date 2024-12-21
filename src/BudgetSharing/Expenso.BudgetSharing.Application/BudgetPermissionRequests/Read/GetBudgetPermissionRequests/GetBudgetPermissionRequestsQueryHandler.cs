@@ -53,7 +53,7 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
         };
 
         IPagedList<BudgetPermissionRequest> budgetPermissionRequests =
-            await _budgetPermissionRequestStore.Browse(filter: filter, cancellationToken: cancellationToken);
+            await _budgetPermissionRequestStore.BrowseAsync(filter: filter, cancellationToken: cancellationToken);
 
         IPagedList<GetBudgetPermissionRequestsResponse> budgetPermissionRequestsResponse =
             GetBudgetPermissionRequestsResponseMap.MapTo(budgetPermissionRequests: budgetPermissionRequests);

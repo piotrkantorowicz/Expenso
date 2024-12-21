@@ -29,7 +29,7 @@ internal sealed class BudgetPermissionRequestQueryStore : IBudgetPermissionReque
             .SingleOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
-    public async Task<IPagedList<BudgetPermissionRequest>> Browse(BudgetPermissionRequestFilter filter,
+    public async Task<IPagedList<BudgetPermissionRequest>> BrowseAsync(BudgetPermissionRequestFilter filter,
         CancellationToken cancellationToken)
     {
         return await _budgetPermissionRequestsQueryable.PaginationAsync(filter: filter.ToFilterExpression(),

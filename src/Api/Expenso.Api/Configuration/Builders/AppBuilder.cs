@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 
-using Expenso.Api.Configuration.Binders;
 using Expenso.Api.Configuration.Builders.Interfaces;
 using Expenso.Api.Configuration.Configurators;
 using Expenso.Api.Configuration.Configurators.Interfaces;
@@ -21,7 +20,6 @@ using Expenso.Shared.Integration.Events.Logging;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.Queries;
 using Expenso.Shared.Queries.Logging;
-using Expenso.Shared.Queries.Pagination;
 using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Configuration.Settings.Auth;
 using Expenso.Shared.System.Logging;
@@ -97,7 +95,6 @@ internal sealed class AppBuilder : IAppBuilder
             .AddCommandsLogging()
             .AddQueries(assemblies: assemblies)
             .AddQueryLogging()
-            .AddQueryPaging()
             .AddDomainEvents(assemblies: assemblies)
             .AddDomainEventsLogging()
             .AddIntegrationEvents(assemblies: assemblies)
@@ -121,11 +118,7 @@ internal sealed class AppBuilder : IAppBuilder
 
     public IAppBuilder ConfigureMvc()
     {
-        _services.AddMvcCore(setupAction: options =>
-        {
-            options.ModelBinderProviders.Insert(index: 0, item: new PaginationModelBinderProvider());
-        });
-
+        _services.AddMvcCore();
         _services.AddEndpointsApiExplorer();
         _services.AddExceptionHandler<GlobalExceptionHandler>();
         _services.AddProblemDetails();

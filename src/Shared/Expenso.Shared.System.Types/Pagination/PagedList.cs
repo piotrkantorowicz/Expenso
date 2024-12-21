@@ -1,14 +1,19 @@
-﻿namespace Expenso.Shared.System.Types.Pagination;
+﻿using System.Text.Json.Serialization;
+
+using Expenso.Shared.System.Types.Pagination.Constants;
+
+namespace Expenso.Shared.System.Types.Pagination;
 
 public sealed record PagedList<T> : IPagedList<T>
 {
     // Required to be public for serialization
     // ReSharper disable once MemberCanBePrivate.Global
-    public PagedList() : this(items: Array.Empty<T>(), currentPage: 1, resultsPerPage: 1, totalPages: 10,
-        totalResults: 0)
+    public PagedList() : this(items: Array.Empty<T>(), currentPage: PaginationDefaults.Page,
+        resultsPerPage: PaginationDefaults.Limit, totalPages: PaginationDefaults.Page, totalResults: 0)
     {
     }
 
+    [JsonConstructor]
     private PagedList(IReadOnlyCollection<T> items, int currentPage, int resultsPerPage, int totalPages,
         long totalResults)
     {

@@ -9,6 +9,6 @@ public interface IBudgetPermissionRequestQueryStore
     Task<BudgetPermissionRequest?> SingleAsync(BudgetPermissionRequestFilter filter,
         CancellationToken cancellationToken);
 
-    Task<IPagedList<BudgetPermissionRequest>> Browse(BudgetPermissionRequestFilter filter,
+    Task<IPagedList<BudgetPermissionRequest>> BrowseAsync(BudgetPermissionRequestFilter filter,
         CancellationToken cancellationToken);
 }

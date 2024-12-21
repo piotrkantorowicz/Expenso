@@ -43,6 +43,26 @@ internal abstract class JobEntryRepositoryTestBase : TestBase<IJobEntryRepositor
                 MaxRetries = 10,
                 IsCompleted = true,
                 LastRun = _clockMock.Object.UtcNow.AddHours(hours: -3)
+            },
+            new JobEntry
+            {
+                Id = _jobEntriesIds[index: 3],
+                MaxRetries = 5,
+                IsCompleted = true,
+                LastRun = _clockMock.Object.UtcNow.AddHours(hours: -6)
+            },
+            new JobEntry
+            {
+                Id = _jobEntriesIds[index: 4],
+                MaxRetries = 3,
+                IsCompleted = true,
+                LastRun = _clockMock.Object.UtcNow.AddHours(hours: -8)
+            },
+            new JobEntry
+            {
+                Id = _jobEntriesIds[index: 5],
+                MaxRetries = 15,
+                IsCompleted = false
             }
         ];
 
@@ -67,13 +87,16 @@ internal abstract class JobEntryRepositoryTestBase : TestBase<IJobEntryRepositor
     [
         new(g: "19967114-32ef-4202-90c8-3aa590d14a03"),
         new(g: "87ddf365-e001-4949-abae-451d7ccd46c1"),
-        new(g: "d3b1e36e-f188-4858-8d07-1b8bcd1b87fb")
+        new(g: "d3b1e36e-f188-4858-8d07-1b8bcd1b87fb"),
+        new(g: "9088d3fe-ac68-4f20-8925-ac8301563bf4"),
+        new(g: "ec12f742-4c3b-4c40-b390-27ec12b31cf1"),
+        new(g: "50796966-373d-4fb5-bb61-2b7499b0ce64")
     ];
 
-    protected Mock<IClock> _clockMock = null!;
     protected Mock<ITimeManagementDbContext> _dbContextMock = null!;
     protected Mock<DbSet<JobEntry>> _jobEntriesDbSetMock = null!;
     private IList<JobEntry> _jobEntries = null!;
+    private Mock<IClock> _clockMock = null!;
 
     protected IList<JobEntry> JobEntries => _jobEntries.AsReadOnly();
 
