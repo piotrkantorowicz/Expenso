@@ -33,15 +33,10 @@ public sealed record Paging
 
         string[] parts = value.Split(separator: ',');
 
-        if (parts.Length != 2 || !int.TryParse(s: parts[0], result: out int page) ||
-            !int.TryParse(s: parts[1], result: out int limit))
-        {
-            paging = Default;
-        }
-        else
-        {
-            paging = new Paging(page: page, limit: limit);
-        }
+        paging = parts.Length != 2 || !int.TryParse(s: parts[0], result: out int page) ||
+                 !int.TryParse(s: parts[1], result: out int limit)
+            ? Default
+            : new Paging(page: page, limit: limit);
 
         return true;
     }
