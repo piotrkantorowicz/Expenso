@@ -27,7 +27,7 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 
         // Act
         TestCommandResult commandResult =
-            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
         commandResult.Should().NotBeNull();
@@ -54,7 +54,7 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
         await action

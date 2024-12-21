@@ -6,6 +6,8 @@ using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.Shared.System.Types.Clock;
 using Expenso.Shared.System.Types.Constants;
+using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Pagination.Constants;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
@@ -64,10 +66,11 @@ internal sealed class JobExecution : IJobExecution
             JobEntryQuerySpecification querySpecification =
                 new(JobInstanceId: jobInstanceId, IsActive: true, UseTracking: true);
 
-            IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
-                querySpecification: querySpecification, cancellationToken: stoppingToken);
+            IPagedList<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
+                querySpecification: querySpecification,
+                pagination: new Paging(page: 1, limit: PaginationDefaults.MaxLimit), cancellationToken: stoppingToken);
 
-            if (jobEntries.Count == 0)
+            if (jobEntries.Items.Count == 0)
             {
                 _logger.LogInfo(eventId: LoggingUtils.BackgroundJobGeneralInformation,
                     message: "No active job entries found. Job instance ID {JobInstanceId}", args: jobInstanceId);
@@ -85,7 +88,7 @@ internal sealed class JobExecution : IJobExecution
                 return;
             }
 
-            foreach (JobEntry jobEntry in jobEntries)
+            foreach (JobEntry jobEntry in jobEntries.Items)
             {
                 if (jobEntry.Triggers.Count == 0)
                 {

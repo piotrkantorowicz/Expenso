@@ -1,6 +1,7 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
+using Expenso.Shared.System.Types.Pagination;
 
 using FluentAssertions;
 
@@ -29,21 +30,29 @@ internal sealed class GetUsersAsync : UserServiceTestBase
             Email = "mai@email.com"
         };
 
+        UserRepresentation[] users =
+        [
+            _user, secondUser
+        ];
+
         _keycloakUserClientMock
             .Setup(expression: x => x.GetUsersAsync(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value:
-            [
-                _user, secondUser
-            ]);
+            .ReturnsAsync(value: users);
 
         // Act
-        IReadOnlyCollection<GetUsersResponse> getUsers = await TestCandidate.GetUsersAsync(
-            request: new GetUsersRequest(UserId: _userId), cancellationToken: It.IsAny<CancellationToken>());
+        IPagedList<GetUsersResponse> getUsers = await TestCandidate.GetUsersAsync(
+            request: new GetUsersRequest(UserId: _userId), pagination: Paging.Default,
+            cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUsers.Should().NotBeNull();
-        getUsers.Should().HaveCount(expected: 2);
+        getUsers.CurrentPage.Should().Be(expected: Paging.Default.Page);
+        getUsers.TotalPages.Should().Be(expected: (int)Math.Ceiling(a: users.Length / (double)Paging.Default.Limit));
+
+        getUsers.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
+        getUsers.TotalResults.Should().Be(expected: 2);
+        getUsers.Items.Should().HaveCount(expected: 2);
 
         IReadOnlyCollection<GetUsersResponse> expectedUsers = new List<GetUsersResponse>
         {
@@ -51,7 +60,7 @@ internal sealed class GetUsersAsync : UserServiceTestBase
             GetUsersResponseMap.MapTo(user: secondUser)
         };
 
-        getUsers.Should().BeEquivalentTo(expectation: expectedUsers);
+        getUsers.Items.Should().BeEquivalentTo(expectation: expectedUsers);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>(),

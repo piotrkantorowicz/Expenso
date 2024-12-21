@@ -6,5 +6,4 @@ public sealed record GetUsersRequest(
     string? Username = null,
     string? Firstname = null,
     string? Lastname = null,
-    int? Limit = null,
     bool Exact = true);

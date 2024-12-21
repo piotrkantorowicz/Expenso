@@ -5,6 +5,7 @@ using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Request;
@@ -69,27 +70,27 @@ public sealed class TimeManagementModule : IModuleDefinition
 
         EndpointRegistration getJobEntriesEndpointRegistration = new(Pattern: "job-entries", Name: "GetJobEntries",
             AccessControl: AccessControl.User, HttpVerb: HttpVerb.Get, Handler: async (
-                [FromServices] IQueryHandler<GetJobEntriesQuery, IReadOnlyCollection<GetJobEntriesResponse>> handler,
+                [FromServices] IQueryHandler<GetJobEntriesQuery, IPagedList<GetJobEntriesResponse>> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromQuery] Guid? jobEntryId = null,
                 [FromQuery] Guid? jobInstanceId = null, [FromQuery] Guid[]? jobEntryStatusIds = null,
                 [FromQuery] int? moreThanRetries = null, [FromQuery] bool? isCompleted = null,
                 [FromQuery] bool? hasRun = null, [FromQuery] bool? isActive = null,
                 [FromQuery] bool? hasTriggers = null, [FromQuery] GetJobEntriesRequestJobEntryIncludes? includes = null,
-                CancellationToken cancellationToken = default) =>
+                [FromQuery] Paging? pagination = null, CancellationToken cancellationToken = default) =>
             {
-                IReadOnlyCollection<GetJobEntriesResponse>? response = await handler.HandleAsync(
+                IPagedList<GetJobEntriesResponse>? response = await handler.HandleAsync(
                     query: new GetJobEntriesQuery(MessageContext: messageContextFactory.Current(),
+                        Pagination: pagination ?? Paging.Default,
                         Payload: new GetJobEntriesRequest(JobEntryId: jobEntryId, JobInstanceId: jobInstanceId,
                             JobEntryStatusIds: jobEntryStatusIds, MoreThanRetries: moreThanRetries,
-                            IsCompleted: isCompleted, HasRun: hasRun, IsActive: isActive,
-                            HasTriggers: hasTriggers, Includes: includes)), cancellationToken: cancellationToken);
+                            IsCompleted: isCompleted, HasRun: hasRun, IsActive: isActive, HasTriggers: hasTriggers,
+                            Includes: includes)), cancellationToken: cancellationToken);
 
                 return Results.Ok(value: response);
             });
 
         EndpointRegistration registerJobEntryEndpointRegistration = new(Pattern: "job-entries",
-            Name: "RegisterJobEntry",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
+            Name: "RegisterJobEntry", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Post, Handler: async (
                 [FromServices] ICommandHandler<RegisterJobEntryCommand, RegisterJobEntryResponse> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromBody] RegisterJobEntryRequest model,
                 CancellationToken cancellationToken = default) =>
@@ -105,8 +106,7 @@ public sealed class TimeManagementModule : IModuleDefinition
             });
 
         EndpointRegistration cancelJobEntryEndpointRegistration = new(Pattern: "job-entries/{id}",
-            Name: "CancelJobEntry",
-            AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete, Handler: async (
+            Name: "CancelJobEntry", AccessControl: AccessControl.User, HttpVerb: HttpVerb.Delete, Handler: async (
                 [FromServices] ICommandHandler<CancelJobEntryCommand> handler,
                 [FromServices] IMessageContextFactory messageContextFactory, [FromRoute] Guid id,
                 CancellationToken cancellationToken = default) =>

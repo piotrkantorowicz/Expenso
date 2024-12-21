@@ -122,7 +122,7 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
             .ReturnsAsync(value: _defaultNotificationRecipients);
 
         // Act
-        await TestCandidate.HandleAsync(@event: @event, cancellationToken: CancellationToken.None);
+        await TestCandidate.HandleAsync(@event: @event, cancellationToken: default);
 
         // Assert
         _iIamProxyServiceMock.Verify(

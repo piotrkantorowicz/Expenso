@@ -35,7 +35,7 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: CancellationToken.None);
+            await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
         await action

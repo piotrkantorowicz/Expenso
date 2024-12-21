@@ -1,4 +1,5 @@
 ﻿using Expenso.Shared.Queries;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Maps;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Request;
@@ -9,8 +10,7 @@ using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
 namespace Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries;
 
-internal sealed class
-    GetJobEntriesQueryHandler : IQueryHandler<GetJobEntriesQuery, IReadOnlyCollection<GetJobEntriesResponse>>
+internal sealed class GetJobEntriesQueryHandler : IQueryHandler<GetJobEntriesQuery, IPagedList<GetJobEntriesResponse>>
 {
     private readonly IJobEntryRepository _jobEntryRepository;
 
@@ -20,7 +20,7 @@ internal sealed class
             jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
     }
 
-    public async Task<IReadOnlyCollection<GetJobEntriesResponse>?> HandleAsync(GetJobEntriesQuery query,
+    public async Task<IPagedList<GetJobEntriesResponse>?> HandleAsync(GetJobEntriesQuery query,
         CancellationToken cancellationToken)
     {
         JobEntryQuerySpecification querySpecification = new(JobEntryId: query.Payload?.JobEntryId,
@@ -29,8 +29,8 @@ internal sealed class
             HasRun: query.Payload?.HasRun, IsActive: query.Payload?.IsActive, HasTriggers: query.Payload?.HasTriggers,
             Includes: query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntriesRequestJobEntryIncludes>());
 
-        IReadOnlyCollection<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
-            querySpecification: querySpecification, cancellationToken: cancellationToken);
+        IPagedList<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
+            querySpecification: querySpecification, pagination: query.Pagination, cancellationToken: cancellationToken);
 
         return GetJobEntriesResponseMap.MapTo(jobEntries: jobEntries);
     }

@@ -38,8 +38,7 @@ internal sealed class HandleAsync : QueryHandlerLoggingDecoratorTestBase
             .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging."));
 
         // Act
-        Func<Task> action = async () => await TestCandidate.HandleAsync(
-            query: _testQuery, cancellationToken: CancellationToken.None);
+        Func<Task> action = async () => await TestCandidate.HandleAsync(query: _testQuery, cancellationToken: default);
 
         // Assert
         await action

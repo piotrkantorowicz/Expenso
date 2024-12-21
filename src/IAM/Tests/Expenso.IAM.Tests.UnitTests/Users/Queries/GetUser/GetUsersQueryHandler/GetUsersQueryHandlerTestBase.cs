@@ -2,6 +2,7 @@ using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -41,7 +42,7 @@ internal abstract class
             }
         ];
 
-        _getUserByIdResponse = GetUsersResponseMap.MapTo(users: users);
+        _getUsersResponse = GetUsersResponseMap.MapTo(users: users, pagination: Paging.Default);
         _userServiceMock = new Mock<IUserService>();
         _messageContextMock = new Mock<IMessageContext>();
 
@@ -54,14 +55,14 @@ internal abstract class
     {
         _messageContextMock.Reset();
         _userServiceMock.Reset();
-        _getUserByIdResponse = null!;
+        _getUsersResponse = null!;
         _messageContextMock = null!;
         _userServiceMock = null!;
         _userId = null!;
         TestCandidate = null!;
     }
 
-    protected IReadOnlyCollection<GetUsersResponse> _getUserByIdResponse = null!;
+    protected IPagedList<GetUsersResponse> _getUsersResponse = null!;
     protected Mock<IMessageContext> _messageContextMock = null!;
     protected Mock<IUserService> _userServiceMock = null!;
     private string _userId = null!;

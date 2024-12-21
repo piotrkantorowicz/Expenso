@@ -5,6 +5,7 @@ using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.Expir
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Serialization.Default.Settings;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
@@ -31,8 +32,7 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -50,13 +50,12 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>());
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.AsEmpty);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -74,20 +73,19 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 new()
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         _jobEntryStatusRepositoryMock
             .Setup(expression: x => x.GetManyAsync(It.IsAny<CancellationToken>(), true))
             .ReturnsAsync(value: new List<JobEntryStatus>());
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -110,16 +108,15 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _jobEntryRepositoryMock.Verify(
@@ -156,16 +153,15 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _jobEntryRepositoryMock.Verify(
@@ -207,16 +203,15 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -245,16 +240,15 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -290,20 +284,19 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         _serializerMock
             .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType!), null))
             .Returns(valueFunction: null!);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -334,16 +327,15 @@ internal sealed class Execute : JobExecutionTestBase
             .Throws(exception: error);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -383,12 +375,12 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         _serializerMock
             .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType)!,
@@ -396,8 +388,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Returns(value: eventData);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -448,12 +439,12 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         _serializerMock
             .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType)!,
@@ -465,8 +456,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Throws(exception: error);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -513,12 +503,12 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: JobInstance.Default);
 
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<Paging>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
-            });
+            }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         _serializerMock
             .Setup(expression: x => x.Deserialize(trigger.EventData, Type.GetType(trigger.EventType)!,
@@ -530,8 +520,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Throws(exception: error);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(

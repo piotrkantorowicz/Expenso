@@ -39,7 +39,7 @@ internal sealed class HandleAsync : DomainEventHandlerLoggingDecoratorTestBase
 
         // Act
         Func<Task> action = async () =>
-            await TestCandidate.HandleAsync(@event: _testDomainEvent, cancellationToken: CancellationToken.None);
+            await TestCandidate.HandleAsync(@event: _testDomainEvent, cancellationToken: default);
 
         // Assert
         await action

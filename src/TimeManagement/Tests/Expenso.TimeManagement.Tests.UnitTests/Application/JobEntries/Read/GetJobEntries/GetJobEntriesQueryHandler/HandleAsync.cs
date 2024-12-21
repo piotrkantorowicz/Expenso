@@ -1,4 +1,5 @@
 ﻿using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
@@ -19,18 +20,27 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
     {
         // Arrange
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: _jobEntries);
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), Paging.Default,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.Create(items: _jobEntries, currentPage: 1, resultsPerPage: 10,
+                totalPages: 1, totalResults: 2));
 
         // Act
-        IReadOnlyCollection<GetJobEntriesResponse>? jobEntriesResponse =
+        IPagedList<GetJobEntriesResponse>? jobEntriesResponse =
             await TestCandidate.HandleAsync(query: _getJobEntriesQuery,
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        jobEntriesResponse.Should().NotBeNull();
-        jobEntriesResponse?.Should().HaveCount(expected: _jobEntries.Count);
+        jobEntriesResponse?.Should().NotBeNull();
+        jobEntriesResponse?.CurrentPage.Should().Be(expected: Paging.Default.Page);
+
+        jobEntriesResponse
+            ?.TotalPages.Should()
+            .Be(expected: (int)Math.Ceiling(a: _jobEntries.Count / (double)Paging.Default.Limit));
+
+        jobEntriesResponse?.ResultsPerPage.Should().Be(expected: 10);
+        jobEntriesResponse?.TotalResults.Should().Be(expected: _jobEntries.Count);
+        jobEntriesResponse?.Items.Should().HaveCount(expected: _jobEntries.Count);
     }
 
     [Test]
@@ -38,9 +48,9 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
     {
         // Arrange
         _jobEntryRepositoryMock
-            .Setup(expression: x =>
-                x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value: new List<JobEntry>());
+            .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(), Paging.Default,
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(value: PagedList<JobEntry>.AsEmpty);
 
         // Act
         Func<Task> act = async () =>
