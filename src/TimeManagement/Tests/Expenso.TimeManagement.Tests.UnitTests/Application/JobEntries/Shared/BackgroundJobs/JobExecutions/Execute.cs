@@ -32,8 +32,7 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -56,8 +55,7 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: PagedList<JobEntry>.AsEmpty);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -87,8 +85,7 @@ internal sealed class Execute : JobExecutionTestBase
             .ReturnsAsync(value: new List<JobEntryStatus>());
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -119,8 +116,7 @@ internal sealed class Execute : JobExecutionTestBase
             }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _jobEntryRepositoryMock.Verify(
@@ -165,8 +161,7 @@ internal sealed class Execute : JobExecutionTestBase
             }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _jobEntryRepositoryMock.Verify(
@@ -216,8 +211,7 @@ internal sealed class Execute : JobExecutionTestBase
             }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -254,8 +248,7 @@ internal sealed class Execute : JobExecutionTestBase
             }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -303,8 +296,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Returns(valueFunction: null!);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -343,8 +335,7 @@ internal sealed class Execute : JobExecutionTestBase
             }, currentPage: 1, resultsPerPage: 10, totalPages: 1, totalResults: 1));
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -397,8 +388,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Returns(value: eventData);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -466,8 +456,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Throws(exception: error);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(
@@ -531,8 +520,7 @@ internal sealed class Execute : JobExecutionTestBase
             .Throws(exception: error);
 
         // Act
-        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval,
-            stoppingToken: CancellationToken.None);
+        await TestCandidate.Execute(jobInstanceId: _jobInstanceId, interval: _interval, stoppingToken: default);
 
         // Assert
         _loggerMock.Verify(

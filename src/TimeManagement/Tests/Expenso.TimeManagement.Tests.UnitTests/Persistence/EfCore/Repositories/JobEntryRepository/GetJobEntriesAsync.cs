@@ -24,7 +24,11 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
         // Assert
         jobEntries.Should().NotBeNull();
         jobEntries.CurrentPage.Should().Be(expected: Paging.Default.Page);
-        jobEntries.TotalPages.Should().Be(expected: Paging.Default.Page);
+
+        jobEntries
+            .TotalPages.Should()
+            .Be(expected: (int)Math.Ceiling(a: _jobEntriesIds.Count / (double)Paging.Default.Limit));
+
         jobEntries.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
         jobEntries.TotalResults.Should().Be(expected: _jobEntriesIds.Count);
         jobEntries.Items.Should().HaveCount(expected: _jobEntriesIds.Count);
@@ -35,7 +39,7 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
     {
         // Arrange
         JobEntryQuerySpecification querySpecification = new(UseTracking: false);
-        Paging? customPaging = new(page: 2, limit: 5);
+        Paging customPaging = new(page: 2, limit: 5);
 
         // Act 
         IPagedList<JobEntry> jobEntries = await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,

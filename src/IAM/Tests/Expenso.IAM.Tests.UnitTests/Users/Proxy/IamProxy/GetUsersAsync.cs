@@ -34,7 +34,11 @@ internal sealed class GetUsersAsync : IamProxyTestBase
         // Assert
         getUsersResponse?.Should().NotBeNull();
         getUsersResponse?.CurrentPage.Should().Be(expected: Paging.Default.Page);
-        getUsersResponse?.TotalPages.Should().Be(expected: Paging.Default.Page);
+
+        getUsersResponse
+            ?.TotalPages.Should()
+            .Be(expected: (int)Math.Ceiling(a: _getUsersResponse.Count / (double)Paging.Default.Limit));
+
         getUsersResponse?.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
         getUsersResponse?.TotalResults.Should().Be(expected: _getUsersResponse.Count);
         getUsersResponse?.Items.Should().BeEquivalentTo(expectation: _getUsersResponse);

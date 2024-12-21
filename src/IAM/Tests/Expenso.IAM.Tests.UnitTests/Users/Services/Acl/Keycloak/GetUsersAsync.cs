@@ -30,13 +30,15 @@ internal sealed class GetUsersAsync : UserServiceTestBase
             Email = "mai@email.com"
         };
 
+        UserRepresentation[] users =
+        [
+            _user, secondUser
+        ];
+
         _keycloakUserClientMock
             .Setup(expression: x => x.GetUsersAsync(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(value:
-            [
-                _user, secondUser
-            ]);
+            .ReturnsAsync(value: users);
 
         // Act
         IPagedList<GetUsersResponse> getUsers = await TestCandidate.GetUsersAsync(
@@ -46,7 +48,8 @@ internal sealed class GetUsersAsync : UserServiceTestBase
         // Assert
         getUsers.Should().NotBeNull();
         getUsers.CurrentPage.Should().Be(expected: Paging.Default.Page);
-        getUsers.TotalPages.Should().Be(expected: Paging.Default.Page);
+        getUsers.TotalPages.Should().Be(expected: (int)Math.Ceiling(a: users.Length / (double)Paging.Default.Limit));
+
         getUsers.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
         getUsers.TotalResults.Should().Be(expected: 2);
         getUsers.Items.Should().HaveCount(expected: 2);

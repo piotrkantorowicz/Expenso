@@ -27,7 +27,7 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
 
         // Act
         await TestCandidate.MarkBudgetPermissionRequestAsExpireAsync(
-            budgetPermissionRequestId: budgetPermissionRequestId.Value, cancellationToken: CancellationToken.None);
+            budgetPermissionRequestId: budgetPermissionRequestId.Value, cancellationToken: default);
 
         // Assert
         _budgetPermissionRequestRepositoryMock.Verify(
@@ -48,7 +48,7 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
         // Act
         Func<Task> action = async () =>
             await TestCandidate.MarkBudgetPermissionRequestAsExpireAsync(
-                budgetPermissionRequestId: budgetPermissionRequestId.Value, cancellationToken: CancellationToken.None);
+                budgetPermissionRequestId: budgetPermissionRequestId.Value, cancellationToken: default);
 
         // Assert
         await action

@@ -33,7 +33,11 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
         // Assert
         jobEntriesResponse?.Should().NotBeNull();
         jobEntriesResponse?.CurrentPage.Should().Be(expected: Paging.Default.Page);
-        jobEntriesResponse?.TotalPages.Should().Be(expected: Paging.Default.Page);
+
+        jobEntriesResponse
+            ?.TotalPages.Should()
+            .Be(expected: (int)Math.Ceiling(a: _jobEntries.Count / (double)Paging.Default.Limit));
+
         jobEntriesResponse?.ResultsPerPage.Should().Be(expected: 10);
         jobEntriesResponse?.TotalResults.Should().Be(expected: _jobEntries.Count);
         jobEntriesResponse?.Items.Should().HaveCount(expected: _jobEntries.Count);

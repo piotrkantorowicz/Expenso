@@ -25,7 +25,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
                     InApp: false)));
 
         // Act
-        await TestCandidate.HandleAsync(command: command, cancellationToken: CancellationToken.None);
+        await TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
         _notificationServiceFactoryMock.Verify(expression: x => x.GetService<IEmailService>(), times: Times.Once);
@@ -42,7 +42,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
                     InApp: false)));
 
         // Act
-        await TestCandidate.HandleAsync(command: command, cancellationToken: CancellationToken.None);
+        await TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
         _notificationServiceFactoryMock.Verify(expression: x => x.GetService<IPushService>(), times: Times.Once);
@@ -59,7 +59,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
                     InApp: true)));
 
         // Act
-        await TestCandidate.HandleAsync(command: command, cancellationToken: CancellationToken.None);
+        await TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
         _notificationServiceFactoryMock.Verify(expression: x => x.GetService<IInAppService>(), times: Times.Once);
@@ -75,7 +75,7 @@ internal sealed class HandleAsync : SendNotificationCommandHandlerTestBase
                 NotificationType: new SendNotificationRequestNotificationType(Email: true, Push: true, InApp: true)));
 
         // Act
-        await TestCandidate.HandleAsync(command: command, cancellationToken: CancellationToken.None);
+        await TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
         _notificationServiceFactoryMock.Verify(expression: x => x.GetService<IEmailService>(), times: Times.Once);

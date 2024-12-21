@@ -46,10 +46,10 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        string? requestPath = $"budget-sharing/budget-permissions?pagination={page},{limit}";
+        string requestPath = $"budget-sharing/budget-permissions?pagination={page},{limit}";
 
         // Act
-        HttpResponseMessage? response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
 
         // Assert
         AssertResponseOk(response: response);

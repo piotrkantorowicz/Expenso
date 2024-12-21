@@ -38,8 +38,8 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
             .ThrowsAsync(exception: new Exception(message: "Intentional thrown to test error logging."));
 
         // Act
-        Func<Task> action = async () => await TestCandidate.HandleAsync(
-            @event: _testIntegrationEvent, cancellationToken: CancellationToken.None);
+        Func<Task> action = async () => await TestCandidate.HandleAsync(@event: _testIntegrationEvent,
+            cancellationToken: default);
 
         // Assert
         await action
