@@ -3,6 +3,7 @@ using Expenso.Shared.System.Time.Features.Interfaces;
 using Expenso.Shared.System.Time.Providers;
 using Expenso.Shared.System.Time.Providers.Interfaces;
 using Expenso.Shared.System.Time.Request;
+using Expenso.Shared.System.Time.Request.Settings;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,8 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
     public RequestTimeZoneMiddleware(ILoggerFactory loggerFactory, RequestTimeZoneOptions options,
         ITimeZoneClock timeZoneClock)
     {
+        ArgumentNullException.ThrowIfNull(argument: loggerFactory);
+
         _logger = loggerFactory.CreateLogger<RequestTimeZoneMiddleware>() ??
                   throw new ArgumentNullException(paramName: nameof(loggerFactory));
 
@@ -29,20 +32,15 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
     {
         ArgumentNullException.ThrowIfNull(argument: httpContext);
         ArgumentNullException.ThrowIfNull(argument: next);
-        RequestTimeZone? requestTimeZone = _options.DefaultRequestTimeZone;
+        RequestTimeZone requestTimeZone = _options.DefaultRequestTimeZone;
         IRequestTimeZoneProvider? usedProvider = null;
 
         if (_options.RequestTimeZoneProviders is not null)
         {
             foreach (IRequestTimeZoneProvider? provider in _options.RequestTimeZoneProviders)
             {
-                ProviderTimeZoneResult? providerTimeZoneResult =
+                ProviderTimeZoneResult providerTimeZoneResult =
                     await provider.DetermineProviderTimeZoneResult(httpContext: httpContext);
-
-                if (providerTimeZoneResult is null)
-                {
-                    continue;
-                }
 
                 try
                 {
@@ -66,8 +64,9 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
 
         httpContext.Features.Set<IRequestTimeZoneFeature>(
             instance: new RequestTimeZoneFeature(requestTimeZone: requestTimeZone, provider: usedProvider));
-
+        
         httpContext.Response.Headers[key: _options.GetDefaultHeaderName()] = requestTimeZone.TimeZone.Id;
+        
         _timeZoneClock.SetTimeZone(timeZone: requestTimeZone.TimeZone);
         await next(context: httpContext);
     }

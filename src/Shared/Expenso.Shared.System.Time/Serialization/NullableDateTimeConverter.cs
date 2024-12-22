@@ -21,17 +21,20 @@ internal sealed class NullableDateTimeConverter : JsonConverter<DateTime?>
     {
         string? value = reader.GetString();
 
-        if (value is null)
+        if (string.IsNullOrEmpty(value: value))
         {
-            return null;
+            throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
-        if (DateTime.TryParse(s: value, result: out DateTime parsedDateTime))
+        if (!DateTime.TryParseExact(s: value, format: _format, provider: CultureInfo.InvariantCulture,
+                style: DateTimeStyles.None, result: out DateTime dateTime))
         {
-            return parsedDateTime;
+            throw new JsonException(message: $"DateTime string '{value}' does not match expected format '{_format}'");
         }
 
-        return null;
+        TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
+
+        return TimeZoneInfo.ConvertTime(dateTime: dateTime, destinationTimeZone: timeZone);
     }
 
     public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
@@ -48,12 +51,29 @@ internal sealed class NullableDateTimeConverter : JsonConverter<DateTime?>
         if (!DateTime.TryParseExact(s: dateString, format: _format, provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime parsedDateTime))
         {
-            return;
+            throw new JsonException(message: $"Failed to parse formatted date string '{dateString}' back to DateTime");
         }
 
         TimeZoneInfo? timeZone = _requestTimeZone().TimeZone;
-        DateTime convertTime = TimeZoneInfo.ConvertTime(dateTime: parsedDateTime, destinationTimeZone: timeZone);
-        writer.WriteStringValue(value: convertTime);
-        writer.Flush();
+
+        if (timeZone == null)
+        {
+            throw new InvalidOperationException(message: "TimeZone cannot be null");
+        }
+
+        try
+        {
+            DateTime convertTime = TimeZoneInfo
+                .ConvertTime(dateTime: parsedDateTime, destinationTimeZone: timeZone)
+                .ToUniversalTime();
+
+            writer.WriteStringValue(value: convertTime);
+            writer.Flush();
+        }
+        catch (TimeZoneNotFoundException ex)
+        {
+            throw new JsonException(message: "Failed to convert DateTime to the specified timezone",
+                innerException: ex);
+        }
     }
 }

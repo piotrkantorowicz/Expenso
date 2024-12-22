@@ -21,17 +21,21 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
     {
         string? value = reader.GetString();
 
-        if (value == null)
+        if (string.IsNullOrEmpty(value: value))
         {
-            return null;
+            throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
-        if (DateTimeOffset.TryParse(input: value, result: out DateTimeOffset parsedDateTime))
+        if (!DateTimeOffset.TryParse(input: value, result: out DateTimeOffset dateTimeOffset))
         {
-            return parsedDateTime;
+            throw new JsonException(message: $"DateTime string '{value}' does not match expected format '{_format}'");
         }
 
-        return null;
+        TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
+
+        return TimeZoneInfo
+            .ConvertTime(dateTimeOffset: dateTimeOffset, destinationTimeZone: timeZone)
+            .ToUniversalTime();
     }
 
     public override void Write(Utf8JsonWriter writer, DateTimeOffset? value, JsonSerializerOptions options)
@@ -43,21 +47,35 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
             return;
         }
 
-        string? dateString = value.Value.ToString(format: _format, formatProvider: CultureInfo.InvariantCulture);
+        string dateString = value.Value.ToString(format: _format, formatProvider: CultureInfo.InvariantCulture);
 
         if (!DateTimeOffset.TryParseExact(input: dateString, format: _format,
                 formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.None,
                 result: out DateTimeOffset parsedDateTimeOffset))
         {
-            return;
+            throw new JsonException(
+                message: $"Failed to parse formatted date string '{dateString}' back to DateTimeOffset");
         }
 
         TimeZoneInfo? timeZone = _requestTimeZone().TimeZone;
 
-        DateTimeOffset convertTime =
-            TimeZoneInfo.ConvertTime(dateTimeOffset: parsedDateTimeOffset, destinationTimeZone: timeZone);
+        if (timeZone == null)
+        {
+            throw new InvalidOperationException(message: "TimeZone cannot be null");
+        }
 
-        writer.WriteStringValue(value: convertTime);
-        writer.Flush();
+        try
+        {
+            DateTimeOffset convertTime =
+                TimeZoneInfo.ConvertTime(dateTimeOffset: parsedDateTimeOffset, destinationTimeZone: timeZone);
+
+            writer.WriteStringValue(value: convertTime);
+            writer.Flush();
+        }
+        catch (TimeZoneNotFoundException ex)
+        {
+            throw new JsonException(message: "Failed to convert DateTimeOffset to the specified timezone",
+                innerException: ex);
+        }
     }
 }

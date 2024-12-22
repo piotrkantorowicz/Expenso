@@ -1,13 +1,12 @@
-﻿using Expenso.Shared.System.Time.Configuration;
-using Expenso.Shared.System.Time.Constants;
+﻿using Expenso.Shared.System.Time.Constants;
 using Expenso.Shared.System.Time.Providers;
 using Expenso.Shared.System.Time.Providers.Interfaces;
 
-namespace Expenso.Shared.System.Time.Request;
+namespace Expenso.Shared.System.Time.Request.Settings;
 
 public sealed record RequestTimeZoneOptions
 {
-    private readonly RequestTimeZone _defaultRequestTimeZone = new(name: TimezoneIds.Utc);
+    private readonly RequestTimeZone _defaultRequestTimeZone = new(name: TimeZoneIds.Utc);
 
     public RequestTimeZoneOptions()
     {
@@ -43,7 +42,7 @@ public sealed record RequestTimeZoneOptions
         RequestTimeZoneHeaderProvider? headerProvider =
             RequestTimeZoneProviders?.OfType<RequestTimeZoneHeaderProvider>().FirstOrDefault();
 
-        return headerProvider is null ? "timezone" : headerProvider.Headerkey;
+        return headerProvider is null ? "time-zone" : headerProvider.Headerkey;
     }
 
     internal string GetDefaultCookieName()
@@ -51,7 +50,7 @@ public sealed record RequestTimeZoneOptions
         RequestTimeZoneCookieProvider? cookieProvider =
             RequestTimeZoneProviders?.OfType<RequestTimeZoneCookieProvider>().FirstOrDefault();
 
-        return cookieProvider is null ? "timezone" : cookieProvider.CookieName;
+        return cookieProvider is null ? "time-zone" : cookieProvider.CookieName;
     }
 
     internal string GetDefaultQueryName()
@@ -59,6 +58,6 @@ public sealed record RequestTimeZoneOptions
         RequestTimeZoneQueryStringProvider? queryProvider =
             RequestTimeZoneProviders?.OfType<RequestTimeZoneQueryStringProvider>().FirstOrDefault();
 
-        return queryProvider is null ? "timezone" : queryProvider.QueryStringKey;
+        return queryProvider is null ? "time-zone" : queryProvider.QueryStringKey;
     }
 }

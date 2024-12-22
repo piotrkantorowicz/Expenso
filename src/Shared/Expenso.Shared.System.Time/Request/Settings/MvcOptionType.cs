@@ -1,4 +1,4 @@
-﻿namespace Expenso.Shared.System.Time.Configuration;
+﻿namespace Expenso.Shared.System.Time.Request.Settings;
 
 [Flags]
 public enum MvcOptionType

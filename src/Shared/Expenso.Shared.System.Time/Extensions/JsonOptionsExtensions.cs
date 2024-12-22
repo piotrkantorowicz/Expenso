@@ -15,7 +15,7 @@ public static class JsonOptionsExtensions
         ArgumentNullException.ThrowIfNull(argument: options);
         ArgumentNullException.ThrowIfNull(argument: timeZoneClock);
 
-        options.SerializerOptions.Converters.AddTimeZoneConverters(timeZoneClock: timeZoneClock,
+        ValidateAndAddConverters(converters: options.SerializerOptions.Converters, timeZoneClock: timeZoneClock,
             datesFormat: datesFormat);
 
         return options;
@@ -27,10 +27,33 @@ public static class JsonOptionsExtensions
         ArgumentNullException.ThrowIfNull(argument: options);
         ArgumentNullException.ThrowIfNull(argument: timeZoneClock);
 
-        options.JsonSerializerOptions.Converters.AddTimeZoneConverters(timeZoneClock: timeZoneClock,
+        ValidateAndAddConverters(converters: options.JsonSerializerOptions.Converters, timeZoneClock: timeZoneClock,
             datesFormat: datesFormat);
 
         return options;
+    }
+
+    private static void ValidateAndAddConverters(IList<JsonConverter> converters, ITimeZoneClock timeZoneClock,
+        string datesFormat)
+    {
+        ArgumentNullException.ThrowIfNull(argument: datesFormat);
+
+        try
+        {
+            string _ = timeZoneClock.Now.ToString(format: datesFormat);
+        }
+        catch (FormatException ex)
+        {
+            throw new ArgumentException(message: "Invalid date format string", paramName: nameof(datesFormat),
+                innerException: ex);
+        }
+
+        if (converters.Any(predicate: c => c is DateTimeConverter or DateTimeOffsetConverter))
+        {
+            return;
+        }
+
+        converters.AddTimeZoneConverters(timeZoneClock: timeZoneClock, datesFormat: datesFormat);
     }
 
     private static void AddTimeZoneConverters(this IList<JsonConverter> jsonConverters, ITimeZoneClock timeZoneClock,

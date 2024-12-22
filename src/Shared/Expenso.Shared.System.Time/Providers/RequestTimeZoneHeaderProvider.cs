@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Time.Request;
+﻿using Expenso.Shared.System.Time.Request.Settings;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
@@ -10,23 +10,20 @@ internal sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
     public RequestTimeZoneHeaderProvider(RequestTimeZoneOptions? options, string? headerkey = null) : base(
         options: options)
     {
-        Headerkey = headerkey ?? "timezone";
+        Headerkey = headerkey ?? "time-zone";
     }
 
     public string Headerkey { get; }
 
-    public override Task<ProviderTimeZoneResult?> DetermineProviderTimeZoneResult(HttpContext httpContext)
+    public override Task<ProviderTimeZoneResult> DetermineProviderTimeZoneResult(HttpContext httpContext)
     {
-        ArgumentNullException.ThrowIfNull(argument: httpContext);
-        StringValues value = httpContext.Request.Headers[key: Headerkey];
-
-        if (string.IsNullOrEmpty(value: value))
+        if (!httpContext.Request.Headers.TryGetValue(key: Headerkey, value: out StringValues values))
         {
-            return NullProviderTimeZoneResult;
+            return DefaultProviderTimeZoneResult;
         }
 
-        ProviderTimeZoneResult? providerTimeZoneResult = new(name: value);
+        string? value = values.FirstOrDefault(predicate: v => !string.IsNullOrEmpty(value: v));
 
-        return Task.FromResult(result: providerTimeZoneResult)!;
+        return ValidateAndCreateResult(value: value);
     }
 }

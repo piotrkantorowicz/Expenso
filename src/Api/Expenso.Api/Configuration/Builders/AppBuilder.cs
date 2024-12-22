@@ -29,9 +29,9 @@ using Expenso.Shared.System.Metrics.Settings;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Time;
-using Expenso.Shared.System.Time.Configuration;
 using Expenso.Shared.System.Time.Constants;
 using Expenso.Shared.System.Time.Extensions;
+using Expenso.Shared.System.Time.Request.Settings;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
 
@@ -115,7 +115,7 @@ internal sealed class AppBuilder : IAppBuilder
             .AddOtlpMetrics(otlpSettings: otlpSettings)
             .AddRequestTimeZone(optionsAction: settings =>
             {
-                settings.Id = TimezoneIds.Utc;
+                settings.Id = TimeZoneIds.Utc;
                 settings.EnableRequestToUtc = true;
                 settings.EnableResponseToLocal = true;
                 settings.DatesFormat = DateTimeFormats.Iso8601;

@@ -181,7 +181,7 @@ internal sealed class AppConfigurator : IAppConfigurator
         return this;
     }
 
-    public IAppConfigurator UseRequestTimezone()
+    public IAppConfigurator UseRequestTimeZone()
     {
         _app.UseRequestTimeZone();
 

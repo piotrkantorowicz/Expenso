@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Time.Request;
+﻿using Expenso.Shared.System.Time.Request.Settings;
 
 using Microsoft.AspNetCore.Http;
 
@@ -17,18 +17,10 @@ internal sealed class RequestTimeZoneCookieProvider : RequestTimeZoneProvider
 
     public string CookieName { get; }
 
-    public override Task<ProviderTimeZoneResult?> DetermineProviderTimeZoneResult(HttpContext httpContext)
+    public override Task<ProviderTimeZoneResult> DetermineProviderTimeZoneResult(HttpContext httpContext)
     {
-        ArgumentNullException.ThrowIfNull(argument: httpContext);
         string? value = httpContext.Request.Cookies[key: CookieName];
 
-        if (string.IsNullOrEmpty(value: value))
-        {
-            return NullProviderTimeZoneResult;
-        }
-
-        ProviderTimeZoneResult? providerTimeZoneResult = new(name: value.Replace(oldValue: Prefix, newValue: ""));
-
-        return Task.FromResult(result: providerTimeZoneResult)!;
+        return ValidateAndCreateResult(value: value, trimPrefix: true, prefix: Prefix);
     }
 }

@@ -18,6 +18,6 @@ public sealed class Clock : IClock, ITimeZoneClock
 
     public void SetTimeZone(TimeZoneInfo? timeZone)
     {
-        _timeZone.Value = timeZone ?? TimeZoneInfo.FindSystemTimeZoneById(id: TimezoneIds.Utc);
+        _timeZone.Value = timeZone ?? TimeZoneInfo.FindSystemTimeZoneById(id: TimeZoneIds.Utc);
     }
 }

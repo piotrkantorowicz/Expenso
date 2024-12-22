@@ -1,6 +1,5 @@
-﻿using Expenso.Shared.System.Time.Configuration;
-using Expenso.Shared.System.Time.Middleware;
-using Expenso.Shared.System.Time.Request;
+﻿using Expenso.Shared.System.Time.Middleware;
+using Expenso.Shared.System.Time.Request.Settings;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +23,7 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(argument: services);
         ArgumentNullException.ThrowIfNull(argument: optionsAction);
         ArgumentNullException.ThrowIfNull(argument: timeZoneClock);
-        RequestTimeZoneOptions? options = new();
+        RequestTimeZoneOptions options = new();
         optionsAction.Invoke(obj: options);
         services.AddSingleton(implementationFactory: _ => options).AddSingleton<RequestTimeZoneMiddleware>();
 

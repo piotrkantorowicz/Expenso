@@ -8,7 +8,7 @@ namespace Expenso.Shared.System.Time.ModelBinders;
 
 internal sealed class DateTimeModelBinder : IModelBinder
 {
-    private readonly Func<RequestTimeZone> _requestTimeZone;
+    private readonly Func<RequestTimeZone?> _requestTimeZone;
 
     public DateTimeModelBinder(Func<RequestTimeZone> requestTimeZone)
     {
@@ -26,13 +26,14 @@ internal sealed class DateTimeModelBinder : IModelBinder
         }
         else
         {
-            Type? modelType = bindingContext.ModelType;
-            TimeZoneInfo? timeZone = _requestTimeZone().TimeZone;
+            Type modelType = bindingContext.ModelType;
+            TimeZoneInfo timeZone = _requestTimeZone()?.TimeZone ?? TimeZoneInfo.Utc;
 
             if (modelType == typeof(DateTimeOffset?) || modelType == typeof(DateTimeOffset))
             {
-                if (DateTimeOffset.TryParse(input: valueProviderResult.FirstValue, formatProvider: null,
-                        styles: DateTimeStyles.AdjustToUniversal, result: out DateTimeOffset parsedDateTimeOffset))
+                if (DateTimeOffset.TryParse(input: valueProviderResult.FirstValue,
+                        formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.AdjustToUniversal,
+                        result: out DateTimeOffset parsedDateTimeOffset))
                 {
                     DateTimeOffset dateTimeUtc = TimeZoneInfo
                         .ConvertTime(dateTimeOffset: parsedDateTimeOffset, destinationTimeZone: timeZone)
@@ -48,7 +49,7 @@ internal sealed class DateTimeModelBinder : IModelBinder
             }
             else if (modelType == typeof(DateTime?) || modelType == typeof(DateTime))
             {
-                if (DateTime.TryParse(s: valueProviderResult.FirstValue, provider: null,
+                if (DateTime.TryParse(s: valueProviderResult.FirstValue, provider: CultureInfo.InvariantCulture,
                         styles: DateTimeStyles.AdjustToUniversal, result: out DateTime parsedDateTime))
                 {
                     DateTime dateTimeUtc = TimeZoneInfo
@@ -71,7 +72,7 @@ internal sealed class DateTimeModelBinder : IModelBinder
     private static void AddModelError(ModelBindingContext bindingContext, ValueProviderResult valueProviderResult,
         string modelTypeName)
     {
-        string? invalidAccessor =
+        string invalidAccessor =
             bindingContext.ModelMetadata.ModelBindingMessageProvider.AttemptedValueIsInvalidAccessor(
                 arg1: valueProviderResult.ToString(), arg2: modelTypeName);
 

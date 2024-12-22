@@ -12,11 +12,21 @@ internal abstract class DateTimeConverterTestBase : TestBase<Shared.System.Time.
     [SetUp]
     public void SetUp()
     {
-        _requestTimeZone = () => new RequestTimeZone(timeZoneInfo: TimeZoneInfo.Utc);
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        TestCandidate = null!;
+    }
+
+    protected void CreateTestCandidate(string timeZoneName = TimeZoneIds.Utc)
+    {
+        _requestTimeZone = () => new RequestTimeZone(name: timeZoneName);
 
         TestCandidate = new Shared.System.Time.Serialization.DateTimeConverter(requestTimeZone: _requestTimeZone,
             format: DateTimeFormats.Iso8601);
     }
-
+   
     private Func<RequestTimeZone>? _requestTimeZone;
 }
