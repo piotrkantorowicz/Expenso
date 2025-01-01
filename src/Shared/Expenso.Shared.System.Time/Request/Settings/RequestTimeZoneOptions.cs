@@ -8,19 +8,6 @@ public sealed record RequestTimeZoneOptions
 {
     private readonly RequestTimeZone _defaultRequestTimeZone = new(name: TimeZoneIds.Utc);
 
-    public RequestTimeZoneOptions()
-    {
-        DatesFormat = DateTimeFormats.Iso8601;
-        MvcOptionType = MvcOptionType.All;
-
-        RequestTimeZoneProviders = new List<IRequestTimeZoneProvider>
-        {
-            new RequestTimeZoneQueryStringProvider(options: this),
-            new RequestTimeZoneHeaderProvider(options: this),
-            new RequestTimeZoneCookieProvider(options: this)
-        };
-    }
-
     public RequestTimeZone DefaultRequestTimeZone => string.IsNullOrEmpty(value: Id)
         ? _defaultRequestTimeZone
         : new RequestTimeZone(name: Id);
@@ -31,33 +18,42 @@ public sealed record RequestTimeZoneOptions
 
     public bool EnableResponseToLocal { get; set; }
 
-    public MvcOptionType MvcOptionType { get; set; }
+    public MvcOptionType MvcOptionType { get; set; } = MvcOptionType.All;
 
-    public string DatesFormat { get; set; }
+    public string[] SupportedDateTimeFormats { get; set; } = [DateTimeFormats.Iso8601];
 
-    public IList<IRequestTimeZoneProvider>? RequestTimeZoneProviders { get; set; }
+    public string[] SupportedDateTimeOffsetFormats { get; set; } = [DateTimeFormats.Iso8601TimeZone];
+
+    public IList<IRequestTimeZoneProvider> RequestTimeZoneProviders { get; set; } = new List<IRequestTimeZoneProvider>
+    {
+        new RequestTimeZoneQueryStringProvider(),
+        new RequestTimeZoneHeaderProvider(),
+        new RequestTimeZoneCookieProvider()
+    };
 
     internal string GetDefaultHeaderName()
     {
-        RequestTimeZoneHeaderProvider? headerProvider =
-            RequestTimeZoneProviders?.OfType<RequestTimeZoneHeaderProvider>().FirstOrDefault();
-
-        return headerProvider is null ? "time-zone" : headerProvider.Headerkey;
+        return GetDefaultValue<RequestTimeZoneHeaderProvider>(defaultValue: "time-zone",
+            valueSelector: p => p.Headerkey);
     }
 
     internal string GetDefaultCookieName()
     {
-        RequestTimeZoneCookieProvider? cookieProvider =
-            RequestTimeZoneProviders?.OfType<RequestTimeZoneCookieProvider>().FirstOrDefault();
-
-        return cookieProvider is null ? "time-zone" : cookieProvider.CookieName;
+        return GetDefaultValue<RequestTimeZoneCookieProvider>(defaultValue: "time-zone",
+            valueSelector: p => p.CookieName);
     }
 
     internal string GetDefaultQueryName()
     {
-        RequestTimeZoneQueryStringProvider? queryProvider =
-            RequestTimeZoneProviders?.OfType<RequestTimeZoneQueryStringProvider>().FirstOrDefault();
+        return GetDefaultValue<RequestTimeZoneQueryStringProvider>(defaultValue: "time-zone",
+            valueSelector: p => p.QueryStringKey);
+    }
 
-        return queryProvider is null ? "time-zone" : queryProvider.QueryStringKey;
+    private string GetDefaultValue<T>(string defaultValue, Func<T, string> valueSelector)
+        where T : IRequestTimeZoneProvider
+    {
+        T? provider = RequestTimeZoneProviders.OfType<T>().FirstOrDefault();
+
+        return provider is null ? defaultValue : valueSelector(arg: provider);
     }
 }

@@ -4,10 +4,11 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using NUnit.Framework;
 
-namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.DateTimeConverter;
+namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.DateTimeOffsetConverter;
 
 [TestFixture]
-internal abstract class DateTimeConverterTestBase : TestBase<Shared.System.Time.Serialization.DateTimeConverter>
+internal abstract class
+    DateTimeOffsetConverterTestBase : TestBase<Shared.System.Time.Serialization.DateTimeOffsetConverter>
 {
     [SetUp]
     public void SetUp()
@@ -24,8 +25,8 @@ internal abstract class DateTimeConverterTestBase : TestBase<Shared.System.Time.
     {
         _requestTimeZone = () => new RequestTimeZone(name: timeZoneName);
 
-        TestCandidate = new Shared.System.Time.Serialization.DateTimeConverter(requestTimeZone: _requestTimeZone,
-            supportedFormats: [DateTimeFormats.Iso8601]);
+        TestCandidate = new Shared.System.Time.Serialization.DateTimeOffsetConverter(requestTimeZone: _requestTimeZone,
+            supportedFormats: [DateTimeFormats.Iso8601TimeZone]);
     }
 
     private Func<RequestTimeZone>? _requestTimeZone;

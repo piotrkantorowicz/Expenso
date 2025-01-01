@@ -8,7 +8,7 @@ namespace Expenso.Shared.System.Time.ModelBinders;
 
 internal sealed class DateTimeModelBinder : IModelBinder
 {
-    private readonly Func<RequestTimeZone?> _requestTimeZone;
+    private readonly Func<RequestTimeZone> _requestTimeZone;
 
     public DateTimeModelBinder(Func<RequestTimeZone> requestTimeZone)
     {

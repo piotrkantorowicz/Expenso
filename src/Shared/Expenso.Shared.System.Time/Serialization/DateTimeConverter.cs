@@ -8,13 +8,13 @@ namespace Expenso.Shared.System.Time.Serialization;
 
 internal sealed class DateTimeConverter : JsonConverter<DateTime>
 {
-    private readonly string _format;
+    private readonly string[] _supportedFormats;
     private readonly Func<RequestTimeZone> _requestTimeZone;
 
-    public DateTimeConverter(Func<RequestTimeZone> requestTimeZone, string format)
+    public DateTimeConverter(Func<RequestTimeZone> requestTimeZone, string[] supportedFormats)
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
-        _format = format ?? throw new ArgumentNullException(paramName: nameof(format));
+        _supportedFormats = supportedFormats ?? throw new ArgumentNullException(paramName: nameof(supportedFormats));
     }
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -26,10 +26,11 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
             throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
-        if (!DateTime.TryParseExact(s: value, format: _format, provider: CultureInfo.InvariantCulture,
+        if (!DateTime.TryParseExact(s: value, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime dateTime))
         {
-            throw new JsonException(message: $"DateTime string '{value}' does not match expected format '{_format}'");
+            throw new JsonException(
+                message: $"DateTime string '{value}' does not match expected format '{_supportedFormats[0]}'");
         }
 
         TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
@@ -40,10 +41,9 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        ArgumentNullException.ThrowIfNull(argument: writer);
-        string dateString = value.ToString(format: _format, provider: CultureInfo.InvariantCulture);
+        string dateString = value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
 
-        if (!DateTime.TryParseExact(s: dateString, format: _format, provider: CultureInfo.InvariantCulture,
+        if (!DateTime.TryParseExact(s: dateString, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime parsedDateTime))
         {
             throw new JsonException(message: $"Failed to parse formatted date string '{dateString}' back to DateTime");
@@ -58,11 +58,13 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
 
         try
         {
-            DateTime convertTime = TimeZoneInfo.ConvertTime(dateTime: parsedDateTime, destinationTimeZone: timeZone);
-            writer.WriteStringValue(value: convertTime);
-            writer.Flush();
+            DateTime convertTime = TimeZoneInfo.ConvertTime(dateTime: parsedDateTime, sourceTimeZone: TimeZoneInfo.Utc,
+                destinationTimeZone: timeZone);
+
+            writer.WriteStringValue(value: convertTime.ToString(format: _supportedFormats[0],
+                provider: CultureInfo.InvariantCulture));
         }
-        catch (TimeZoneNotFoundException ex)
+        catch (Exception ex)
         {
             throw new JsonException(message: "Failed to convert DateTime to the specified timezone",
                 innerException: ex);

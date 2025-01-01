@@ -3,7 +3,7 @@ using System.Reflection;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
-using Expenso.Api.Configuration.Settings;
+using Expenso.Api.Configuration.Settings.ApiSettings;
 using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore.Migrations;

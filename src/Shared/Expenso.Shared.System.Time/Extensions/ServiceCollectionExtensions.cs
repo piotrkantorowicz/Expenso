@@ -57,7 +57,8 @@ public static class ServiceCollectionExtensions
 
                 services.Configure<JsonOptions>(configureOptions: x =>
                     x.AddDateTimeConverters(timeZoneClock: timeZoneClock,
-                        datesFormat: requestTimeZoneOptions.DatesFormat));
+                        dateTimeFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
+                        dateTimeOffsetFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
 
                 break;
             case MvcOptionType.Controllers:
@@ -69,7 +70,8 @@ public static class ServiceCollectionExtensions
 
                 services.Configure<JsonOptions>(configureOptions: x =>
                     x.AddDateTimeConverters(timeZoneClock: timeZoneClock,
-                        datesFormat: requestTimeZoneOptions.DatesFormat));
+                        dateTimeFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
+                        dateTimeOffsetFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
 
                 break;
             default:

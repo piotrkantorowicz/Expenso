@@ -1,14 +1,11 @@
-﻿using Expenso.Shared.System.Time.Request.Settings;
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 namespace Expenso.Shared.System.Time.Providers;
 
-internal sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
+public sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 {
-    public RequestTimeZoneHeaderProvider(RequestTimeZoneOptions? options, string? headerkey = null) : base(
-        options: options)
+    public RequestTimeZoneHeaderProvider(string? headerkey = null) 
     {
         Headerkey = headerkey ?? "time-zone";
     }
@@ -24,6 +21,6 @@ internal sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 
         string? value = values.FirstOrDefault(predicate: v => !string.IsNullOrEmpty(value: v));
 
-        return ValidateAndCreateResult(value: value);
+        return CreateResult(value: value);
     }
 }

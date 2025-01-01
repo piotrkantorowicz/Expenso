@@ -1,4 +1,4 @@
-﻿using Expenso.Api.Configuration.Settings;
+﻿using Expenso.Api.Configuration.Settings.ApiSettings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using NUnit.Framework;

@@ -7,10 +7,10 @@ using FluentAssertions;
 
 using NUnit.Framework;
 
-namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.DateTimeConverter;
+namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.NullableDateTimeConverter;
 
 [TestFixture]
-internal sealed class Read : DateTimeConverterTestBase
+internal sealed class Read : NullableDateTimeConverterTestBase
 {
     [Test, TestCaseSource(sourceName: nameof(ValidDateTimeCases))]
     public void Should_ReturnParsedDateTime_When_ValidString(string json, string timeZoneId, DateTime expected)
@@ -22,7 +22,7 @@ internal sealed class Read : DateTimeConverterTestBase
         Utf8JsonReader reader = new(jsonData: Encoding.UTF8.GetBytes(s: json));
         reader.Read();
 
-        DateTime result = TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime),
+        DateTime? result = TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime),
             options: new JsonSerializerOptions());
 
         // Assert

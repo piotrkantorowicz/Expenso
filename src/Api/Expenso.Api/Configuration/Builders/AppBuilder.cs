@@ -8,7 +8,8 @@ using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
 using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
-using Expenso.Api.Configuration.Settings;
+using Expenso.Api.Configuration.Settings.ApiSettings;
+using Expenso.Api.Configuration.Settings.ApiSettings.TimeZone;
 using Expenso.IAM.Core.Acl.Keycloak.Settings;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
@@ -29,7 +30,6 @@ using Expenso.Shared.System.Metrics.Settings;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Time;
-using Expenso.Shared.System.Time.Constants;
 using Expenso.Shared.System.Time.Extensions;
 using Expenso.Shared.System.Time.Request.Settings;
 using Expenso.Shared.System.Types;
@@ -95,7 +95,7 @@ internal sealed class AppBuilder : IAppBuilder
         Clock clock = new();
         _services.AddSingleton<IClock>(implementationInstance: clock);
         _services.AddSingleton<ITimeZoneClock>(implementationInstance: clock);
-        
+
         _services
             .AddCommands(assemblies: assemblies)
             .AddCommandsValidations(assemblies: assemblies)
@@ -115,10 +115,18 @@ internal sealed class AppBuilder : IAppBuilder
             .AddOtlpMetrics(otlpSettings: otlpSettings)
             .AddRequestTimeZone(optionsAction: settings =>
             {
-                settings.Id = TimeZoneIds.Utc;
-                settings.EnableRequestToUtc = true;
-                settings.EnableResponseToLocal = true;
-                settings.DatesFormat = DateTimeFormats.Iso8601;
+                TimeZoneSettings timeZoneSettings =
+                    _appConfigurationManager.GetRequiredSettings<TimeZoneSettings>(sectionName: SectionNames.TimeZones);
+
+                settings.Id = timeZoneSettings.Id;
+                settings.EnableRequestToUtc = timeZoneSettings.EnableRequestToUtc ?? false;
+                settings.EnableResponseToLocal = timeZoneSettings.EnableResponseToLocal ?? false;
+                settings.SupportedDateTimeFormats = timeZoneSettings.SupportedDateTimeFormats ?? [];
+                settings.SupportedDateTimeOffsetFormats = timeZoneSettings.SupportedDateTimeOffsetFormats ?? [];
+
+                settings.RequestTimeZoneProviders = TimeZoneSettings.GetRequestTimeZoneProviders(
+                    timeZoneProviderType: timeZoneSettings.TimeZoneProviderType) ?? [];
+
                 settings.MvcOptionType = MvcOptionType.MinimalApi;
             }, timeZoneClock: clock);
 

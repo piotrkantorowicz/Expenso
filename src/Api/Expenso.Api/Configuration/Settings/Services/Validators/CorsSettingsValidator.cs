@@ -1,4 +1,5 @@
-﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
+﻿using Expenso.Api.Configuration.Settings.ApiSettings;
+using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
 using FluentValidation;
 
