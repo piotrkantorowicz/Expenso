@@ -18,26 +18,22 @@ internal sealed class TimeZoneSettingsValidator : AbstractValidator<TimeZoneSett
             .WithMessage(errorMessage: "EnableResponseToLocal must be provided.");
 
         When(predicate: x => x.SupportedDateTimeFormats is not null, action: () =>
-        {
             RuleFor(expression: x => x.SupportedDateTimeFormats)
                 .Must(predicate: x =>
                     x is { Length: > 0 } &&
                     x.All(predicate: y => DateTimeFormats.SupportedDateTimeFormats.Contains(value: y)))
                 .WithMessage(
                     errorMessage:
-                    $"Supported date formats must be provided and must be one of the following: {string.Join(separator: ", ", value: DateTimeFormats.SupportedDateTimeFormats)}");
-        });
+                    $"Supported date formats must be provided and must be one of the following: {string.Join(separator: ", ", value: DateTimeFormats.SupportedDateTimeFormats)}"));
 
         When(predicate: x => x.SupportedDateTimeOffsetFormats is not null, action: () =>
-        {
             RuleFor(expression: x => x.SupportedDateTimeOffsetFormats)
                 .Must(predicate: x => x is { Length: > 0 } &&
                                       x.All(predicate: y =>
                                           DateTimeFormats.SupportedDateTimeOffsetFormats.Contains(value: y)))
                 .WithMessage(
                     errorMessage:
-                    $"Supported date time offset formats must be provided and must be one of the following: {string.Join(separator: ", ", value: DateTimeFormats.SupportedDateTimeOffsetFormats)}");
-        });
+                    $"Supported date time offset formats must be provided and must be one of the following: {string.Join(separator: ", ", value: DateTimeFormats.SupportedDateTimeOffsetFormats)}"));
 
         When(predicate: x => x.EnableRequestToUtc is true || x.EnableResponseToLocal is true, action: () =>
         {

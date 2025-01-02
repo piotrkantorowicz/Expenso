@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
 
         if (options.EnableRequestToUtc)
         {
-            ConfigureRequestOptions(services: services, timeZoneClock: timeZoneClock);
+            ConfigureRequestOptions(services: services, timeZoneClock: timeZoneClock, requestTimeZoneOptions: options);
         }
 
         if (options.EnableResponseToLocal)
@@ -40,9 +40,12 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static void ConfigureRequestOptions(IServiceCollection services, ITimeZoneClock timeZoneClock)
+    private static void ConfigureRequestOptions(IServiceCollection services, ITimeZoneClock timeZoneClock,
+        RequestTimeZoneOptions requestTimeZoneOptions)
     {
-        services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock));
+        services.AddMvcCore(setupAction: x =>
+            x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock,
+                requestTimeZoneOptions: requestTimeZoneOptions));
     }
 
     private static void ConfigureResponseOptions(IServiceCollection services,
@@ -62,11 +65,13 @@ public static class ServiceCollectionExtensions
 
                 break;
             case MvcOptionType.Controllers:
-                services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock));
+                services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock,
+                    requestTimeZoneOptions: requestTimeZoneOptions));
 
                 break;
             case MvcOptionType.All:
-                services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock));
+                services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock,
+                    requestTimeZoneOptions: requestTimeZoneOptions));
 
                 services.Configure<JsonOptions>(configureOptions: x =>
                     x.AddDateTimeConverters(timeZoneClock: timeZoneClock,

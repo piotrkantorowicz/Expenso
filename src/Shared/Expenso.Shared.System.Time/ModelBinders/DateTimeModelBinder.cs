@@ -9,10 +9,20 @@ namespace Expenso.Shared.System.Time.ModelBinders;
 internal sealed class DateTimeModelBinder : IModelBinder
 {
     private readonly Func<RequestTimeZone> _requestTimeZone;
+    private readonly string[] _dateTimeSupportedFormats;
+    private readonly string[] _dateTimeOffsetSupportedFormats;
 
-    public DateTimeModelBinder(Func<RequestTimeZone> requestTimeZone)
+    public DateTimeModelBinder(Func<RequestTimeZone> requestTimeZone, string[] dateTimeSupportedFormats,
+        string[] dateTimeOffsetSupportedFormats)
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
+
+        _dateTimeSupportedFormats = dateTimeSupportedFormats ??
+                                    throw new ArgumentNullException(paramName: nameof(dateTimeSupportedFormats));
+
+        _dateTimeOffsetSupportedFormats = dateTimeOffsetSupportedFormats ??
+                                          throw new ArgumentNullException(
+                                              paramName: nameof(dateTimeOffsetSupportedFormats));
     }
 
     public Task BindModelAsync(ModelBindingContext bindingContext)
@@ -27,17 +37,16 @@ internal sealed class DateTimeModelBinder : IModelBinder
         else
         {
             Type modelType = bindingContext.ModelType;
-            TimeZoneInfo timeZone = _requestTimeZone()?.TimeZone ?? TimeZoneInfo.Utc;
+            TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
 
             if (modelType == typeof(DateTimeOffset?) || modelType == typeof(DateTimeOffset))
             {
-                if (DateTimeOffset.TryParse(input: valueProviderResult.FirstValue,
-                        formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.AdjustToUniversal,
-                        result: out DateTimeOffset parsedDateTimeOffset))
+                if (DateTimeOffset.TryParseExact(input: valueProviderResult.FirstValue,
+                        format: _dateTimeOffsetSupportedFormats[0], formatProvider: CultureInfo.InvariantCulture,
+                        styles: DateTimeStyles.None, result: out DateTimeOffset dateTimeOffset))
                 {
-                    DateTimeOffset dateTimeUtc = TimeZoneInfo
-                        .ConvertTime(dateTimeOffset: parsedDateTimeOffset, destinationTimeZone: timeZone)
-                        .ToUniversalTime();
+                    DateTimeOffset dateTimeUtc = TimeZoneInfo.ConvertTime(dateTimeOffset: dateTimeOffset,
+                        destinationTimeZone: timeZone);
 
                     bindingContext.Result = ModelBindingResult.Success(model: dateTimeUtc);
                 }
@@ -49,12 +58,12 @@ internal sealed class DateTimeModelBinder : IModelBinder
             }
             else if (modelType == typeof(DateTime?) || modelType == typeof(DateTime))
             {
-                if (DateTime.TryParse(s: valueProviderResult.FirstValue, provider: CultureInfo.InvariantCulture,
-                        styles: DateTimeStyles.AdjustToUniversal, result: out DateTime parsedDateTime))
+                if (DateTime.TryParseExact(s: valueProviderResult.FirstValue, format: _dateTimeSupportedFormats[0],
+                        provider: CultureInfo.InvariantCulture, style: DateTimeStyles.None,
+                        result: out DateTime dateTime))
                 {
-                    DateTime dateTimeUtc = TimeZoneInfo
-                        .ConvertTime(dateTime: parsedDateTime, destinationTimeZone: timeZone)
-                        .ToUniversalTime();
+                    DateTime dateTimeUtc = TimeZoneInfo.ConvertTime(dateTime: dateTime, sourceTimeZone: timeZone,
+                        destinationTimeZone: TimeZoneInfo.Utc);
 
                     bindingContext.Result = ModelBindingResult.Success(model: dateTimeUtc);
                 }

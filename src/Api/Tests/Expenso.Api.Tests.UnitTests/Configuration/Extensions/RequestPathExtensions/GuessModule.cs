@@ -16,7 +16,7 @@ namespace Expenso.Api.Tests.UnitTests.Configuration.Extensions.RequestPathExtens
 internal sealed class GuessModule : RequestPathExtensionTestBase
 {
     [Test]
-    public void GuessModule_ShouldReturnNull_WhenRequestPathIsNull()
+    public void Should_ReturnNull_WhenRequestPathIsNull()
     {
         // Act
         string? result = ((string?)null).GuessModule(logger: _loggerMock.Object);
@@ -30,7 +30,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
     }
 
     [Test]
-    public void GuessModule_ShouldReturnNull_WhenRequestPathContainsManagementPath()
+    public void Should_ReturnNull_WhenRequestPathContainsManagementPath()
     {
         // Arrange
         const string requestPath = "/health";
@@ -48,7 +48,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
     }
 
     [Test]
-    public void GuessModule_ShouldReturnNull_WhenNoRegisteredModules()
+    public void Should_ReturnNull_WhenNoRegisteredModules()
     {
         // Arrange
         const string requestPath = "/api/unknown";
@@ -65,7 +65,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
     }
 
     [Test]
-    public void GuessModule_ShouldReturnModuleName_WhenMatchingPrefixIsFound()
+    public void Should_ReturnModuleName_WhenMatchingPrefixIsFound()
     {
         // Arrange
         const string requestPath = "/api/budget-sharing";
@@ -86,7 +86,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
     }
 
     [Test]
-    public void GuessModule_ShouldReturnNull_WhenNoMatchingPrefixIsFound()
+    public void Should_ReturnNull_WhenNoMatchingPrefixIsFound()
     {
         // Arrange
         const string requestPath = "/api/unknown";

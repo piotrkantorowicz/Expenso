@@ -12,8 +12,8 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.NullableDateT
 [TestFixture]
 internal sealed class Read : NullableDateTimeOffsetConverterTestBase
 {
-    [Test, TestCaseSource(sourceName: nameof(ValidDateTimeCases))]
-    public void Should_ReturnParsedDateTime_When_ValidString(string json, string timeZoneId, DateTimeOffset expected)
+    [Test, TestCaseSource(sourceName: nameof(ValidDateTimeOffsetCases))]
+    public void Should_ReturnParsedDateTime_When_ValidString(string json, string timeZoneId, DateTimeOffset? expected)
     {
         // Arrange
         CreateTestCandidate(timeZoneName: timeZoneId);
@@ -22,7 +22,7 @@ internal sealed class Read : NullableDateTimeOffsetConverterTestBase
         Utf8JsonReader reader = new(jsonData: Encoding.UTF8.GetBytes(s: json));
         reader.Read();
 
-        DateTimeOffset? result = TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime),
+        DateTimeOffset? result = TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTimeOffset?),
             options: new JsonSerializerOptions());
 
         // Assert
@@ -46,7 +46,7 @@ internal sealed class Read : NullableDateTimeOffsetConverterTestBase
             Utf8JsonReader reader = new(jsonData: Encoding.UTF8.GetBytes(s: json));
             reader.Read();
 
-            TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime),
+            TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTimeOffset?),
                 options: new JsonSerializerOptions());
         };
 
@@ -54,7 +54,7 @@ internal sealed class Read : NullableDateTimeOffsetConverterTestBase
         action.Should().Throw<Exception>();
     }
 
-    private static IEnumerable<object> ValidDateTimeCases()
+    private static IEnumerable<object> ValidDateTimeOffsetCases()
     {
         yield return new object[]
         {

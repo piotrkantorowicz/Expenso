@@ -13,7 +13,7 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.NullableDateT
 internal sealed class Read : NullableDateTimeConverterTestBase
 {
     [Test, TestCaseSource(sourceName: nameof(ValidDateTimeCases))]
-    public void Should_ReturnParsedDateTime_When_ValidString(string json, string timeZoneId, DateTime expected)
+    public void Should_ReturnParsedDateTime_When_ValidString(string json, string timeZoneId, DateTime? expected)
     {
         // Arrange
         CreateTestCandidate(timeZoneName: timeZoneId);
@@ -22,7 +22,7 @@ internal sealed class Read : NullableDateTimeConverterTestBase
         Utf8JsonReader reader = new(jsonData: Encoding.UTF8.GetBytes(s: json));
         reader.Read();
 
-        DateTime? result = TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime),
+        DateTime? result = TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime?),
             options: new JsonSerializerOptions());
 
         // Assert
@@ -46,7 +46,7 @@ internal sealed class Read : NullableDateTimeConverterTestBase
             Utf8JsonReader reader = new(jsonData: Encoding.UTF8.GetBytes(s: json));
             reader.Read();
 
-            TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime),
+            TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime?),
                 options: new JsonSerializerOptions());
         };
 

@@ -26,6 +26,10 @@ internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
             throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
+        if (_supportedFormats.Length == 0)
+        {
+            throw new InvalidOperationException(message: "No date time offset formats configured");
+        }
         if (!DateTimeOffset.TryParseExact(input: value, format: _supportedFormats[0],
                 formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.None,
                 result: out DateTimeOffset dateTimeOffset))
@@ -42,6 +46,10 @@ internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
     {
         string dateString = value.ToString(format: _supportedFormats[0], formatProvider: CultureInfo.InvariantCulture);
 
+        if (_supportedFormats.Length == 0)
+        {
+            throw new InvalidOperationException(message: "No date time offset formats configured");
+        }
         if (!DateTimeOffset.TryParseExact(input: dateString, format: _supportedFormats[0],
                 formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.None,
                 result: out DateTimeOffset parsedDateTimeOffset))

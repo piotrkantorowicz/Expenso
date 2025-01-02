@@ -14,6 +14,8 @@ public sealed class RequestTimeZoneQueryStringProvider : RequestTimeZoneProvider
 
     public override Task<ProviderTimeZoneResult> DetermineProviderTimeZoneResult(HttpContext httpContext)
     {
+        ArgumentNullException.ThrowIfNull(argument: httpContext);
+
         if (!httpContext.Request.Query.TryGetValue(key: QueryStringKey, value: out StringValues values))
         {
             return DefaultProviderTimeZoneResult;

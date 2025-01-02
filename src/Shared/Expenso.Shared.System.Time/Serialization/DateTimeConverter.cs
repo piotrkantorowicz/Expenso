@@ -26,6 +26,11 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
             throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
+        if (_supportedFormats.Length == 0)
+        {
+            throw new InvalidOperationException(message: "No date time formats configured");
+        }
+
         if (!DateTime.TryParseExact(s: value, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime dateTime))
         {
@@ -43,6 +48,11 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
     {
         string dateString = value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
 
+        if (_supportedFormats.Length == 0)
+        {
+            throw new InvalidOperationException(message: "No date time formats configured");
+        }
+        
         if (!DateTime.TryParseExact(s: dateString, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime parsedDateTime))
         {

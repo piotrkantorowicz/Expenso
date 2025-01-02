@@ -16,8 +16,10 @@ public sealed class RequestTimeZoneCookieProvider : RequestTimeZoneProvider
 
     public override Task<ProviderTimeZoneResult> DetermineProviderTimeZoneResult(HttpContext httpContext)
     {
-        string? value = httpContext.Request.Cookies[key: CookieName];
+        ArgumentNullException.ThrowIfNull(argument: httpContext);
 
-        return CreateResult(value: value, trimPrefix: true, prefix: Prefix);
+        return httpContext.Request.Cookies.TryGetValue(key: CookieName, value: out string? value)
+            ? CreateResult(value: value, trimPrefix: true, prefix: Prefix)
+            : DefaultProviderTimeZoneResult;
     }
 }

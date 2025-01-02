@@ -5,7 +5,7 @@ namespace Expenso.Shared.System.Time.Providers;
 
 public sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 {
-    public RequestTimeZoneHeaderProvider(string? headerkey = null) 
+    public RequestTimeZoneHeaderProvider(string? headerkey = null)
     {
         Headerkey = headerkey ?? "time-zone";
     }
@@ -14,6 +14,8 @@ public sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 
     public override Task<ProviderTimeZoneResult> DetermineProviderTimeZoneResult(HttpContext httpContext)
     {
+        ArgumentNullException.ThrowIfNull(argument: httpContext);
+
         if (!httpContext.Request.Headers.TryGetValue(key: Headerkey, value: out StringValues values))
         {
             return DefaultProviderTimeZoneResult;

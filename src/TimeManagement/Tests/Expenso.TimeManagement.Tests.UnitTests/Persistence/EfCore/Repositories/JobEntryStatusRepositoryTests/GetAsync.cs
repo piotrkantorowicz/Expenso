@@ -32,7 +32,7 @@ internal sealed class GetAsync : JobEntryStatusRepositoryTestBase
     [Test]
     [TestCase(arg: "00000000-0000-0000-0000-000000000000", Description = "Empty GUID")]
     [TestCase(arg: "A5C2C3D4-E5F6-47A8-B9C0-1D2E3F4A5B6C", Description = "Non-existent GUID")]
-    public async Task GetAsync_ShouldReturnNull_WhenStatusDoesNotExist(string id)
+    public async Task Should_ReturnNull_WhenStatusDoesNotExist(string id)
     {
         // Arrange
         Guid jobEntryStatusId = Guid.Parse(input: id);
