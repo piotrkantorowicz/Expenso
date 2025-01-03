@@ -37,7 +37,25 @@ internal sealed class Write : NullableDateTimeOffsetConverterTestBase
         result.Should().Be(expected: expected);
     }
 
+    [Test]
+    public void Should_ThrowTimeZoneNotFoundException_When_InvalidTimeZoneId()
+    {
+        // Arrange
+        CreateTestCandidate(timeZoneName: "Invalid/TimeZone");
 
+        // Act
+        Action action = () =>
+        {
+            DateTimeOffset dateTime = DateTimeOffset.UtcNow;
+            ArrayBufferWriter<byte> bufferWriter = new();
+            Utf8JsonWriter writer = new(bufferWriter: bufferWriter);
+            TestCandidate.Write(writer: writer, value: dateTime, options: new JsonSerializerOptions());
+            writer.Dispose();
+        };
+
+        // Assert
+        action.Should().Throw<TimeZoneNotFoundException>().WithMessage(expectedWildcardPattern: "*Invalid/TimeZone*");
+    }
 
     private static IEnumerable<object> ValidDateTimeCases()
     {
@@ -110,6 +128,30 @@ internal sealed class Write : NullableDateTimeOffsetConverterTestBase
             null!,
             TimeZoneIds.Utc,
             "null"
+        };
+
+        yield return new object[]
+        {
+            new DateTimeOffset(dateTime: new DateTime(year: 2024, month: 3, day: 10, hour: 2, minute: 30, second: 0,
+                kind: DateTimeKind.Utc)),
+            "America/New_York",
+            "\"2024-03-09T21:30:00.0000000-05:00\""
+        };
+
+        yield return new object[]
+        {
+            new DateTimeOffset(dateTime: new DateTime(year: 2024, month: 11, day: 3, hour: 1, minute: 30, second: 0,
+                kind: DateTimeKind.Utc)),
+            "America/New_York",
+            "\"2024-11-02T21:30:00.0000000-04:00\""
+        };
+
+        yield return new object[]
+        {
+            new DateTimeOffset(dateTime: new DateTime(year: 2024, month: 1, day: 1, hour: 0, minute: 0, second: 0,
+                millisecond: 123, kind: DateTimeKind.Utc)),
+            TimeZoneIds.Utc,
+            "\"2024-01-01T00:00:00.1230000+00:00\""
         };
     }
 }

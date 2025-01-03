@@ -31,8 +31,25 @@ internal sealed class Write : DateTimeConverterTestBase
         result.Should().Be(expected: expected);
     }
 
+    [Test]
+    public void Should_ThrowTimeZoneNotFoundException_When_InvalidTimeZoneId()
+    {
+        // Arrange
+        CreateTestCandidate(timeZoneName: "Invalid/TimeZone");
 
+        // Act
+        Action action = () =>
+        {
+            DateTime dateTime = DateTime.UtcNow;
+            ArrayBufferWriter<byte> bufferWriter = new();
+            Utf8JsonWriter writer = new(bufferWriter: bufferWriter);
+            TestCandidate.Write(writer: writer, value: dateTime, options: new JsonSerializerOptions());
+            writer.Dispose();
+        };
 
+        // Assert
+        action.Should().Throw<TimeZoneNotFoundException>().WithMessage(expectedWildcardPattern: "*Invalid/TimeZone*");
+    }
     private static IEnumerable<object> ValidDateTimeCases()
     {
         yield return new object[]
@@ -89,6 +106,20 @@ internal sealed class Write : DateTimeConverterTestBase
             new DateTime(year: 1, month: 1, day: 1, hour: 0, minute: 0, second: 0, kind: DateTimeKind.Utc),
             TimeZoneIds.Utc,
             "\"0001-01-01T00:00:00\""
+        };
+
+        yield return new object[]
+        {
+            new DateTime(year: 2024, month: 3, day: 10, hour: 2, minute: 30, second: 0, kind: DateTimeKind.Utc),
+            "America/New_York",
+            "\"2024-03-09T21:30:00\""
+        };
+
+        yield return new object[]
+        {
+            new DateTime(year: 2024, month: 11, day: 3, hour: 1, minute: 30, second: 0, kind: DateTimeKind.Utc),
+            "America/New_York",
+            "\"2024-11-02T21:30:00\""
         };
     }
 }

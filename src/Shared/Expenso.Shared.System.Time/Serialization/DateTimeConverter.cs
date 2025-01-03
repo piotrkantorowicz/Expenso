@@ -14,7 +14,7 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
     public DateTimeConverter(Func<RequestTimeZone> requestTimeZone, string[] supportedFormats)
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
-        _supportedFormats = supportedFormats ?? throw new ArgumentNullException(paramName: nameof(supportedFormats));
+        ArgumentNullException.ThrowIfNull(argument: supportedFormats);
 
         if (supportedFormats.Length == 0)
         {

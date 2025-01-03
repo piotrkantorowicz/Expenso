@@ -14,8 +14,7 @@ internal sealed class NullableDateTimeConverter : JsonConverter<DateTime?>
     public NullableDateTimeConverter(Func<RequestTimeZone> requestTimeZone, string[] supportedFormats)
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
-        _supportedFormats = supportedFormats ?? throw new ArgumentNullException(paramName: nameof(supportedFormats));
-
+        ArgumentNullException.ThrowIfNull(argument: supportedFormats);
         if (supportedFormats.Length == 0)
         {
             throw new ArgumentException(message: "At least one format must be provided",
