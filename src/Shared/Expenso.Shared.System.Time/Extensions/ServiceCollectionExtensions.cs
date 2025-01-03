@@ -9,14 +9,14 @@ namespace Expenso.Shared.System.Time.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static (IServiceCollection services, Clock clock) AddClock(this IServiceCollection services)
+    public static IServiceCollection AddClock(this IServiceCollection services, out Clock clock)
     {
         ArgumentNullException.ThrowIfNull(argument: services);
-        Clock clock = new();
+        clock = new Clock();
         services.AddSingleton<IClock>(implementationInstance: clock);
         services.AddSingleton<ITimeZoneClock>(implementationInstance: clock);
 
-        return (services, clock);
+        return services;
     }
 
     public static IServiceCollection AddRequestTimeZone(this IServiceCollection services, string defaultTimeZone,
@@ -67,31 +67,37 @@ public static class ServiceCollectionExtensions
                 break;
             case MvcOptionType.MinimalApi:
                 services.AddMvcCore();
-
-                services.Configure<JsonOptions>(configureOptions: x =>
-                    x.AddDateTimeConverters(timeZoneClock: timeZoneClock,
-                        dateTimeFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
-                        dateTimeOffsetFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
+                ConfigureJson();
 
                 break;
             case MvcOptionType.Controllers:
-                services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock,
-                    requestTimeZoneOptions: requestTimeZoneOptions));
+                ConfigureMvc();
 
                 break;
             case MvcOptionType.All:
-                services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(timeZoneClock: timeZoneClock,
-                    requestTimeZoneOptions: requestTimeZoneOptions));
-
-                services.Configure<JsonOptions>(configureOptions: x =>
-                    x.AddDateTimeConverters(timeZoneClock: timeZoneClock,
-                        dateTimeFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
-                        dateTimeOffsetFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
+                ConfigureMvc();
+                ConfigureJson();
 
                 break;
             default:
                 throw new ArgumentOutOfRangeException(paramName: nameof(requestTimeZoneOptions.MvcOptionType),
-                    actualValue: requestTimeZoneOptions.MvcOptionType, message: null);
+                    actualValue: requestTimeZoneOptions.MvcOptionType,
+                    message: $"Unsupported MVC option type: {requestTimeZoneOptions.MvcOptionType}");
+        }
+
+        return;
+
+        void ConfigureJson()
+        {
+            services.Configure<JsonOptions>(configureOptions: x => x.AddDateTimeConverters(timeZoneClock: timeZoneClock,
+                dateTimeFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
+                dateTimeOffsetFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
+        }
+
+        void ConfigureMvc()
+        {
+            services.AddMvcCore(setupAction: x => x.AddDateTimeModelBinderProvider(
+                timeZoneClock: timeZoneClock, requestTimeZoneOptions: requestTimeZoneOptions));
         }
     }
 }

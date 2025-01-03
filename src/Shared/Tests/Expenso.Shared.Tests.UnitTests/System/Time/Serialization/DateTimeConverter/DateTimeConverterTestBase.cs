@@ -20,12 +20,12 @@ internal abstract class DateTimeConverterTestBase : TestBase<Shared.System.Time.
         TestCandidate = null!;
     }
 
-    protected void CreateTestCandidate(string timeZoneName = TimeZoneIds.Utc)
+    protected void CreateTestCandidate(string? timeZoneName = TimeZoneIds.Utc, string[]? supportedFormats = null)
     {
         _requestTimeZone = () => new RequestTimeZone(name: timeZoneName);
 
         TestCandidate = new Shared.System.Time.Serialization.DateTimeConverter(requestTimeZone: _requestTimeZone,
-            supportedFormats: [DateTimeFormats.Iso8601]);
+            supportedFormats: supportedFormats ?? [DateTimeFormats.Iso8601]);
     }
 
     private Func<RequestTimeZone>? _requestTimeZone;

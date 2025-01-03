@@ -26,6 +26,11 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
             throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
+        if (_supportedFormats.Length == 0)
+        {
+            throw new InvalidOperationException(message: "No date time offset formats configured");
+        }
+
         if (!DateTimeOffset.TryParseExact(input: value, format: _supportedFormats[0],
                 formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.None,
                 result: out DateTimeOffset dateTimeOffset))
@@ -45,6 +50,11 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
             return;
         }
 
+        if (_supportedFormats.Length == 0)
+        {
+            throw new InvalidOperationException(message: "No date time formats configured");
+        }
+
         string dateString =
             value.Value.ToString(format: _supportedFormats[0], formatProvider: CultureInfo.InvariantCulture);
 
@@ -56,12 +66,7 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
                 message: $"Failed to parse formatted date string '{dateString}' back to DateTimeOffset");
         }
 
-        TimeZoneInfo? timeZone = _requestTimeZone().TimeZone;
-
-        if (timeZone == null)
-        {
-            throw new InvalidOperationException(message: "TimeZone cannot be null");
-        }
+        TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
 
         try
         {

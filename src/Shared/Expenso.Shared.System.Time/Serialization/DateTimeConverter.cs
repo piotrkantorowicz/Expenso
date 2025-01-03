@@ -46,25 +46,20 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        string dateString = value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
-
         if (_supportedFormats.Length == 0)
         {
             throw new InvalidOperationException(message: "No date time formats configured");
         }
-        
+
+        string dateString = value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
+
         if (!DateTime.TryParseExact(s: dateString, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime parsedDateTime))
         {
             throw new JsonException(message: $"Failed to parse formatted date string '{dateString}' back to DateTime");
         }
 
-        TimeZoneInfo? timeZone = _requestTimeZone().TimeZone;
-
-        if (timeZone == null)
-        {
-            throw new InvalidOperationException(message: "TimeZone cannot be null");
-        }
+        TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
 
         try
         {

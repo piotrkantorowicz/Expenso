@@ -21,12 +21,12 @@ internal abstract class
         TestCandidate = null!;
     }
 
-    protected void CreateTestCandidate(string timeZoneName = TimeZoneIds.Utc)
+    protected void CreateTestCandidate(string timeZoneName = TimeZoneIds.Utc, string[]? supportedFormats = null)
     {
         _requestTimeZone = () => new RequestTimeZone(name: timeZoneName);
 
         TestCandidate = new Shared.System.Time.Serialization.NullableDateTimeOffsetConverter(
-            requestTimeZone: _requestTimeZone, supportedFormats: [DateTimeFormats.Iso8601TimeZone]);
+            requestTimeZone: _requestTimeZone, supportedFormats: supportedFormats ?? [DateTimeFormats.Iso8601TimeZone]);
     }
 
     private Func<RequestTimeZone>? _requestTimeZone;

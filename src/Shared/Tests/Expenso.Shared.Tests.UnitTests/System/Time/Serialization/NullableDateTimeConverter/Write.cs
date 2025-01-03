@@ -31,6 +31,20 @@ internal sealed class Write : NullableDateTimeConverterTestBase
         result.Should().Be(expected: expected);
     }
 
+    [Test]
+    public void Should_ThrowInvalidOperationException_When_SupportedFormatsCollectionIsEmpty()
+    {
+        // Arrange
+        CreateTestCandidate(timeZoneName: TimeZoneIds.Utc, supportedFormats: []);
+
+        // Act
+        Action action = () =>
+            TestCandidate.Write(writer: null!, value: DateTime.UtcNow, options: new JsonSerializerOptions());
+
+        // Assert
+        action.Should().Throw<InvalidOperationException>();
+    }
+
     private static IEnumerable<object> ValidDateTimeCases()
     {
         yield return new object[]
@@ -87,6 +101,13 @@ internal sealed class Write : NullableDateTimeConverterTestBase
             new DateTime(year: 1, month: 1, day: 1, hour: 0, minute: 0, second: 0, kind: DateTimeKind.Utc),
             TimeZoneIds.Utc,
             "\"0001-01-01T00:00:00\""
+        };
+
+        yield return new object[]
+        {
+            null!,
+            TimeZoneIds.Utc,
+            string.Empty
         };
     }
 }

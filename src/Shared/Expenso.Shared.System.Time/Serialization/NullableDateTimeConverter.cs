@@ -30,6 +30,7 @@ internal sealed class NullableDateTimeConverter : JsonConverter<DateTime?>
         {
             throw new InvalidOperationException(message: "No date time formats configured");
         }
+
         if (!DateTime.TryParseExact(s: value, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime dateTime))
         {
@@ -50,24 +51,22 @@ internal sealed class NullableDateTimeConverter : JsonConverter<DateTime?>
             return;
         }
 
-        string dateString = value.Value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
-
         if (_supportedFormats.Length == 0)
         {
             throw new InvalidOperationException(message: "No date time formats configured");
         }
+
+        string dateString = value.Value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
+
         if (!DateTime.TryParseExact(s: dateString, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
                 style: DateTimeStyles.None, result: out DateTime parsedDateTime))
         {
             throw new JsonException(message: $"Failed to parse formatted date string '{dateString}' back to DateTime");
         }
 
-        TimeZoneInfo? timeZone = _requestTimeZone().TimeZone;
+        TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
 
-        if (timeZone == null)
-        {
-            throw new InvalidOperationException(message: "TimeZone cannot be null");
-        }
+
 
         try
         {

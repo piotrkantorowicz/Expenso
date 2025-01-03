@@ -92,8 +92,6 @@ internal sealed class AppBuilder : IAppBuilder
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
 
-        (_, Clock clock) = _services.AddClock();
-
         _services
             .AddCommands(assemblies: assemblies)
             .AddCommandsValidations(assemblies: assemblies)
@@ -110,6 +108,7 @@ internal sealed class AppBuilder : IAppBuilder
             .AddDefaultSerializer()
             .AddInternalLogging()
             .AddOtlpMetrics(otlpSettings: otlpSettings)
+            .AddClock(clock: out Clock clock)
             .AddRequestTimeZone(optionsAction: settings =>
             {
                 TimeZoneSettings timeZoneSettings =

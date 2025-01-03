@@ -47,21 +47,44 @@ internal abstract class
         _timeZoneClockMock = null!;
     }
 
-    protected void AssertRequestTimeZoneFeature(string timeZoneId, Type? providerType = null)
+    protected void AssertRequestTimeZoneFeature(string expectedTimeZoneId, Type? expectedProviderType = null)
     {
         IRequestTimeZoneFeature? feature = _httpContext.Features.Get<IRequestTimeZoneFeature>();
-        feature.Should().NotBeNull();
-        feature?.RequestTimeZone.TimeZone.Id.Should().Be(expected: timeZoneId);
+        AssertFeatureExists(feature: feature);
+        AssertTimeZoneId(feature: feature!, expectedTimeZoneId: expectedTimeZoneId);
+        AssertProviderType(feature: feature!, expectedProviderType: expectedProviderType);
+        AssertResponseHeader(expectedTimeZoneId: expectedTimeZoneId);
+    }
 
-        if (providerType is not null)
+    private static void AssertFeatureExists(IRequestTimeZoneFeature? feature)
+    {
+        feature.Should().NotBeNull();
+    }
+
+    private static void AssertTimeZoneId(IRequestTimeZoneFeature feature, string expectedTimeZoneId)
+    {
+        feature.RequestTimeZone.Should().NotBeNull();
+        feature.RequestTimeZone.TimeZone.Should().NotBeNull();
+        feature.RequestTimeZone.TimeZone.Id.Should().Be(expected: expectedTimeZoneId);
+    }
+
+    private static void AssertProviderType(IRequestTimeZoneFeature feature, Type? expectedProviderType)
+    {
+        if (expectedProviderType is null)
         {
-            feature?.Provider.Should().BeOfType(expectedType: providerType);
+            return;
         }
 
+        feature.Provider.Should().NotBeNull();
+        feature.Provider.Should().BeOfType(expectedType: expectedProviderType);
+    }
+
+    private void AssertResponseHeader(string expectedTimeZoneId)
+    {
         KeyValuePair<string, StringValues> timeZoneHeader =
             _httpContext.Response.Headers.FirstOrDefault(predicate: x => x.Key == _options.GetDefaultHeaderName());
 
         timeZoneHeader.Should().NotBeNull();
-        timeZoneHeader.Value.Should().Contain(expected: timeZoneId);
+        timeZoneHeader.Value.Should().Contain(expected: expectedTimeZoneId);
     }
 }

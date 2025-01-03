@@ -20,7 +20,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
         await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
 
         // Assert
-        AssertRequestTimeZoneFeature(timeZoneId: "UTC");
+        AssertRequestTimeZoneFeature(expectedTimeZoneId: "UTC");
     }
 
     [Test]
@@ -40,8 +40,8 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
         await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
 
         // Assert
-        AssertRequestTimeZoneFeature(timeZoneId: "Pacific Standard Time",
-            providerType: typeof(RequestTimeZoneCookieProvider));
+        AssertRequestTimeZoneFeature(expectedTimeZoneId: "Pacific Standard Time",
+            expectedProviderType: typeof(RequestTimeZoneCookieProvider));
     }
 
     [Test]
@@ -58,8 +58,8 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
         await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
 
         // Assert
-        AssertRequestTimeZoneFeature(timeZoneId: "America/Anchorage",
-            providerType: typeof(RequestTimeZoneQueryStringProvider));
+        AssertRequestTimeZoneFeature(expectedTimeZoneId: "America/Anchorage",
+            expectedProviderType: typeof(RequestTimeZoneQueryStringProvider));
     }
 
     [Test]
@@ -73,6 +73,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
         await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
 
         // Assert
-        AssertRequestTimeZoneFeature(timeZoneId: "Europe/Warsaw", providerType: typeof(RequestTimeZoneHeaderProvider));
+        AssertRequestTimeZoneFeature(expectedTimeZoneId: "Europe/Warsaw",
+            expectedProviderType: typeof(RequestTimeZoneHeaderProvider));
     }
 }
