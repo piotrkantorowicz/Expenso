@@ -10,7 +10,7 @@ using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Time;
 
 using Extensions = Expenso.Shared.System.Logging.Serilog.Extensions;
-using IClock = Expenso.Shared.System.Types.Clock.IClock;
+using IClock = Expenso.Shared.System.Time.IClock;
 using TaskExtensions = Expenso.Shared.System.Tasks.TaskExtensions;
 
 namespace Expenso.Shared.Tests.ArchTests.AccessModifiers.Assemblies;

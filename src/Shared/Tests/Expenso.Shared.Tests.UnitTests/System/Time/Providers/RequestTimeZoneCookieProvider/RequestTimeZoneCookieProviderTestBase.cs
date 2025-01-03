@@ -12,9 +12,9 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Providers.RequestTimeZoneCo
 internal abstract class
     RequestTimeZoneCookieProviderTestBase : TestBase<Shared.System.Time.Providers.RequestTimeZoneCookieProvider>
 {
-    protected Mock<HttpContext> _httpContextMock;
-    protected Mock<IRequestCookieCollection> _cookiesMock;
-    private Mock<HttpRequest> _httpRequestMock;
+    protected Mock<HttpContext> _httpContextMock = null!;
+    protected Mock<IRequestCookieCollection> _cookiesMock = null!;
+    private Mock<HttpRequest> _httpRequestMock = null!;
 
     [SetUp]
     public void SetUp()

@@ -2,7 +2,7 @@ using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Shared;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 using Expenso.Shared.System.Modules.Constants;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages;
 
 namespace Expenso.Api.Tests.E2E.TestData.DocumentManagement;

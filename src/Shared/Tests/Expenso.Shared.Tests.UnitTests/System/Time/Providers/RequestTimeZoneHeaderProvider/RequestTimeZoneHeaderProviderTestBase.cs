@@ -12,8 +12,8 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Providers.RequestTimeZoneHe
 internal abstract class
     RequestTimeZoneHeaderProviderTestBase : TestBase<Shared.System.Time.Providers.RequestTimeZoneHeaderProvider>
 {
-    protected Mock<HttpContext> _httpContextMock;
-    protected Mock<HttpRequest> _httpRequestMock;
+    protected Mock<HttpContext> _httpContextMock = null!;
+    protected Mock<HttpRequest> _httpRequestMock = null!;
 
     [SetUp]
     public void SetUp()

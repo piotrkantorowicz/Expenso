@@ -12,7 +12,7 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 

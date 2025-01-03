@@ -3,7 +3,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Tests.UnitTests.Domain;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 
 using Moq;
 

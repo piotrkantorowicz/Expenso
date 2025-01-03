@@ -5,7 +5,7 @@ using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.Expir
 using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default.Settings;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;

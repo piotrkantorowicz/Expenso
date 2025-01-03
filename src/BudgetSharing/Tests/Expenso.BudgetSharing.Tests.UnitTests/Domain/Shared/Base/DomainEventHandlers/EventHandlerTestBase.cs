@@ -8,7 +8,7 @@ using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Communication.Shared.DTO.Settings.Push;
 using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Types.Events;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;

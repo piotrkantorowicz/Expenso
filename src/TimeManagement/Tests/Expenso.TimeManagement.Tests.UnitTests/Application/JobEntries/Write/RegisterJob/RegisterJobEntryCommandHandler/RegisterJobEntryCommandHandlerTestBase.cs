@@ -3,7 +3,7 @@
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.System.Serialization;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.JobEntries.Write.RegisterJobEntry;

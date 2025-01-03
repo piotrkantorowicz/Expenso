@@ -1,6 +1,6 @@
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Rules;
 

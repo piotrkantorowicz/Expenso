@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Types.Clock;
+﻿using Expenso.Shared.System.Time;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 
 using FluentValidation;

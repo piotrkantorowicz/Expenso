@@ -2,7 +2,7 @@
 using Expenso.Api.Tests.E2E.TestData;
 using Expenso.Communication.Shared.DTO.API.SendNotification;
 using Expenso.Shared.System.Modules.Constants;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages;
 
 using FluentAssertions;

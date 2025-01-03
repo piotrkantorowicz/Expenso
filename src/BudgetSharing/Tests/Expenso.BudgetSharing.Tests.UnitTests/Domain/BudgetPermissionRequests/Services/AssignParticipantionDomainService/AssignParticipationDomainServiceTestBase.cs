@@ -8,7 +8,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 
 using Moq;
 

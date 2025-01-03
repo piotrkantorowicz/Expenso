@@ -9,6 +9,16 @@ namespace Expenso.Shared.System.Time.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    public static (IServiceCollection services, Clock clock) AddClock(this IServiceCollection services)
+    {
+        ArgumentNullException.ThrowIfNull(argument: services);
+        Clock clock = new();
+        services.AddSingleton<IClock>(implementationInstance: clock);
+        services.AddSingleton<ITimeZoneClock>(implementationInstance: clock);
+
+        return (services, clock);
+    }
+
     public static IServiceCollection AddRequestTimeZone(this IServiceCollection services, string defaultTimeZone,
         ITimeZoneClock timeZoneClock)
     {

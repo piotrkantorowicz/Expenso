@@ -12,7 +12,7 @@ using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPerm
 using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission.DTO.Request;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages;
 
 namespace Expenso.Api.Tests.E2E.TestData.BudgetSharing;

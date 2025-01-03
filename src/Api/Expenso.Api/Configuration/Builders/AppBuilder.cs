@@ -92,9 +92,7 @@ internal sealed class AppBuilder : IAppBuilder
         _applicationBuilder.Host.AddSerilogLogger(otlpEndpoint: otlpSettings.Endpoint,
             otlpService: otlpSettings.ServiceName);
 
-        Clock clock = new();
-        _services.AddSingleton<IClock>(implementationInstance: clock);
-        _services.AddSingleton<ITimeZoneClock>(implementationInstance: clock);
+        (_, Clock clock) = _services.AddClock();
 
         _services
             .AddCommands(assemblies: assemblies)
@@ -108,7 +106,6 @@ internal sealed class AppBuilder : IAppBuilder
             .AddIntegrationEvents(assemblies: assemblies)
             .AddIntegrationEventsLogging()
             .AddMessageBroker()
-            .AddClock()
             .AddMessageContext()
             .AddDefaultSerializer()
             .AddInternalLogging()

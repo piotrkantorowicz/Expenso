@@ -11,10 +11,10 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.ModelBinders.DateTimeModelB
 
 internal abstract class DateTimeModelBinderTestBase
 {
-    protected Shared.System.Time.ModelBinders.DateTimeModelBinder _binder;
-    protected Mock<IValueProvider> _valueProviderMock;
-    protected ModelBindingContext _bindingContext;
-    protected Mock<Func<RequestTimeZone>> _requestTimeZone;
+    protected Shared.System.Time.ModelBinders.DateTimeModelBinder _binder = null!;
+    protected Mock<IValueProvider> _valueProviderMock = null!;
+    protected ModelBindingContext _bindingContext = null!;
+    protected Mock<Func<RequestTimeZone>> _requestTimeZone = null!;
 
     [SetUp]
     public void SetUp()

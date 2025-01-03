@@ -19,10 +19,10 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Middleware.RequestTimeZoneM
 internal abstract class
     RequestTimeZoneMiddlewareTestBase : TestBase<Shared.System.Time.Middleware.RequestTimeZoneMiddleware>
 {
-    protected HttpContext _httpContext;
-    protected Mock<RequestDelegate> _nextMock;
-    private RequestTimeZoneOptions _options;
-    private Mock<ITimeZoneClock> _timeZoneClockMock;
+    protected HttpContext _httpContext = null!;
+    protected Mock<RequestDelegate> _nextMock = null!;
+    private RequestTimeZoneOptions _options = null!;
+    private Mock<ITimeZoneClock> _timeZoneClockMock = null!;
 
     [SetUp]
     public void SetUp()
@@ -40,8 +40,11 @@ internal abstract class
     public void TearDown()
     {
         _nextMock.Reset();
+        _timeZoneClockMock.Reset();
         _httpContext = null!;
         _nextMock = null!;
+        _options = null!;
+        _timeZoneClockMock = null!;
     }
 
     protected void AssertRequestTimeZoneFeature(string timeZoneId, Type? providerType = null)

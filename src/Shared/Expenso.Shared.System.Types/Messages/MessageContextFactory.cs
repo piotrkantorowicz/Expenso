@@ -1,4 +1,4 @@
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
