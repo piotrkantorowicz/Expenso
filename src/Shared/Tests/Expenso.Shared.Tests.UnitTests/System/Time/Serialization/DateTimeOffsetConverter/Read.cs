@@ -13,7 +13,8 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.DateTimeOffse
 internal sealed class Read : DateTimeOffsetConverterTestBase
 {
     [Test, TestCaseSource(sourceName: nameof(ValidDateTimeCases))]
-    public void Should_ReturnParsedDateTime_When_ValidString(string json, string timeZoneId, DateTimeOffset expected)
+    public void Should_ReturnParsedDateTimeOffset_When_ValidString(string json, string timeZoneId,
+        DateTimeOffset expected)
     {
         // Arrange
         CreateTestCandidate(timeZoneName: timeZoneId);
@@ -54,25 +55,7 @@ internal sealed class Read : DateTimeOffsetConverterTestBase
         action.Should().Throw<Exception>();
     }
 
-    [Test]
-    public void Should_ThrowInvalidOperationException_When_SupportedFormatsCollectionIsEmpty()
-    {
-        // Arrange
-        CreateTestCandidate(timeZoneName: TimeZoneIds.Utc, supportedFormats: []);
 
-        // Act
-        Action action = () =>
-        {
-            Utf8JsonReader reader = new(jsonData: "\"2024-03-10T14:00:00\""u8);
-            reader.Read();
-
-            TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTimeOffset),
-                options: new JsonSerializerOptions());
-        };
-
-        // Assert
-        action.Should().Throw<InvalidOperationException>();
-    }
 
     private static IEnumerable<object> ValidDateTimeCases()
     {

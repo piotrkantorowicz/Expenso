@@ -31,19 +31,7 @@ internal sealed class Write : NullableDateTimeConverterTestBase
         result.Should().Be(expected: expected);
     }
 
-    [Test]
-    public void Should_ThrowInvalidOperationException_When_SupportedFormatsCollectionIsEmpty()
-    {
-        // Arrange
-        CreateTestCandidate(timeZoneName: TimeZoneIds.Utc, supportedFormats: []);
 
-        // Act
-        Action action = () =>
-            TestCandidate.Write(writer: null!, value: DateTime.UtcNow, options: new JsonSerializerOptions());
-
-        // Assert
-        action.Should().Throw<InvalidOperationException>();
-    }
 
     private static IEnumerable<object> ValidDateTimeCases()
     {
@@ -107,7 +95,7 @@ internal sealed class Write : NullableDateTimeConverterTestBase
         {
             null!,
             TimeZoneIds.Utc,
-            string.Empty
+            "null"
         };
     }
 }

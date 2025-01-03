@@ -54,25 +54,6 @@ internal sealed class Read : NullableDateTimeConverterTestBase
         action.Should().Throw<Exception>();
     }
 
-    [Test]
-    public void Should_ThrowInvalidOperationException_When_SupportedFormatsCollectionIsEmpty()
-    {
-        // Arrange
-        CreateTestCandidate(timeZoneName: TimeZoneIds.Utc, supportedFormats: []);
-
-        // Act
-        Action action = () =>
-        {
-            Utf8JsonReader reader = new(jsonData: "\"2024-03-10T14:00:00\""u8);
-            reader.Read();
-
-            TestCandidate.Read(reader: ref reader, typeToConvert: typeof(DateTime?),
-                options: new JsonSerializerOptions());
-        };
-
-        // Assert
-        action.Should().Throw<InvalidOperationException>();
-    }
 
     private static IEnumerable<object> ValidDateTimeCases()
     {

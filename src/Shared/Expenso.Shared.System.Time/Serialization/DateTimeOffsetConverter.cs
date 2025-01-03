@@ -15,6 +15,15 @@ internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
         _supportedFormats = supportedFormats ?? throw new ArgumentNullException(paramName: nameof(supportedFormats));
+
+        if (supportedFormats.Length == 0)
+        {
+            throw new ArgumentException(message: "At least one format must be provided",
+                paramName: nameof(supportedFormats));
+        }
+
+        _supportedFormats = supportedFormats.ToArray();
+        ;
     }
 
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -24,11 +33,6 @@ internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
         if (string.IsNullOrEmpty(value: value))
         {
             throw new JsonException(message: "DateTime string cannot be null or empty");
-        }
-
-        if (_supportedFormats.Length == 0)
-        {
-            throw new InvalidOperationException(message: "No date time offset formats configured");
         }
 
         if (!DateTimeOffset.TryParseExact(input: value, format: _supportedFormats[0],
@@ -45,27 +49,11 @@ internal sealed class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
 
     public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
     {
-        if (_supportedFormats.Length == 0)
-        {
-            throw new InvalidOperationException(message: "No date time formats configured");
-        }
-
-        string dateString = value.ToString(format: _supportedFormats[0], formatProvider: CultureInfo.InvariantCulture);
-
-        if (!DateTimeOffset.TryParseExact(input: dateString, format: _supportedFormats[0],
-                formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.None,
-                result: out DateTimeOffset parsedDateTimeOffset))
-        {
-            throw new JsonException(
-                message: $"Failed to parse formatted date string '{dateString}' back to DateTimeOffset");
-        }
-
         TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
 
         try
         {
-            DateTimeOffset convertTime =
-                TimeZoneInfo.ConvertTime(dateTimeOffset: parsedDateTimeOffset, destinationTimeZone: timeZone);
+            DateTimeOffset convertTime = TimeZoneInfo.ConvertTime(dateTimeOffset: value, destinationTimeZone: timeZone);
 
             writer.WriteStringValue(value: convertTime.ToString(format: _supportedFormats[0],
                 formatProvider: CultureInfo.InvariantCulture));

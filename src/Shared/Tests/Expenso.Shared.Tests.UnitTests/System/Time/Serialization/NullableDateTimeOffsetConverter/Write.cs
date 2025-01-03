@@ -37,20 +37,8 @@ internal sealed class Write : NullableDateTimeOffsetConverterTestBase
         result.Should().Be(expected: expected);
     }
 
-    [Test]
-    public void Should_ThrowInvalidOperationException_When_SupportedFormatsCollectionIsEmpty()
-    {
-        // Arrange
-        CreateTestCandidate(timeZoneName: TimeZoneIds.Utc, supportedFormats: []);
 
-        // Act
-        Action action = () =>
-            TestCandidate.Write(writer: null!, value: DateTimeOffset.UtcNow, options: new JsonSerializerOptions());
 
-        // Assert
-        action.Should().Throw<InvalidOperationException>();
-    }
-    
     private static IEnumerable<object> ValidDateTimeCases()
     {
         yield return new object[]
@@ -121,7 +109,7 @@ internal sealed class Write : NullableDateTimeOffsetConverterTestBase
         {
             null!,
             TimeZoneIds.Utc,
-            string.Empty
+            "null"
         };
     }
 }

@@ -15,6 +15,14 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
         _supportedFormats = supportedFormats ?? throw new ArgumentNullException(paramName: nameof(supportedFormats));
+
+        if (supportedFormats.Length == 0)
+        {
+            throw new ArgumentException(message: "At least one format must be provided",
+                paramName: nameof(supportedFormats));
+        }
+
+        _supportedFormats = supportedFormats.ToArray();
     }
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -24,11 +32,6 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
         if (string.IsNullOrEmpty(value: value))
         {
             throw new JsonException(message: "DateTime string cannot be null or empty");
-        }
-
-        if (_supportedFormats.Length == 0)
-        {
-            throw new InvalidOperationException(message: "No date time formats configured");
         }
 
         if (!DateTime.TryParseExact(s: value, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
@@ -46,24 +49,11 @@ internal sealed class DateTimeConverter : JsonConverter<DateTime>
 
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        if (_supportedFormats.Length == 0)
-        {
-            throw new InvalidOperationException(message: "No date time formats configured");
-        }
-
-        string dateString = value.ToString(format: _supportedFormats[0], provider: CultureInfo.InvariantCulture);
-
-        if (!DateTime.TryParseExact(s: dateString, format: _supportedFormats[0], provider: CultureInfo.InvariantCulture,
-                style: DateTimeStyles.None, result: out DateTime parsedDateTime))
-        {
-            throw new JsonException(message: $"Failed to parse formatted date string '{dateString}' back to DateTime");
-        }
-
         TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
 
         try
         {
-            DateTime convertTime = TimeZoneInfo.ConvertTime(dateTime: parsedDateTime, sourceTimeZone: TimeZoneInfo.Utc,
+            DateTime convertTime = TimeZoneInfo.ConvertTime(dateTime: value, sourceTimeZone: TimeZoneInfo.Utc,
                 destinationTimeZone: timeZone);
 
             writer.WriteStringValue(value: convertTime.ToString(format: _supportedFormats[0],
