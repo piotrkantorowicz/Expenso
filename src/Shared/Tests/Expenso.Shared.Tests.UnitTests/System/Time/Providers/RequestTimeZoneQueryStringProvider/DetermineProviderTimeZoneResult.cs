@@ -1,5 +1,4 @@
-﻿using Expenso.Shared.System.Time.Constants;
-using Expenso.Shared.System.Time.Providers;
+﻿using Expenso.Shared.System.Time.Providers;
 
 using FluentAssertions;
 
@@ -28,7 +27,7 @@ internal sealed class DetermineProviderTimeZoneResult : RequestTimeZoneQueryStri
             });
 
         // Act
-        ProviderTimeZoneResult? result =
+        ProviderTimeZoneResult result =
             await TestCandidate.DetermineProviderTimeZoneResult(httpContext: _httpContextMock.Object);
 
         // Assert
@@ -44,10 +43,10 @@ internal sealed class DetermineProviderTimeZoneResult : RequestTimeZoneQueryStri
             .Returns(value: false);
 
         // Act
-        ProviderTimeZoneResult? result =
+        ProviderTimeZoneResult result =
             await TestCandidate.DetermineProviderTimeZoneResult(httpContext: _httpContextMock.Object);
 
         // Assert
-        result.TimeZoneName.Should().Be(expected: TimeZoneIds.Utc);
+        result.TimeZoneName.Should().BeNull();
     }
 }

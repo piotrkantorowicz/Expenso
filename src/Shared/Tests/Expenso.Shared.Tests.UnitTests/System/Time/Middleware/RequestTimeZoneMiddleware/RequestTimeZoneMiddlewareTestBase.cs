@@ -15,12 +15,13 @@ using NUnit.Framework;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Time.Middleware.RequestTimeZoneMiddleware;
 
+[TestFixture]
 internal abstract class
     RequestTimeZoneMiddlewareTestBase : TestBase<Shared.System.Time.Middleware.RequestTimeZoneMiddleware>
 {
     protected HttpContext _httpContext;
     protected Mock<RequestDelegate> _nextMock;
-    protected RequestTimeZoneOptions _options;
+    private RequestTimeZoneOptions _options;
     private Mock<ITimeZoneClock> _timeZoneClockMock;
 
     [SetUp]
