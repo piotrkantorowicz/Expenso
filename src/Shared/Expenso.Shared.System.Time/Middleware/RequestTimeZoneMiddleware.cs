@@ -13,8 +13,8 @@ namespace Expenso.Shared.System.Time.Middleware;
 internal sealed class RequestTimeZoneMiddleware : IMiddleware
 {
     private readonly ILogger _logger;
-    private readonly RequestTimeZoneOptions _options;
     private readonly ITimeZoneClock _timeZoneClock;
+    private readonly RequestTimeZoneOptions _options;
 
     public RequestTimeZoneMiddleware(ILoggerFactory loggerFactory, RequestTimeZoneOptions options,
         ITimeZoneClock timeZoneClock)
@@ -32,42 +32,38 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
     {
         ArgumentNullException.ThrowIfNull(argument: httpContext);
         ArgumentNullException.ThrowIfNull(argument: next);
-        RequestTimeZone requestTimeZone = _options.DefaultRequestTimeZone;
+        RequestTimeZone defaultRequestTimeZone = _options.DefaultRequestTimeZone;
         IRequestTimeZoneProvider? usedProvider = null;
 
-        if (_options.RequestTimeZoneProviders is not null)
+        foreach (IRequestTimeZoneProvider? provider in _options.RequestTimeZoneProviders)
         {
-            foreach (IRequestTimeZoneProvider? provider in _options.RequestTimeZoneProviders)
+            ProviderTimeZoneResult providerTimeZoneResult =
+                await provider.DetermineProviderTimeZoneResult(httpContext: httpContext);
+
+            try
             {
-                ProviderTimeZoneResult providerTimeZoneResult =
-                    await provider.DetermineProviderTimeZoneResult(httpContext: httpContext);
+                defaultRequestTimeZone = new RequestTimeZone(name: providerTimeZoneResult.TimeZoneName);
+                usedProvider = provider;
 
-                try
-                {
-                    requestTimeZone = new RequestTimeZone(name: providerTimeZoneResult.TimeZoneName);
-                    usedProvider = provider;
-
-                    break;
-                }
-                catch (InvalidTimeZoneException ex)
-                {
-                    _logger.LogWarning(exception: ex, message: "Invalid TimeZone Id: {TimeZoneName}",
-                        providerTimeZoneResult.TimeZoneName);
-                }
-                catch (TimeZoneNotFoundException ex)
-                {
-                    _logger.LogWarning(exception: ex, message: "TimeZone Not Found: {TimeZoneName}",
-                        providerTimeZoneResult.TimeZoneName);
-                }
+                break;
+            }
+            catch (InvalidTimeZoneException ex)
+            {
+                _logger.LogWarning(exception: ex, message: "Invalid TimeZone Id: {TimeZoneName}",
+                    providerTimeZoneResult.TimeZoneName);
+            }
+            catch (TimeZoneNotFoundException ex)
+            {
+                _logger.LogWarning(exception: ex, message: "TimeZone Not Found: {TimeZoneName}",
+                    providerTimeZoneResult.TimeZoneName);
             }
         }
 
         httpContext.Features.Set<IRequestTimeZoneFeature>(
-            instance: new RequestTimeZoneFeature(requestTimeZone: requestTimeZone, provider: usedProvider));
-        
-        httpContext.Response.Headers[key: _options.GetDefaultHeaderName()] = requestTimeZone.TimeZone.Id;
-        
-        _timeZoneClock.SetTimeZone(timeZone: requestTimeZone.TimeZone);
+            instance: new RequestTimeZoneFeature(requestTimeZone: defaultRequestTimeZone, provider: usedProvider));
+
+        httpContext.Response.Headers[key: _options.GetDefaultHeaderName()] = defaultRequestTimeZone.TimeZone.Id;
+        _timeZoneClock.SetTimeZone(timeZone: defaultRequestTimeZone.TimeZone);
         await next(context: httpContext);
     }
 }

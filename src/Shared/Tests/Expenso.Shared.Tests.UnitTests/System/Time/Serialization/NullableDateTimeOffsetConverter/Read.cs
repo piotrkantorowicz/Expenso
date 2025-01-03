@@ -35,7 +35,7 @@ internal sealed class Read : NullableDateTimeOffsetConverterTestBase
      TestCase(arg1: "null", arg2: TimeZoneIds.Utc, TestName = "Should_ThrowJsonException_When_DateStringIsNull"),
      TestCase(arg1: "\"2024-03-10T14:00:00.0000000Z\"", arg2: "invalid-timezone",
          TestName = "Should_ThrowJsonException_When_TimeZoneIsInvalid")]
-    public void Should_ThrowJsonException_When_InvalidString(string json, string timeZoneId)
+    public void Should_ThrowException_When_InvalidString(string json, string timeZoneId)
     {
         // Arrange
         // Act

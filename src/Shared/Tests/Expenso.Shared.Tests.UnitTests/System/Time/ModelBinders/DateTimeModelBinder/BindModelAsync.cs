@@ -9,17 +9,17 @@ using Moq;
 
 using NUnit.Framework;
 
-namespace Expenso.Shared.Tests.UnitTests.System.Time.Binders.DateTimeModelBinder;
+namespace Expenso.Shared.Tests.UnitTests.System.Time.ModelBinders.DateTimeModelBinder;
 
 [TestFixture]
 internal sealed class BindModelAsync : DateTimeModelBinderTestBase
 {
-    [Test]
-    public async Task Should_BindModel_When_ValidDateTimeOffset()
+    [Test, TestCase(arg: typeof(DateTimeOffset), TestName = "Should_BindModel_When_ValidDateTimeOffset"),
+     TestCase(arg: typeof(DateTimeOffset?), TestName = "Should_BindModel_When_ValidNullableDateTimeOffset")]
+    public async Task Should_BindModel_When_ValidDateTimeOffset(Type modelType)
     {
         // Arrange
-        _bindingContext.ModelMetadata =
-            new EmptyModelMetadataProvider().GetMetadataForType(modelType: typeof(DateTimeOffset?));
+        _bindingContext.ModelMetadata = new EmptyModelMetadataProvider().GetMetadataForType(modelType: modelType);
 
         _valueProviderMock
             .Setup(expression: v => v.GetValue(It.IsAny<string>()))
@@ -39,12 +39,12 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
                 offset: TimeSpan.Zero));
     }
 
-    [Test]
-    public async Task Should_BindModel_When_ValidDateTime()
+    [Test, TestCase(arg: typeof(DateTime), TestName = "Should_BindModel_When_ValidNullableDateTime"),
+     TestCase(arg: typeof(DateTime?), TestName = "Should_BindModel_When_ValidNullableDateTime")]
+    public async Task Should_BindModel_When_ValidDateTime(Type modelType)
     {
         // Arrange
-        _bindingContext.ModelMetadata =
-            new EmptyModelMetadataProvider().GetMetadataForType(modelType: typeof(DateTime?));
+        _bindingContext.ModelMetadata = new EmptyModelMetadataProvider().GetMetadataForType(modelType: modelType);
 
         _valueProviderMock
             .Setup(expression: v => v.GetValue(It.IsAny<string>()))
@@ -107,10 +107,15 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         _bindingContext.Result.Model.Should().BeOfType<DateTimeOffset>().Which.Should().Be(expected: expected);
     }
 
-    [Test]
-    public async Task Should_ReturnNull_When_ValueIsEmpty()
+    [Test, TestCase(arg: typeof(DateTime), TestName = "Should_ReturnNull_When_ValueIsEmpty"),
+     TestCase(arg: typeof(DateTimeOffset), TestName = "Should_ReturnNull_When_ValueIsEmpty"),
+     TestCase(arg: typeof(DateTime?), TestName = "Should_ReturnNull_When_ValueIsEmpty"),
+     TestCase(arg: typeof(DateTimeOffset?), TestName = "Should_ReturnNull_When_ValueIsEmpty")]
+    public async Task Should_ReturnNull_When_ValueIsEmpty(Type modelType)
     {
         // Arrange
+        _bindingContext.ModelMetadata = new EmptyModelMetadataProvider().GetMetadataForType(modelType: modelType);
+
         _valueProviderMock
             .Setup(expression: v => v.GetValue(It.IsAny<string>()))
             .Returns(value: ValueProviderResult.None);
@@ -123,10 +128,15 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         _bindingContext.Result.Model.Should().BeNull();
     }
 
-    [Test]
-    public async Task Should_AddModelError_When_InvalidDateTime()
+    [Test, TestCase(arg: typeof(DateTime), TestName = "Should_AddModelError_When_InvalidDateTime"),
+     TestCase(arg: typeof(DateTimeOffset), TestName = "Should_AddModelError_When_InvalidDateTimeOffset"),
+     TestCase(arg: typeof(DateTime?), TestName = "Should_AddModelError_When_InvalidNullableDateTime"),
+     TestCase(arg: typeof(DateTimeOffset?), TestName = "Should_AddModelError_When_InvalidNullableDateTimeOffset")]
+    public async Task Should_AddModelError_When_InvalidDateTime(Type modelType)
     {
         // Arrange
+        _bindingContext.ModelMetadata = new EmptyModelMetadataProvider().GetMetadataForType(modelType: modelType);
+
         _valueProviderMock
             .Setup(expression: v => v.GetValue(It.IsAny<string>()))
             .Returns(value: new ValueProviderResult(values: "invalid-date"));

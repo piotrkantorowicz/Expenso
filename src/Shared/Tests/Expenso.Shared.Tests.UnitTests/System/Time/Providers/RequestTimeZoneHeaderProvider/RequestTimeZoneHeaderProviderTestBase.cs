@@ -1,0 +1,35 @@
+﻿using Expenso.Shared.Tests.Utils.UnitTests;
+
+using Microsoft.AspNetCore.Http;
+
+using Moq;
+
+using NUnit.Framework;
+
+namespace Expenso.Shared.Tests.UnitTests.System.Time.Providers.RequestTimeZoneHeaderProvider;
+
+[TestFixture]
+internal abstract class
+    RequestTimeZoneHeaderProviderTestBase : TestBase<Shared.System.Time.Providers.RequestTimeZoneHeaderProvider>
+{
+    protected Mock<HttpContext> _httpContextMock;
+    protected Mock<HttpRequest> _httpRequestMock;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _httpContextMock = new Mock<HttpContext>();
+        _httpRequestMock = new Mock<HttpRequest>();
+        _httpContextMock.SetupGet(expression: c => c.Request).Returns(value: _httpRequestMock.Object);
+        TestCandidate = new Shared.System.Time.Providers.RequestTimeZoneHeaderProvider();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _httpContextMock.Reset();
+        _httpRequestMock.Reset();
+        _httpContextMock = null!;
+        _httpRequestMock = null!;
+    }
+}

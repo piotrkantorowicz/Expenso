@@ -4,7 +4,7 @@ using Expenso.Shared.System.Time.Request;
 
 namespace Expenso.Shared.System.Time.Features;
 
-internal sealed class RequestTimeZoneFeature : IRequestTimeZoneFeature
+internal sealed record RequestTimeZoneFeature : IRequestTimeZoneFeature
 {
     public RequestTimeZoneFeature(RequestTimeZone requestTimeZone, IRequestTimeZoneProvider? provider = null)
     {

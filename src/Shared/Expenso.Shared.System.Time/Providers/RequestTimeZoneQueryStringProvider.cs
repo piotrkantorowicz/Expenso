@@ -5,9 +5,12 @@ namespace Expenso.Shared.System.Time.Providers;
 
 public sealed class RequestTimeZoneQueryStringProvider : RequestTimeZoneProvider
 {
+    private const string DefaultQueryStringKey = "TimeZone";
+    private const string Prefix = "TimeZone=";
+
     public RequestTimeZoneQueryStringProvider(string? queryStringKey = null)
     {
-        QueryStringKey = queryStringKey ?? "time-zone";
+        QueryStringKey = queryStringKey ?? DefaultQueryStringKey;
     }
 
     public string QueryStringKey { get; }
@@ -23,6 +26,6 @@ public sealed class RequestTimeZoneQueryStringProvider : RequestTimeZoneProvider
 
         string? value = values.FirstOrDefault(predicate: v => !string.IsNullOrEmpty(value: v));
 
-        return CreateResult(value: value);
+        return CreateResult(value: value, trimPrefix: true, prefix: Prefix);
     }
 }

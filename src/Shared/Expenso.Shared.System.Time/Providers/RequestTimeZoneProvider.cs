@@ -1,5 +1,4 @@
-﻿using Expenso.Shared.System.Time.Constants;
-using Expenso.Shared.System.Time.Providers.Interfaces;
+﻿using Expenso.Shared.System.Time.Providers.Interfaces;
 
 using Microsoft.AspNetCore.Http;
 
@@ -8,12 +7,11 @@ namespace Expenso.Shared.System.Time.Providers;
 public abstract class RequestTimeZoneProvider : IRequestTimeZoneProvider
 {
     protected static readonly Task<ProviderTimeZoneResult> DefaultProviderTimeZoneResult =
-        Task.FromResult(result: new ProviderTimeZoneResult(name: TimeZoneIds.Utc));
+        Task.FromResult(result: ProviderTimeZoneResult.Null);
 
     public abstract Task<ProviderTimeZoneResult> DetermineProviderTimeZoneResult(HttpContext httpContext);
 
-    protected static Task<ProviderTimeZoneResult> CreateResult(string? value, bool trimPrefix = true,
-        string prefix = "time-zone=")
+    protected static Task<ProviderTimeZoneResult> CreateResult(string? value, bool trimPrefix, string prefix)
     {
         if (string.IsNullOrEmpty(value: value))
         {
@@ -27,6 +25,6 @@ public abstract class RequestTimeZoneProvider : IRequestTimeZoneProvider
                 : value;
         }
 
-        return Task.FromResult(result: new ProviderTimeZoneResult(name: value));
+        return Task.FromResult(result: ProviderTimeZoneResult.New(name: value));
     }
 }

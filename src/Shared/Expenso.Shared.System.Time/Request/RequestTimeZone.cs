@@ -2,9 +2,11 @@
 
 public sealed class RequestTimeZone
 {
-    public RequestTimeZone(string name)
+    public RequestTimeZone(string? name)
     {
-        TimeZone = TimeZoneInfo.FindSystemTimeZoneById(id: name);
+        TimeZone = TimeZoneInfo.FindSystemTimeZoneById(id: name ??
+                                                           throw new TimeZoneNotFoundException(
+                                                               message: "The time zone name is null."));
     }
 
     public RequestTimeZone(TimeZoneInfo timeZoneInfo)

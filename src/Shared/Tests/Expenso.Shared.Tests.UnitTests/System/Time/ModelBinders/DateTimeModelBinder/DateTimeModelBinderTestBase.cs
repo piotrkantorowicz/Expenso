@@ -7,7 +7,7 @@ using Moq;
 
 using NUnit.Framework;
 
-namespace Expenso.Shared.Tests.UnitTests.System.Time.Binders.DateTimeModelBinder;
+namespace Expenso.Shared.Tests.UnitTests.System.Time.ModelBinders.DateTimeModelBinder;
 
 internal abstract class DateTimeModelBinderTestBase
 {

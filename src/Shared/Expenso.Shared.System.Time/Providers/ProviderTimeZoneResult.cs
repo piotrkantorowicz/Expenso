@@ -1,11 +1,18 @@
 ﻿namespace Expenso.Shared.System.Time.Providers;
 
-public sealed class ProviderTimeZoneResult
+public sealed record ProviderTimeZoneResult
 {
-    public ProviderTimeZoneResult(string? name)
+    private ProviderTimeZoneResult(string? name)
     {
-        TimeZoneName = name ?? throw new ArgumentNullException(paramName: nameof(name));
+        TimeZoneName = name;
     }
 
-    public string TimeZoneName { get; }
+    public static ProviderTimeZoneResult New(string name)
+    {
+        return new ProviderTimeZoneResult(name: name);
+    }
+
+    public static ProviderTimeZoneResult Null => new(name: null);
+
+    public string? TimeZoneName { get; }
 }

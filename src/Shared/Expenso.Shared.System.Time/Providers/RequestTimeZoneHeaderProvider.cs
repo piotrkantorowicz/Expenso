@@ -5,9 +5,12 @@ namespace Expenso.Shared.System.Time.Providers;
 
 public sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 {
+    private const string DefaultHeader = "Time-Zone";
+    private const string Prefix = "Time-Zone=";
+
     public RequestTimeZoneHeaderProvider(string? headerkey = null)
     {
-        Headerkey = headerkey ?? "time-zone";
+        Headerkey = headerkey ?? DefaultHeader;
     }
 
     public string Headerkey { get; }
@@ -23,6 +26,6 @@ public sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 
         string? value = values.FirstOrDefault(predicate: v => !string.IsNullOrEmpty(value: v));
 
-        return CreateResult(value: value);
+        return CreateResult(value: value, trimPrefix: true, prefix: Prefix);
     }
 }

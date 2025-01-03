@@ -33,7 +33,7 @@ public sealed record RequestTimeZoneOptions
 
     internal string GetDefaultHeaderName()
     {
-        return GetDefaultValue<RequestTimeZoneHeaderProvider>(defaultValue: "time-zone",
+        return GetDefaultValue<RequestTimeZoneHeaderProvider>(defaultValue: "Time-Zone",
             valueSelector: p => p.Headerkey);
     }
 
@@ -45,7 +45,7 @@ public sealed record RequestTimeZoneOptions
 
     internal string GetDefaultQueryName()
     {
-        return GetDefaultValue<RequestTimeZoneQueryStringProvider>(defaultValue: "time-zone",
+        return GetDefaultValue<RequestTimeZoneQueryStringProvider>(defaultValue: "TimeZone",
             valueSelector: p => p.QueryStringKey);
     }
 
