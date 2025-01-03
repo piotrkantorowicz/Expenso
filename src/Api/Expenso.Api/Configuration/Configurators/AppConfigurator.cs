@@ -3,7 +3,7 @@ using System.Reflection;
 using Expenso.Api.Configuration.Configurators.Interfaces;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Configuration.Extensions.Environment;
-using Expenso.Api.Configuration.Settings;
+using Expenso.Api.Configuration.Settings.ApiSettings;
 using Expenso.Api.Configuration.Settings.Exceptions;
 using Expenso.BudgetSharing.Domain.Shared;
 using Expenso.Shared.Database.EfCore.Migrations;
@@ -11,6 +11,7 @@ using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Configuration.Constants;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Tasks;
+using Expenso.Shared.System.Time.Extensions;
 using Expenso.Shared.System.Types.ExecutionContext;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 
@@ -176,6 +177,13 @@ internal sealed class AppConfigurator : IAppConfigurator
     public IAppConfigurator UseRequestsLogging()
     {
         _app.UseSerilogRequestLogging();
+
+        return this;
+    }
+
+    public IAppConfigurator UseRequestTimeZone()
+    {
+        _app.UseRequestTimeZone();
 
         return this;
     }

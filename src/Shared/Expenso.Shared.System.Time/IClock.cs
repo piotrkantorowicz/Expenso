@@ -1,4 +1,4 @@
-namespace Expenso.Shared.System.Types.Clock;
+﻿namespace Expenso.Shared.System.Time;
 
 public interface IClock
 {

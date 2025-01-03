@@ -8,7 +8,8 @@ using Expenso.Api.Configuration.Errors;
 using Expenso.Api.Configuration.Execution;
 using Expenso.Api.Configuration.Extensions;
 using Expenso.Api.Configuration.Extensions.Environment;
-using Expenso.Api.Configuration.Settings;
+using Expenso.Api.Configuration.Settings.ApiSettings;
+using Expenso.Api.Configuration.Settings.ApiSettings.TimeZone;
 using Expenso.IAM.Core.Acl.Keycloak.Settings;
 using Expenso.Shared.Commands;
 using Expenso.Shared.Commands.Logging;
@@ -28,6 +29,9 @@ using Expenso.Shared.System.Metrics;
 using Expenso.Shared.System.Metrics.Settings;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Serialization;
+using Expenso.Shared.System.Time;
+using Expenso.Shared.System.Time.Extensions;
+using Expenso.Shared.System.Time.Request.Settings;
 using Expenso.Shared.System.Types;
 using Expenso.Shared.System.Types.ExecutionContext;
 
@@ -100,11 +104,27 @@ internal sealed class AppBuilder : IAppBuilder
             .AddIntegrationEvents(assemblies: assemblies)
             .AddIntegrationEventsLogging()
             .AddMessageBroker()
-            .AddClock()
             .AddMessageContext()
             .AddDefaultSerializer()
             .AddInternalLogging()
-            .AddOtlpMetrics(otlpSettings: otlpSettings);
+            .AddOtlpMetrics(otlpSettings: otlpSettings)
+            .AddClock(clock: out Clock clock)
+            .AddRequestTimeZone(optionsAction: settings =>
+            {
+                TimeZoneSettings timeZoneSettings =
+                    _appConfigurationManager.GetRequiredSettings<TimeZoneSettings>(sectionName: SectionNames.TimeZones);
+
+                settings.Id = timeZoneSettings.Id;
+                settings.EnableRequestToUtc = timeZoneSettings.EnableRequestToUtc ?? false;
+                settings.EnableResponseToLocal = timeZoneSettings.EnableResponseToLocal ?? false;
+                settings.SupportedDateTimeFormats = timeZoneSettings.SupportedDateTimeFormats ?? [];
+                settings.SupportedDateTimeOffsetFormats = timeZoneSettings.SupportedDateTimeOffsetFormats ?? [];
+
+                settings.RequestTimeZoneProviders = TimeZoneSettings.GetRequestTimeZoneProviders(
+                    timeZoneProviderType: timeZoneSettings.TimeZoneProviderType) ?? [];
+
+                settings.MvcOptionType = MvcOptionType.MinimalApi;
+            }, timeZoneClock: clock);
 
         return this;
     }
@@ -247,10 +267,10 @@ internal sealed class AppBuilder : IAppBuilder
                 {
                     OnChallenge = async context =>
                     {
-                        context.HandleResponse();
                         const int statusCode = StatusCodes.Status401Unauthorized;
                         HttpContext httpContext = context.HttpContext;
                         RouteData routeData = httpContext.GetRouteData();
+                        context.HandleResponse();
 
                         ActionContext actionContext = new(httpContext: httpContext, routeData: routeData,
                             actionDescriptor: new ActionDescriptor());

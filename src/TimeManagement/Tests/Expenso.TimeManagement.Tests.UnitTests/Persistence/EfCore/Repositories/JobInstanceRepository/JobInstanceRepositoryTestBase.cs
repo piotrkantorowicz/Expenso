@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Types.Clock;
+﻿using Expenso.Shared.System.Time;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;

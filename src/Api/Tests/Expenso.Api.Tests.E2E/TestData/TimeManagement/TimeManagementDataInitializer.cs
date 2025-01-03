@@ -4,7 +4,7 @@ using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.System.Modules.Constants;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.TimeManagement.Shared;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;

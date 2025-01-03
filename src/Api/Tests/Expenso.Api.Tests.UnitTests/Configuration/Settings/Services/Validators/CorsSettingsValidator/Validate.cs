@@ -1,4 +1,4 @@
-﻿using Expenso.Api.Configuration.Settings;
+﻿using Expenso.Api.Configuration.Settings.ApiSettings;
 using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using FluentValidation.Results;
@@ -33,7 +33,7 @@ internal sealed class Validate : CorsSettingsValidatorTestBase
         // Arrange
         _corsSettings = _corsSettings with
         {
-            AllowedOrigins = Array.Empty<string>()
+            AllowedOrigins = []
         };
 
         // Act

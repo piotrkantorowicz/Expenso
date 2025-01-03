@@ -12,4 +12,5 @@ public static class SectionNames
     public const string Otlp = "Otlp";
     public const string Cors = "Cors";
     public const string TimeManagement = "TimeManagement";
+    public const string TimeZones = "TimeZones";
 }

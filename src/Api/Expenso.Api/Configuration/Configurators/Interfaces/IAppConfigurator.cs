@@ -24,5 +24,7 @@ internal interface IAppConfigurator
 
     IAppConfigurator UseRequestsLogging();
 
+    IAppConfigurator UseRequestTimeZone();
+
     void Run();
 }

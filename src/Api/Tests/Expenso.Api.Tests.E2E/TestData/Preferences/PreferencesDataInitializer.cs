@@ -1,7 +1,7 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;

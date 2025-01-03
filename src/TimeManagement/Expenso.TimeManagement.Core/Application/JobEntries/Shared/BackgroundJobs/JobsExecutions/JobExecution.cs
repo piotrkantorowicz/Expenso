@@ -4,7 +4,7 @@ using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default.Settings;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Constants;
 using Expenso.Shared.System.Types.Pagination;
 using Expenso.Shared.System.Types.Pagination.Constants;

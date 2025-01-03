@@ -6,7 +6,7 @@ using Expenso.Api.Tests.E2E.TestData.TimeManagement;
 using Expenso.DocumentManagement.Shared;
 using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Database.EfCore.Settings;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.Configuration;

@@ -1,6 +1,6 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 using Expenso.DocumentManagement.Core.Application.Shared.Models;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 
 namespace Expenso.DocumentManagement.Core.Application.Shared.Services.Acl.Disk;
 

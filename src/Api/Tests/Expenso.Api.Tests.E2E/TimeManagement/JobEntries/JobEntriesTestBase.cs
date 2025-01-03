@@ -1,6 +1,6 @@
 ﻿using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Shared.System.Modules.Constants;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.TimeManagement.Shared;
 
 using Microsoft.Extensions.DependencyInjection;

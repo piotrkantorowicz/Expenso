@@ -1,5 +1,5 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Services;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Moq;

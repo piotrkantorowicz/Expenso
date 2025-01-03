@@ -19,9 +19,11 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="System.Text.Encodings.Web" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Time\Expenso.Shared.System.Time.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands.Logging\Expenso.Shared.Commands.Logging.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj"/>
         <ProjectReference Include="..\..\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>

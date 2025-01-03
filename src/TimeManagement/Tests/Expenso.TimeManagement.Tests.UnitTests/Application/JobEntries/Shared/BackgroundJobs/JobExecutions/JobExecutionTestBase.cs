@@ -1,7 +1,7 @@
 ﻿using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Logging;
 using Expenso.Shared.System.Serialization;
-using Expenso.Shared.System.Types.Clock;
+using Expenso.Shared.System.Time;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.JobsExecutions;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
