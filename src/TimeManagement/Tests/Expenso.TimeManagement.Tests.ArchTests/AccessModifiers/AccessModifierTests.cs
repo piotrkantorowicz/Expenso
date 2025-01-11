@@ -9,7 +9,7 @@ namespace Expenso.TimeManagement.Tests.ArchTests.AccessModifiers;
 [TestFixture]
 internal sealed class AccessModifierTests : AccessModifierTestBase
 {
-    public AccessModifierTests() : base(notInternal:
+    public AccessModifierTests() : base(notInternalTypes:
         [
             "Module",
             "Extensions",
@@ -19,14 +19,14 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "Command",
             "IntegrationEvent",
             "AllowedEvents"
-        ], notSealed:
+        ], notSealedTypes:
         [
             "TestBase",
             "Program"
-        ], notAbstract:
+        ], notAbstractTypes:
         [
             "Program"
-        ], namespacesToExclude:
+        ], excludedNamespaces:
         [
             "Expenso.TimeManagement.Core.Persistence.EfCore.Migrations",
             "Expenso.TimeManagement.Core.Application.Shared.Settings"

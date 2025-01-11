@@ -9,18 +9,18 @@ namespace Expenso.Communication.Tests.ArchTests.AccessModifiers;
 [TestFixture]
 internal sealed class AccessModifierTests : AccessModifierTestBase
 {
-    public AccessModifierTests() : base(notInternal:
+    public AccessModifierTests() : base(notInternalTypes:
         [
             "Module",
             "Extensions"
-        ], notSealed:
+        ], notSealedTypes:
         [
             "TestBase",
             "Program"
-        ], notAbstract:
+        ], notAbstractTypes:
         [
             "Program"
-        ], publicTypes:
+        ], publicNamespaces:
         [
             "DTO"
         ])

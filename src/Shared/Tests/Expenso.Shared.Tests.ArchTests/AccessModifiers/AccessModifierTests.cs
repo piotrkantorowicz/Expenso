@@ -10,7 +10,7 @@ namespace Expenso.Shared.Tests.ArchTests.AccessModifiers;
 [TestFixture]
 internal sealed class AccessModifierTests : AccessModifierTestBase
 {
-    public AccessModifierTests() : base(notInternal:
+    public AccessModifierTests() : base(notInternalTypes:
         [
             "TestBase",
             "InMemoryFakeLogger",
@@ -25,18 +25,18 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "Clock",
             "ProviderTimeZoneResult",
             "RequestTimeZone"
-        ], notSealed:
+        ], notSealedTypes:
         [
             "TestBase",
             "Program",
             "Exception",
             "RichTestObject"
-        ], notAbstract:
+        ], notAbstractTypes:
         [
             "Program",
             "Exception",
             "RichTestObject"
-        ], publicTypes:
+        ], publicNamespaces:
         [
             "DTO",
             "Settings",
