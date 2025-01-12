@@ -6,9 +6,9 @@ namespace Expenso.BudgetSharing.Application.Shared.QueryStore;
 
 public interface IBudgetPermissionRequestQueryStore
 {
-    Task<BudgetPermissionRequest?> SingleAsync(BudgetPermissionRequestFilter filter,
+    Task<BudgetPermissionRequest?> SingleAsync(BudgetPermissionRequestQuerySpecification querySpecification,
         CancellationToken cancellationToken);
 
-    Task<IPagedList<BudgetPermissionRequest>> BrowseAsync(BudgetPermissionRequestFilter filter,
+    Task<IPagedList<BudgetPermissionRequest>> BrowseAsync(BudgetPermissionRequestQuerySpecification querySpecification,
         CancellationToken cancellationToken);
 }

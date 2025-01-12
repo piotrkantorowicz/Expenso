@@ -40,7 +40,7 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
                     : null;
         }
 
-        BudgetPermissionRequestFilter filter = new()
+        BudgetPermissionRequestQuerySpecification querySpecification = new()
         {
             BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
             BudgetCode = BudgetCode.Nullable(value: query.Payload?.BudgetCode),
@@ -53,7 +53,8 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
         };
 
         IPagedList<BudgetPermissionRequest> budgetPermissionRequests =
-            await _budgetPermissionRequestStore.BrowseAsync(filter: filter, cancellationToken: cancellationToken);
+            await _budgetPermissionRequestStore.BrowseAsync(querySpecification: querySpecification,
+                cancellationToken: cancellationToken);
 
         IPagedList<GetBudgetPermissionRequestsResponse> budgetPermissionRequestsResponse =
             GetBudgetPermissionRequestsResponseMap.MapTo(budgetPermissionRequests: budgetPermissionRequests);
