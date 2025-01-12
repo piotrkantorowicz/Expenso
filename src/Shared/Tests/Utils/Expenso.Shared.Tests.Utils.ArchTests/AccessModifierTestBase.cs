@@ -8,20 +8,20 @@ namespace Expenso.Shared.Tests.Utils.ArchTests;
 
 public abstract class AccessModifierTestBase : TestBase
 {
-    private readonly string[] _notInternal;
-    private readonly string[] _notSealed;
-    private readonly string[] _notAbstract;
-    private readonly string[]? _publicTypes;
-    private readonly string[]? _namespacesToExclude;
+    private readonly string[] _notInternalTypes;
+    private readonly string[] _notSealedTypes;
+    private readonly string[] _notAbstractTypes;
+    private readonly string[]? _publicNamespaces;
+    private readonly string[]? _excludedNamespaces;
 
-    protected AccessModifierTestBase(string[] notInternal, string[] notSealed, string[] notAbstract,
-        string[]? publicTypes = null, string[]? namespacesToExclude = null)
+    protected AccessModifierTestBase(string[] notInternalTypes, string[] notSealedTypes, string[] notAbstractTypes,
+        string[]? publicNamespaces = null, string[]? excludedNamespaces = null)
     {
-        _notInternal = notInternal;
-        _notSealed = notSealed;
-        _notAbstract = notAbstract;
-        _publicTypes = publicTypes;
-        _namespacesToExclude = namespacesToExclude;
+        _notInternalTypes = notInternalTypes;
+        _notSealedTypes = notSealedTypes;
+        _notAbstractTypes = notAbstractTypes;
+        _publicNamespaces = publicNamespaces;
+        _excludedNamespaces = excludedNamespaces;
     }
 
     protected abstract IReadOnlyCollection<Assembly> TestClassesAssemblies { get; }
@@ -32,19 +32,19 @@ public abstract class AccessModifierTestBase : TestBase
         ConditionList? types =
             Types.InAssemblies(assemblies: TestClassesAssemblies).Should().BeClasses().And().BePublic();
 
-        types = _notInternal.Aggregate(seed: types,
+        types = _notInternalTypes.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        if (_publicTypes is not null or [])
+        if (_publicNamespaces is not null or [])
         {
-            types = _publicTypes?.Aggregate(seed: types,
+            types = _publicNamespaces?.Aggregate(seed: types,
                 func: (current, skippedTypeName) =>
                     current.And().NotResideInNamespaceContaining(name: skippedTypeName));
         }
 
-        if (_namespacesToExclude is not null or [])
+        if (_excludedNamespaces is not null or [])
         {
-            types = _namespacesToExclude?.Aggregate(seed: types,
+            types = _excludedNamespaces?.Aggregate(seed: types,
                 func: (current, skippedNamespace) => current?.And().NotResideInNamespace(name: skippedNamespace));
         }
 
@@ -65,12 +65,12 @@ public abstract class AccessModifierTestBase : TestBase
             .And()
             .NotBeSealed();
 
-        types = _notSealed.Aggregate(seed: types,
+        types = _notSealedTypes.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        if (_namespacesToExclude is not null or [])
+        if (_excludedNamespaces is not null or [])
         {
-            types = _namespacesToExclude?.Aggregate(seed: types,
+            types = _excludedNamespaces?.Aggregate(seed: types,
                 func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
         }
 
@@ -87,12 +87,12 @@ public abstract class AccessModifierTestBase : TestBase
             .And()
             .NotBeAbstract();
 
-        types = _notAbstract.Aggregate(seed: types,
+        types = _notAbstractTypes.Aggregate(seed: types,
             func: (current, skippedTypeName) => current.And().NotHaveNameMatching(pattern: skippedTypeName));
 
-        if (_namespacesToExclude is not null or [])
+        if (_excludedNamespaces is not null or [])
         {
-            types = _namespacesToExclude?.Aggregate(seed: types,
+            types = _excludedNamespaces?.Aggregate(seed: types,
                 func: (current, skippedNamespace) => current.And().NotResideInNamespace(name: skippedNamespace));
         }
 
