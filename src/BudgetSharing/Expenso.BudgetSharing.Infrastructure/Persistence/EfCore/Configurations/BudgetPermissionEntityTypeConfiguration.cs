@@ -61,6 +61,7 @@ internal sealed class BudgetPermissionEntityTypeConfiguration : IEntityTypeConfi
         builder.OwnsMany(navigationExpression: x => x.Permissions, buildAction: permissionsBuilder =>
         {
             permissionsBuilder.ToTable(name: "Permissions");
+            permissionsBuilder.HasIndex(indexExpression: x => x.ParticipantId);
 
             permissionsBuilder
                 .Property(propertyExpression: x => x.ParticipantId)

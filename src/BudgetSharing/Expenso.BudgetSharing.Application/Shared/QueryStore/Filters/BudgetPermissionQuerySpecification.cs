@@ -49,8 +49,7 @@ public sealed record BudgetPermissionQuerySpecification(
         if (ParticipantId is not null)
         {
             predicate = AndExpression<BudgetPermission>.And(leftExpression: predicate,
-                rightExpression: x =>
-                    x.Permissions.Select(y => y.ParticipantId).Contains(PersonId.New(ParticipantId.Value)));
+                rightExpression: x => x.Permissions.Any(p => p.ParticipantId == PersonId.New(ParticipantId.Value)));
         }
 
         if (PermissionTypes is not null)
