@@ -9,50 +9,50 @@ namespace Expenso.BudgetSharing.Infrastructure.Persistence.EfCore.Extensions;
 public static class BudgetPermissionRequestFilterExtensions
 {
     public static Expression<Func<BudgetPermissionRequest, bool>> ToFilterExpression(
-        this BudgetPermissionRequestFilter filter)
+        this BudgetPermissionRequestQuerySpecification querySpecification)
     {
         Expression<Func<BudgetPermissionRequest, bool>> predicate = p => true;
 
-        if (filter.Id is not null)
+        if (querySpecification.Id is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.Id == filter.Id);
+                rightExpression: x => x.Id == querySpecification.Id);
         }
 
-        if (filter.BudgetId is not null)
+        if (querySpecification.BudgetId is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.BudgetId == filter.BudgetId);
+                rightExpression: x => x.BudgetId == querySpecification.BudgetId);
         }
 
-        if (filter.BudgetCode is not null)
+        if (querySpecification.BudgetCode is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.BudgetCode == filter.BudgetCode);
+                rightExpression: x => x.BudgetCode == querySpecification.BudgetCode);
         }
 
-        if (filter.ParticipantId is not null)
+        if (querySpecification.ParticipantId is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.ParticipantId == filter.ParticipantId);
+                rightExpression: x => x.ParticipantId == querySpecification.ParticipantId);
         }
 
-        if (filter.OwnerId is not null)
+        if (querySpecification.OwnerId is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => x.OwnerId == filter.OwnerId);
+                rightExpression: x => x.OwnerId == querySpecification.OwnerId);
         }
 
-        if (filter.Statuses is not null)
+        if (querySpecification.Statuses is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => filter.Statuses.Contains(x.StatusTracker.Status));
+                rightExpression: x => querySpecification.Statuses.Contains(x.StatusTracker.Status));
         }
 
-        if (filter.PermissionTypes is not null)
+        if (querySpecification.PermissionTypes is not null)
         {
             predicate = AndExpression<BudgetPermissionRequest>.And(leftExpression: predicate,
-                rightExpression: x => filter.PermissionTypes.Contains(x.PermissionType));
+                rightExpression: x => querySpecification.PermissionTypes.Contains(x.PermissionType));
         }
 
         return predicate;

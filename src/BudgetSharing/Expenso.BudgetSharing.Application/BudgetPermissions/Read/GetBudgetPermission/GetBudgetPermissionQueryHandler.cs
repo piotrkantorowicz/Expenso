@@ -24,13 +24,14 @@ internal sealed class
     public async Task<GetBudgetPermissionResponse?> HandleAsync(GetBudgetPermissionQuery query,
         CancellationToken cancellationToken)
     {
-        BudgetPermissionFilter filter = new()
+        BudgetPermissionQuerySpecification querySpecification = new()
         {
             Id = BudgetPermissionId.Nullable(value: query.Payload?.BudgetPermissionId)
         };
 
         BudgetPermission? budgetPermission =
-            await _budgetPermissionStore.SingleAsync(filter: filter, cancellationToken: cancellationToken);
+            await _budgetPermissionStore.SingleAsync(querySpecification: querySpecification,
+                cancellationToken: cancellationToken);
 
         if (budgetPermission is null)
         {

@@ -40,7 +40,7 @@ internal sealed class
                     : null;
         }
 
-        BudgetPermissionFilter filter = new()
+        BudgetPermissionQuerySpecification querySpecification = new()
         {
             BudgetId = BudgetId.Nullable(value: query.Payload?.BudgetId),
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
@@ -51,7 +51,8 @@ internal sealed class
         };
 
         IPagedList<BudgetPermission> budgetPermissions =
-            await _budgetPermissionStore.BrowseAsync(filter: filter, cancellationToken: cancellationToken);
+            await _budgetPermissionStore.BrowseAsync(querySpecification: querySpecification,
+                cancellationToken: cancellationToken);
 
         IPagedList<GetBudgetPermissionsResponse> budgetPermissionsResponse =
             GetBudgetPermissionsResponseMap.MapTo(budgetPermissions: budgetPermissions);
