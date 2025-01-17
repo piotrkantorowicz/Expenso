@@ -1,5 +1,6 @@
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
+using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Pagination;
 
 namespace Expenso.BudgetSharing.Application.Shared.QueryStore;
@@ -10,5 +11,5 @@ public interface IBudgetPermissionRequestQueryStore
         CancellationToken cancellationToken);
 
     Task<IPagedList<BudgetPermissionRequest>> BrowseAsync(BudgetPermissionRequestQuerySpecification querySpecification,
-        CancellationToken cancellationToken);
+        Paging? pagination, Sorting? sorters, CancellationToken cancellationToken);
 }

@@ -14,7 +14,7 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class GetJobEntries : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult_And_DefualtPagination()
+    public async Task Should_ReturnExpectedResult_And_Defualts()
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
@@ -71,6 +71,49 @@ internal sealed class GetJobEntries : JobEntriesTestBase
             ?.ResultsPerPage.Should()
             .BeGreaterThan(expected: 0)
             .And.BeLessOrEqualTo(expected: PaginationDefaults.MaxLimit);
+    }
+
+    [Test]
+    public async Task Should_HandleSingleSorter()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claims);
+        const string requestPath = "time-management/job-entries?sorters=RunAt:Descending";
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+
+        // Assert
+        AssertResponseOk(response: response);
+
+        IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
+            .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
+
+        responseContent.Should().NotBeNull();
+        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.RunAt);
+    }
+
+    [Test]
+    public async Task Should_HandleMultipleSorters()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claims);
+        const string requestPath = "time-management/job-entries?sorters=MaxRetries:Ascending,RunAt:Descending";
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+
+        // Assert
+        AssertResponseOk(response: response);
+
+        IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
+            .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
+
+        responseContent.Should().NotBeNull();
+        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+        responseContent?.Items.Should().BeInAscendingOrder(propertyExpression: x => x.MaxRetries);
+        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.RunAt);
     }
 
     [Test]

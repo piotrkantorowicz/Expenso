@@ -19,7 +19,7 @@ internal sealed class GetJobEntriesQueryHandler : IQueryHandler<GetJobEntriesQue
         _jobEntryRepository =
             jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
     }
-
+ 
     public async Task<IPagedList<GetJobEntriesResponse>?> HandleAsync(GetJobEntriesQuery query,
         CancellationToken cancellationToken)
     {
@@ -30,7 +30,8 @@ internal sealed class GetJobEntriesQueryHandler : IQueryHandler<GetJobEntriesQue
             Includes: query.Payload?.Includes.SafeCast<JobEntryIncludes, GetJobEntriesRequestJobEntryIncludes>());
 
         IPagedList<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
-            querySpecification: querySpecification, pagination: query.Pagination, cancellationToken: cancellationToken);
+            querySpecification: querySpecification, pagination: query.Pagination, sorters: query.Sorters,
+            cancellationToken: cancellationToken);
 
         return GetJobEntriesResponseMap.MapTo(jobEntries: jobEntries);
     }

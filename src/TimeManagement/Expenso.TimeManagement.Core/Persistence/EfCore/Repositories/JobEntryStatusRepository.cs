@@ -1,4 +1,4 @@
-using Expenso.Shared.Database.EfCore.Queryable;
+using Expenso.Shared.Database.EfCore.Collections;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 

@@ -35,7 +35,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
         responseContent?.Should().NotBeNull();
     }
 
-    [TestCase(arg1: 0, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsZero"),
+    [Test, TestCase(arg1: 0, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsZero"),
      TestCase(arg1: -1, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsNegative"),
      TestCase(arg1: 1, arg2: 0, TestName = "Should_UseDefaultPage_And_UseDefaultLimit_When_LimitIsZero"),
      TestCase(arg1: 1, arg2: 1001, TestName = "Should_UseDefaultPage_And_UseMaxLimit_When_LimitExceedsMaximum"),
@@ -66,6 +66,27 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
             ?.ResultsPerPage.Should()
             .BeGreaterThan(expected: 0)
             .And.BeLessOrEqualTo(expected: PaginationDefaults.MaxLimit);
+    }
+
+    [Test]
+    public async Task Should_HandleSingleSorter()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claims);
+        const string requestPath = "budget-sharing/budget-permission-requests?sorters=BudgetCode:Descending";
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+
+        // Assert
+        AssertResponseOk(response: response);
+
+        IPagedList<GetBudgetPermissionRequestsResponse>? responseContent = await response.Content
+            .ReadFromJsonAsync<PagedList<GetBudgetPermissionRequestsResponse>>();
+
+        responseContent.Should().NotBeNull();
+        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.BudgetCode);
     }
 
     [Test]

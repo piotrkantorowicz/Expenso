@@ -4,7 +4,7 @@ namespace Expenso.Shared.System.Types.Pagination;
 
 public sealed record Paging
 {
-    public Paging(int? page, int? limit)
+    private Paging(int? page, int? limit)
     {
         Page = page is null or < 1 ? PaginationDefaults.Page : page.Value;
 
@@ -19,6 +19,11 @@ public sealed record Paging
     public int Page { get; }
 
     public int Limit { get; }
+
+    public static Paging New(int? page, int? limit)
+    {
+        return new Paging(page: page, limit: limit);
+    }
 
     public static Paging Default => new(page: PaginationDefaults.Page, limit: PaginationDefaults.Limit);
 

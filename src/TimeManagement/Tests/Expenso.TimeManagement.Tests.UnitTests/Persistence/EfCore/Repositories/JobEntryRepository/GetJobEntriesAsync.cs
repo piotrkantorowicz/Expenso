@@ -1,3 +1,4 @@
+using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
@@ -19,7 +20,7 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
 
         // Act 
         IPagedList<JobEntry> jobEntries = await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,
-            pagination: Paging.Default, cancellationToken: default);
+            pagination: Paging.Default, sorters: Sorting.Default, cancellationToken: default);
 
         // Assert
         jobEntries.Should().NotBeNull();
@@ -39,11 +40,11 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
     {
         // Arrange
         JobEntryQuerySpecification querySpecification = new(UseTracking: false);
-        Paging customPaging = new(page: 2, limit: 5);
+        Paging customPaging = Paging.New(page: 2, limit: 5);
 
         // Act 
         IPagedList<JobEntry> jobEntries = await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,
-            pagination: customPaging, cancellationToken: default);
+            pagination: customPaging, sorters: Sorting.Default, cancellationToken: default);
 
         // Assert
         jobEntries.Should().NotBeNull();

@@ -1,4 +1,5 @@
-﻿using Expenso.Shared.System.Types.Pagination;
+﻿using Expenso.Shared.System.Types.Ordering;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
@@ -10,7 +11,7 @@ internal interface IJobEntryRepository
         CancellationToken cancellationToken);
 
     Task<IPagedList<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification, Paging? pagination,
-        CancellationToken cancellationToken);
+        Sorting? sorters, CancellationToken cancellationToken);
 
     Task AddOrUpdateAsync(JobEntry jobEntry, CancellationToken cancellationToken);
 }

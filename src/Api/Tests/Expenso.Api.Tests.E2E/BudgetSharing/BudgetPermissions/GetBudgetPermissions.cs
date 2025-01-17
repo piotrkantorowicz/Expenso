@@ -67,6 +67,27 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     }
 
     [Test]
+    public async Task Should_HandleSingleSorter()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claims);
+        const string requestPath = "budget-sharing/budget-permissions?sorters=BudgetId:Descending";
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+
+        // Assert
+        AssertResponseOk(response: response);
+
+        IPagedList<GetBudgetPermissionsResponse>? responseContent = await response.Content
+            .ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
+
+        responseContent.Should().NotBeNull();
+        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.BudgetId);
+    }
+
+    [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange

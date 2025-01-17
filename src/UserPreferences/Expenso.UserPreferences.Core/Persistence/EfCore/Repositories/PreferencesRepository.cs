@@ -1,4 +1,4 @@
-using Expenso.Shared.Database.EfCore.Queryable;
+using Expenso.Shared.Database.EfCore.Collections;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
