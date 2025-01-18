@@ -1,7 +1,7 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Services;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.Queries;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 namespace Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 

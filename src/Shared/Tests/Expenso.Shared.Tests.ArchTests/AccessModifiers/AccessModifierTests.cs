@@ -21,7 +21,7 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "AndExpression",
             "NpsqlDbContextFactory",
             "Paged",
-            "Paging",
+            "Pagination",
             "Clock",
             "ProviderTimeZoneResult",
             "RequestTimeZone"

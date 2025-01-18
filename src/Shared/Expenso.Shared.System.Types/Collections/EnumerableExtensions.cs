@@ -1,11 +1,11 @@
-﻿using Expenso.Shared.System.Types.Pagination;
-using Expenso.Shared.System.Types.Pagination.Constants;
+﻿using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 namespace Expenso.Shared.System.Types.Collections;
 
 public static class EnumerableExtensions
 {
-    public static IPagedList<T> Pagination<T>(this IEnumerable<T> enumerable, Paging? pagination) where T : class
+    public static IPagedList<T> Pagination<T>(this IEnumerable<T> enumerable, Pagination? pagination) where T : class
     {
         IReadOnlyCollection<T> enumerableAsList = enumerable.ToList();
         int page = Math.Max(val1: 1, val2: pagination?.Page ?? PaginationDefaults.Page);

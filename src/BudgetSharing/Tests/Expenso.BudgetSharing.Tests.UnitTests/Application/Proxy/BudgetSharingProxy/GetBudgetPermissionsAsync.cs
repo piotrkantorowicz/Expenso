@@ -1,8 +1,8 @@
 ﻿using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Request;
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
-using Expenso.Shared.System.Types.Pagination;
-using Expenso.Shared.System.Types.Pagination.Constants;
+using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 using FluentAssertions;
 

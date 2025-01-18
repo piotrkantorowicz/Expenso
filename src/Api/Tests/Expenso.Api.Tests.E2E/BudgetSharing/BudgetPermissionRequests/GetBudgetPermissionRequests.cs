@@ -2,8 +2,8 @@ using System.Net;
 using System.Net.Http.Json;
 
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequests.DTO.Response;
-using Expenso.Shared.System.Types.Pagination;
-using Expenso.Shared.System.Types.Pagination.Constants;
+using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 using FluentAssertions;
 

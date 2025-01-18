@@ -6,7 +6,7 @@ using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.System.Types.Ordering;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 namespace Expenso.BudgetSharing.Application.Proxy;
 
@@ -24,13 +24,13 @@ internal sealed class BudgetSharingProxy : IBudgetSharingProxy
     }
 
     public async Task<IPagedList<GetBudgetPermissionsResponse>?> GetBudgetPermissionsAsync(
-        GetBudgetPermissionsRequest request, Paging? pagination = null, Sorting? sorting = null,
+        GetBudgetPermissionsRequest request, Pagination? pagination = null, Sorting? sorting = null,
         IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetBudgetPermissionsQuery(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: ModuleNames.BudgetSharingModule), Pagination: pagination ?? Paging.Default,
+                    moduleId: ModuleNames.BudgetSharingModule), Pagination: pagination,
                 Sorters: sorting ?? Sorting.Default, Payload: request), cancellationToken: cancellationToken);
     }
 }

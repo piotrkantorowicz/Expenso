@@ -1,7 +1,8 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers.DTO.Maps;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 using FluentAssertions;
 
@@ -42,15 +43,19 @@ internal sealed class GetUsersAsync : UserServiceTestBase
 
         // Act
         IPagedList<GetUsersResponse> getUsers = await TestCandidate.GetUsersAsync(
-            request: new GetUsersRequest(UserId: _userId), pagination: Paging.Default,
+            request: new GetUsersRequest(UserId: _userId),
+            pagination: new Pagination(Page: PaginationDefaults.Page, Limit: PaginationDefaults.Limit),
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
         getUsers.Should().NotBeNull();
-        getUsers.CurrentPage.Should().Be(expected: Paging.Default.Page);
-        getUsers.TotalPages.Should().Be(expected: (int)Math.Ceiling(a: users.Length / (double)Paging.Default.Limit));
+        getUsers.CurrentPage.Should().Be(expected: PaginationDefaults.Page);
 
-        getUsers.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
+        getUsers
+            .TotalPages.Should()
+            .Be(expected: (int)Math.Ceiling(a: users.Length / (double)PaginationDefaults.Limit));
+
+        getUsers.ResultsPerPage.Should().Be(expected: PaginationDefaults.Limit);
         getUsers.TotalResults.Should().Be(expected: 2);
         getUsers.Items.Should().HaveCount(expected: 2);
 

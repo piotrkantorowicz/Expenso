@@ -1,7 +1,7 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions.DTO.Maps;
 

@@ -11,7 +11,7 @@ using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.Queries.Dispatchers;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 namespace Expenso.IAM.Core.Application.Proxy;
 
@@ -46,13 +46,14 @@ internal sealed class IamProxy : IIamProxy
                     moduleId: ModuleNames.IamModule), Payload: request), cancellationToken: cancellationToken);
     }
 
-    public async Task<IPagedList<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request, Paging? pagination = null,
+    public async Task<IPagedList<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+        Pagination? pagination = null,
         IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return await _queryDispatcher.QueryAsync(
             query: new GetUsersQuery(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: ModuleNames.IamModule), Pagination: pagination ?? Paging.Default, Payload: request),
+                    moduleId: ModuleNames.IamModule), Pagination: pagination, Payload: request),
             cancellationToken: cancellationToken);
     }
 }
