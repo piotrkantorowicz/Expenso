@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Types.Paging.Constants;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 namespace Expenso.Shared.System.Types.Paging;
 
