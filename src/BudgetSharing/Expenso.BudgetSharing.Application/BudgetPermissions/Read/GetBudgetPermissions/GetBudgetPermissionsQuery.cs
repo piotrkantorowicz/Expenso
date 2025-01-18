@@ -2,6 +2,7 @@ using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermission
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
 using Expenso.Shared.Queries.Pagination;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Pagination;
 
 namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermissions;
@@ -9,4 +10,5 @@ namespace Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPerm
 public sealed record GetBudgetPermissionsQuery(
     IMessageContext MessageContext,
     Paging? Pagination,
+    Sorting? Sorters,
     GetBudgetPermissionsRequest? Payload) : IPagedQuery<IPagedList<GetBudgetPermissionsResponse>>;

@@ -1,4 +1,5 @@
-﻿using Expenso.Shared.System.Types.Pagination;
+﻿using Expenso.Shared.System.Types.Ordering;
+using Expenso.Shared.System.Types.Pagination;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Request;
@@ -22,7 +23,7 @@ internal abstract class
         _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
 
         _getJobEntriesQuery = new GetJobEntriesQuery(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Pagination: Paging.Default, Payload: new GetJobEntriesRequest());
+            Pagination: Paging.Default, Sorters: Sorting.Default, Payload: new GetJobEntriesRequest());
 
         _jobEntries =
         [

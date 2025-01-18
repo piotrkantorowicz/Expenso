@@ -47,14 +47,12 @@ internal sealed class GetBudgetPermissionRequestsQueryHandler : IQueryHandler<Ge
             ParticipantId = PersonId.Nullable(value: participantId),
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
             Statuses = GetBudgetPermissionRequestsRequestMap.MapTo(status: query.Payload?.Status),
-            PermissionTypes =
-                GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: query.Payload?.PermissionType),
-            Pagination = query.Pagination
+            PermissionTypes = GetBudgetPermissionRequestsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
         };
 
         IPagedList<BudgetPermissionRequest> budgetPermissionRequests =
             await _budgetPermissionRequestStore.BrowseAsync(querySpecification: querySpecification,
-                cancellationToken: cancellationToken);
+                pagination: query.Pagination, sorters: query.Sorters, cancellationToken: cancellationToken);
 
         IPagedList<GetBudgetPermissionRequestsResponse> budgetPermissionRequestsResponse =
             GetBudgetPermissionRequestsResponseMap.MapTo(budgetPermissionRequests: budgetPermissionRequests);

@@ -46,13 +46,12 @@ internal sealed class
             OwnerId = PersonId.Nullable(value: query.Payload?.OwnerId),
             BudgetCode = BudgetCode.Nullable(value: query.Payload?.BudgetCode),
             ParticipantId = PersonId.Nullable(value: participantId),
-            PermissionTypes = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType),
-            Pagination = query.Pagination
+            PermissionTypes = GetBudgetPermissionsRequestMap.MapTo(permissionType: query.Payload?.PermissionType)
         };
 
-        IPagedList<BudgetPermission> budgetPermissions =
-            await _budgetPermissionStore.BrowseAsync(querySpecification: querySpecification,
-                cancellationToken: cancellationToken);
+        IPagedList<BudgetPermission> budgetPermissions = await _budgetPermissionStore.BrowseAsync(
+            querySpecification: querySpecification, pagination: query.Pagination, sorters: query.Sorters,
+            cancellationToken: cancellationToken);
 
         IPagedList<GetBudgetPermissionsResponse> budgetPermissionsResponse =
             GetBudgetPermissionsResponseMap.MapTo(budgetPermissions: budgetPermissions);

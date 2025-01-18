@@ -41,6 +41,7 @@ using Expenso.Shared.Queries;
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Pagination;
 
 using Microsoft.AspNetCore.Http;
@@ -117,11 +118,11 @@ public sealed class BudgetSharingModule : IModuleDefinition
                     GetBudgetPermissionRequestsRequestStatus.All,
                 [FromQuery] GetBudgetPermissionRequestsRequestPermissionType permissionType =
                     GetBudgetPermissionRequestsRequestPermissionType.All, [FromQuery] Paging? pagination = null,
-                CancellationToken cancellationToken = default) =>
+                [FromQuery] Sorting? sorters = null, CancellationToken cancellationToken = default) =>
             {
                 IPagedList<GetBudgetPermissionRequestsResponse>? response = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestsQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination ?? Paging.Default,
+                        Pagination: pagination ?? Paging.Default, Sorters: sorters ?? Sorting.Default,
                         Payload: new GetBudgetPermissionRequestsRequest(BudgetId: budgetId, BudgetCode: budgetCode,
                             ParticipantId: participantId, OwnerId: ownerId, ForCurrentUser: forCurrentUser,
                             Status: status, PermissionType: permissionType)), cancellationToken: cancellationToken);
@@ -225,11 +226,11 @@ public sealed class BudgetSharingModule : IModuleDefinition
                 [FromQuery] string? budgetCode = null, [FromQuery] bool? forCurrentUser = null,
                 [FromQuery] GetBudgetPermissionsRequestPermissionType permissionType =
                     GetBudgetPermissionsRequestPermissionType.All, [FromQuery] Paging? pagination = null,
-                CancellationToken cancellationToken = default) =>
+                [FromQuery] Sorting? sorters = null, CancellationToken cancellationToken = default) =>
             {
                 IPagedList<GetBudgetPermissionsResponse>? getPreferences = await handler.HandleAsync(
                     query: new GetBudgetPermissionsQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination ?? Paging.Default,
+                        Pagination: pagination ?? Paging.Default, Sorters: sorters ?? Sorting.Default,
                         Payload: new GetBudgetPermissionsRequest(BudgetId: budgetId, OwnerId: ownerId,
                             BudgetCode: budgetCode, ParticipantId: participantId, PermissionType: permissionType,
                             ForCurrentUser: forCurrentUser)), cancellationToken: cancellationToken);

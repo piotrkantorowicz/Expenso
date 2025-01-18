@@ -30,7 +30,7 @@ internal sealed class IamProxyService : IIamProxyService
         // there is a feature request to add get many users by ids in keycloak
         // https://github.com/keycloak/keycloak/issues/12025
         IPagedList<GetUsersResponse> users = await _iamProxy.GetUsersAsync(request: new GetUsersRequest(),
-                                                 pagination: new Paging(page: 1, limit: int.MaxValue),
+                                                 pagination: Paging.New(page: 1, limit: int.MaxValue),
                                                  cancellationToken: cancellationToken) ??
                                              PagedList<GetUsersResponse>.AsEmpty;
 
