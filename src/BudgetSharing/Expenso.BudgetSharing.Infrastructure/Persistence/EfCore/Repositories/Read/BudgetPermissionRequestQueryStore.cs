@@ -2,8 +2,8 @@ using Expenso.BudgetSharing.Application.Shared.QueryStore;
 using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.Shared.Database.EfCore.Collections;
+using Expenso.Shared.Database.Ordering;
 using Expenso.Shared.Database.Paging;
-using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Paging;
 
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +32,8 @@ internal sealed class BudgetPermissionRequestQueryStore : IBudgetPermissionReque
     }
 
     public async Task<IPagedList<BudgetPermissionRequest>> BrowseAsync(
-        BudgetPermissionRequestQuerySpecification querySpecification, DatabasePagination? pagination, Sorting? sorters,
+        BudgetPermissionRequestQuerySpecification querySpecification, DatabasePagination? pagination,
+        DatabaseSorting? sorters,
         CancellationToken cancellationToken)
     {
         return await _budgetPermissionRequestsQueryable

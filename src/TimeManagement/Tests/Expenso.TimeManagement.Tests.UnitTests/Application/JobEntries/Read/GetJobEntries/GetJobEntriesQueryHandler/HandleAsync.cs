@@ -1,6 +1,6 @@
-﻿using Expenso.Shared.Database.Paging;
+﻿using Expenso.Shared.Database.Ordering;
+using Expenso.Shared.Database.Paging;
 using Expenso.Shared.System.Types.Exceptions;
-using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
@@ -23,7 +23,7 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
         // Arrange
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                DatabasePagination.Default, It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                DatabasePagination.Default, It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(items: _jobEntries, currentPage: 1, resultsPerPage: 10,
                 totalPages: 1, totalResults: 2));
 
@@ -51,7 +51,7 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
         // Arrange
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                DatabasePagination.Default, It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                DatabasePagination.Default, It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.AsEmpty);
 
         // Act

@@ -25,7 +25,7 @@ internal abstract class
 
         _getJobEntriesQuery = new GetJobEntriesQuery(MessageContext: MessageContextFactoryMock.Object.Current(),
             Pagination: new Pagination(Page: PaginationDefaults.Page, Limit: PaginationDefaults.Limit),
-            Sorters: Sorting.Default, Payload: new GetJobEntriesRequest());
+            Sorters: new Sorting(Sorters: []), Payload: new GetJobEntriesRequest());
 
         _jobEntries =
         [

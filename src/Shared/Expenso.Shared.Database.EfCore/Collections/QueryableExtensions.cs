@@ -1,8 +1,9 @@
 using System.Linq.Expressions;
 
+using Expenso.Shared.Database.Ordering;
+using Expenso.Shared.Database.Ordering.Constants;
 using Expenso.Shared.Database.Paging;
 using Expenso.Shared.System.Types.Ordering;
-using Expenso.Shared.System.Types.Ordering.Constants;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 
@@ -48,7 +49,7 @@ public static class QueryableExtensions
             func: (current, include) => current.IncludeIfNotNull(includeExpression: include));
     }
 
-    public static IQueryable<T> ApplySorting<T>(this IQueryable<T> source, Sorting? sorting)
+    public static IQueryable<T> ApplySorting<T>(this IQueryable<T> source, DatabaseSorting? sorting)
     {
         ArgumentNullException.ThrowIfNull(argument: source);
 
@@ -60,7 +61,7 @@ public static class QueryableExtensions
         ParameterExpression parameter = Expression.Parameter(type: typeof(T), name: "item");
         Expression? sortExpression = null;
 
-        foreach (ISorter sorter in sorting.Sorters)
+        foreach (DatabaseSorter sorter in sorting.Sorters)
         {
             if (string.IsNullOrWhiteSpace(value: sorter.SortBy))
             {
@@ -112,16 +113,16 @@ public static class QueryableExtensions
         return property as MemberExpression;
     }
 
-    private static string GetSortMethodName(SortOrder sortOrder, bool isFirstSort)
+    private static string GetSortMethodName(DatabaseSortOrder sortOrder, bool isFirstSort)
     {
         return (sortOrder, isFirstSort) switch
         {
-            (SortOrder.Descending, true) => OrderingTypes.OrderByDescending,
-            (SortOrder.Descending, false) => OrderingTypes.ThenByDescending,
-            (SortOrder.Ascending, true) => OrderingTypes.OrderBy,
-            (SortOrder.Ascending, false) => OrderingTypes.ThenBy,
-            (SortOrder.None, true) => OrderingTypes.OrderBy,
-            (SortOrder.None, false) => OrderingTypes.ThenBy,
+            (DatabaseSortOrder.Descending, true) => OrderingTypes.OrderByDescending,
+            (DatabaseSortOrder.Descending, false) => OrderingTypes.ThenByDescending,
+            (DatabaseSortOrder.Ascending, true) => OrderingTypes.OrderBy,
+            (DatabaseSortOrder.Ascending, false) => OrderingTypes.ThenBy,
+            (DatabaseSortOrder.None, true) => OrderingTypes.OrderBy,
+            (DatabaseSortOrder.None, false) => OrderingTypes.ThenBy,
             _ => throw new ArgumentOutOfRangeException(paramName: nameof(SortOrder), actualValue: sortOrder,
                 message: string.Empty)
         };

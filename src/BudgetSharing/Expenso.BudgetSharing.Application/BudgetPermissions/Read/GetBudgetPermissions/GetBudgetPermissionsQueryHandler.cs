@@ -4,6 +4,7 @@ using Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermissions.Response;
+using Expenso.Shared.Database.Ordering;
 using Expenso.Shared.Database.Paging;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.ExecutionContext;
@@ -52,7 +53,7 @@ internal sealed class
 
         IPagedList<BudgetPermission> budgetPermissions = await _budgetPermissionStore.BrowseAsync(
             querySpecification: querySpecification, pagination: DatabasePagination.New(pagination: query.Pagination),
-            sorters: query.Sorters, cancellationToken: cancellationToken);
+            sorters: DatabaseSorting.New(sorting: query.Sorters), cancellationToken: cancellationToken);
 
         IPagedList<GetBudgetPermissionsResponse> budgetPermissionsResponse =
             GetBudgetPermissionsResponseMap.MapTo(budgetPermissions: budgetPermissions);

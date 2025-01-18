@@ -30,7 +30,7 @@ internal sealed class BudgetSharingProxy : IBudgetSharingProxy
         return await _queryDispatcher.QueryAsync(
             query: new GetBudgetPermissionsQuery(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
-                    moduleId: ModuleNames.BudgetSharingModule), Pagination: pagination,
-                Sorters: sorting ?? Sorting.Default, Payload: request), cancellationToken: cancellationToken);
+                    moduleId: ModuleNames.BudgetSharingModule), Pagination: pagination, Sorters: sorting,
+                Payload: request), cancellationToken: cancellationToken);
     }
 }

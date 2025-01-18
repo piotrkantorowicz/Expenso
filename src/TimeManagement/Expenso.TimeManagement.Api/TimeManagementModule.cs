@@ -82,7 +82,7 @@ public sealed class TimeManagementModule : IModuleDefinition
             {
                 IPagedList<GetJobEntriesResponse>? response = await handler.HandleAsync(
                     query: new GetJobEntriesQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination, Sorters: sorters ?? Sorting.Default,
+                        Pagination: pagination, Sorters: sorters,
                         Payload: new GetJobEntriesRequest(JobEntryId: jobEntryId, JobInstanceId: jobInstanceId,
                             JobEntryStatusIds: jobEntryStatusIds, MoreThanRetries: moreThanRetries,
                             IsCompleted: isCompleted, HasRun: hasRun, IsActive: isActive, HasTriggers: hasTriggers,

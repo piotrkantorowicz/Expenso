@@ -1,21 +1,7 @@
 ﻿namespace Expenso.Shared.System.Types.Ordering;
 
-public sealed record Sorting
+public sealed record Sorting(IEnumerable<Sorter>? Sorters)
 {
-    private Sorting(IEnumerable<ISorter>? sorters)
-    {
-        Sorters = sorters?.ToList() ?? [];
-    }
-
-    public ICollection<ISorter> Sorters { get; }
-
-    public static Sorting New(IEnumerable<ISorter>? sorters)
-    {
-        return new Sorting(sorters: sorters);
-    }
-
-    public static Sorting Default => new(sorters: []);
-
     public static bool TryParse(string? value, out Sorting? sorting)
     {
         sorting = null;
@@ -25,7 +11,7 @@ public sealed record Sorting
             return false;
         }
 
-        List<ISorter> sorters = [];
+        List<Sorter> sorters = [];
         string[] parts = value.Split(separator: ',', options: StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string? part in parts)
@@ -53,7 +39,7 @@ public sealed record Sorting
             return false;
         }
 
-        sorting = new Sorting(sorters: sorters);
+        sorting = new Sorting(Sorters: sorters);
 
         return true;
     }
