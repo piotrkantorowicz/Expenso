@@ -12,7 +12,7 @@ using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 using Keycloak.AuthServices.Sdk.Admin.Models;
 
@@ -69,7 +69,8 @@ internal sealed class FakeIamProxy : IIamProxy
                         identifier: request.Email)));
     }
 
-    public async Task<IPagedList<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request, Paging? pagination = null,
+    public async Task<IPagedList<GetUsersResponse>?> GetUsersAsync(GetUsersRequest request,
+        Pagination? pagination = null,
         IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
     {
         return GetUsersResponseMap.MapTo(

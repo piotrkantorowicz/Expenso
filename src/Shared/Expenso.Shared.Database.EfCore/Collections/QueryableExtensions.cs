@@ -1,9 +1,10 @@
 using System.Linq.Expressions;
 
+using Expenso.Shared.Database.Paging;
 using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Ordering.Constants;
-using Expenso.Shared.System.Types.Pagination;
-using Expenso.Shared.System.Types.Pagination.Constants;
+using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,8 @@ public static class QueryableExtensions
     }
 
     public static async Task<IPagedList<T>> PaginationAsync<T>(this IQueryable<T> queryable,
-        Expression<Func<T, bool>> filter, Paging? pagination, CancellationToken cancellationToken) where T : class
+        Expression<Func<T, bool>> filter, DatabasePagination? pagination, CancellationToken cancellationToken)
+        where T : class
     {
         int page = Math.Max(val1: 1, val2: pagination?.Page ?? PaginationDefaults.Page);
         int limit = Math.Max(val1: 1, val2: pagination?.Limit ?? PaginationDefaults.Limit);
@@ -55,7 +57,7 @@ public static class QueryableExtensions
             return source;
         }
 
-        ParameterExpression? parameter = Expression.Parameter(type: typeof(T), name: "item");
+        ParameterExpression parameter = Expression.Parameter(type: typeof(T), name: "item");
         Expression? sortExpression = null;
 
         foreach (ISorter sorter in sorting.Sorters)
@@ -72,10 +74,10 @@ public static class QueryableExtensions
                 continue;
             }
 
-            LambdaExpression? lambda = Expression.Lambda(body: property, parameter);
-            string? methodName = GetSortMethodName(sortOrder: sorter.SortOrder, isFirstSort: sortExpression is null);
+            LambdaExpression lambda = Expression.Lambda(body: property, parameter);
+            string methodName = GetSortMethodName(sortOrder: sorter.SortOrder, isFirstSort: sortExpression is null);
 
-            MethodCallExpression? orderByCall = Expression.Call(type: typeof(Queryable), methodName: methodName,
+            MethodCallExpression orderByCall = Expression.Call(type: typeof(Queryable), methodName: methodName,
                 typeArguments:
                 [
                     typeof(T),

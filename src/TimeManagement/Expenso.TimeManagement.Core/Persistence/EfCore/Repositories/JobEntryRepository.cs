@@ -1,6 +1,7 @@
 ﻿using Expenso.Shared.Database.EfCore.Collections;
+using Expenso.Shared.Database.Paging;
 using Expenso.Shared.System.Types.Ordering;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
@@ -29,7 +30,7 @@ internal sealed class JobEntryRepository : IJobEntryRepository
     }
 
     public async Task<IPagedList<JobEntry>> GetJobEntriesAsync(JobEntryQuerySpecification querySpecification,
-        Paging? pagination, Sorting? sorters, CancellationToken cancellationToken)
+        DatabasePagination? pagination, Sorting? sorters, CancellationToken cancellationToken)
     {
         return await _timeManagementDbContext
             .JobEntries.Tracking(useTracking: querySpecification.UseTracking)

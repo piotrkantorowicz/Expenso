@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 
-using Expenso.Shared.System.Types.Pagination;
-using Expenso.Shared.System.Types.Pagination.Constants;
+using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 
 using FluentAssertions;

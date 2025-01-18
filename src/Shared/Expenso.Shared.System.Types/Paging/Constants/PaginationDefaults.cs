@@ -1,4 +1,4 @@
-﻿namespace Expenso.Shared.System.Types.Pagination.Constants;
+﻿namespace Expenso.Shared.System.Types.Paging.Constants;
 
 public static class PaginationDefaults
 {

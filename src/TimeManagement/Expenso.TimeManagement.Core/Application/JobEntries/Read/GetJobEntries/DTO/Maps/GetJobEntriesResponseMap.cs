@@ -1,4 +1,4 @@
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 

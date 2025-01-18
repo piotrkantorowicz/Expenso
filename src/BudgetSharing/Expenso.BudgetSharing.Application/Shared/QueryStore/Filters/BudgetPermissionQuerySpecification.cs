@@ -4,7 +4,7 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.Shared.System.Expressions.And;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 namespace Expenso.BudgetSharing.Application.Shared.QueryStore.Filters;
 
@@ -15,7 +15,7 @@ public sealed record BudgetPermissionQuerySpecification(
     PersonId? OwnerId = null,
     PersonId? ParticipantId = null,
     PermissionType[]? PermissionTypes = null,
-    Paging? Pagination = null)
+    Pagination? Pagination = null)
 {
     public Expression<Func<BudgetPermission, bool>> Filter()
     {

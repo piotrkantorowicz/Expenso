@@ -1,4 +1,4 @@
-﻿namespace Expenso.Shared.System.Types.Pagination;
+﻿namespace Expenso.Shared.System.Types.Paging;
 
 public interface IPagedList
 {

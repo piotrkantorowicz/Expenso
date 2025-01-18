@@ -1,7 +1,7 @@
 using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 using FluentAssertions;
 
@@ -18,13 +18,13 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     public async Task Should_ReturnUsers_When_WithNoFilterAndUserExists()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: _defaultPagination,
             Payload: new GetUsersRequest());
 
         GetUsersRequest getUsersRequest = new();
 
         _userServiceMock
-            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, Paging.Default, It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, _defaultPagination, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: _getUsersResponse);
 
         // Act
@@ -40,12 +40,12 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     public async Task Should_ThrowException_When_ServiceThrowsException()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: _defaultPagination,
             Payload: new GetUsersRequest());
 
         _userServiceMock
             .Setup(expression: x =>
-                x.GetUsersAsync(It.IsAny<GetUsersRequest>(), Paging.Default, It.IsAny<CancellationToken>()))
+                x.GetUsersAsync(It.IsAny<GetUsersRequest>(), _defaultPagination, It.IsAny<CancellationToken>()))
             .ThrowsAsync(exception: new Exception(message: "Service error"));
 
         // Act & Assert
@@ -59,13 +59,13 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     public async Task Should_ReturnEmptyCollection_When_UsersHasNotBeenFound()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: _defaultPagination,
             Payload: new GetUsersRequest());
 
         GetUsersRequest getUsersRequest = new();
 
         _userServiceMock
-            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, Paging.Default, It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUsersAsync(getUsersRequest, _defaultPagination, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<GetUsersResponse>.AsEmpty);
 
         // Act
@@ -80,11 +80,11 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
     public async Task Should_ReturnEmptyCollection_When_RequestIsNull()
     {
         // Arrange
-        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: Paging.Default,
+        GetUsersQuery query = new(MessageContext: _messageContextMock.Object, Pagination: _defaultPagination,
             Payload: null);
 
         _userServiceMock
-            .Setup(expression: x => x.GetUsersAsync(null, Paging.Default, It.IsAny<CancellationToken>()))
+            .Setup(expression: x => x.GetUsersAsync(null, _defaultPagination, It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<GetUsersResponse>.AsEmpty);
 
         // Act

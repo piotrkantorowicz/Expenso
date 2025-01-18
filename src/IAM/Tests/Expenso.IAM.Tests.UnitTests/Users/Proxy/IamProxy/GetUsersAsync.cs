@@ -1,7 +1,8 @@
 ﻿using Expenso.IAM.Core.Application.Users.Read.Queries.GetUsers;
 using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
+using Expenso.Shared.System.Types.Paging.Constants;
 
 using FluentAssertions;
 
@@ -23,8 +24,8 @@ internal sealed class GetUsersAsync : IamProxyTestBase
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.IsAny<GetUsersQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<GetUsersResponse>.Create(items: _getUsersResponse,
-                currentPage: Paging.Default.Page, resultsPerPage: Paging.Default.Limit, totalPages: Paging.Default.Page,
-                totalResults: _getUsersResponse.Count));
+                currentPage: PaginationDefaults.Page, resultsPerPage: PaginationDefaults.Limit,
+                totalPages: PaginationDefaults.Page, totalResults: _getUsersResponse.Count));
 
         // Act
         IPagedList<GetUsersResponse>? getUsersResponse =
@@ -33,13 +34,13 @@ internal sealed class GetUsersAsync : IamProxyTestBase
 
         // Assert
         getUsersResponse?.Should().NotBeNull();
-        getUsersResponse?.CurrentPage.Should().Be(expected: Paging.Default.Page);
+        getUsersResponse?.CurrentPage.Should().Be(expected: PaginationDefaults.Page);
 
         getUsersResponse
             ?.TotalPages.Should()
-            .Be(expected: (int)Math.Ceiling(a: _getUsersResponse.Count / (double)Paging.Default.Limit));
+            .Be(expected: (int)Math.Ceiling(a: _getUsersResponse.Count / (double)PaginationDefaults.Limit));
 
-        getUsersResponse?.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
+        getUsersResponse?.ResultsPerPage.Should().Be(expected: PaginationDefaults.Limit);
         getUsersResponse?.TotalResults.Should().Be(expected: _getUsersResponse.Count);
         getUsersResponse?.Items.Should().BeEquivalentTo(expectation: _getUsersResponse);
 

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-using Expenso.Shared.System.Types.Pagination.Constants;
+using Expenso.Shared.System.Types.Paging.Constants;
 
-namespace Expenso.Shared.System.Types.Pagination;
+namespace Expenso.Shared.System.Types.Paging;
 
 public sealed record PagedList<T> : IPagedList<T>
 {

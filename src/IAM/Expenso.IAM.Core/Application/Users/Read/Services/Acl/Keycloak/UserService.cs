@@ -10,7 +10,7 @@ using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 
 using Keycloak.AuthServices.Sdk.Admin;
 using Keycloak.AuthServices.Sdk.Admin.Models;
@@ -76,7 +76,7 @@ internal sealed class UserService : IUserService
         return getUserResponse;
     }
 
-    public async Task<IPagedList<GetUsersResponse>> GetUsersAsync(GetUsersRequest? request, Paging? pagination,
+    public async Task<IPagedList<GetUsersResponse>> GetUsersAsync(GetUsersRequest? request, Pagination? pagination,
         CancellationToken cancellationToken)
     {
         List<UserRepresentation> keycloakUsers = (await _keycloakUserClient.GetUsersAsync(

@@ -6,7 +6,7 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.System.Types.Ordering;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Request;
@@ -77,12 +77,12 @@ public sealed class TimeManagementModule : IModuleDefinition
                 [FromQuery] int? moreThanRetries = null, [FromQuery] bool? isCompleted = null,
                 [FromQuery] bool? hasRun = null, [FromQuery] bool? isActive = null,
                 [FromQuery] bool? hasTriggers = null, [FromQuery] GetJobEntriesRequestJobEntryIncludes? includes = null,
-                [FromQuery] Paging? pagination = null, [FromQuery] Sorting? sorters = null,
+                [FromQuery] Pagination? pagination = null, [FromQuery] Sorting? sorters = null,
                 CancellationToken cancellationToken = default) =>
             {
                 IPagedList<GetJobEntriesResponse>? response = await handler.HandleAsync(
                     query: new GetJobEntriesQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination ?? Paging.Default, Sorters: sorters ?? Sorting.Default,
+                        Pagination: pagination, Sorters: sorters ?? Sorting.Default,
                         Payload: new GetJobEntriesRequest(JobEntryId: jobEntryId, JobInstanceId: jobInstanceId,
                             JobEntryStatusIds: jobEntryStatusIds, MoreThanRetries: moreThanRetries,
                             IsCompleted: isCompleted, HasRun: hasRun, IsActive: isActive, HasTriggers: hasTriggers,

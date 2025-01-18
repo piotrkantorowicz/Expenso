@@ -1,5 +1,6 @@
+using Expenso.Shared.Database.Paging;
 using Expenso.Shared.System.Types.Ordering;
-using Expenso.Shared.System.Types.Pagination;
+using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
@@ -20,17 +21,17 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
 
         // Act 
         IPagedList<JobEntry> jobEntries = await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,
-            pagination: Paging.Default, sorters: Sorting.Default, cancellationToken: default);
+            pagination: DatabasePagination.Default, sorters: Sorting.Default, cancellationToken: default);
 
         // Assert
         jobEntries.Should().NotBeNull();
-        jobEntries.CurrentPage.Should().Be(expected: Paging.Default.Page);
+        jobEntries.CurrentPage.Should().Be(expected: DatabasePagination.Default.Page);
 
         jobEntries
             .TotalPages.Should()
-            .Be(expected: (int)Math.Ceiling(a: _jobEntriesIds.Count / (double)Paging.Default.Limit));
+            .Be(expected: (int)Math.Ceiling(a: _jobEntriesIds.Count / (double)DatabasePagination.Default.Limit));
 
-        jobEntries.ResultsPerPage.Should().Be(expected: Paging.Default.Limit);
+        jobEntries.ResultsPerPage.Should().Be(expected: DatabasePagination.Default.Limit);
         jobEntries.TotalResults.Should().Be(expected: _jobEntriesIds.Count);
         jobEntries.Items.Should().HaveCount(expected: _jobEntriesIds.Count);
     }
@@ -40,11 +41,11 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
     {
         // Arrange
         JobEntryQuerySpecification querySpecification = new(UseTracking: false);
-        Paging customPaging = Paging.New(page: 2, limit: 5);
+        DatabasePagination pagination = DatabasePagination.New(page: 2, limit: 5);
 
         // Act 
         IPagedList<JobEntry> jobEntries = await TestCandidate.GetJobEntriesAsync(querySpecification: querySpecification,
-            pagination: customPaging, sorters: Sorting.Default, cancellationToken: default);
+            pagination: pagination, sorters: Sorting.Default, cancellationToken: default);
 
         // Assert
         jobEntries.Should().NotBeNull();
