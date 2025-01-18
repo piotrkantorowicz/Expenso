@@ -72,6 +72,12 @@ internal abstract class TestBase
         response.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
     }
 
+    protected virtual void AssertResponseBadRequest(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
+        response.StatusCode.Should().Be(expected: HttpStatusCode.BadRequest);
+    }
+
     protected static void AssertResponseUnauthroised(HttpResponseMessage response)
     {
         response.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);

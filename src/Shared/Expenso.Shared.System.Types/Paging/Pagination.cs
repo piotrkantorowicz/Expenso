@@ -10,26 +10,46 @@ public sealed record Pagination(int? Page, int? Limit)
 
     public static bool TryParse(string? value, out Pagination? paging)
     {
-        paging = new Pagination();
+        paging = null;
 
         if (string.IsNullOrEmpty(value: value))
         {
-            return true;
+            return false;
         }
 
+        int? parsedPage, parsedLimit;
         string[] parts = value.Split(separator: ',');
-        int? parsedPage = null;
 
         if (parts.Length > 0 && int.TryParse(s: parts[0], result: out int page))
         {
-            parsedPage = page >= 1 ? page : null;
+            if (page >= 1)
+            {
+                parsedPage = page;
+            }
+            else
+            {
+                return false;
+            }
         }
-
-        int? parsedLimit = null;
+        else
+        {
+            return false;
+        }
 
         if (parts.Length > 1 && int.TryParse(s: parts[1], result: out int limit))
         {
-            parsedLimit = limit is >= 1 and <= PaginationDefaults.MaxLimit ? limit : null;
+            if (limit is >= 1 and <= PaginationDefaults.MaxLimit)
+            {
+                parsedLimit = limit;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
         }
 
         paging = new Pagination(Page: parsedPage ?? PaginationDefaults.Page,

@@ -36,4 +36,10 @@ internal abstract class BudgetPermissionTestBase : TestBase
         AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
         base.AssertResponseNoContent(response: response);
     }
+
+    protected override void AssertResponseBadRequest(HttpResponseMessage response)
+    {
+        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
+        base.AssertResponseBadRequest(response: response);
+    }
 }

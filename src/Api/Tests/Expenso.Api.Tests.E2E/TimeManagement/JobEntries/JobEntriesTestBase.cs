@@ -50,4 +50,10 @@ internal abstract class JobEntriesTestBase : TestBase
         AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
         base.AssertResponseNoContent(response: response);
     }
+
+    protected override void AssertResponseBadRequest(HttpResponseMessage response)
+    {
+        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
+        base.AssertResponseBadRequest(response: response);
+    }
 }
