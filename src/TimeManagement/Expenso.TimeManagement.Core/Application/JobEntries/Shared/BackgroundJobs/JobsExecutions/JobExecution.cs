@@ -1,4 +1,5 @@
-﻿using Expenso.Shared.Database.Paging;
+﻿using Expenso.Shared.Database.Ordering;
+using Expenso.Shared.Database.Paging;
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.Integration.MessageBroker;
 using Expenso.Shared.System.Logging;
@@ -7,7 +8,6 @@ using Expenso.Shared.System.Serialization;
 using Expenso.Shared.System.Serialization.Default.Settings;
 using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Constants;
-using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
@@ -71,7 +71,7 @@ internal sealed class JobExecution : IJobExecution
             IPagedList<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
                 querySpecification: querySpecification,
                 pagination: DatabasePagination.New(page: 1, limit: PaginationDefaults.MaxLimit),
-                sorters: Sorting.Default,
+                sorters: DatabaseSorting.Default,
                 cancellationToken: stoppingToken);
 
             if (jobEntries.Items.Count == 0)

@@ -2,11 +2,11 @@
 
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
+using Expenso.Shared.Database.Ordering;
 using Expenso.Shared.Database.Paging;
 using Expenso.Shared.Integration.Events;
 using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Serialization.Default.Settings;
-using Expenso.Shared.System.Types.Ordering;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
@@ -53,8 +53,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.AsEmpty);
 
         // Act
@@ -77,8 +76,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 new()
@@ -113,8 +111,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -159,8 +156,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -210,8 +206,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -248,8 +243,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -293,8 +287,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -337,8 +330,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -386,8 +378,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -451,8 +442,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry
@@ -516,8 +506,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         _jobEntryRepositoryMock
             .Setup(expression: x => x.GetJobEntriesAsync(It.IsAny<JobEntryQuerySpecification>(),
-                It.IsAny<DatabasePagination>(),
-                It.IsAny<Sorting>(), It.IsAny<CancellationToken>()))
+                It.IsAny<DatabasePagination>(), It.IsAny<DatabaseSorting>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(value: PagedList<JobEntry>.Create(new List<JobEntry>
             {
                 jobEntry

@@ -122,7 +122,7 @@ public sealed class BudgetSharingModule : IModuleDefinition
             {
                 IPagedList<GetBudgetPermissionRequestsResponse>? response = await handler.HandleAsync(
                     query: new GetBudgetPermissionRequestsQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination, Sorters: sorters ?? Sorting.Default,
+                        Pagination: pagination, Sorters: sorters,
                         Payload: new GetBudgetPermissionRequestsRequest(BudgetId: budgetId, BudgetCode: budgetCode,
                             ParticipantId: participantId, OwnerId: ownerId, ForCurrentUser: forCurrentUser,
                             Status: status, PermissionType: permissionType)), cancellationToken: cancellationToken);
@@ -230,7 +230,7 @@ public sealed class BudgetSharingModule : IModuleDefinition
             {
                 IPagedList<GetBudgetPermissionsResponse>? getPreferences = await handler.HandleAsync(
                     query: new GetBudgetPermissionsQuery(MessageContext: messageContextFactory.Current(),
-                        Pagination: pagination, Sorters: sorters ?? Sorting.Default,
+                        Pagination: pagination, Sorters: sorters,
                         Payload: new GetBudgetPermissionsRequest(BudgetId: budgetId, OwnerId: ownerId,
                             BudgetCode: budgetCode, ParticipantId: participantId, PermissionType: permissionType,
                             ForCurrentUser: forCurrentUser)), cancellationToken: cancellationToken);

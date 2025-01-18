@@ -33,16 +33,9 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         responseContent?.Should().NotBeNull();
     }
 
-    [TestCase(arg1: 0, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsZero"),
-     TestCase(arg1: -1, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsNegative"),
-     TestCase(arg1: 1, arg2: 0, TestName = "Should_UseDefaultPage_And_UseDefaultLimit_When_LimitIsZero"),
-     TestCase(arg1: 1, arg2: 1001, TestName = "Should_UseDefaultPage_And_UseMaxLimit_When_LimitExceedsMaximum"),
-     TestCase(arg1: 1, arg2: 25, TestName = "Should_UseDefaultPageAndLimit_When_DefaultPaginationProvided"),
-     TestCase(arg1: 2, arg2: 5, TestName = "Should_UseProvidedPageAndLimit_When_CustomPaginationProvided"),
-     TestCase(arg1: 1, arg2: -10, TestName = "Should_UseDefaultPageAndLimit_When_LimitIsLessThanMinimum"),
-     TestCase(arg1: int.MaxValue, arg2: int.MaxValue, TestName = "Should_HandleMaximumPageAndLimitValues"),
-     TestCase(arg1: null, arg2: null, TestName = "Should_HandleNullPageAndLimitValues")]
-    public async Task Should_HandlePaginationParameters(int? page, int? limit)
+    [Test, TestCase(arg1: 1, arg2: 25, TestName = "Should_UseDefaultPageAndLimit_When_DefaultPaginationProvided"),
+     TestCase(arg1: 2, arg2: 5, TestName = "Should_UseProvidedPageAndLimit_When_CustomPaginationProvided")]
+    public async Task Should_HandleValidPaginationParameters(int? page, int? limit)
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
@@ -64,6 +57,26 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
             ?.ResultsPerPage.Should()
             .BeGreaterThan(expected: 0)
             .And.BeLessOrEqualTo(expected: PaginationDefaults.MaxLimit);
+    }
+
+    [Test, TestCase(arg1: 0, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsZero"),
+     TestCase(arg1: -1, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsNegative"),
+     TestCase(arg1: 1, arg2: 0, TestName = "Should_UseDefaultPage_And_UseDefaultLimit_When_LimitIsZero"),
+     TestCase(arg1: 1, arg2: 1001, TestName = "Should_UseDefaultPage_And_UseMaxLimit_When_LimitExceedsMaximum"),
+     TestCase(arg1: 1, arg2: -10, TestName = "Should_UseDefaultPageAndLimit_When_LimitIsLessThanMinimum"),
+     TestCase(arg1: int.MaxValue, arg2: int.MaxValue, TestName = "Should_HandleMaximumPageAndLimitValues"),
+     TestCase(arg1: null, arg2: null, TestName = "Should_HandleNullPageAndLimitValues")]
+    public async Task Should_HandleInvalidPaginationParameters(int? page, int? limit)
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claims);
+        string requestPath = $"budget-sharing/budget-permissions?pagination={page},{limit}";
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+
+        // Assert
+        AssertResponseBadRequest(response: response);
     }
 
     [Test]

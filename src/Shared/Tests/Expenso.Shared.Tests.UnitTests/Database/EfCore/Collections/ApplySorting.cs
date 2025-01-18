@@ -1,5 +1,5 @@
 ﻿using Expenso.Shared.Database.EfCore.Collections;
-using Expenso.Shared.System.Types.Ordering;
+using Expenso.Shared.Database.Ordering;
 
 using FluentAssertions;
 
@@ -14,20 +14,20 @@ internal sealed class ApplySorting
     public void Should_SortBySinglePropertyAscending()
     {
         // Arrange
-        IQueryable<TestEntity>? data = new List<TestEntity>
+        IQueryable<TestEntity> data = new List<TestEntity>
         {
             new(Id: 2, Name: "B"),
             new(Id: 1, Name: "A"),
             new(Id: 3, Name: "C")
         }.AsQueryable();
 
-        Sorting? sorters = Sorting.New(sorters: new List<ISorter>
+        DatabaseSorting sorters = DatabaseSorting.New(sorters: new List<DatabaseSorter>
         {
-            new Sorter(SortBy: "Id", SortOrder: SortOrder.Ascending)
+            new(SortBy: "Id", SortOrder: DatabaseSortOrder.Ascending)
         });
 
         // Act
-        List<TestEntity>? sortedData = data.ApplySorting(sorting: sorters).ToList();
+        List<TestEntity> sortedData = data.ApplySorting(sorting: sorters).ToList();
 
         // Assert
         sortedData.Should().BeInAscendingOrder(propertyExpression: e => e.Id);
@@ -37,20 +37,20 @@ internal sealed class ApplySorting
     public void Should_SortBySinglePropertyDescending()
     {
         // Arrange
-        IQueryable<TestEntity>? data = new List<TestEntity>
+        IQueryable<TestEntity> data = new List<TestEntity>
         {
             new(Id: 2, Name: "B"),
             new(Id: 1, Name: "A"),
             new(Id: 3, Name: "C")
         }.AsQueryable();
 
-        Sorting? sorters = Sorting.New(sorters: new List<ISorter>
+        DatabaseSorting sorters = DatabaseSorting.New(sorters: new List<DatabaseSorter>
         {
-            new Sorter(SortBy: "Id", SortOrder: SortOrder.Descending)
+            new(SortBy: "Id", SortOrder: DatabaseSortOrder.Descending)
         });
 
         // Act
-        List<TestEntity>? sortedData = data.ApplySorting(sorting: sorters).ToList();
+        List<TestEntity> sortedData = data.ApplySorting(sorting: sorters).ToList();
 
         // Assert
         sortedData.Should().BeInDescendingOrder(propertyExpression: e => e.Id);
@@ -60,21 +60,21 @@ internal sealed class ApplySorting
     public void Should_SortByMultipleProperties()
     {
         // Arrange
-        IQueryable<TestEntity>? data = new List<TestEntity>
+        IQueryable<TestEntity> data = new List<TestEntity>
         {
             new(Id: 2, Name: "B"),
             new(Id: 1, Name: "A"),
             new(Id: 3, Name: "A")
         }.AsQueryable();
 
-        Sorting? sorters = Sorting.New(sorters: new List<ISorter>
+        DatabaseSorting sorters = DatabaseSorting.New(sorters: new List<DatabaseSorter>
         {
-            new Sorter(SortBy: "Name", SortOrder: SortOrder.Ascending),
-            new Sorter(SortBy: "Id", SortOrder: SortOrder.Descending)
+            new(SortBy: "Name", SortOrder: DatabaseSortOrder.Ascending),
+            new(SortBy: "Id", SortOrder: DatabaseSortOrder.Descending)
         });
 
         // Act
-        List<TestEntity>? sortedData = data.ApplySorting(sorting: sorters).ToList();
+        List<TestEntity> sortedData = data.ApplySorting(sorting: sorters).ToList();
 
         // Assert
         sortedData
@@ -91,7 +91,7 @@ internal sealed class ApplySorting
     public void Should_HandleNullSortCriteria()
     {
         // Arrange
-        IQueryable<TestEntity>? data = new List<TestEntity>
+        IQueryable<TestEntity> data = new List<TestEntity>
         {
             new(Id: 2, Name: "B"),
             new(Id: 1, Name: "A"),
@@ -99,7 +99,7 @@ internal sealed class ApplySorting
         }.AsQueryable();
 
         // Act
-        List<TestEntity>? sortedData = data.ApplySorting(sorting: null).ToList();
+        List<TestEntity> sortedData = data.ApplySorting(sorting: null).ToList();
 
         // Assert
         sortedData.Should().BeEquivalentTo(expectation: data);
@@ -109,7 +109,7 @@ internal sealed class ApplySorting
     public void Should_HandleEmptySortCriteria()
     {
         // Arrange
-        IQueryable<TestEntity>? data = new List<TestEntity>
+        IQueryable<TestEntity> data = new List<TestEntity>
         {
             new(Id: 2, Name: "B"),
             new(Id: 1, Name: "A"),
@@ -117,7 +117,7 @@ internal sealed class ApplySorting
         }.AsQueryable();
 
         // Act
-        List<TestEntity>? sortedData = data.ApplySorting(sorting: Sorting.Default).ToList();
+        List<TestEntity> sortedData = data.ApplySorting(sorting: DatabaseSorting.Default).ToList();
 
         // Assert
         sortedData.Should().BeEquivalentTo(expectation: data);
@@ -129,20 +129,20 @@ internal sealed class ApplySorting
     public void Should_ReturnSourceForInvalidProperties(string invalidProperty)
     {
         // Arrange
-        IQueryable<TestEntity>? data = new List<TestEntity>
+        IQueryable<TestEntity> data = new List<TestEntity>
         {
             new(Id: 2, Name: "B"),
             new(Id: 1, Name: "A"),
             new(Id: 3, Name: "C")
         }.AsQueryable();
 
-        Sorting? sorters = Sorting.New(sorters: new List<ISorter>
+        DatabaseSorting sorters = DatabaseSorting.New(sorters: new List<DatabaseSorter>
         {
-            new Sorter(SortBy: invalidProperty, SortOrder: SortOrder.Ascending)
+            new(SortBy: invalidProperty, SortOrder: DatabaseSortOrder.Ascending)
         });
 
         // Act
-        List<TestEntity>? sortedData = data.ApplySorting(sorting: sorters).ToList();
+        List<TestEntity> sortedData = data.ApplySorting(sorting: sorters).ToList();
 
         // Assert
         sortedData.Should().BeEquivalentTo(expectation: data);

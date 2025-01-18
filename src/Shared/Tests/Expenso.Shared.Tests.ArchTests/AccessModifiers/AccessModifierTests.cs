@@ -20,8 +20,6 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "OrExpression",
             "AndExpression",
             "NpsqlDbContextFactory",
-            "Paged",
-            "Pagination",
             "Clock",
             "ProviderTimeZoneResult",
             "RequestTimeZone"
@@ -46,7 +44,9 @@ internal sealed class AccessModifierTests : AccessModifierTestBase
             "Domain",
             "Modules",
             "Helpers",
-            "Converters"
+            "Converters",
+            "Ordering",
+            "Paging"
         ])
     {
     }

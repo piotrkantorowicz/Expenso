@@ -1,4 +1,5 @@
-﻿using Expenso.Shared.Database.Paging;
+﻿using Expenso.Shared.Database.Ordering;
+using Expenso.Shared.Database.Paging;
 using Expenso.Shared.Queries;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.TypesExtensions;
@@ -20,7 +21,7 @@ internal sealed class GetJobEntriesQueryHandler : IQueryHandler<GetJobEntriesQue
         _jobEntryRepository =
             jobEntryRepository ?? throw new ArgumentNullException(paramName: nameof(jobEntryRepository));
     }
- 
+
     public async Task<IPagedList<GetJobEntriesResponse>?> HandleAsync(GetJobEntriesQuery query,
         CancellationToken cancellationToken)
     {
@@ -32,8 +33,7 @@ internal sealed class GetJobEntriesQueryHandler : IQueryHandler<GetJobEntriesQue
 
         IPagedList<JobEntry> jobEntries = await _jobEntryRepository.GetJobEntriesAsync(
             querySpecification: querySpecification, pagination: DatabasePagination.New(pagination: query.Pagination),
-            sorters: query.Sorters,
-            cancellationToken: cancellationToken);
+            sorters: DatabaseSorting.New(sorting: query.Sorters), cancellationToken: cancellationToken);
 
         return GetJobEntriesResponseMap.MapTo(jobEntries: jobEntries);
     }

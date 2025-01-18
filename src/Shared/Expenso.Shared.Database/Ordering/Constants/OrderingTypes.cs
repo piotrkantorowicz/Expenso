@@ -1,6 +1,6 @@
-﻿namespace Expenso.Shared.System.Types.Ordering.Constants;
+﻿namespace Expenso.Shared.Database.Ordering.Constants;
 
-public sealed class OrderingTypes
+public static class OrderingTypes
 {
     public const string OrderBy = "OrderBy";
     public const string OrderByDescending = "OrderByDescending";
