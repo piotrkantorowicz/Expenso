@@ -25,12 +25,12 @@ public sealed record Sorting
             return false;
         }
 
-        List<ISorter>? sorters = new();
-        string[]? parts = value.Split(separator: ',');
+        List<ISorter> sorters = [];
+        string[] parts = value.Split(separator: ',', options: StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string? part in parts)
         {
-            string[]? sorterParts = part.Split(separator: ':');
+            string[] sorterParts = part.Trim().Split(separator: ':', options: StringSplitOptions.RemoveEmptyEntries);
 
             if (sorterParts.Length != 2 ||
                 !Enum.TryParse(value: sorterParts[1], ignoreCase: true, result: out SortOrder sortOrder))
@@ -38,7 +38,19 @@ public sealed record Sorting
                 return false;
             }
 
-            sorters.Add(item: new Sorter(SortBy: sorterParts[0], SortOrder: sortOrder));
+            string sortBy = sorterParts[0].Trim();
+
+            if (string.IsNullOrEmpty(value: sortBy))
+            {
+                return false;
+            }
+
+            sorters.Add(item: new Sorter(SortBy: sortBy, SortOrder: sortOrder));
+        }
+
+        if (sorters.Count == 0)
+        {
+            return false;
         }
 
         sorting = new Sorting(sorters: sorters);

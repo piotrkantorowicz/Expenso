@@ -23,7 +23,8 @@ public static class QueryableExtensions
         int limit = Math.Max(val1: 1, val2: pagination?.Limit ?? PaginationDefaults.Limit);
         int allRecordsCount = await queryable.Where(predicate: filter).CountAsync(cancellationToken: cancellationToken);
         int maxPage = (int)Math.Ceiling(a: allRecordsCount / (double)limit);
-        page = Math.Min(val1: page, val2: maxPage);
+        maxPage = Math.Max(val1: 1, val2: maxPage);
+        page = Math.Max(val1: 1, val2: Math.Min(val1: page, val2: maxPage));
 
         IReadOnlyCollection<T> budgetPermissionRequests = await queryable
             .Where(predicate: filter)
@@ -89,18 +90,20 @@ public static class QueryableExtensions
 
     private static MemberExpression? GetPropertyExpression(ParameterExpression parameter, string propertyPath)
     {
-        string[]? properties = propertyPath.Split(separator: '.');
-        Expression? property = null;
+        string[] properties = propertyPath.Split(separator: '.');
+        Expression? property = parameter;
 
-        foreach (string? prop in properties)
+        foreach (string prop in properties)
         {
             try
             {
-                property = Expression.Property(expression: parameter, propertyName: prop);
+                property = Expression.Property(expression: property, propertyName: prop);
             }
             catch
             {
                 property = null;
+
+                break;
             }
         }
 
