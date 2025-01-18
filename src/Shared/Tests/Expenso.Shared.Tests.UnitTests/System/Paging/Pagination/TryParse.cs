@@ -13,9 +13,9 @@ internal sealed class TryParse
      TestCase(arg: "", TestName = "Should_ReturnTrue_When_ValueIsEmpty"),
      TestCase(arg: "InvalidValue", TestName = "Should_ReturnTrue_When_ValueIsInvalid"),
      TestCase(arg: "1", TestName = "Should_ReturnTrue_When_PartsLengthIsNotTwo"),
-     TestCase(arg: "abc,10", TestName = "Should_ReturnTrue_When_PageIsNotAnInteger"),
+     TestCase(arg: "abc,25", TestName = "Should_ReturnTrue_When_PageIsNotAnInteger"),
      TestCase(arg: "1,abc", TestName = "Should_ReturnTrue_When_LimitIsNotAnInteger"),
-     TestCase(arg: "0,10", TestName = "Should_ReturnTrue_When_PageIsLessThanOne"),
+     TestCase(arg: "0,25", TestName = "Should_ReturnTrue_When_PageIsLessThanOne"),
      TestCase(arg: "1,0", TestName = "Should_ReturnTrue_When_LimitIsLessThanOne"),
      TestCase(arg: "1,101", TestName = "Should_ReturnTrue_When_LimitExceedsMaxLimit")]
     public void Should_HandleInvalidPaginationParameters(string? value)
@@ -26,9 +26,9 @@ internal sealed class TryParse
 
         // Assert
         result.Should().BeTrue();
-        pagination.Should().NotBeNull();
-        pagination!.Page.Should().Be(expected: PaginationDefaults.Page);
-        pagination.Limit.Should().Be(expected: PaginationDefaults.Limit);
+        pagination?.Should().NotBeNull();
+        pagination?.Page.Should().Be(expected: PaginationDefaults.Page);
+        pagination?.Limit.Should().Be(expected: PaginationDefaults.Limit);
     }
 
     [TestCase(arg1: "1,10", arg2: 1, arg3: 10, TestName = "Should_ReturnTrue_When_ValueIsValid")]

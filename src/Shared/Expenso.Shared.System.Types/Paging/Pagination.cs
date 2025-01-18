@@ -18,19 +18,22 @@ public sealed record Pagination(int? Page, int? Limit)
         }
 
         string[] parts = value.Split(separator: ',');
+        int? parsedPage = null;
 
-        if (parts.Length != 2 || !int.TryParse(s: parts[0], result: out int page) ||
-            !int.TryParse(s: parts[1], result: out int limit))
+        if (parts.Length > 0 && int.TryParse(s: parts[0], result: out int page))
         {
-            return true;
+            parsedPage = page >= 1 ? page : null;
         }
 
-        if (page < 1 || limit < 1 || limit > PaginationDefaults.MaxLimit)
+        int? parsedLimit = null;
+
+        if (parts.Length > 1 && int.TryParse(s: parts[1], result: out int limit))
         {
-            return true;
+            parsedLimit = limit is >= 1 and <= PaginationDefaults.MaxLimit ? limit : null;
         }
 
-        paging = new Pagination(Page: page, Limit: limit);
+        paging = new Pagination(Page: parsedPage ?? PaginationDefaults.Page,
+            Limit: parsedLimit ?? PaginationDefaults.Limit);
 
         return true;
     }
