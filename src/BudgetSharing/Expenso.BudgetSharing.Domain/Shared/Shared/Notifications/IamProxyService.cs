@@ -12,6 +12,7 @@ namespace Expenso.BudgetSharing.Domain.Shared.Shared.Notifications;
 
 internal sealed class IamProxyService : IIamProxyService
 {
+    private const int MaxUsersLimit = int.MaxValue;
     private readonly IIamProxy _iamProxy;
     private readonly ILoggerService<IamProxyService> _logger;
 
@@ -30,7 +31,7 @@ internal sealed class IamProxyService : IIamProxyService
         // there is a feature request to add get many users by ids in keycloak
         // https://github.com/keycloak/keycloak/issues/12025
         IPagedList<GetUsersResponse> users = await _iamProxy.GetUsersAsync(request: new GetUsersRequest(),
-                                                 pagination: new Pagination(Page: 1, Limit: int.MaxValue),
+                                                 pagination: new Pagination(Page: 1, Limit: MaxUsersLimit),
                                                  cancellationToken: cancellationToken) ??
                                              PagedList<GetUsersResponse>.AsEmpty;
 
