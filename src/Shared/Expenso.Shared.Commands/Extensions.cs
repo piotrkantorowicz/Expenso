@@ -15,14 +15,16 @@ public static class Extensions
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandHandler<>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandHandler<>)), publicOnly: false)
+               
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandHandler<,>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(ICommandHandler<,>)), publicOnly: false)
+               
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

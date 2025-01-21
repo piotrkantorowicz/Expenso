@@ -1,14 +1,13 @@
+---
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/src"
     target-branch: "dev"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 0
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/src"
     target-branch: "dev"
     schedule:
       interval: "daily"
-    open-pull-requests-limit: 0

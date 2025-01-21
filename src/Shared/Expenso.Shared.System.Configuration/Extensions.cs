@@ -16,21 +16,21 @@ public static class Extensions
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(IValidator<>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IValidator<>)), publicOnly: false)
                 .AsImplementedInterfaces()
                 .WithSingletonLifetime());
 
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(ISettingsBinder)))
+                .AddClasses(action: c => c.AssignableTo<ISettingsBinder>(), publicOnly: false)
                 .AsImplementedInterfaces()
                 .WithSingletonLifetime());
 
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(ISettingsService<>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(ISettingsService<>)), publicOnly: false)
                 .AsImplementedInterfaces()
                 .WithSingletonLifetime());
 

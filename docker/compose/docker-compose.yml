@@ -62,7 +62,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "5084:5084"
+      - "5084:8080"
     environment:
       EfCore__ConnectionParameters__Host: postgres
       EfCore__ConnectionParameters__User: ${POSTGRES_EXPENSO_USER}
@@ -71,7 +71,7 @@ services:
       Keycloak__resource: ${EXPENSO_KEYCLOAK_CLIENT_ID}
       Keycloak__auth-server-url: ${EXPENSO_KEYCLOAK_AUTH_SERVER_URL}
       Keycloak__credentials__secret: ${EXPENSO_KEYCLOAK_CREDENTIALS_SECRET}
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Local
     volumes:
       - expenso-data:/var/lib/expenso
     networks:

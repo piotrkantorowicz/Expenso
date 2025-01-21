@@ -45,6 +45,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Tests.Utils.ArchTests", "src\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj", "{56445107-59DD-4309-8219-0D7E0D4CC7A1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5BF64440-1E3C-4AB3-9A4F-4A458235610F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{59FB7D8C-374D-45B9-A17E-446B92720E07}"
 EndProject
@@ -244,6 +247,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.Queries.Pagination", "src\Shared\Expenso.Shared.Queries.Pagination\Expenso.Shared.Queries.Pagination.csproj", "{AFA97E7B-AB08-4F84-944C-4F7C9D04F34B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expenso.Shared.System.Time", "src\Shared\Expenso.Shared.System.Time\Expenso.Shared.System.Time.csproj", "{5F5A6FEA-C505-4027-8366-C452D0C34AE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{6B506EDB-98A4-4A74-9209-73CD128C72AE}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\reusable-code-ql.yml = .github\workflows\reusable-code-ql.yml
+		.github\workflows\reusable-docker_image.yml = .github\workflows\reusable-docker_image.yml
+		.github\workflows\reusable-sanity.yml = .github\workflows\reusable-sanity.yml
+		.github\workflows\reusable-test.yml = .github\workflows\reusable-test.yml
+		.github\workflows\reusable-trivy.yml = .github\workflows\reusable-trivy.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -625,5 +637,6 @@ Global
 		{803A29FC-E125-4F22-8EC9-80FCA890020B} = {FFA9EF65-A2AD-48AC-812B-42BFF705571C}
 		{AFA97E7B-AB08-4F84-944C-4F7C9D04F34B} = {F3C234FB-B6EE-4F73-B21E-0C3BB384BEE6}
 		{5F5A6FEA-C505-4027-8366-C452D0C34AE5} = {FFA9EF65-A2AD-48AC-812B-42BFF705571C}
+		{6B506EDB-98A4-4A74-9209-73CD128C72AE} = {5BF64440-1E3C-4AB3-9A4F-4A458235610F}
 	EndGlobalSection
 EndGlobal
