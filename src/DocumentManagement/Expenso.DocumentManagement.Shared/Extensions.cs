@@ -11,7 +11,8 @@ public static class Extensions
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(IDocumentManagementProxy)))
+                .AddClasses(action: c => c.AssignableTo<IDocumentManagementProxy>(), publicOnly: false)
+               
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
     }

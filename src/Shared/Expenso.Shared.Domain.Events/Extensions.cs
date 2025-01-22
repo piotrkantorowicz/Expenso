@@ -15,7 +15,8 @@ public static class Extensions
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(IDomainEventHandler<>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(IDomainEventHandler<>)), publicOnly: false)
+               
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 

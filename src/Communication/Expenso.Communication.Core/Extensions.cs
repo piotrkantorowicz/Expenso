@@ -15,16 +15,15 @@ public static class Extensions
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: assemblies)
-                .AddClasses(action: c => c.AssignableTo(type: typeof(INotificationService)))
+                .AddClasses(action: c => c.AssignableTo<INotificationService>(), publicOnly: false)
+               
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
         services.AddScoped<INotificationServiceFactory>(implementationFactory: sp =>
         {
             IEnumerable<INotificationService> notificationServices =
-                sp
-                    .GetServices(serviceType: typeof(INotificationService))
-                    .Select(selector: x => (INotificationService)x!);
+                sp.GetServices<INotificationService>().Select(selector: x => x);
 
             Dictionary<string, INotificationService> servicesDictionary =
                 notificationServices.ToDictionary(
