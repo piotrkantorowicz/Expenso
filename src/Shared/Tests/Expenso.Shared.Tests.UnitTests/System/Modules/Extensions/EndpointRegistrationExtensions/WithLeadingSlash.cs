@@ -1,9 +1,9 @@
 using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Extensions;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Modules.Extensions.EndpointRegistrationExtensions;
 
@@ -20,7 +20,7 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
 
         // Assert
-        testResult.Should().Be(expected: TestCandidate);
+        testResult.ShouldBe(expected: TestCandidate);
     }
 
     [Test, TestCase(arg: "users")]
@@ -33,6 +33,6 @@ internal sealed class WithLeadingSlash : EndpointRegistrationExtensionsTestBase
         EndpointRegistration testResult = TestCandidate.WithLeadingSlash();
 
         // Assert
-        testResult.Pattern.Should().Be(expected: $"/{TestCandidate.Pattern}");
+        testResult.Pattern.ShouldBe(expected: $"/{TestCandidate.Pattern}");
     }
 }

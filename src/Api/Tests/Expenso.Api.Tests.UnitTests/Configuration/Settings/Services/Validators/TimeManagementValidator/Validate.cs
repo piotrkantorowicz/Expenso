@@ -5,6 +5,8 @@ using FluentValidation.Results;
 
 using NUnit.Framework;
 
+using Enumerable = System.Linq.Enumerable;
+
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.Validators.TimeManagementValidator;
 
 [TestFixture]

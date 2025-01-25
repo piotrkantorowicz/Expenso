@@ -1,10 +1,10 @@
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 
@@ -24,8 +24,8 @@ internal sealed class SendAsyncResult : CommandDispatcherTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        commandResult?.Should().NotBeNull();
-        commandResult?.Message.Should().NotBeNullOrEmpty();
-        commandResult?.Message.Should().Be(expected: $"Successfully processed command with ID {testCommand.Id}");
+        commandResult?.ShouldNotBeNull();
+        commandResult?.Message.ShouldNotBeEmpty();
+        commandResult?.Message.ShouldBe(expected: $"Successfully processed command with ID {testCommand.Id}");
     }
 }

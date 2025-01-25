@@ -6,9 +6,9 @@ using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
@@ -35,7 +35,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         AssignParticipantResponse? responseContent =
             await response.Content.ReadFromJsonAsync<AssignParticipantResponse>();
 
-        responseContent?.BudgetPermissionRequestId.Should().Be(expected: budgetPermissioRequestId);
+        responseContent?.BudgetPermissionRequestId.ShouldBe(expected: budgetPermissioRequestId);
     }
 
     [Test]

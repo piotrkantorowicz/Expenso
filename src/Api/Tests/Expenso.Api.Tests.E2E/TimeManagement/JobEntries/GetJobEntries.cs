@@ -5,9 +5,9 @@ using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
@@ -29,12 +29,12 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         PagedList<GetJobEntriesResponse>? responseContent =
             await response.Content.ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
 
-        responseContent?.Items.Should().NotBeNull();
-        responseContent?.CurrentPage.Should().Be(expected: PaginationDefaults.Page);
-        responseContent?.ResultsPerPage.Should().Be(expected: PaginationDefaults.Limit);
-        responseContent?.TotalPages.Should().BeGreaterThanOrEqualTo(expected: 1);
-        responseContent?.TotalResults.Should().BeGreaterThanOrEqualTo(expected: 1);
-        responseContent?.Should().NotBeNull();
+        responseContent?.Items.ShouldNotBeNull();
+        responseContent?.CurrentPage.ShouldBe(expected: PaginationDefaults.Page);
+        responseContent?.ResultsPerPage.ShouldBe(expected: PaginationDefaults.Limit);
+        responseContent?.TotalPages.ShouldBeGreaterThanOrEqualTo(expected: 1);
+        responseContent?.TotalResults.ShouldBeGreaterThanOrEqualTo(expected: 1);
+        responseContent?.ShouldNotBeNull();
     }
 
     [Test, TestCase(arg1: "1", arg2: "25", TestName = "Should_UseDefaultPageAndLimit_When_DefaultPaginationProvided"),
@@ -54,15 +54,12 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
 
-        responseContent.Should().NotBeNull();
-        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
-
-        responseContent
-            ?.ResultsPerPage.Should()
-            .BeGreaterThan(expected: 0)
-            .And.BeLessOrEqualTo(expected: PaginationDefaults.MaxLimit);
+        responseContent.ShouldNotBeNull();
+        responseContent.CurrentPage.ShouldBeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+        responseContent.ResultsPerPage.ShouldBeGreaterThan(expected: 0);
+        responseContent.ResultsPerPage.ShouldBeLessThanOrEqualTo(expected: PaginationDefaults.MaxLimit);
     }
-    
+
     [TestCase(arg1: "0", arg2: "10", TestName = "Should_UseDefaultPage_When_PageIsZero"),
      TestCase(arg1: "-1", arg2: "10", TestName = "Should_UseDefaultPage_When_PageIsNegative"),
      TestCase(arg1: "1", arg2: "0", TestName = "Should_UseDefaultPage_And_UseDefaultLimit_When_LimitIsZero"),
@@ -85,7 +82,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         // Assert
         AssertResponseBadRequest(response: response);
     }
-    
+
     [Test]
     public async Task Should_HandleSingleSorter()
     {
@@ -102,9 +99,12 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
 
-        responseContent.Should().NotBeNull();
-        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
-        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.RunAt);
+        responseContent.ShouldNotBeNull();
+        responseContent.CurrentPage.ShouldBeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+
+        responseContent
+            .Items.Select(selector: x => x.RunAt)
+            .ShouldBeInOrder(expectedSortDirection: SortDirection.Descending);
     }
 
     [Test]
@@ -123,10 +123,16 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
 
-        responseContent.Should().NotBeNull();
-        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
-        responseContent?.Items.Should().BeInAscendingOrder(propertyExpression: x => x.MaxRetries);
-        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.RunAt);
+        responseContent.ShouldNotBeNull();
+        responseContent.CurrentPage.ShouldBeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+
+        responseContent
+            .Items.Select(selector: x => x.MaxRetries)
+            .ShouldBeInOrder(expectedSortDirection: SortDirection.Ascending);
+
+        responseContent
+            .Items.Select(selector: x => x.RunAt)
+            .ShouldBeInOrder(expectedSortDirection: SortDirection.Descending);
     }
 
     [Test]

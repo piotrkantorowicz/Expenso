@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PermissionType;
 
@@ -18,6 +18,6 @@ internal sealed class IsNone : PermissionTypeTestBase
         bool result = testCandidate.IsNone();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 }

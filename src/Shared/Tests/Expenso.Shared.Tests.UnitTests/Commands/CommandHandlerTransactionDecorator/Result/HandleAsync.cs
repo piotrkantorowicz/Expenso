@@ -1,8 +1,8 @@
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerTransactionDecorator.Result;
 
@@ -38,10 +38,8 @@ internal sealed class HandleAsync : CommandHandlerTransactionDecoratorTestBase
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test rollback.");
+        Exception? exception = await action.ShouldThrowAsync<Exception>();
+        exception.Message.ShouldBe(expected: "Intentional thrown to test rollback.");
 
         _unitOfWorkMock.Verify(expression: x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()),
             times: Times.Once);

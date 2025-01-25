@@ -1,10 +1,10 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.FileStorage;
 
@@ -93,11 +93,9 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<EmptyPathException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: x => x.Details == "Path cannot be empty.");
+        EmptyPathException? exception = await action.ShouldThrowAsync<EmptyPathException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "Path cannot be empty.");
     }
 
     [Test]
@@ -119,11 +117,9 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<EmptyFileNameException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "File name cannot be empty.");
+        EmptyFileNameException? exception = await action.ShouldThrowAsync<EmptyFileNameException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "File name cannot be empty.");
     }
 
     [Test]
@@ -139,11 +135,9 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent!, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<EmptyFileContentException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty.");
+        EmptyFileContentException? exception = await action.ShouldThrowAsync<EmptyFileContentException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "File content cannot be empty.");
     }
 
     [Test]
@@ -159,10 +153,8 @@ internal sealed class SaveAsync : FileStorageTestBase
             byteContent: byteContent, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<EmptyFileContentException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty.");
+        EmptyFileContentException? exception = await action.ShouldThrowAsync<EmptyFileContentException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "File content cannot be empty.");
     }
 }

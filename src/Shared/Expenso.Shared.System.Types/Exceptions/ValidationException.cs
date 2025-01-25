@@ -13,16 +13,8 @@ public class ValidationException : Exception
         Details = details;
     }
 
-    public ValidationException(IDictionary<string, string> errorDictionary) : base(message: DefaultMessage)
-    {
-        CreateErrorDictionary(errorDictionary: errorDictionary);
-    }
-
-    public string? Details { get; private set; }
-
-    public IDictionary<string, string> ErrorDictionary { get; set; } = new Dictionary<string, string>();
-
-    private void CreateErrorDictionary(IDictionary<string, string> errorDictionary, string? details = null)
+    protected ValidationException(IDictionary<string, string> errorDictionary, string? details = null) : base(
+        message: DefaultMessage)
     {
         StringBuilder stringBuilder = new();
 
@@ -39,4 +31,8 @@ public class ValidationException : Exception
         Details = stringBuilder.ToString();
         ErrorDictionary = errorDictionary;
     }
+
+    public string? Details { get; }
+
+    public IDictionary<string, string> ErrorDictionary { get; } = new Dictionary<string, string>();
 }

@@ -6,11 +6,11 @@ using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Write.RegisterJob.
     RegisterJobEntryCommandHandler;
@@ -38,7 +38,7 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
         _jobEntryRepositoryMock.Verify(expression: x =>
             x.AddOrUpdateAsync(It.IsAny<JobEntry>(), It.IsAny<CancellationToken>()));
 
-        response.JobEntryId.Should().Be(expected: _jobEntryId);
+        response.JobEntryId.ShouldBe(expected: _jobEntryId);
     }
 
     [Test]
@@ -68,10 +68,11 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<ConflictException>()
-            .WithMessage(expectedWildcardPattern: $"JobEntry with query {jobEntryQuerySpecification} already exists.");
+        ConflictException? exception = await action.ShouldThrowAsync<ConflictException>();
+        exception.Message.ShouldBe(expected: $"JobEntry with query {jobEntryQuerySpecification} already exists.");
+        exception.ResourceName.ShouldBe(expected: nameof(JobEntry));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Query());
+        ((JobEntryQuerySpecification?)exception.Identifier).ShouldBeEquivalentTo(expected: jobEntryQuerySpecification);
     }
 
     [Test]
@@ -87,14 +88,14 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern: $"{nameof(JobInstance)} with ID {JobInstance.Default.Id} hasn't been found.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == nameof(JobInstance) && x.IdentifierType == IdentifierType.PrimaryId() &&
-                (Guid?)x.Identifier == JobInstance.Default.Id);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"{nameof(JobInstance)} with ID {JobInstance.Default.Id} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: nameof(JobInstance));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.PrimaryId());
+        ((Guid?)exception.Identifier).ShouldBe(expected: JobInstance.Default.Id);
     }
 
     [Test]
@@ -122,14 +123,13 @@ internal sealed class HandleAsync : RegisterJobEntryCommandHandlerTestBase
             await TestCandidate.HandleAsync(command: entryCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"{nameof(JobEntryStatus)} with ID {JobEntryStatus.Running.Id} hasn't been found.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == nameof(JobEntryStatus) && x.IdentifierType == IdentifierType.PrimaryId() &&
-                (Guid?)x.Identifier == JobEntryStatus.Running.Id);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"{nameof(JobEntryStatus)} with ID {JobEntryStatus.Running.Id} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: nameof(JobEntryStatus));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.PrimaryId());
+        ((Guid?)exception.Identifier).ShouldBe(expected: JobEntryStatus.Running.Id);
     }
 }

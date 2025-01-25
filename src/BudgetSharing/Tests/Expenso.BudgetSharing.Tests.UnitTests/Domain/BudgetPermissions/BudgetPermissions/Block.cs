@@ -1,10 +1,10 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
-using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.Domain.Types.ValueObjects;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
@@ -21,12 +21,11 @@ internal sealed class Block : BudgetPermissionTestBase
         TestCandidate.Block();
 
         // Assert
-        TestCandidate.Blocker?.Should().NotBeNull();
-        TestCandidate.Blocker?.IsBlocked.Should().BeTrue();
+        TestCandidate.Blocker?.ShouldNotBeNull();
+        TestCandidate.Blocker?.IsBlocked.ShouldBeTrue();
 
-        TestCandidate
-            .Blocker?.BlockDate.Should()
-            .BeCloseTo(nearbyTime: DateTimeOffset.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
+        TestCandidate.Blocker?.BlockDate!.Value.ShouldBeCloseTo(expected: DateTimeOffset.UtcNow,
+            precision: TimeSpan.FromMilliseconds(value: 500));
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -48,12 +47,11 @@ internal sealed class Block : BudgetPermissionTestBase
         TestCandidate.Block(clock: _clockMock.Object);
 
         // Assert
-        TestCandidate.Blocker?.Should().NotBeNull();
-        TestCandidate.Blocker?.IsBlocked.Should().BeTrue();
+        TestCandidate.Blocker?.ShouldNotBeNull();
+        TestCandidate.Blocker?.IsBlocked.ShouldBeTrue();
 
-        TestCandidate
-            .Blocker?.BlockDate.Should()
-            .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow, precision: TimeSpan.FromMilliseconds(value: 500));
+        TestCandidate.Blocker?.BlockDate!.Value.ShouldBeCloseTo(expected: _clockMock.Object.UtcNow,
+            precision: TimeSpan.FromMilliseconds(value: 500));
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -75,13 +73,10 @@ internal sealed class Block : BudgetPermissionTestBase
         TestCandidate.GetUncommittedChanges();
 
         // Act
-        Action act = () => TestCandidate.Block();
+        Action action = () => TestCandidate.Block();
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is already blocked.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Budget permission with ID {TestCandidate.Id} is already blocked.");
     }
 }

@@ -5,11 +5,11 @@ using Expenso.Shared.Domain.Events;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base.DomainEventHandlers;
 
@@ -37,7 +37,7 @@ internal abstract class HandleAsyncBase<T, TEvent> : EventHandlerTestBase<T, TEv
         Func<Task> action = () => TestCandidate.HandleAsync(@event: @event, cancellationToken: default);
         
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 
     [Test]

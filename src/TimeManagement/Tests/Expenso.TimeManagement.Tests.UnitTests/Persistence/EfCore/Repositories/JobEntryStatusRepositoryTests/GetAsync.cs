@@ -1,8 +1,8 @@
 ﻿using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryStatusRepositoryTests;
 
@@ -23,10 +23,10 @@ internal sealed class GetAsync : JobEntryStatusRepositoryTestBase
             await TestCandidate.GetAsync(id: expectedJobEntryStatus.Id, cancellationToken: default);
 
         // Assert
-        jobEntryStatus.Should().NotBeNull();
-        jobEntryStatus?.Id.Should().Be(expected: expectedJobEntryStatus.Id);
-        jobEntryStatus?.Name.Should().Be(expected: expectedJobEntryStatus.Name);
-        jobEntryStatus?.Description.Should().Be(expected: expectedJobEntryStatus.Description);
+        jobEntryStatus.ShouldNotBeNull();
+        jobEntryStatus?.Id.ShouldBe(expected: expectedJobEntryStatus.Id);
+        jobEntryStatus?.Name.ShouldBe(expected: expectedJobEntryStatus.Name);
+        jobEntryStatus?.Description.ShouldBe(expected: expectedJobEntryStatus.Description);
     }
 
     [Test]
@@ -41,6 +41,6 @@ internal sealed class GetAsync : JobEntryStatusRepositoryTestBase
         JobEntryStatus? jobEntryStatus = await TestCandidate.GetAsync(id: jobEntryStatusId, cancellationToken: default);
 
         // Assert
-        jobEntryStatus.Should().BeNull();
+        jobEntryStatus.ShouldBeNull();
     }
 }

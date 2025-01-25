@@ -1,8 +1,8 @@
-﻿using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+﻿using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
@@ -20,13 +20,10 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         TestCandidate.Confirm(confirmationDate: confirmationDate);
 
         // Assert
-        TestCandidate
-            .Status.Should()
-            .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
-                .Confirmed);
+        TestCandidate.Status.ShouldBe(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Confirmed);
 
-        TestCandidate.ConfirmationDate.Should().NotBeNull();
-        TestCandidate.ConfirmationDate!.Value.Should().Be(expected: confirmationDate);
+        TestCandidate.ConfirmationDate.ShouldNotBeNull();
+        TestCandidate.ConfirmationDate!.Value.ShouldBe(expected: confirmationDate);
     }
 
     [Test]
@@ -39,13 +36,9 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         Action action = () => TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.");
     }
 
     [Test]
@@ -58,13 +51,9 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         Action action = () => TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.");
     }
 
     [Test]
@@ -77,12 +66,8 @@ internal sealed class Confirm : BudgetPermissionRequestStatusTrackerTestBase
         Action action = () => TestCandidate.Confirm(confirmationDate: _clockMock.Object.UtcNow);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Only pending budget permission request {_budgetPermissionRequestId} can be made confirmed.");
     }
 }

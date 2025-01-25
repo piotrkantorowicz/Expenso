@@ -1,12 +1,12 @@
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
-using FluentAssertions;
-
 using Microsoft.EntityFrameworkCore;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryRepository;
 
@@ -34,7 +34,7 @@ internal sealed class AddOrUpdateAsync : JobEntryRepositoryTestBase
         await TestCandidate.AddOrUpdateAsync(jobEntry: jobEntry, cancellationToken: default);
 
         // Assert
-        _jobEntriesDbSetMock.Object.Should().Contain(expected: jobEntry);
+        _jobEntriesDbSetMock.Object.ShouldContain(expected: jobEntry);
     }
 
     [Test]
@@ -52,7 +52,7 @@ internal sealed class AddOrUpdateAsync : JobEntryRepositoryTestBase
         await TestCandidate.AddOrUpdateAsync(jobEntry: dbJobEntry, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        dbJobEntry.CurrentRetries.Should().Be(expected: currentRetries);
-        dbJobEntry.IsCompleted.Should().Be(expected: isCompleted);
+        dbJobEntry.CurrentRetries.ShouldBe(expected: currentRetries);
+        dbJobEntry.IsCompleted.ShouldBe(expected: isCompleted);
     }
 }

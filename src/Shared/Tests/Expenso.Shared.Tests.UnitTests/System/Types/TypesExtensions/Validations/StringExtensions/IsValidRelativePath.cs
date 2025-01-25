@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
@@ -18,7 +18,7 @@ internal sealed class IsValidRelativePath
         bool result = path.IsValidRelativePath();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: @"C:\Users\lyubovray\Desktop\folder\file.txt\"),
@@ -30,6 +30,6 @@ internal sealed class IsValidRelativePath
         bool result = path.IsValidRelativePath();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

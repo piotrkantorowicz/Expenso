@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
@@ -23,7 +23,7 @@ internal sealed class InRange : TestBase<Shared.Domain.Types.ValueObjects.DateAn
         bool result = dateTimeOffset.InRange(start: start, end: end);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test]
@@ -40,6 +40,6 @@ internal sealed class InRange : TestBase<Shared.Domain.Types.ValueObjects.DateAn
         bool result = dateTimeOffset.InRange(start: start, end: end);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

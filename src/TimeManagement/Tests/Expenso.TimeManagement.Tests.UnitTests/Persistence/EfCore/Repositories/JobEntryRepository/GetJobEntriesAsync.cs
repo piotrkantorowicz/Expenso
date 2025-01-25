@@ -4,9 +4,9 @@ using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryRepository;
 
@@ -24,16 +24,15 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
             pagination: DatabasePagination.Default, sorters: DatabaseSorting.Default, cancellationToken: default);
 
         // Assert
-        jobEntries.Should().NotBeNull();
-        jobEntries.CurrentPage.Should().Be(expected: DatabasePagination.Default.Page);
+        jobEntries.ShouldNotBeNull();
+        jobEntries.CurrentPage.ShouldBe(expected: DatabasePagination.Default.Page);
 
-        jobEntries
-            .TotalPages.Should()
-            .Be(expected: (int)Math.Ceiling(a: _jobEntriesIds.Count / (double)DatabasePagination.Default.Limit));
+        jobEntries.TotalPages.ShouldBe(
+            expected: (int)Math.Ceiling(a: _jobEntriesIds.Count / (double)DatabasePagination.Default.Limit));
 
-        jobEntries.ResultsPerPage.Should().Be(expected: DatabasePagination.Default.Limit);
-        jobEntries.TotalResults.Should().Be(expected: _jobEntriesIds.Count);
-        jobEntries.Items.Should().HaveCount(expected: _jobEntriesIds.Count);
+        jobEntries.ResultsPerPage.ShouldBe(expected: DatabasePagination.Default.Limit);
+        jobEntries.TotalResults.ShouldBe(expected: _jobEntriesIds.Count);
+        jobEntries.Items.Count.ShouldBe(expected: _jobEntriesIds.Count);
     }
 
     [Test]
@@ -48,9 +47,9 @@ internal sealed class GetJobEntriesAsync : JobEntryRepositoryTestBase
             pagination: pagination, sorters: DatabaseSorting.Default, cancellationToken: default);
 
         // Assert
-        jobEntries.Should().NotBeNull();
-        jobEntries.CurrentPage.Should().Be(expected: 2);
-        jobEntries.ResultsPerPage.Should().Be(expected: 5);
-        jobEntries.Items.Should().HaveCountLessOrEqualTo(expected: 5);
+        jobEntries.ShouldNotBeNull();
+        jobEntries.CurrentPage.ShouldBe(expected: 2);
+        jobEntries.ResultsPerPage.ShouldBe(expected: 5);
+        jobEntries.Items.Count.ShouldBeLessThanOrEqualTo(expected: 5);
     }
 }

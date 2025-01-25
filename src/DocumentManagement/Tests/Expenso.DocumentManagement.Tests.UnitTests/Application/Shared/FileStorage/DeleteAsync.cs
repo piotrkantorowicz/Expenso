@@ -1,10 +1,10 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.FileStorage;
 
@@ -37,10 +37,8 @@ internal sealed class DeleteAsync : FileStorageTestBase
         Func<Task> action = () => TestCandidate.DeleteAsync(path: path, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<FileHasNotBeenFoundException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "File hasn't been found.");
+        FileHasNotBeenFoundException? exception = await action.ShouldThrowAsync<FileHasNotBeenFoundException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "File hasn't been found.");
     }
 }

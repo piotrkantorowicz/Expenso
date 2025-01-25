@@ -1,10 +1,10 @@
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.NoResult;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandDispatcher;
 
@@ -25,6 +25,6 @@ internal sealed class SendAsync : CommandDispatcherTestBase
             await TestCandidate.SendAsync(command: testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 }

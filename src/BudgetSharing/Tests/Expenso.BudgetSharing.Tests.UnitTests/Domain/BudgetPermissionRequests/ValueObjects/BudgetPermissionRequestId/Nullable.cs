@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId;
 
@@ -18,7 +18,7 @@ internal sealed class Nullable : BudgetPermissionRequestIdTestBase
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.Nullable(value: value);
 
         // Assert
-        result.Should().NotBeNull();
+        result.ShouldNotBeNull();
     }
 
     [Test]
@@ -32,6 +32,6 @@ internal sealed class Nullable : BudgetPermissionRequestIdTestBase
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.Nullable(value: value);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 }

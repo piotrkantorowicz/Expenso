@@ -1,14 +1,14 @@
 ﻿using Expenso.Shared.System.Configuration.Exceptions;
 using Expenso.Shared.System.Logging.Constants;
 
-using FluentAssertions;
-
 using FluentValidation;
 using FluentValidation.Results;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
@@ -71,13 +71,8 @@ internal sealed class Validate : SettingsServiceTestBase
         Action action = () => TestCandidate.Validate();
 
         // Assert
-        action
-            .Should()
-            .Throw<SettingsValidationException>()
-            .Which.ErrorDictionary.Should()
-            .ContainKey(expected: "TestKey")
-            .WhoseValue.Should()
-            .Be(expected: "TestError");
+        SettingsValidationException? exception = action.ShouldThrow<SettingsValidationException>();
+        exception.ErrorDictionary[key: "TestKey"].ShouldBe(expected: "TestError");
 
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,
@@ -93,10 +88,8 @@ internal sealed class Validate : SettingsServiceTestBase
         Action action = () => TestCandidate.Validate();
 
         // Assert
-        action
-            .Should()
-            .Throw<SettingsHasNotBeenBoundYetException>()
-            .WithMessage(expectedWildcardPattern: "Settings of type TestSettings have not been bound yet.");
+        SettingsHasNotBeenBoundYetException? exception = action.ShouldThrow<SettingsHasNotBeenBoundYetException>();
+        exception.Message.ShouldBe(expected: "Settings of type TestSettings have not been bound yet.");
 
         _loggerMock.Verify(
             expression: l => l.LogError(LoggingUtils.ConfigurationError,

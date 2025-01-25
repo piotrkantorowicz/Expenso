@@ -3,11 +3,11 @@ using Expenso.IAM.Shared.DTO.GetUsers.Request;
 using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Paging;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUsersQueryHandler;
 
@@ -32,8 +32,8 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(expectation: _getUsersResponse);
+        result.ShouldNotBeNull();
+        result.ShouldBeEquivalentTo(expected: _getUsersResponse);
     }
 
     [Test]
@@ -52,7 +52,8 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
         Func<Task> action = async () =>
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
-        await action.Should().ThrowAsync<Exception>().WithMessage(expectedWildcardPattern: "Service error");
+        Exception? exception = await action.ShouldThrowAsync<Exception>();
+        exception.Message.ShouldBe(expected: "Service error");
     }
 
     [Test]
@@ -73,7 +74,7 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUsersResponse?.Items.Should().BeEmpty();
+        getUsersResponse?.Items.ShouldBeEmpty();
     }
 
     [Test]
@@ -92,6 +93,6 @@ internal sealed class HandleAsync : GetUsersQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUsersResponse?.Items.Should().BeEmpty();
+        getUsersResponse?.Items.ShouldBeEmpty();
     }
 }

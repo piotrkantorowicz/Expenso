@@ -2,9 +2,9 @@
 using Expenso.TimeManagement.Core.Application.JobEntries.Shared.BackgroundJobs.Events;
 using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver;
 
@@ -21,7 +21,7 @@ internal sealed class Resolve : EventTypeResolverTestBase
         Type result = TestCandidate.Resolve(eventName: eventName);
 
         // Assert
-        result.Should().Be(expected: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
+        result.ShouldBe(expected: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
     }
 
     [Test]
@@ -31,10 +31,10 @@ internal sealed class Resolve : EventTypeResolverTestBase
         const AllowedEventType eventName = AllowedEventType.None;
 
         // Act
-        Action act = () => TestCandidate.Resolve(eventName: eventName);
+        Action action = () => TestCandidate.Resolve(eventName: eventName);
 
         // Assert
-        act.Should().Throw<InvalidEventTypeException>();
+        action.ShouldThrow<InvalidEventTypeException>();
     }
 
     [Test]
@@ -44,9 +44,9 @@ internal sealed class Resolve : EventTypeResolverTestBase
         const AllowedEventType eventName = (AllowedEventType)100;
 
         // Act
-        Action act = () => TestCandidate.Resolve(eventName: eventName);
+        Action action = () => TestCandidate.Resolve(eventName: eventName);
 
         // Assert
-        act.Should().Throw<InvalidEventTypeException>();
+        action.ShouldThrow<InvalidEventTypeException>();
     }
 }

@@ -5,12 +5,12 @@ using Expenso.Api.Configuration.Auth.Users;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Shared.System.Types.ExecutionContext.Models;
 
-using FluentAssertions;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Execution.ExecutionContextAccessor;
 
@@ -34,8 +34,8 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         IExecutionContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult?.UserContext.Should().BeNull();
-        testResult?.CorrelationId.Should().BeNull();
+        testResult?.UserContext.ShouldBeNull();
+        testResult?.CorrelationId.ShouldBeNull();
     }
 
     [Test]
@@ -56,9 +56,9 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         IExecutionContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult?.UserContext?.UserId.Should().BeNull();
-        testResult?.UserContext?.Username.Should().BeNull();
-        testResult?.CorrelationId.Should().BeNull();
+        testResult?.UserContext?.UserId.ShouldBeNull();
+        testResult?.UserContext?.Username.ShouldBeNull();
+        testResult?.CorrelationId.ShouldBeNull();
     }
 
     [Test]
@@ -96,10 +96,10 @@ internal sealed class Get : ExecutionContextAccessorTestBase
         IExecutionContext? testResult = TestCandidate.Get();
 
         // Assert
-        testResult?.UserContext?.Should().NotBeNull();
-        testResult?.UserContext?.UserId.Should().Be(expected: expectedUser.UserId);
-        testResult?.UserContext?.Username.Should().Be(expected: expectedUser.Username);
-        testResult?.CorrelationId.Should().NotBeNull();
-        testResult?.CorrelationId.Should().Be(expected: expectedCorrelationId);
+        testResult?.UserContext?.ShouldNotBeNull();
+        testResult?.UserContext?.UserId.ShouldBe(expected: expectedUser.UserId);
+        testResult?.UserContext?.Username.ShouldBe(expected: expectedUser.Username);
+        testResult?.CorrelationId.ShouldNotBeNull();
+        testResult?.CorrelationId.ShouldBe(expected: expectedCorrelationId);
     }
 }

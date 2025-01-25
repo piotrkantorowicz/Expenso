@@ -1,13 +1,13 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
-using FluentAssertions;
-
 using FluentValidation.Results;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerValidationDecorator.Result;
 
@@ -30,8 +30,8 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
-        commandResult.Should().NotBeNull();
-        commandResult.Should().Be(expected: expectedCommandResult);
+        commandResult.ShouldNotBeNull();
+        commandResult.ShouldBe(expected: expectedCommandResult);
     }
 
     [Test]
@@ -57,11 +57,10 @@ internal sealed class HandleAsync : CommandHandlerValidationDecoratorTestBase
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<ValidationException>()
-            .Where(exceptionExpression: x => errors.All(y => x.ErrorDictionary.Contains(y)))
-            .Where(exceptionExpression: x => x.Details ==
-                                             $"Id: ID is required{Environment.NewLine}Name: Name is required{Environment.NewLine}");
+        ValidationException? exception = await action.ShouldThrowAsync<ValidationException>();
+        exception.ErrorDictionary.ShouldBe(expected: errors);
+
+        exception.Details.ShouldBe(
+            expected: $"Id: ID is required{Environment.NewLine}Name: Name is required{Environment.NewLine}");
     }
 }

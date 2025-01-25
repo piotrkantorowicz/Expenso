@@ -1,10 +1,10 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.BudgetPermissionRequests;
 
@@ -21,7 +21,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         TestCandidate.Expire();
 
         // Assert
-        TestCandidate.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Expired);
+        TestCandidate.StatusTracker.Status.ShouldBe(expected: BudgetPermissionRequestStatus.Expired);
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -44,13 +44,10 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         Action action = () => TestCandidate.Expire();
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Only pending budget permission request {TestCandidate.Id} can be made expired.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Only pending budget permission request {TestCandidate.Id} can be made expired.");
+        
+
     }
 
     [Test]
@@ -64,13 +61,8 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         Action action = () => TestCandidate.Expire();
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Only pending budget permission request {TestCandidate.Id} can be made expired.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Only pending budget permission request {TestCandidate.Id} can be made expired.");
     }
 
     [Test]
@@ -84,12 +76,7 @@ internal sealed class Expire : BudgetPermissionRequestTestBase
         Action action = () => TestCandidate.Expire();
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Only pending budget permission request {TestCandidate.Id} can be made expired.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Only pending budget permission request {TestCandidate.Id} can be made expired.");
     }
 }

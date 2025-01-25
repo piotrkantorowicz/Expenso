@@ -3,11 +3,11 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     BudgetPermissionRequestExpirationDomainService;
@@ -51,14 +51,13 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
                 budgetPermissionRequestId: budgetPermissionRequestId.Value, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"{nameof(BudgetPermissionRequest)} with ID {budgetPermissionRequestId} hasn't been found.")
-            .Where(exceptionExpression: x => x.ResourceName == nameof(BudgetPermissionRequest) &&
-                                             x.IdentifierType == IdentifierType.PrimaryId() &&
-                                             (BudgetPermissionRequestId?)x.Identifier == budgetPermissionRequestId);
+        NotFoundException exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"{nameof(BudgetPermissionRequest)} with ID {budgetPermissionRequestId} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: nameof(BudgetPermissionRequest));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.PrimaryId());
+        exception.Identifier.ShouldBe(expected: budgetPermissionRequestId);
     }
 }

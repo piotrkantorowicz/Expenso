@@ -1,9 +1,9 @@
 ﻿using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.EventHandlers.External.
     BudgetPermissionRequestExpiredIntegrationEventHandler;
@@ -23,6 +23,6 @@ internal sealed class HandleAsync : BudgetPermissionRequestExpiredIntegrationEve
             cancellationToken: default);
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryStatusRepositoryTests;
 
@@ -18,8 +18,8 @@ internal sealed class GetManyAsync : JobEntryStatusRepositoryTestBase
             await TestCandidate.GetManyAsync(cancellationToken: default);
 
         // Assert
-        jobEntryStatusCollection.Should().NotBeNull();
-        jobEntryStatusCollection.Should().HaveCount(expected: JobEntryStatusIds.Count);
+        jobEntryStatusCollection.ShouldNotBeNull();
+        jobEntryStatusCollection.Count.ShouldBe(expected: JobEntryStatusIds.Count);
     }
 
     [Test]
@@ -33,7 +33,7 @@ internal sealed class GetManyAsync : JobEntryStatusRepositoryTestBase
             await TestCandidate.GetManyAsync(cancellationToken: default);
 
         // Assert
-        jobEntryStatusCollection.Should().NotBeNull();
-        jobEntryStatusCollection.Should().BeEmpty();
+        jobEntryStatusCollection.ShouldNotBeNull();
+        jobEntryStatusCollection.ShouldBeEmpty();
     }
 }

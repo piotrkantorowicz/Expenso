@@ -5,11 +5,11 @@ using Expenso.Shared.System.Modules;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Extensions.RequestPathExtensions;
 
@@ -22,7 +22,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = ((string?)null).GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
 
         _loggerMock.Verify(
             expression: logger => logger.LogWarning(LoggingUtils.GeneralWarning, "Request path is null or empty",
@@ -39,7 +39,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
 
         _loggerMock.Verify(
             expression: logger => logger.LogDebug(LoggingUtils.GeneralInformation,
@@ -57,7 +57,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
 
         _loggerMock.Verify(
             expression: logger => logger.LogWarning(LoggingUtils.GeneralWarning, "No registered modules found",
@@ -75,7 +75,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().Be(expected: ModuleNames.BudgetSharingModule);
+        result.ShouldBe(expected: ModuleNames.BudgetSharingModule);
 
         _loggerMock.Verify(
             expression: logger => logger.LogDebug(LoggingUtils.GeneralInformation,
@@ -96,7 +96,7 @@ internal sealed class GuessModule : RequestPathExtensionTestBase
         string? result = requestPath.GuessModule(logger: _loggerMock.Object);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
 
         _loggerMock.Verify(
             expression: logger => logger.LogWarning(LoggingUtils.GeneralWarning,

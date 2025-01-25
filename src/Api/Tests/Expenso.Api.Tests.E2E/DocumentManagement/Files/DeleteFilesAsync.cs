@@ -1,9 +1,9 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Shared.DTO.API.DeleteFiles.Request;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
@@ -21,6 +21,6 @@ internal sealed class DeleteFilesAsync : DocumentManagementTestBase
                 FileType: DeleteFilesRequestFileType.Import));
 
         // Assert
-        deleteFilesAction.Should().NotThrow();
+        deleteFilesAction.ShouldNotThrow();
     }
 }

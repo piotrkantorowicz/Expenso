@@ -1,8 +1,8 @@
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryInfoService;
 
@@ -31,6 +31,6 @@ internal sealed class GetImportsDirectory : DirectoryInfoServiceTestBase
         string result = TestCandidate.GetImportsDirectory(userId: userId, groups: groups, date: date);
 
         // Assert
-        result.Should().Be(expected: expectedPath);
+        result.ShouldBe(expected: expectedPath);
     }
 }

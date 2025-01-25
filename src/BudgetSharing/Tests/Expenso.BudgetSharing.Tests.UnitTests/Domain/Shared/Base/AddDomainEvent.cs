@@ -1,10 +1,11 @@
 using Expenso.Shared.Domain.Types.Events;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base;
 
@@ -21,7 +22,7 @@ internal sealed class AddDomainEvent : DomainEventsSourceTestBase
         TestCandidate.AddDomainEvent(domainEvent: domainEvent);
 
         // Assert
-        TestCandidate.GetDomainEvents().Should().Contain(expected: domainEvent);
+        TestCandidate.GetDomainEvents().ShouldContain(expected: domainEvent);
     }
 
     [Test]
@@ -36,6 +37,6 @@ internal sealed class AddDomainEvent : DomainEventsSourceTestBase
         TestCandidate.AddDomainEvent(domainEvent: domainEvent2);
 
         // Assert
-        TestCandidate.GetDomainEvents().Should().ContainInOrder(domainEvent1, domainEvent2);
+        TestCandidate.GetDomainEvents().ShouldContainInOrder(domainEvent1, domainEvent2);
     }
 }

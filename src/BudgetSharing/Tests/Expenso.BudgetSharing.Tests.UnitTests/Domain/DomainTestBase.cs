@@ -3,12 +3,13 @@ using Expenso.Shared.Domain.Types.Aggregates;
 using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.Shared.Tests.Utils.UnitTests;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain;
 
@@ -31,9 +32,15 @@ internal abstract class DomainTestBase<TTestCandidate> : TestBase<TTestCandidate
     protected static void AssertDomainEventPublished(IAggregateRoot aggregateRoot,
         IEnumerable<IDomainEvent> expectedDomainEvents)
     {
-        expectedDomainEvents
-            .Should()
-            .BeEquivalentTo(expectation: aggregateRoot.GetUncommittedChanges(),
-                config: options => options.IncludingNestedObjects().WithStrictOrdering().RespectingRuntimeTypes());
+        IDomainEvent[] expectedDomainEventsList = [..expectedDomainEvents];
+
+        foreach (IDomainEvent? @event in aggregateRoot.GetUncommittedChanges())
+        {
+            IDomainEvent? expectedEvent = expectedDomainEventsList
+                .FirstOrDefault(predicate: x => x.GetType() == @event.GetType())
+                .ShouldNotBeNull();
+
+            expectedEvent.ShouldDeepEqual(expected: @event);
+        }
     }
 }

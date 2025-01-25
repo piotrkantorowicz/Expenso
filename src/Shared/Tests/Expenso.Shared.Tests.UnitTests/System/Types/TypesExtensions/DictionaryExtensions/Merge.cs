@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.DictionaryExtensions;
 
@@ -29,10 +29,11 @@ internal sealed class Merge
         dictionary.Merge(items: itemsToMerge);
 
         // Assert
-        dictionary.Should().HaveCount(expected: 4);
-        dictionary.Should().ContainKey(expected: 3).And.ContainKey(expected: 4);
-        dictionary[key: 3].Should().Be(expected: "Three");
-        dictionary[key: 4].Should().Be(expected: "Four");
+        dictionary.Count.ShouldBe(expected: 4);
+        dictionary.ShouldContainKey(key: 3);
+        dictionary.ShouldContainKey(key: 4);
+        dictionary[key: 3].ShouldBe(expected: "Three");
+        dictionary[key: 4].ShouldBe(expected: "Four");
     }
 
     [Test]
@@ -55,9 +56,9 @@ internal sealed class Merge
         dictionary.Merge(items: itemsToMerge, overwrite: true);
 
         // Assert
-        dictionary.Should().HaveCount(expected: 3);
-        dictionary[key: 2].Should().Be(expected: "Twenty");
-        dictionary[key: 3].Should().Be(expected: "Three");
+        dictionary.Count.ShouldBe(expected: 3);
+        dictionary[key: 2].ShouldBe(expected: "Twenty");
+        dictionary[key: 3].ShouldBe(expected: "Three");
     }
 
     [Test]
@@ -80,11 +81,8 @@ internal sealed class Merge
         Action action = () => dictionary.Merge(items: itemsToMerge, overwrite: false);
 
         // Assert
-        action
-            .Should()
-            .Throw<InvalidOperationException>()
-            .WithMessage(
-                expectedWildcardPattern: "Key '2' already exists in the dictionary and overwrite is not allowed.");
+        InvalidOperationException? exception = action.ShouldThrow<InvalidOperationException>();
+        exception.Message.ShouldBe(expected: "Key '2' already exists in the dictionary and overwrite is not allowed.");
     }
 
     [Test]
@@ -102,7 +100,8 @@ internal sealed class Merge
         Action action = () => dictionary!.Merge(items: itemsToMerge);
 
         // Assert
-        action.Should().Throw<ArgumentNullException>().WithMessage(expectedWildcardPattern: "*dictionary*");
+        ArgumentNullException? exception = action.ShouldThrow<ArgumentNullException>();
+        exception.Message.ShouldContain(expected: "dictionary");
     }
 
     [Test]
@@ -120,6 +119,7 @@ internal sealed class Merge
         Action action = () => dictionary.Merge(items: itemsToMerge!);
 
         // Assert
-        action.Should().Throw<ArgumentNullException>().WithMessage(expectedWildcardPattern: "*items*");
+        ArgumentNullException? exception = action.ShouldThrow<ArgumentNullException>();
+        exception.Message.ShouldContain(expected: "items");
     }
 }

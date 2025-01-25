@@ -1,9 +1,9 @@
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Persistence.EfCore.Repositories.JobEntryRepository;
 
@@ -21,8 +21,8 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
             cancellationToken: default);
 
         // Assert
-        jobEntry.Should().NotBeNull();
-        jobEntry.Should().Be(expected: JobEntries.Single(predicate: x => x.Id == jobEntryId));
+        jobEntry.ShouldNotBeNull();
+        jobEntry.ShouldBe(expected: JobEntries.Single(predicate: x => x.Id == jobEntryId));
     }
 
     [Test]
@@ -37,6 +37,6 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
             cancellationToken: default);
 
         // Assert
-        jobEntry.Should().BeNull();
+        jobEntry.ShouldBeNull();
     }
 }

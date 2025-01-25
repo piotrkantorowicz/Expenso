@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 using Expenso.Shared.System.Expressions.And;
 using Expenso.Shared.Tests.UnitTests.System.Expressions.TestData;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Expressions.AndExpression;
 
@@ -30,21 +30,18 @@ internal sealed class And
             {
                 Value = 4
             })
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
 
         compiledExpression(arg: new TestClass
             {
                 Value = 7
             })
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
 
         compiledExpression(arg: new TestClass
             {
                 Value = 11
             })
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
     }
 }

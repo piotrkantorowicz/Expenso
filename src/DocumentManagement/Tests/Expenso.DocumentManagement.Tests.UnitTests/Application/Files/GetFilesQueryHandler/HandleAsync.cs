@@ -3,11 +3,11 @@ using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.GetFilesQueryHandler;
 
@@ -63,14 +63,12 @@ internal sealed class HandleAsync : GetFilesQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: default);
 
         // Assert
-        result
-            .Should()
-            .BeEquivalentTo(expectation:
-            [
-                new GetFilesResponse(UserId: query.MessageContext.RequestedBy, FileName: files[0],
-                    FileContent: byteContents[0], FilesResponseFileType: GetFilesResponseFileType.Import),
-                new GetFilesResponse(UserId: query.MessageContext.RequestedBy, FileName: files[1],
-                    FileContent: byteContents[1], FilesResponseFileType: GetFilesResponseFileType.Import)
-            ]);
+        result.ShouldBeEquivalentTo(expected: new List<GetFilesResponse>
+        {
+            new(UserId: query.MessageContext.RequestedBy, FileName: files[0], FileContent: byteContents[0],
+                FilesResponseFileType: GetFilesResponseFileType.Import),
+            new(UserId: query.MessageContext.RequestedBy, FileName: files[1], FileContent: byteContents[1],
+                FilesResponseFileType: GetFilesResponseFileType.Import)
+        });
     }
 }

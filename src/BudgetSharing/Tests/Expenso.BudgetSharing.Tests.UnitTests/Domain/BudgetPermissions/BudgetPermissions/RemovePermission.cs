@@ -1,10 +1,10 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
@@ -24,7 +24,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         TestCandidate.RemovePermission(participantId: participantId);
 
         // Assert
-        TestCandidate.Permissions.Should().NotContain(predicate: x => x.ParticipantId == participantId);
+        TestCandidate.Permissions.ShouldNotContain(elementPredicate: x => x.ParticipantId == participantId);
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -42,16 +42,12 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Action act = () => TestCandidate.RemovePermission(participantId: participantId);
+        Action action = () => TestCandidate.RemovePermission(participantId: participantId);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Budget with ID {TestCandidate.BudgetId} does not have permission for provided user with ID {participantId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Budget with ID {TestCandidate.BudgetId} does not have permission for provided user with ID {participantId}.");
     }
 
     [Test]
@@ -61,14 +57,10 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () => TestCandidate.RemovePermission(participantId: _defaultOwnerId);
+        Action action = () => TestCandidate.RemovePermission(participantId: _defaultOwnerId);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Owner permission cannot be removed from budget {TestCandidate.BudgetId}.");
     }
 }

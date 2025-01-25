@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Database.EfCore.Npsql.DbContexts.NpsqlDbContextFactory;
 
@@ -16,12 +16,11 @@ internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
             await Task.FromResult(result: TestCandidate.CreateDbContext(args: [projectPath]));
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<ArgumentException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}.");
+        ArgumentException? exception = await action.ShouldThrowAsync<ArgumentException>();
+
+        exception.Message.ShouldBe(
+            expected:
+            $"Startup project path parameter must be provided and must exists on current machine. Actual value: {projectPath}.");
     }
 
     [Test]
@@ -49,6 +48,6 @@ internal sealed class CreateDbContext : NpsqlDbContextFactoryTestBase
         TestDbContext dbContext = TestCandidate.CreateDbContext(args: [startupProjectPath]);
 
         // Assert
-        dbContext.Should().NotBeNull();
+        dbContext.ShouldNotBeNull();
     }
 }

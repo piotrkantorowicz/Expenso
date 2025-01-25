@@ -1,8 +1,9 @@
 ﻿using Expenso.Shared.System.Types.Ordering;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Ordering.Sorting;
 
@@ -19,8 +20,8 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeFalse();
-        sorting.Should().BeNull();
+        result.ShouldBeFalse();
+        sorting.ShouldBeNull();
     }
 
     [Test]
@@ -34,8 +35,8 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeFalse();
-        sorting.Should().BeNull();
+        result.ShouldBeFalse();
+        sorting.ShouldBeNull();
     }
 
     [Test]
@@ -49,8 +50,8 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeFalse();
-        sorting.Should().BeNull();
+        result.ShouldBeFalse();
+        sorting.ShouldBeNull();
     }
 
     [Test]
@@ -64,8 +65,8 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeFalse();
-        sorting.Should().BeNull();
+        result.ShouldBeFalse();
+        sorting.ShouldBeNull();
     }
 
     [Test]
@@ -79,8 +80,8 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeFalse();
-        sorting.Should().BeNull();
+        result.ShouldBeFalse();
+        sorting.ShouldBeNull();
     }
 
     [Test]
@@ -94,15 +95,11 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeTrue();
-        sorting.Should().NotBeNull();
-        sorting!.Sorters.Should().HaveCount(expected: 2);
-
-        sorting
-            .Sorters.Should()
-            .ContainSingle(predicate: s => s.SortBy == "Name" && s.SortOrder == SortOrder.Ascending);
-
-        sorting.Sorters.Should().ContainSingle(predicate: s => s.SortBy == "Id" && s.SortOrder == SortOrder.Descending);
+        result.ShouldBeTrue();
+        sorting.ShouldNotBeNull();
+        sorting.Sorters?.Count().ShouldBe(expected: 2);
+        sorting.Sorters?.ShouldContainSingle(predicate: s => s is { SortBy: "Name", SortOrder: SortOrder.Ascending });
+        sorting.Sorters?.ShouldContainSingle(predicate: s => s is { SortBy: "Id", SortOrder: SortOrder.Descending });
     }
 
     [Test]
@@ -116,15 +113,11 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeTrue();
-        sorting.Should().NotBeNull();
-        sorting!.Sorters.Should().HaveCount(expected: 2);
-
-        sorting
-            .Sorters.Should()
-            .ContainSingle(predicate: s => s.SortBy == "Name" && s.SortOrder == SortOrder.Ascending);
-
-        sorting.Sorters.Should().ContainSingle(predicate: s => s.SortBy == "Id" && s.SortOrder == SortOrder.Descending);
+        result.ShouldBeTrue();
+        sorting.ShouldNotBeNull();
+        sorting.Sorters?.Count().ShouldBe(expected: 2);
+        sorting.Sorters?.ShouldContainSingle(predicate: s => s is { SortBy: "Name", SortOrder: SortOrder.Ascending });
+        sorting.Sorters?.ShouldContainSingle(predicate: s => s is { SortBy: "Id", SortOrder: SortOrder.Descending });
     }
 
     [Test]
@@ -138,12 +131,9 @@ internal sealed class TryParse
             sorting: out Shared.System.Types.Ordering.Sorting? sorting);
 
         // Assert
-        result.Should().BeTrue();
-        sorting.Should().NotBeNull();
-        sorting!.Sorters.Should().HaveCount(expected: 1);
-
-        sorting
-            .Sorters.Should()
-            .ContainSingle(predicate: s => s.SortBy == "Name" && s.SortOrder == SortOrder.Ascending);
+        result.ShouldBeTrue();
+        sorting.ShouldNotBeNull();
+        sorting.Sorters?.Count().ShouldBe(expected: 1);
+        sorting.Sorters?.ShouldContainSingle(predicate: s => s.SortBy == "Name" && s.SortOrder == SortOrder.Ascending);
     }
 }

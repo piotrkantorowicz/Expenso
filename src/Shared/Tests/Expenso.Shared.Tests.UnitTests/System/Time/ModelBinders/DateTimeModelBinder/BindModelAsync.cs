@@ -1,13 +1,14 @@
 ﻿using Expenso.Shared.System.Time.Constants;
 using Expenso.Shared.System.Time.Request;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Time.ModelBinders.DateTimeModelBinder;
 
@@ -29,13 +30,11 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         await _binder.BindModelAsync(bindingContext: _bindingContext);
 
         // Assert
-        _bindingContext.Result.IsModelSet.Should().BeTrue();
+        _bindingContext.Result.IsModelSet.ShouldBeTrue();
 
         _bindingContext
-            .Result.Model.Should()
-            .BeOfType<DateTimeOffset>()
-            .Which.Should()
-            .Be(expected: new DateTimeOffset(year: 2023, month: 12, day: 25, hour: 0, minute: 0, second: 0,
+            .Result.Model.ShouldBeOfType<DateTimeOffset>()
+            .ShouldBe(expected: new DateTimeOffset(year: 2023, month: 12, day: 25, hour: 0, minute: 0, second: 0,
                 offset: TimeSpan.Zero));
     }
 
@@ -54,13 +53,11 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         await _binder.BindModelAsync(bindingContext: _bindingContext);
 
         // Assert
-        _bindingContext.Result.IsModelSet.Should().BeTrue();
+        _bindingContext.Result.IsModelSet.ShouldBeTrue();
 
         _bindingContext
-            .Result.Model.Should()
-            .BeOfType<DateTime>()
-            .Which.Should()
-            .Be(expected: new DateTime(year: 2023, month: 12, day: 25, hour: 0, minute: 0, second: 0,
+            .Result.Model.ShouldBeOfType<DateTime>()
+            .ShouldBe(expected: new DateTime(year: 2023, month: 12, day: 25, hour: 0, minute: 0, second: 0,
                 kind: DateTimeKind.Utc));
     }
 
@@ -81,8 +78,8 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         await _binder.BindModelAsync(bindingContext: _bindingContext);
 
         // Assert
-        _bindingContext.Result.IsModelSet.Should().BeTrue();
-        _bindingContext.Result.Model.Should().BeOfType<DateTime>().Which.Should().Be(expected: expected);
+        _bindingContext.Result.IsModelSet.ShouldBeTrue();
+        _bindingContext.Result.Model.ShouldBeOfType<DateTime>().ShouldBe(expected: expected);
     }
 
     [Test, TestCaseSource(sourceName: nameof(ValidDateTimeOffsetCases))]
@@ -103,8 +100,8 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         await _binder.BindModelAsync(bindingContext: _bindingContext);
 
         // Assert
-        _bindingContext.Result.IsModelSet.Should().BeTrue();
-        _bindingContext.Result.Model.Should().BeOfType<DateTimeOffset>().Which.Should().Be(expected: expected);
+        _bindingContext.Result.IsModelSet.ShouldBeTrue();
+        _bindingContext.Result.Model.ShouldBeOfType<DateTimeOffset>().ShouldBe(expected: expected);
     }
 
     [Test, TestCase(arg: typeof(DateTime), TestName = "Should_ReturnNull_When_ValueIsEmpty"),
@@ -124,8 +121,8 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         await _binder.BindModelAsync(bindingContext: _bindingContext);
 
         // Assert
-        _bindingContext.Result.IsModelSet.Should().BeTrue();
-        _bindingContext.Result.Model.Should().BeNull();
+        _bindingContext.Result.IsModelSet.ShouldBeTrue();
+        _bindingContext.Result.Model.ShouldBeNull();
     }
 
     [Test, TestCase(arg: typeof(DateTime), TestName = "Should_AddModelError_When_InvalidDateTime"),
@@ -145,8 +142,8 @@ internal sealed class BindModelAsync : DateTimeModelBinderTestBase
         await _binder.BindModelAsync(bindingContext: _bindingContext);
 
         // Assert
-        _bindingContext.ModelState.Should().ContainKey(expected: "test");
-        _bindingContext.ModelState[key: "test"]?.Errors.Should().NotBeEmpty();
+        _bindingContext.ModelState.ShouldContainKey(expectedKey: "test");
+        _bindingContext.ModelState[key: "test"]?.Errors.ShouldNotBeEmpty();
     }
 
     private static IEnumerable<object> ValidDateTimeCases()

@@ -40,7 +40,7 @@
 //                 "Settings of type {SettingsType} are being registered as a singleton in the service collection", null,
 //                 nameof(TestSettings)), times: Times.Once);
 //
-//         _serviceCollection.Should().Contain(predicate: x => x.ServiceType == typeof(TestSettings));
+//         _serviceCollection.ShouldContain(predicate: x => x.ServiceType == typeof(TestSettings));
 //     }
 //
 //     [Test]

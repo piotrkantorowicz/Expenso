@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PersonId;
 
@@ -18,7 +18,7 @@ internal sealed class Nullable : PersonIdTestBase
             BudgetSharing.Domain.Shared.ValueObjects.PersonId.Nullable(value: value);
 
         // Assert
-        result.Should().NotBeNull();
+        result.ShouldNotBeNull();
     }
 
     [Test]
@@ -32,6 +32,6 @@ internal sealed class Nullable : PersonIdTestBase
             BudgetSharing.Domain.Shared.ValueObjects.PersonId.Nullable(value: value);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 }

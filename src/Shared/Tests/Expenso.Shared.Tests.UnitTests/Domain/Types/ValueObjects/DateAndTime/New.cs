@@ -1,9 +1,9 @@
 ﻿using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
@@ -21,7 +21,7 @@ internal sealed class New : TestBase<Shared.Domain.Types.ValueObjects.DateAndTim
             Shared.Domain.Types.ValueObjects.DateAndTime.New(value: dateTimeOffset);
 
         // Assert
-        result.Value.Should().Be(expected: dateTimeOffset);
+        result.Value.ShouldBe(expected: dateTimeOffset);
     }
 
     [Test]
@@ -34,11 +34,11 @@ internal sealed class New : TestBase<Shared.Domain.Types.ValueObjects.DateAndTim
         Action action = () => Shared.Domain.Types.ValueObjects.DateAndTime.New(value: emptyDateTimeOffset);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .Where(exceptionExpression: x => x.Details ==
-                                             $"Empty date and time {nameof(Shared.Domain.Types.ValueObjects.DateAndTime)} cannot be processed.");
+        DomainRuleValidationException? exception = action.ShouldThrow<DomainRuleValidationException>();
+        exception.Message.ShouldBe(expected: "Business rule validation failed.");
+
+        exception.Details.ShouldBe(
+            expected:
+            $"Empty date and time {nameof(Shared.Domain.Types.ValueObjects.DateAndTime)} cannot be processed.");
     }
 }

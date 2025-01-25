@@ -2,16 +2,16 @@ using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Request;
-using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     AssignParticipantionDomainService;
@@ -44,13 +44,12 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        budgetPermissionRequest.BudgetId.Should().Be(expected: _budgetId);
-        budgetPermissionRequest.ParticipantId.Should().Be(expected: _participantId);
-        budgetPermissionRequest.PermissionType.Should().Be(expected: _permissionType);
+        budgetPermissionRequest.BudgetId.ShouldBe(expected: _budgetId);
+        budgetPermissionRequest.ParticipantId.ShouldBe(expected: _participantId);
+        budgetPermissionRequest.PermissionType.ShouldBe(expected: _permissionType);
 
-        budgetPermissionRequest
-            .StatusTracker.ExpirationDate.Value.Should()
-            .BeCloseTo(nearbyTime: _clockMock.Object.UtcNow.AddDays(days: ExpirationDays),
+        budgetPermissionRequest.StatusTracker.ExpirationDate.Value.ShouldBeCloseTo(
+            expected: _clockMock.Object.UtcNow.AddDays(days: ExpirationDays),
                 precision: TimeSpan.FromMilliseconds(value: 500));
 
         AssertDomainEventPublished(aggregateRoot: budgetPermissionRequest, expectedDomainEvents:
@@ -77,13 +76,10 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetailsAsync(
-                expectedWildcardPattern:
-                $"Unable to create budget permission request for not existent budget permission. Budget {_budgetId}.");
+        await action.AssertDomainRuleValidationExceptionAsync(
+            expectedDetails:
+            $"Unable to create budget permission request for not existent budget permission. Budget {_budgetId}.");
+
     }
 
     [Test]
@@ -107,12 +103,11 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {_email} hasn't been found.")
-            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
-                                             (string?)x.Identifier == _email);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+        exception.Message.ShouldBe(expected: $"User with email {_email} hasn't been found.");
+        exception.ResourceName.ShouldBe(expected: "User");
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Email());
+        exception.Identifier.ShouldBe(expected: _email);
     }
 
     [Test]
@@ -138,13 +133,9 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetailsAsync(
-                expectedWildcardPattern:
-                $"Budget participant must be the existing system user, but provided user with ID {_getUserByEmailResponse.Email} hasn't been found in the system.");
+        await action.AssertDomainRuleValidationExceptionAsync(
+            expectedDetails:
+            $"Budget participant must be the existing system user, but provided user with email {_getUserByEmailResponse.Email} hasn't been found in the system.");
     }
 
     [Test]
@@ -169,13 +160,9 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetailsAsync(
-                expectedWildcardPattern:
-                $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}.");
+        await action.AssertDomainRuleValidationExceptionAsync(
+            expectedDetails:
+            $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}.");
     }
 
     [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]
@@ -194,8 +181,8 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             .ReturnsAsync(value: _budgetPermission);
 
         BudgetPermissionRequest otherBudgetPermissionRequest = BudgetPermissionRequest.Create(
-            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId,
-            budgetCode: _budgetCode, ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
+            budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId, budgetCode: _budgetCode,
+            ownerId: _ownerId, personId: _participantId, permissionType: permissionType,
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: 10), submissionDate: _clockMock.Object.UtcNow);
 
         _budgetPermissionRequestRepositoryMock
@@ -210,13 +197,9 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetailsAsync(
-                expectedWildcardPattern:
-                $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}.");
+        await action.AssertDomainRuleValidationExceptionAsync(
+            expectedDetails:
+            $"Member has already opened requests {otherBudgetPermissionRequest.Id} for this budget {_budgetId} with same permission {permissionType}.");
     }
 
     [Test]
@@ -236,13 +219,13 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
         IReadOnlyCollection<BudgetPermissionRequest> otherBudgetPermissionRequests =
         [
             BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId,
-                ownerId: _ownerId, personId: _participantId,
-                budgetCode: _budgetCode, permissionType: PermissionType.Reviewer,
-                expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4), submissionDate: _clockMock.Object.UtcNow),
+                ownerId: _ownerId, personId: _participantId, budgetCode: _budgetCode,
+                permissionType: PermissionType.Reviewer, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
+                submissionDate: _clockMock.Object.UtcNow),
             BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId, budgetId: _budgetId,
-                ownerId: _ownerId, personId: _participantId,
-                budgetCode: _budgetCode, permissionType: PermissionType.SubOwner,
-                expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7), submissionDate: _clockMock.Object.UtcNow)
+                ownerId: _ownerId, personId: _participantId, budgetCode: _budgetCode,
+                permissionType: PermissionType.SubOwner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 7),
+                submissionDate: _clockMock.Object.UtcNow)
         ];
 
         _budgetPermissionRequestRepositoryMock
@@ -257,7 +240,7 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 
     [Test, TestCaseSource(sourceName: nameof(NoOwnerPermissionTypes))]
@@ -281,9 +264,9 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             .ReturnsAsync(value:
             [
                 BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,
-                    budgetId: _budgetId, ownerId: _ownerId, personId: _participantId,
-                    budgetCode: _budgetCode, permissionType: PermissionType.Owner,
-                    expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4), submissionDate: _clockMock.Object.UtcNow)
+                    budgetId: _budgetId, ownerId: _ownerId, personId: _participantId, budgetCode: _budgetCode,
+                    permissionType: PermissionType.Owner, expirationDate: _clockMock.Object.UtcNow.AddDays(days: 4),
+                    submissionDate: _clockMock.Object.UtcNow)
             ]);
 
         // Act
@@ -293,6 +276,6 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 }

@@ -4,9 +4,9 @@ using System.Net.Http.Json;
 using Expenso.Api.Tests.E2E.TestData.TimeManagement;
 using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
@@ -26,7 +26,7 @@ internal sealed class GetJobEntry : JobEntriesTestBase
         // Assert
         AssertResponseOk(response: response);
         GetJobEntryResponse? responseContent = await response.Content.ReadFromJsonAsync<GetJobEntryResponse>();
-        responseContent?.Id.Should().Be(expected: jobEntryId);
+        responseContent?.Id.ShouldBe(expected: jobEntryId);
     }
 
     [Test]

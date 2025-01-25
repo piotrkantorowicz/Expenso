@@ -5,9 +5,9 @@ using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermission
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 
@@ -30,7 +30,7 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         IPagedList<GetBudgetPermissionsResponse>? responseContent =
             await response.Content.ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
 
-        responseContent?.Should().NotBeNull();
+        responseContent?.ShouldNotBeNull();
     }
 
     [Test, TestCase(arg1: 1, arg2: 25, TestName = "Should_UseDefaultPageAndLimit_When_DefaultPaginationProvided"),
@@ -50,13 +50,10 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         IPagedList<GetBudgetPermissionsResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
 
-        responseContent.Should().NotBeNull();
-        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
-
-        responseContent
-            ?.ResultsPerPage.Should()
-            .BeGreaterThan(expected: 0)
-            .And.BeLessOrEqualTo(expected: PaginationDefaults.MaxLimit);
+        responseContent.ShouldNotBeNull();
+        responseContent.CurrentPage.ShouldBeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+        responseContent.ResultsPerPage.ShouldBeGreaterThan(expected: 0);
+        responseContent.ResultsPerPage.ShouldBeLessThanOrEqualTo(expected: PaginationDefaults.MaxLimit);
     }
 
     [Test, TestCase(arg1: 0, arg2: 10, TestName = "Should_UseDefaultPage_When_PageIsZero"),
@@ -95,9 +92,12 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         IPagedList<GetBudgetPermissionsResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
 
-        responseContent.Should().NotBeNull();
-        responseContent?.CurrentPage.Should().BeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
-        responseContent?.Items.Should().BeInDescendingOrder(propertyExpression: x => x.BudgetId);
+        responseContent.ShouldNotBeNull();
+        responseContent.CurrentPage.ShouldBeGreaterThanOrEqualTo(expected: PaginationDefaults.Page);
+
+        responseContent
+            .Items.Select(selector: x => x.BudgetId)
+            .ShouldBeInOrder(expectedSortDirection: SortDirection.Descending);
     }
 
     [Test]

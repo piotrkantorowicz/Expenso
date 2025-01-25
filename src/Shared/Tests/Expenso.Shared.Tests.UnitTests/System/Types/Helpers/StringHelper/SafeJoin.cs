@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
+﻿using NUnit.Framework;
 
-using NUnit.Framework;
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.Helpers.StringHelper;
 
@@ -18,7 +18,7 @@ internal sealed class SafeJoin
         string result = Shared.System.Types.Helpers.StringHelper.SafelyJoin(separator: separator, values: values);
 
         // Assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Test]
@@ -32,7 +32,7 @@ internal sealed class SafeJoin
         string result = Shared.System.Types.Helpers.StringHelper.SafelyJoin(separator: separator, values: values);
 
         // Assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Test]
@@ -52,7 +52,7 @@ internal sealed class SafeJoin
         string result = Shared.System.Types.Helpers.StringHelper.SafelyJoin(separator: separator, values: values);
 
         // Assert
-        result.Should().Be(expected: "John Doe");
+        result.ShouldBe(expected: "John Doe");
     }
 
     [Test]
@@ -72,7 +72,7 @@ internal sealed class SafeJoin
         string result = Shared.System.Types.Helpers.StringHelper.SafelyJoin(separator: separator, values: values);
 
         // Assert
-        result.Should().Be(expected: "John Doe");
+        result.ShouldBe(expected: "John Doe");
     }
 
     [Test]
@@ -92,7 +92,7 @@ internal sealed class SafeJoin
         string result = Shared.System.Types.Helpers.StringHelper.SafelyJoin(separator: separator, values: values);
 
         // Assert
-        result.Should().Be(expected: "John Doe");
+        result.ShouldBe(expected: "John Doe");
     }
 
     [Test]
@@ -114,6 +114,6 @@ internal sealed class SafeJoin
         string result = Shared.System.Types.Helpers.StringHelper.SafelyJoin(separator: separator, values: values);
 
         // Assert
-        result.Should().Be(expected: "John Doe");
+        result.ShouldBe(expected: "John Doe");
     }
 }

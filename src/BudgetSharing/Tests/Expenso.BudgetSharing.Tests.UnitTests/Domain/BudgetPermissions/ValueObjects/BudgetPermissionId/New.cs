@@ -1,8 +1,8 @@
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId;
 
@@ -20,7 +20,7 @@ internal sealed class New : BudgetPermissionIdTestBase
             BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId.New(value: value);
 
         // Assert
-        result.Should().NotBeNull();
+        result.ShouldNotBeNull();
     }
 
     [Test]
@@ -30,15 +30,11 @@ internal sealed class New : BudgetPermissionIdTestBase
         Guid value = Guid.Empty;
 
         // Act
-        Action act = () => BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId.New(value: value);
+        Action action = () => BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId.New(value: value);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Empty identifier {nameof(BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId)} cannot be processed.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Empty identifier {nameof(BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId)} cannot be processed.");
     }
 }

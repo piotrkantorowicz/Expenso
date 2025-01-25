@@ -6,11 +6,11 @@ using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specification
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.CreatePreference.
     CreatePreferenceCommandHandler;
@@ -40,8 +40,8 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
             await TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(expectation: _createPreferenceResponse);
+        result.ShouldNotBeNull();
+        result.ShouldBeEquivalentTo(expected: _createPreferenceResponse);
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.CreateAsync(It.IsAny<Preference>(), It.IsAny<CancellationToken>()), times: Times.Once);
@@ -66,17 +66,14 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        Func<Task> act = () =>
+        Func<Task> action = () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        await act
-            .Should()
-            .ThrowAsync<ConflictException>()
-            .WithMessage(
-                expectedWildcardPattern: $"{nameof(Preference)} with query {querySpecification} already exists.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == nameof(Preference) && x.IdentifierType == IdentifierType.Query() &&
-                (PreferenceQuerySpecification?)x.Identifier == querySpecification);
+        ConflictException? exception = await action.ShouldThrowAsync<ConflictException>();
+        exception.Message.ShouldBe(expected: $"{nameof(Preference)} with query {querySpecification} already exists.");
+        exception.ResourceName.ShouldBe(expected: nameof(Preference));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Query());
+        ((PreferenceQuerySpecification?)exception.Identifier).ShouldBeEquivalentTo(expected: querySpecification);
     }
     
     [Test]
@@ -98,16 +95,13 @@ internal sealed class HandleAsync : CreatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        Func<Task> act = () =>
+        Func<Task> action = () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        await act
-            .Should()
-            .ThrowAsync<ConflictException>()
-            .WithMessage(
-                expectedWildcardPattern: $"{nameof(Preference)} with query {querySpecification} already exists.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == nameof(Preference) && x.IdentifierType == IdentifierType.Query() &&
-                (PreferenceQuerySpecification?)x.Identifier == querySpecification);
+        ConflictException? exception = await action.ShouldThrowAsync<ConflictException>();
+        exception.Message.ShouldBe(expected: $"{nameof(Preference)} with query {querySpecification} already exists.");
+        exception.ResourceName.ShouldBe(expected: nameof(Preference));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Query());
+        ((PreferenceQuerySpecification?)exception.Identifier).ShouldBeEquivalentTo(expected: querySpecification);
     }
 }

@@ -1,9 +1,9 @@
 using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
@@ -23,6 +23,6 @@ internal sealed class UploadFilesAsync : DocumentManagementTestBase
                 ], FileType: UploadFilesRequestFileType.Import));
 
         // Assert
-        uploadFilesAction.Should().NotThrow();
+        uploadFilesAction.ShouldNotThrow();
     }
 }

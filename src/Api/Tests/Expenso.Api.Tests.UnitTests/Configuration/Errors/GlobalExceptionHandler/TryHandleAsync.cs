@@ -1,11 +1,11 @@
 using Expenso.Shared.Commands.Validation.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
 
-using FluentAssertions;
-
 using Microsoft.AspNetCore.Http;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Errors.GlobalExceptionHandler;
 
@@ -23,7 +23,7 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
             cancellationToken: default);
 
         // Assert
-        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status401Unauthorized);
+        _httpContext?.Response.StatusCode.ShouldBe(expected: StatusCodes.Status401Unauthorized);
     }
 
     [Test]
@@ -37,7 +37,7 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
             cancellationToken: default);
 
         // Assert
-        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status403Forbidden);
+        _httpContext?.Response.StatusCode.ShouldBe(expected: StatusCodes.Status403Forbidden);
     }
 
     [Test]
@@ -51,7 +51,7 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
             cancellationToken: default);
 
         // Assert
-        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status404NotFound);
+        _httpContext?.Response.StatusCode.ShouldBe(expected: StatusCodes.Status404NotFound);
     }
 
     [Test]
@@ -68,9 +68,9 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
             cancellationToken: default);
 
         // Assert
-        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status422UnprocessableEntity);
+        _httpContext.Response.StatusCode.ShouldBe(expected: StatusCodes.Status422UnprocessableEntity);
         string response = await ReadResponse(memoryStream: responseBody);
-        response.Should().Contain(expected: errorMessage);
+        response.ShouldContain(expected: errorMessage);
     }
 
     [Test]
@@ -93,9 +93,9 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
             cancellationToken: default);
 
         // Assert
-        _httpContext.Response.StatusCode.Should().Be(expected: StatusCodes.Status422UnprocessableEntity);
+        _httpContext.Response.StatusCode.ShouldBe(expected: StatusCodes.Status422UnprocessableEntity);
         string response = await ReadResponse(memoryStream: responseBody);
-        response.Should().Contain(expected: errorMessage);
+        response.ShouldContain(expected: errorMessage);
     }
 
     [Test]
@@ -109,6 +109,6 @@ internal sealed class TryHandleAsync : GlobalExceptionHandlerTestBase
             cancellationToken: default);
 
         // Assert
-        _httpContext?.Response.StatusCode.Should().Be(expected: StatusCodes.Status500InternalServerError);
+        _httpContext?.Response.StatusCode.ShouldBe(expected: StatusCodes.Status500InternalServerError);
     }
 }

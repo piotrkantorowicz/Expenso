@@ -1,17 +1,20 @@
+using Expenso.BudgetSharing.Domain.BudgetPermissionRequests;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Events;
 using Expenso.BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects;
+using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
-using Expenso.Shared.Domain.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions;
+using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
-
-using FluentAssertions;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.Services.
     ConfirmParticipationDomainService;
@@ -44,27 +47,25 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        _budgetPermissionRequest.StatusTracker.Status.Should().Be(expected: BudgetPermissionRequestStatus.Confirmed);
+        _budgetPermissionRequest.StatusTracker.Status.ShouldBe(expected: BudgetPermissionRequestStatus.Confirmed);
 
-        _budgetPermission
-            .Permissions.Should()
-            .ContainSingle(predicate: x =>
-                x.ParticipantId == _budgetPermissionRequest.ParticipantId &&
-                x.PermissionType == _budgetPermissionRequest.PermissionType);
+        _budgetPermission.Permissions.ShouldContainSingle(predicate: x =>
+            x.ParticipantId == _budgetPermissionRequest.ParticipantId &&
+            x.PermissionType == _budgetPermissionRequest.PermissionType);
 
         AssertDomainEventPublished(aggregateRoot: _budgetPermissionRequest, expectedDomainEvents:
         [
             new BudgetPermissionRequestConfirmedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetCode: _budgetPermissionRequest.BudgetCode,
-                OwnerId: _budgetPermissionRequest.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
+                BudgetCode: _budgetPermissionRequest.BudgetCode, OwnerId: _budgetPermissionRequest.OwnerId,
+                ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
         ]);
 
         AssertDomainEventPublished(aggregateRoot: _budgetPermission, expectedDomainEvents:
         [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetCode: _budgetPermissionRequest.BudgetCode,
-                OwnerId: _budgetPermission.OwnerId, ParticipantId: _budgetPermissionRequest.ParticipantId,
+                BudgetCode: _budgetPermissionRequest.BudgetCode, OwnerId: _budgetPermission.OwnerId,
+                ParticipantId: _budgetPermissionRequest.ParticipantId,
                 PermissionType: _budgetPermissionRequest.PermissionType)
         ]);
     }
@@ -78,17 +79,19 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
+        Func<Task> action = () => TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await act
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"BudgetPermissionRequest with ID {_budgetPermissionRequestId} hasn't been found.");
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"{nameof(BudgetPermissionRequest)} with ID {_budgetPermissionRequestId} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: nameof(BudgetPermissionRequest));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.PrimaryId());
+        exception.Identifier.ShouldBe(expected: _budgetPermissionRequestId.Value);
     }
 
     [Test]
@@ -104,17 +107,19 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
+        Func<Task> action = () => TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await act
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"BudgetPermission with Budget ID {_budgetPermissionRequest.BudgetId} hasn't been found.");
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"{nameof(BudgetPermission)} with Budget ID {_budgetId} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: nameof(BudgetPermission));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Custom(value: "Budget ID"));
+        exception.Identifier.ShouldBe(expected: _budgetId);
     }
 
     [Test]
@@ -138,17 +143,19 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
+        Func<Task> action = () => TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await act
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"FinancePreference with User ID {_budgetPermission.OwnerId} hasn't been found.");
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"FinancePreference with User ID {_budgetPermission.OwnerId} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: "FinancePreference");
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Custom(value: "User ID"));
+        exception.Identifier.ShouldBe(expected: _budgetPermission.OwnerId);
     }
 
     [Test]
@@ -177,17 +184,14 @@ internal sealed class ConfirmParticipationAsync : ConfirmParticipationDomainServ
             });
 
         // Act
-        Func<Task> act = async () => await TestCandidate.ConfirmParticipantAsync(
+        Func<Task> action = () => TestCandidate.ConfirmParticipantAsync(
             budgetPermissionRequestId: _budgetPermissionRequestId.Value,
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await act
-            .Should()
-            .ThrowAsync<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetailsAsync(
-                expectedWildcardPattern:
-                $"Permission of type {_budgetPermissionRequest.PermissionType} can't be assigned to budget with ID {_budgetPermission.BudgetId}, because permission type is not valid or budget owner with ID {_budgetPermission.OwnerId} don't allow any or more participants.");
+
+        await action.AssertDomainRuleValidationExceptionAsync(
+            expectedDetails:
+            $"Permission of type {_budgetPermissionRequest.PermissionType} can't be assigned to budget with ID {_budgetPermission.BudgetId}, because permission type is not valid or budget owner with ID {_budgetPermission.OwnerId} don't allow any or more participants.");
     }
 }

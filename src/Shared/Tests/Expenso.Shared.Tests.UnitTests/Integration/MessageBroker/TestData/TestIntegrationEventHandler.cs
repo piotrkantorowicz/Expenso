@@ -1,6 +1,6 @@
 using Expenso.Shared.Integration.Events;
 
-using FluentAssertions;
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.MessageBroker.TestData;
 
@@ -15,9 +15,9 @@ internal sealed class TestIntegrationEventHandler : IIntegrationEventHandler<Tes
 
     private static void AssertIncomingEvent(TestIntegrationEvent @event)
     {
-        @event.Should().NotBeNull();
-        @event.Should().BeOfType<TestIntegrationEvent>();
-        @event.MessageId.Should().Be(expected: TestIntegrationEventDataSamples.SampleId);
-        @event.Payload.Should().Be(expected: TestIntegrationEventDataSamples.SampleName);
+        @event.ShouldNotBeNull();
+        @event.ShouldBeOfType<TestIntegrationEvent>();
+        @event.MessageId.ShouldBe(expected: TestIntegrationEventDataSamples.SampleId);
+        @event.Payload.ShouldBe(expected: TestIntegrationEventDataSamples.SampleName);
     }
 }

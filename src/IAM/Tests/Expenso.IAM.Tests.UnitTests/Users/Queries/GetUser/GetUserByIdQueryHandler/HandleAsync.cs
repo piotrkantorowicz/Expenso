@@ -4,11 +4,11 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByIdQueryHandler;
 
@@ -31,8 +31,8 @@ internal sealed class HandleAsync : GetUserByIdQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(expectation: _getUserByIdResponse);
+        result.ShouldNotBeNull();
+        result.ShouldBeEquivalentTo(expected: _getUserByIdResponse);
     }
 
     [Test]
@@ -51,7 +51,7 @@ internal sealed class HandleAsync : GetUserByIdQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Test]
@@ -70,12 +70,10 @@ internal sealed class HandleAsync : GetUserByIdQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with ID {_userId} hasn't been found.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == "User" && x.IdentifierType == IdentifierType.PrimaryId() &&
-                (string?)x.Identifier == _userId);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+        exception.Message.ShouldBe(expected: $"User with ID {_userId} hasn't been found.");
+        exception.ResourceName.ShouldBe(expected: "User");
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.PrimaryId());
+        exception.Identifier.ShouldBe(expected: _userId);
     }
 }

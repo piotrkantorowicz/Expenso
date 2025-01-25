@@ -1,10 +1,10 @@
 using Expenso.Shared.Domain.Types.Events;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.Base;
 
@@ -19,7 +19,7 @@ internal sealed class GetDomainEvents : DomainEventsSourceTestBase
         IReadOnlyCollection<IDomainEvent> result = TestCandidate.GetDomainEvents();
 
         // Assert
-        result.Should().BeEmpty();
+        result.ShouldBeEmpty();
     }
 
     [Test]
@@ -33,7 +33,7 @@ internal sealed class GetDomainEvents : DomainEventsSourceTestBase
         IReadOnlyCollection<IDomainEvent> result = TestCandidate.GetDomainEvents();
 
         // Assert
-        result.Should().Contain(expected: domainEvent);
-        TestCandidate.GetDomainEvents().Should().BeEmpty();
+        result.ShouldContain(expected: domainEvent);
+        TestCandidate.GetDomainEvents().ShouldBeEmpty();
     }
 }

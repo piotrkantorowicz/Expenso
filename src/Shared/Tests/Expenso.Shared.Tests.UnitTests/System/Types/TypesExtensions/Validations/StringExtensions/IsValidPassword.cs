@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
@@ -19,7 +19,7 @@ internal sealed class IsValidPassword
         bool result = password.IsValidPassword();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "password123!"), TestCase(arg: "PASSWORD123!"),
@@ -32,6 +32,6 @@ internal sealed class IsValidPassword
         bool result = password.IsValidPassword();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

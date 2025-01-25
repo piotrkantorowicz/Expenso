@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
+﻿using FluentValidation.Results;
 
-using FluentValidation.Results;
+using Shouldly;
 
 namespace Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
@@ -8,46 +8,44 @@ public static class ValidationAssertions
 {
     public static void AssertNoErrors(this ValidationResult validationResult)
     {
-        validationResult.Should().NotBeNull();
-        validationResult.Errors.Should().BeNullOrEmpty();
+        validationResult.ShouldNotBeNull();
+        validationResult.Errors.ShouldBeEmpty();
     }
 
     public static void AssertIsSingleError(this ValidationResult validationResult, string propertyName,
         string errorMessage)
     {
-        validationResult.Should().NotBeNull();
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Should().NotBeEmpty();
-        validationResult.Errors.Should().HaveCount(expected: 1);
-        validationResult.Errors[index: 0].PropertyName.Should().Be(expected: propertyName);
-        validationResult.Errors[index: 0].ErrorMessage.Should().Be(expected: errorMessage);
+        validationResult.ShouldNotBeNull();
+        validationResult.IsValid.ShouldBeFalse();
+        validationResult.Errors.ShouldNotBeEmpty();
+        validationResult.Errors.Count.ShouldBe(expected: 1);
+        validationResult.Errors[index: 0].PropertyName.ShouldBe(expected: propertyName);
+        validationResult.Errors[index: 0].ErrorMessage.ShouldBe(expected: errorMessage);
     }
 
     public static void AssertContainsSingleError(this ValidationResult validationResult, string propertyName,
         string errorMessage)
     {
-        validationResult.Should().NotBeNull();
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Should().NotBeEmpty();
-        validationResult.Errors.Should().HaveCountGreaterThan(expected: 0);
+        validationResult.ShouldNotBeNull();
+        validationResult.IsValid.ShouldBeFalse();
+        validationResult.Errors.ShouldNotBeEmpty();
+        validationResult.Errors.Count.ShouldBeGreaterThan(expected: 0);
 
-        validationResult
-            .Errors.Should()
-            .ContainSingle(predicate: x => x.PropertyName == propertyName && x.ErrorMessage == errorMessage);
+        validationResult.Errors.ShouldContain(elementPredicate: x =>
+            x.PropertyName == propertyName && x.ErrorMessage == errorMessage);
     }
 
     public static void AssertManyErrors(this ValidationResult validationResult, IDictionary<string, string> errors)
     {
-        validationResult.Should().NotBeNull();
-        validationResult.IsValid.Should().BeFalse();
-        validationResult.Errors.Should().NotBeEmpty();
-        validationResult.Errors.Should().HaveCount(expected: errors.Count);
+        validationResult.ShouldNotBeNull();
+        validationResult.IsValid.ShouldBeFalse();
+        validationResult.Errors.ShouldNotBeEmpty();
+        validationResult.Errors.Count.ShouldBe(expected: errors.Count);
 
         foreach (KeyValuePair<string, string> error in errors)
         {
-            validationResult
-                .Errors.Should()
-                .ContainSingle(predicate: e => e.PropertyName == error.Key && e.ErrorMessage == error.Value);
+            validationResult.Errors.ShouldContain(elementPredicate: e =>
+                e.PropertyName == error.Key && e.ErrorMessage == error.Value);
         }
     }
 }

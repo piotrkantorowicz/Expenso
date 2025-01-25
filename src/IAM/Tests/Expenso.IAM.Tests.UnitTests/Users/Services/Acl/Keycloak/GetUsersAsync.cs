@@ -4,14 +4,14 @@ using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 
-using FluentAssertions;
-
 using Keycloak.AuthServices.Sdk.Admin.Models;
 using Keycloak.AuthServices.Sdk.Admin.Requests.Users;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
@@ -48,16 +48,13 @@ internal sealed class GetUsersAsync : UserServiceTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUsers.Should().NotBeNull();
-        getUsers.CurrentPage.Should().Be(expected: PaginationDefaults.Page);
+        getUsers.ShouldNotBeNull();
+        getUsers.CurrentPage.ShouldBe(expected: PaginationDefaults.Page);
 
-        getUsers
-            .TotalPages.Should()
-            .Be(expected: (int)Math.Ceiling(a: users.Length / (double)PaginationDefaults.Limit));
-
-        getUsers.ResultsPerPage.Should().Be(expected: PaginationDefaults.Limit);
-        getUsers.TotalResults.Should().Be(expected: 2);
-        getUsers.Items.Should().HaveCount(expected: 2);
+        getUsers.TotalPages.ShouldBe(expected: (int)Math.Ceiling(a: users.Length / (double)PaginationDefaults.Limit));
+        getUsers.ResultsPerPage.ShouldBe(expected: PaginationDefaults.Limit);
+        getUsers.TotalResults.ShouldBe(expected: 2);
+        getUsers.Items.Count.ShouldBe(expected: 2);
 
         IReadOnlyCollection<GetUsersResponse> expectedUsers = new List<GetUsersResponse>
         {
@@ -65,7 +62,7 @@ internal sealed class GetUsersAsync : UserServiceTestBase
             GetUsersResponseMap.MapTo(user: secondUser)
         };
 
-        getUsers.Items.Should().BeEquivalentTo(expectation: expectedUsers);
+        getUsers.Items.ShouldBeEquivalentTo(expected: expectedUsers);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUsersAsync(It.IsAny<string>(), It.IsAny<GetUsersRequestParameters>(),

@@ -1,9 +1,9 @@
-﻿using Expenso.Shared.Domain.Types.Exceptions;
-using Expenso.Shared.Domain.Types.ValueObjects;
-
-using FluentAssertions;
+﻿using Expenso.Shared.Domain.Types.ValueObjects;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatusTracker;
@@ -29,17 +29,14 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
                 expirationDate: expirationDate, status: status);
 
         // Assert
-        TestCandidate.Should().NotBeNull();
-        TestCandidate.ExpirationDate.Should().Be(expected: expirationDate);
-        TestCandidate.SubmissionDate.Value.Should().Be(expected: currentTime);
+        TestCandidate.ShouldNotBeNull();
+        TestCandidate.ExpirationDate.ShouldBe(expected: expirationDate);
+        TestCandidate.SubmissionDate.Value.ShouldBe(expected: currentTime);
 
-        TestCandidate
-            .Status.Should()
-            .Be(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus
-                .Pending);
+        TestCandidate.Status.ShouldBe(expected: BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestStatus.Pending);
 
-        TestCandidate.ConfirmationDate.Should().BeNull();
-        TestCandidate.CancellationDate.Should().BeNull();
+        TestCandidate.ConfirmationDate.ShouldBeNull();
+        TestCandidate.CancellationDate.ShouldBeNull();
     }
 
     [Test, TestCase(arg: "None"), TestCase(arg: "Confirmed"), TestCase(arg: "Cancelled"), TestCase(arg: "Expired")]
@@ -60,12 +57,8 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
                 expirationDate: expirationDate, status: status);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern: $"Budget permission request status must be 'Pending' but was '{status}'.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Budget permission request status must be 'Pending' but was '{status}'.");
     }
 
     [Test]
@@ -86,12 +79,7 @@ internal sealed class Start : BudgetPermissionRequestStatusTrackerTestBase
                 expirationDate: expirationDate, status: status);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Expiration date {expirationDate} must be greater than Submission date: {currentTime}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Expiration date {expirationDate} must be greater than Submission date: {currentTime}.");
     }
 }

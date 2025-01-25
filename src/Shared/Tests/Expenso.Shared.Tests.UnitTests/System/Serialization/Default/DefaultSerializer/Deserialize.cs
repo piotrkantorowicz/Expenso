@@ -1,8 +1,8 @@
 using Expenso.Shared.Tests.UnitTests.System.Serialization.TestData;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
@@ -19,7 +19,7 @@ internal sealed class Deserialize : DefaultSerializerTestBase
         BasicTestObject? result = TestCandidate.Deserialize<BasicTestObject>(value: serializedObj);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: BasicObject);
+        result.ShouldBeEquivalentTo(expected: BasicObject);
     }
 
     [Test]
@@ -30,11 +30,11 @@ internal sealed class Deserialize : DefaultSerializerTestBase
         string serializedObj = TestCandidate.Serialize(value: BasicObject, settings: _serializerOptions);
 
         // Act
-        RichTestObject? result =
-            TestCandidate.Deserialize<RichTestObject>(value: serializedObj, settings: _serializerOptions);
+        BasicTestObject? result =
+            TestCandidate.Deserialize<BasicTestObject>(value: serializedObj, settings: _serializerOptions);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: BasicObject);
+        result.ShouldBeEquivalentTo(expected: BasicObject);
     }
 
     [Test]
@@ -48,7 +48,7 @@ internal sealed class Deserialize : DefaultSerializerTestBase
             TestCandidate.Deserialize<BasicTestObject>(value: serializedObj, settings: typeof(BasicTestObject));
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: BasicObject);
+        result.ShouldBeEquivalentTo(expected: BasicObject);
     }
 
     [Test]
@@ -58,10 +58,10 @@ internal sealed class Deserialize : DefaultSerializerTestBase
         string serializedObj = TestCandidate.Serialize(value: BasicObject);
 
         // Act
-        object? result = TestCandidate.Deserialize(value: serializedObj, type: typeof(RichTestObject));
+        object? result = TestCandidate.Deserialize(value: serializedObj, type: typeof(BasicTestObject));
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: BasicObject);
+        result.ShouldBeEquivalentTo(expected: BasicObject);
     }
 
     [Test]
@@ -72,11 +72,11 @@ internal sealed class Deserialize : DefaultSerializerTestBase
         string serializedObj = TestCandidate.Serialize(value: BasicObject, settings: _serializerOptions);
 
         // Act
-        object? result = TestCandidate.Deserialize(value: serializedObj, type: typeof(RichTestObject),
+        object? result = TestCandidate.Deserialize(value: serializedObj, type: typeof(BasicTestObject),
             settings: _serializerOptions);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: BasicObject);
+        result.ShouldBeEquivalentTo(expected: BasicObject);
     }
 
     [Test]
@@ -89,7 +89,7 @@ internal sealed class Deserialize : DefaultSerializerTestBase
         RichTestObject? result = TestCandidate.Deserialize<RichTestObject>(value: serializedObj);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: ComplexObject);
+        result.ShouldBeEquivalentTo(expected: ComplexObject);
     }
 
     [Test]
@@ -104,7 +104,7 @@ internal sealed class Deserialize : DefaultSerializerTestBase
             TestCandidate.Deserialize<RichTestObject>(value: serializedObj, settings: _serializerOptions);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: ComplexObject);
+        result.ShouldBeEquivalentTo(expected: ComplexObject);
     }
 
     [Test]
@@ -118,7 +118,7 @@ internal sealed class Deserialize : DefaultSerializerTestBase
             TestCandidate.Deserialize<RichTestObject>(value: serializedObj, settings: typeof(RichTestObject));
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: ComplexObject);
+        result.ShouldBeEquivalentTo(expected: ComplexObject);
     }
 
     [Test]
@@ -131,7 +131,7 @@ internal sealed class Deserialize : DefaultSerializerTestBase
         object? result = TestCandidate.Deserialize(value: serializedObj, type: typeof(RichTestObject));
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: ComplexObject);
+        result.ShouldBeEquivalentTo(expected: ComplexObject);
     }
 
     [Test]
@@ -146,6 +146,6 @@ internal sealed class Deserialize : DefaultSerializerTestBase
             settings: _serializerOptions);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: ComplexObject);
+        result.ShouldBeEquivalentTo(expected: ComplexObject);
     }
 }

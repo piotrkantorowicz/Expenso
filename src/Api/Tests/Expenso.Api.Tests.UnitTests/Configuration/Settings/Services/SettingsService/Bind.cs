@@ -1,10 +1,10 @@
 ﻿using Expenso.Shared.System.Logging.Constants;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Settings.Services.SettingsService;
 
@@ -27,7 +27,7 @@ internal sealed class Bind : SettingsServiceTestBase
         TestSettings? result = TestCandidate.Bind(sectionName: sectionName);
 
         // Assert
-        result.Should().Be(expected: settings);
+        result.ShouldBe(expected: settings);
 
         _loggerMock.Verify(
             expression: l => l.LogInfo(LoggingUtils.ConfigurationInformation,
@@ -53,7 +53,7 @@ internal sealed class Bind : SettingsServiceTestBase
         TestSettings? result = TestCandidate.Bind(sectionName: sectionName);
 
         // Assert
-        result.Should().Be(expected: settings);
+        result.ShouldBe(expected: settings);
 
         _loggerMock.Verify(
             expression: l => l.LogDebug(LoggingUtils.ConfigurationInformation,
@@ -69,7 +69,7 @@ internal sealed class Bind : SettingsServiceTestBase
         TestSettings? result = TestCandidate.Bind(sectionName: null!);
 
         // Assert
-        result.Should().Be(expected: null);
+        result.ShouldBe(expected: null);
 
         _loggerMock.Verify(
             expression: l => l.LogWarning(LoggingUtils.ConfigurationWarning,

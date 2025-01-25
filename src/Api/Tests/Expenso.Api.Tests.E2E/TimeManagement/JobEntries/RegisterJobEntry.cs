@@ -10,9 +10,9 @@ using Expenso.Shared.System.Types.Messages;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Request;
 using Expenso.TimeManagement.Shared.DTO.RegisterJobEntry.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 
@@ -36,7 +36,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         RegisterJobEntryResponse? responseContent =
             await response.Content.ReadFromJsonAsync<RegisterJobEntryResponse>();
 
-        responseContent.Should().NotBeNull();
+        responseContent.ShouldNotBeNull();
     }
 
     [Test]
@@ -62,7 +62,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
                 requestedBy: TestClient.ClientId, timestamp: _clock.UtcNow, module: ModuleNames.TimeManagementModule));
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 
     private RegisterJobEntryRequest CreateTestRequest()

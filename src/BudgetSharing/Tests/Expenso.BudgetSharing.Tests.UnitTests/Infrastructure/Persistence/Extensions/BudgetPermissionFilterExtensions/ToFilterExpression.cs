@@ -5,9 +5,9 @@ using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.BudgetPermissions.ValueObjects;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Infrastructure.Persistence.Extensions.BudgetPermissionFilterExtensions;
 
@@ -44,7 +44,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
         bool result = expression.Compile().Invoke(arg: _budgetPermission);
 
         // Assert
-        result.Should().Be(expected: expectedResult);
+        result.ShouldBe(expected: expectedResult);
     }
 
     private BudgetPermissionQuerySpecification CreateFilterWithProperty(string propertyName, bool expectedResult)

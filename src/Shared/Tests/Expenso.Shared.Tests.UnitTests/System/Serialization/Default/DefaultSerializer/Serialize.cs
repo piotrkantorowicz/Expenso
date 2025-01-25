@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Default.DefaultSerializer;
 
@@ -15,7 +15,7 @@ internal sealed class Serialize : DefaultSerializerTestBase
         string result = TestCandidate.Serialize(value: serializedObject);
 
         // Assert
-        result.Should().NotBeNullOrEmpty();
+        result.ShouldNotBeEmpty();
     }
 
     [Test, TestCaseSource(sourceName: nameof(SerializedTestObjects))]
@@ -26,6 +26,6 @@ internal sealed class Serialize : DefaultSerializerTestBase
         string result = TestCandidate.Serialize(value: serializedObject, settings: _serializerOptions);
 
         // Assert
-        result.Should().NotBeNullOrEmpty();
+        result.ShouldNotBeEmpty();
     }
 }

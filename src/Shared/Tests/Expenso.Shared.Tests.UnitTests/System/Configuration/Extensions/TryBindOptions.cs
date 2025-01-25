@@ -1,8 +1,8 @@
 using Expenso.Shared.System.Configuration;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Configuration.Extensions;
 
@@ -17,9 +17,9 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
         bool testResult = TestCandidate.TryBindOptions(sectionName: "MyOptions", options: out MyOptions options);
 
         // Assert
-        testResult.Should().BeTrue();
-        options.Option1.Should().Be(expected: "Option1 value");
-        options.Option2.Should().Be(expected: 500);
+        testResult.ShouldBeTrue();
+        options.Option1.ShouldBe(expected: "Option1 value");
+        options.Option2.ShouldBe(expected: 500);
     }
 
     [Test]
@@ -30,9 +30,9 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
         bool testResult = TestCandidate.TryBindOptions(sectionName: "MyOptions1", options: out MyOptions options);
 
         // Assert
-        testResult.Should().BeTrue();
-        options.Option1.Should().Be(expected: null);
-        options.Option2.Should().Be(expected: 0);
+        testResult.ShouldBeTrue();
+        options.Option1.ShouldBe(expected: null);
+        options.Option2.ShouldBe(expected: 0);
     }
 
     [Test]
@@ -45,6 +45,6 @@ internal sealed class TryBindOptions : OptionsExtensionsTestBase
 #pragma warning restore CS8625
 
         // Assert
-        testResult.Should().BeFalse();
+        testResult.ShouldBeFalse();
     }
 }
