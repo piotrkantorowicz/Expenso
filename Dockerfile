@@ -8,7 +8,7 @@ COPY . .
 RUN dotnet restore src/Api/Expenso.Api/Expenso.Api.csproj
 
 FROM build AS publish
-RUN dotnet publish src/Api/Expenso.Api/Expenso.Api.csproj -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish src/Api/Expenso.Api/Expenso.Api.csproj -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app
