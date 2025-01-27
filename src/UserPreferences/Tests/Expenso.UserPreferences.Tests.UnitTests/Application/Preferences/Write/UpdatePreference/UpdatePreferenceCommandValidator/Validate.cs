@@ -28,7 +28,7 @@ internal sealed class Validate : UpdatePreferenceCommandValidatorTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            PreferenceId: Guid.NewGuid(), Payload: null);
+            PreferenceId: Guid.CreateVersion7(), Payload: null);
 
         // Act
         ValidationResult validationResult = TestCandidate.Validate(instance: command);

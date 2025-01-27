@@ -19,7 +19,7 @@ internal sealed class HandleAsync : BudgetPermissionRequestExpiredIntegrationEve
         Func<Task> action = () => TestCandidate.HandleAsync(
             @event: new BudgetPermissionRequestExpiredIntegrationEvent(
                 MessageContext: MessageContextFactoryMock.Object.Current(),
-                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid())),
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.CreateVersion7())),
             cancellationToken: default);
 
         // Assert

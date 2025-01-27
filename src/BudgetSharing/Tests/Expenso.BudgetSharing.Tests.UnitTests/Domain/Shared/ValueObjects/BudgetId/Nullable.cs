@@ -11,7 +11,7 @@ internal sealed class Nullable : BudgetIdTestBase
     public void Should_ReturnTypedId_When_ValueIsNotNull()
     {
         // Arrange
-        Guid value = Guid.NewGuid();
+        Guid value = Guid.CreateVersion7();
 
         // Act
         BudgetSharing.Domain.Shared.ValueObjects.BudgetId? result =

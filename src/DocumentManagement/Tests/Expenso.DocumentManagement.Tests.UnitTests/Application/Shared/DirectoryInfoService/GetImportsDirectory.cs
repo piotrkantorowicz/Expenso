@@ -14,7 +14,7 @@ internal sealed class GetImportsDirectory : DirectoryInfoServiceTestBase
     {
         // Arrange
         const string date = "20220101";
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
         string expectedPath = $"RootPath/{userId}/Imports/20220101/group1/group2";
 
         string[] groups =

@@ -38,8 +38,8 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
             Push = new PushNotificationSettings(Enabled: true)
         };
 
-        _defaultOwnerId = PersonId.New(value: Guid.NewGuid());
-        _defaultParticipantId = PersonId.New(value: Guid.NewGuid());
+        _defaultOwnerId = PersonId.New(value: Guid.CreateVersion7());
+        _defaultParticipantId = PersonId.New(value: Guid.CreateVersion7());
         _budgetCode = BudgetCode.New(value: "BDGT/55/12/2024");
 
         _defaultNotificationRecipients = new NotificationRecipients(
@@ -48,7 +48,7 @@ internal abstract class EventHandlerTestBase<T, TEvent> : TestBase<T> where T : 
             [
                 new NotificationRecipient(UserId: _defaultParticipantId.ToString(), Email: "francisco224@email.com",
                     Fullname: "Francisco Ramirez"),
-                new NotificationRecipient(UserId: Guid.NewGuid().ToString(), Email: "oliver12@email.com",
+                new NotificationRecipient(UserId: Guid.CreateVersion7().ToString(), Email: "oliver12@email.com",
                     Fullname: "Oliver Cruz")
             ]);
 

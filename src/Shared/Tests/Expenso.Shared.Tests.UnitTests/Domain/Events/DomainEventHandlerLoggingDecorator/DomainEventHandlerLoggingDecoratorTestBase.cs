@@ -19,7 +19,7 @@ internal abstract class
     public void Setup()
     {
         _testDomainEvent = new TestDomainEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Id: Guid.NewGuid(), Name: "JYi9R7e7v2Qor");
+            Id: Guid.CreateVersion7(), Name: "JYi9R7e7v2Qor");
 
         _loggerMock = new Mock<ILoggerService<DomainEventHandlerLoggingDecorator<TestDomainEvent>>>();
         _domainEventHandlerMock = new Mock<IDomainEventHandler<TestDomainEvent>>();

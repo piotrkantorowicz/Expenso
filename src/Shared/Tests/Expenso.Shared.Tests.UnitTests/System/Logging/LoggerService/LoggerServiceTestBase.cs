@@ -21,7 +21,7 @@ internal abstract class LoggerServiceTestBase : TestBase<LoggerService<LoggerSer
 
         _applicationSettings = new ApplicationSettings
         {
-            InstanceId = Guid.NewGuid(),
+            InstanceId = Guid.CreateVersion7(),
             Name = "Test Application",
             Version = "1.0.0"
         };

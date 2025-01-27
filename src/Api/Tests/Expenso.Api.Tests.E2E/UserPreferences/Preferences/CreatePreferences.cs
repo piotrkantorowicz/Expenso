@@ -18,8 +18,8 @@ internal sealed class CreatePreferences : PreferencesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        Guid userId = Guid.NewGuid();
-        Guid preferenceId = Guid.NewGuid();
+        Guid userId = Guid.CreateVersion7();
+        Guid preferenceId = Guid.CreateVersion7();
         const string requestPath = "user-preferences/preferences";
 
         // Act

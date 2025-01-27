@@ -23,7 +23,7 @@ internal abstract class UserServiceTestBase : TestBase<IUserService>
     public void SetUp()
     {
         _keycloakUserClientMock = new Mock<IKeycloakUserClient>();
-        _userId = Guid.NewGuid().ToString();
+        _userId = Guid.CreateVersion7().ToString();
         _userEmail = "email@email.com";
 
         _user = new UserRepresentation

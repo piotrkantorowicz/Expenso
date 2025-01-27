@@ -21,8 +21,8 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permissions";
         const string budgetCode = "BDGT/11/12/2024";
-        Guid budgetPermissionId = Guid.NewGuid();
-        Guid budgetId = Guid.NewGuid();
+        Guid budgetPermissionId = Guid.CreateVersion7();
+        Guid budgetId = Guid.CreateVersion7();
 
         CreateBudgetPermissionRequest createBudgetPermissionRequest = new(BudgetPermissionId: budgetPermissionId,
             BudgetId: budgetId, OwnerId: UserDataInitializer.UserIds[index: 3], BudgetCode: budgetCode);

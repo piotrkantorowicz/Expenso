@@ -15,8 +15,8 @@ internal abstract class JobEntryQuerySpecificationTestBase
         [
             new JobEntry
             {
-                Id = Guid.NewGuid(),
-                JobInstanceId = Guid.NewGuid(),
+                Id = Guid.CreateVersion7(),
+                JobInstanceId = Guid.CreateVersion7(),
                 JobEntryStatusId = JobEntryStatus.Running.Id,
                 CurrentRetries = 0,
                 IsCompleted = false,
@@ -26,7 +26,7 @@ internal abstract class JobEntryQuerySpecificationTestBase
                 [
                     new JobEntryTrigger
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.CreateVersion7(),
                         EventData = "{}",
                         EventType = "IntegrationEvent"
                     }
@@ -34,8 +34,8 @@ internal abstract class JobEntryQuerySpecificationTestBase
             },
             new JobEntry
             {
-                Id = Guid.NewGuid(),
-                JobInstanceId = Guid.NewGuid(),
+                Id = Guid.CreateVersion7(),
+                JobInstanceId = Guid.CreateVersion7(),
                 JobEntryStatusId = JobEntryStatus.Completed.Id,
                 CurrentRetries = 3,
                 IsCompleted = true,
@@ -45,7 +45,7 @@ internal abstract class JobEntryQuerySpecificationTestBase
                 [
                     new JobEntryTrigger
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.CreateVersion7(),
                         EventData = "{}",
                         EventType = "IntegrationEvent"
                     }
@@ -53,8 +53,8 @@ internal abstract class JobEntryQuerySpecificationTestBase
             },
             new JobEntry
             {
-                Id = Guid.NewGuid(),
-                JobInstanceId = Guid.NewGuid(),
+                Id = Guid.CreateVersion7(),
+                JobInstanceId = Guid.CreateVersion7(),
                 JobEntryStatusId = JobEntryStatus.Failed.Id,
                 CurrentRetries = 3,
                 IsCompleted = false,

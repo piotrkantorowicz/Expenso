@@ -4,35 +4,35 @@ internal sealed record JobEntryStatus
 {
     public static JobEntryStatus Running => new()
     {
-        Id = new Guid(g: "53b12b3e-1db8-4792-9e24-a4da5f3e5ba3"),
+        Id = new Guid(g: "0194a81a-48c6-7394-9b65-a820cb4ae551"),
         Name = "Running",
         Description = "The job entry is currently running"
     };
 
     public static JobEntryStatus Completed => new()
     {
-        Id = new Guid(g: "6d2e7d7e-7e65-483c-93ad-72f83cc22cb1"),
+        Id = new Guid(g: "0194a81a-48c6-71f5-8fba-bf96f4ac4c96"),
         Name = "Completed",
         Description = "The job entry has completed successfully"
     };
 
     public static JobEntryStatus Failed => new()
     {
-        Id = new Guid(g: "2f3a0e2f-8531-493a-9086-3e8faf01df95"),
+        Id = new Guid(g: "0194a81a-48c6-7ac8-87b9-55ece38a30dd"),
         Name = "Failed",
         Description = "The job entry has failed"
     };
 
     public static JobEntryStatus Retrying => new()
     {
-        Id = new Guid(g: "cad1ccaf-a790-4e45-a8fd-5135ddf5b028"),
+        Id = new Guid(g: "0194a81a-48c6-7f08-a0c6-e396f23468e4"),
         Name = "Retrying",
         Description = "The job entry is being retried"
     };
 
     public static JobEntryStatus Cancelled => new()
     {
-        Id = new Guid(g: "ac5b3c2d-8bdf-4629-ad8e-dbd2106949e3"),
+        Id = new Guid(g: "0194a81a-48c6-7a92-92b9-e8455c5ed7c2"),
         Name = "Cancelled",
         Description = "The job entry has been cancelled"
     };

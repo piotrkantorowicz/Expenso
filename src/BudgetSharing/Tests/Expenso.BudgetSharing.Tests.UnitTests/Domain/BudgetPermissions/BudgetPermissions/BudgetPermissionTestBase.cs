@@ -42,13 +42,13 @@ internal abstract class BudgetPermissionTestBase : DomainTestBase<BudgetPermissi
     protected readonly BudgetCode _budgetCode = BudgetCode.New(value: "BDGT/1234/5/2024");
 
     protected readonly BudgetId _defaultBudgetId =
-        BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+        BudgetId.New(value: new Guid(g: "0194a81a-48c6-7ef7-995e-85772616b617"));
 
     protected readonly BudgetPermissionId _defaultBudgetPermissionId =
-        BudgetPermissionId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+        BudgetPermissionId.New(value: new Guid(g: "0194a81a-48c6-7404-898d-535a0dc7f046"));
 
     protected readonly PersonId _defaultOwnerId =
-        PersonId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+        PersonId.New(value: new Guid(g: "0194a81a-48c6-7b0c-b54f-41136fd3c97f"));
 
     protected Mock<IBudgetPermissionRepository> _budgetPermissionRepositoryMock = null!;
     protected Mock<IClock> _clockMock = null!;

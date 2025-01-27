@@ -32,7 +32,7 @@ internal abstract class DefaultSerializerTestBase : TestBase<Shared.System.Seria
 
     protected static readonly BasicTestObject BasicObject = new()
     {
-        PrimaryId = new Guid(g: "dd37661a-dc23-45ca-9a33-e92568536a73"),
+        PrimaryId = new Guid(g: "0194a81a-48c6-7974-9978-f235d102a11a"),
         SecondaryId = 211,
         Name = "Purusnulla",
         Number = 947.38m,

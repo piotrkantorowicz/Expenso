@@ -19,7 +19,8 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
     public async Task Should_MarkBudgetPermissionRequestAsExpired()
     {
         // Arrange
-        BudgetPermissionRequestId budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
+        BudgetPermissionRequestId budgetPermissionRequestId =
+            BudgetPermissionRequestId.New(value: Guid.CreateVersion7());
 
         _budgetPermissionRequestRepositoryMock
             .Setup(expression: repo => repo.GetByIdAsync(budgetPermissionRequestId, It.IsAny<CancellationToken>()))
@@ -39,7 +40,8 @@ internal sealed class MarkBudgetPermissionRequestAsExpireAsync : BudgetPermissio
     public async Task Should_ThrowNotFoundException_When_BudgetPermissionRequestIsNull()
     {
         // Arrange
-        BudgetPermissionRequestId budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
+        BudgetPermissionRequestId budgetPermissionRequestId =
+            BudgetPermissionRequestId.New(value: Guid.CreateVersion7());
 
         _budgetPermissionRequestRepositoryMock
             .Setup(expression: repo => repo.GetByIdAsync(budgetPermissionRequestId, It.IsAny<CancellationToken>()))

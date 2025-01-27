@@ -17,7 +17,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     {
         // Arrange
         const FileType fileType = FileType.Import;
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
 
         string expectedPath =
             $"RootPath/{userId}/{Core.Application.Shared.Services.Acl.Disk.DirectoryInfoService.Imports}/20220101/group1/group2";
@@ -44,7 +44,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     {
         // Arrange
         const FileType fileType = FileType.Report;
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
 
         string expectedPath =
             $"RootPath/{userId}/{Core.Application.Shared.Services.Acl.Disk.DirectoryInfoService.Reports}/20220101/group1/group2";
@@ -71,7 +71,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
     {
         // Arrange
         const FileType fileType = FileType.None;
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
         string[] groups = [];
 
         // Act

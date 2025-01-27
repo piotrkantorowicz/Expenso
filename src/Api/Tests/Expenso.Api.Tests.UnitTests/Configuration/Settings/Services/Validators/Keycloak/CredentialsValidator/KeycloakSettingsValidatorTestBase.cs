@@ -16,7 +16,7 @@ internal abstract class
     {
         _credentials = new KeycloakClientInstallationCredentials
         {
-            Secret = Guid.NewGuid().ToString()
+            Secret = Guid.CreateVersion7().ToString()
         };
 
         TestCandidate = new Api.Configuration.Settings.Services.Validators.Keycloak.CredentialsValidator();

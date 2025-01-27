@@ -84,12 +84,12 @@ internal sealed class GetUserByEmailAsync : UserServiceTestBase
             [
                 new UserRepresentation
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = Guid.CreateVersion7().ToString(),
                     Email = "carolhussain@email.com"
                 },
                 new UserRepresentation
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = Guid.CreateVersion7().ToString(),
                     Email = "carolhussain@email.com"
                 }
             ]);

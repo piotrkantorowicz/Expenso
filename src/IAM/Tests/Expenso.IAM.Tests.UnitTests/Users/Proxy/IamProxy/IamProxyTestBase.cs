@@ -22,7 +22,7 @@ internal abstract class IamProxyTestBase : TestBase<IIamProxy>
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid().ToString();
+        _userId = Guid.CreateVersion7().ToString();
         _userEmail = "email@email.com";
 
         UserRepresentation user = new()

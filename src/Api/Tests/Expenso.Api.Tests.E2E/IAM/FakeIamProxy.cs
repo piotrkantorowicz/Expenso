@@ -35,7 +35,7 @@ internal sealed class FakeIamProxy : IIamProxy
         },
         new()
         {
-            Id = new Guid(g: "32b61237-4859-4281-8702-6fa3e4c72d67").ToString(),
+            Id = new Guid(g: "0194a819-be05-76a2-975b-3bad8d21b5f6").ToString(),
             FirstName = "Krishna",
             LastName = "Le",
             Username = "KLeee",
@@ -43,7 +43,7 @@ internal sealed class FakeIamProxy : IIamProxy
         },
         new()
         {
-            Id = new Guid(g: "0d53ecf2-cef4-47ca-974a-3f1b395cd2c4").ToString(),
+            Id = new Guid(g: "0194a81a-07f0-7cdb-b69b-a51a8a10cd43").ToString(),
             FirstName = "Vincent",
             LastName = "Ashraf",
             Username = "VAshraf",

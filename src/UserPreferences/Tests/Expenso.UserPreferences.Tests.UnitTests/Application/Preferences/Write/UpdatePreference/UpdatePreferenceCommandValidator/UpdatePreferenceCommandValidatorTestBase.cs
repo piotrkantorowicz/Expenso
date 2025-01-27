@@ -17,7 +17,7 @@ internal abstract class UpdatePreferenceCommandValidatorTestBase : TestBase<
     public void SetUp()
     {
         _updatePreferenceCommand = new UpdatePreferenceCommand(
-            MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: Guid.NewGuid(),
+            MessageContext: MessageContextFactoryMock.Object.Current(), PreferenceId: Guid.CreateVersion7(),
             Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
                     AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 2, AllowAddFinancePlanReviewers: true,

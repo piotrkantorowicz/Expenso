@@ -19,13 +19,14 @@ internal static class PreferencesDataInitializer
     public static async Task InitializeAsync(ICommandDispatcher commandDispatcher, IClock clock,
         CancellationToken cancellationToken)
     {
-        Guid correlationId = Guid.NewGuid();
+        Guid correlationId = Guid.CreateVersion7();
 
         foreach (Guid userId in UserDataInitializer.UserIds)
         {
             CreatePreferenceResponse? preference =
                 await commandDispatcher.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(
-                    command: new CreatePreferenceCommand(MessageContext: new MessageContext(messageId: Guid.NewGuid(),
+                    command: new CreatePreferenceCommand(MessageContext: new MessageContext(
+                            messageId: Guid.CreateVersion7(),
                             correlationId: correlationId,
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
                             module: ModuleNames.UserPreferencesModule),
@@ -34,8 +35,8 @@ internal static class PreferencesDataInitializer
             PreferenceIds.Add(item: preference!.PreferenceId);
         }
 
-        await commandDispatcher.SendAsync(command: new UpdatePreferenceCommand(
-                MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: correlationId,
+        await commandDispatcher.SendAsync(command: new UpdatePreferenceCommand(MessageContext: new MessageContext(
+                    messageId: Guid.CreateVersion7(), correlationId: correlationId,
                     requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
                     module: ModuleNames.UserPreferencesModule), PreferenceId: PreferenceIds[index: 0],
                 Payload: new UpdatePreferenceRequest(

@@ -19,7 +19,7 @@ internal abstract class GetUserByIdQueryHandlerTestBase : TestBase<GetUserByIdQu
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid().ToString();
+        _userId = Guid.CreateVersion7().ToString();
 
         UserRepresentation user = new()
         {

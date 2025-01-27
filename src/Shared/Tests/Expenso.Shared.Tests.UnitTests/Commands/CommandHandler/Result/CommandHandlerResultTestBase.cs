@@ -11,7 +11,8 @@ internal abstract class CommandHandlerResultTestBase : TestBase<TestCommandHandl
     [SetUp]
     public void Setup()
     {
-        _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid(),
+        _testCommand = new TestCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Id: Guid.CreateVersion7(),
             Payload: "TkpxYGL8bVkwqDIo");
 
         TestCandidate = new TestCommandHandler();

@@ -31,11 +31,11 @@ internal abstract class
         [
             new JobEntry
             {
-                Id = Guid.NewGuid()
+                Id = Guid.CreateVersion7()
             },
             new JobEntry
             {
-                Id = Guid.NewGuid()
+                Id = Guid.CreateVersion7()
             }
         ];
 

@@ -24,8 +24,8 @@ internal abstract class TestBase
 
         MessageContextFactoryMock
             .Setup(expression: x => x.Current(It.IsAny<Guid?>(), It.IsAny<string?>()))
-            .Returns(value: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
-                requestedBy: Guid.NewGuid(), timestamp: DateTimeOffset.Now, module: "TestModule"));
+            .Returns(value: new MessageContext(messageId: Guid.CreateVersion7(), correlationId: Guid.CreateVersion7(),
+                requestedBy: Guid.CreateVersion7(), timestamp: DateTimeOffset.Now, module: "TestModule"));
 
         _httpClient = WebApp.Instance.GetHttpClient();
 

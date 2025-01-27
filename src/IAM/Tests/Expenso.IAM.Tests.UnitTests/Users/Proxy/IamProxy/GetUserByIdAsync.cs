@@ -41,7 +41,7 @@ internal sealed class GetUserByIdAsync : IamProxyTestBase
     public async Task Should_ThrowsNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
 
         _queryDispatcherMock
             .Setup(expression: x => x.QueryAsync(It.Is<GetUserByIdQuery>(y => y.Payload!.UserId == userId),

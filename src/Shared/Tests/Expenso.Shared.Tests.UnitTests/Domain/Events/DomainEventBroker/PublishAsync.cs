@@ -13,7 +13,7 @@ internal sealed class PublishAsync : DomainEventBrokerTestBase
     public async Task Should_PublishDomainEvent()
     {
         // Arrange
-        Guid testDomainEventId = Guid.NewGuid();
+        Guid testDomainEventId = Guid.CreateVersion7();
 
         TestDomainEvent testDomainEvent = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Id: testDomainEventId, Name: "UsWNuYtfQTtvYR");

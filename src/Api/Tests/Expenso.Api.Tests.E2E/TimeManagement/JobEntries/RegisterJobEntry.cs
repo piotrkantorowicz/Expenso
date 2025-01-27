@@ -58,7 +58,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         // Arrange
         // Act
         Func<Task> action = () => _timeManagementProxy.RegisterJobEntry(jobEntryRequest: CreateTestRequest(),
-            messageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+            messageContext: new MessageContext(messageId: Guid.CreateVersion7(), correlationId: Guid.CreateVersion7(),
                 requestedBy: TestClient.ClientId, timestamp: _clock.UtcNow, module: ModuleNames.TimeManagementModule));
 
         // Assert
@@ -72,10 +72,12 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
             new RegisterJobEntryRequestJobEntryTrigger(
                 EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                    MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+                    MessageContext: new MessageContext(messageId: Guid.CreateVersion7(),
+                        correlationId: Guid.CreateVersion7(),
                         requestedBy: TestClient.ClientId, timestamp: _clock.UtcNow,
                         module: ModuleNames.BudgetSharingModule),
-                    Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()))))
+                    Payload: new BudgetPermissionRequestExpiredPayload(
+                        BudgetPermissionRequestId: Guid.CreateVersion7()))))
         ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 5));
     }
 }

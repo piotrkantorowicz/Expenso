@@ -15,7 +15,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     public void Should_RemovePermission()
     {
         // Arrange
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
         TestCandidate = CreateTestCandidate();
         TestCandidate.AddPermission(participantId: participantId, permissionType: PermissionType.SubOwner);
         TestCandidate.GetUncommittedChanges();
@@ -39,7 +39,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
 
         // Act
         Action action = () => TestCandidate.RemovePermission(participantId: participantId);

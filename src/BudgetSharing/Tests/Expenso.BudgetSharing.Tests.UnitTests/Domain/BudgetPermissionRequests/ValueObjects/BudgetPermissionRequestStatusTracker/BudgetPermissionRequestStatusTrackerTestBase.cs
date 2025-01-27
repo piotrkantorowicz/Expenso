@@ -19,7 +19,7 @@ internal abstract class BudgetPermissionRequestStatusTrackerTestBase : TestBase<
 
         _budgetPermissionRequestId =
             BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId.New(
-                value: Guid.NewGuid());
+                value: Guid.CreateVersion7());
 
         DateTimeOffset submissionDate = SetupTestDates();
 

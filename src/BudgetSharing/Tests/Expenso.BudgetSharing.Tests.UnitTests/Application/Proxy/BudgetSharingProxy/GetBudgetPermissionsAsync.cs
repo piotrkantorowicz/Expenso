@@ -22,10 +22,11 @@ internal sealed class GetBudgetPermissionsAsync : BudgetSharingProxyTestBase
         GetBudgetPermissionsRequest request = new();
 
         IPagedList<GetBudgetPermissionsResponse> response = PagedList<GetBudgetPermissionsResponse>.Create([
-                new GetBudgetPermissionsResponse(Id: Guid.NewGuid(), BudgetId: Guid.NewGuid(), OwnerId: Guid.NewGuid(),
+                new GetBudgetPermissionsResponse(Id: Guid.CreateVersion7(), BudgetId: Guid.CreateVersion7(),
+                    OwnerId: Guid.CreateVersion7(),
                     BudgetCode: "BDGT/997/12/2024", Permissions: new List<GetBudgetPermissionsResponsePermission>
                     {
-                        new(ParticipantId: Guid.NewGuid(),
+                        new(ParticipantId: Guid.CreateVersion7(),
                             PermissionType: GetBudgetPermissionsResponsePermissionType.Reviewer)
                     })
             ], currentPage: PaginationDefaults.Page, resultsPerPage: PaginationDefaults.Limit,

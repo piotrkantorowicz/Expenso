@@ -11,7 +11,8 @@ internal abstract class QueryHandlerResultTestBase : TestBase<TestQueryHandler>
     [SetUp]
     public void Setup()
     {
-        _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid());
+        _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Id: Guid.CreateVersion7());
         TestCandidate = new TestQueryHandler();
     }
 

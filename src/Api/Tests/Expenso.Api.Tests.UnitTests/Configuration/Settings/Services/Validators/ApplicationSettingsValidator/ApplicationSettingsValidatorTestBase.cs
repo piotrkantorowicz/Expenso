@@ -15,7 +15,7 @@ internal abstract class
     {
         _applicationSettings = new ApplicationSettings
         {
-            InstanceId = Guid.NewGuid(),
+            InstanceId = Guid.CreateVersion7(),
             Name = "Test Application",
             Version = "0.0.0"
         };

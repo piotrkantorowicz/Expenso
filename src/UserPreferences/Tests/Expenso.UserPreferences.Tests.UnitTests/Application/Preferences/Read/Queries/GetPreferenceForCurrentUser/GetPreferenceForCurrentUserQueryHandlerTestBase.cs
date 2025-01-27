@@ -21,8 +21,8 @@ internal abstract class
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid();
-        _preferenceId = Guid.NewGuid();
+        _userId = Guid.CreateVersion7();
+        _preferenceId = Guid.CreateVersion7();
         _preference = PreferenceFactory.Create(preferenceId: _preferenceId, userId: _userId);
         _getPreferenceResponse = GetPreferenceForCurrentUserResponseMap.MapTo(preference: _preference);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();

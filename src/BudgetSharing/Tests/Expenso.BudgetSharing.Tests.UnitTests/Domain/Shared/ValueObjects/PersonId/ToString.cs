@@ -11,7 +11,7 @@ internal sealed class ToString : PersonIdTestBase
     public void Should_ReturnString()
     {
         // Arrange
-        Guid value = Guid.NewGuid();
+        Guid value = Guid.CreateVersion7();
 
         BudgetSharing.Domain.Shared.ValueObjects.PersonId sut =
             BudgetSharing.Domain.Shared.ValueObjects.PersonId.New(value: value);

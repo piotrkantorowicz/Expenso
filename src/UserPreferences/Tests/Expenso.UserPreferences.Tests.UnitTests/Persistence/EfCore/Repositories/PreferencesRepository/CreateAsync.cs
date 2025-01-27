@@ -16,7 +16,8 @@ internal sealed class CreateAsync : PreferenceRepositoryTestBase
     public async Task Should_CreatePreference_When_PreferenceDoesNotExist()
     {
         // Arrange
-        Preference preference = PreferenceFactory.Create(preferenceId: Guid.NewGuid(), userId: Guid.NewGuid());
+        Preference preference =
+            PreferenceFactory.Create(preferenceId: Guid.CreateVersion7(), userId: Guid.CreateVersion7());
 
         _preferenceDbSetMock
             .Setup(expression: x => x.AddAsync(preference, It.IsAny<CancellationToken>()))

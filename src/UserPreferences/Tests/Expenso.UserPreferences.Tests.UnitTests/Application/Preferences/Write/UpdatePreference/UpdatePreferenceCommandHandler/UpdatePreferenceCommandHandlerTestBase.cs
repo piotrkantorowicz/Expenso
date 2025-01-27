@@ -18,9 +18,9 @@ internal abstract class UpdatePreferenceCommandHandlerTestBase : TestBase<
     [SetUp]
     public void SetUp()
     {
-        _id = Guid.NewGuid();
-        _userId = Guid.NewGuid();
-        _preferenceId = Guid.NewGuid();
+        _id = Guid.CreateVersion7();
+        _userId = Guid.CreateVersion7();
+        _preferenceId = Guid.CreateVersion7();
         _preference = PreferenceFactory.Create(preferenceId: _preferenceId, userId: _userId);
         _preferenceRepositoryMock = new Mock<IPreferencesRepository>();
         _messageBrokerMock = new Mock<IMessageBroker>();

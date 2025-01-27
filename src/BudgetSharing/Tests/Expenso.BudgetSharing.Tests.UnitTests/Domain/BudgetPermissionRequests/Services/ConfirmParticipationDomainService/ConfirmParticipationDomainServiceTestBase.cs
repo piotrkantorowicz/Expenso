@@ -28,10 +28,10 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _budgetPermissionRequestRepositoryMock = new Mock<IBudgetPermissionRequestRepository>();
         _userPreferencesProxyMock = new Mock<IUserPreferencesProxy>();
         _clockMock = new Mock<IClock>();
-        _budgetId = BudgetId.New(value: Guid.NewGuid());
-        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
-        BudgetPermissionId budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
-        PersonId ownerId = PersonId.New(value: Guid.NewGuid());
+        _budgetId = BudgetId.New(value: Guid.CreateVersion7());
+        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.CreateVersion7());
+        BudgetPermissionId budgetPermissionId = BudgetPermissionId.New(value: Guid.CreateVersion7());
+        PersonId ownerId = PersonId.New(value: Guid.CreateVersion7());
         BudgetCode budgetCode = BudgetCode.New(value: "BDGT/11/12/2024");
 
         DateTimeOffset submissionDate = new(year: 2024, month: 1, day: 1, hour: 6, minute: 0, second: 0,
@@ -40,7 +40,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: submissionDate);
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,
-            budgetId: _budgetId, personId: PersonId.New(value: Guid.NewGuid()), ownerId: ownerId,
+            budgetId: _budgetId, personId: PersonId.New(value: Guid.CreateVersion7()), ownerId: ownerId,
             budgetCode: budgetCode, permissionType: PermissionType.SubOwner,
             expirationDate: _clockMock.Object.UtcNow.AddDays(days: 3), submissionDate: _clockMock.Object.UtcNow);
 
@@ -58,7 +58,7 @@ internal abstract class ConfirmParticipationDomainServiceTestBase : DomainTestBa
 
         _budgetPermission.AddPermission(participantId: ownerId, permissionType: PermissionType.Owner);
 
-        _getPreferenceResponse = new GetPreferencesResponse(Id: Guid.NewGuid(), UserId: ownerId.Value,
+        _getPreferenceResponse = new GetPreferencesResponse(Id: Guid.CreateVersion7(), UserId: ownerId.Value,
             FinancePreference: new GetPreferencesResponseFinancePreference(AllowAddFinancePlanSubOwners: true,
                 MaxNumberOfSubFinancePlanSubOwners: 1, AllowAddFinancePlanReviewers: true,
                 MaxNumberOfFinancePlanReviewers: 3), NotificationPreference: null, GeneralPreference: null);

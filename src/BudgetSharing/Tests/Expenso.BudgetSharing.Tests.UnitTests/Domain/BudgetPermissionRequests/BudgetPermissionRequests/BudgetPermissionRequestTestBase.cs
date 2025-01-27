@@ -19,11 +19,11 @@ internal abstract class BudgetPermissionRequestTestBase : DomainTestBase<BudgetP
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
 
         _defaultBudgetPermissionId =
-            BudgetPermissionRequestId.New(value: new Guid(g: "96316d8b-e18b-4578-ac0e-df9cdc337155"));
+            BudgetPermissionRequestId.New(value: new Guid(g: "0194a81a-48c6-7e75-8610-f295c9c57996"));
 
-        _defaultPersonId = PersonId.New(value: new Guid(g: "be3220e9-54da-4013-a0dd-72db7ef3b53e"));
-        _defaultOwnerId = PersonId.New(value: new Guid(g: "fabfae93-2257-4bbc-ac90-8319d42c4836"));
-        _defaultBudgetId = BudgetId.New(value: new Guid(g: "c3e578f3-8ec1-4fbd-b680-64f9bbc77eba"));
+        _defaultPersonId = PersonId.New(value: new Guid(g: "0194a81a-48c6-78fb-8e0c-35710bd1d287"));
+        _defaultOwnerId = PersonId.New(value: new Guid(g: "0194a81a-48c6-779a-a1f9-e0b069274449"));
+        _defaultBudgetId = BudgetId.New(value: new Guid(g: "0194a81a-48c6-7fd1-b19a-51a60562805d"));
         _budgetCode = BudgetCode.New(value: "BDGT/1004/12/2024");
         _defaultPermissionType = PermissionType.Reviewer;
     }

@@ -15,7 +15,7 @@ internal sealed class SendAsync : CommandDispatcherTestBase
     public async Task Should_SendCommand()
     {
         // Arrange
-        Guid testCommandId = Guid.NewGuid();
+        Guid testCommandId = Guid.CreateVersion7();
 
         TestCommand testCommand = new(MessageContext: MessageContextFactoryMock.Object.Current(), Id: testCommandId,
             Payload: "UsWNuYtfQTtvYR");

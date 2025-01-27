@@ -14,7 +14,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
         PermissionType permissionType = PermissionType.SubOwner;
 
         // Act
@@ -53,7 +53,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
         PermissionType permissionType = PermissionType.None;
 
         // Act
@@ -69,7 +69,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
         PermissionType? permissionType = null;
 
         // Act
@@ -85,7 +85,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate();
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
 
         // Act
         Action action = () =>
@@ -101,7 +101,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     {
         // Arrange
         TestCandidate = CreateTestCandidate(createDefaultPermission: false);
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
 
         // Act
         Action action = () =>

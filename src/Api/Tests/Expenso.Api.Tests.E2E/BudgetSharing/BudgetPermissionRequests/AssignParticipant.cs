@@ -21,7 +21,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
         const string requestPath = "budget-sharing/budget-permission-requests";
-        Guid budgetPermissioRequestId = Guid.NewGuid();
+        Guid budgetPermissioRequestId = Guid.CreateVersion7();
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,

@@ -17,7 +17,7 @@ internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
 
         for (int i = 0; i < 5; i++)
         {
-            Guid testDomainEventId = Guid.NewGuid();
+            Guid testDomainEventId = Guid.CreateVersion7();
 
             TestDomainEvent testDomainEvent = new(MessageContext: MessageContextFactoryMock.Object.Current(),
                 Id: testDomainEventId, Name: "UsWNuYtfQTtvYR");

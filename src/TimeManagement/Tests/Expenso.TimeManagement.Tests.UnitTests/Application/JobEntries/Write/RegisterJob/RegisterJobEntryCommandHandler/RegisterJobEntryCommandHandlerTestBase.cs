@@ -32,7 +32,7 @@ internal abstract class
 
         _eventTrigger = new BudgetPermissionRequestExpiredIntegrationEvent(
             MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
+            Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.CreateVersion7()));
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: _eventTrigger);
         _clockMock = new Mock<IClock>();
@@ -45,7 +45,7 @@ internal abstract class
             .Setup(expression: x => x.Resolve(It.IsAny<AllowedEventType>()))
             .Returns(value: typeof(BudgetPermissionRequestExpiredIntegrationEvent));
 
-        _jobEntryId = Guid.NewGuid();
+        _jobEntryId = Guid.CreateVersion7();
 
         _registerJobEntryCommand = new RegisterJobEntryCommand(
             MessageContext: MessageContextFactoryMock.Object.Current(), Payload: new RegisterJobEntryRequest(

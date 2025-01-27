@@ -16,9 +16,9 @@ internal static class DocumentManagementDataInitializer
     public static async Task InitializeAsync(IDocumentManagementProxy documentManagementProxy, IClock clock,
         CancellationToken cancellationToken)
     {
-        Guid correlationId = Guid.NewGuid();
+        Guid correlationId = Guid.CreateVersion7();
 
-        MessageContext messageContext = new(messageId: Guid.NewGuid(), correlationId: correlationId,
+        MessageContext messageContext = new(messageId: Guid.CreateVersion7(), correlationId: correlationId,
             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: ModuleNames.DocumentManagementModule);
 
         UploadFilesRequest uploadFilesRequest = new(UserId: UserDataInitializer.UserIds[index: 4], Groups: null, Files:

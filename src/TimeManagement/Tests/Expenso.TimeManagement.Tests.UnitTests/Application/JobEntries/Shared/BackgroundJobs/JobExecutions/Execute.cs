@@ -101,7 +101,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Arrange
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>()
         };
 
@@ -140,7 +140,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             LastRun = utcClock.AddMinutes(minutes: -15),
             Triggers = new List<JobEntryTrigger>
             {
@@ -187,7 +187,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             CronExpression = $"* * * * {(int)utcClock.DayOfWeek}",
             Triggers = new List<JobEntryTrigger>
             {
@@ -228,7 +228,7 @@ internal sealed class Execute : JobExecutionTestBase
         // Arrange
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>
             {
                 new()
@@ -265,14 +265,14 @@ internal sealed class Execute : JobExecutionTestBase
         // Arrange
         JobEntryTrigger trigger = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             EventData = "7uU9Wpa",
             EventType = typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName
         };
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>
             {
                 trigger
@@ -315,7 +315,7 @@ internal sealed class Execute : JobExecutionTestBase
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>
             {
                 new()
@@ -352,18 +352,18 @@ internal sealed class Execute : JobExecutionTestBase
         // Arrange
         BudgetPermissionRequestExpiredIntegrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(),
-                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.CreateVersion7()));
 
         JobEntryTrigger trigger = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             EventData = JsonSerializer.Serialize(value: eventData),
             EventType = $"{eventData.GetType().AssemblyQualifiedName}"
         };
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>
             {
                 trigger
@@ -413,18 +413,18 @@ internal sealed class Execute : JobExecutionTestBase
 
         BudgetPermissionRequestExpiredIntegrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(),
-                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.CreateVersion7()));
 
         JobEntryTrigger trigger = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             EventData = JsonSerializer.Serialize(value: eventData),
             EventType = $"{typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName}"
         };
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>
             {
                 trigger
@@ -478,18 +478,18 @@ internal sealed class Execute : JobExecutionTestBase
 
         BudgetPermissionRequestExpiredIntegrationEvent eventData =
             new(MessageContext: MessageContextFactoryMock.Object.Current(),
-                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
+                Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.CreateVersion7()));
 
         JobEntryTrigger trigger = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             EventData = JsonSerializer.Serialize(value: eventData),
             EventType = $"{typeof(BudgetPermissionRequestExpiredIntegrationEvent).AssemblyQualifiedName}"
         };
 
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Triggers = new List<JobEntryTrigger>
             {
                 trigger
