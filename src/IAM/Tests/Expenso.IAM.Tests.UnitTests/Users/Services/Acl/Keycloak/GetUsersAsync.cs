@@ -24,7 +24,7 @@ internal sealed class GetUsersAsync : UserServiceTestBase
         // Arrange
         UserRepresentation secondUser = new()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.CreateVersion7().ToString(),
             FirstName = "Brenda",
             LastName = "Mai",
             Username = "BrendaMai",

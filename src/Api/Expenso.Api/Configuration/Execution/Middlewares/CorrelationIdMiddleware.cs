@@ -12,7 +12,7 @@ internal sealed class CorrelationIdMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        string correlationId = Guid.NewGuid().ToString();
+        string correlationId = Guid.CreateVersion7().ToString();
         context.Request.Headers.Append(key: CorrelationHeaderKey, value: correlationId);
 
         context.Response.OnStarting(callback: () =>

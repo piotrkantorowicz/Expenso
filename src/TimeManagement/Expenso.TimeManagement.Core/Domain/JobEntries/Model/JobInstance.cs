@@ -4,7 +4,7 @@ internal sealed record JobInstance
 {
     public static JobInstance Default => new()
     {
-        Id = new Guid(g: "d8fc5aed-cc40-4484-864f-945480daa236"),
+        Id = new Guid(g: "0194a81a-48c6-7999-a548-83dcdd75efa9"),
         Name = "Default",
         RunningDelay = 10
     };

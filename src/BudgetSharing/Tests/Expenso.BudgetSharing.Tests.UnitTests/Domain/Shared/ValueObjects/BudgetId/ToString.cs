@@ -11,7 +11,7 @@ internal sealed class ToString : BudgetIdTestBase
     public void Should_ReturnString()
     {
         // Arrange
-        Guid value = Guid.NewGuid();
+        Guid value = Guid.CreateVersion7();
 
         BudgetSharing.Domain.Shared.ValueObjects.BudgetId sut =
             BudgetSharing.Domain.Shared.ValueObjects.BudgetId.New(value: value);

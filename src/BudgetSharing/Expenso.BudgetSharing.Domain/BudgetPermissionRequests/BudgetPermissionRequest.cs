@@ -76,7 +76,8 @@ public sealed class BudgetPermissionRequest : IAggregateRoot
         DateAndTime expirationDate, DateAndTime submissionDate)
     {
         return new BudgetPermissionRequest(
-            id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.NewGuid()), budgetId: budgetId,
+            id: budgetPermissionRequestId ?? BudgetPermissionRequestId.New(value: Guid.CreateVersion7()),
+            budgetId: budgetId,
             budgetCode: budgetCode, ownerId: ownerId, participantId: personId, permissionType: permissionType,
             status: BudgetPermissionRequestStatus.Pending, expirationDate: expirationDate,
             submissionDate: submissionDate);

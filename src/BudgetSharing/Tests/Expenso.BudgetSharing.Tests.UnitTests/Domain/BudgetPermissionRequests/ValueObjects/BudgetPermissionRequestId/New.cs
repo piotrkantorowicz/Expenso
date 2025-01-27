@@ -13,7 +13,7 @@ internal sealed class New : BudgetPermissionRequestIdTestBase
     public void Should_CreateTypedId()
     {
         // Arrange
-        Guid value = Guid.NewGuid();
+        Guid value = Guid.CreateVersion7();
 
         // Act
         BudgetSharing.Domain.BudgetPermissionRequests.ValueObjects.BudgetPermissionRequestId result =

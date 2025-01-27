@@ -23,7 +23,7 @@ internal sealed class HandleAsync : DeleteFilesCommandHandlerTestBase
             "fileName2"
         ];
 
-        Guid userId = Guid.NewGuid();
+        Guid userId = Guid.CreateVersion7();
 
         DeleteFilesCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new DeleteFilesRequest(UserId: userId, Groups: null, FileNames: fileNames,

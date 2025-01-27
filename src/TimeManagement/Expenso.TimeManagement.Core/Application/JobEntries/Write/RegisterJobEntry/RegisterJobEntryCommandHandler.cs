@@ -89,7 +89,7 @@ internal sealed class
     {
         return new JobEntry
         {
-            Id = jobEntry?.JobEntryId ?? Guid.NewGuid(),
+            Id = jobEntry?.JobEntryId ?? Guid.CreateVersion7(),
             JobInstanceId = jobInstance?.Id ?? throw new ArgumentNullException(paramName: nameof(jobInstance)),
             CronExpression = jobEntry?.Interval?.GetCronExpression(),
             RunAt = jobEntry?.RunAt,
@@ -112,7 +112,7 @@ internal sealed class
 
                 return new JobEntryTrigger
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.CreateVersion7(),
                     EventType = eventType.AssemblyQualifiedName,
                     EventData = x.EventData
                 };

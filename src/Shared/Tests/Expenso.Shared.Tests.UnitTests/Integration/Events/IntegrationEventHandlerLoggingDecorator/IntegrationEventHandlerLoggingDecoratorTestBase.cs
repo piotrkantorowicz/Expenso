@@ -20,7 +20,7 @@ internal abstract class
     public void Setup()
     {
         _testIntegrationEvent = new TestIntegrationEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-            MessageId: Guid.NewGuid(), Payload: "JYi9R7e7v2Qor");
+            MessageId: Guid.CreateVersion7(), Payload: "JYi9R7e7v2Qor");
 
         _loggerMock = new Mock<ILoggerService<IntegrationEventHandlerLoggingDecorator<TestIntegrationEvent>>>();
         _integrationEventHandlerMock = new Mock<IIntegrationEventHandler<TestIntegrationEvent>>();

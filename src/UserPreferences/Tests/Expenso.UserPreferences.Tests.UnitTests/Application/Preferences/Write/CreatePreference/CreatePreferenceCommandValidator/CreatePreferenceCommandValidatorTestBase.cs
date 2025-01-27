@@ -18,7 +18,7 @@ internal abstract class CreatePreferenceCommandValidatorTestBase : TestBase<
     {
         _createPreferenceCommand = new CreatePreferenceCommand(
             MessageContext: MessageContextFactoryMock.Object.Current(),
-            Payload: new CreatePreferenceRequest(PreferenceId: Guid.NewGuid(), UserId: Guid.NewGuid()));
+            Payload: new CreatePreferenceRequest(PreferenceId: Guid.CreateVersion7(), UserId: Guid.CreateVersion7()));
 
         TestCandidate =
             new Core.Application.Preferences.Write.Commands.CreatePreference.CreatePreferenceCommandValidator(

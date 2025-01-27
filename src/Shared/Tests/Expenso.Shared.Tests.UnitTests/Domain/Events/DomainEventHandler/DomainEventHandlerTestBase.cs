@@ -15,7 +15,7 @@ internal abstract class DomainEventHandlerTestBase : TestBase<TestDomainEventHan
     public void Setup()
     {
         _testDomainEvent = new TestDomainEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-            Id: Guid.NewGuid(), Name: "GiKyb3G");
+            Id: Guid.CreateVersion7(), Name: "GiKyb3G");
 
         _loggerMock = new Mock<ILoggerService<TestDomainEventHandler>>();
         TestCandidate = new TestDomainEventHandler(logger: _loggerMock.Object);

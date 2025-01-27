@@ -19,7 +19,7 @@ internal sealed class AddOrUpdateAsync : JobEntryRepositoryTestBase
         // Arrange
         JobEntry jobEntry = new()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             CurrentRetries = 0,
             MaxRetries = 3,
             IsCompleted = false,

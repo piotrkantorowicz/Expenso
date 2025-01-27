@@ -18,7 +18,7 @@ internal abstract class
     public void SetUp()
     {
         _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
-        _jobEntryId = Guid.NewGuid();
+        _jobEntryId = Guid.CreateVersion7();
 
         _getJobEntryQuery = new GetJobEntryQuery(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new GetJobEntryRequest(JobEntryId: _jobEntryId));

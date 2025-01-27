@@ -33,11 +33,11 @@ internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBas
             .Returns(value: new DateTimeOffset(year: 2024, month: 1, day: 1, hour: 0, minute: 0, second: 0,
                 offset: TimeSpan.Zero));
 
-        _budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
-        _participantId = PersonId.New(value: Guid.NewGuid());
-        _budgetId = BudgetId.New(value: Guid.NewGuid());
-        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
-        _ownerId = PersonId.New(value: Guid.NewGuid());
+        _budgetPermissionId = BudgetPermissionId.New(value: Guid.CreateVersion7());
+        _participantId = PersonId.New(value: Guid.CreateVersion7());
+        _budgetId = BudgetId.New(value: Guid.CreateVersion7());
+        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.CreateVersion7());
+        _ownerId = PersonId.New(value: Guid.CreateVersion7());
         _budgetCode = BudgetCode.New(value: "BDGT/1021/12/2024");
 
         _getUserByEmailResponse = new GetUserByEmailResponse(UserId: _participantId.Value.ToString(),

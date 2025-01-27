@@ -30,7 +30,7 @@ internal sealed class SendNotificationAsync : CommunicationTestBase
 
         // Act
         Func<Task> action = () => _communicationProxy.SendNotificationAsync(request: request,
-            messageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+            messageContext: new MessageContext(messageId: Guid.CreateVersion7(), correlationId: Guid.CreateVersion7(),
                 requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: ModuleNames.CommunicationModule),
             cancellationToken: It.IsAny<CancellationToken>());
 

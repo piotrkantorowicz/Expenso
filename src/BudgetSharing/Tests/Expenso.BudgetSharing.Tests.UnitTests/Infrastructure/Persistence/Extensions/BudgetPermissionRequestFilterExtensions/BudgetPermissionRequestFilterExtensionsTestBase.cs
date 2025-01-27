@@ -20,12 +20,12 @@ internal abstract class BudgetPermissionRequestFilterExtensionsTestBase : Domain
     {
         _clockMock = new Mock<IClock>();
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: DateTimeOffset.UtcNow);
-        _budgetId = BudgetId.New(value: Guid.NewGuid());
+        _budgetId = BudgetId.New(value: Guid.CreateVersion7());
         _budgetCode = BudgetCode.New(value: "BDGT/432/12/2024");
         _status = BudgetPermissionRequestStatus.Pending;
-        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.NewGuid());
-        _participantId = PersonId.New(value: Guid.NewGuid());
-        _ownerId = PersonId.New(value: Guid.NewGuid());
+        _budgetPermissionRequestId = BudgetPermissionRequestId.New(value: Guid.CreateVersion7());
+        _participantId = PersonId.New(value: Guid.CreateVersion7());
+        _ownerId = PersonId.New(value: Guid.CreateVersion7());
         _permissionType = PermissionType.Reviewer;
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(budgetPermissionRequestId: _budgetPermissionRequestId,

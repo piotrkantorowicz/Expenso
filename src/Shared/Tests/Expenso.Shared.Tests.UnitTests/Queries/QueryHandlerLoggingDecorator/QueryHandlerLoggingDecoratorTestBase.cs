@@ -18,7 +18,8 @@ internal abstract class
     [SetUp]
     public void Setup()
     {
-        _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(), Id: Guid.NewGuid());
+        _testQuery = new TestQuery(MessageContext: MessageContextFactoryMock.Object.Current(),
+            Id: Guid.CreateVersion7());
         _loggerMock = new Mock<ILoggerService<QueryHandlerLoggingDecorator<TestQuery, TestResponse>>>();
         _queryHandlerMock = new Mock<IQueryHandler<TestQuery, TestResponse>>();
         _serializerMock = new Mock<ISerializer>();

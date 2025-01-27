@@ -19,8 +19,8 @@ internal abstract class UserPreferencesProxyTestBase : TestBase<IUserPreferences
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid();
-        _id = Guid.NewGuid();
+        _userId = Guid.CreateVersion7();
+        _id = Guid.CreateVersion7();
         _queryDispatcherMock = new Mock<IQueryDispatcher>();
         _commandDispatcherMock = new Mock<ICommandDispatcher>();
 

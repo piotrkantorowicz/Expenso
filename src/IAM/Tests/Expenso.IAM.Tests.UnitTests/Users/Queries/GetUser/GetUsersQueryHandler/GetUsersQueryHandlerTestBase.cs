@@ -21,7 +21,7 @@ internal abstract class
     [SetUp]
     public void SetUp()
     {
-        _userId = Guid.NewGuid().ToString();
+        _userId = Guid.CreateVersion7().ToString();
 
         IEnumerable<UserRepresentation> users =
         [
@@ -35,7 +35,7 @@ internal abstract class
             },
             new()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.CreateVersion7().ToString(),
                 FirstName = "Brenda",
                 LastName = "Mai",
                 Username = "BrendaMai",

@@ -20,7 +20,7 @@ internal abstract class
     {
         _jobEntryRepositoryMock = new Mock<IJobEntryRepository>();
         _jobEntryStatusReposiotry = new Mock<IJobEntryStatusRepository>();
-        _jobEntryId = Guid.NewGuid();
+        _jobEntryId = Guid.CreateVersion7();
 
         _cancelJobEntryCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId));

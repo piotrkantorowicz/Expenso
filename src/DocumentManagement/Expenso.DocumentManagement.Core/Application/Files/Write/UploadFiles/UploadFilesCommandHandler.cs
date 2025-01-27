@@ -34,7 +34,7 @@ internal sealed class UploadFilesCommandHandler : ICommandHandler<UploadFilesCom
                 throw new EmptyFileContentException();
             }
 
-            string validatedFileName = file.Name ?? $"{Guid.NewGuid()}.{FileExtensions.Xlsx}";
+            string validatedFileName = file.Name ?? $"{Guid.CreateVersion7()}.{FileExtensions.Xlsx}";
 
             await _fileStorage.SaveAsync(directoryPath: directoryPath, fileName: validatedFileName,
                 byteContent: file.Content, cancellationToken: cancellationToken);

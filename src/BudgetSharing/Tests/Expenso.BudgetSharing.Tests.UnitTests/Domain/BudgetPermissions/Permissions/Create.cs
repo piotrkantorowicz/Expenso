@@ -31,7 +31,7 @@ internal sealed class Create : PermissionTestBase
     public void Should_ReturnPermission_When_Created(PermissionType permissionType)
     {
         // Arrange
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
 
         // Act
         Permission result = Permission.Create(participantId: participantId, permissionType: permissionType);
@@ -46,7 +46,7 @@ internal sealed class Create : PermissionTestBase
     public void Should_ThrowDomainRuleValidationException_When_PermissionTypeIsNone()
     {
         // Arrange
-        PersonId participantId = PersonId.New(value: Guid.NewGuid());
+        PersonId participantId = PersonId.New(value: Guid.CreateVersion7());
         PermissionType permissionType = PermissionType.None;
 
         // Act

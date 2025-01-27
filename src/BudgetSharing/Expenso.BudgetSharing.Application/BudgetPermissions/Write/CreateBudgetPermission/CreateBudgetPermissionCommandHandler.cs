@@ -23,7 +23,7 @@ internal sealed class
         CancellationToken cancellationToken)
     {
         BudgetPermissionId budgetPermissionId =
-            BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId ?? Guid.NewGuid());
+            BudgetPermissionId.New(value: command.Payload?.BudgetPermissionId ?? Guid.CreateVersion7());
 
         BudgetPermission budgetPermission = BudgetPermission.Create(budgetPermissionId: budgetPermissionId,
             budgetCode: BudgetCode.New(value: command.Payload?.BudgetCode),

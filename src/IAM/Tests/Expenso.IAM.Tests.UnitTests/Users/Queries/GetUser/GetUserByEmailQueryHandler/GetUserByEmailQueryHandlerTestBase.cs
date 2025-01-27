@@ -24,7 +24,7 @@ internal abstract class
 
         UserRepresentation user = new()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.CreateVersion7().ToString(),
             FirstName = "Valentina",
             LastName = "Long",
             Username = "vLong",

@@ -16,11 +16,11 @@ internal abstract class BudgetPermissionFilterExtensionsTestBase : DomainTestBas
     [SetUp]
     public void SetUp()
     {
-        _budgetId = BudgetId.New(value: Guid.NewGuid());
+        _budgetId = BudgetId.New(value: Guid.CreateVersion7());
         _budgetCode = BudgetCode.New(value: "BDGT/34/12/2024");
-        _ownerId = PersonId.New(value: Guid.NewGuid());
-        _budgetPermissionId = BudgetPermissionId.New(value: Guid.NewGuid());
-        _participantId = PersonId.New(value: Guid.NewGuid());
+        _ownerId = PersonId.New(value: Guid.CreateVersion7());
+        _budgetPermissionId = BudgetPermissionId.New(value: Guid.CreateVersion7());
+        _participantId = PersonId.New(value: Guid.CreateVersion7());
         _permissionType = PermissionType.Reviewer;
         Mock<IBudgetPermissionRepository> budgetPermissionRepositoryMock = new();
 

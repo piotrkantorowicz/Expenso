@@ -30,7 +30,7 @@ internal abstract class
     public void SetUp()
     {
         BudgetPermissionRequestExpiredIntegrationEvent eventTrigger = new(MessageContext: null!,
-            Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.NewGuid()));
+            Payload: new BudgetPermissionRequestExpiredPayload(BudgetPermissionRequestId: Guid.CreateVersion7()));
 
         string eventTriggerPayload = JsonSerializer.Serialize(value: eventTrigger);
         _clockMock = new Mock<IClock>();

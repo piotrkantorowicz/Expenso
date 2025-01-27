@@ -20,9 +20,9 @@ internal static class TimeManagementDataInitializer
     public static async Task InitializeAsync(ITimeManagementProxy timeManagementProxy, IClock clock,
         CancellationToken cancellationToken)
     {
-        Guid correlationId = Guid.NewGuid();
+        Guid correlationId = Guid.CreateVersion7();
 
-        MessageContext messageContext = new(messageId: Guid.NewGuid(), correlationId: correlationId,
+        MessageContext messageContext = new(messageId: Guid.CreateVersion7(), correlationId: correlationId,
             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow, module: ModuleNames.TimeManagementModule);
 
         for (int i = 0; i < NumberOfEntries; i++)
@@ -32,7 +32,8 @@ internal static class TimeManagementDataInitializer
                 new RegisterJobEntryRequestJobEntryTrigger(
                     EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                     EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
-                        MessageContext: new MessageContext(messageId: Guid.NewGuid(), correlationId: Guid.NewGuid(),
+                        MessageContext: new MessageContext(messageId: Guid.CreateVersion7(),
+                            correlationId: Guid.CreateVersion7(),
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
                             module: ModuleNames.BudgetSharingModule),
                         Payload: new BudgetPermissionRequestExpiredPayload(

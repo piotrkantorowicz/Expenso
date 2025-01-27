@@ -39,7 +39,7 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
     public async Task Should_ThrowNotFoundException_When_UserDoesNotExists()
     {
         // Arrange
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
 
         _keycloakUserClientMock.Setup(expression: x =>
                 x.GetUserAsync(It.IsAny<string>(), userId, false, It.IsAny<CancellationToken>()))!

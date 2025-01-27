@@ -66,9 +66,9 @@ internal sealed class Get : ExecutionContextAccessorTestBase
     {
         // Arrange
         const string? username = "Phasellusfeugiat";
-        string userId = Guid.NewGuid().ToString();
+        string userId = Guid.CreateVersion7().ToString();
         UserContext expectedUser = new(UserId: userId, Username: username);
-        Guid expectedCorrelationId = Guid.NewGuid();
+        Guid expectedCorrelationId = Guid.CreateVersion7();
 
         DefaultHttpContext httpContext = new()
         {

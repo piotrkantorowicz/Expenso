@@ -27,7 +27,7 @@ internal sealed class GetAsync : JobInstanceRepositoryTestBase
     public async Task Should_ReturnNull_When_NotExists()
     {
         // Arrange
-        Guid jobInstanceId = Guid.NewGuid();
+        Guid jobInstanceId = Guid.CreateVersion7();
 
         // Act
         JobInstance? jobInstance = await TestCandidate.GetAsync(id: jobInstanceId, cancellationToken: default);

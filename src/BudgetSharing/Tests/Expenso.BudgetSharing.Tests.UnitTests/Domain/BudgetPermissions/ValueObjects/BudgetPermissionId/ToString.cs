@@ -11,7 +11,7 @@ internal sealed class ToString : BudgetPermissionIdTestBase
     public void Should_ReturnString()
     {
         // Arrange
-        Guid value = Guid.NewGuid();
+        Guid value = Guid.CreateVersion7();
 
         BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId sut =
             BudgetSharing.Domain.BudgetPermissions.ValueObjects.BudgetPermissionId.New(value: value);

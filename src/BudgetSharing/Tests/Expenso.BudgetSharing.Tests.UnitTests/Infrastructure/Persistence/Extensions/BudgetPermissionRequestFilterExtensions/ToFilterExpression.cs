@@ -55,7 +55,7 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
             nameof(BudgetPermissionRequestQuerySpecification.Id) when expectedResult is false => new
                 BudgetPermissionRequestQuerySpecification
             {
-                Id = BudgetPermissionRequestId.New(value: Guid.NewGuid())
+                Id = BudgetPermissionRequestId.New(value: Guid.CreateVersion7())
             },
             nameof(BudgetPermissionRequestQuerySpecification.BudgetId) when expectedResult => new
                 BudgetPermissionRequestQuerySpecification
@@ -65,7 +65,7 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
             nameof(BudgetPermissionRequestQuerySpecification.BudgetId) when expectedResult is false => new
                 BudgetPermissionRequestQuerySpecification
                 {
-                    BudgetId = BudgetId.New(value: Guid.NewGuid())
+                    BudgetId = BudgetId.New(value: Guid.CreateVersion7())
                 },
             nameof(BudgetPermissionRequestQuerySpecification.BudgetCode) when expectedResult => new
                 BudgetPermissionRequestQuerySpecification
@@ -85,7 +85,7 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
             nameof(BudgetPermissionRequestQuerySpecification.OwnerId)when expectedResult is false => new
                 BudgetPermissionRequestQuerySpecification
                 {
-                    OwnerId = PersonId.New(value: Guid.NewGuid())
+                    OwnerId = PersonId.New(value: Guid.CreateVersion7())
                 },
             nameof(BudgetPermissionRequestQuerySpecification.ParticipantId)when expectedResult => new
                 BudgetPermissionRequestQuerySpecification
@@ -95,7 +95,7 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
             nameof(BudgetPermissionRequestQuerySpecification.ParticipantId)when expectedResult is false => new
                 BudgetPermissionRequestQuerySpecification
                 {
-                    ParticipantId = PersonId.New(value: Guid.NewGuid())
+                    ParticipantId = PersonId.New(value: Guid.CreateVersion7())
                 },
             nameof(BudgetPermissionRequestQuerySpecification.PermissionTypes) when expectedResult => new
                 BudgetPermissionRequestQuerySpecification

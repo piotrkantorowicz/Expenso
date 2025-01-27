@@ -32,7 +32,7 @@ internal sealed class
         BudgetPermissionRequest budgetPermissionRequest =
             await _iAssignParticipationDomainService.AssignParticipantAsync(
                 budgetPermissionRequestId: BudgetPermissionRequestId.New(
-                    value: command.Payload?.BudgetPermissionRequestId ?? Guid.NewGuid()),
+                    value: command.Payload?.BudgetPermissionRequestId ?? Guid.CreateVersion7()),
                 budgetId: BudgetId.New(value: command.Payload?.BudgetId), email: command.Payload?.Email,
                 permissionType: AssignParticipantRequestMap.ToPermissionType(
                     assignParticipantRequestPermissionType: command.Payload?.PermissionType),

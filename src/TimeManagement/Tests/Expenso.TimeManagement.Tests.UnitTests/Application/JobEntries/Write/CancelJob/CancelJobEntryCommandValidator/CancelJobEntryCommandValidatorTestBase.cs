@@ -16,7 +16,7 @@ internal abstract class
     [SetUp]
     public void SetUp()
     {
-        _jobEntryId = Guid.NewGuid();
+        _jobEntryId = Guid.CreateVersion7();
 
         _cancelJobCommand = new CancelJobEntryCommand(MessageContext: MessageContextFactoryMock.Object.Current(),
             Payload: new CancelJobEntryRequest(JobEntryId: _jobEntryId.Value));

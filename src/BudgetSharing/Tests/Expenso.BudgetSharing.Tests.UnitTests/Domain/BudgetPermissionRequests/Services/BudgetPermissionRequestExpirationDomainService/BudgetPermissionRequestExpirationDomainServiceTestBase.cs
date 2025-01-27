@@ -29,9 +29,9 @@ internal abstract class
         _clockMock.Setup(expression: x => x.UtcNow).Returns(value: baseDate);
 
         _budgetPermissionRequest = BudgetPermissionRequest.Create(
-            budgetPermissionRequestId: BudgetPermissionRequestId.New(value: Guid.NewGuid()),
-            budgetId: BudgetId.New(value: Guid.NewGuid()), personId: PersonId.New(value: Guid.NewGuid()),
-            ownerId: PersonId.New(value: Guid.NewGuid()), budgetCode: BudgetCode.New(value: "BDGT/123/12/2024"),
+            budgetPermissionRequestId: BudgetPermissionRequestId.New(value: Guid.CreateVersion7()),
+            budgetId: BudgetId.New(value: Guid.CreateVersion7()), personId: PersonId.New(value: Guid.CreateVersion7()),
+            ownerId: PersonId.New(value: Guid.CreateVersion7()), budgetCode: BudgetCode.New(value: "BDGT/123/12/2024"),
             permissionType: PermissionType.SubOwner, expirationDate: baseDate.AddDays(days: DefaultExpirationDays),
             submissionDate: baseDate);
 

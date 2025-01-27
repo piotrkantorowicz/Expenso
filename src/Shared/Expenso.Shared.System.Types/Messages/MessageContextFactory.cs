@@ -36,7 +36,7 @@ internal sealed class MessageContextFactory : IMessageContextFactory
 
         string resolvedModuleId = !string.IsNullOrWhiteSpace(value: moduleId) ? moduleId : executionContextModuleId;
 
-        return new MessageContext(messageId: messageId ?? Guid.NewGuid(),
+        return new MessageContext(messageId: messageId ?? Guid.CreateVersion7(),
             correlationId: executionContext?.CorrelationId ?? Guid.Empty, requestedBy: requestedBy,
             timestamp: clock.UtcNow, module: resolvedModuleId);
     }
@@ -51,7 +51,7 @@ internal sealed class MessageContextFactory : IMessageContextFactory
         using IServiceScope scope = _serviceProvider.CreateScope();
         IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
-        return new MessageContext(messageId: messageId ?? Guid.NewGuid(), correlationId: parent.CorrelationId,
+        return new MessageContext(messageId: messageId ?? Guid.CreateVersion7(), correlationId: parent.CorrelationId,
             requestedBy: parent.RequestedBy, timestamp: clock.UtcNow,
             module: string.IsNullOrWhiteSpace(value: moduleId) ? "Unknown" : moduleId);
     }

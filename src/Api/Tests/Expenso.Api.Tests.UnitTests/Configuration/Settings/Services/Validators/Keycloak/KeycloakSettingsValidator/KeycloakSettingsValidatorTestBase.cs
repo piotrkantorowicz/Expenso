@@ -28,7 +28,7 @@ internal abstract class
             VerifyTokenAudience = true,
             Credentials = new KeycloakClientInstallationCredentials
             {
-                Secret = Guid.NewGuid().ToString()
+                Secret = Guid.CreateVersion7().ToString()
             }
         };
 

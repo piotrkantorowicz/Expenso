@@ -18,7 +18,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
     public async Task Should_SaveFile()
     {
         // Arrange
-        Guid userId = Guid.NewGuid();
+        Guid userId = Guid.CreateVersion7();
         const string fileName = "fileName";
         const string directoryPath = "directoryPath";
         byte[] byteContent = [1, 2, 3];
@@ -50,7 +50,7 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
     public async Task Should_ThrowEmptyFileContentException_When_FileContentIsEmpty()
     {
         // Arrange
-        Guid userId = Guid.NewGuid();
+        Guid userId = Guid.CreateVersion7();
         const string fileName = "fileName";
         byte[] byteContent = [];
 

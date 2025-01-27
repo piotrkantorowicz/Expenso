@@ -29,7 +29,7 @@ internal sealed class GetJobEntryAsync : JobEntryRepositoryTestBase
     public async Task Should_ReturnNull_When_JobEntryDoesNotExist()
     {
         // Arrange
-        Guid nonExistentId = Guid.NewGuid();
+        Guid nonExistentId = Guid.CreateVersion7();
         JobEntryQuerySpecification querySpecification = new(JobEntryId: nonExistentId, UseTracking: false);
 
         // Act
