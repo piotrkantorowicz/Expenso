@@ -1,11 +1,11 @@
 using Expenso.Shared.System.Logging.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandlerLoggingDecorator.NoResult;
 
@@ -42,10 +42,8 @@ internal sealed class HandleAsync : CommandHandlerLoggingDecoratorTestBase
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging.");
+        Exception? exception = await action.ShouldThrowAsync<Exception>();
+        exception.Message.ShouldBe(expected: "Intentional thrown to test error logging.");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.CommandExecuting, It.IsAny<string>(), It.IsAny<IMessageContext?>(),

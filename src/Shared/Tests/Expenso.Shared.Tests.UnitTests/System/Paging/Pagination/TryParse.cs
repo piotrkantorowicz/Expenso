@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
+﻿using NUnit.Framework;
 
-using NUnit.Framework;
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Paging.Pagination;
 
@@ -23,8 +23,8 @@ internal sealed class TryParse
             paging: out Shared.System.Types.Paging.Pagination? pagination);
 
         // Assert
-        result.Should().BeFalse();
-        pagination.Should().BeNull();
+        result.ShouldBeFalse();
+        pagination.ShouldBeNull();
     }
 
     [TestCase(arg1: "1,10", arg2: 1, arg3: 10, TestName = "Should_ReturnTrue_When_ValueIsValid")]
@@ -35,9 +35,9 @@ internal sealed class TryParse
             paging: out Shared.System.Types.Paging.Pagination? pagination);
 
         // Assert
-        result.Should().BeTrue();
-        pagination.Should().NotBeNull();
-        pagination!.Page.Should().Be(expected: expectedPage);
-        pagination.Limit.Should().Be(expected: expectedLimit);
+        result.ShouldBeTrue();
+        pagination.ShouldNotBeNull();
+        pagination!.Page.ShouldBe(expected: expectedPage);
+        pagination.Limit.ShouldBe(expected: expectedLimit);
     }
 }

@@ -4,11 +4,11 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Queries.GetUser.GetUserByEmailQueryHandler;
 
@@ -32,8 +32,8 @@ internal sealed class HandleAsync : GetUserByEmailQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(expectation: _getUserByEmailResponse);
+        result.ShouldNotBeNull();
+        result.ShouldBeEquivalentTo(expected: _getUserByEmailResponse);
     }
 
     [Test]
@@ -52,7 +52,7 @@ internal sealed class HandleAsync : GetUserByEmailQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Test]
@@ -71,11 +71,10 @@ internal sealed class HandleAsync : GetUserByEmailQueryHandlerTestBase
             await TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with email {_userEmail} hasn't been found.")
-            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
-                                             (string?)x.Identifier == _userEmail);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+        exception.Message.ShouldBe(expected: $"User with email {_userEmail} hasn't been found.");
+        exception.ResourceName.ShouldBe(expected: "User");
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Email());
+        exception.Identifier.ShouldBe(expected: _userEmail);
     }
 }

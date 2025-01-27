@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PersonId;
 
@@ -20,6 +20,6 @@ internal sealed class ToString : PersonIdTestBase
         string result = sut.ToString();
 
         // Assert
-        result.Should().Be(expected: value.ToString());
+        result.ShouldBe(expected: value.ToString());
     }
 }

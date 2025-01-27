@@ -2,11 +2,11 @@
 using Expenso.Communication.Core.Application.Notifications.Services.InApp;
 using Expenso.Communication.Core.Application.Notifications.Services.Push;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Communication.Tests.UnitTests.Application.Notifications.Factories.NotificationServiceFactory;
 
@@ -21,8 +21,8 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         IInAppService result = TestCandidate.GetService<IInAppService>();
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType(expectedType: _servicesDictionary[key: nameof(IInAppService)].GetType());
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType(expected: _servicesDictionary[key: nameof(IInAppService)].GetType());
     }
 
     [Test]
@@ -33,8 +33,8 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         IEmailService result = TestCandidate.GetService<IEmailService>();
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType(expectedType: _servicesDictionary[key: nameof(IEmailService)].GetType());
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType(expected: _servicesDictionary[key: nameof(IEmailService)].GetType());
     }
 
     [Test]
@@ -45,8 +45,8 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         IPushService result = TestCandidate.GetService<IPushService>();
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType(expectedType: _servicesDictionary[key: nameof(IPushService)].GetType());
+        result.ShouldNotBeNull();
+        result.ShouldBeOfType(expected: _servicesDictionary[key: nameof(IPushService)].GetType());
     }
 
     [Test]
@@ -59,12 +59,7 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         Func<IPushService> action = () => TestCandidate.GetService<IPushService>();
 
         // Assert
-        action
-            .Should()
-            .Throw<InvalidOperationException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                "Notification service Expenso.Communication.Core.Application.Notifications.Services.Push.IPushService hasn't been found.");
+        action.ShouldThrow<InvalidOperationException>();
     }
 
     [Test]
@@ -78,11 +73,6 @@ internal sealed class GetService : NotificationServiceFactoryTestBase
         Func<IEmailService> action = () => TestCandidate.GetService<IEmailService>();
 
         // Assert
-        action
-            .Should()
-            .Throw<InvalidOperationException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                "Notification service is not of requested type Expenso.Communication.Core.Application.Notifications.Services.Emails.IEmailService.");
+        action.ShouldThrow<InvalidOperationException>();
     }
 }

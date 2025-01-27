@@ -4,11 +4,11 @@ using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.GetBudgetPermission
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Application.Proxy.BudgetSharingProxy;
 
@@ -40,7 +40,7 @@ internal sealed class GetBudgetPermissionsAsync : BudgetSharingProxyTestBase
             await TestCandidate.GetBudgetPermissionsAsync(request: request);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: response);
+        result.ShouldBeEquivalentTo(expected: response);
     }
 
     [Test]
@@ -61,8 +61,8 @@ internal sealed class GetBudgetPermissionsAsync : BudgetSharingProxyTestBase
             await TestCandidate.GetBudgetPermissionsAsync(request: request);
 
         // Assert
-        result?.Should().NotBeNull();
-        result?.TotalResults.Should().Be(expected: 0);
-        result?.Items.Should().BeEmpty();
+        result?.ShouldNotBeNull();
+        result?.TotalResults.ShouldBe(expected: 0);
+        result?.Items.ShouldBeEmpty();
     }
 }

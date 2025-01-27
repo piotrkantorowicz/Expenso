@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
+﻿using NUnit.Framework;
 
-using NUnit.Framework;
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Converters;
 
@@ -18,7 +18,7 @@ internal sealed class Deserialize : InterfaceToConcreteTypeJsonConverterTestBase
             TestCandidate.Deserialize<ITestInterface>(value: json, settings: _serializerOptions);
 
         // Assert
-        messageContext?.Should().NotBeNull();
-        messageContext?.Name.Should().Be(expected: "HV1qim9C");
+        messageContext?.ShouldNotBeNull();
+        messageContext?.Name.ShouldBe(expected: "HV1qim9C");
     }
 }

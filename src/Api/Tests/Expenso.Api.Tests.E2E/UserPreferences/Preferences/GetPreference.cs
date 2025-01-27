@@ -4,9 +4,9 @@ using System.Net.Http.Json;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
@@ -26,7 +26,7 @@ internal sealed class GetPreference : PreferencesTestBase
         // Assert
         AssertResponseOk(response: response);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        responseContent?.Id.Should().Be(expected: preferenceId);
+        responseContent?.Id.ShouldBe(expected: preferenceId);
     }
 
     [Test]

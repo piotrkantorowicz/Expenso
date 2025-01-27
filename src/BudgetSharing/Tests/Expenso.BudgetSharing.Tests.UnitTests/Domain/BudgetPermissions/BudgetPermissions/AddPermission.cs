@@ -1,8 +1,6 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
 
@@ -23,15 +21,14 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
 
         // Assert
-        TestCandidate
-            .Permissions.Should()
-            .ContainSingle(predicate: x => x.ParticipantId == participantId && x.PermissionType == permissionType);
+        TestCandidate.Permissions.ShouldContainSingle(predicate: x =>
+            x.ParticipantId == participantId && x.PermissionType == permissionType);
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionGrantedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetCode: TestCandidate.BudgetCode,
-                OwnerId: TestCandidate.OwnerId, ParticipantId: participantId, PermissionType: permissionType)
+                BudgetCode: TestCandidate.BudgetCode, OwnerId: TestCandidate.OwnerId, ParticipantId: participantId,
+                PermissionType: permissionType)
         ]);
     }
 
@@ -42,17 +39,13 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () =>
+        Action action = () =>
             TestCandidate.AddPermission(participantId: _defaultOwnerId, permissionType: PermissionType.SubOwner);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultOwnerId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Budget {TestCandidate.BudgetId} already has permission for participant {_defaultOwnerId}.");
     }
 
     [Test]
@@ -64,14 +57,11 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         PermissionType permissionType = PermissionType.None;
 
         // Act
-        Action act = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
+        Action action = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Permission type cannot be empty for participant {participantId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Permission type cannot be empty for participant {participantId}.");
     }
 
     [Test]
@@ -83,14 +73,11 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         PermissionType? permissionType = null;
 
         // Act
-        Action act = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
+        Action action = () => TestCandidate.AddPermission(participantId: participantId, permissionType: permissionType);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Permission type cannot be empty for participant {participantId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Permission type cannot be empty for participant {participantId}.");
     }
 
     [Test]
@@ -101,16 +88,12 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Action act = () =>
+        Action action = () =>
             TestCandidate.AddPermission(participantId: participantId, permissionType: PermissionType.Owner);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern: $"Budget {TestCandidate.BudgetId} can have only one owner permission.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Budget {TestCandidate.BudgetId} can have only one owner permission.");
     }
 
     [Test]
@@ -121,16 +104,12 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         PersonId participantId = PersonId.New(value: Guid.NewGuid());
 
         // Act
-        Action act = () =>
+        Action action = () =>
             TestCandidate.AddPermission(participantId: participantId, permissionType: PermissionType.Owner);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"Budget {TestCandidate.BudgetId} cannot have owner permission for other user {participantId} that its owner {_defaultOwnerId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"Budget {TestCandidate.BudgetId} cannot have owner permission for other user {participantId} that its owner {_defaultOwnerId}.");
     }
 }

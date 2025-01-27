@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.PermissionType;
 
@@ -17,7 +17,7 @@ internal sealed class Create : PermissionTypeTestBase
             BudgetSharing.Domain.Shared.ValueObjects.PermissionType.Create(value: value);
 
         // Assert
-        result.Value.Should().Be(expected: value);
-        result.DisplayName.Should().Be(expected: displayName);
+        result.Value.ShouldBe(expected: value);
+        result.DisplayName.ShouldBe(expected: displayName);
     }
 }

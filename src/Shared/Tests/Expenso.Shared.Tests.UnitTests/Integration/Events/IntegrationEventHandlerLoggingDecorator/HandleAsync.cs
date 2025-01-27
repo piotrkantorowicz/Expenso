@@ -1,10 +1,10 @@
 using Expenso.Shared.System.Logging.Constants;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Integration.Events.IntegrationEventHandlerLoggingDecorator;
 
@@ -42,10 +42,8 @@ internal sealed class HandleAsync : IntegrationEventHandlerLoggingDecoratorTestB
             cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<Exception>()
-            .WithMessage(expectedWildcardPattern: "Intentional thrown to test error logging.");
+        Exception? exception = await action.ShouldThrowAsync<Exception>();
+        exception.Message.ShouldBe(expected: "Intentional thrown to test error logging.");
 
         _loggerMock.Verify(
             expression: x => x.LogInfo(LoggingUtils.IntegrationEventExecuting, It.IsAny<string>(),

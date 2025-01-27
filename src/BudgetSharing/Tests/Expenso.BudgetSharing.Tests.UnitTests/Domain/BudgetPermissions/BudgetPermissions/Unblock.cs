@@ -1,9 +1,9 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
@@ -22,13 +22,13 @@ internal sealed class Unblock : BudgetPermissionTestBase
         TestCandidate.Unblock();
 
         // Assert
-        TestCandidate.Blocker?.Should().BeNull();
+        TestCandidate.Blocker?.ShouldBeNull();
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
             new BudgetPermissionUnblockedEvent(MessageContext: MessageContextFactoryMock.Object.Current(),
-                BudgetCode: TestCandidate.BudgetCode,
-                OwnerId: TestCandidate.OwnerId, Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
+                BudgetCode: TestCandidate.BudgetCode, OwnerId: TestCandidate.OwnerId,
+                Permissions: TestCandidate.Permissions.ToList().AsReadOnly())
         ]);
     }
 
@@ -39,13 +39,10 @@ internal sealed class Unblock : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate();
 
         // Act
-        Action act = () => TestCandidate.Unblock();
+        Action action = () => TestCandidate.Unblock();
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget permission with ID {TestCandidate.Id} is not blocked.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Budget permission with ID {TestCandidate.Id} is not blocked.");
     }
 }

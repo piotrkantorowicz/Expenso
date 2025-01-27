@@ -4,9 +4,9 @@ using System.Text.Json;
 
 using Expenso.Shared.System.Time.Constants;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.NullableDateTimeConverter;
 
@@ -28,7 +28,7 @@ internal sealed class Write : NullableDateTimeConverterTestBase
         string result = Encoding.UTF8.GetString(bytes: bufferWriter.WrittenMemory.Span);
 
         // Assert
-        result.Should().Be(expected: expected);
+        result.ShouldBe(expected: expected);
     }
 
     [Test]
@@ -48,8 +48,12 @@ internal sealed class Write : NullableDateTimeConverterTestBase
         };
 
         // Assert
-        action.Should().Throw<TimeZoneNotFoundException>().WithMessage(expectedWildcardPattern: "*Invalid/TimeZone*");
+        TimeZoneNotFoundException? exception = action.ShouldThrow<TimeZoneNotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: "The time zone ID 'Invalid/TimeZone' was not found on the local computer.");
     }
+
     private static IEnumerable<object> ValidDateTimeCases()
     {
         yield return new object[]

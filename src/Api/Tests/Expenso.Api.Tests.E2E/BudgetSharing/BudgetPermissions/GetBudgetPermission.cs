@@ -4,9 +4,9 @@ using System.Net.Http.Json;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.BudgetSharing.Application.BudgetPermissions.Read.GetBudgetPermission.DTO.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 
@@ -31,7 +31,7 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
         GetBudgetPermissionResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
 
-        responseContent?.Id.Should().Be(expected: BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]);
+        responseContent?.Id.ShouldBe(expected: BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]);
     }
 
     [Test]

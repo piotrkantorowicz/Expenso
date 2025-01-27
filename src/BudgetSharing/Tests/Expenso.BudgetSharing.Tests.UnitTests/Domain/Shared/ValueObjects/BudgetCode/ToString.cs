@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.BudgetCode;
 
@@ -20,6 +20,6 @@ internal sealed class ToString : BudgetCodeTestBase
         string result = testCandidate.ToString();
 
         // Assert
-        result.Should().Be(expected: value);
+        result.ShouldBe(expected: value);
     }
 }

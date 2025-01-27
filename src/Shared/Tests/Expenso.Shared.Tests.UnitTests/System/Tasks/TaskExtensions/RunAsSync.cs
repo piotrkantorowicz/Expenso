@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Tasks;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Tasks.TaskExtensions;
 
@@ -24,7 +24,7 @@ internal sealed class RunAsSync
         int result = SumAsync(a: 2, b: 3).RunAsSync();
 
         // Assert
-        result.Should().Be(expected: 6);
+        result.ShouldBe(expected: 6);
     }
 
     [Test]
@@ -43,6 +43,6 @@ internal sealed class RunAsSync
         Delay().RunAsSync();
 
         // Assert
-        number.Should().Be(expected: 1);
+        number.ShouldBe(expected: 1);
     }
 }

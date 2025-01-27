@@ -2,9 +2,9 @@ using Expenso.Api.Tests.E2E.TestData.IAM;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Request;
 using Expenso.DocumentManagement.Shared.DTO.API.GetFiles.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 
@@ -21,7 +21,7 @@ internal sealed class GetFilesAsync : DocumentManagementTestBase
                 FileNames: ["Import-1", "Import-2"], FileType: GetFilesRequestFileType.Import)))?.ToList();
 
         // Assert
-        response?.Should().NotBeNull();
-        response?.Should().HaveCount(expected: 2);
+        response?.ShouldNotBeNull();
+        response?.Count().ShouldBe(expected: 2);
     }
 }

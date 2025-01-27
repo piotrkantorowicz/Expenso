@@ -4,11 +4,11 @@ using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Proxy.IamProxy;
 
@@ -29,8 +29,8 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
             request: new GetUserByEmailRequest(Email: _userEmail), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUserResponse.Should().NotBeNull();
-        getUserResponse.Should().BeEquivalentTo(expectation: _getUserByEmailResponse);
+        getUserResponse.ShouldNotBeNull();
+        getUserResponse.ShouldBeEquivalentTo(expected: _getUserByEmailResponse);
 
         _queryDispatcherMock.Verify(
             expression: x => x.QueryAsync(It.Is<GetUserByEmailQuery>(y => y.Payload!.Email == _userEmail),
@@ -56,11 +56,10 @@ internal sealed class GetUserByEmailAsync : IamProxyTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: errorMessage)
-            .Where(exceptionExpression: x => x.ResourceName == "User" && x.IdentifierType == IdentifierType.Email() &&
-                                             (string?)x.Identifier == email);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+        exception.Message.ShouldBe(expected: $"User with email {email} hasn't been found.");
+        exception.ResourceName.ShouldBe(expected: "User");
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Email());
+        exception.Identifier.ShouldBe(expected: email);
     }
 }

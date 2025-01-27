@@ -1,8 +1,8 @@
 ﻿using Expenso.TimeManagement.Core.Application.Shared.Settings;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.Events.EventTypeResolver;
 
@@ -19,7 +19,7 @@ internal sealed class IsAllowable : EventTypeResolverTestBase
         bool result = TestCandidate.IsAllowable(eventName: eventName);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test]
@@ -32,7 +32,7 @@ internal sealed class IsAllowable : EventTypeResolverTestBase
         bool result = TestCandidate.IsAllowable(eventName: eventName);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Test]
@@ -45,6 +45,6 @@ internal sealed class IsAllowable : EventTypeResolverTestBase
         bool result = TestCandidate.IsAllowable(eventName: eventName);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

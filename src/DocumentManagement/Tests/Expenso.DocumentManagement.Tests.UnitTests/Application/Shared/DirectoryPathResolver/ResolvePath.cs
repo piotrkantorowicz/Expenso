@@ -1,11 +1,11 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 using Expenso.DocumentManagement.Core.Application.Shared.Models;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.DirectoryPathResolver;
 
@@ -36,7 +36,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
         string result = TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
 
         // Assert
-        result.Should().Be(expected: expectedPath);
+        result.ShouldBe(expected: expectedPath);
     }
 
     [Test]
@@ -63,7 +63,7 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
         string result = TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
 
         // Assert
-        result.Should().Be(expected: expectedPath);
+        result.ShouldBe(expected: expectedPath);
     }
 
     [Test]
@@ -75,9 +75,9 @@ internal sealed class ResolvePath : DirectoryPathResolverTestBase
         string[] groups = [];
 
         // Act
-        Action act = () => TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
+        Action action = () => TestCandidate.ResolvePath(fileType: fileType, userId: userId, groups: groups);
 
         // Assert
-        act.Should().Throw<InvalidFileTypeException>();
+        action.ShouldThrow<InvalidFileTypeException>();
     }
 }

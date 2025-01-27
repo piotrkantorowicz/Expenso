@@ -1,10 +1,10 @@
 ﻿using Expenso.Shared.System.Time.Providers;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Time.Providers.RequestTimeZoneCookieProvider;
 
@@ -29,7 +29,7 @@ internal sealed class DetermineProviderTimeZoneResult : RequestTimeZoneCookiePro
             await TestCandidate.DetermineProviderTimeZoneResult(httpContext: _httpContextMock.Object);
 
         // Assert
-        result.TimeZoneName.Should().Be(expected: "Pacific Standard Time");
+        result.TimeZoneName.ShouldBe(expected: "Pacific Standard Time");
     }
 
     [Test]
@@ -45,6 +45,6 @@ internal sealed class DetermineProviderTimeZoneResult : RequestTimeZoneCookiePro
             await TestCandidate.DetermineProviderTimeZoneResult(httpContext: _httpContextMock.Object);
 
         // Assert
-        result.TimeZoneName.Should().BeNull();
+        result.TimeZoneName.ShouldBeNull();
     }
 }

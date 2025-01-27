@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
+﻿using NUnit.Framework;
 
-using NUnit.Framework;
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Serialization.Converters;
 
@@ -17,7 +17,7 @@ internal sealed class Serialize : InterfaceToConcreteTypeJsonConverterTestBase
         string json = TestCandidate.Serialize(value: testConcreteType, settings: _serializerOptions);
 
         // Assert
-        json.Should().Contain(expected: "\"Name\":\"Test\"");
+        json.ShouldContain(expected: "\"Name\":\"Test\"");
     }
 
     [Test]
@@ -25,10 +25,10 @@ internal sealed class Serialize : InterfaceToConcreteTypeJsonConverterTestBase
     {
         // Arrange
         // Act
-        Action act = () =>
+        Action action = () =>
             TestCandidate.Serialize<ITestInterface>(value: new AnotherConcreteType(), settings: _serializerOptions);
 
         // Assert
-        act.Should().Throw<InvalidOperationException>();
+        action.ShouldThrow<InvalidOperationException>();
     }
 }

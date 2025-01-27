@@ -1,8 +1,8 @@
-using FluentAssertions;
-
 using NetArchTest.Rules;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.Utils.ArchTests;
 
@@ -16,6 +16,6 @@ public abstract class TestBase
 
     protected static void AssertFailingTypes(IEnumerable<Type>? result)
     {
-        result?.Should().BeNullOrEmpty();
+        result?.ShouldBeEmpty();
     }
 }

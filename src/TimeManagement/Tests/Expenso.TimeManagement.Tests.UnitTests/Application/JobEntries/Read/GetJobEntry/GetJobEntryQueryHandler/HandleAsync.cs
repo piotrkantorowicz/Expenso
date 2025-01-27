@@ -2,11 +2,11 @@
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 using Expenso.TimeManagement.Shared.DTO.GetJobEntry.Response;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Read.GetJobEntry.GetJobEntryQueryHandler;
 
@@ -27,12 +27,12 @@ internal sealed class HandleAsync : GetJobEntryQueryHandlerTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        jobEntryResponse.Should().NotBeNull();
-        jobEntryResponse?.Id.Should().Be(expected: _jobEntryId);
+        jobEntryResponse.ShouldNotBeNull();
+        jobEntryResponse?.Id.ShouldBe(expected: _jobEntryId);
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_JobEntryDoesNotExist()
+    public async Task Should_ThrowNotFoundException_When_JobEntryDoesNotExist()
     {
         // Arrange
         _jobEntryRepositoryMock
@@ -41,10 +41,10 @@ internal sealed class HandleAsync : GetJobEntryQueryHandlerTestBase
             .ReturnsAsync(value: null);
 
         // Act
-        Func<Task> act = async () =>
+        Func<Task> action = async () =>
             await TestCandidate.HandleAsync(query: _getJobEntryQuery, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        act.Should().ThrowAsync<NotFoundException>();
+        await action.ShouldThrowAsync<NotFoundException>();
     }
 }

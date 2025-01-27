@@ -3,11 +3,11 @@
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Logging.Constants;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 
@@ -37,7 +37,7 @@ internal sealed class Configure : AppConfigurationManagerTestBase
         Dictionary<string, object?> result =
             (Dictionary<string, object?>)settingsMap?.GetValue(obj: _appConfigurationManager)!;
 
-        result.Should().ContainKey(expected: "TestSection").WhoseValue.Should().Be(expected: settings);
+        result[key: "TestSection"].ShouldBe(expected: settings);
     }
 
     [Test]

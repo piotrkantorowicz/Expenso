@@ -1,10 +1,10 @@
 using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Shared.FileStorage;
 
@@ -34,7 +34,7 @@ internal sealed class ReadAsync : FileStorageTestBase
         byte[] result = await TestCandidate.ReadAsync(path: path, cancellationToken: default);
 
         // Assert
-        result.Should().BeEquivalentTo(expectation: expected);
+        result.ShouldBeEquivalentTo(expected: expected);
     }
 
     [Test]
@@ -48,10 +48,8 @@ internal sealed class ReadAsync : FileStorageTestBase
         Func<Task> action = () => TestCandidate.ReadAsync(path: path, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<FileHasNotBeenFoundException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: x => x.Details == "File hasn't been found.");
+        FileHasNotBeenFoundException? exception = await action.ShouldThrowAsync<FileHasNotBeenFoundException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "File hasn't been found.");
     }
 }

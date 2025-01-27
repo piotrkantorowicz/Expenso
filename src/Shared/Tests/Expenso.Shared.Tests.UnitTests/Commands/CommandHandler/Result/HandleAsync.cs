@@ -1,10 +1,10 @@
 using Expenso.Shared.Tests.UnitTests.Commands.TestData.Result;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Commands.CommandHandler.Result;
 
@@ -20,9 +20,9 @@ internal sealed class HandleAsync : CommandHandlerResultTestBase
             await TestCandidate.HandleAsync(command: _testCommand, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        commandResult.Should().NotBeNull();
-        commandResult.Message.Should().NotBeNullOrEmpty();
+        commandResult.ShouldNotBeNull();
+        commandResult.Message.ShouldNotBeEmpty();
         string message = $"Successfully processed command with ID {_testCommand.Id}";
-        commandResult.Message.Should().Be(expected: message);
+        commandResult.Message.ShouldBe(expected: message);
     }
 }

@@ -1,6 +1,6 @@
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissionRequests.ValueObjects.
     BudgetPermissionRequestStatus;
@@ -19,6 +19,6 @@ internal sealed class IsNone : BudgetPermissionRequestStatusTestBase
         bool result = testCandidate.IsNone();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 }

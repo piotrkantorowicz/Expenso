@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
@@ -19,7 +19,7 @@ internal sealed class IsValidEmail
         bool result = email.IsValidEmail();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "lyubov.rayemail.com"),
@@ -31,6 +31,6 @@ internal sealed class IsValidEmail
         bool result = email.IsValidEmail();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

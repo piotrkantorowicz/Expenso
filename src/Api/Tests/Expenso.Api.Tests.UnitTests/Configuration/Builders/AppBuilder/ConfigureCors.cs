@@ -1,14 +1,14 @@
 ﻿using Expenso.Api.Configuration.Settings.ApiSettings;
 using Expenso.Shared.System.Configuration.Constants;
 
-using FluentAssertions;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.Builders.AppBuilder;
 
@@ -31,8 +31,7 @@ internal sealed class ConfigureCors : AppBuilderTestBase
         // Assert
         _serviceCollection
             .FirstOrDefault(predicate: d => d.ServiceType == typeof(ICorsPolicyProvider))
-            .Should()
-            .NotBeNull();
+            .ShouldNotBeNull();
     }
 
     [Test]
@@ -54,10 +53,7 @@ internal sealed class ConfigureCors : AppBuilderTestBase
         TestCandidate.ConfigureCors();
 
         // Assert
-        _serviceCollection
-            .FirstOrDefault(predicate: d => d.ServiceType == typeof(ICorsPolicyProvider))
-            .Should()
-            .BeNull();
+        _serviceCollection.FirstOrDefault(predicate: d => d.ServiceType == typeof(ICorsPolicyProvider)).ShouldBeNull();
     }
 
     [Test, TestCase(arg: "Production"), TestCase(arg: "Staging"), TestCase(arg: "UAT")]
@@ -77,10 +73,9 @@ internal sealed class ConfigureCors : AppBuilderTestBase
         // Assert
         _serviceCollection
             .FirstOrDefault(predicate: d => d.ServiceType == typeof(ICorsPolicyProvider))
-            .Should()
-            .NotBeNull();
+            .ShouldNotBeNull();
 
-        AssertCorsPolicy(origin: _corsSettings.AllowedOrigins);
+        AssertCorsPolicy(origins: _corsSettings.AllowedOrigins);
     }
 
     [Test, TestCase(arg: "Local"), TestCase(arg: "Development"), TestCase(arg: "Test")]
@@ -100,31 +95,33 @@ internal sealed class ConfigureCors : AppBuilderTestBase
         // Assert
         _serviceCollection
             .FirstOrDefault(predicate: d => d.ServiceType == typeof(ICorsPolicyProvider))
-            .Should()
-            .NotBeNull();
+            .ShouldNotBeNull();
 
         AssertCorsPolicy();
     }
 
-    private void AssertCorsPolicy(string[]? origin = null)
+    private void AssertCorsPolicy(string[]? origins = null)
     {
         ServiceProvider serviceProvider = _serviceCollection.BuildServiceProvider();
         CorsOptions corsOptions = serviceProvider.GetRequiredService<IOptions<CorsOptions>>().Value;
         CorsPolicy? defaultPolicy = corsOptions.GetPolicy(name: "__DefaultCorsPolicy");
-        defaultPolicy?.Should().NotBeNull();
+        defaultPolicy?.ShouldNotBeNull();
 
-        if (origin is null)
+        if (origins is null)
         {
-            defaultPolicy?.Origins.Should().BeEmpty();
+            defaultPolicy?.Origins.ShouldBeEmpty();
         }
         else
         {
-            defaultPolicy?.Origins.Should().Contain(expected: origin);
+            foreach (string origin in origins)
+            {
+                defaultPolicy?.Origins.ShouldContain(expected: origin);
+            }
         }
 
-        defaultPolicy?.Methods.Should().Contain(expected: "*");
-        defaultPolicy?.Headers.Should().Contain(expected: "*");
-        defaultPolicy?.SupportsCredentials.Should().BeTrue();
+        defaultPolicy?.Methods.ShouldContain(expected: "*");
+        defaultPolicy?.Headers.ShouldContain(expected: "*");
+        defaultPolicy?.SupportsCredentials.ShouldBeTrue();
     }
 
     private void SetupWebApplicationBuilder(string? environmentName = null)

@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
@@ -19,7 +19,7 @@ internal sealed class IsAlphaNumericAndSpecialCharactersString
         bool result = target.IsAlphaNumericAndSpecialCharactersString();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "   "), TestCase(arg: "lyubov ra@y1")]
@@ -30,7 +30,7 @@ internal sealed class IsAlphaNumericAndSpecialCharactersString
         bool result = target.IsAlphaNumericAndSpecialCharactersString();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Test, TestCase(arg: "a1"), TestCase(arg: "2"), TestCase(arg: "aBcasdDDD1s")]
@@ -41,6 +41,6 @@ internal sealed class IsAlphaNumericAndSpecialCharactersString
         bool result = target.IsAlphaNumericAndSpecialCharactersString(minLength: 3, maxLength: 10);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

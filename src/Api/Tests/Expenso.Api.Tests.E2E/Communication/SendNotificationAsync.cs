@@ -5,13 +5,13 @@ using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages;
 
-using FluentAssertions;
-
 using Microsoft.Extensions.DependencyInjection;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.Communication;
 
@@ -35,6 +35,6 @@ internal sealed class SendNotificationAsync : CommunicationTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 }

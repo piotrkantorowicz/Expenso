@@ -3,11 +3,11 @@ using Expenso.DocumentManagement.Core.Application.Shared.Exceptions;
 using Expenso.DocumentManagement.Core.Application.Shared.Models;
 using Expenso.DocumentManagement.Shared.DTO.API.UploadFiles.Request;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.DocumentManagement.Tests.UnitTests.Application.Files.UploadFilesCommandHandler;
 
@@ -67,10 +67,8 @@ internal sealed class HandleAsync : UploadFilesCommandHandler
         Func<Task> action = () => TestCandidate.HandleAsync(command: command, cancellationToken: default);
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<EmptyFileContentException>()
-            .WithMessage(expectedWildcardPattern: "One or more validation failures have occurred.")
-            .Where(exceptionExpression: ex => ex.Details == "File content cannot be empty.");
+        EmptyFileContentException? exception = await action.ShouldThrowAsync<EmptyFileContentException>();
+        exception.Message.ShouldBe(expected: "One or more validation failures have occurred.");
+        exception.Details.ShouldBe(expected: "File content cannot be empty.");
     }
 }

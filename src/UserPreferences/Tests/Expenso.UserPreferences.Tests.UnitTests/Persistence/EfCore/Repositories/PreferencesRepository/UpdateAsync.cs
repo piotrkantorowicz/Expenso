@@ -1,8 +1,8 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
@@ -28,7 +28,7 @@ internal sealed class UpdateAsync : PreferenceRepositoryTestBase
             await TestCandidate.UpdateAsync(preference: dbPreference, cancellationToken: default);
 
         // Assert
-        updatedPreference.Should().NotBeNull();
-        _preferenceDbSetMock.Object.Should().Contain(expected: updatedPreference);
+        updatedPreference.ShouldNotBeNull();
+        _preferenceDbSetMock.Object.ShouldContain(expected: updatedPreference);
     }
 }

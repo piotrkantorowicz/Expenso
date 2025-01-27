@@ -2,11 +2,11 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
@@ -32,8 +32,8 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        preference.Should().NotBeNull();
-        preference.Should().BeEquivalentTo(expectation: _getPreferencesExternalResponse);
+        preference.ShouldNotBeNull();
+        preference.ShouldBeEquivalentTo(expected: _getPreferencesExternalResponse);
 
         _queryDispatcherMock.Verify(expression: x => x.QueryAsync(new GetPreferencesQuery(
                 MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),
@@ -61,7 +61,7 @@ internal sealed class GetUserPreferences : UserPreferencesProxyTestBase
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        preference.Should().BeNull();
+        preference.ShouldBeNull();
 
         _queryDispatcherMock.Verify(expression: x => x.QueryAsync(new GetPreferencesQuery(
                 MessageContextFactoryMock.Object.FromParent(_currentMessageContext, It.IsAny<string?>(),

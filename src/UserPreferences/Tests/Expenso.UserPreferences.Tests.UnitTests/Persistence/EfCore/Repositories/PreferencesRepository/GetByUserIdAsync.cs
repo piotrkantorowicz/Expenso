@@ -1,9 +1,9 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
@@ -25,7 +25,7 @@ internal sealed class GetByUserIdAsync : PreferenceRepositoryTestBase
             cancellationToken: default);
 
         // Assert
-        preference.Should().NotBeNull();
-        preference.Should().Be(expected: _preferenceDbSetMock.Object.Single(predicate: x => x.UserId == userId));
+        preference.ShouldNotBeNull();
+        preference.ShouldBe(expected: _preferenceDbSetMock.Object.Single(predicate: x => x.UserId == userId));
     }
 }

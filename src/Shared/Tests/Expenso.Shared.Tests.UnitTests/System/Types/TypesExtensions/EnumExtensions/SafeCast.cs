@@ -1,9 +1,9 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions;
 using Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtensions.TestObjects;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.EnumExtensions;
 
@@ -15,7 +15,7 @@ internal sealed class SafeCast
     {
         SourceEnum? source = null;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>(defaultValue: DestinationEnum.Value3);
-        result.Should().Be(expected: DestinationEnum.Value3);
+        result.ShouldBe(expected: DestinationEnum.Value3);
     }
 
     [Test]
@@ -23,7 +23,7 @@ internal sealed class SafeCast
     {
         SourceEnum? source = SourceEnum.Value1;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>();
-        result.Should().Be(expected: DestinationEnum.Value1);
+        result.ShouldBe(expected: DestinationEnum.Value1);
     }
 
     [Test]
@@ -31,7 +31,7 @@ internal sealed class SafeCast
     {
         SourceEnum? source = (SourceEnum)99;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>(defaultValue: DestinationEnum.Value3);
-        result.Should().Be(expected: DestinationEnum.Value3);
+        result.ShouldBe(expected: DestinationEnum.Value3);
     }
 
     [Test]
@@ -39,6 +39,6 @@ internal sealed class SafeCast
     {
         SourceEnum? source = (SourceEnum)99;
         DestinationEnum? result = source.SafeCast<DestinationEnum, SourceEnum>();
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 }

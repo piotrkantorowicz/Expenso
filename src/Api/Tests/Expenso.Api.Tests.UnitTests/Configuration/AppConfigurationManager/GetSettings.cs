@@ -2,11 +2,11 @@
 using Expenso.Shared.System.Configuration.Binders;
 using Expenso.Shared.System.Logging.Constants;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.UnitTests.Configuration.AppConfigurationManager;
 
@@ -37,7 +37,7 @@ internal sealed class GetSettings : AppConfigurationManagerTestBase
         object settings = _appConfigurationManager.GetSettings<object>(sectionName: "SectionName");
 
         // Assert
-        settings.Should().BeSameAs(expected: expectedSettings);
+        settings.ShouldBeEquivalentTo(expected: expectedSettings);
     }
 
     [Test]
@@ -47,7 +47,7 @@ internal sealed class GetSettings : AppConfigurationManagerTestBase
         Action action = () => _appConfigurationManager.GetSettings<object>(sectionName: "SectionName");
 
         // Assert
-        action.Should().Throw<ConfigurationHasNotBeenInitializedYetException>();
+        action.ShouldThrow<ConfigurationHasNotBeenInitializedYetException>();
 
         _loggerMock.Verify(
             expression: l => l.LogWarning(LoggingUtils.ConfigurationWarning,
@@ -71,12 +71,11 @@ internal sealed class GetSettings : AppConfigurationManagerTestBase
         Action action = () => _appConfigurationManager.GetSettings<object>(sectionName: "NonExistentSection");
 
         // Assert
-        action
-            .Should()
-            .Throw<MissingSettingsSectionException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                "The settings section 'NonExistentSection' is missing. Please ensure the section is properly configured in the configuration file.");
+        Exception exception = action.ShouldThrow<MissingSettingsSectionException>();
+
+        exception.Message.ShouldBe(
+            expected:
+            "The settings section 'NonExistentSection' is missing. Please ensure the section is properly configured in the configuration file.");
 
         _loggerMock.Verify(
             expression: l => l.LogWarning(LoggingUtils.ConfigurationWarning,
@@ -100,6 +99,6 @@ internal sealed class GetSettings : AppConfigurationManagerTestBase
         Action action = () => _appConfigurationManager.GetSettings<string>(sectionName: "SectionName");
 
         // Assert
-        action.Should().Throw<InvalidSettingsTypeException>();
+        action.ShouldThrow<InvalidSettingsTypeException>();
     }
 }

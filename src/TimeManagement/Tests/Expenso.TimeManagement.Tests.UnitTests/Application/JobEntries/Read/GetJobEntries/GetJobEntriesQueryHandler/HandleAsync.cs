@@ -1,16 +1,15 @@
 ﻿using Expenso.Shared.Database.Ordering;
 using Expenso.Shared.Database.Paging;
-using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Application.JobEntries.Read.GetJobEntries.DTO.Response;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Read.GetJobEntries.GetJobEntriesQueryHandler;
 
@@ -33,20 +32,19 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        jobEntriesResponse?.Should().NotBeNull();
-        jobEntriesResponse?.CurrentPage.Should().Be(expected: DatabasePagination.Default.Page);
+        jobEntriesResponse?.ShouldNotBeNull();
+        jobEntriesResponse?.CurrentPage.ShouldBe(expected: DatabasePagination.Default.Page);
 
-        jobEntriesResponse
-            ?.TotalPages.Should()
-            .Be(expected: (int)Math.Ceiling(a: _jobEntries.Count / (double)DatabasePagination.Default.Limit));
+        jobEntriesResponse?.TotalPages.ShouldBe(
+            expected: (int)Math.Ceiling(a: _jobEntries.Count / (double)DatabasePagination.Default.Limit));
 
-        jobEntriesResponse?.ResultsPerPage.Should().Be(expected: 10);
-        jobEntriesResponse?.TotalResults.Should().Be(expected: _jobEntries.Count);
-        jobEntriesResponse?.Items.Should().HaveCount(expected: _jobEntries.Count);
+        jobEntriesResponse?.ResultsPerPage.ShouldBe(expected: 10);
+        jobEntriesResponse?.TotalResults.ShouldBe(expected: _jobEntries.Count);
+        jobEntriesResponse?.Items.Count.ShouldBe(expected: _jobEntries.Count);
     }
 
     [Test]
-    public void Should_ThrowNotFoundException_When_JobEntriesDoNotExist()
+    public async Task Should_ReturnEmptyPagedList_When_JobEntriesHaveNotExists()
     {
         // Arrange
         _jobEntryRepositoryMock
@@ -55,11 +53,15 @@ internal sealed class HandleAsync : GetJobEntriesQueryHandlerTestBase
             .ReturnsAsync(value: PagedList<JobEntry>.AsEmpty);
 
         // Act
-        Func<Task> act = async () =>
-            await TestCandidate.HandleAsync(query: _getJobEntriesQuery,
+        IPagedList<GetJobEntriesResponse>? jobEntriesResponse = await TestCandidate.HandleAsync(
+            query: _getJobEntriesQuery,
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        act.Should().ThrowAsync<NotFoundException>();
+        jobEntriesResponse?.ShouldNotBeNull();
+        jobEntriesResponse?.Items.Count.ShouldBe(expected: 0);
+        jobEntriesResponse?.CurrentPage.ShouldBe(expected: DatabasePagination.Default.Page);
+        jobEntriesResponse?.TotalPages.ShouldBe(expected: DatabasePagination.Default.Page);
+        jobEntriesResponse?.ResultsPerPage.ShouldBe(expected: DatabasePagination.Default.Limit);
     }
 }

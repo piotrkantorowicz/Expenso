@@ -1,11 +1,11 @@
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference.Factories;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
@@ -27,7 +27,7 @@ internal sealed class CreateAsync : PreferenceRepositoryTestBase
             await TestCandidate.CreateAsync(preference: preference, cancellationToken: default);
 
         // Assert
-        createdPreference.Should().NotBeNull();
-        _preferenceDbSetMock.Object.Should().Contain(expected: createdPreference);
+        createdPreference.ShouldNotBeNull();
+        _preferenceDbSetMock.Object.ShouldContain(expected: createdPreference);
     }
 }

@@ -4,9 +4,9 @@ using Expenso.Communication.Shared.DTO.Settings;
 using Expenso.Communication.Shared.DTO.Settings.InApp;
 using Expenso.Communication.Shared.DTO.Settings.Push;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Communication.Tests.UnitTests.Proxy.DTO.API.SendNotification.Extensions;
 
@@ -23,9 +23,10 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         SendNotificationRequestNotificationType result = settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
-        result.Email.Should().BeFalse();
-        result.Push.Should().BeFalse();
-        result.InApp.Should().BeFalse();
+        result.ShouldNotBeNull();
+        result.Email!.Value.ShouldBeFalse();
+        result.Push!.Value.ShouldBeFalse();
+        result.InApp!.Value.ShouldBeFalse();
     }
 
     [Test]
@@ -41,9 +42,10 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
-        result.Email.Should().BeFalse();
-        result.Push.Should().BeFalse();
-        result.InApp.Should().BeFalse();
+        result.ShouldNotBeNull();
+        result.Email!.Value.ShouldBeFalse();
+        result.Push!.Value.ShouldBeFalse();
+        result.InApp!.Value.ShouldBeFalse();
     }
 
     [Test]
@@ -59,9 +61,10 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
-        result.Email.Should().BeTrue();
-        result.Push.Should().BeTrue();
-        result.InApp.Should().BeFalse();
+        result.ShouldNotBeNull();
+        result.Email!.Value.ShouldBeTrue();
+        result.Push!.Value.ShouldBeTrue();
+        result.InApp!.Value.ShouldBeFalse();
     }
 
     [Test]
@@ -80,9 +83,10 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
-        result.Email.Should().BeFalse();
-        result.Push.Should().BeTrue();
-        result.InApp.Should().BeTrue();
+        result.ShouldNotBeNull();
+        result.Email!.Value.ShouldBeFalse();
+        result.Push!.Value.ShouldBeTrue();
+        result.InApp!.Value.ShouldBeTrue();
     }
 
     [Test]
@@ -98,8 +102,9 @@ internal sealed class CreateNotificationTypeBasedOnSettings : SendNotificationRe
         SendNotificationRequestNotificationType result = _settings.CreateNotificationTypeBasedOnSettings();
 
         // Assert
-        result.Email.Should().BeTrue();
-        result.Push.Should().BeFalse();
-        result.InApp.Should().BeTrue();
+        result.ShouldNotBeNull();
+        result.Email!.Value.ShouldBeTrue();
+        result.Push!.Value.ShouldBeFalse();
+        result.InApp!.Value.ShouldBeTrue();
     }
 }

@@ -1,10 +1,10 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.Permissions;
 
@@ -37,9 +37,9 @@ internal sealed class Create : PermissionTestBase
         Permission result = Permission.Create(participantId: participantId, permissionType: permissionType);
 
         // Assert
-        result.Should().NotBeNull();
-        result.ParticipantId.Should().Be(expected: participantId);
-        result.PermissionType.Should().Be(expected: permissionType);
+        result.ShouldNotBeNull();
+        result.ParticipantId.ShouldBe(expected: participantId);
+        result.PermissionType.ShouldBe(expected: permissionType);
     }
 
     [Test]
@@ -50,13 +50,10 @@ internal sealed class Create : PermissionTestBase
         PermissionType permissionType = PermissionType.None;
 
         // Act
-        Action act = () => Permission.Create(participantId: participantId, permissionType: permissionType);
+        Action action = () => Permission.Create(participantId: participantId, permissionType: permissionType);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Permission type cannot be empty for participant {participantId}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails: $"Permission type cannot be empty for participant {participantId}.");
     }
 }

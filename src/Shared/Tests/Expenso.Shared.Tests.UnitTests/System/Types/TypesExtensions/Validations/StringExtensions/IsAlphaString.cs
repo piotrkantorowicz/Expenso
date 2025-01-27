@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.StringExtensions;
 
@@ -17,7 +17,7 @@ internal sealed class IsAlphaString
         bool result = target.IsAlphaString();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test, TestCase(arg: null), TestCase(arg: ""), TestCase(arg: "   "), TestCase(arg: "abc1"), TestCase(arg: "abc!"),
@@ -29,7 +29,7 @@ internal sealed class IsAlphaString
         bool result = target.IsAlphaString();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Test, TestCase(arg: "ab"), TestCase(arg: "A"), TestCase(arg: "aBcasdDDDss")]
@@ -40,6 +40,6 @@ internal sealed class IsAlphaString
         bool result = target.IsAlphaString(minLength: 3, maxLength: 10);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

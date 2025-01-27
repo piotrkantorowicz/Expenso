@@ -1,8 +1,8 @@
 using Expenso.Shared.Tests.UnitTests.Domain.Events.TestData;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Events.DomainEventBroker;
 
@@ -30,6 +30,6 @@ internal sealed class PublishMultipleAsync : DomainEventBrokerTestBase
             await TestCandidate.PublishMultipleAsync(events: domainEvents, cancellationToken: default);
 
         // Assert
-        await action.Should().NotThrowAsync();
+        await action.ShouldNotThrowAsync();
     }
 }

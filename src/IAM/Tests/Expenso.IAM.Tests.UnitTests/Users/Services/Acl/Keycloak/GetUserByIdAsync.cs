@@ -3,11 +3,11 @@ using Expenso.IAM.Shared.DTO.GetUserById.Response;
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.IAM.Tests.UnitTests.Users.Services.Acl.Keycloak;
 
@@ -27,8 +27,8 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
             request: new GetUserByIdRequest(UserId: _userId), cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUser.Should().NotBeNull();
-        getUser.Should().BeEquivalentTo(expectation: _getUserByIdResponse);
+        getUser.ShouldNotBeNull();
+        getUser.ShouldBeEquivalentTo(expected: _getUserByIdResponse);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUserAsync(It.IsAny<string>(), _userId, false, It.IsAny<CancellationToken>()),
@@ -51,13 +51,11 @@ internal sealed class GetUserByIdAsync : UserServiceTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        await action
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(expectedWildcardPattern: $"User with ID {userId} hasn't been found.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == "User" && x.IdentifierType == IdentifierType.PrimaryId() &&
-                (string?)x.Identifier == userId);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+        exception.Message.ShouldBe(expected: $"User with ID {userId} hasn't been found.");
+        exception.ResourceName.ShouldBe(expected: "User");
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.PrimaryId());
+        exception.Identifier.ShouldBe(expected: userId);
 
         _keycloakUserClientMock.Verify(
             expression: x => x.GetUserAsync(It.IsAny<string>(), userId, false, It.IsAny<CancellationToken>()),

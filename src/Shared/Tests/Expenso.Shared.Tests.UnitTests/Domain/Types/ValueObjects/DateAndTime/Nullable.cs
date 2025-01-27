@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
@@ -17,7 +17,7 @@ internal sealed class Nullable : TestBase<Shared.Domain.Types.ValueObjects.DateA
             Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: null);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Test]
@@ -28,7 +28,7 @@ internal sealed class Nullable : TestBase<Shared.Domain.Types.ValueObjects.DateA
             Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: DateTimeOffset.MinValue);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Test]
@@ -39,7 +39,7 @@ internal sealed class Nullable : TestBase<Shared.Domain.Types.ValueObjects.DateA
             Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: DateTimeOffset.MaxValue);
 
         // Assert
-        result.Should().BeNull();
+        result.ShouldBeNull();
     }
 
     [Test]
@@ -53,7 +53,7 @@ internal sealed class Nullable : TestBase<Shared.Domain.Types.ValueObjects.DateA
             Shared.Domain.Types.ValueObjects.DateAndTime.Nullable(value: dateTimeOffset);
 
         // Assert
-        result.Should().NotBeNull();
-        result?.Value.Should().Be(expected: dateTimeOffset);
+        result.ShouldNotBeNull();
+        result?.Value.ShouldBe(expected: dateTimeOffset);
     }
 }

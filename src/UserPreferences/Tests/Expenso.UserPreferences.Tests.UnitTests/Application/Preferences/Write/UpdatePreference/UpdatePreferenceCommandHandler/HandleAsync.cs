@@ -8,11 +8,11 @@ using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePref
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Write.UpdatePreference.
     UpdatePreferenceCommandHandler;
@@ -25,9 +25,8 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            PreferenceId: _id,
-            Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
-                    AllowAddFinancePlanSubOwners: false,
+            PreferenceId: _id, Payload: new UpdatePreferenceRequest(
+                FinancePreference: new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
                 NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
@@ -74,9 +73,8 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
     {
         // Arrange
         UpdatePreferenceCommand command = new(MessageContext: MessageContextFactoryMock.Object.Current(),
-            PreferenceId: _id,
-            Payload: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
-                    AllowAddFinancePlanSubOwners: false,
+            PreferenceId: _id, Payload: new UpdatePreferenceRequest(
+                FinancePreference: new UpdatePreferenceRequestFinancePreference(AllowAddFinancePlanSubOwners: false,
                     MaxNumberOfSubFinancePlanSubOwners: 0, AllowAddFinancePlanReviewers: true,
                     MaxNumberOfFinancePlanReviewers: 2),
                 NotificationPreference: new UpdatePreferenceRequestNotificationPreference(
@@ -92,18 +90,19 @@ internal sealed class HandleAsync : UpdatePreferenceCommandHandlerTestBase
 
         // Act
         // Assert
-        Func<Task> act = () =>
+        Func<Task> action = () =>
             TestCandidate.HandleAsync(command: command, cancellationToken: It.IsAny<CancellationToken>());
 
-        await act
-            .Should()
-            .ThrowAsync<NotFoundException>()
-            .WithMessage(
-                expectedWildcardPattern:
-                $"{nameof(Preference)} with query {preferenceQuerySpecification} hasn't been found.")
-            .Where(exceptionExpression: x =>
-                x.ResourceName == nameof(Preference) && x.IdentifierType == IdentifierType.Query() &&
-                (PreferenceQuerySpecification?)x.Identifier == preferenceQuerySpecification);
+        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+
+        exception.Message.ShouldBe(
+            expected: $"{nameof(Preference)} with query {preferenceQuerySpecification} hasn't been found.");
+
+        exception.ResourceName.ShouldBe(expected: nameof(Preference));
+        exception.IdentifierType.ShouldBe(expected: IdentifierType.Query());
+
+        ((PreferenceQuerySpecification?)exception.Identifier).ShouldBeEquivalentTo(
+            expected: preferenceQuerySpecification);
 
         _preferenceRepositoryMock.Verify(
             expression: x => x.GetAsync(preferenceQuerySpecification, It.IsAny<CancellationToken>()),

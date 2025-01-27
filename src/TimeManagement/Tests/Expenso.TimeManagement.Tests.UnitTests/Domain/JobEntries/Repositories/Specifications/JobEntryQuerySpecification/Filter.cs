@@ -1,8 +1,8 @@
 ﻿using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Domain.JobEntries.Repositories.Specifications.
     JobEntryQuerySpecification;
@@ -24,8 +24,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 1);
-        jobEntries.First().Id.Should().Be(expected: jobEntryId);
+        jobEntries.Count.ShouldBe(expected: 1);
+        jobEntries.First().Id.ShouldBe(expected: jobEntryId);
     }
 
     [Test]
@@ -43,8 +43,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 1);
-        jobEntries.First().JobInstanceId.Should().Be(expected: jobInstanceId);
+        jobEntries.Count.ShouldBe(expected: 1);
+        jobEntries.First().JobInstanceId.ShouldBe(expected: jobInstanceId);
     }
 
     [Test]
@@ -65,8 +65,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 1);
-        jobEntries.First().JobEntryStatusId.Should().Be(expected: jobEntryStatusIds.First());
+        jobEntries.Count.ShouldBe(expected: 1);
+        jobEntries.First().JobEntryStatusId.ShouldBe(expected: jobEntryStatusIds.First());
     }
 
     [Test]
@@ -84,8 +84,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 2);
-        jobEntries.First().CurrentRetries.Should().BeGreaterOrEqualTo(expected: moreThanRetries);
+        jobEntries.Count.ShouldBe(expected: 2);
+        jobEntries.First().CurrentRetries.ShouldBeGreaterThanOrEqualTo(expected: moreThanRetries);
     }
 
     [Test]
@@ -100,8 +100,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 1);
-        jobEntries.First().IsCompleted.Should().BeTrue();
+        jobEntries.Count.ShouldBe(expected: 1);
+        jobEntries.First().IsCompleted.ShouldBeTrue();
     }
 
     [Test]
@@ -116,8 +116,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 2);
-        jobEntries.First().LastRun.Should().NotBeNull();
+        jobEntries.Count.ShouldBe(expected: 2);
+        jobEntries.First().LastRun.ShouldNotBeNull();
     }
 
     [Test]
@@ -132,8 +132,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 1);
-        jobEntries.First().Triggers.Should().NotBeEmpty();
+        jobEntries.Count.ShouldBe(expected: 1);
+        jobEntries.First().Triggers.ShouldNotBeEmpty();
     }
 
     [Test]
@@ -151,8 +151,8 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 1);
-        jobEntries.First().Triggers.First().Id.Should().Be(expected: jobEntryTriggersIds.First());
+        jobEntries.Count.ShouldBe(expected: 1);
+        jobEntries.First().Triggers.First().Id.ShouldBe(expected: jobEntryTriggersIds.First());
     }
 
     [Test]
@@ -167,7 +167,7 @@ internal sealed class Filter : JobEntryQuerySpecificationTestBase
             _jobEntries.AsQueryable().Where(predicate: _jobEntryQuerySpecification.Filter()).ToList();
 
         // Assert
-        jobEntries.Should().HaveCount(expected: 2);
-        jobEntries.All(predicate: x => x.Triggers.Count > 0).Should().BeTrue();
+        jobEntries.Count.ShouldBe(expected: 2);
+        jobEntries.All(predicate: x => x.Triggers.Count > 0).ShouldBeTrue();
     }
 }

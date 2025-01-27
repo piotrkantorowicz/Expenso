@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.System.Types.TypesExtensions.Validations;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Types.TypesExtensions.Validations.IntExtensions;
 
@@ -19,7 +19,7 @@ internal sealed class IsValidPort
         bool result = port.IsValidPort();
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test]
@@ -32,7 +32,7 @@ internal sealed class IsValidPort
         bool result = port.IsValidPort();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Test]
@@ -45,7 +45,7 @@ internal sealed class IsValidPort
         bool result = port.IsValidPort();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 
     [Test]
@@ -58,6 +58,6 @@ internal sealed class IsValidPort
         bool result = port.IsValidPort();
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

@@ -1,8 +1,8 @@
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.Shared.ValueObjects.BudgetCode;
 
@@ -20,8 +20,8 @@ internal sealed class New : BudgetCodeTestBase
             BudgetSharing.Domain.Shared.ValueObjects.BudgetCode.New(value: value);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Value.Should().Be(expected: value);
+        result.ShouldNotBeNull();
+        result.Value.ShouldBe(expected: value);
     }
 
     [Test, TestCase(arguments: null), TestCase(arg: ""), TestCase(arg: "BDGT/0/12/2024"),
@@ -31,13 +31,9 @@ internal sealed class New : BudgetCodeTestBase
     {
         // Arrange
         // Act
-        Action act = () => BudgetSharing.Domain.Shared.ValueObjects.BudgetCode.New(value: value);
+        Action action = () => BudgetSharing.Domain.Shared.ValueObjects.BudgetCode.New(value: value);
 
         // Assert
-        act
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(expectedWildcardPattern: $"Budget code {value} must have correct format.");
+        action.AssertDomainRuleValidationException(expectedDetails: $"Budget code {value} must have correct format.");
     }
 }

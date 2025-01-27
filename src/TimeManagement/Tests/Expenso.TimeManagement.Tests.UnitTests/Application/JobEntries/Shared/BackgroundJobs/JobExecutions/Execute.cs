@@ -11,11 +11,11 @@ using Expenso.Shared.System.Types.Paging;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Model;
 using Expenso.TimeManagement.Core.Domain.JobEntries.Repositories.Specifications;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.TimeManagement.Tests.UnitTests.Application.JobEntries.Shared.BackgroundJobs.JobExecutions;
 
@@ -171,7 +171,7 @@ internal sealed class Execute : JobExecutionTestBase
                 x.AddOrUpdateAsync(It.Is<JobEntry>(j => j.Id == jobEntry.Id), It.IsAny<CancellationToken>()),
             times: Times.Once);
 
-        jobEntry.IsCompleted.Should().BeTrue();
+        jobEntry.IsCompleted.ShouldBeTrue();
 
         _loggerMock.Verify(
             expression: x => x.LogWarning(LoggingUtils.BackgroundJobWarning,
@@ -402,7 +402,7 @@ internal sealed class Execute : JobExecutionTestBase
             expression: x => x.PublishAsync<IIntegrationEvent>(eventData, It.IsAny<CancellationToken>()),
             times: Times.Once());
 
-        jobEntry.LastRun.Should().NotBeNull();
+        jobEntry.LastRun.ShouldNotBeNull();
     }
 
     [Test]
@@ -466,8 +466,8 @@ internal sealed class Execute : JobExecutionTestBase
                 "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
 
-        jobEntry.CurrentRetries.Should().Be(expected: 5);
-        jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Failed);
+        jobEntry.CurrentRetries.ShouldBe(expected: 5);
+        jobEntry.JobStatus.ShouldBe(expected: JobEntryStatus.Failed);
     }
 
     [Test]
@@ -530,7 +530,7 @@ internal sealed class Execute : JobExecutionTestBase
                 "An error occurred while processing and job entry with ID {JobEntryId}. Job instance ID {JobInstanceId}",
                 error, null, jobEntry.Id, _jobInstanceId), times: Times.Once);
 
-        jobEntry.CurrentRetries.Should().Be(expected: 1);
-        jobEntry.JobStatus.Should().Be(expected: JobEntryStatus.Retrying);
+        jobEntry.CurrentRetries.ShouldBe(expected: 1);
+        jobEntry.JobStatus.ShouldBe(expected: JobEntryStatus.Retrying);
     }
 }

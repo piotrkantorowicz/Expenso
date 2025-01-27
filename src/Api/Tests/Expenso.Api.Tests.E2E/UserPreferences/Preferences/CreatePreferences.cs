@@ -4,9 +4,9 @@ using System.Net.Http.Json;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 
@@ -32,8 +32,8 @@ internal sealed class CreatePreferences : PreferencesTestBase
         CreatePreferenceResponse? responseContent =
             await response.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
 
-        responseContent.Should().NotBeNull();
-        responseContent?.PreferenceId.Should().Be(expected: preferenceId);
+        responseContent.ShouldNotBeNull();
+        responseContent?.PreferenceId.ShouldBe(expected: preferenceId);
     }
 
     [Test]

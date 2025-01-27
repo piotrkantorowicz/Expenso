@@ -4,11 +4,11 @@ using Expenso.IAM.Shared.DTO.GetUsers.Response;
 using Expenso.Shared.System.Types.Paging;
 using Expenso.Shared.System.Types.Paging.Constants;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 using It = Moq.It;
 
@@ -33,16 +33,15 @@ internal sealed class GetUsersAsync : IamProxyTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUsersResponse?.Should().NotBeNull();
-        getUsersResponse?.CurrentPage.Should().Be(expected: PaginationDefaults.Page);
+        getUsersResponse?.ShouldNotBeNull();
+        getUsersResponse?.CurrentPage.ShouldBe(expected: PaginationDefaults.Page);
 
-        getUsersResponse
-            ?.TotalPages.Should()
-            .Be(expected: (int)Math.Ceiling(a: _getUsersResponse.Count / (double)PaginationDefaults.Limit));
+        getUsersResponse?.TotalPages.ShouldBe(
+            expected: (int)Math.Ceiling(a: _getUsersResponse.Count / (double)PaginationDefaults.Limit));
 
-        getUsersResponse?.ResultsPerPage.Should().Be(expected: PaginationDefaults.Limit);
-        getUsersResponse?.TotalResults.Should().Be(expected: _getUsersResponse.Count);
-        getUsersResponse?.Items.Should().BeEquivalentTo(expectation: _getUsersResponse);
+        getUsersResponse?.ResultsPerPage.ShouldBe(expected: PaginationDefaults.Limit);
+        getUsersResponse?.TotalResults.ShouldBe(expected: _getUsersResponse.Count);
+        getUsersResponse?.Items.ShouldBeEquivalentTo(expected: _getUsersResponse);
 
         _queryDispatcherMock.Verify(
             expression: x => x.QueryAsync(It.IsAny<GetUsersQuery>(), It.IsAny<CancellationToken>()), times: Times.Once);
@@ -62,6 +61,6 @@ internal sealed class GetUsersAsync : IamProxyTestBase
                 cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        getUsersResponse.Should().BeNull();
+        getUsersResponse.ShouldBeNull();
     }
 }

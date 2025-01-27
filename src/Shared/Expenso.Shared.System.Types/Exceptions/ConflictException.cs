@@ -7,10 +7,6 @@ namespace Expenso.Shared.System.Types.Exceptions;
 
 public sealed class ConflictException : Exception
 {
-    public ConflictException(string message) : base(message: message)
-    {
-    }
-
     private ConflictException(string resourceName, IdentifierType? identifierType, object? identifier,
         string restOfMessage) : base(message: BuildMessage(resourceName: resourceName, identifierType: identifierType,
         identifier: identifier, restOfMessage: restOfMessage))

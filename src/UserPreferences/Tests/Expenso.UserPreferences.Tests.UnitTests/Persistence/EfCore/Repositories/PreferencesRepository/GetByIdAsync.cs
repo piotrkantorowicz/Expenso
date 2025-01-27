@@ -1,9 +1,9 @@
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Persistence.EfCore.Repositories.PreferencesRepository;
 
@@ -25,7 +25,7 @@ internal sealed class GetByIdAsync : PreferenceRepositoryTestBase
             cancellationToken: default);
 
         // Assert
-        preference.Should().NotBeNull();
-        preference.Should().Be(expected: Preferences.Single(predicate: x => x.Id == preferenceId));
+        preference.ShouldNotBeNull();
+        preference.ShouldBe(expected: Preferences.Single(predicate: x => x.Id == preferenceId));
     }
 }

@@ -6,11 +6,11 @@ using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E;
 
@@ -56,41 +56,41 @@ internal abstract class TestBase
 
     protected virtual void AssertResponseOk(HttpResponseMessage response)
     {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.OK);
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
+        response.StatusCode.ShouldBe(expected: HttpStatusCode.OK);
     }
 
     protected virtual void AssertResponseCreated(HttpResponseMessage response)
     {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.Created);
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
+        response.StatusCode.ShouldBe(expected: HttpStatusCode.Created);
     }
 
     protected virtual void AssertResponseNoContent(HttpResponseMessage response)
     {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.NoContent);
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
+        response.StatusCode.ShouldBe(expected: HttpStatusCode.NoContent);
     }
 
     protected virtual void AssertResponseBadRequest(HttpResponseMessage response)
     {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
-        response.StatusCode.Should().Be(expected: HttpStatusCode.BadRequest);
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
+        response.StatusCode.ShouldBe(expected: HttpStatusCode.BadRequest);
     }
 
     protected static void AssertResponseUnauthroised(HttpResponseMessage response)
     {
-        response.StatusCode.Should().Be(expected: HttpStatusCode.Unauthorized);
+        response.StatusCode.ShouldBe(expected: HttpStatusCode.Unauthorized);
     }
 
-    protected void AssertModuleHeader(HttpResponseMessage response, string moduleName)
+    protected static void AssertModuleHeader(HttpResponseMessage response, string moduleName)
     {
-        response.Headers.Contains(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).Should().BeTrue();
+        response.Headers.Contains(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).ShouldBeTrue();
 
         string? moduleIdHeaderValue =
             response.Headers.GetValues(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).FirstOrDefault();
 
-        moduleIdHeaderValue.Should().NotBeNullOrEmpty();
-        moduleIdHeaderValue.Should().Be(expected: moduleName);
+        moduleIdHeaderValue.ShouldNotBeEmpty();
+        moduleIdHeaderValue.ShouldBe(expected: moduleName);
     }
 }

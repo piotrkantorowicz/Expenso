@@ -3,9 +3,9 @@ using System.Text.Json;
 
 using Expenso.Shared.System.Time.Constants;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Time.Serialization.DateTimeConverter;
 
@@ -26,7 +26,7 @@ internal sealed class Read : DateTimeConverterTestBase
             options: new JsonSerializerOptions());
 
         // Assert
-        result.Should().Be(expected: expected);
+        result.ShouldBe(expected: expected);
     }
 
     [Test,
@@ -51,11 +51,9 @@ internal sealed class Read : DateTimeConverterTestBase
         };
 
         // Assert
-        action.Should().Throw<Exception>();
+        action.ShouldThrow<Exception>();
     }
-
-
-
+    
     private static IEnumerable<object> ValidDateTimeCases()
     {
         yield return new object[]

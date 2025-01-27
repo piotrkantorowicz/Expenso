@@ -1,8 +1,8 @@
 ﻿using Expenso.Shared.Tests.Utils.UnitTests;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.Domain.Types.ValueObjects.DateAndTime;
 
@@ -22,7 +22,7 @@ internal sealed class LessThan : TestBase<Shared.Domain.Types.ValueObjects.DateA
         bool result = dateTimeOffset.LessThan(dateTimeOffset: other);
 
         // Assert
-        result.Should().BeTrue();
+        result.ShouldBeTrue();
     }
 
     [Test]
@@ -38,6 +38,6 @@ internal sealed class LessThan : TestBase<Shared.Domain.Types.ValueObjects.DateA
         bool result = dateTimeOffset.LessThan(dateTimeOffset: other);
 
         // Assert
-        result.Should().BeFalse();
+        result.ShouldBeFalse();
     }
 }

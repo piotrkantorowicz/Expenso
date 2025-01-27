@@ -1,12 +1,12 @@
 using Expenso.BudgetSharing.Domain.BudgetPermissions.Events;
 using Expenso.BudgetSharing.Domain.Shared.ValueObjects;
-using Expenso.Shared.Domain.Types.Exceptions;
-
-using FluentAssertions;
+using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.BudgetSharing.Tests.UnitTests.Domain.BudgetPermissions.BudgetPermissions;
 
@@ -21,16 +21,14 @@ internal sealed class Create : BudgetPermissionTestBase
         TestCandidate = CreateTestCandidate(emitDomainEvents: true);
 
         // Assert
-        TestCandidate.Id.Should().Be(expected: _defaultBudgetPermissionId);
-        TestCandidate.BudgetId.Should().Be(expected: _defaultBudgetId);
-        TestCandidate.OwnerId.Should().Be(expected: _defaultOwnerId);
+        TestCandidate.Id.ShouldBe(expected: _defaultBudgetPermissionId);
+        TestCandidate.BudgetId.ShouldBe(expected: _defaultBudgetId);
+        TestCandidate.OwnerId.ShouldBe(expected: _defaultOwnerId);
 
-        TestCandidate
-            .Permissions.Should()
-            .ContainSingle(predicate: x =>
-                x.ParticipantId == _defaultOwnerId && x.PermissionType == PermissionType.Owner);
+        TestCandidate.Permissions.ShouldContainSingle(predicate: x =>
+            x.ParticipantId == _defaultOwnerId && x.PermissionType == PermissionType.Owner);
 
-        TestCandidate.Blocker.Should().BeNull();
+        TestCandidate.Blocker.ShouldBeNull();
 
         AssertDomainEventPublished(aggregateRoot: TestCandidate, expectedDomainEvents:
         [
@@ -53,12 +51,8 @@ internal sealed class Create : BudgetPermissionTestBase
         Action action = () => CreateTestCandidate(emitDomainEvents: true);
 
         // Assert
-        action
-            .Should()
-            .Throw<DomainRuleValidationException>()
-            .WithMessage(expectedWildcardPattern: "Business rule validation failed.")
-            .WithDetails(
-                expectedWildcardPattern:
-                $"A budget permission must be uniquely identified by its ID {_defaultBudgetPermissionId} and Budget ID {_defaultBudgetId} and combination of Owner ID {_defaultOwnerId} and Budget Code {_budgetCode}.");
+        action.AssertDomainRuleValidationException(
+            expectedDetails:
+            $"A budget permission must be uniquely identified by its ID {_defaultBudgetPermissionId} and Budget ID {_defaultBudgetId} and combination of Owner ID {_defaultOwnerId} and Budget Code {_budgetCode}.");
     }
 }

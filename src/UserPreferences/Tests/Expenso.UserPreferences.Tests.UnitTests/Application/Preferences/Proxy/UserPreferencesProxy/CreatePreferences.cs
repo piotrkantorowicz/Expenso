@@ -2,11 +2,11 @@ using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.Create
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
-using FluentAssertions;
-
 using Moq;
 
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.UserPreferences.Tests.UnitTests.Application.Preferences.Proxy.UserPreferencesProxy;
 
@@ -31,8 +31,8 @@ internal sealed class CreatePreferences : UserPreferencesProxyTestBase
             request: createPreferenceRequest, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        preference.Should().NotBeNull();
-        preference.Should().BeEquivalentTo(expectation: _createPreferenceResponse);
+        preference.ShouldNotBeNull();
+        preference.ShouldBeEquivalentTo(expected: _createPreferenceResponse);
 
         _commandDispatcherMock.Verify(
             expression: x => x.SendAsync<CreatePreferenceCommand, CreatePreferenceResponse>(

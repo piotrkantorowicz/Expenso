@@ -5,9 +5,9 @@ using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Read.GetBudgetPermissionRequest.DTO.Response;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 
@@ -31,8 +31,8 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
         GetBudgetPermissionRequestResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionRequestResponse>();
 
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).Should().BeTrue();
-        responseContent?.Id.Should().Be(expected: budgetPermissionRequestId);
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
+        responseContent?.Id.ShouldBe(expected: budgetPermissionRequestId);
     }
 
     [Test]

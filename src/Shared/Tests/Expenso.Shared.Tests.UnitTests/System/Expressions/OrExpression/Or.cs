@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 using Expenso.Shared.System.Expressions.Or;
 using Expenso.Shared.Tests.UnitTests.System.Expressions.TestData;
 
-using FluentAssertions;
-
 using NUnit.Framework;
+
+using Shouldly;
 
 namespace Expenso.Shared.Tests.UnitTests.System.Expressions.OrExpression;
 
@@ -30,21 +30,18 @@ internal sealed class Or
             {
                 Value = 4
             })
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
 
         compiledExpression(arg: new TestClass
             {
                 Value = 2
             })
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
 
         compiledExpression(arg: new TestClass
             {
                 Value = 6
             })
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
     }
 }
