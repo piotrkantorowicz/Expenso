@@ -15,11 +15,11 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
 
-        string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PatchAsync(
+            requestUri:
+            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel",
+            content: null);
 
         // Assert
         AssertResponseNoContent(response: response);
@@ -29,11 +29,11 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PatchAsync(
+            requestUri:
+            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel",
+            content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

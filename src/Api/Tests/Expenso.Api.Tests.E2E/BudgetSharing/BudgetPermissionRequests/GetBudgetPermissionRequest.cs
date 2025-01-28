@@ -18,12 +18,12 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid budgetPermissionRequestId = BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2];
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"budget-sharing/budget-permission-requests/{budgetPermissionRequestId}";
+        Guid budgetPermissionRequestId = BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2];
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionRequestId}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -39,11 +39,9 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        Guid budgetPermissionRequestId = BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2];
-        string requestPath = $"budget-sharing/budget-permission-requests/{budgetPermissionRequestId}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(
+            requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

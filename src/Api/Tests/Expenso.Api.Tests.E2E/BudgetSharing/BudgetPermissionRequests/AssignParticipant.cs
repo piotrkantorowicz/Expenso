@@ -20,11 +20,10 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "budget-sharing/budget-permission-requests";
         Guid budgetPermissioRequestId = Guid.CreateVersion7();
 
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
             value: new AssignParticipantRequest(BudgetPermissionRequestId: budgetPermissioRequestId,
                 BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 1], Email: FakeIamProxy.ExistingEmails[2],
                 PermissionType: AssignParticipantRequestPermissionType.Reviewer));
@@ -42,10 +41,8 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "budget-sharing/budget-permission-requests";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

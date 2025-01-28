@@ -19,10 +19,9 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"user-preferences/preferences?id={preferenceId}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -36,10 +35,9 @@ internal sealed class GetPreferences : PreferencesTestBase
         // Arrange
         Guid userId = UserDataInitializer.UserIds[index: 2];
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"user-preferences/preferences?userId={userId}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -52,10 +50,9 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        string requestPath = $"user-preferences/preferences?id={preferenceId}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

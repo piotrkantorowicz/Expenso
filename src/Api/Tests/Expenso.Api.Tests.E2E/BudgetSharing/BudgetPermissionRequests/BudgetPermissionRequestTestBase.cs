@@ -7,6 +7,8 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 [TestFixture]
 internal abstract class BudgetPermissionRequestTestBase : TestBase
 {
+    protected const string ApiRequestUrl = "budget-sharing/budget-permission-requests";
+
     [SetUp]
     public override Task SetUpAsync()
     {

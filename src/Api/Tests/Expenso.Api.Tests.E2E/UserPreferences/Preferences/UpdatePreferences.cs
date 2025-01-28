@@ -17,10 +17,9 @@ internal sealed class UpdatePreferences : PreferencesTestBase
         // Arrange
         Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[index: 1];
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"user-preferences/preferences/{preferenceId}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.PutAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PutAsJsonAsync(requestUri: $"{ApiRequestUrl}/{preferenceId}",
             value: new UpdatePreferenceRequest(FinancePreference: new UpdatePreferenceRequestFinancePreference(
                     AllowAddFinancePlanSubOwners: true,
                     MaxNumberOfSubFinancePlanSubOwners: 5, AllowAddFinancePlanReviewers: true,
@@ -41,7 +40,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
 
         // Act
         HttpResponseMessage response =
-            await _httpClient.PutAsync(requestUri: $"user-preferences/preferences/{preferenceId}", content: null);
+            await _httpClient.PutAsync(requestUri: $"{ApiRequestUrl}/{preferenceId}", content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

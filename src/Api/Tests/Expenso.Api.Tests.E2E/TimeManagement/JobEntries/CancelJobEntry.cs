@@ -14,10 +14,11 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"time-management/job-entries/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.DeleteAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.DeleteAsync(
+                requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}");
 
         // Assert
         AssertResponseNoContent(response: response);
@@ -27,10 +28,10 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath = $"time-management/job-entries/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.DeleteAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.DeleteAsync(
+                requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

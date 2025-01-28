@@ -15,11 +15,10 @@ internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
 
-        string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 1]}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.DeleteAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.DeleteAsync(
+                requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 1]}");
 
         // Assert
         AssertResponseNoContent(response: response);
@@ -29,11 +28,10 @@ internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 1]}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.DeleteAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.DeleteAsync(
+                requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 1]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

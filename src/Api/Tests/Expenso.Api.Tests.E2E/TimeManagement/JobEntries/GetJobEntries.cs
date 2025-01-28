@@ -18,10 +18,9 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
         AssertResponseOk(response: response);
@@ -43,10 +42,10 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"time-management/job-entries?pagination={page},{limit}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -74,10 +73,10 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"time-management/job-entries?pagination={page},{limit}";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
         AssertResponseBadRequest(response: response);
@@ -88,10 +87,10 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries?sorters=RunAt:Descending";
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=RunAt:Descending");
 
         // Assert
         AssertResponseOk(response: response);
@@ -112,10 +111,9 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries?sorters=MaxRetries:Ascending,RunAt:Descending";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=MaxRetries:Ascending,RunAt:Descending");
 
         // Assert
         AssertResponseOk(response: response);
@@ -139,10 +137,8 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "time-management/job-entries";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
         AssertResponseUnauthroised(response: response);
