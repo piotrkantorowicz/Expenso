@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 
+using Expenso.Api.Tests.E2E.TestData;
+
 using NUnit.Framework;
 
 using Shouldly;
@@ -22,7 +24,7 @@ internal sealed class HelloUser : TestBase
         // Assert
         AssertResponseOk(response: response);
         string? responseContent = await response.Content.ReadFromJsonAsync<string>();
-        responseContent.ShouldBe(expected: $"Hello {Username}, I'm Expenso API");
+        responseContent.ShouldBe(expected: $"Hello {TestClient.ClientName}, I'm Expenso API");
     }
 
     [Test]

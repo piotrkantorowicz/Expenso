@@ -16,7 +16,7 @@ internal static class TimeManagementDataInitializer
 {
     private const int NumberOfEntries = 3;
     public static readonly IList<Guid> JobEntriesIds = new List<Guid>();
-
+    
     public static async Task InitializeAsync(ITimeManagementProxy timeManagementProxy, IClock clock,
         CancellationToken cancellationToken)
     {
@@ -37,7 +37,7 @@ internal static class TimeManagementDataInitializer
                             requestedBy: TestClient.ClientId, timestamp: clock.UtcNow,
                             module: ModuleNames.BudgetSharingModule),
                         Payload: new BudgetPermissionRequestExpiredPayload(
-                            BudgetPermissionRequestId: BudgetPermissionDataInitializer.BudgetPermissionRequestIds[
+                            BudgetPermissionRequestId: BudgetSharingDataInitializer.BudgetPermissionRequestIds[
                                 index: i]))))
             ], Interval: null, RunAt: clock.UtcNow.AddHours(hours: 5 + i));
 

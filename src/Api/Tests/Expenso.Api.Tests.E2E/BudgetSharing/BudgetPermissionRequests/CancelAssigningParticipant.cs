@@ -17,8 +17,7 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
 
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
-            requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel",
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel",
             content: null);
 
         // Assert
@@ -31,8 +30,7 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
         // Arrange
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
-            requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel",
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 0]}/cancel",
             content: null);
 
         // Assert

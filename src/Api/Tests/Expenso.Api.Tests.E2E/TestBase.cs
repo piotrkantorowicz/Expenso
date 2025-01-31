@@ -3,6 +3,7 @@ using System.Net;
 using Expenso.Api.Configuration.Auth.Claims;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.Configuration;
+using Expenso.Api.Tests.E2E.TestData;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -43,13 +44,10 @@ internal abstract class TestBase
 
     protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;
 
-    protected const string? Username = "Test user";
-    private static readonly Guid UserId = new(g: "a8033772-3f5a-4127-8d23-de01aaf4f5d9");
-
     protected readonly Dictionary<string, object?> _claims = new()
     {
-        { ClaimNames.UserIdClaimName, UserId },
-        { ClaimNames.UsernameClaimName, Username }
+        { ClaimNames.UserIdClaimName, TestClient.ClientId },
+        { ClaimNames.UsernameClaimName, TestClient.ClientName }
     };
 
     protected HttpClient _httpClient = null!;

@@ -22,7 +22,7 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
         // Act
         HttpResponseMessage response =
             await _httpClient.GetAsync(
-                requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}");
+                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -30,7 +30,7 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
         GetBudgetPermissionResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
 
-        responseContent?.Id.ShouldBe(expected: BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]);
+        responseContent?.Id.ShouldBe(expected: BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]);
     }
 
     [Test]
@@ -40,7 +40,7 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
         // Act
         HttpResponseMessage response =
             await _httpClient.GetAsync(
-                requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}");
+                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

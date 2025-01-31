@@ -19,7 +19,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         // Act
         HttpResponseMessage response = await _httpClient.DeleteAsync(
             requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}");
+            $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}");
 
         // Assert
         AssertResponseNoContent(response: response);
@@ -32,7 +32,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
         // Act
         HttpResponseMessage response = await _httpClient.DeleteAsync(
             requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}");
+            $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

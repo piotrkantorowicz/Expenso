@@ -1,0 +1,3 @@
+namespace Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissionRequests.AssignParticipant.Response;
+
+public sealed record AssignParticipantResponse(Guid BudgetPermissionRequestId);

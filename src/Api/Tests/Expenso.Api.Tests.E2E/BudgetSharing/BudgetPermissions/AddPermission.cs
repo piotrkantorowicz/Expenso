@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.AddPermission.Request;
 
 using NUnit.Framework;
 
@@ -21,7 +21,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
             requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 4]}",
+            $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 4]}",
             value: AddPermissionRequestPermissionType.Reviewer);
 
         // Assert
@@ -35,7 +35,7 @@ internal sealed class AddPermission : BudgetPermissionTestBase
         // Act
         HttpResponseMessage response = await _httpClient.PostAsync(
             requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}",
+            $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}",
             content: null);
 
         // Assert

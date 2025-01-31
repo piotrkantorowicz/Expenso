@@ -19,7 +19,7 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claims);
-        Guid budgetPermissionRequestId = BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2];
+        Guid budgetPermissionRequestId = BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2];
 
         // Act
         HttpResponseMessage response =
@@ -41,7 +41,7 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
         // Arrange
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(
-            requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2]}");
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

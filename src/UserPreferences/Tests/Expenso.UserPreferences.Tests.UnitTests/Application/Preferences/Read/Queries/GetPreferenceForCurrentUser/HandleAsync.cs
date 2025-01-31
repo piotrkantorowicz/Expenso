@@ -73,7 +73,7 @@ internal sealed class HandleAsync : GetPreferenceForCurrentUserQueryHandlerTestB
             TestCandidate.HandleAsync(query: query, cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
+        NotFoundException exception = await action.ShouldThrowAsync<NotFoundException>();
 
         exception.Message.ShouldBe(
             expected: $"{nameof(Preference)} with query {preferenceQuerySpecification} hasn't been found.");

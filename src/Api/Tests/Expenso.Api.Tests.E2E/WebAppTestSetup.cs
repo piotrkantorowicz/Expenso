@@ -3,11 +3,12 @@ using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.Api.Tests.E2E.TestData.TimeManagement;
+using Expenso.BudgetSharing.Shared;
 using Expenso.DocumentManagement.Shared;
-using Expenso.Shared.Commands.Dispatchers;
 using Expenso.Shared.Database.EfCore.Settings;
 using Expenso.Shared.System.Time;
 using Expenso.TimeManagement.Shared;
+using Expenso.UserPreferences.Shared;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,18 +26,19 @@ internal sealed class WebAppTestSetup
     public async Task OneTimeSetupAsync()
     {
         using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
-        ICommandDispatcher commandDispatcher = scope.ServiceProvider.GetRequiredService<ICommandDispatcher>();
 
         IDocumentManagementProxy documentManagementProxy =
             scope.ServiceProvider.GetRequiredService<IDocumentManagementProxy>();
 
         ITimeManagementProxy timeManagementProxy = scope.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
+        IUserPreferencesProxy userPreferencesProxy = scope.ServiceProvider.GetRequiredService<IUserPreferencesProxy>();
+        IBudgetSharingProxy budgetSharingProxy = scope.ServiceProvider.GetRequiredService<IBudgetSharingProxy>();
         IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
-        await PreferencesDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+        await PreferencesDataInitializer.InitializeAsync(clock: clock, userPreferencesProxy: userPreferencesProxy,
             cancellationToken: default);
 
-        await BudgetPermissionDataInitializer.InitializeAsync(commandDispatcher: commandDispatcher, clock: clock,
+        await BudgetSharingDataInitializer.InitializeAsync(clock: clock, budgetSharingProxy: budgetSharingProxy,
             cancellationToken: default);
 
         await DocumentManagementDataInitializer.InitializeAsync(documentManagementProxy: documentManagementProxy,

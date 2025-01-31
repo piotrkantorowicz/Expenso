@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 
 using Expenso.Api.Tests.E2E.TestData.Preferences;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 using NUnit.Framework;
 

@@ -4,11 +4,13 @@ using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
+using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
 using Expenso.UserPreferences.Shared;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 namespace Expenso.UserPreferences.Core.Application.Proxy;
 
@@ -46,6 +48,16 @@ internal sealed class UserPreferencesProxy : IUserPreferencesProxy
             command: new CreatePreferenceCommand(
                 MessageContext: _messageContextFactory.FromParent(parent: messageContext,
                     moduleId: ModuleNames.UserPreferencesModule), Payload: request),
+            cancellationToken: cancellationToken);
+    }
+
+    public async Task UpdatePreferencesAsync(Guid preferenceId, UpdatePreferenceRequest request,
+        IMessageContext? messageContext = null, CancellationToken cancellationToken = default)
+    {
+        await _commandDispatcher.SendAsync(
+            command: new UpdatePreferenceCommand(
+                MessageContext: _messageContextFactory.FromParent(parent: messageContext,
+                    moduleId: ModuleNames.UserPreferencesModule), PreferenceId: preferenceId, Payload: request),
             cancellationToken: cancellationToken);
     }
 }

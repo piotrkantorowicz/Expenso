@@ -2,8 +2,8 @@ using System.Net;
 using System.Net.Http.Json;
 
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.CreateBudgetPermission.Response;
 
 using NUnit.Framework;
 

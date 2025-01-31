@@ -17,8 +17,7 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
 
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
-            requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire",
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire",
             content: null);
 
         // Assert
@@ -31,8 +30,7 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
         // Arrange
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
-            requestUri:
-            $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire",
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire",
             content: null);
 
         // Assert

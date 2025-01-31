@@ -32,6 +32,7 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
         {
             ConfigureTestSerializer(services: services);
             UseFakeIIamProxy(services: services);
+            
             EfCoreSettings efCoreSettings = GetEfCoreSettings();
 
             if (efCoreSettings.InMemory is true)
@@ -69,7 +70,6 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
     {
         services.Configure<JsonOptions>(configureOptions: options =>
         {
-            // Remove JsonStringEnumConverter to avoid serialization issues with enums
             options.SerializerOptions.Converters.Remove(
                 item: options.SerializerOptions.Converters.Single(predicate: c =>
                     c.GetType() == typeof(JsonStringEnumConverter)));

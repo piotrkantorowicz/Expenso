@@ -23,7 +23,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="DTO\API\BudgetPermissions\"/>
+        <Folder Include="DTO\API\BudgetPermissionRequests\AssignParticipant\"/>
+        <Folder Include="DTO\API\BudgetPermissions\DeleteBudgetPermission\"/>
     </ItemGroup>
 
 </Project>

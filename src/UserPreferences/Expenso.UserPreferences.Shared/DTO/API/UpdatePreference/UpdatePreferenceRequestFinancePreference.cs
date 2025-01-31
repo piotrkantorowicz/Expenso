@@ -1,4 +1,4 @@
-namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+namespace Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 public sealed record UpdatePreferenceRequestFinancePreference(
     bool AllowAddFinancePlanSubOwners,

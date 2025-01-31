@@ -10,6 +10,7 @@ using Expenso.Shared.Domain.Types.Events;
 using Expenso.Shared.Domain.Types.Model;
 using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -96,7 +97,8 @@ public sealed class BudgetPermission : IAggregateRoot
         Permissions.Add(item: permission);
 
         _domainEventsSource.AddDomainEvent(domainEvent: new BudgetPermissionGrantedEvent(
-            MessageContext: _messageContextFactory.Current(), OwnerId: OwnerId, ParticipantId: participantId,
+            MessageContext: _messageContextFactory.Current(moduleId: ModuleNames.BudgetSharingModule), OwnerId: OwnerId,
+            ParticipantId: participantId,
             BudgetCode: BudgetCode, PermissionType: permissionType!));
     }
 

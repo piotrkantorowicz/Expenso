@@ -65,9 +65,9 @@ internal abstract class JobInstanceRepositoryTestBase : TestBase<IJobInstanceRep
 
     protected static readonly IList<Guid> JobInstanceIds =
     [
-        new(g: "19967114-32ef-4202-90c8-3aa590d14a03"),
-        new(g: "87ddf365-e001-4949-abae-451d7ccd46c1"),
-        new(g: "d3b1e36e-f188-4858-8d07-1b8bcd1b87fb")
+        new(g: "0194ba94-0f72-73cf-8b7f-e8a4ee39bc7c"),
+        new(g: "0194ba94-0f72-7e1d-b12a-6454ec9465d6"),
+        new(g: "0194ba94-0f72-7dfc-aae8-c8c0d7678adf")
     ];
 
     private Mock<IClock> _clockMock = null!;

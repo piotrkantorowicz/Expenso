@@ -3,8 +3,8 @@ using System.Net.Http.Json;
 
 using Expenso.Api.Tests.E2E.IAM;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissionRequests.Write.AssignParticipant.DTO.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissionRequests.AssignParticipant.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissionRequests.AssignParticipant.Response;
 
 using NUnit.Framework;
 
@@ -25,7 +25,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
             value: new AssignParticipantRequest(BudgetPermissionRequestId: budgetPermissioRequestId,
-                BudgetId: BudgetPermissionDataInitializer.BudgetIds[index: 1], Email: FakeIamProxy.ExistingEmails[2],
+                BudgetId: BudgetSharingDataInitializer.BudgetIds[index: 1], Email: FakeIamProxy.ExistingEmails[2],
                 PermissionType: AssignParticipantRequestPermissionType.Reviewer));
 
         // Assert

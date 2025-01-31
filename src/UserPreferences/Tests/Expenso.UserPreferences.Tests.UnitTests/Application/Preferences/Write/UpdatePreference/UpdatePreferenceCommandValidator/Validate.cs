@@ -1,6 +1,6 @@
 using Expenso.Shared.Tests.Utils.UnitTests.Assertions;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 using FluentValidation.Results;
 

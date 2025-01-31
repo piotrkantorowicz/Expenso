@@ -1,5 +1,5 @@
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 namespace Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Maps;
 

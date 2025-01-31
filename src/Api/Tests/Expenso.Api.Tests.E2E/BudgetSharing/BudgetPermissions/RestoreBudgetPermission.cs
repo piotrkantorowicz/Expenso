@@ -17,7 +17,7 @@ internal sealed class RestoreBudgetPermission : BudgetPermissionTestBase
 
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
-            requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 2]}",
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 2]}",
             content: null);
 
         // Assert
@@ -30,7 +30,7 @@ internal sealed class RestoreBudgetPermission : BudgetPermissionTestBase
         // Arrange
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
-            requestUri: $"{ApiRequestUrl}/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 2]}",
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 2]}",
             content: null);
 
         // Assert
