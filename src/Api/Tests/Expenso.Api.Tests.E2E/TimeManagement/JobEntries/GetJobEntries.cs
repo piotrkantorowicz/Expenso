@@ -17,11 +17,10 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_ReturnExpectedResult_And_Defualts()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
         AssertResponseOk(response: response);
@@ -42,11 +41,11 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleValidPaginationParameters(string? page, string? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"time-management/job-entries?pagination={page},{limit}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -73,11 +72,11 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleInvalidPaginationParameters(string? page, string? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"time-management/job-entries?pagination={page},{limit}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
         AssertResponseBadRequest(response: response);
@@ -87,11 +86,11 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleSingleSorter()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries?sorters=RunAt:Descending";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=RunAt:Descending");
 
         // Assert
         AssertResponseOk(response: response);
@@ -111,11 +110,10 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleMultipleSorters()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries?sorters=MaxRetries:Ascending,RunAt:Descending";
-
+        _httpClient.SetFakeBearerToken(token: Claims);
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=MaxRetries:Ascending,RunAt:Descending");
 
         // Assert
         AssertResponseOk(response: response);
@@ -139,10 +137,8 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "time-management/job-entries";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
         AssertResponseUnauthroised(response: response);

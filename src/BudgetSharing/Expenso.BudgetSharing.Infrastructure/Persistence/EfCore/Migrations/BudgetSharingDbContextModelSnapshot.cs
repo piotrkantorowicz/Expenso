@@ -18,7 +18,7 @@ partial class BudgetSharingDbContextModelSnapshot : ModelSnapshot
 #pragma warning disable 612, 618
         modelBuilder
             .HasDefaultSchema("BudgetSharing")
-            .HasAnnotation("ProductVersion", "8.0.8")
+            .HasAnnotation("ProductVersion", "9.0.1")
             .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
         NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -35,6 +35,9 @@ partial class BudgetSharingDbContextModelSnapshot : ModelSnapshot
             b.Property<Guid>("BudgetId")
                 .HasColumnType("uuid");
 
+            b.Property<Guid>("OwnerId")
+                .HasColumnType("uuid");
+
             b.Property<Guid>("ParticipantId")
                 .HasColumnType("uuid");
 
@@ -46,6 +49,8 @@ partial class BudgetSharingDbContextModelSnapshot : ModelSnapshot
             b.HasIndex("BudgetCode");
 
             b.HasIndex("BudgetId");
+
+            b.HasIndex("OwnerId");
 
             b.HasIndex("ParticipantId");
 

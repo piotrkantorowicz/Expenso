@@ -17,11 +17,10 @@ internal sealed class GetPreference : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"user-preferences/preferences/{preferenceId}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{preferenceId}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -33,11 +32,10 @@ internal sealed class GetPreference : PreferencesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        string requestPath = $"user-preferences/preferences/{preferenceId}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(
+                requestUri: $"{ApiRequestUrl}/{PreferencesDataInitializer.PreferenceIds[index: 3]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

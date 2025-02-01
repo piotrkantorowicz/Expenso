@@ -5,7 +5,7 @@ namespace Expenso.Api.Configuration.Execution.Middlewares;
 
 internal sealed class ModuleIdMiddleware
 {
-    internal const string ModuleMiddlewareHeaderKey = "Module";
+    internal const string ModuleMiddlewareHeaderKey = "ModuleId";
     private readonly RequestDelegate _next;
 
     public ModuleIdMiddleware(RequestDelegate next)

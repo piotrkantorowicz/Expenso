@@ -17,13 +17,12 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-
-        string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(
+                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -31,18 +30,17 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
         GetBudgetPermissionResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
 
-        responseContent?.Id.ShouldBe(expected: BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]);
+        responseContent?.Id.ShouldBe(expected: BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]);
     }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(
+                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

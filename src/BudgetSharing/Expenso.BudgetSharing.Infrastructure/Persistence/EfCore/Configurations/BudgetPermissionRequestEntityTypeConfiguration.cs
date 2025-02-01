@@ -16,6 +16,7 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
         builder.HasKey(keyExpression: x => x.Id);
         builder.HasIndex(indexExpression: x => x.BudgetId);
         builder.HasIndex(indexExpression: x => x.BudgetCode);
+        builder.HasIndex(indexExpression: x => x.OwnerId);
         builder.HasIndex(indexExpression: x => x.ParticipantId);
 
         builder
@@ -34,6 +35,12 @@ internal sealed class BudgetPermissionRequestEntityTypeConfiguration : IEntityTy
             .Property(propertyExpression: x => x.BudgetCode)
             .HasConversion(convertToProviderExpression: x => x.Value,
                 convertFromProviderExpression: x => BudgetCode.New(x))
+            .IsRequired();
+
+        builder
+            .Property(propertyExpression: x => x.OwnerId)
+            .HasConversion(convertToProviderExpression: x => x.Value,
+                convertFromProviderExpression: x => PersonId.New(x))
             .IsRequired();
 
         builder

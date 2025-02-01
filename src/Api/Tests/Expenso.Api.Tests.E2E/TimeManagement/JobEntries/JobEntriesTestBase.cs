@@ -12,6 +12,8 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 [TestFixture]
 internal abstract class JobEntriesTestBase : TestBase
 {
+    protected const string ApiRequestUrl = "time-management/job-entries";
+    
     [SetUp]
     public override Task SetUpAsync()
     {

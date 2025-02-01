@@ -85,12 +85,12 @@ internal abstract class JobEntryRepositoryTestBase : TestBase<IJobEntryRepositor
 
     protected static IList<Guid> _jobEntriesIds =
     [
-        new(g: "19967114-32ef-4202-90c8-3aa590d14a03"),
-        new(g: "87ddf365-e001-4949-abae-451d7ccd46c1"),
-        new(g: "d3b1e36e-f188-4858-8d07-1b8bcd1b87fb"),
-        new(g: "9088d3fe-ac68-4f20-8925-ac8301563bf4"),
-        new(g: "ec12f742-4c3b-4c40-b390-27ec12b31cf1"),
-        new(g: "50796966-373d-4fb5-bb61-2b7499b0ce64")
+        new(g: "0194ba94-0f72-72c3-bd93-0b5f64fbc171"),
+        new(g: "0194ba94-0f72-757b-a8a5-9e4d754e1dd8"),
+        new(g: "0194ba94-0f72-7ffa-b561-7193a7a1fbe8"),
+        new(g: "0194ba94-0f72-70ee-bff1-c30649ee68ff"),
+        new(g: "0194ba94-0f72-7df9-bdd1-40ed3c0b1594"),
+        new(g: "0194ba94-0f72-7966-acef-68aab0124662")
     ];
 
     protected Mock<ITimeManagementDbContext> _dbContextMock = null!;

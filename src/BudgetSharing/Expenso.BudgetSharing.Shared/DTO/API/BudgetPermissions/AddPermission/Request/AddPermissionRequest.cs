@@ -1,4 +1,4 @@
-namespace Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
+namespace Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.AddPermission.Request;
 
 public sealed record AddPermissionRequest(
     Guid BudgetPermissionId,

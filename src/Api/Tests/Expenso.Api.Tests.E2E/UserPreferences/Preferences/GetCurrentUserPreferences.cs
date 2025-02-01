@@ -17,17 +17,15 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response =
-            await _httpClient.GetAsync(requestUri: "user-preferences/preferences/current-user");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/current-user");
 
         // Assert
         AssertResponseOk(response: response);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
-        responseContent?.Id.ShouldBe(expected: preferenceId);
+        responseContent?.Id.ShouldBe(expected: PreferencesDataInitializer.PreferenceIds[index: 3]);
     }
 
     [Test]
@@ -35,8 +33,7 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     {
         // Arrange
         // Act
-        HttpResponseMessage response =
-            await _httpClient.GetAsync(requestUri: "user-preferences/preferences/current-user");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/current-user");
 
         // Assert
         AssertResponseUnauthroised(response: response);

@@ -18,11 +18,10 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "budget-sharing/budget-permissions";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
         AssertResponseOk(response: response);
@@ -38,11 +37,11 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     public async Task Should_HandleValidPaginationParameters(int? page, int? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"budget-sharing/budget-permissions?pagination={page},{limit}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -66,11 +65,11 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     public async Task Should_HandleInvalidPaginationParameters(int? page, int? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"budget-sharing/budget-permissions?pagination={page},{limit}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
         AssertResponseBadRequest(response: response);
@@ -80,11 +79,11 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     public async Task Should_HandleSingleSorter()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "budget-sharing/budget-permissions?sorters=BudgetId:Descending";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=BudgetId:Descending");
 
         // Assert
         AssertResponseOk(response: response);
@@ -104,10 +103,8 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "budget-sharing/budget-permissions";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
         AssertResponseUnauthroised(response: response);

@@ -15,12 +15,12 @@ using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPrefe
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.CreatePreference;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Shared;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.GetPreference.Response;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

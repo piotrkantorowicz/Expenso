@@ -13,13 +13,12 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-
-        string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PatchAsync(
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire",
+            content: null);
 
         // Assert
         AssertResponseNoContent(response: response);
@@ -29,11 +28,10 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath =
-            $"budget-sharing/budget-permission-requests/{BudgetPermissionDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PatchAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PatchAsync(
+            requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}/expire",
+            content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

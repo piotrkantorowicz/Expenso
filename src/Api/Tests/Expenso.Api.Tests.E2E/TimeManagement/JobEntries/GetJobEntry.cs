@@ -17,11 +17,10 @@ internal sealed class GetJobEntry : JobEntriesTestBase
     {
         // Arrange
         Guid jobEntryId = TimeManagementDataInitializer.JobEntriesIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: _claims);
-        string requestPath = $"time-management/job-entries/{jobEntryId}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");
 
         // Assert
         AssertResponseOk(response: response);
@@ -33,10 +32,10 @@ internal sealed class GetJobEntry : JobEntriesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath = $"time-management/job-entries/{TimeManagementDataInitializer.JobEntriesIds[index: 2]}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: requestPath);
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(
+                requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 2]}");
 
         // Assert
         AssertResponseUnauthroised(response: response);

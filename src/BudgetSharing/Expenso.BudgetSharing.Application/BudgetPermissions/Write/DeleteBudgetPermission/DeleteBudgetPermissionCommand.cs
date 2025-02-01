@@ -1,4 +1,4 @@
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.DeleteBudgetPermission.DTO.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.DeleteBudgetPermission.Request;
 using Expenso.Shared.Commands;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 

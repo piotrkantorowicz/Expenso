@@ -2,8 +2,8 @@ using System.Net;
 using System.Net.Http.Json;
 
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Request;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.CreateBudgetPermission.DTO.Response;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.CreateBudgetPermission.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.CreateBudgetPermission.Response;
 
 using NUnit.Framework;
 
@@ -18,8 +18,7 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "budget-sharing/budget-permissions";
+        _httpClient.SetFakeBearerToken(token: Claims);
         const string budgetCode = "BDGT/11/12/2024";
         Guid budgetPermissionId = Guid.CreateVersion7();
         Guid budgetId = Guid.CreateVersion7();
@@ -29,7 +28,7 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
 
         // Act
         HttpResponseMessage response =
-            await _httpClient.PostAsJsonAsync(requestUri: requestPath, value: createBudgetPermissionRequest);
+            await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl, value: createBudgetPermissionRequest);
 
         // Assert
         AssertResponseCreated(response: response);
@@ -44,10 +43,8 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "budget-sharing/budget-permissions";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

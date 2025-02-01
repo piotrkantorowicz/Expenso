@@ -23,11 +23,10 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     public async Task Should_RegisterJobEntry()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-        const string requestPath = "time-management/job-entries";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
             value: CreateTestRequest());
 
         // Assert
@@ -43,10 +42,8 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "time-management/job-entries";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);
@@ -73,9 +70,8 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
                 EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
                 EventData: JsonSerializer.Serialize(value: new BudgetPermissionRequestExpiredIntegrationEvent(
                     MessageContext: new MessageContext(messageId: Guid.CreateVersion7(),
-                        correlationId: Guid.CreateVersion7(),
-                        requestedBy: TestClient.ClientId, timestamp: _clock.UtcNow,
-                        module: ModuleNames.BudgetSharingModule),
+                        correlationId: Guid.CreateVersion7(), requestedBy: TestClient.ClientId,
+                        timestamp: _clock.UtcNow, module: ModuleNames.BudgetSharingModule),
                     Payload: new BudgetPermissionRequestExpiredPayload(
                         BudgetPermissionRequestId: Guid.CreateVersion7()))))
         ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 5));

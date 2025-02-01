@@ -86,11 +86,7 @@ internal sealed class AssignParticipationDomainService : IAssignParticipationDom
         [
             new BusinessRuleCheck(
                 BusinessRule: new ParticipantPermissionTypeMustHaveValue(permissionType: permissionType,
-                    participantId: participantId))
-        ]);
-
-        DomainModelState.CheckBusinessRules(businessRules:
-        [
+                    participantId: participantId)),
             new BusinessRuleCheck(
                 BusinessRule: new ExpirationDateMustBeGreaterThanOneDay(expirationDate: expirationDate, clock: _clock)),
             new BusinessRuleCheck(BusinessRule: new MemberHasAlreadyOpenedBudgetPermissionRequests(

@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.IAM;
-using Expenso.BudgetSharing.Application.BudgetPermissions.Write.AddPermission.DTO.Request;
+using Expenso.BudgetSharing.Shared.DTO.API.BudgetPermissions.AddPermission.Request;
 
 using NUnit.Framework;
 
@@ -16,13 +16,12 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
-
-        string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 4]}";
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(
+            requestUri:
+            $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 4]}",
             value: AddPermissionRequestPermissionType.Reviewer);
 
         // Assert
@@ -33,11 +32,11 @@ internal sealed class AddPermission : BudgetPermissionTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        string requestPath =
-            $"budget-sharing/budget-permissions/{BudgetPermissionDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(
+            requestUri:
+            $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}",
+            content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

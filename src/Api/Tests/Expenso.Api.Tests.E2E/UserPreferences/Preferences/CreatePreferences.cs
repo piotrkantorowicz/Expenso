@@ -17,13 +17,12 @@ internal sealed class CreatePreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
         Guid userId = Guid.CreateVersion7();
         Guid preferenceId = Guid.CreateVersion7();
-        const string requestPath = "user-preferences/preferences";
 
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: requestPath,
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
             value: new CreatePreferenceRequest(PreferenceId: preferenceId, UserId: userId));
 
         // Assert
@@ -40,10 +39,8 @@ internal sealed class CreatePreferences : PreferencesTestBase
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
-        const string requestPath = "user-preferences/preferences";
-
         // Act
-        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: requestPath, content: null);
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
         AssertResponseUnauthroised(response: response);

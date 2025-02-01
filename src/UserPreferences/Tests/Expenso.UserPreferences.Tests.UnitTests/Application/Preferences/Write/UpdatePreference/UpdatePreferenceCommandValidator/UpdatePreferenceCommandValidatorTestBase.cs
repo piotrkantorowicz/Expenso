@@ -1,8 +1,8 @@
 using Expenso.Shared.Commands.Validation.Validators;
 using Expenso.Shared.Tests.Utils.UnitTests;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request.Validators;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 
 using NUnit.Framework;
 

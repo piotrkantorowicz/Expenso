@@ -1,9 +1,9 @@
 using Expenso.Shared.System.Types.Exceptions;
 using Expenso.Shared.System.Types.Exceptions.Models;
 using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference;
-using Expenso.UserPreferences.Core.Application.Preferences.Write.Commands.UpdatePreference.DTO.Request;
 using Expenso.UserPreferences.Core.Domain.Preferences.Model;
 using Expenso.UserPreferences.Core.Domain.Preferences.Repositories.Specifications;
+using Expenso.UserPreferences.Shared.DTO.API.UpdatePreference;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.FinancePreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.GeneralPreferences;
 using Expenso.UserPreferences.Shared.DTO.MessageBus.UpdatePreference.NotificationPreferences;
