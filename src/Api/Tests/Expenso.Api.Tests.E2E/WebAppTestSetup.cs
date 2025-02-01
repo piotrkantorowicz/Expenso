@@ -30,19 +30,37 @@ internal sealed class WebAppTestSetup
     [OneTimeSetUp]
     public async Task OneTimeSetupAsync()
     {
-        using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
-        await InitializeTestData(scope: scope);
+        try
+        {
+            using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
+            await InitializeTestDataAsync(scope: scope);
+        }
+        catch (Exception ex)
+        {
+            await TestContext.Error.WriteLineAsync(value: $"Web app setup failed: {ex}");
+
+            throw;
+        }
     }
 
     [OneTimeTearDown]
     public async Task OneTimeTearDownAsync()
     {
-        EfCoreSettings databaseSettings = GetDatabaseSettings();
-        await DropDatabaseAsync(databaseSettings: databaseSettings);
-        WebApp.Instance.Destroy();
+        try
+        {
+            EfCoreSettings databaseSettings = GetDatabaseSettings();
+            await DropDatabaseAsync(databaseSettings: databaseSettings);
+            WebApp.Instance.Destroy();
+        }
+        catch (Exception ex)
+        {
+            await TestContext.Error.WriteLineAsync(value: $"Web app teardown failed: {ex}");
+
+            throw;
+        }
     }
 
-    private static async Task InitializeTestData(IServiceScope scope)
+    private static async Task InitializeTestDataAsync(IServiceScope scope)
     {
         IDocumentManagementProxy documentManagementProxy =
             scope.ServiceProvider.GetRequiredService<IDocumentManagementProxy>();
@@ -52,32 +70,44 @@ internal sealed class WebAppTestSetup
         IBudgetSharingProxy budgetSharingProxy = scope.ServiceProvider.GetRequiredService<IBudgetSharingProxy>();
         IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
-        await RunInitializeAction(scope: scope, moduleName: ModuleNames.UserPreferencesModule,
+        await RunInitializeActionAsync(scope: scope, moduleName: ModuleNames.UserPreferencesModule,
             action: () => PreferencesDataInitializer.InitializeAsync(clock: clock,
                 userPreferencesProxy: userPreferencesProxy, cancellationToken: default));
 
-        await RunInitializeAction(scope: scope, moduleName: ModuleNames.BudgetSharingModule,
+        await RunInitializeActionAsync(scope: scope, moduleName: ModuleNames.BudgetSharingModule,
             action: () => BudgetSharingDataInitializer.InitializeAsync(clock: clock,
                 budgetSharingProxy: budgetSharingProxy, cancellationToken: default));
 
-        await RunInitializeAction(scope: scope, moduleName: ModuleNames.DocumentManagementModule,
+        await RunInitializeActionAsync(scope: scope, moduleName: ModuleNames.DocumentManagementModule,
             action: () =>
                 DocumentManagementDataInitializer.InitializeAsync(documentManagementProxy: documentManagementProxy,
                     clock: clock, cancellationToken: default));
 
-        await RunInitializeAction(scope: scope, moduleName: ModuleNames.TimeManagementModule,
+        await RunInitializeActionAsync(scope: scope, moduleName: ModuleNames.TimeManagementModule,
             action: () => TimeManagementDataInitializer.InitializeAsync(timeManagementProxy: timeManagementProxy,
                 clock: clock, cancellationToken: default));
     }
 
-    private static async Task RunInitializeAction(IServiceScope scope, string moduleName, Func<Task> action)
+    private static async Task RunInitializeActionAsync(IServiceScope scope, string moduleName, Func<Task> action)
     {
-        IHttpContextAccessor httpContextAccessor = SetupHttpContext(scope: scope, moduleName: moduleName);
-        await action();
-        httpContextAccessor.HttpContext = null;
+        IHttpContextAccessor? httpContextAccessor = null;
+
+        try
+        {
+            httpContextAccessor = SetupHttpContext(scope: scope, moduleName: moduleName);
+            await action();
+        }
+        finally
+        {
+            if (httpContextAccessor != null)
+            {
+                httpContextAccessor.HttpContext = null;
+            }
+        }
     }
 
-    [SuppressMessage(category: "Usage", checkId: "ASP0019:Suggest using IHeaderDictionary.Append or the indexer")]
+    [SuppressMessage(category: "Usage", checkId: "ASP0019:Suggest using IHeaderDictionary.Append or the indexer",
+        Justification = "Using the indexer for simplicity.")]
     private static IHttpContextAccessor SetupHttpContext(IServiceScope scope, string moduleName)
     {
         IHttpContextAccessor httpContextAccessor = scope.ServiceProvider.GetRequiredService<IHttpContextAccessor>();

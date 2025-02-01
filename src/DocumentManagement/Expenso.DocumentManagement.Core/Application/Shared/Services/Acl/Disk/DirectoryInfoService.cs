@@ -20,19 +20,25 @@ internal sealed class DirectoryInfoService : IDirectoryInfoService
 
     public string GetReportsDirectory(string userId, string[]? groups, string date)
     {
-        return _fileSystem.Path.Combine(paths:
-        [
-            _filesSettings.RootPath ?? _rootPath, userId, _filesSettings.ReportsDirectory ?? Reports, date,
+        return _fileSystem.Path.Combine(paths: new[]
+        {
+            _filesSettings.RootPath ?? _rootPath,
+            userId,
+            _filesSettings.ReportsDirectory ?? Reports,
+            date,
             groups is null ? string.Empty : _fileSystem.Path.Combine(paths: groups)
-        ]);
+        });
     }
 
     public string GetImportsDirectory(string userId, string[]? groups, string date)
     {
-        return _fileSystem.Path.Combine(paths:
-        [
-            _filesSettings.RootPath ?? _rootPath, userId, _filesSettings.ImportDirectory ?? Imports, date,
+        return _fileSystem.Path.Combine(paths: new[]
+        {
+            _filesSettings.RootPath ?? _rootPath,
+            userId,
+            _filesSettings.ImportDirectory ?? Imports,
+            date,
             groups is null ? string.Empty : _fileSystem.Path.Combine(paths: groups)
-        ]);
+        });
     }
 }
