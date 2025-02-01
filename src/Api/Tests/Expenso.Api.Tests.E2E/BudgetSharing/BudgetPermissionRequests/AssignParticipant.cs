@@ -19,7 +19,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
         Guid budgetPermissioRequestId = Guid.CreateVersion7();
 
         // Act

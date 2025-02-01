@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+
 using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
@@ -6,10 +9,12 @@ using Expenso.Api.Tests.E2E.TestData.TimeManagement;
 using Expenso.BudgetSharing.Shared;
 using Expenso.DocumentManagement.Shared;
 using Expenso.Shared.Database.EfCore.Settings;
+using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Time;
 using Expenso.TimeManagement.Shared;
 using Expenso.UserPreferences.Shared;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,26 +31,7 @@ internal sealed class WebAppTestSetup
     public async Task OneTimeSetupAsync()
     {
         using IServiceScope scope = WebApp.Instance.ServiceProvider.CreateScope();
-
-        IDocumentManagementProxy documentManagementProxy =
-            scope.ServiceProvider.GetRequiredService<IDocumentManagementProxy>();
-
-        ITimeManagementProxy timeManagementProxy = scope.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
-        IUserPreferencesProxy userPreferencesProxy = scope.ServiceProvider.GetRequiredService<IUserPreferencesProxy>();
-        IBudgetSharingProxy budgetSharingProxy = scope.ServiceProvider.GetRequiredService<IBudgetSharingProxy>();
-        IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
-
-        await PreferencesDataInitializer.InitializeAsync(clock: clock, userPreferencesProxy: userPreferencesProxy,
-            cancellationToken: default);
-
-        await BudgetSharingDataInitializer.InitializeAsync(clock: clock, budgetSharingProxy: budgetSharingProxy,
-            cancellationToken: default);
-
-        await DocumentManagementDataInitializer.InitializeAsync(documentManagementProxy: documentManagementProxy,
-            clock: clock, cancellationToken: default);
-
-        await TimeManagementDataInitializer.InitializeAsync(timeManagementProxy: timeManagementProxy, clock: clock,
-            cancellationToken: default);
+        await InitializeTestData(scope: scope);
     }
 
     [OneTimeTearDown]
@@ -54,6 +40,65 @@ internal sealed class WebAppTestSetup
         EfCoreSettings databaseSettings = GetDatabaseSettings();
         await DropDatabaseAsync(databaseSettings: databaseSettings);
         WebApp.Instance.Destroy();
+    }
+
+    private static async Task InitializeTestData(IServiceScope scope)
+    {
+        IDocumentManagementProxy documentManagementProxy =
+            scope.ServiceProvider.GetRequiredService<IDocumentManagementProxy>();
+
+        ITimeManagementProxy timeManagementProxy = scope.ServiceProvider.GetRequiredService<ITimeManagementProxy>();
+        IUserPreferencesProxy userPreferencesProxy = scope.ServiceProvider.GetRequiredService<IUserPreferencesProxy>();
+        IBudgetSharingProxy budgetSharingProxy = scope.ServiceProvider.GetRequiredService<IBudgetSharingProxy>();
+        IClock clock = scope.ServiceProvider.GetRequiredService<IClock>();
+
+        await RunInitializeAction(scope: scope, moduleName: ModuleNames.UserPreferencesModule,
+            action: () => PreferencesDataInitializer.InitializeAsync(clock: clock,
+                userPreferencesProxy: userPreferencesProxy, cancellationToken: default));
+
+        await RunInitializeAction(scope: scope, moduleName: ModuleNames.BudgetSharingModule,
+            action: () => BudgetSharingDataInitializer.InitializeAsync(clock: clock,
+                budgetSharingProxy: budgetSharingProxy, cancellationToken: default));
+
+        await RunInitializeAction(scope: scope, moduleName: ModuleNames.DocumentManagementModule,
+            action: () =>
+                DocumentManagementDataInitializer.InitializeAsync(documentManagementProxy: documentManagementProxy,
+                    clock: clock, cancellationToken: default));
+
+        await RunInitializeAction(scope: scope, moduleName: ModuleNames.TimeManagementModule,
+            action: () => TimeManagementDataInitializer.InitializeAsync(timeManagementProxy: timeManagementProxy,
+                clock: clock, cancellationToken: default));
+    }
+
+    private static async Task RunInitializeAction(IServiceScope scope, string moduleName, Func<Task> action)
+    {
+        IHttpContextAccessor httpContextAccessor = SetupHttpContext(scope: scope, moduleName: moduleName);
+        await action();
+        httpContextAccessor.HttpContext = null;
+    }
+
+    [SuppressMessage(category: "Usage", checkId: "ASP0019:Suggest using IHeaderDictionary.Append or the indexer")]
+    private static IHttpContextAccessor SetupHttpContext(IServiceScope scope, string moduleName)
+    {
+        IHttpContextAccessor httpContextAccessor = scope.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
+
+        httpContextAccessor.HttpContext = new DefaultHttpContext
+        {
+            User = new ClaimsPrincipal(identity: new ClaimsIdentity(
+                claims: TestBase.Claims.Select(selector: x =>
+                    new Claim(type: x.Key, value: x.Value?.ToString() ?? string.Empty)),
+                authenticationType: "Granted")),
+            Request =
+            {
+                Headers =
+                {
+                    { "CorrelationId", Guid.CreateVersion7().ToString() },
+                    { "ModuleId", moduleName }
+                }
+            }
+        };
+
+        return httpContextAccessor;
     }
 
     private static EfCoreSettings GetDatabaseSettings()

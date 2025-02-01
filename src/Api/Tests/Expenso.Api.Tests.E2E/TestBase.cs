@@ -18,6 +18,12 @@ namespace Expenso.Api.Tests.E2E;
 [TestFixture]
 internal abstract class TestBase
 {
+    public static readonly Dictionary<string, object?> Claims = new()
+    {
+        { ClaimNames.UserIdClaimName, TestClient.ClientId },
+        { ClaimNames.UsernameClaimName, TestClient.ClientName }
+    };
+    
     [SetUp]
     public virtual Task SetUpAsync()
     {
@@ -43,12 +49,6 @@ internal abstract class TestBase
     }
 
     protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;
-
-    protected readonly Dictionary<string, object?> _claims = new()
-    {
-        { ClaimNames.UserIdClaimName, TestClient.ClientId },
-        { ClaimNames.UsernameClaimName, TestClient.ClientName }
-    };
 
     protected HttpClient _httpClient = null!;
 

@@ -14,7 +14,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.DeleteAsync(

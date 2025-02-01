@@ -13,7 +13,7 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
     public async Task Should_CancelJobEntry()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =

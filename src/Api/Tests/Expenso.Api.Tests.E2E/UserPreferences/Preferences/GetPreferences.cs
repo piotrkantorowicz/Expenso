@@ -18,7 +18,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
@@ -34,7 +34,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     {
         // Arrange
         Guid userId = UserDataInitializer.UserIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");

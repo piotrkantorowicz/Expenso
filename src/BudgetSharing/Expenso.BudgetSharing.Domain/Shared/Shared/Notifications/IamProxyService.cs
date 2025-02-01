@@ -40,8 +40,7 @@ internal sealed class IamProxyService : IIamProxyService
             .Select(selector: x => new NotificationRecipient(UserId: x.UserId, Email: x.Email, Fullname: x.Fullname))
             .ToList();
 
-        NotificationRecipient? owner =
-            participantsNotificationModels.FirstOrDefault(predicate: x => x.UserId == ownerId.ToString());
+        GetUsersResponse? owner = users.Items.FirstOrDefault(predicate: x => x.UserId == ownerId.ToString());
 
         if (owner is null)
         {
@@ -51,7 +50,10 @@ internal sealed class IamProxyService : IIamProxyService
                 messageContext: messageContext, args: ownerId);
         }
 
-        return new NotificationRecipients(Owner: owner ?? NotificationRecipient.Empty,
+        return new NotificationRecipients(
+            Owner: owner is null
+                ? NotificationRecipient.Empty
+                : new NotificationRecipient(UserId: owner.UserId, Email: owner.Email, Fullname: owner.Fullname),
             Participants: participantsNotificationModels.ToList().AsReadOnly());
     }
 }

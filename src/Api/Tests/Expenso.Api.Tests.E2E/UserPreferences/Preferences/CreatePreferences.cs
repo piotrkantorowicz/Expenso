@@ -17,7 +17,7 @@ internal sealed class CreatePreferences : PreferencesTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
         Guid userId = Guid.CreateVersion7();
         Guid preferenceId = Guid.CreateVersion7();
 

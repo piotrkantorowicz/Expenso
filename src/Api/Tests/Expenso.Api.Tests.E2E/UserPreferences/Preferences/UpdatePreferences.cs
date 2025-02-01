@@ -16,7 +16,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
     {
         // Arrange
         Guid? preferenceId = PreferencesDataInitializer.PreferenceIds[index: 1];
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.PutAsJsonAsync(requestUri: $"{ApiRequestUrl}/{preferenceId}",

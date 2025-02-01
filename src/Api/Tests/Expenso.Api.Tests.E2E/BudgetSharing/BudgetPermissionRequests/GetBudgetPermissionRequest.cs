@@ -18,7 +18,7 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
         Guid budgetPermissionRequestId = BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2];
 
         // Act

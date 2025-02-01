@@ -17,7 +17,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_ReturnExpectedResult_And_Defualts()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
@@ -41,7 +41,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleValidPaginationParameters(string? page, string? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =
@@ -72,7 +72,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleInvalidPaginationParameters(string? page, string? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =
@@ -86,7 +86,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleSingleSorter()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =
@@ -110,7 +110,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
     public async Task Should_HandleMultipleSorters()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
         // Act
         HttpResponseMessage response =
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=MaxRetries:Ascending,RunAt:Descending");

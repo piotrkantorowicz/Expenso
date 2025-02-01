@@ -18,7 +18,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =
@@ -38,7 +38,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
     public async Task Should_HandleValidPaginationParameters(int? page, int? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =
@@ -66,7 +66,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
     public async Task Should_HandleInvalidPaginationParameters(int? page, int? limit)
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =
@@ -80,7 +80,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
     public async Task Should_HandleSingleSorter()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response =

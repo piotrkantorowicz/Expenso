@@ -23,7 +23,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     public async Task Should_RegisterJobEntry()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,

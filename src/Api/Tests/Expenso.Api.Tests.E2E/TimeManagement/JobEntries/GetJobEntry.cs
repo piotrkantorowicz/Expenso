@@ -17,7 +17,7 @@ internal sealed class GetJobEntry : JobEntriesTestBase
     {
         // Arrange
         Guid jobEntryId = TimeManagementDataInitializer.JobEntriesIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");

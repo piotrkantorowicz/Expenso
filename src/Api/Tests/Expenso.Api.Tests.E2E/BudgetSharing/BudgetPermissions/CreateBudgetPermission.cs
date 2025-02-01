@@ -18,7 +18,7 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
     public async Task Should_ReturnExpectedResult()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: _claims);
+        _httpClient.SetFakeBearerToken(token: Claims);
         const string budgetCode = "BDGT/11/12/2024";
         Guid budgetPermissionId = Guid.CreateVersion7();
         Guid budgetId = Guid.CreateVersion7();
