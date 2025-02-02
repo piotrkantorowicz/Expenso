@@ -10,7 +10,7 @@ internal sealed class ModuleIdMiddleware
 
     public ModuleIdMiddleware(RequestDelegate next)
     {
-        _next = next;
+        _next = next ?? throw new ArgumentNullException(paramName: nameof(next));
     }
 
     public async Task InvokeAsync(HttpContext context)

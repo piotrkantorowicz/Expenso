@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 
+using Expenso.Api.Tests.E2E.TestData.IAM;
+using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Request;
 using Expenso.UserPreferences.Shared.DTO.API.CreatePreference.Response;
 
@@ -34,7 +36,38 @@ internal sealed class CreatePreferences : PreferencesTestBase
         responseContent?.ShouldNotBeNull();
         responseContent?.PreferenceId.ShouldBe(expected: preferenceId);
     }
-    
+
+    [Test]
+    public async Task Should_Return409_When_ResourceWithProvidedPreferenceIdAlreadyExists()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: Claims);
+        Guid userId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
+            value: new CreatePreferenceRequest(PreferenceId: PreferencesDataInitializer.PreferenceIds[index: 0],
+                UserId: userId));
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
+    }
+
+    [Test]
+    public async Task Should_Return409_When_ResourceWithProvidedUserIdAlreadyExists()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: Claims);
+        Guid preferenceId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
+            value: new CreatePreferenceRequest(PreferenceId: preferenceId,
+                UserId: UserDataInitializer.UserIds[index: 0]));
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
+    }
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
