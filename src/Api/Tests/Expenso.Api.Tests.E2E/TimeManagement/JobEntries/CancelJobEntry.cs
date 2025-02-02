@@ -21,7 +21,7 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
                 requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}");
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -34,6 +34,6 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
                 requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

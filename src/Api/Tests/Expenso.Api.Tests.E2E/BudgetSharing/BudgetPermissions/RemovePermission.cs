@@ -22,7 +22,7 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
             $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}");
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -35,6 +35,6 @@ internal sealed class RemovePermission : BudgetPermissionTestBase
             $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}/participants/{UserDataInitializer.UserIds[index: 3]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

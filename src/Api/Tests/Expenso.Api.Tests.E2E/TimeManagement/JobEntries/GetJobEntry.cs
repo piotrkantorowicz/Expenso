@@ -23,7 +23,7 @@ internal sealed class GetJobEntry : JobEntriesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
         GetJobEntryResponse? responseContent = await response.Content.ReadFromJsonAsync<GetJobEntryResponse>();
         responseContent?.Id.ShouldBe(expected: jobEntryId);
     }
@@ -38,6 +38,6 @@ internal sealed class GetJobEntry : JobEntriesTestBase
                 requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 2]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

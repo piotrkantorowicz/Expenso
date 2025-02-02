@@ -26,7 +26,7 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionRequestId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         GetBudgetPermissionRequestResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionRequestResponse>();
@@ -44,6 +44,6 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
             requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

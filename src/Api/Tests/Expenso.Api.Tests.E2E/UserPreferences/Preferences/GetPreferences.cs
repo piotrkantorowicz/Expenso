@@ -24,7 +24,7 @@ internal sealed class GetPreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.Id.ShouldBe(expected: preferenceId);
     }
@@ -40,7 +40,7 @@ internal sealed class GetPreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.UserId.ShouldBe(expected: userId);
     }
@@ -55,6 +55,6 @@ internal sealed class GetPreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

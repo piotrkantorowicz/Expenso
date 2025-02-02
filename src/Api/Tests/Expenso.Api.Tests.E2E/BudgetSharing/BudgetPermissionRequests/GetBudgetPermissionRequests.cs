@@ -25,7 +25,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?budgetId=527336da-3371-45a9-9b9f-bbd42d01ffc2");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetBudgetPermissionRequestsResponse>? responseContent =
             await response.Content.ReadFromJsonAsync<PagedList<GetBudgetPermissionRequestsResponse>?>();
@@ -45,7 +45,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetBudgetPermissionRequestsResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetBudgetPermissionRequestsResponse>>();
@@ -73,7 +73,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
-        AssertResponseBadRequest(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.BadRequest);
     }
 
     [Test]
@@ -87,7 +87,7 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=BudgetCode:Descending");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetBudgetPermissionRequestsResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetBudgetPermissionRequestsResponse>>();
@@ -108,6 +108,6 @@ internal sealed class GetBudgetPermissionRequests : BudgetPermissionRequestTestB
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

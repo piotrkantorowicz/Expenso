@@ -24,7 +24,7 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetBudgetPermissionsResponse>? responseContent =
             await response.Content.ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
@@ -44,7 +44,7 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetBudgetPermissionsResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
@@ -72,7 +72,7 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
-        AssertResponseBadRequest(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.BadRequest);
     }
 
     [Test]
@@ -86,7 +86,7 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=BudgetId:Descending");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetBudgetPermissionsResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetBudgetPermissionsResponse>>();
@@ -107,6 +107,6 @@ internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

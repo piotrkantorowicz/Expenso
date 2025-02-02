@@ -23,7 +23,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         PagedList<GetJobEntriesResponse>? responseContent =
             await response.Content.ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
@@ -48,7 +48,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
@@ -79,7 +79,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?pagination={page},{limit}");
 
         // Assert
-        AssertResponseBadRequest(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.BadRequest);
     }
 
     [Test]
@@ -93,7 +93,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=RunAt:Descending");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
@@ -116,7 +116,7 @@ internal sealed class GetJobEntries : JobEntriesTestBase
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?sorters=MaxRetries:Ascending,RunAt:Descending");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         IPagedList<GetJobEntriesResponse>? responseContent = await response.Content
             .ReadFromJsonAsync<PagedList<GetJobEntriesResponse>>();
@@ -141,6 +141,6 @@ internal sealed class GetJobEntries : JobEntriesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: ApiRequestUrl);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

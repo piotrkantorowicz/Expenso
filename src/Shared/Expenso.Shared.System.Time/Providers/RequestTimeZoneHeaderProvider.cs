@@ -5,7 +5,7 @@ namespace Expenso.Shared.System.Time.Providers;
 
 public sealed class RequestTimeZoneHeaderProvider : RequestTimeZoneProvider
 {
-    private const string DefaultHeader = "Time-Zone";
+    public const string DefaultHeader = "Time-Zone";
     private const string Prefix = "Time-Zone=";
 
     public RequestTimeZoneHeaderProvider(string? headerkey = null)
