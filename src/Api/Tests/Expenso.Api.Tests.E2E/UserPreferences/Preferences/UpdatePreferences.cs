@@ -29,7 +29,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
                 GeneralPreference: new UpdatePreferenceRequestGeneralPreference(UseDarkMode: true)));
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -43,6 +43,6 @@ internal sealed class UpdatePreferences : PreferencesTestBase
             await _httpClient.PutAsync(requestUri: $"{ApiRequestUrl}/{preferenceId}", content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

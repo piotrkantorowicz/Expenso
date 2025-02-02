@@ -30,7 +30,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
             value: CreateTestRequest());
 
         // Assert
-        AssertResponseCreated(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.Created);
 
         RegisterJobEntryResponse? responseContent =
             await response.Content.ReadFromJsonAsync<RegisterJobEntryResponse>();
@@ -46,7 +46,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 
     [Test]

@@ -22,4 +22,9 @@ public sealed record PermissionType : Enumeration<PermissionType>
     {
         return this == None;
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }

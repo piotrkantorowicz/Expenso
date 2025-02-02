@@ -4,6 +4,8 @@ using Expenso.Api.Configuration.Auth.Claims;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Api.Tests.E2E.TestData;
+using Expenso.Shared.System.Time.Constants;
+using Expenso.Shared.System.Time.Providers;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.Shared.System.Types.Messages.Interfaces;
 
@@ -23,7 +25,7 @@ internal abstract class TestBase
         { ClaimNames.UserIdClaimName, TestClient.ClientId },
         { ClaimNames.UsernameClaimName, TestClient.ClientName }
     };
-    
+
     [SetUp]
     public virtual Task SetUpAsync()
     {
@@ -52,36 +54,24 @@ internal abstract class TestBase
 
     protected HttpClient _httpClient = null!;
 
-    protected virtual void AssertResponseOk(HttpResponseMessage response)
+    protected static void AssertResponseStatusCode(HttpResponseMessage response, HttpStatusCode statusCode)
+    {
+        response.StatusCode.ShouldBe(expected: statusCode);
+    }
+
+    protected static void AssertCorrelationIdHeader(HttpResponseMessage response)
     {
         response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
-        response.StatusCode.ShouldBe(expected: HttpStatusCode.OK);
+
+        string? correlationIdHeader =
+            response.Headers.GetValues(name: CorrelationIdMiddleware.CorrelationHeaderKey).FirstOrDefault();
+
+        correlationIdHeader.ShouldNotBeEmpty();
+        correlationIdHeader.ShouldBeOfType<string>();
+        Guid.TryParse(input: correlationIdHeader, result: out _).ShouldBeTrue();
     }
 
-    protected virtual void AssertResponseCreated(HttpResponseMessage response)
-    {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
-        response.StatusCode.ShouldBe(expected: HttpStatusCode.Created);
-    }
-
-    protected virtual void AssertResponseNoContent(HttpResponseMessage response)
-    {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
-        response.StatusCode.ShouldBe(expected: HttpStatusCode.NoContent);
-    }
-
-    protected virtual void AssertResponseBadRequest(HttpResponseMessage response)
-    {
-        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
-        response.StatusCode.ShouldBe(expected: HttpStatusCode.BadRequest);
-    }
-
-    protected static void AssertResponseUnauthroised(HttpResponseMessage response)
-    {
-        response.StatusCode.ShouldBe(expected: HttpStatusCode.Unauthorized);
-    }
-
-    protected static void AssertModuleHeader(HttpResponseMessage response, string moduleName)
+    protected static void AssertModuleIdHeader(HttpResponseMessage response, string moduleName)
     {
         response.Headers.Contains(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).ShouldBeTrue();
 
@@ -90,5 +80,26 @@ internal abstract class TestBase
 
         moduleIdHeaderValue.ShouldNotBeEmpty();
         moduleIdHeaderValue.ShouldBe(expected: moduleName);
+    }
+
+    protected static void AssertTimezoneIdHeader(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: RequestTimeZoneHeaderProvider.DefaultHeader).ShouldBeTrue();
+
+        string? timeZoneHeaderValue =
+            response.Headers.GetValues(name: RequestTimeZoneHeaderProvider.DefaultHeader).FirstOrDefault();
+
+        timeZoneHeaderValue.ShouldNotBeEmpty();
+        timeZoneHeaderValue.ShouldBe(expected: TimeZoneIds.Utc);
+    }
+
+    protected static void AssertNoModuleHeader(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: ModuleIdMiddleware.ModuleMiddlewareHeaderKey).ShouldBeFalse();
+    }
+
+    protected static void AssertNoCorrelationIdModuleHeader(HttpResponseMessage response)
+    {
+        response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeFalse();
     }
 }

@@ -24,7 +24,6 @@ internal sealed class
     public async Task<CreatePreferenceResponse> HandleAsync(CreatePreferenceCommand command,
         CancellationToken cancellationToken)
     {
-        Guid userId = command.Payload!.UserId;
         PreferenceQuerySpecification querySpecification = new(UserId: command.Payload?.UserId, UseTracking: false);
 
         bool dbUserPreferencesExists = await _preferencesRepository.ExistsAsync(querySpecification: querySpecification,
@@ -51,8 +50,8 @@ internal sealed class
             }
         }
 
-        Preference preferenceToCreate =
-            PreferenceFactory.Create(preferenceId: command.Payload?.PreferenceId, userId: userId);
+        Preference preferenceToCreate = PreferenceFactory.Create(preferenceId: command.Payload?.PreferenceId,
+            userId: command.Payload!.UserId);
 
         Preference preference =
             await _preferencesRepository.CreateAsync(preference: preferenceToCreate,

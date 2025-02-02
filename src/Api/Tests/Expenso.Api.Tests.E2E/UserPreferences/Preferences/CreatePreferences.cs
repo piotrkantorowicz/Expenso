@@ -26,15 +26,15 @@ internal sealed class CreatePreferences : PreferencesTestBase
             value: new CreatePreferenceRequest(PreferenceId: preferenceId, UserId: userId));
 
         // Assert
-        AssertResponseCreated(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.Created);
 
         CreatePreferenceResponse? responseContent =
             await response.Content.ReadFromJsonAsync<CreatePreferenceResponse>();
 
-        responseContent.ShouldNotBeNull();
+        responseContent?.ShouldNotBeNull();
         responseContent?.PreferenceId.ShouldBe(expected: preferenceId);
     }
-
+    
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
@@ -43,6 +43,6 @@ internal sealed class CreatePreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

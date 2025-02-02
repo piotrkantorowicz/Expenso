@@ -29,7 +29,7 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
                 PermissionType: AssignParticipantRequestPermissionType.Reviewer));
 
         // Assert
-        AssertResponseCreated(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.Created);
 
         AssignParticipantResponse? responseContent =
             await response.Content.ReadFromJsonAsync<AssignParticipantResponse>();
@@ -45,6 +45,6 @@ internal sealed class AssignParticipant : BudgetPermissionRequestTestBase
         HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

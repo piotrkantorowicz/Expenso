@@ -21,7 +21,7 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
             content: null);
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -34,6 +34,6 @@ internal sealed class CancelAssigningParticipant : BudgetPermissionRequestTestBa
             content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }
