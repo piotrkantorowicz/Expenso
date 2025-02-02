@@ -7,7 +7,7 @@ internal sealed class CorrelationIdMiddleware
 
     public CorrelationIdMiddleware(RequestDelegate next)
     {
-        _next = next;
+        _next = next ?? throw new ArgumentNullException(paramName: nameof(next));
     }
 
     public async Task InvokeAsync(HttpContext context)

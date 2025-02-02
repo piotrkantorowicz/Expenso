@@ -17,7 +17,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
     {
         // Arrange
         // Act
-        await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
+        await TestCandidate.InvokeAsync(context: _httpContext);
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "UTC");
@@ -37,7 +37,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
         _httpContext.Request.Cookies = cookieCollection.Object;
 
         // Act
-        await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
+        await TestCandidate.InvokeAsync(context: _httpContext);
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "Pacific Standard Time",
@@ -55,7 +55,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
         });
 
         // Act
-        await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
+        await TestCandidate.InvokeAsync(context: _httpContext);
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "America/Anchorage",
@@ -70,7 +70,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
             value: new StringValues(value: "Europe/Warsaw")));
 
         // Act
-        await TestCandidate.InvokeAsync(httpContext: _httpContext, next: _nextMock.Object);
+        await TestCandidate.InvokeAsync(context: _httpContext);
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "Europe/Warsaw",
