@@ -10,10 +10,10 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class CancelJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_CancelJobEntry()
+    public async Task Should_Return200_When_InputIsvalid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response =

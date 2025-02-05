@@ -14,11 +14,11 @@ namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 internal sealed class GetPreferences : PreferencesTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult_When_PassPreferenceId()
+    public async Task Should_Return200_When_InputIsValid_When_PassPreferenceId()
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
@@ -30,11 +30,11 @@ internal sealed class GetPreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_ReturnExpectedResult_When_PassUserId()
+    public async Task Should_Return200_When_InputIsValid_When_PassUserId()
     {
         // Arrange
         Guid userId = UserDataInitializer.UserIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");

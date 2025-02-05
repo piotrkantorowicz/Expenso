@@ -29,7 +29,7 @@ internal sealed class ToFilterExpression : BudgetPermissionRequestFilterExtensio
      TestCase(arg1: nameof(BudgetPermissionRequestQuerySpecification.ParticipantId), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestQuerySpecification.PermissionTypes), arg2: false),
      TestCase(arg1: nameof(BudgetPermissionRequestQuerySpecification.Statuses), arg2: false)]
-    public void Should_ReturnExpectedResult_When_FilterPropertyMatches(string propertyName, bool expectedResult)
+    public void Should_Return204_When_InputIsValid_When_FilterPropertyMatches(string propertyName, bool expectedResult)
     {
         // Arrange
         BudgetPermissionRequestQuerySpecification querySpecification =

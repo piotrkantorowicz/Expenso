@@ -15,10 +15,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return201_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         const string budgetCode = "BDGT/11/12/2024";
         Guid budgetPermissionId = Guid.CreateVersion7();
         Guid budgetId = Guid.CreateVersion7();

@@ -13,11 +13,11 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class GetJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
         Guid jobEntryId = TimeManagementDataInitializer.JobEntriesIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");

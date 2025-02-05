@@ -13,10 +13,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal sealed class AddPermission : BudgetPermissionTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return204_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(

@@ -20,10 +20,10 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class RegisterJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_RegisterJobEntry()
+    public async Task Should_Returns201_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
@@ -74,6 +74,6 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
                         timestamp: _clock.UtcNow, module: ModuleNames.BudgetSharingModule),
                     Payload: new BudgetPermissionRequestExpiredPayload(
                         BudgetPermissionRequestId: Guid.CreateVersion7()))))
-        ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 5));
+        ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 30));
     }
 }

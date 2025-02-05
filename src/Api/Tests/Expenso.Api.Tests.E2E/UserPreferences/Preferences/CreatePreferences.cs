@@ -15,11 +15,17 @@ namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 [TestFixture]
 internal sealed class CreatePreferences : PreferencesTestBase
 {
+    private static IEnumerable<object> InvalidUserIdCases()
+    {
+        yield return new TestCaseData(args: null).SetName(name: "Should_Return422_When_UserIdIsNull");
+        yield return new TestCaseData(arg: Guid.Empty).SetName(name: "Should_Return422_When_UserIdIsEmpty");
+    }
+
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return201_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         Guid userId = Guid.CreateVersion7();
         Guid preferenceId = Guid.CreateVersion7();
 
@@ -41,7 +47,7 @@ internal sealed class CreatePreferences : PreferencesTestBase
     public async Task Should_Return409_When_ResourceWithProvidedPreferenceIdAlreadyExists()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         Guid userId = Guid.CreateVersion7();
 
         // Act
@@ -53,11 +59,38 @@ internal sealed class CreatePreferences : PreferencesTestBase
         AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
     }
 
+    [Test, TestCaseSource(sourceName: nameof(InvalidUserIdCases))]
+    public async Task Should_HandleInvalidRequest(Guid userId)
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
+            value: new CreatePreferenceRequest(PreferenceId: Guid.NewGuid(), UserId: userId));
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.UnprocessableEntity);
+    }
+
+    [Test]
+    public async Task Should_Return400_When_RequestIsNull()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.BadRequest);
+    }
+
     [Test]
     public async Task Should_Return409_When_ResourceWithProvidedUserIdAlreadyExists()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         Guid preferenceId = Guid.CreateVersion7();
 
         // Act
@@ -68,6 +101,7 @@ internal sealed class CreatePreferences : PreferencesTestBase
         // Assert
         AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
     }
+
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {

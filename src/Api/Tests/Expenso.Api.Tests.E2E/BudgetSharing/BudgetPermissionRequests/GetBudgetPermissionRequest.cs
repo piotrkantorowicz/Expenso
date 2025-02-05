@@ -15,10 +15,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         Guid budgetPermissionRequestId = BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2];
 
         // Act
