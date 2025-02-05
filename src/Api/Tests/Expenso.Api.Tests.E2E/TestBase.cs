@@ -1,13 +1,13 @@
 using System.Net;
 
-using Expenso.Api.Configuration.Auth.Claims;
 using Expenso.Api.Configuration.Execution.Middlewares;
 using Expenso.Api.Tests.E2E.Configuration;
-using Expenso.Api.Tests.E2E.TestData;
 using Expenso.Shared.System.Time.Constants;
 using Expenso.Shared.System.Time.Providers;
 using Expenso.Shared.System.Types.Messages;
 using Expenso.Shared.System.Types.Messages.Interfaces;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using Moq;
 
@@ -20,23 +20,22 @@ namespace Expenso.Api.Tests.E2E;
 [TestFixture]
 internal abstract class TestBase
 {
-    public static readonly Dictionary<string, object?> Claims = new()
-    {
-        { ClaimNames.UserIdClaimName, TestClient.ClientId },
-        { ClaimNames.UsernameClaimName, TestClient.ClientName }
-    };
+    private IServiceScope _serviceScope;
+    private Mock<IMessageContextFactory> _messageContextFactoryMock;
 
     [SetUp]
     public virtual Task SetUpAsync()
     {
-        MessageContextFactoryMock = new Mock<IMessageContextFactory>();
+        _messageContextFactoryMock = new Mock<IMessageContextFactory>();
 
-        MessageContextFactoryMock
+        _messageContextFactoryMock
             .Setup(expression: x => x.Current(It.IsAny<Guid?>(), It.IsAny<string?>()))
             .Returns(value: new MessageContext(messageId: Guid.CreateVersion7(), correlationId: Guid.CreateVersion7(),
                 requestedBy: Guid.CreateVersion7(), timestamp: DateTimeOffset.Now, module: "TestModule"));
 
-        _httpClient = WebApp.Instance.GetHttpClient();
+        _serviceScope = WebApp.Instance.ServiceProvider.CreateScope();
+        _claimsService = _serviceScope.ServiceProvider.GetRequiredService<ClaimsService>();
+        _httpClient = _serviceScope.ServiceProvider.GetRequiredService<HttpClient>();
 
         return Task.CompletedTask;
     }
@@ -44,15 +43,18 @@ internal abstract class TestBase
     [TearDown]
     public virtual Task TearDownAsync()
     {
-        MessageContextFactoryMock = null!;
-        WebApp.Instance.DestroyHttpClient();
+        _serviceScope.Dispose();
+        _messageContextFactoryMock.Reset();
+        _claimsService = null!;
+        _httpClient = null!;
+        _messageContextFactoryMock = null!;
+        _serviceScope = null!;
 
         return Task.CompletedTask;
     }
 
-    protected Mock<IMessageContextFactory> MessageContextFactoryMock { get; set; } = null!;
-
     protected HttpClient _httpClient = null!;
+    protected ClaimsService _claimsService = null!;
 
     protected static void AssertResponseStatusCode(HttpResponseMessage response, HttpStatusCode statusCode)
     {

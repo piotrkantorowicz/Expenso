@@ -16,7 +16,7 @@ internal sealed class HelloUser : TestBase
     public async Task Should_ReturnExpectedValue_Always()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
