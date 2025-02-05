@@ -32,7 +32,7 @@ internal sealed class ToFilterExpression : BudgetPermissionFilterExtensionsTestB
      TestCase(arg1: nameof(BudgetPermissionQuerySpecification.PermissionTypes), arg2: false, arg3: true),
      TestCase(arg1: nameof(BudgetPermissionQuerySpecification.PermissionTypes), arg2: false, arg3: false),
      TestCase(arg1: nameof(BudgetPermissionQuerySpecification.PermissionTypes), arg2: true, arg3: false)]
-    public void Should_Return204_When_InputIsValid_When_FilterPropertyMatches(string propertyName, bool expectedResult,
+    public void Should_ReturnExpectedResult_When_FilterPropertyMatches(string propertyName, bool expectedResult,
         bool blocked)
     {
         // Arrange
