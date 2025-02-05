@@ -29,6 +29,20 @@ internal sealed class GetJobEntry : JobEntriesTestBase
     }
 
     [Test]
+    public async Task Should_Return404_When_JobEntryNotFound()
+    {
+        // Arrange
+        Guid jobEntryId = Guid.CreateVersion7();
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
+    }
+
+    [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange

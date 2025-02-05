@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 
 using Expenso.Api.Tests.E2E.TestData;
+using Expenso.Api.Tests.E2E.TestData.TimeManagement;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.System.Modules.Constants;
@@ -39,6 +40,20 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     }
 
     [Test]
+    public async Task Should_Returns409_When_JobEntryAlreadyExists()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
+            value: CreateTestRequest(jobEntryId: TimeManagementDataInitializer.JobEntriesIds[index: 0]));
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
+    }
+
+    [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
@@ -62,9 +77,9 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         await action.ShouldNotThrowAsync();
     }
 
-    private RegisterJobEntryRequest CreateTestRequest()
+    private RegisterJobEntryRequest CreateTestRequest(Guid? jobEntryId = null)
     {
-        return new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+        return new RegisterJobEntryRequest(JobEntryId: jobEntryId, MaxRetries: 5, JobEntryTriggers:
         [
             new RegisterJobEntryRequestJobEntryTrigger(
                 EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
