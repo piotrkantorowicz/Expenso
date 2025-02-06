@@ -12,7 +12,7 @@ namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 internal sealed class GetFilesAsync : DocumentManagementTestBase
 {
     [Test]
-    public async Task Should_BeSuccessful()
+    public async Task Should_Return200_When_BeSuccessful()
     {
         // Arrange
         // Act

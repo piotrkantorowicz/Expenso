@@ -25,6 +25,23 @@ internal sealed class ConfirmAssigningParticipant : BudgetPermissionRequestTestB
     }
 
     [Test]
+    public async Task Should_Return404_When_ResourceNotFound()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid budgetPermissionRequestId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PatchAsync(
+            requestUri: $"{ApiRequestUrl}/budgetPermissionRequestId/{budgetPermissionRequestId}/confirm",
+            content: null);
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
+    }
+
+
+    [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange

@@ -21,7 +21,7 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class RegisterJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_Returns201_When_InputIsValid()
+    public async Task Should_Returns200_When_InputIsValid()
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
