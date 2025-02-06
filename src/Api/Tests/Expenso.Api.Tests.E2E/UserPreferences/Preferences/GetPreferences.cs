@@ -49,11 +49,11 @@ internal sealed class GetPreferences : PreferencesTestBase
     public async Task Should_Return404_When_PreferenceIdProvided_ResourceNotFound()
     {
         // Arrange
-        Guid userId = Guid.CreateVersion7();
+        Guid preferenceId = Guid.CreateVersion7();
         _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
 
         // Assert
         AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
@@ -63,11 +63,11 @@ internal sealed class GetPreferences : PreferencesTestBase
     public async Task Should_Return404_When_UserIdProvided_ResourceNotFound()
     {
         // Arrange
-        Guid preferenceId = Guid.CreateVersion7();
+        Guid userId = Guid.CreateVersion7();
         _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");
 
         // Assert
         AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);

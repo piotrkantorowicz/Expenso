@@ -14,6 +14,8 @@ using Expenso.Shared.Domain.Types.Rules;
 using Expenso.Shared.Domain.Types.ValueObjects;
 using Expenso.Shared.System.Time;
 
+using Microsoft.Extensions.Logging;
+
 namespace Expenso.BudgetSharing.Domain.BudgetPermissionRequests.Services;
 
 internal sealed class AssignParticipationDomainService : IAssignParticipationDomainService
@@ -22,10 +24,11 @@ internal sealed class AssignParticipationDomainService : IAssignParticipationDom
     private readonly IBudgetPermissionRequestRepository _budgetPermissionRequestRepository;
     private readonly IClock _clock;
     private readonly IIamProxy _iamProxy;
+    private readonly ILogger<AssignParticipationDomainService> _logger;
 
     public AssignParticipationDomainService(IIamProxy iamProxy,
         IBudgetPermissionRequestRepository budgetPermissionRequestRepository, IClock clock,
-        IBudgetPermissionRepository budgetPermissionRepository)
+        IBudgetPermissionRepository budgetPermissionRepository, ILogger<AssignParticipationDomainService> logger)
     {
         _budgetPermissionRequestRepository = budgetPermissionRequestRepository ??
                                              throw new ArgumentNullException(
@@ -36,6 +39,7 @@ internal sealed class AssignParticipationDomainService : IAssignParticipationDom
         _budgetPermissionRepository = budgetPermissionRepository ??
                                       throw new ArgumentNullException(paramName: nameof(budgetPermissionRepository));
 
+        _logger = logger ?? throw new ArgumentNullException(paramName: nameof(logger));
         _iamProxy = iamProxy ?? throw new ArgumentNullException(paramName: nameof(iamProxy));
     }
 
@@ -56,9 +60,18 @@ internal sealed class AssignParticipationDomainService : IAssignParticipationDom
                 BusinessRule: new ParticipantEmailShouldBeAValidEmailAddress(email: email, budgetId: budgetId))
         ]);
 
-        GetUserByEmailResponse? user =
-            await _iamProxy.GetUserByEmailAsync(request: new GetUserByEmailRequest(Email: email!),
+        GetUserByEmailResponse? user;
+
+        try
+        {
+            user = await _iamProxy.GetUserByEmailAsync(request: new GetUserByEmailRequest(Email: email!),
                 cancellationToken: cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogWarning(exception: exception, message: "Error while getting user by email");
+            user = null;
+        }
 
         DomainModelState.CheckBusinessRules(businessRules:
         [

@@ -20,7 +20,7 @@ namespace Expenso.Api.Tests.E2E;
 [TestFixture]
 internal abstract class TestBase
 {
-    private IServiceScope _serviceScope;
+    protected IServiceScope _serviceScope;
     private Mock<IMessageContextFactory> _messageContextFactoryMock;
 
     [SetUp]
