@@ -42,7 +42,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return404_When_PreferenceHasNotBeenFound()
+    public async Task Should_Return404_When_ResourceHasNotBeenFound()
     {
         // Arrange
         Guid? preferenceId = Guid.CreateVersion7();
@@ -57,7 +57,7 @@ internal sealed class UpdatePreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return422_When_PreferenceIdEmpty()
+    public async Task Should_Return422_When_RequestPathHasBeenEmpty()
     {
         // Arrange
         Guid? preferenceId = Guid.Empty;

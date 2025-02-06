@@ -13,7 +13,7 @@ namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 internal sealed class GetPreference : PreferencesTestBase
 {
     [Test]
-    public async Task Should_Return200_When_InputIsValid_When_PreferenceIdHasBeenProvided()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
@@ -29,7 +29,7 @@ internal sealed class GetPreference : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return404_When_PreferenceHasNotBeenFound()
+    public async Task Should_Return404_When_ResourceNotFound()
     {
         // Arrange
         Guid preferenceId = Guid.CreateVersion7();

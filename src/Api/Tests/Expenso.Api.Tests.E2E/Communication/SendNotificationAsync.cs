@@ -19,7 +19,7 @@ namespace Expenso.Api.Tests.E2E.Communication;
 internal sealed class SendNotificationAsync : CommunicationTestBase
 {
     [Test]
-    public async Task Should_SendNotification_And_NotThrow()
+    public async Task Should_BeSuccessful()
     {
         // Arrange
         IClock clock = WebApp.Instance.ServiceProvider.GetRequiredService<IClock>();

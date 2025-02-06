@@ -44,7 +44,7 @@ internal sealed class CreatePreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return409_When_ResourceWithProvidedPreferenceIdAlreadyExists()
+    public async Task Should_Return409_When_PreferenceIdProvided_And_ResourceAlreadyExists()
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
@@ -54,6 +54,22 @@ internal sealed class CreatePreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
             value: new CreatePreferenceRequest(PreferenceId: PreferencesDataInitializer.PreferenceIds[index: 0],
                 UserId: userId));
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
+    }
+
+    [Test]
+    public async Task Should_Return409_When_UserIdProvided_And_ResourceAlreadyExists()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid preferenceId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
+            value: new CreatePreferenceRequest(PreferenceId: preferenceId,
+                UserId: UserDataInitializer.UserIds[index: 0]));
 
         // Assert
         AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
@@ -84,22 +100,6 @@ internal sealed class CreatePreferences : PreferencesTestBase
 
         // Assert
         AssertResponse(response: response, statusCode: HttpStatusCode.BadRequest);
-    }
-
-    [Test]
-    public async Task Should_Return409_When_ResourceWithProvidedUserIdAlreadyExists()
-    {
-        // Arrange
-        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
-        Guid preferenceId = Guid.CreateVersion7();
-
-        // Act
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
-            value: new CreatePreferenceRequest(PreferenceId: preferenceId,
-                UserId: UserDataInitializer.UserIds[index: 0]));
-
-        // Assert
-        AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
     }
 
     [Test]

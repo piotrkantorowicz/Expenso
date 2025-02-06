@@ -18,11 +18,10 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid budgetPermissionId = BudgetSharingDataInitializer.BudgetPermissionIds[index: 0];
 
         // Act
-        HttpResponseMessage response =
-            await _httpClient.GetAsync(
-                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionId}");
 
         // Assert
         AssertResponse(response: response, statusCode: HttpStatusCode.OK);
@@ -30,17 +29,31 @@ internal sealed class GetBudgetPermission : BudgetPermissionTestBase
         GetBudgetPermissionResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
 
-        responseContent?.Id.ShouldBe(expected: BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]);
+        responseContent?.Id.ShouldBe(expected: budgetPermissionId);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_ResourceNotFound()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid budgetPermissionId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
+        Guid budgetPermissionId = BudgetSharingDataInitializer.BudgetPermissionIds[index: 0];
+
         // Act
-        HttpResponseMessage response =
-            await _httpClient.GetAsync(
-                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionId}");
 
         // Assert
         AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);

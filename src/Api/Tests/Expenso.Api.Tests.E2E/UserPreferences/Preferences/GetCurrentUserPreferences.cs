@@ -30,7 +30,7 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return404_When_UserIdMissing()
+    public async Task Should_Return404_When_UserClaimsMissed_And_ResourceNotFound()
     {
         // Arrange
         _claimsService.Remove(key: ClaimNames.UserIdClaimName);
@@ -44,7 +44,7 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return404_When_PreferenceMissing()
+    public async Task Should_Return404_When_UserClaimsHaveBeenInvalid_And_ResourceNotFound()
     {
         // Arrange
         _claimsService.Replace(key: ClaimNames.UserIdClaimName, value: Guid.CreateVersion7().ToString());

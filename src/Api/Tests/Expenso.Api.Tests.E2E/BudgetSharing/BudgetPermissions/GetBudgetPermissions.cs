@@ -15,7 +15,7 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal sealed class GetBudgetPermissions : BudgetPermissionTestBase
 {
     [Test]
-    public async Task Should_Return200_When_InputIsValid_And_DefaultPaginationProvided()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
         _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
