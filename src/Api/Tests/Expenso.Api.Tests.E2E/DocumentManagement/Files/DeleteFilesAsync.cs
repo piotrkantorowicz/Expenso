@@ -11,7 +11,7 @@ namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 internal sealed class DeleteFilesAsync : DocumentManagementTestBase
 {
     [Test]
-    public void Should_DeleteFiles()
+    public void Should_BeSuccessful()
     {
         // Arrange
         // Act

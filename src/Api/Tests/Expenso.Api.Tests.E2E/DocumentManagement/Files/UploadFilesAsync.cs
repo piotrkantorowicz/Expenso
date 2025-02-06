@@ -11,7 +11,7 @@ namespace Expenso.Api.Tests.E2E.DocumentManagement.Files;
 internal sealed class UploadFilesAsync : DocumentManagementTestBase
 {
     [Test]
-    public void Should_UploadFiles()
+    public void Should_BeSuccessful()
     {
         // Arrange
         // Act

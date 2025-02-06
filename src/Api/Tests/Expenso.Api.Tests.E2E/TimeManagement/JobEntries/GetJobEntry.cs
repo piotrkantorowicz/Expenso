@@ -29,7 +29,7 @@ internal sealed class GetJobEntry : JobEntriesTestBase
     }
 
     [Test]
-    public async Task Should_Return404_When_JobEntryNotFound()
+    public async Task Should_Return404_When_ResourceNotFound()
     {
         // Arrange
         Guid jobEntryId = Guid.CreateVersion7();

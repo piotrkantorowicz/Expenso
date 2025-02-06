@@ -65,7 +65,7 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
     }
 
     [Test]
-    public async Task Should_RegisterJobEntry_ViaProxy()
+    public async Task Should_BeSuccessful_ViaProxy()
     {
         // Arrange
         // Act

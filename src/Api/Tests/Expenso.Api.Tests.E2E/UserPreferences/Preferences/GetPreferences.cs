@@ -14,7 +14,7 @@ namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 internal sealed class GetPreferences : PreferencesTestBase
 {
     [Test]
-    public async Task Should_Return200_When_InputIsValid_When_PassPreferenceId()
+    public async Task Should_Return200_When_PreferenceIdProvided_And_InputIsValid()
     {
         // Arrange
         Guid preferenceId = PreferencesDataInitializer.PreferenceIds[index: 3];
@@ -30,7 +30,7 @@ internal sealed class GetPreferences : PreferencesTestBase
     }
 
     [Test]
-    public async Task Should_Return200_When_InputIsValid_When_PassUserId()
+    public async Task Should_Return200_When_UserIdProvided_And_InputIsValid()
     {
         // Arrange
         Guid userId = UserDataInitializer.UserIds[index: 2];
@@ -43,6 +43,34 @@ internal sealed class GetPreferences : PreferencesTestBase
         AssertResponse(response: response, statusCode: HttpStatusCode.OK);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.UserId.ShouldBe(expected: userId);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_PreferenceIdProvided_ResourceNotFound()
+    {
+        // Arrange
+        Guid userId = Guid.CreateVersion7();
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?userId={userId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_UserIdProvided_ResourceNotFound()
+    {
+        // Arrange
+        Guid preferenceId = Guid.CreateVersion7();
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}?id={preferenceId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
