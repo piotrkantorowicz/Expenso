@@ -15,4 +15,14 @@ public sealed class RequestTimeZone
     }
 
     public TimeZoneInfo TimeZone { get; }
+
+    public static implicit operator string(RequestTimeZone requestTimeZoneFormat)
+    {
+        return requestTimeZoneFormat.TimeZone.Id;
+    }
+
+    public static implicit operator RequestTimeZone(string requestTimeZone)
+    {
+        return new RequestTimeZone(name: requestTimeZone);
+    }
 }

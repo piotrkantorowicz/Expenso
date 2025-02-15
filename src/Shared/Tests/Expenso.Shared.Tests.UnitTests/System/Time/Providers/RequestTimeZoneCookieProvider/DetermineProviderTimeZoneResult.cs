@@ -25,11 +25,11 @@ internal sealed class DetermineProviderTimeZoneResult : RequestTimeZoneCookiePro
             });
 
         // Act
-        ProviderTimeZoneResult result =
-            await TestCandidate.DetermineProviderTimeZoneResult(httpContext: _httpContextMock.Object);
+        ProviderResult result = await TestCandidate.DetermineProviderResult(httpContext: _httpContextMock.Object,
+            providerInput: _providerInputMock.Object);
 
         // Assert
-        result.TimeZoneName.ShouldBe(expected: "Pacific Standard Time");
+        result.Value.ShouldBe(expected: "Pacific Standard Time");
     }
 
     [Test]
@@ -41,10 +41,10 @@ internal sealed class DetermineProviderTimeZoneResult : RequestTimeZoneCookiePro
             .Returns(value: false);
 
         // Act
-        ProviderTimeZoneResult result =
-            await TestCandidate.DetermineProviderTimeZoneResult(httpContext: _httpContextMock.Object);
+        ProviderResult result = await TestCandidate.DetermineProviderResult(httpContext: _httpContextMock.Object,
+            providerInput: _providerInputMock.Object);
 
         // Assert
-        result.TimeZoneName.ShouldBeNull();
+        result.Value.ShouldBeNull();
     }
 }

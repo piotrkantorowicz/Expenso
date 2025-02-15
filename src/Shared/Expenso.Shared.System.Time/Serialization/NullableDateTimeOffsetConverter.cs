@@ -8,20 +8,16 @@ namespace Expenso.Shared.System.Time.Serialization;
 
 internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOffset?>
 {
-    private readonly string[] _supportedFormats;
+    private readonly Func<RequestDateTimeOffsetFormat> _requestDateTimeOffsetFormat;
     private readonly Func<RequestTimeZone> _requestTimeZone;
 
-    public NullableDateTimeOffsetConverter(Func<RequestTimeZone> requestTimeZone, string[] supportedFormats)
+    public NullableDateTimeOffsetConverter(Func<RequestTimeZone> requestTimeZone,
+        Func<RequestDateTimeOffsetFormat> requestDateTimeOffsetFormat)
     {
         _requestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
-        ArgumentNullException.ThrowIfNull(argument: supportedFormats);
-        if (supportedFormats.Length == 0)
-        {
-            throw new ArgumentException(message: "At least one format must be provided",
-                paramName: nameof(supportedFormats));
-        }
 
-        _supportedFormats = supportedFormats.ToArray();
+        _requestDateTimeOffsetFormat = requestDateTimeOffsetFormat ??
+                                       throw new ArgumentNullException(paramName: nameof(requestDateTimeOffsetFormat));
     }
 
     public override DateTimeOffset? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -33,16 +29,19 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
             throw new JsonException(message: "DateTime string cannot be null or empty");
         }
 
-        if (!DateTimeOffset.TryParseExact(input: value, format: _supportedFormats[0],
+        RequestTimeZone requestTimeZone = _requestTimeZone();
+        RequestDateTimeOffsetFormat requestDateTimeOffsetFormat = _requestDateTimeOffsetFormat();
+
+        if (!DateTimeOffset.TryParseExact(input: value, format: requestDateTimeOffsetFormat.Format,
                 formatProvider: CultureInfo.InvariantCulture, styles: DateTimeStyles.None,
                 result: out DateTimeOffset dateTimeOffset))
         {
             throw new JsonException(
-                message: $"DateTime string '{value}' does not match expected format '{_supportedFormats[0]}'");
+                message:
+                $"DateTime string '{value}' does not match expected format '{requestDateTimeOffsetFormat.Format}'");
         }
 
-        return TimeZoneInfo.ConvertTime(dateTimeOffset: dateTimeOffset,
-            destinationTimeZone: _requestTimeZone().TimeZone);
+        return TimeZoneInfo.ConvertTime(dateTimeOffset: dateTimeOffset, destinationTimeZone: requestTimeZone.TimeZone);
     }
 
     public override void Write(Utf8JsonWriter writer, DateTimeOffset? value, JsonSerializerOptions options)
@@ -54,14 +53,12 @@ internal sealed class NullableDateTimeOffsetConverter : JsonConverter<DateTimeOf
             return;
         }
 
-        TimeZoneInfo timeZone = _requestTimeZone().TimeZone;
-
         try
         {
-            DateTimeOffset convertTime =
-                TimeZoneInfo.ConvertTime(dateTimeOffset: value.Value, destinationTimeZone: timeZone);
+            DateTimeOffset convertTime = TimeZoneInfo.ConvertTime(dateTimeOffset: value.Value,
+                destinationTimeZone: _requestTimeZone().TimeZone);
 
-            writer.WriteStringValue(value: convertTime.ToString(format: _supportedFormats[0],
+            writer.WriteStringValue(value: convertTime.ToString(format: _requestDateTimeOffsetFormat().Format,
                 formatProvider: CultureInfo.InvariantCulture));
 
             writer.Flush();

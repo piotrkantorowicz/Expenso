@@ -1,4 +1,4 @@
-﻿using Expenso.Shared.System.Time.Features;
+using Expenso.Shared.System.Time.Features;
 using Expenso.Shared.System.Time.Features.Interfaces;
 using Expenso.Shared.System.Time.Providers;
 using Expenso.Shared.System.Time.Providers.Inputs;
@@ -12,16 +12,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.System.Time.Middleware;
 
-internal sealed class RequestTimeZoneMiddleware : IMiddleware
+internal sealed class RequestDateTimeFormatMiddleware : IMiddleware
 {
     private readonly ILogger _logger;
     private readonly RequestTimeZoneOptions _options;
     private readonly IProviderInput _providerInput;
     private readonly ITimeZoneClock _timeZoneClock;
 
-    public RequestTimeZoneMiddleware(ILoggerFactory loggerFactory, RequestTimeZoneOptions options,
+    public RequestDateTimeFormatMiddleware(ILoggerFactory loggerFactory, RequestTimeZoneOptions options,
         ITimeZoneClock timeZoneClock,
-        [FromKeyedServices(key: RequestProviderValueType.TimeZone)] IProviderInput providerInput)
+        [FromKeyedServices(key: RequestProviderValueType.DateTimeFormat)] IProviderInput providerInput)
     {
         ArgumentNullException.ThrowIfNull(argument: loggerFactory);
 
@@ -37,7 +37,7 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
     {
         ArgumentNullException.ThrowIfNull(argument: httpContext);
         ArgumentNullException.ThrowIfNull(argument: next);
-        RequestTimeZone defaultRequestTimeZone = _options.DefaultRequestTimeZone;
+        string defaultRequestDateTimeOffsetFormat = _options.DateTimeFormat;
         IRequestProvider? usedProvider = null;
 
         foreach (IRequestProvider provider in _options.RequestProviders)
@@ -47,31 +47,26 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
 
             try
             {
-                defaultRequestTimeZone = new RequestTimeZone(name: providerTimeZoneResult.Value);
+                defaultRequestDateTimeOffsetFormat = new RequestDateTimeFormat(format: providerTimeZoneResult.Value!);
                 usedProvider = provider;
 
                 break;
             }
-            catch (InvalidTimeZoneException ex)
+            catch
             {
-                _logger.LogWarning(exception: ex, message: "Invalid TimeZone Id: {TimeZoneName}",
-                    providerTimeZoneResult.Value);
-            }
-            catch (TimeZoneNotFoundException ex)
-            {
-                _logger.LogWarning(exception: ex, message: "TimeZone Not Found: {TimeZoneName}",
-                    providerTimeZoneResult.Value);
+                //TODO: Define custom exception for missing provider result
             }
         }
 
-        httpContext.Features.Set<IRequestTimeZoneFeature>(
-            instance: new RequestTimeZoneFeature(requestTimeZone: defaultRequestTimeZone, provider: usedProvider));
+        httpContext.Features.Set<IRequestDateTimeFormatFeature>(
+            instance: new RequestDateTimeFormatFeature(requestDateTimeFormat: defaultRequestDateTimeOffsetFormat,
+                provider: usedProvider));
 
         httpContext.Response.Headers[
             key: _options.GetDefaultProviderValue(providerInput: _providerInput,
-                providerType: RequestProviderType.Header)] = defaultRequestTimeZone.TimeZone.Id;
+                providerType: RequestProviderType.Header)] = defaultRequestDateTimeOffsetFormat;
 
-        _timeZoneClock.SetTimeZone(timeZone: defaultRequestTimeZone.TimeZone);
+        _timeZoneClock.SetDateTimeOffsetFormat(dateTimeOffsetFormat: defaultRequestDateTimeOffsetFormat);
         await next(context: httpContext);
     }
 }

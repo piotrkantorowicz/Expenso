@@ -120,7 +120,7 @@ internal sealed class AppBuilder : IAppBuilder
                 settings.SupportedDateTimeFormats = timeZoneSettings.SupportedDateTimeFormats ?? [];
                 settings.SupportedDateTimeOffsetFormats = timeZoneSettings.SupportedDateTimeOffsetFormats ?? [];
 
-                settings.RequestTimeZoneProviders = TimeZoneSettings.GetRequestTimeZoneProviders(
+                settings.RequestProviders = TimeZoneSettings.GetRequestTimeZoneProviders(
                     timeZoneProviderType: timeZoneSettings.TimeZoneProviderType) ?? [];
 
                 settings.MvcOptionType = MvcOptionType.MinimalApi;

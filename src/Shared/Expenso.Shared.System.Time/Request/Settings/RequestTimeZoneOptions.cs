@@ -1,5 +1,6 @@
 ﻿using Expenso.Shared.System.Time.Constants;
 using Expenso.Shared.System.Time.Providers;
+using Expenso.Shared.System.Time.Providers.Inputs;
 using Expenso.Shared.System.Time.Providers.Interfaces;
 
 namespace Expenso.Shared.System.Time.Request.Settings;
@@ -20,40 +21,30 @@ public sealed record RequestTimeZoneOptions
 
     public MvcOptionType MvcOptionType { get; set; } = MvcOptionType.All;
 
+    public string DateTimeFormat { get; set; } = DateTimeFormats.Iso8601;
+
+    public string DateTimeOffsetFormat { get; set; } = DateTimeFormats.Iso8601TimeZone;
+
     public string[] SupportedDateTimeFormats { get; set; } = [DateTimeFormats.Iso8601];
 
     public string[] SupportedDateTimeOffsetFormats { get; set; } = [DateTimeFormats.Iso8601TimeZone];
 
-    public IList<IRequestTimeZoneProvider> RequestTimeZoneProviders { get; set; } = new List<IRequestTimeZoneProvider>
-    {
-        new RequestTimeZoneQueryStringProvider(),
-        new RequestTimeZoneHeaderProvider(),
-        new RequestTimeZoneCookieProvider()
-    };
+    public IList<IRequestProvider> RequestProviders { get; set; } =
+    [
+        new RequestQueryStringProvider(),
+        new RequestHeaderProvider(),
+        new RequestCookieProvider()
+    ];
 
-    internal string GetDefaultHeaderName()
+    internal string GetDefaultProviderValue(IProviderInput providerInput, RequestProviderType providerType)
     {
-        return GetDefaultValue<RequestTimeZoneHeaderProvider>(defaultValue: "Time-Zone",
-            valueSelector: p => p.Headerkey);
+        return GetDefaultValue(providerInput: providerInput, providerType: providerType);
     }
 
-    internal string GetDefaultCookieName()
+    private string GetDefaultValue(IProviderInput providerInput, RequestProviderType providerType)
     {
-        return GetDefaultValue<RequestTimeZoneCookieProvider>(defaultValue: "time-zone",
-            valueSelector: p => p.CookieName);
-    }
+        IRequestProvider? provider = RequestProviders.FirstOrDefault(predicate: x => x.ProviderType == providerType);
 
-    internal string GetDefaultQueryName()
-    {
-        return GetDefaultValue<RequestTimeZoneQueryStringProvider>(defaultValue: "TimeZone",
-            valueSelector: p => p.QueryStringKey);
-    }
-
-    private string GetDefaultValue<T>(string defaultValue, Func<T, string> valueSelector)
-        where T : IRequestTimeZoneProvider
-    {
-        T? provider = RequestTimeZoneProviders.OfType<T>().FirstOrDefault();
-
-        return provider is null ? defaultValue : valueSelector(arg: provider);
+        return providerInput.GetInput(requestProviderType: provider?.ProviderType ?? RequestProviderType.None).Key;
     }
 }

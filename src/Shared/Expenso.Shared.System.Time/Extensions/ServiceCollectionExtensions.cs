@@ -1,4 +1,6 @@
 ﻿using Expenso.Shared.System.Time.Middleware;
+using Expenso.Shared.System.Time.Providers;
+using Expenso.Shared.System.Time.Providers.Inputs;
 using Expenso.Shared.System.Time.Request.Settings;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +37,22 @@ public static class ServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(argument: timeZoneClock);
         RequestTimeZoneOptions options = new();
         optionsAction.Invoke(obj: options);
+
+        services.AddKeyedSingleton<IProviderInput, DateTimeFormatProviderInput>(serviceKey: RequestProviderValueType
+            .DateTimeFormat);
+
+        services.AddKeyedSingleton<IProviderInput, DateTimeOffsetFormatProviderInput>(
+            serviceKey: RequestProviderValueType.DateTimeOffsetFormat);
+
+        services.AddKeyedSingleton<IProviderInput, TimeZoneProviderInput>(
+            serviceKey: RequestProviderValueType.TimeZone);
+
         services.AddSingleton(implementationFactory: _ => options).AddSingleton<RequestTimeZoneMiddleware>();
+        services.AddSingleton(implementationFactory: _ => options).AddSingleton<RequestDateTimeFormatMiddleware>();
+
+        services
+            .AddSingleton(implementationFactory: _ => options)
+            .AddSingleton<RequestDateTimeFormatOffsetMiddleware>();
 
         if (options.EnableRequestToUtc)
         {
@@ -89,9 +106,8 @@ public static class ServiceCollectionExtensions
 
         void ConfigureJson()
         {
-            services.Configure<JsonOptions>(configureOptions: x => x.AddDateTimeConverters(timeZoneClock: timeZoneClock,
-                dateTimeFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
-                dateTimeOffsetFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
+            services.Configure<JsonOptions>(
+                configureOptions: x => x.AddDateTimeConverters(timeZoneClock: timeZoneClock));
         }
 
         void ConfigureMvc()

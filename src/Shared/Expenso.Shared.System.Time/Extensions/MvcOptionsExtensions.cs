@@ -15,13 +15,13 @@ public static class MvcOptionsExtensions
         ArgumentNullException.ThrowIfNull(argument: options);
 
         options.ModelBinderProviders.Insert(index: 0, item: new DateTimeModelBinderProvider(requestTimeZone: () =>
-        {
-            TimeZoneInfo timeZone = timeZoneClock.TimeZone ??
-                                    throw new InvalidOperationException(message: "TimeZone cannot be null");
+            {
+                TimeZoneInfo timeZone = timeZoneClock.TimeZone ??
+                                        throw new InvalidOperationException(message: "TimeZone cannot be null");
 
-            return new RequestTimeZone(timeZoneInfo: timeZone);
-        }, dateTimeSupportedFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
-        dateTimeOffsetSupportedFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
+                return new RequestTimeZone(timeZoneInfo: timeZone);
+            }, dateTimeSupportedFormats: requestTimeZoneOptions.SupportedDateTimeFormats,
+            dateTimeOffsetSupportedFormats: requestTimeZoneOptions.SupportedDateTimeOffsetFormats));
 
         return options;
     }

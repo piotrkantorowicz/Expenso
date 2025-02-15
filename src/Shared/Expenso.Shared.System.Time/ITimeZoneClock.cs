@@ -6,5 +6,13 @@ public interface ITimeZoneClock
 
     TimeZoneInfo TimeZone { get; }
 
+    string DateTimeFormat { get; }
+
+    string DateTimeOffsetFormat { get; }
+
     void SetTimeZone(TimeZoneInfo? timeZone);
+
+    void SetDateTimeFormat(string? dateTimeFormat);
+
+    void SetDateTimeOffsetFormat(string? dateTimeOffsetFormat);
 }
