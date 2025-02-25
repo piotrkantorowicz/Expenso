@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
         <PackageReference Include="coverlet.collector" Version="6.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,12 +22,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Expenso.Shared.System.Time\Expenso.Shared.System.Time.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
-        <ProjectReference Include="..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
-        <ProjectReference Include="..\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj"/>
-        <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Shared.System.Time\Expenso.Shared.System.Time.csproj" />
+        <ProjectReference Include="..\..\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj" />
+        <ProjectReference Include="..\..\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj" />
+        <ProjectReference Include="..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj" />
+        <ProjectReference Include="..\Expenso.Shared.Tests.UnitTests\Expenso.Shared.Tests.UnitTests.csproj" />
+        <ProjectReference Include="..\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj" />
     </ItemGroup>
 
 </Project>
