@@ -7,35 +7,35 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj"/>
-        <ProjectReference Include="..\Expenso.BudgetSharing.Application\Expenso.BudgetSharing.Application.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Memory\Expenso.Shared.Database.EfCore.Memory.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Expressions\Expenso.Shared.System.Expressions.csproj" />
+        <ProjectReference Include="..\Expenso.BudgetSharing.Application\Expenso.BudgetSharing.Application.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.2" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
-        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests" />
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
 
     <ItemGroup>
-        <Compile Remove="Persistence\EfCore\Migrations\20241120060842_AddNaturalBudgetIdentifier.cs"/>
-        <Compile Remove="Persistence\EfCore\Migrations\20241120060842_AddNaturalBudgetIdentifier.Designer.cs"/>
-        <Compile Remove="Persistence\EfCore\Migrations\20241121174146_AddBudgetCode.cs"/>
-        <Compile Remove="Persistence\EfCore\Migrations\20241121174146_AddBudgetCode.Designer.cs"/>
+        <Compile Remove="Persistence\EfCore\Migrations\20241120060842_AddNaturalBudgetIdentifier.cs" />
+        <Compile Remove="Persistence\EfCore\Migrations\20241120060842_AddNaturalBudgetIdentifier.Designer.cs" />
+        <Compile Remove="Persistence\EfCore\Migrations\20241121174146_AddBudgetCode.cs" />
+        <Compile Remove="Persistence\EfCore\Migrations\20241121174146_AddBudgetCode.Designer.cs" />
     </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
         <PackageReference Include="coverlet.collector" Version="6.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,11 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
-        <ProjectReference Include="..\..\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj"/>
-        <ProjectReference Include="..\..\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj"/>
-        <ProjectReference Include="..\..\Expenso.UserPreferences.Shared\Expenso.UserPreferences.Shared.csproj"/>
-        <ProjectReference Include="..\Expenso.UserPreferences.Tests.UnitTests\Expenso.UserPreferences.Tests.UnitTests.csproj"/>
+        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj" />
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj" />
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Core\Expenso.UserPreferences.Core.csproj" />
+        <ProjectReference Include="..\..\Expenso.UserPreferences.Shared\Expenso.UserPreferences.Shared.csproj" />
+        <ProjectReference Include="..\Expenso.UserPreferences.Tests.UnitTests\Expenso.UserPreferences.Tests.UnitTests.csproj" />
     </ItemGroup>
 
 </Project>
