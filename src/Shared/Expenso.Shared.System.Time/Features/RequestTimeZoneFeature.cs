@@ -6,7 +6,7 @@ namespace Expenso.Shared.System.Time.Features;
 
 internal sealed record RequestTimeZoneFeature : IRequestTimeZoneFeature
 {
-    public RequestTimeZoneFeature(RequestTimeZone requestTimeZone, IRequestTimeZoneProvider? provider = null)
+    public RequestTimeZoneFeature(RequestTimeZone requestTimeZone, IRequestProvider? provider = null)
     {
         RequestTimeZone = requestTimeZone ?? throw new ArgumentNullException(paramName: nameof(requestTimeZone));
         Provider = provider;
@@ -14,5 +14,5 @@ internal sealed record RequestTimeZoneFeature : IRequestTimeZoneFeature
 
     public RequestTimeZone RequestTimeZone { get; }
 
-    public IRequestTimeZoneProvider? Provider { get; }
+    public IRequestProvider? Provider { get; }
 }

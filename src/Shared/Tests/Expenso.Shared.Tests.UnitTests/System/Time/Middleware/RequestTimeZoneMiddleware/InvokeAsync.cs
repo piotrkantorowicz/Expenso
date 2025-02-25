@@ -41,7 +41,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "Pacific Standard Time",
-            expectedProviderType: typeof(RequestTimeZoneCookieProvider));
+            expectedProviderType: typeof(RequestCookieProvider));
     }
 
     [Test]
@@ -59,7 +59,7 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "America/Anchorage",
-            expectedProviderType: typeof(RequestTimeZoneQueryStringProvider));
+            expectedProviderType: typeof(RequestQueryStringProvider));
     }
 
     [Test]
@@ -74,6 +74,6 @@ internal sealed class InvokeAsync : RequestTimeZoneMiddlewareTestBase
 
         // Assert
         AssertRequestTimeZoneFeature(expectedTimeZoneId: "Europe/Warsaw",
-            expectedProviderType: typeof(RequestTimeZoneHeaderProvider));
+            expectedProviderType: typeof(RequestHeaderProvider));
     }
 }

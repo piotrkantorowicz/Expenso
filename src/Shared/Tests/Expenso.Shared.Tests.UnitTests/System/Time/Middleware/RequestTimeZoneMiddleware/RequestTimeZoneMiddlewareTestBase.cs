@@ -1,5 +1,7 @@
 ﻿using Expenso.Shared.System.Time;
 using Expenso.Shared.System.Time.Features.Interfaces;
+using Expenso.Shared.System.Time.Providers;
+using Expenso.Shared.System.Time.Providers.Inputs;
 using Expenso.Shared.System.Time.Request.Settings;
 using Expenso.Shared.Tests.Utils.UnitTests;
 
@@ -19,21 +21,18 @@ namespace Expenso.Shared.Tests.UnitTests.System.Time.Middleware.RequestTimeZoneM
 internal abstract class
     RequestTimeZoneMiddlewareTestBase : TestBase<Shared.System.Time.Middleware.RequestTimeZoneMiddleware>
 {
-    protected HttpContext _httpContext = null!;
-    protected Mock<RequestDelegate> _nextMock = null!;
-    private RequestTimeZoneOptions _options = null!;
-    private Mock<ITimeZoneClock> _timeZoneClockMock = null!;
-
     [SetUp]
     public void SetUp()
     {
         _httpContext = new DefaultHttpContext();
         _nextMock = new Mock<RequestDelegate>();
+        _providerInputMock = new Mock<IProviderInput>();
         _options = new RequestTimeZoneOptions();
         _timeZoneClockMock = new Mock<ITimeZoneClock>();
 
         TestCandidate = new Shared.System.Time.Middleware.RequestTimeZoneMiddleware(
-            loggerFactory: NullLoggerFactory.Instance, options: _options, timeZoneClock: _timeZoneClockMock.Object);
+            loggerFactory: NullLoggerFactory.Instance, options: _options, timeZoneClock: _timeZoneClockMock.Object,
+            providerInput: _providerInputMock.Object);
     }
 
     [TearDown]
@@ -41,11 +40,19 @@ internal abstract class
     {
         _nextMock.Reset();
         _timeZoneClockMock.Reset();
+        _providerInputMock.Reset();
         _httpContext = null!;
         _nextMock = null!;
+        _providerInputMock = null!;
         _options = null!;
         _timeZoneClockMock = null!;
     }
+
+    protected HttpContext _httpContext = null!;
+    protected Mock<RequestDelegate> _nextMock = null!;
+    private RequestTimeZoneOptions _options = null!;
+    private Mock<ITimeZoneClock> _timeZoneClockMock = null!;
+    private Mock<IProviderInput> _providerInputMock = null!;
 
     protected void AssertRequestTimeZoneFeature(string expectedTimeZoneId, Type? expectedProviderType = null)
     {
@@ -81,7 +88,8 @@ internal abstract class
 
     private void AssertResponseHeader(string expectedTimeZoneId)
     {
-        string? headerName = _options.GetDefaultHeaderName();
+        string headerName = _options.GetDefaultProviderValue(providerInput: _providerInputMock.Object,
+            providerType: RequestProviderType.Header);
 
         KeyValuePair<string, StringValues>? timeZoneHeader =
             _httpContext.Response.Headers.FirstOrDefault(predicate: x => x.Key == headerName);

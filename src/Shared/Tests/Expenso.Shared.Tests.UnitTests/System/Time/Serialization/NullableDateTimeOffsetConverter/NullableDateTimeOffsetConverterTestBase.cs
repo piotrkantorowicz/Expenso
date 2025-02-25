@@ -21,13 +21,16 @@ internal abstract class
         TestCandidate = null!;
     }
 
-    protected void CreateTestCandidate(string timeZoneName = TimeZoneIds.Utc, string[]? supportedFormats = null)
+    protected void CreateTestCandidate(string timeZoneName = TimeZoneIds.Utc,
+        string format = DateTimeFormats.Iso8601TimeZone)
     {
         _requestTimeZone = () => new RequestTimeZone(name: timeZoneName);
+        _requestDateTimeOffsetFormat = () => new RequestDateTimeOffsetFormat(format: format);
 
         TestCandidate = new Shared.System.Time.Serialization.NullableDateTimeOffsetConverter(
-            requestTimeZone: _requestTimeZone, supportedFormats: supportedFormats ?? [DateTimeFormats.Iso8601TimeZone]);
+            requestTimeZone: _requestTimeZone, requestDateTimeOffsetFormat: _requestDateTimeOffsetFormat);
     }
 
     private Func<RequestTimeZone>? _requestTimeZone;
+    private Func<RequestDateTimeOffsetFormat>? _requestDateTimeOffsetFormat;
 }

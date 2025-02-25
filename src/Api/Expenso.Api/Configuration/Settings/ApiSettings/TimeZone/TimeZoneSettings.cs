@@ -18,28 +18,27 @@ internal sealed record TimeZoneSettings : ISettings
 
     public TimeZoneProviderType TimeZoneProviderType { get; init; }
 
-    public static IList<IRequestTimeZoneProvider>? GetRequestTimeZoneProviders(
-        TimeZoneProviderType timeZoneProviderType)
+    public static IList<IRequestProvider>? GetRequestTimeZoneProviders(TimeZoneProviderType timeZoneProviderType)
     {
         return timeZoneProviderType switch
         {
-            TimeZoneProviderType.QueryString => new List<IRequestTimeZoneProvider>
+            TimeZoneProviderType.QueryString => new List<IRequestProvider>
             {
-                new RequestTimeZoneQueryStringProvider()
+                new RequestQueryStringProvider()
             },
-            TimeZoneProviderType.Header => new List<IRequestTimeZoneProvider>
+            TimeZoneProviderType.Header => new List<IRequestProvider>
             {
-                new RequestTimeZoneHeaderProvider()
+                new RequestHeaderProvider()
             },
-            TimeZoneProviderType.Cookie => new List<IRequestTimeZoneProvider>
+            TimeZoneProviderType.Cookie => new List<IRequestProvider>
             {
-                new RequestTimeZoneCookieProvider()
+                new RequestCookieProvider()
             },
-            TimeZoneProviderType.All => new List<IRequestTimeZoneProvider>
+            TimeZoneProviderType.All => new List<IRequestProvider>
             {
-                new RequestTimeZoneQueryStringProvider(),
-                new RequestTimeZoneHeaderProvider(),
-                new RequestTimeZoneCookieProvider()
+                new RequestQueryStringProvider(),
+                new RequestHeaderProvider(),
+                new RequestCookieProvider()
             },
             _ => null
         };

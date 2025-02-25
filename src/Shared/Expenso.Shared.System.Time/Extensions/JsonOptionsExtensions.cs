@@ -5,48 +5,41 @@ using Expenso.Shared.System.Time.Serialization;
 
 using Microsoft.AspNetCore.Http.Json;
 
+using MvcJsonOptions = Microsoft.AspNetCore.Mvc.JsonOptions;
+
 namespace Expenso.Shared.System.Time.Extensions;
 
 public static class JsonOptionsExtensions
 {
-    public static JsonOptions AddDateTimeConverters(this JsonOptions? options, ITimeZoneClock? timeZoneClock,
-        string[] dateTimeFormats, string[] dateTimeOffsetFormats)
+    public static JsonOptions AddDateTimeConverters(this JsonOptions? options, ITimeZoneClock? timeZoneClock)
     {
         ArgumentNullException.ThrowIfNull(argument: options);
         ArgumentNullException.ThrowIfNull(argument: timeZoneClock);
-
-        ValidateAndAddConverters(converters: options.SerializerOptions.Converters, timeZoneClock: timeZoneClock,
-            dateTimeFormats: dateTimeFormats, dateTimeOffsetFormats: dateTimeOffsetFormats);
+        ValidateAndAddConverters(converters: options.SerializerOptions.Converters, timeZoneClock: timeZoneClock);
 
         return options;
     }
 
-    public static Microsoft.AspNetCore.Mvc.JsonOptions AddDateTimeConverters(
-        this Microsoft.AspNetCore.Mvc.JsonOptions? options, ITimeZoneClock? timeZoneClock, string[] dateTimeFormats,
-        string[] dateTimeOffsetFormats)
+    public static MvcJsonOptions AddDateTimeConverters(this MvcJsonOptions? options, ITimeZoneClock? timeZoneClock)
     {
         ArgumentNullException.ThrowIfNull(argument: options);
         ArgumentNullException.ThrowIfNull(argument: timeZoneClock);
-
-        ValidateAndAddConverters(converters: options.JsonSerializerOptions.Converters, timeZoneClock: timeZoneClock,
-            dateTimeFormats: dateTimeFormats, dateTimeOffsetFormats: dateTimeOffsetFormats);
+        ValidateAndAddConverters(converters: options.JsonSerializerOptions.Converters, timeZoneClock: timeZoneClock);
 
         return options;
     }
 
-    private static void ValidateAndAddConverters(IList<JsonConverter> converters, ITimeZoneClock timeZoneClock,
-        string[] dateTimeFormats, string[] dateTimeOffsetFormats)
+    private static void ValidateAndAddConverters(IList<JsonConverter> converters, ITimeZoneClock timeZoneClock)
     {
-        ValidateFormats(timeZoneClock: timeZoneClock, formats: dateTimeFormats);
-        ValidateFormats(timeZoneClock: timeZoneClock, formats: dateTimeOffsetFormats);
+        ValidateFormats(timeZoneClock: timeZoneClock,
+            formats: [timeZoneClock.DateTimeFormat, timeZoneClock.DateTimeOffsetFormat]);
 
         if (converters.Any(predicate: c => c is DateTimeConverter or DateTimeOffsetConverter))
         {
             return;
         }
 
-        converters.AddTimeZoneConverters(timeZoneClock: timeZoneClock, dateTimeFormats: dateTimeFormats,
-            dateTimeOffsetFormats: dateTimeOffsetFormats);
+        converters.AddTimeZoneConverters(timeZoneClock: timeZoneClock);
     }
 
     private static void ValidateFormats(ITimeZoneClock timeZoneClock, string[] formats)
@@ -72,22 +65,25 @@ public static class JsonOptionsExtensions
         }
     }
 
-    private static void AddTimeZoneConverters(this IList<JsonConverter> jsonConverters, ITimeZoneClock timeZoneClock,
-        string[] dateTimeFormats, string[] dateTimeOffsetFormats)
+    private static void AddTimeZoneConverters(this IList<JsonConverter> jsonConverters, ITimeZoneClock timeZoneClock)
     {
+        Func<RequestTimeZone> requestTimeZone = () => new RequestTimeZone(timeZoneInfo: timeZoneClock.TimeZone);
+
+        Func<RequestDateTimeFormat> requestDateTimeFormat =
+            () => new RequestDateTimeFormat(format: timeZoneClock.DateTimeFormat);
+
+        Func<RequestDateTimeOffsetFormat> requestDateTimeOffsetFormat =
+            () => new RequestDateTimeOffsetFormat(format: timeZoneClock.DateTimeFormat);
+
         jsonConverters.AddConverters(jsonConvertersToAdd:
         [
-            new DateTimeOffsetConverter(
-                requestTimeZone: () => new RequestTimeZone(timeZoneInfo: timeZoneClock.TimeZone),
-                supportedFormats: dateTimeOffsetFormats),
-            new DateTimeConverter(requestTimeZone: () => new RequestTimeZone(timeZoneInfo: timeZoneClock.TimeZone),
-                supportedFormats: dateTimeFormats),
-            new NullableDateTimeOffsetConverter(
-                requestTimeZone: () => new RequestTimeZone(timeZoneInfo: timeZoneClock.TimeZone),
-                supportedFormats: dateTimeOffsetFormats),
-            new NullableDateTimeConverter(
-                requestTimeZone: () => new RequestTimeZone(timeZoneInfo: timeZoneClock.TimeZone),
-                supportedFormats: dateTimeFormats)
+            new DateTimeOffsetConverter(requestTimeZone: requestTimeZone,
+                requestDateTimeOffsetFormat: requestDateTimeOffsetFormat),
+            new DateTimeConverter(requestTimeZone: requestTimeZone, requestDateTimeFormat: requestDateTimeFormat),
+            new NullableDateTimeOffsetConverter(requestTimeZone: requestTimeZone,
+                requestDateTimeOffsetFormat: requestDateTimeOffsetFormat),
+            new NullableDateTimeConverter(requestTimeZone: requestTimeZone,
+                requestDateTimeFormat: requestDateTimeFormat)
         ]);
     }
 
