@@ -7,23 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj"/>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj"/>
-        <ProjectReference Include="..\Expenso.Communication.Shared\Expenso.Communication.Shared.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging\Expenso.Shared.System.Logging.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj" />
+        <ProjectReference Include="..\Expenso.Communication.Shared\Expenso.Communication.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Communication.Tests.ArchTests"/>
-        <InternalsVisibleTo Include="Expenso.Communication.Tests.UnitTests"/>
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+        <InternalsVisibleTo Include="Expenso.Communication.Tests.ArchTests" />
+        <InternalsVisibleTo Include="Expenso.Communication.Tests.UnitTests" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1" />
     </ItemGroup>
 
 </Project>
