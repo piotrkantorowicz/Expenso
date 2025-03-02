@@ -20,9 +20,6 @@ namespace Expenso.Api.Tests.E2E;
 [TestFixture]
 internal abstract class TestBase
 {
-    protected IServiceScope _serviceScope;
-    private Mock<IMessageContextFactory> _messageContextFactoryMock;
-
     [SetUp]
     public virtual Task SetUpAsync()
     {
@@ -53,6 +50,8 @@ internal abstract class TestBase
         return Task.CompletedTask;
     }
 
+    private IServiceScope _serviceScope = null!;
+    private Mock<IMessageContextFactory> _messageContextFactoryMock = null!;
     protected HttpClient _httpClient = null!;
     protected ClaimsService _claimsService = null!;
 
