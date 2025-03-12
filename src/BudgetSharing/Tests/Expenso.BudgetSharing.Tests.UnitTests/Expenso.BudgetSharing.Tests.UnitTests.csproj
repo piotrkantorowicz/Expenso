@@ -15,21 +15,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
         <PackageReference Include="coverlet.collector" Version="6.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj" />
-        <ProjectReference Include="..\..\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj" />
-        <ProjectReference Include="..\..\Expenso.BudgetSharing.Shared\Expenso.BudgetSharing.Shared.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.UnitTests\Expenso.Shared.Tests.Utils.UnitTests.csproj"/>
+        <ProjectReference Include="..\..\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
+        <ProjectReference Include="..\..\Expenso.BudgetSharing.Shared\Expenso.BudgetSharing.Shared.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
 </Project>

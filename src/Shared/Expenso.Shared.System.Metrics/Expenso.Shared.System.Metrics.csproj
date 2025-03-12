@@ -7,29 +7,29 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests" />
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests" />
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.UnitTests" />
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.ArchTests" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.Utils.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Keycloak.AuthServices.OpenTelemetry" Version="1.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.2" />
-        <PackageReference Include="OpenTelemetry" Version="1.11.1" />
-        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.11.1" />
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.11.1" />
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.11.1" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.11.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.11.0" />
+        <PackageReference Include="Keycloak.AuthServices.OpenTelemetry" Version="1.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.3"/>
+        <PackageReference Include="OpenTelemetry" Version="1.11.2"/>
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.11.2"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.11.2"/>
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.11.2"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.1"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.11.1"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.11.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj" />
+        <ProjectReference Include="..\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
     </ItemGroup>
 
 </Project>
