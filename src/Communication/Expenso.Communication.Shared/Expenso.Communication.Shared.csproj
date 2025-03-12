@@ -7,19 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Communication.Tests.ArchTests" />
-        <InternalsVisibleTo Include="Expenso.Communication.Tests.UnitTests" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.Communication.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Communication.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.2" />
-        <PackageReference Include="Scrutor" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.3"/>
+        <PackageReference Include="Scrutor" Version="6.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
     </ItemGroup>
 
 </Project>

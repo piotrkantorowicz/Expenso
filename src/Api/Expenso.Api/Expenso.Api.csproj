@@ -9,48 +9,48 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Duende.AccessTokenManagement" Version="3.2.0" />
-        <PackageReference Include="IdentityModel" Version="7.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
-        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.6.0" />
-        <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.6.0" />
-        <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.6.0" />
+        <PackageReference Include="Duende.AccessTokenManagement" Version="3.2.0"/>
+        <PackageReference Include="IdentityModel" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1"/>
+        <PackageReference Include="Keycloak.AuthServices.Sdk" Version="2.6.0"/>
+        <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.6.0"/>
+        <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.6.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Communication\Expenso.Communication.Api\Expenso.Communication.Api.csproj" />
-        <ProjectReference Include="..\..\DocumentManagement\Expenso.DocumentManagement.Api\Expenso.DocumentManagement.Api.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Logging\Expenso.Shared.Commands.Logging.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events.Logging\Expenso.Shared.Domain.Events.Logging.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging.Serilog\Expenso.Shared.System.Logging.Serilog.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Metrics\Expenso.Shared.System.Metrics.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Tasks\Expenso.Shared.System.Tasks.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Time\Expenso.Shared.System.Time.csproj" />
-        <ProjectReference Include="..\..\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj" />
-        <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj" />
-        <ProjectReference Include="..\..\TimeManagement\Expenso.TimeManagement.Api\Expenso.TimeManagement.Api.csproj" />
-        <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj" />
+        <ProjectReference Include="..\..\Communication\Expenso.Communication.Api\Expenso.Communication.Api.csproj"/>
+        <ProjectReference Include="..\..\DocumentManagement\Expenso.DocumentManagement.Api\Expenso.DocumentManagement.Api.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Logging\Expenso.Shared.Commands.Logging.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Transactions\Expenso.Shared.Commands.Transactions.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events.Logging\Expenso.Shared.Domain.Events.Logging.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events.Logging\Expenso.Shared.Integration.Events.Logging.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries.Logging\Expenso.Shared.Queries.Logging.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore.Npsql\Expenso.Shared.Database.EfCore.Npsql.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Database.EfCore\Expenso.Shared.Database.EfCore.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Domain.Events\Expenso.Shared.Domain.Events.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.MessageBroker\Expenso.Shared.Integration.MessageBroker.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Logging.Serilog\Expenso.Shared.System.Logging.Serilog.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Metrics\Expenso.Shared.System.Metrics.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules\Expenso.Shared.System.Modules.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Serialization\Expenso.Shared.System.Serialization.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Tasks\Expenso.Shared.System.Tasks.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Time\Expenso.Shared.System.Time.csproj"/>
+        <ProjectReference Include="..\..\BudgetSharing\Expenso.BudgetSharing.Api\Expenso.BudgetSharing.Api.csproj"/>
+        <ProjectReference Include="..\..\IAM\Expenso.IAM.Api\Expenso.IAM.Api.csproj"/>
+        <ProjectReference Include="..\..\TimeManagement\Expenso.TimeManagement.Api\Expenso.TimeManagement.Api.csproj"/>
+        <ProjectReference Include="..\..\UserPreferences\Expenso.UserPreferences.Api\Expenso.UserPreferences.Api.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Api.Tests.UnitTests" />
-        <InternalsVisibleTo Include="Expenso.Api.Tests.ArchTests" />
-        <InternalsVisibleTo Include="Expenso.Api.Tests.E2E" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.Api.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="Expenso.Api.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.Api.Tests.E2E"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
