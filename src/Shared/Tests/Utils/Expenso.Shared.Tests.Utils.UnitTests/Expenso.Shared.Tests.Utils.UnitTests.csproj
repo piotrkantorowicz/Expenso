@@ -9,14 +9,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.11.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-        <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.3" />
-        <PackageReference Include="MockQueryable.Moq" Version="7.0.3" />
-        <PackageReference Include="Moq" Version="4.20.72" />
-        <PackageReference Include="NUnit" Version="4.3.2" />
-        <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+        <PackageReference Include="FluentValidation" Version="11.11.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
+        <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.3"/>
+        <PackageReference Include="MockQueryable.Moq" Version="7.0.3"/>
+        <PackageReference Include="Moq" Version="4.20.72"/>
+        <PackageReference Include="NUnit" Version="4.3.2"/>
+        <PackageReference Include="NUnit3TestAdapter" Version="5.0.0"/>
         <PackageReference Include="NUnit.Analyzers" Version="4.6.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,17 +25,17 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Shouldly" Version="4.3.0" />
+        <PackageReference Include="Shouldly" Version="4.3.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.Shared.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj" />
-        <ProjectReference Include="..\..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj" />
+        <ProjectReference Include="..\..\..\Expenso.Shared.Domain.Types\Expenso.Shared.Domain.Types.csproj"/>
+        <ProjectReference Include="..\..\..\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
     </ItemGroup>
 
 </Project>

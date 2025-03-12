@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0"/>
         <PackageReference Include="coverlet.collector" Version="6.0.4">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,10 +22,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj" />
-        <ProjectReference Include="..\..\Expenso.Api\Expenso.Api.csproj" />
-        <ProjectReference Include="..\Expenso.Api.Tests.E2E\Expenso.Api.Tests.E2E.csproj" />
-        <ProjectReference Include="..\Expenso.Api.Tests.UnitTests\Expenso.Api.Tests.UnitTests.csproj" />
+        <ProjectReference Include="..\..\..\Shared\Tests\Utils\Expenso.Shared.Tests.Utils.ArchTests\Expenso.Shared.Tests.Utils.ArchTests.csproj"/>
+        <ProjectReference Include="..\..\Expenso.Api\Expenso.Api.csproj"/>
+        <ProjectReference Include="..\Expenso.Api.Tests.E2E\Expenso.Api.Tests.E2E.csproj"/>
+        <ProjectReference Include="..\Expenso.Api.Tests.UnitTests\Expenso.Api.Tests.UnitTests.csproj"/>
     </ItemGroup>
 
 </Project>

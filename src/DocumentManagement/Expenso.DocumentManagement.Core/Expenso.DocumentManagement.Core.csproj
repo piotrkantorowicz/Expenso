@@ -7,24 +7,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj" />
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj" />
-        <ProjectReference Include="..\Expenso.DocumentManagement.Shared\Expenso.DocumentManagement.Shared.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands.Validation\Expenso.Shared.Commands.Validation.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Commands\Expenso.Shared.Commands.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Queries\Expenso.Shared.Queries.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Configuration\Expenso.Shared.System.Configuration.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Modules.Constants\Expenso.Shared.System.Modules.Constants.csproj"/>
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.System.Types\Expenso.Shared.System.Types.csproj"/>
+        <ProjectReference Include="..\Expenso.DocumentManagement.Shared\Expenso.DocumentManagement.Shared.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.ArchTests" />
-        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.UnitTests" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.DocumentManagement.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2" />
-        <PackageReference Include="System.IO.Abstractions" Version="22.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3"/>
+        <PackageReference Include="System.IO.Abstractions" Version="22.0.11"/>
     </ItemGroup>
 
 </Project>

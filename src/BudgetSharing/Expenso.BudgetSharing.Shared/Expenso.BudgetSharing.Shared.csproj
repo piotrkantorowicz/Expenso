@@ -7,24 +7,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests" />
-        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests" />
-        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.ArchTests"/>
+        <InternalsVisibleTo Include="Expenso.BudgetSharing.Tests.UnitTests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.2" />
-        <PackageReference Include="Scrutor" Version="6.0.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="9.0.3"/>
+        <PackageReference Include="Scrutor" Version="6.0.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj" />
+        <ProjectReference Include="..\..\Shared\Expenso.Shared.Integration.Events\Expenso.Shared.Integration.Events.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="DTO\API\BudgetPermissionRequests\AssignParticipant\" />
-        <Folder Include="DTO\API\BudgetPermissions\DeleteBudgetPermission\" />
+        <Folder Include="DTO\API\BudgetPermissionRequests\AssignParticipant\"/>
+        <Folder Include="DTO\API\BudgetPermissions\DeleteBudgetPermission\"/>
     </ItemGroup>
 
 </Project>
