@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 
+using Expenso.Api.Configuration.Auth.Claims;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
 using Expenso.UserPreferences.Core.Application.Preferences.Read.Queries.GetPreference.DTO.Response;
 
@@ -14,18 +15,46 @@ namespace Expenso.Api.Tests.E2E.UserPreferences.Preferences;
 internal sealed class GetCurrentUserPreferences : PreferencesTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/current-user");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
         GetPreferenceResponse? responseContent = await response.Content.ReadFromJsonAsync<GetPreferenceResponse>();
         responseContent?.Id.ShouldBe(expected: PreferencesDataInitializer.PreferenceIds[index: 3]);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_UserClaimsMissed_And_ResourceNotFound()
+    {
+        // Arrange
+        _claimsService.Remove(key: ClaimNames.UserIdClaimName);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/current-user");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_UserClaimsHaveBeenInvalid_And_ResourceNotFound()
+    {
+        // Arrange
+        _claimsService.Replace(key: ClaimNames.UserIdClaimName, value: Guid.CreateVersion7().ToString());
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/current-user");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
@@ -36,6 +65,6 @@ internal sealed class GetCurrentUserPreferences : PreferencesTestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/current-user");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

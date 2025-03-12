@@ -32,7 +32,6 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
         {
             ConfigureTestSerializer(services: services);
             UseFakeIIamProxy(services: services);
-            
             EfCoreSettings efCoreSettings = GetEfCoreSettings();
 
             if (efCoreSettings.InMemory is true)
@@ -40,6 +39,8 @@ internal sealed class ExpensoWebApplication : WebApplicationFactory<Program>
                 UseFakeUnitOfWork(services: services);
             }
 
+            services.AddScoped<ClaimsService>();
+            services.AddScoped<HttpClient>(implementationFactory: _ => CreateClient());
             services.AddAuthentication(defaultScheme: FakeJwtBearerDefaults.AuthenticationScheme).AddFakeJwtBearer();
         });
     }

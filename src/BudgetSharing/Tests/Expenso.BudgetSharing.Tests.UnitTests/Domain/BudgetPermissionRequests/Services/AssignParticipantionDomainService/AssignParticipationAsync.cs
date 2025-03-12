@@ -50,7 +50,7 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
 
         budgetPermissionRequest.StatusTracker.ExpirationDate.Value.ShouldBeCloseTo(
             expected: _clockMock.Object.UtcNow.AddDays(days: ExpirationDays),
-                precision: TimeSpan.FromMilliseconds(value: 500));
+            precision: TimeSpan.FromMilliseconds(value: 500));
 
         AssertDomainEventPublished(aggregateRoot: budgetPermissionRequest, expectedDomainEvents:
         [
@@ -79,7 +79,6 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
         await action.AssertDomainRuleValidationExceptionAsync(
             expectedDetails:
             $"Unable to create budget permission request for not existent budget permission. Budget {_budgetId}.");
-
     }
 
     [Test]
@@ -103,11 +102,9 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
             cancellationToken: It.IsAny<CancellationToken>());
 
         // Assert
-        NotFoundException? exception = await action.ShouldThrowAsync<NotFoundException>();
-        exception.Message.ShouldBe(expected: $"User with email {_email} hasn't been found.");
-        exception.ResourceName.ShouldBe(expected: "User");
-        exception.IdentifierType.ShouldBe(expected: IdentifierType.Email());
-        exception.Identifier.ShouldBe(expected: _email);
+        await action.AssertDomainRuleValidationExceptionAsync(
+            expectedDetails:
+            $"Budget participant must be the existing system user, but provided user with email {_email} hasn't been found in the system.");
     }
 
     [Test]
@@ -162,7 +159,7 @@ internal sealed class AssignParticipationAsync : AssignParticipationDomainServic
         // Assert
         await action.AssertDomainRuleValidationExceptionAsync(
             expectedDetails:
-            $"Participant {_participantId} has already budget permission for budget {_budgetPermission.BudgetId}.");
+            $"Participant {_participantId} already has budget permission for budget {_budgetPermission.BudgetId}.");
     }
 
     [Test, TestCaseSource(sourceName: nameof(PermissionTypes))]

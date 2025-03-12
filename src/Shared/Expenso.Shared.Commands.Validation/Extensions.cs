@@ -16,7 +16,7 @@ public static class Extensions
         services.Scan(action: selector =>
             selector
                 .FromAssemblies(assemblies: [..assemblies, typeof(CommandValidator<>).Assembly])
-                .AddClasses(action: c => c.AssignableTo(type: typeof(AbstractValidator<>)))
+                .AddClasses(action: c => c.AssignableTo(type: typeof(AbstractValidator<>)), publicOnly: false)
                 .AsSelfWithInterfaces()
                 .WithTransientLifetime());
 

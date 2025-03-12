@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 
 using NUnit.Framework;
@@ -18,7 +19,9 @@ internal sealed class Hello : TestBase
 
         // Assert
         string? responseContent = await response.Content.ReadFromJsonAsync<string>();
-        AssertResponseOk(response: response);
         responseContent.ShouldBe(expected: "Hello, I'm Expenso API");
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.OK);
+        AssertCorrelationIdHeader(response: response);
+        AssertNoModuleHeader(response: response);
     }
 }

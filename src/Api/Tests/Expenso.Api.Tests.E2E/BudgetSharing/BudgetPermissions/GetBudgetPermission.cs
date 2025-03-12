@@ -14,35 +14,48 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal sealed class GetBudgetPermission : BudgetPermissionTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid budgetPermissionId = BudgetSharingDataInitializer.BudgetPermissionIds[index: 0];
 
         // Act
-        HttpResponseMessage response =
-            await _httpClient.GetAsync(
-                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         GetBudgetPermissionResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionResponse>();
 
-        responseContent?.Id.ShouldBe(expected: BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]);
+        responseContent?.Id.ShouldBe(expected: budgetPermissionId);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_ResourceNotFound()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid budgetPermissionId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
     public async Task Should_Return401_When_NoAccessTokenProvided()
     {
         // Arrange
+        Guid budgetPermissionId = BudgetSharingDataInitializer.BudgetPermissionIds[index: 0];
+
         // Act
-        HttpResponseMessage response =
-            await _httpClient.GetAsync(
-                requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 0]}");
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionId}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

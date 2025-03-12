@@ -10,16 +10,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Expenso.Shared.System.Time.Middleware;
 
-internal sealed class RequestTimeZoneMiddleware : IMiddleware
+internal sealed class RequestTimeZoneMiddleware
 {
     private readonly ILogger _logger;
     private readonly ITimeZoneClock _timeZoneClock;
     private readonly RequestTimeZoneOptions _options;
+    private readonly RequestDelegate _next;
 
     public RequestTimeZoneMiddleware(ILoggerFactory loggerFactory, RequestTimeZoneOptions options,
-        ITimeZoneClock timeZoneClock)
+        ITimeZoneClock timeZoneClock, RequestDelegate next)
     {
         ArgumentNullException.ThrowIfNull(argument: loggerFactory);
+        _next = next ?? throw new ArgumentNullException(paramName: nameof(next));
 
         _logger = loggerFactory.CreateLogger<RequestTimeZoneMiddleware>() ??
                   throw new ArgumentNullException(paramName: nameof(loggerFactory));
@@ -28,17 +30,16 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
         _timeZoneClock = timeZoneClock ?? throw new ArgumentNullException(paramName: nameof(timeZoneClock));
     }
 
-    public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
+    public async Task InvokeAsync(HttpContext context)
     {
-        ArgumentNullException.ThrowIfNull(argument: httpContext);
-        ArgumentNullException.ThrowIfNull(argument: next);
+        ArgumentNullException.ThrowIfNull(argument: context);
         RequestTimeZone defaultRequestTimeZone = _options.DefaultRequestTimeZone;
         IRequestTimeZoneProvider? usedProvider = null;
 
         foreach (IRequestTimeZoneProvider? provider in _options.RequestTimeZoneProviders)
         {
             ProviderTimeZoneResult providerTimeZoneResult =
-                await provider.DetermineProviderTimeZoneResult(httpContext: httpContext);
+                await provider.DetermineProviderTimeZoneResult(httpContext: context);
 
             try
             {
@@ -59,11 +60,20 @@ internal sealed class RequestTimeZoneMiddleware : IMiddleware
             }
         }
 
-        httpContext.Features.Set<IRequestTimeZoneFeature>(
+        string timeZoneId = defaultRequestTimeZone.TimeZone.Id;
+        string headerName = _options.GetDefaultHeaderName();
+
+        context.Features.Set<IRequestTimeZoneFeature>(
             instance: new RequestTimeZoneFeature(requestTimeZone: defaultRequestTimeZone, provider: usedProvider));
 
-        httpContext.Response.Headers[key: _options.GetDefaultHeaderName()] = defaultRequestTimeZone.TimeZone.Id;
+        context.Response.OnStarting(callback: () =>
+        {
+            context.Response.Headers[key: headerName] = timeZoneId;
+
+            return Task.CompletedTask;
+        });
+
         _timeZoneClock.SetTimeZone(timeZone: defaultRequestTimeZone.TimeZone);
-        await next(context: httpContext);
+        await _next.Invoke(context: context);
     }
 }

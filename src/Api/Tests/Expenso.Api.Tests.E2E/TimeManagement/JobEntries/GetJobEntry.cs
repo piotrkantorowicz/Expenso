@@ -13,19 +13,33 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class GetJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
         Guid jobEntryId = TimeManagementDataInitializer.JobEntriesIds[index: 2];
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
         GetJobEntryResponse? responseContent = await response.Content.ReadFromJsonAsync<GetJobEntryResponse>();
         responseContent?.Id.ShouldBe(expected: jobEntryId);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_ResourceNotFound()
+    {
+        // Arrange
+        Guid jobEntryId = Guid.CreateVersion7();
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{jobEntryId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
@@ -38,6 +52,6 @@ internal sealed class GetJobEntry : JobEntriesTestBase
                 requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 2]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

@@ -28,4 +28,9 @@ public sealed record BudgetPermissionRequestStatus : Enumeration<BudgetPermissio
     {
         return this == None;
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }

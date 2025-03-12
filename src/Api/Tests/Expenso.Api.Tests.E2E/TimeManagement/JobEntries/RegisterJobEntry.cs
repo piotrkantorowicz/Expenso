@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 
 using Expenso.Api.Tests.E2E.TestData;
+using Expenso.Api.Tests.E2E.TestData.TimeManagement;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant;
 using Expenso.BudgetSharing.Shared.DTO.MessageBus.BudgetPermissionRequests.ExpireAssigningParticipant.Payload;
 using Expenso.Shared.System.Modules.Constants;
@@ -20,22 +21,36 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class RegisterJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_RegisterJobEntry()
+    public async Task Should_Returns200_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
             value: CreateTestRequest());
 
         // Assert
-        AssertResponseCreated(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.Created);
 
         RegisterJobEntryResponse? responseContent =
             await response.Content.ReadFromJsonAsync<RegisterJobEntryResponse>();
 
         responseContent.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Should_Returns409_When_JobEntryAlreadyExists()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl,
+            value: CreateTestRequest(jobEntryId: TimeManagementDataInitializer.JobEntriesIds[index: 0]));
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.Conflict);
     }
 
     [Test]
@@ -46,11 +61,11 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 
     [Test]
-    public async Task Should_RegisterJobEntry_ViaProxy()
+    public async Task Should_BeSuccessful_ViaProxy()
     {
         // Arrange
         // Act
@@ -62,9 +77,9 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
         await action.ShouldNotThrowAsync();
     }
 
-    private RegisterJobEntryRequest CreateTestRequest()
+    private RegisterJobEntryRequest CreateTestRequest(Guid? jobEntryId = null)
     {
-        return new RegisterJobEntryRequest(MaxRetries: 5, JobEntryTriggers:
+        return new RegisterJobEntryRequest(JobEntryId: jobEntryId, MaxRetries: 5, JobEntryTriggers:
         [
             new RegisterJobEntryRequestJobEntryTrigger(
                 EventType: RegisterJobEntryRequestJobEntryTriggerAllowedEventType.BudgetPermissionRequestExpired,
@@ -74,6 +89,6 @@ internal sealed class RegisterJobEntry : JobEntriesTestBase
                         timestamp: _clock.UtcNow, module: ModuleNames.BudgetSharingModule),
                     Payload: new BudgetPermissionRequestExpiredPayload(
                         BudgetPermissionRequestId: Guid.CreateVersion7()))))
-        ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 5));
+        ], Interval: null, RunAt: _clock.UtcNow.AddSeconds(seconds: 30));
     }
 }

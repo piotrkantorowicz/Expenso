@@ -10,6 +10,8 @@ using Expenso.IAM.Shared;
 using Expenso.IAM.Shared.DTO.GetUserByEmail.Response;
 using Expenso.Shared.System.Time;
 
+using Microsoft.Extensions.Logging;
+
 using Moq;
 
 using NUnit.Framework;
@@ -27,6 +29,7 @@ internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBas
         _budgetPermissionRepositoryMock = new Mock<IBudgetPermissionRepository>();
         _iamProxyMock = new Mock<IIamProxy>();
         _clockMock = new Mock<IClock>();
+        _loggerMock = new Mock<ILogger<AssignParticipationDomainService>>();
 
         _clockMock
             .Setup(expression: x => x.UtcNow)
@@ -56,7 +59,7 @@ internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBas
 
         TestCandidate = new AssignParticipationDomainService(iamProxy: _iamProxyMock.Object,
             budgetPermissionRequestRepository: _budgetPermissionRequestRepositoryMock.Object, clock: _clockMock.Object,
-            budgetPermissionRepository: _budgetPermissionRepositoryMock.Object);
+            budgetPermissionRepository: _budgetPermissionRepositoryMock.Object, logger: _loggerMock.Object);
     }
 
     [TearDown]
@@ -113,4 +116,5 @@ internal abstract class AssignParticipationDomainServiceTestBase : DomainTestBas
     protected PersonId _ownerId = null!;
     protected PersonId _participantId = null!;
     private BudgetPermissionId _budgetPermissionId = null!;
+    private Mock<ILogger<AssignParticipationDomainService>> _loggerMock = null!;
 }

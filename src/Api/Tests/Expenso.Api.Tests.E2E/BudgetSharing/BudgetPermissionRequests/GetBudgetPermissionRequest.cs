@@ -15,10 +15,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return200_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         Guid budgetPermissionRequestId = BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2];
 
         // Act
@@ -26,13 +26,28 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
             await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionRequestId}");
 
         // Assert
-        AssertResponseOk(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.OK);
 
         GetBudgetPermissionRequestResponse? responseContent =
             await response.Content.ReadFromJsonAsync<GetBudgetPermissionRequestResponse>();
 
         response.Headers.Contains(name: CorrelationIdMiddleware.CorrelationHeaderKey).ShouldBeTrue();
         responseContent?.Id.ShouldBe(expected: budgetPermissionRequestId);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_ResourceNotFound()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+        Guid budgetPermissionRequestId = Guid.CreateVersion7();
+
+        // Act
+        HttpResponseMessage response =
+            await _httpClient.GetAsync(requestUri: $"{ApiRequestUrl}/{budgetPermissionRequestId}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
@@ -44,6 +59,6 @@ internal sealed class GetBudgetPermissionRequest : BudgetPermissionRequestTestBa
             requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionRequestIds[index: 2]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

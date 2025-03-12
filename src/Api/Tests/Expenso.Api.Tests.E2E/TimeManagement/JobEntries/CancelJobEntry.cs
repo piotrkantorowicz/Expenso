@@ -10,10 +10,10 @@ namespace Expenso.Api.Tests.E2E.TimeManagement.JobEntries;
 internal sealed class CancelJobEntry : JobEntriesTestBase
 {
     [Test]
-    public async Task Should_CancelJobEntry()
+    public async Task Should_Return204_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response =
@@ -21,7 +21,21 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
                 requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}");
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
+    }
+
+    [Test]
+    public async Task Should_Return404_When_ResourceNotFound()
+    {
+        // Arrange
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
+
+        // Act
+        HttpResponseMessage response =
+            await _httpClient.DeleteAsync(requestUri: $"{ApiRequestUrl}/{Guid.CreateVersion7()}");
+
+        // Assert
+        AssertResponse(response: response, statusCode: HttpStatusCode.NotFound);
     }
 
     [Test]
@@ -34,6 +48,6 @@ internal sealed class CancelJobEntry : JobEntriesTestBase
                 requestUri: $"{ApiRequestUrl}/{TimeManagementDataInitializer.JobEntriesIds[index: 1]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

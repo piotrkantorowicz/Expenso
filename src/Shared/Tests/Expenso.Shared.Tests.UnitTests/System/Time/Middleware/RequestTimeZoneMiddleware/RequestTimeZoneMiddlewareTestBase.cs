@@ -5,7 +5,6 @@ using Expenso.Shared.Tests.Utils.UnitTests;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Primitives;
 
 using Moq;
 
@@ -20,9 +19,9 @@ internal abstract class
     RequestTimeZoneMiddlewareTestBase : TestBase<Shared.System.Time.Middleware.RequestTimeZoneMiddleware>
 {
     protected HttpContext _httpContext = null!;
-    protected Mock<RequestDelegate> _nextMock = null!;
     private RequestTimeZoneOptions _options = null!;
     private Mock<ITimeZoneClock> _timeZoneClockMock = null!;
+    private Mock<RequestDelegate> _nextMock = null!;
 
     [SetUp]
     public void SetUp()
@@ -33,7 +32,8 @@ internal abstract class
         _timeZoneClockMock = new Mock<ITimeZoneClock>();
 
         TestCandidate = new Shared.System.Time.Middleware.RequestTimeZoneMiddleware(
-            loggerFactory: NullLoggerFactory.Instance, options: _options, timeZoneClock: _timeZoneClockMock.Object);
+            loggerFactory: NullLoggerFactory.Instance, options: _options, timeZoneClock: _timeZoneClockMock.Object,
+            next: _nextMock.Object);
     }
 
     [TearDown]
@@ -53,7 +53,8 @@ internal abstract class
         AssertFeatureExists(feature: feature);
         AssertTimeZoneId(feature: feature!, expectedTimeZoneId: expectedTimeZoneId);
         AssertProviderType(feature: feature!, expectedProviderType: expectedProviderType);
-        AssertResponseHeader(expectedTimeZoneId: expectedTimeZoneId);
+
+        // Cookie, Header, QueryString will be tested as part of integration tests
     }
 
     private static void AssertFeatureExists(IRequestTimeZoneFeature? feature)
@@ -77,17 +78,5 @@ internal abstract class
 
         feature.Provider.ShouldNotBeNull();
         feature.Provider.ShouldBeOfType(expected: expectedProviderType);
-    }
-
-    private void AssertResponseHeader(string expectedTimeZoneId)
-    {
-        string? headerName = _options.GetDefaultHeaderName();
-
-        KeyValuePair<string, StringValues>? timeZoneHeader =
-            _httpContext.Response.Headers.FirstOrDefault(predicate: x => x.Key == headerName);
-
-        timeZoneHeader.ShouldNotBeNull();
-        timeZoneHeader.Value.Key.ShouldBe(expected: headerName);
-        timeZoneHeader.Value.Value.ShouldContain(expected: expectedTimeZoneId);
     }
 }

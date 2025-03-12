@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
+using Expenso.Api.Configuration.Auth.Claims;
 using Expenso.Api.Tests.E2E.Configuration;
+using Expenso.Api.Tests.E2E.TestData;
 using Expenso.Api.Tests.E2E.TestData.BudgetSharing;
 using Expenso.Api.Tests.E2E.TestData.DocumentManagement;
 using Expenso.Api.Tests.E2E.TestData.Preferences;
@@ -27,6 +29,12 @@ namespace Expenso.Api.Tests.E2E;
 [SetUpFixture]
 internal sealed class WebAppTestSetup
 {
+    public static readonly IDictionary<string, object?> Claims = new Dictionary<string, object?>
+    {
+        { ClaimNames.UserIdClaimName, TestClient.ClientId },
+        { ClaimNames.UsernameClaimName, TestClient.ClientName }
+    };
+
     [OneTimeSetUp]
     public async Task OneTimeSetupAsync()
     {
@@ -114,8 +122,7 @@ internal sealed class WebAppTestSetup
 
         httpContextAccessor.HttpContext = new DefaultHttpContext
         {
-            User = new ClaimsPrincipal(identity: new ClaimsIdentity(
-                claims: TestBase.Claims.Select(selector: x =>
+            User = new ClaimsPrincipal(identity: new ClaimsIdentity(claims: Claims.Select(selector: x =>
                     new Claim(type: x.Key, value: x.Value?.ToString() ?? string.Empty)),
                 authenticationType: "Granted")),
             Request =

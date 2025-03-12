@@ -15,10 +15,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return201_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
         const string budgetCode = "BDGT/11/12/2024";
         Guid budgetPermissionId = Guid.CreateVersion7();
         Guid budgetId = Guid.CreateVersion7();
@@ -31,7 +31,7 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
             await _httpClient.PostAsJsonAsync(requestUri: ApiRequestUrl, value: createBudgetPermissionRequest);
 
         // Assert
-        AssertResponseCreated(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.Created);
 
         CreateBudgetPermissionResponse? createBudgetPermissionResponse =
             await response.Content.ReadFromJsonAsync<CreateBudgetPermissionResponse>();
@@ -47,6 +47,6 @@ internal sealed class CreateBudgetPermission : BudgetPermissionTestBase
         HttpResponseMessage response = await _httpClient.PostAsync(requestUri: ApiRequestUrl, content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

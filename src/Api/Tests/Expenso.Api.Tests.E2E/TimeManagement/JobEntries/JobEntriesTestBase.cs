@@ -1,4 +1,6 @@
-﻿using Expenso.Api.Tests.E2E.Configuration;
+﻿using System.Net;
+
+using Expenso.Api.Tests.E2E.Configuration;
 using Expenso.Shared.System.Modules.Constants;
 using Expenso.Shared.System.Time;
 using Expenso.TimeManagement.Shared;
@@ -35,27 +37,11 @@ internal abstract class JobEntriesTestBase : TestBase
     protected IClock _clock = null!;
     protected ITimeManagementProxy _timeManagementProxy = null!;
 
-    protected override void AssertResponseOk(HttpResponseMessage response)
+    protected static void AssertResponse(HttpResponseMessage response, HttpStatusCode statusCode)
     {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
-        base.AssertResponseOk(response: response);
-    }
-
-    protected override void AssertResponseCreated(HttpResponseMessage response)
-    {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
-        base.AssertResponseCreated(response: response);
-    }
-
-    protected override void AssertResponseNoContent(HttpResponseMessage response)
-    {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
-        base.AssertResponseNoContent(response: response);
-    }
-
-    protected override void AssertResponseBadRequest(HttpResponseMessage response)
-    {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
-        base.AssertResponseBadRequest(response: response);
+        AssertResponseStatusCode(response: response, statusCode: statusCode);
+        AssertCorrelationIdHeader(response: response);
+        AssertModuleIdHeader(response: response, moduleName: ModuleNames.TimeManagementModule);
+        AssertTimezoneIdHeader(response: response);
     }
 }

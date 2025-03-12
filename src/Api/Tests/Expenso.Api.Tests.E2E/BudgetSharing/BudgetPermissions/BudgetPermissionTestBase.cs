@@ -1,3 +1,5 @@
+using System.Net;
+
 using Expenso.Shared.System.Modules.Constants;
 
 using NUnit.Framework;
@@ -21,27 +23,11 @@ internal abstract class BudgetPermissionTestBase : TestBase
         return base.TearDownAsync();
     }
 
-    protected override void AssertResponseOk(HttpResponseMessage response)
+    protected static void AssertResponse(HttpResponseMessage response, HttpStatusCode statusCode)
     {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
-        base.AssertResponseOk(response: response);
-    }
-
-    protected override void AssertResponseCreated(HttpResponseMessage response)
-    {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
-        base.AssertResponseCreated(response: response);
-    }
-
-    protected override void AssertResponseNoContent(HttpResponseMessage response)
-    {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
-        base.AssertResponseNoContent(response: response);
-    }
-
-    protected override void AssertResponseBadRequest(HttpResponseMessage response)
-    {
-        AssertModuleHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
-        base.AssertResponseBadRequest(response: response);
+        AssertResponseStatusCode(response: response, statusCode: statusCode);
+        AssertCorrelationIdHeader(response: response);
+        AssertModuleIdHeader(response: response, moduleName: ModuleNames.BudgetSharingModule);
+        AssertTimezoneIdHeader(response: response);
     }
 }

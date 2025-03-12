@@ -10,10 +10,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissionRequests;
 internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return204_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.PatchAsync(
@@ -21,7 +21,7 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
             content: null);
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -34,6 +34,6 @@ internal sealed class ExpireAssigningParticipant : BudgetPermissionRequestTestBa
             content: null);
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

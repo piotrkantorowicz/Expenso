@@ -10,10 +10,10 @@ namespace Expenso.Api.Tests.E2E.BudgetSharing.BudgetPermissions;
 internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
 {
     [Test]
-    public async Task Should_ReturnExpectedResult()
+    public async Task Should_Return204_When_InputIsValid()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response =
@@ -21,7 +21,7 @@ internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
                 requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 1]}");
 
         // Assert
-        AssertResponseNoContent(response: response);
+        AssertResponse(response: response, statusCode: HttpStatusCode.NoContent);
     }
 
     [Test]
@@ -34,6 +34,6 @@ internal sealed class DeleteBudgetPermission : BudgetPermissionTestBase
                 requestUri: $"{ApiRequestUrl}/{BudgetSharingDataInitializer.BudgetPermissionIds[index: 1]}");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
     }
 }

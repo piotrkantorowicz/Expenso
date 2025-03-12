@@ -16,15 +16,17 @@ internal sealed class HelloUser : TestBase
     public async Task Should_ReturnExpectedValue_Always()
     {
         // Arrange
-        _httpClient.SetFakeBearerToken(token: Claims);
+        _httpClient.SetFakeBearerToken(token: _claimsService.GetClaims());
 
         // Act
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        AssertResponseOk(response: response);
         string? responseContent = await response.Content.ReadFromJsonAsync<string>();
         responseContent.ShouldBe(expected: $"Hello {TestClient.ClientName}, I'm Expenso API");
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.OK);
+        AssertCorrelationIdHeader(response: response);
+        AssertNoModuleHeader(response: response);
     }
 
     [Test]
@@ -35,6 +37,8 @@ internal sealed class HelloUser : TestBase
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri: "/greetings/hello-user");
 
         // Assert
-        AssertResponseUnauthroised(response: response);
+        AssertResponseStatusCode(response: response, statusCode: HttpStatusCode.Unauthorized);
+        AssertNoCorrelationIdModuleHeader(response: response);
+        AssertNoModuleHeader(response: response);
     }
 }
